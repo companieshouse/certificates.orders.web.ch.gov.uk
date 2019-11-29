@@ -1,0 +1,18 @@
+{
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint:recommended"
+  ],
+  "jsRules": {},
+  "rules": {
+    "interface-name": false,
+    "variable-name": [true, "check-format", "allow-leading-underscore"],
+    "ordered-imports": false
+  },
+  "linterOptions": {
+    "exclude": [
+      "src/test/**/*.ts"
+    ]
+  },
+  "rulesDirectory": []
+}
