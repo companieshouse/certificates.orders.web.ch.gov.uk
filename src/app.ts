@@ -6,7 +6,7 @@ import router from "./routers";
 const app = express();
 
 // set some app variables from the environment
-app.set("port", process.env.PORT || "3000");
+app.set("port", process.env.PORT || "4088");
 app.set("dev", process.env.NODE_ENV === "development");
 
 // where nunjucks templates should resolve to
