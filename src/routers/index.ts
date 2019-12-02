@@ -1,5 +1,5 @@
 import {Router} from "express";
-import {homeHandler} from "../handlers";
+import {homeHandler} from "../controllers";
 
 // a router is a collection of routes that can have their own middleware chain. It is helpful to create routers for
 // a collection of related routes for better organisation and specific logic.
