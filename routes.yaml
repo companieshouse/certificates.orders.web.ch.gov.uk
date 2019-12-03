@@ -1,0 +1,6 @@
+app_name: certificates.orders.web.ch.gov.uk
+group: web
+weight: 1000
+routes:
+  1: /orderable/certificates
+  2: /orderable/certificates/.*
