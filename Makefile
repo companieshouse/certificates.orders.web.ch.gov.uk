@@ -1,7 +1,7 @@
 artifact_name       := certificates.orders.web.ch.gov.uk
 
 .PHONY: build
-build: clean 
+build: clean init
 	npm i 
 	gulp static
 	npm run build
