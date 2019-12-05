@@ -1,0 +1,20 @@
+{% extends "govuk/template.njk" %}
+
+{% from "govuk/components/breadcrumbs/macro.njk"      import govukBreadcrumbs %}
+{% from "govuk/components/button/macro.njk"           import govukButton %}
+
+{% block head %}
+<!--[if !IE 8]><!-->
+<link rel="stylesheet" type="text/css" media="all" href="{{ CSS_URL }}" />
+<!--<![endif]-->
+
+{% endblock %}
+
+{% block header %}
+  {{ govukHeader({
+    homepageUrl: "/certificates",
+    serviceName: "Certificates ordering?",
+    serviceUrl: "/certificates",
+    containerClasses: "govuk-width-container"
+  }) }}
+{% endblock %}
