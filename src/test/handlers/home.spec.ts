@@ -8,6 +8,6 @@ describe("home handler", () => {
 
     // make some assertions on the response
     expect(resp.status).toEqual(200);
-    expect(resp.text).toContain("Hello World");
+    expect(resp.text).toContain("Order a certificate");
   });
 });
