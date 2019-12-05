@@ -1,14 +1,6 @@
 # certificates.orders.web.ch.gov.uk
 Certificate ordering web service integrating with the CH orders service
 
-### Overview
-
-The aim of this template is to give you a head start in setting up a new web application for Companies House.
-
-The template uses [Express](https://expressjs.com), [TypeScript](https://typescriptlang.org) and the [GovUK Frontend](https://github.com/alphagov/govuk-frontend) toolkit to set up a simple example of a web application that runs on NodeJS.
-
-**You can create a new project from this template by clicking the [Use this template](https://github.com/companieshouse/node-web-starter/generate) button.**
-
 ## Contents
 
 - [Quick start](#quick-start)
@@ -24,6 +16,10 @@ The template uses [Express](https://expressjs.com), [TypeScript](https://typescr
 If you are familiar with NodeJS development and already have it installed, simply run the `init` make task
 
     make init
+
+Carry out a build by running
+
+    make build
     
 And then start the application
     
