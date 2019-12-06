@@ -25,7 +25,7 @@ app.set("view engine", "html");
 env.addGlobal("PIWIK_URL", "https://example.com");
 env.addGlobal("PIWIK_SITE_ID", "123");
 
-// serve static assets in development. 
+// serve static assets in development.
 // this will execute in production for now, but we will host these else where in the future.
 app.use("/orderable/certificates/static", express.static("dist/static"));
 env.addGlobal("CSS_URL", "/orderable/certificates/static/app.css");
