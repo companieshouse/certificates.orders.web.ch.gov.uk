@@ -9,7 +9,7 @@ build-app:
 
 .PHONY: clean
 clean:
-	rm -rf dist/app dist/static
+	rm -rf dist/
 
 .PHONY: build-static
 build-static:
