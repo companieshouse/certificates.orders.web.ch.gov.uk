@@ -1,7 +1,7 @@
 artifact_name       := certificates.orders.web.ch.gov.uk
 
 .PHONY: build
-build: clean init build-static build-app
+build: clean init build-app
 
 .PHONY: build-app
 build-app:
@@ -10,10 +10,6 @@ build-app:
 .PHONY: clean
 clean:
 	rm -rf dist/
-
-.PHONY: build-static
-build-static:
-	gulp static
 
 .PHONY: npm-install
 npm-install:
