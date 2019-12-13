@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+
+{% from "govuk/components/panel/macro.njk" import govukPanel %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% block pageTitle %}
+  Good standing information
+{% endblock %}
+
+{% set mainClasses = "govuk-main-wrapper--l" %}
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "confirm-company"
+  }) }}
+{% endblock %}
+
+{% block content %}
+<form method="post">
+  {{ govukRadios({
+    idPrefix: "good-standing",
+    name: "goodStanding",
+    fieldset: {
+      legend: {
+        text: "Do you want good standing information on the certificate?",
+        isPageHeading: true,
+        classes: "govuk-fieldset__legend--xl"
+      }
+    },
+    items: [
+      {
+        value: "yes",
+        text: "Yes"
+      },
+      {
+        value: "no",
+        text: "No"
+      }
+    ]
+  }) }}
+
+  {{ govukButton({
+    text: "Continue",
+    attributes: {
+      "data-event-id": "continue-button",
+      id: "submit"
+      }
+  }) }}
+</form>
+{% endblock %}
