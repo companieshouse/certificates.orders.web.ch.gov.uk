@@ -2,8 +2,11 @@ import * as express from "express";
 import * as nunjucks from "nunjucks";
 import * as path from "path";
 import router from "./routers/routers";
+import {ERROR_SUMMARY_TITLE} from "./model/error.messages";
 
-const app = express();
+const app = express()
+
+app.use(express.urlencoded({ extended: false }));
 
 // where nunjucks templates should resolve to
 const viewPath = path.join(__dirname, "views");
@@ -24,6 +27,7 @@ app.set("view engine", "html");
 // add global variables to all templates
 env.addGlobal("PIWIK_URL", "https://example.com");
 env.addGlobal("PIWIK_SITE_ID", "123");
+env.addGlobal("ERROR_SUMMARY_TITLE", ERROR_SUMMARY_TITLE);
 
 // serve static assets in development.
 // this will execute in production for now, but we will host these else where in the future.

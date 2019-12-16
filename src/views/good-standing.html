@@ -14,15 +14,29 @@
 {% block beforeContent %}
   {{ govukBackLink({
     text: "Back",
-    href: "confirm-company"
+    href: "/orderable/certificatestest"
   }) }}
 {% endblock %}
 
 {% block content %}
+  {% if errorList.length > 0 %}
+          {{ govukErrorSummary({
+            titleText: ERROR_SUMMARY_TITLE,
+            errorList: errorList
+          }) }}
+  {% endif %}
+
+  {% if goodStandingErr.flag %}
+    {% set goodStandingErrorMessage = {
+      text: goodStandingErr.text
+    } %}
+  {% endif %}
+
 <form method="post">
   {{ govukRadios({
     idPrefix: "good-standing",
     name: "goodStanding",
+    errorMessage: goodStandingErrorMessage,
     fieldset: {
       legend: {
         text: "Do you want good standing information on the certificate?",
