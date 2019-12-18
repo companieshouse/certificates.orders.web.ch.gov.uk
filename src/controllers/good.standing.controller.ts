@@ -16,8 +16,8 @@ const route = (req: Request, res: Response, next: NextFunction) => {
         const goodStandingErrorData: GovUkErrorData = createGovUkErrorData(errorText, "#good-standing", true, "");
 
         return res.render("good-standing", {
-            goodStandingErr: goodStandingErrorData,
             errorList: [goodStandingErrorData],
+            goodStandingErr: goodStandingErrorData,
             templateName: ("good-standing"),
         });
     }

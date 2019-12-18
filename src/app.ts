@@ -4,7 +4,7 @@ import * as path from "path";
 import router from "./routers/routers";
 import {ERROR_SUMMARY_TITLE} from "./model/error.messages";
 
-const app = express()
+const app = express();
 
 app.use(express.urlencoded({ extended: false }));
 
