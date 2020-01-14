@@ -15,6 +15,13 @@
 <link rel="stylesheet" type="text/css" media="all" href="{{ CSS_URL }}" />
 <!--<![endif]-->
 
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"
+          integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+          crossorigin="anonymous">
+</script>
+
+<div id="templateName" data-id='{{templateName}}' hidden></div>
+
 {% endblock %}
 
 {% block header %}
@@ -24,4 +31,19 @@
     serviceUrl: "/orderable/certificates",
     containerClasses: "govuk-width-container"
   }) }}
+{% endblock %}
+
+{% block bodyEnd %}
+  {# Run JavaScript at end of the <body>, to avoid blocking the initial render. #}
+  <script src="//{{CDN_URL}}/javascripts/app/piwik-enable.js"></script>
+  <script type="application/javascript">
+    (function() {
+      bindPiwikListener('order-a-certificate', '{{PIWIK_URL}}', {{PIWIK_SITE_ID}});
+    }());
+  </script>
+  <noscript>
+    <p>
+      <img src="{{PIWIK_URL}}/piwik.php?idsite={{PIWIK_SITE_ID}}" style="border:0;" alt="" />
+    </p>
+  </noscript>
 {% endblock %}
