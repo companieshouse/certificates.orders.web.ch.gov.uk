@@ -3,6 +3,7 @@ import * as nunjucks from "nunjucks";
 import * as path from "path";
 import router from "./routers/routers";
 import {ERROR_SUMMARY_TITLE} from "./model/error.messages";
+import {PIWIK_SITE_ID, PIWIK_URL} from "./session/config";
 
 const app = express();
 
@@ -25,8 +26,9 @@ app.set("views", viewPath);
 app.set("view engine", "html");
 
 // add global variables to all templates
-env.addGlobal("PIWIK_URL", "https://example.com");
-env.addGlobal("PIWIK_SITE_ID", "123");
+env.addGlobal("CDN_URL", process.env.CDN_HOST);
+env.addGlobal("PIWIK_URL", PIWIK_URL);
+env.addGlobal("PIWIK_SITE_ID", PIWIK_SITE_ID);
 env.addGlobal("ERROR_SUMMARY_TITLE", ERROR_SUMMARY_TITLE);
 
 // serve static assets in development.
