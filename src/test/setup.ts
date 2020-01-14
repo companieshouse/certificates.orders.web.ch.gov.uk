@@ -1,4 +1,4 @@
 export default async () => {
-  // perform any necessary setup here.
-  // this will execute before all tests are run
+  process.env.PIWIK_URL = "test";
+  process.env.PIWIK_SITE_ID = "test";
 }
