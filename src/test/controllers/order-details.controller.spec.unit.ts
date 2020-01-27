@@ -35,13 +35,12 @@ describe("order details validation test", () => {
     it("should receive error message requesting less than 32 characters in input fields", async () => {
         const res = await request(app)
         .post(pageURLs.ORDER_DETAILS_FULL_URL)
-        .set("Accept", "application/json")
         .send({
             firstName: CHARACTER_LENGTH_TEXT,
             lastName: CHARACTER_LENGTH_TEXT
         });
         expect(res.status).toEqual(200);
-        expect(res.text).toContain("This page has errors");
+        expect(res.text).toContain(CHARACTER_LENGTH_TEXT_ERROR);
     });
 
     it("should receive error message when entering invalid characters", async () => {
@@ -53,6 +52,6 @@ describe("order details validation test", () => {
             lastName: INVALID_CHARACTER
         });
         expect(res.status).toEqual(200);
-        expect(res.text).toContain("This page has errors");
+        expect(res.text).toContain(INVALID_CHARACTER_ERROR);
     });
 });
