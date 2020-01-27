@@ -8,6 +8,7 @@ import {PIWIK_SITE_ID, PIWIK_URL} from "./session/config";
 const app = express();
 
 app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 // where nunjucks templates should resolve to
 const viewPath = path.join(__dirname, "views");
