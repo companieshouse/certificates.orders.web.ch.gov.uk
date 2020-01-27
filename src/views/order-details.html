@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  {% if errorList.length > 0 %}
+    Error:
+  {% endif %}
+    Tell us about order details
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/orderable/certificates",
+    attributes: {
+      "data-event-id": "back-button"
+    }
+  }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl">Enter the name of the person making the order</h1>
+      <form method="post">
+
+      {% if errorList.length > 0 %}
+        {{ govukErrorSummary({
+          titleText: ERROR_SUMMARY_TITLE,
+          errorList: errorList
+        }) }}
+      {% endif %}
+
+      {% if collectionErr.flag %}
+        {% set collectionErrorMessage = {
+          text: collectionErr.text
+        } %}
+      {% endif %}
+
+      {{ govukInput({
+        label: {
+          text: "First name"
+        },
+      id: "firstName",
+      name: "firstName",
+      value: firstName,
+      errorMessage: firstNameError
+      }) }}
+  
+      {{ govukInput({
+        label: {
+          text: "Last name"
+        },
+      id: "lastName",
+      name: "lastName",
+      value: lastName,
+      errorMessage: lastNameError
+      }) }}
+     
+      {{ govukButton({
+        text: "Continue",
+        attributes: {
+          "data-event-id": "continue-button",
+          id: "submit"
+          }
+      }) }}
+    </form>
+  </div>
+</div>  
+{% endblock %}
