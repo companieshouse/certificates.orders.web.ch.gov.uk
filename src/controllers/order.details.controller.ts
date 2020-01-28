@@ -15,19 +15,19 @@ const  validateCharSet = (input) => {
 const validators = [
     check(FIRST_NAME_FIELD)
         .not().isEmpty().withMessage(errorMessages.ORDERS_DETAILS_FIRST_NAME_EMPTY)
-        .isLength({max: 32}).withMessage(errorMessages.ORDER_DETAILS_NAME_MAX_LENGTH)
+        .isLength({max: 32}).withMessage(errorMessages.ORDER_DETAILS_FIRST_NAME_MAX_LENGTH)
         .custom((firstName, {req}) => {
             if (validateCharSet(req.body[FIRST_NAME_FIELD]) === false) {
-                throw Error(errorMessages.INVALID_CHARACTERS);
+                throw Error(errorMessages.FIRST_NAME_INVALID_CHARACTERS);
             }
             return true;
         }),
     check(LAST_NAME_FIELD)
         .not().isEmpty().withMessage(errorMessages.ORDERS_DETAILS_LAST_NAME_EMPTY)
-        .isLength({max: 32}).withMessage(errorMessages.ORDER_DETAILS_NAME_MAX_LENGTH)
+        .isLength({max: 32}).withMessage(errorMessages.ORDER_DETAILS_LAST_NAME_MAX_LENGTH)
         .custom((lastName, {req}) => {
             if (validateCharSet(req.body[LAST_NAME_FIELD]) === false) {
-                throw Error(errorMessages.INVALID_CHARACTERS);
+                throw Error(errorMessages.LAST_NAME_INVALID_CHARACTERS);
             }
             return true;
         }),
