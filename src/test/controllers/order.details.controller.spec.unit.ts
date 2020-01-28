@@ -6,7 +6,7 @@ const ENTER_YOUR_FIRST_NAME = "Enter your first name"
 const CHARACTER_LENGTH_TEXT = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 const CHARACTER_LENGTH_TEXT_ERROR = "must be 32 characters or fewer"
 const INVALID_CHARACTER = "|"
-const INVALID_CHARACTER_ERROR = "You have entered invalid characters"
+const INVALID_CHARACTER_ERROR = "Invalid characters"
 
 
 describe("order details url test", () => {
