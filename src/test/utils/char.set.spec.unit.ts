@@ -14,5 +14,4 @@ describe("char set utils test", () => {
         const validatedCharSet = validateCharSet(DUMMY_VALID_NAME);
         expect(validatedCharSet).toBeFalsy;
     })
-
-})
+});
