@@ -3,14 +3,10 @@ import {check, validationResult} from "express-validator";
 import {createGovUkErrorData, GovUkErrorData} from "../model/govuk.error.data";
 import * as errorMessages from "../model/error.messages";
 import * as templatePaths from "../model/template.paths";
+import {validateCharSet} from "../utils/char-set";
 
 const FIRST_NAME_FIELD: string = "firstName";
 const LAST_NAME_FIELD: string = "lastName";
-// The restricted charset should be moved out of this file
-const restricted = "AÀÁÂÃÄÅĀĂĄǺaàáâãäåāăąǻÆǼæǽBbCcçćĉċčDÞĎĐdþďđEÈÉÊËĒĔĖĘĚeèéêëēĕėęěFfGĜĞĠĢgĝğġģHĤĦhĥħIÌÍÎÏĨĪĬĮİiìíîïĩīĭįJĴjĵKĶkķLĹĻĽĿŁlĺļľŀłMmNÑŃŅŇŊnñńņňŋOÒÓÔÕÖØŌŎŐǾoòóôõöøōŏőǿŒœPpQqRŔŖŘrŕŗřSŚŜŞŠsśŝşšTŢŤŦtţťŧUÙÚÛÜŨŪŬŮŰŲuùúûüũūŭůűųVvWŴẀẂẄwŵẁẃẅXxYỲÝŶŸyỳýŷÿZŹŻŽzźżž&@£$€¥*=#%+‘ʼ'()/\\[]{}<>!«»?“ˮ\"0123456789.,:;–- \r\n";
-const  validateCharSet = (input) => {
-    return !input.split("").some((ch: string)  => restricted.indexOf(ch) === -1);
-};
 
 const validators = [
     check(FIRST_NAME_FIELD)
