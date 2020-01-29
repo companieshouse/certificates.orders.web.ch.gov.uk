@@ -4,28 +4,37 @@
   Order a certificate
 {% endblock %}
 
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/#overview"
+  }) }}
+{% endblock %}
+
 {% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-xl">Order a certificate</h1>
 
-      <p class="govuk-body">Use this service to order certificates for:</p>
-
-      <ul class="govuk-list govuk-list--bullet">
-        <li>incorporation </li>
-        <li>dissolution/liquidation</li>
-      </ul>
+      <p class="govuk-body">Use this service to order a signed certificate of incorporation for a company. You can include good standing information.</p>
 
       <p class="govuk-body">Ordering a certificate takes around 5 minutes.</p>
 
-      <a id="start-now" href="/orderable/certificates/order-details" role="button" class="govuk-button govuk-button--start govuk-!-margin-top-2 govuk-!-margin-bottom-8" data-event-id="start-now-button">Start now</a>
+      {{ govukButton({
+        text: "Start now",
+        href: "/orderable/certificates/order-details",
+        classes: "govuk-!-margin-top-2 govuk-!-margin-bottom-8",
+        isStartButton: true,
+        attributes: {
+          "data-event-id": "start-now-button"
+        }
+      }) }}
 
+      <h2 class="govuk-heading-m">Fee</h2>
 
-      <h2 class="govuk-heading-m">Before you start</h2>
+      <p class="govuk-body">It costs £15 for a certificate with standard collection (4 working days) from a <a href="https://www.gov.uk/government/organisations/companies-house/about/access-and-opening" class="govuk-link">Companies House office</a>.</p>
 
-      <p class="govuk-body">Certificates cost £50 for next day delivery or collection (Companies House office). £15 for delivery or collection within 4 working days. Additional copies are £10. </p>
-
-      <p class="govuk-body">The online service is also available in <a class="govuk-link" href="#">Welsh (Cymraeg)</a>.</p>
+      <p class="govuk-body"> You can pay by MasterCard, Visa, Electron, Maestro or Delta debit or credit card. You can not pay using a Companies House account.</p>
 
     </div>
   </div>
