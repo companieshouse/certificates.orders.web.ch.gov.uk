@@ -5,23 +5,23 @@ import * as errorMessages from "../model/error.messages";
 import * as templatePaths from "../model/template.paths";
 
 const validators = [
-    check("goodStanding").not().isEmpty().withMessage(errorMessages.GOOD_STANDING_OPTION_NOT_SELECTED),
-  ];
+    check("collectionOffice").not().isEmpty().withMessage(errorMessages.COLLECTION_OFFICE),
+];
 
 const route = (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
         const errorText = errors.array().map((err) => err.msg).pop() as string;
-        const goodStandingErrorData: GovUkErrorData = createGovUkErrorData(errorText, "#good-standing", true, "");
+        const collectionErrorData: GovUkErrorData = createGovUkErrorData(errorText, "#collection-office", true, "");
 
-        return res.render("good-standing", {
-            errorList: [goodStandingErrorData],
-            goodStandingErr: goodStandingErrorData,
-            templateName: ("good-standing"),
+        return res.render(templatePaths.COLLECTION, {
+            collectionErr: collectionErrorData,
+            errorList: [collectionErrorData],
+            templateName: (templatePaths.COLLECTION),
         });
     }
-    res.redirect(templatePaths.COLLECTION);
+    res.redirect(templatePaths.CHECK_DETAILS);
 };
 
 export default [...validators, route];
