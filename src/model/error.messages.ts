@@ -7,4 +7,4 @@ export const ORDER_DETAILS_FIRST_NAME_MAX_LENGTH: string = "First name must be 3
 export const ORDER_DETAILS_LAST_NAME_MAX_LENGTH: string = "Last name must be 32 characters or fewer";
 export const FIRST_NAME_INVALID_CHARACTERS: string = "Invalid characters - First name must only include letters a to z, hyphens, spaces and apostrophes";
 export const LAST_NAME_INVALID_CHARACTERS: string = "Invalid characters - Last name must only include letters a to z, hyphens, spaces and apostrophes";
-export const COLLECTION_OFFICE: string = "Select an office for collection";
+export const COLLECTION_OFFICE: string = "Select the Companies House office you want to collect your certificate from";
