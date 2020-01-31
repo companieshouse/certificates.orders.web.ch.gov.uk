@@ -1,7 +1,7 @@
 import app from "../../app";
 import * as request from "supertest";  
 
-const COLLECTION_OPTION_NOT_SELECTED = "Select an office for collection"
+const COLLECTION_OPTION_NOT_SELECTED = "Select the Companies House office you want to collect your certificate from"
 const COLLECTION_URL = "/orderable/certificates/collection"
 
 describe("collection url test", () => {

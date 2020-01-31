@@ -7,10 +7,7 @@ const GOOD_STANDING_URL = "/orderable/certificates/good-standing"
 describe("good standing url test", () => {
 
   it("renders the good standing web page", async () => {
-    // dispatch a request to the homepage using supertest
     const resp = await request(app).get(GOOD_STANDING_URL);
-
-    // make some assertions on the response
     expect(resp.status).toEqual(200);
     expect(resp.text).toContain("Do you want good standing information");
   });
