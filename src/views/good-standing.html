@@ -1,13 +1,19 @@
 {% extends "layout.html" %}
 
 {% block pageTitle %}
+  {% if errorList.length > 0 %}
+    Error:
+  {% endif %}
   Good standing information
 {% endblock %}
 
 {% block beforeContent %}
   {{ govukBackLink({
     text: "Back",
-    href: "order-details"
+    href: "order-details",
+    attributes: {
+      "data-event-id": "back-button"
+    }
   }) }}
 {% endblock %}
 

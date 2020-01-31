@@ -15,10 +15,10 @@ const route = (req: Request, res: Response, next: NextFunction) => {
         const errorText = errors.array().map((err) => err.msg).pop() as string;
         const goodStandingErrorData: GovUkErrorData = createGovUkErrorData(errorText, "#good-standing", true, "");
 
-        return res.render("good-standing", {
+        return res.render(templatePaths.GOOD_STANDING, {
             errorList: [goodStandingErrorData],
             goodStandingErr: goodStandingErrorData,
-            templateName: ("good-standing"),
+            templateName: (templatePaths.GOOD_STANDING),
         });
     }
     res.redirect(templatePaths.COLLECTION);
