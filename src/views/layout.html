@@ -9,6 +9,8 @@
 {% from "govuk/components/textarea/macro.njk"         import govukTextarea %}
 {% from "govuk/components/radios/macro.njk"           import govukRadios %}
 {% from "govuk/components/input/macro.njk"            import govukInput %}
+{% from "./components/header/macro.njk"               import chHeader %}
+{% from "./components/footer/macro.njk"               import chFooter %}
 
 {% block head %}
 <!--[if !IE 8]><!-->
@@ -25,12 +27,41 @@
 {% endblock %}
 
 {% block header %}
-  {{ govukHeader({
+  {% include "includes/cookie-banner.html" %}
+  {{ chHeader({
     homepageUrl: "/",
     serviceName: "Order a certificate",
     serviceUrl: "/orderable/certificates",
-    containerClasses: "govuk-width-container"
+    containerClasses: "govuk-width-container",
+    assetPath: ""
   }) }}
+{% endblock %}
+
+{% set mainClasses = mainClasses | default("govuk-main-wrapper--auto-spacing") %}
+
+{% block footer %}
+    {{ chFooter({
+      meta: {
+        items: [
+          {
+            href: "http://resources.companieshouse.gov.uk/serviceInformation.shtml",
+            text: "Policies"
+          },
+          {
+            href: "https://beta.companieshouse.gov.uk/help/cookies",
+            text: "Cookies"
+          },
+          {
+            href: "https://beta.companieshouse.gov.uk/help/contact-us",
+            text: "Contact us"
+          },
+          {
+            href: "https://developer.companieshouse.gov.uk/api/docs/",
+            text: "Developers"
+          }
+        ]
+      }
+    }) }}
 {% endblock %}
 
 {% block bodyEnd %}
