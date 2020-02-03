@@ -6,7 +6,8 @@ const ENTER_YOUR_FIRST_NAME = "Enter your first name"
 const CHARACTER_LENGTH_TEXT = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 const CHARACTER_LENGTH_TEXT_ERROR = "must be 32 characters or fewer"
 const INVALID_CHARACTER = "|"
-const INVALID_CHARACTER_ERROR = "Invalid characters"
+const FIRST_NAME_INVALID_CHARACTER_ERROR = "First name cannot include"
+const LAST_NAME_INVALID_CHARACTER_ERROR = "Last name cannot include"
 
 
 describe("order details url test", () => {
@@ -43,15 +44,25 @@ describe("order details validation test", () => {
         expect(res.text).toContain(CHARACTER_LENGTH_TEXT_ERROR);
     });
 
-    it("should receive error message when entering invalid characters", async () => {
+    it("should receive error message when entering invalid characters for first name", async () => {
         const res = await request(app)
         .post(pageURLs.ORDER_DETAILS_FULL_URL)
         .set("Accept", "application/json")
         .send({
-            firstName: INVALID_CHARACTER,
+            firstName: INVALID_CHARACTER
+        });
+        expect(res.status).toEqual(200);
+        expect(res.text).toContain(FIRST_NAME_INVALID_CHARACTER_ERROR);
+    });
+
+    it("should receive error message when entering invalid characters for last name", async () => {
+        const res = await request(app)
+        .post(pageURLs.ORDER_DETAILS_FULL_URL)
+        .set("Accept", "application/json")
+        .send({
             lastName: INVALID_CHARACTER
         });
         expect(res.status).toEqual(200);
-        expect(res.text).toContain(INVALID_CHARACTER_ERROR);
+        expect(res.text).toContain(LAST_NAME_INVALID_CHARACTER_ERROR);
     });
 });
