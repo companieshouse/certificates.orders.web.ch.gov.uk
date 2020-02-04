@@ -1,4 +1,4 @@
-export const ERROR_SUMMARY_TITLE: string = "This page has errors";
+export const ERROR_SUMMARY_TITLE: string = "There is a problem";
 
 export const GOOD_STANDING_OPTION_NOT_SELECTED: string = "Select if you want good standing information on the certificate";
 export const ORDERS_DETAILS_FIRST_NAME_EMPTY: string = "Enter your first name";
