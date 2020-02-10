@@ -1,4 +1,4 @@
-{% extends "govuk/template.njk" %}
+{% extends "components/template.njk" %}
 
 {% from "govuk/components/breadcrumbs/macro.njk"      import govukBreadcrumbs %}
 {% from "govuk/components/button/macro.njk"           import govukButton %}
@@ -15,6 +15,7 @@
 {% block head %}
 <!--[if !IE 8]><!-->
 <link rel="stylesheet" type="text/css" media="all" href="{{ CSS_URL }}" />
+<link rel="stylesheet" type="text/css" media="all" href="{{ FOOTER }}" />
 <!--<![endif]-->
 
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"
@@ -37,10 +38,9 @@
   }) }}
 {% endblock %}
 
-{% set mainClasses = mainClasses | default("govuk-main-wrapper--auto-spacing") %}
-
 {% block footer %}
     {{ chFooter({
+      classes: "ch",
       meta: {
         items: [
           {

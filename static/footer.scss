@@ -1,0 +1,88 @@
+* {
+	margin: 0;
+}
+html, body {
+  height: 100%;
+}
+
+.govuk-template {
+  background-color: #FFF;
+}
+.entire-wrapper {
+	min-height: 95%;
+	height: auto !important;
+	height: 100%;
+	margin: 0 auto -71px; /* the bottom margin is the negative value of the footer's height - plus 11px for border */
+}
+
+#footer {
+  height: 60px;
+}
+
+.push {
+	height: 71px;
+}
+
+.hidden {
+  display: none;
+}
+
+.govuk-footer.ch {
+  padding-bottom: 0px;
+  padding-top: 20px;
+}
+
+#chs-customer-insights {
+  background-color: #005ea5;
+  padding: 0.5em 0.5em 0;
+  margin: 0 auto 0;
+  height: auto;
+  width: 960px;
+  max-width: 960px;
+
+  a {
+    font-family: "GDS Transport", Arial, sans-serif;
+    line-height: 1.5;
+    &:link,
+    &:visited {
+      color: #fff;
+    }
+
+    &:focus {
+      color: #0b0c0c;
+    }
+    &:hover {
+      color: #bfc1c3;
+    }
+    &.secondary-customer-insights {
+      float: right;
+    }
+  }
+}
+@media (max-width: 641px) {
+  #chs-customer-insights {
+    padding-bottom: 3em;
+    width: auto;
+    max-width: none;
+
+    a {
+      padding-bottom: 1em;
+
+      &.secondary-customer-insights {
+        float: left;
+        margin-top: 1em;
+      }
+    }
+  }
+}
+@media (max-width: 959px) and (min-width: 700px) {
+  #chs-customer-insights {
+    padding-bottom: 0.5em;
+    max-width: none;
+    width: auto;
+  }
+}
+
+#content.content-override {
+  padding-bottom: 0px;
+}
