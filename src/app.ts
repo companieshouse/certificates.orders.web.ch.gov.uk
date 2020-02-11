@@ -37,9 +37,11 @@ env.addGlobal("ERROR_SUMMARY_TITLE", ERROR_SUMMARY_TITLE);
 if (process.env.NODE_ENV !== "production") {
   app.use("/orderable/certificates/static", express.static("dist/static"));
   env.addGlobal("CSS_URL", "/orderable/certificates/static/app.css");
+  env.addGlobal("FOOTER", "/orderable/certificates/static/footer.css");
 } else {
   app.use("/orderable/certificates/static", express.static("static"));
   env.addGlobal("CSS_URL", "/orderable/certificates/static/app.css");
+  env.addGlobal("FOOTER", "/orderable/certificates/static/footer.css");
 }
 
 // apply our default router to /
