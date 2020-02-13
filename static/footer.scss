@@ -15,7 +15,12 @@ html, body {
 	margin: 0 auto -71px; /* the bottom margin is the negative value of the footer's height - plus 11px for border */
 }
 
+.govuk-footer__inline-list .govuk-footer__link, .govuk-footer__list .govuk-footer__link {
+  text-decoration: underline;
+}
+
 #footer {
+  border-top: 10px solid #005ea5;
   height: 60px;
 }
 
