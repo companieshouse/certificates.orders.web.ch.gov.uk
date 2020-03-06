@@ -10,6 +10,7 @@ import collectionController from "../controllers/collection.controller";
 // a collection of related routes for better organisation and specific logic.
 
 const renderTemplate = (template: string) => (req: Request, res: Response, next: NextFunction) => {
+    console.log("SESSION" + req.session);
     return res.render(template, { templateName: template });
   };
 const router: Router = Router();
