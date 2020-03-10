@@ -5,16 +5,17 @@ import * as templatePaths from "../model/template.paths";
 import goodStandingController from "../controllers/good.standing.controller";
 import orderDetailsController from "../controllers/order.details.controller";
 import collectionController from "../controllers/collection.controller";
+import homeController from "../controllers/home.controller";
 
 // a router is a collection of routes that can have their own middleware chain. It is helpful to create routers for
 // a collection of related routes for better organisation and specific logic.
 
 const renderTemplate = (template: string) => (req: Request, res: Response, next: NextFunction) => {
-    return res.render(template, { templateName: template });
-  };
+  return res.render(template, { templateName: template, companyNumber: req.params.companyNumber });
+};
 const router: Router = Router();
 
-router.get(pageUrls.ROOT, renderTemplate(templatePaths.INDEX));
+router.get(pageUrls.ROOT, homeController);
 
 router.get(pageUrls.ORDER_DETAILS, renderTemplate(templatePaths.ORDER_DETAILS));
 router.post(pageUrls.ORDER_DETAILS, orderDetailsController);
