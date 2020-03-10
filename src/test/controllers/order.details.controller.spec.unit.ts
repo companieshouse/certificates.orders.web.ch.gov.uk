@@ -1,6 +1,6 @@
 import app from "../../app";
 import * as request from "supertest";  
-import * as pageURLs from "../../model/page.urls";
+import {ORDER_DETAILS} from "../../model/page.urls";
 
 const ENTER_YOUR_FIRST_NAME = "Enter your first name"
 const CHARACTER_LENGTH_TEXT = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
@@ -15,7 +15,7 @@ describe("order details url test", () => {
   it("renders the order details web page", async () => {
     // dispatch a request to the homepage using supertest
     const resp = await request(app)
-        .get(pageURLs.ORDER_DETAILS_FULL_URL);
+        .get(ORDER_DETAILS);
 
     // make some assertions on the response
     expect(resp.status).toEqual(200);
@@ -27,7 +27,7 @@ describe("order details validation test", () => {
 
     it("should receive error message instructing user to select an option", async () => {
         const res = await request(app)
-            .post(pageURLs.ORDER_DETAILS_FULL_URL)
+            .post(ORDER_DETAILS)
         expect(res.status).toEqual(200);
         expect(res.text).toContain(ENTER_YOUR_FIRST_NAME)
     });
@@ -35,7 +35,7 @@ describe("order details validation test", () => {
 
     it("should receive error message requesting less than 32 characters in input fields", async () => {
         const res = await request(app)
-        .post(pageURLs.ORDER_DETAILS_FULL_URL)
+        .post(ORDER_DETAILS)
         .send({
             firstName: CHARACTER_LENGTH_TEXT,
             lastName: CHARACTER_LENGTH_TEXT
@@ -46,7 +46,7 @@ describe("order details validation test", () => {
 
     it("should receive error message when entering invalid characters for first name", async () => {
         const res = await request(app)
-        .post(pageURLs.ORDER_DETAILS_FULL_URL)
+        .post(ORDER_DETAILS)
         .set("Accept", "application/json")
         .send({
             firstName: INVALID_CHARACTER
@@ -57,7 +57,7 @@ describe("order details validation test", () => {
 
     it("should receive error message when entering invalid characters for last name", async () => {
         const res = await request(app)
-        .post(pageURLs.ORDER_DETAILS_FULL_URL)
+        .post(ORDER_DETAILS)
         .set("Accept", "application/json")
         .send({
             lastName: INVALID_CHARACTER
