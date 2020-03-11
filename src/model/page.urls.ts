@@ -6,4 +6,4 @@ export const CHECK_DETAILS: string = ROOT + "/check-details";
 
 export const replaceCompanyNumber = (uri: string, companyNumber: string) => {
     return uri.replace(":companyNumber", companyNumber );
-}
+};
