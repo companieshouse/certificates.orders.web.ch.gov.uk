@@ -1,6 +1,9 @@
 app_name: certificates.orders.web.ch.gov.uk
 group: web
-weight: 1000
+weight: 990
+# When we move static files to the CDN routes 3, and 4 will be removed
 routes:
-  1: /orderable/certificates
-  2: /orderable/certificates/.*
+  1: /company/(.*)/orderable/certificates
+  2: /company/(.*)/orderable/certificates/.*
+  3: /orderable/certificates
+  4: /orderable/certificates/.*

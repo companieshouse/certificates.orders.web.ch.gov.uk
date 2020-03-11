@@ -1,10 +1,9 @@
-export const ROOT: string = "/";
-export const ORDERABLE_CERTIFICATES: string = "/orderable/certificates";
-export const GOOD_STANDING: string = "/good-standing";
-export const ORDER_DETAILS: string = "/order-details";
-export const COLLECTION: string = "/collection";
-export const CHECK_DETAILS: string = "/check-details";
-export const ORDER_DETAILS_FULL_URL: string = ORDERABLE_CERTIFICATES + ORDER_DETAILS;
-export const GOOD_STANDING_FULL_URL: string = ORDERABLE_CERTIFICATES + GOOD_STANDING;
-export const COLLECTION_FULL_URL: string = ORDERABLE_CERTIFICATES + COLLECTION;
-export const CHECK_DETAILS_FULL_URL: string = ORDERABLE_CERTIFICATES + CHECK_DETAILS;
+export const ROOT: string = "/company/:companyNumber/orderable/certificates";
+export const GOOD_STANDING: string = ROOT + "/good-standing";
+export const ORDER_DETAILS: string = ROOT + "/order-details";
+export const COLLECTION: string =  ROOT + "/collection";
+export const CHECK_DETAILS: string = ROOT + "/check-details";
+
+export const replaceCompanyNumber = (uri: string, companyNumber: string) => {
+    return uri.replace(":companyNumber", companyNumber );
+}

@@ -1,1 +1,1 @@
-export {default as homeHandler} from "./home";
+export {default as homeHandler} from "./home.controller";

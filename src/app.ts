@@ -58,6 +58,6 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 // apply our default router to /
-app.use("/orderable/certificates", router);
+app.use("/", router);
 
 export default app;
