@@ -7,6 +7,7 @@ import { ORDER_DETAILS, replaceCompanyNumber } from "./../model/page.urls";
 
 export default (req: Request, res: Response, next: NextFunction) => {
     if (req.path !== "/") {
+        // tslint:disable-next-line
         req.session.ifNothing(() => console.log(`${req.url}: Session object is missing!`));
         const signedIn: boolean = req.session
                 .chain((session: Session) => session.getValue<ISignInInfo>(SessionKey.SignInInfo))
