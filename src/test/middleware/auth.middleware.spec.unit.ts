@@ -14,6 +14,7 @@ res.redirect = mockRedirectFunc;
 describe("auth.middleware", () => {
     beforeEach(() => {
         mockNextFunc.mockClear();
+        mockRedirectFunc.mockClear();
     });
 
     it("should call next if the path is root", () => {
