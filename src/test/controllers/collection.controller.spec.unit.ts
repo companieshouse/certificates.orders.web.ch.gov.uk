@@ -6,7 +6,7 @@ import {COLLECTION} from "../../model/page.urls"
 
 const COLLECTION_OPTION_NOT_SELECTED = "Select the Companies House office you want to collect your certificate from"
 
-describe("collection url test", () => {
+describe("collection url test user signed in", () => {
 
   it("renders the collection web page", async () => {
     const resp = await request(app).get(COLLECTION).set('Cookie', [getSignedInCookie()]);;
@@ -16,7 +16,7 @@ describe("collection url test", () => {
   });
 });
 
-describe("collection validation test", () => {
+describe("collection validation test user signed in", () => {
 
     it("should receive error message instructing user to select an option", async () => {
         const res = await request(app).post(COLLECTION).set('Cookie', [getSignedInCookie()]);
