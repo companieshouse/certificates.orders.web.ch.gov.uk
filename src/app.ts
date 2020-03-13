@@ -5,6 +5,7 @@ import router from "./routers/routers";
 import {ERROR_SUMMARY_TITLE} from "./model/error.messages";
 import {PIWIK_SITE_ID, PIWIK_URL} from "./session/config";
 import {SessionStore, SessionMiddleware} from "ch-node-session-handler";
+import {ROOT} from "../src/model/page.urls";
 import authMiddleware from "./middleware/auth.middleware";
 import * as cookieParser from "cookie-parser";
 import * as Redis from "ioredis";
@@ -34,7 +35,7 @@ const middleware = SessionMiddleware(
   sessionStore);
 
 app.use(middleware);
-app.use(authMiddleware);
+app.use(ROOT, authMiddleware);
 
 app.set("views", viewPath);
 app.set("view engine", "html");

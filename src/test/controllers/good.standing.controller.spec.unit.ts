@@ -1,3 +1,8 @@
+jest.mock("ch-node-session-handler");
+const {SessionMiddleware} = require("ch-node-session-handler");
+import {validSessionMiddleware} from "../utils/mock.session";
+SessionMiddleware.mockImplementation(validSessionMiddleware);
+
 import app from "../../app";
 import * as request from "supertest";  
 import {GOOD_STANDING} from "../../model/page.urls"
