@@ -20,6 +20,7 @@
     "express-validator": "^6.3.0",
     "govuk-frontend": "^3.2.0",
     "ioredis": "^4.16.0",
+    "ioredis-mock": "^4.19.0",
     "nunjucks": "^3.2.0",
     "yargs": "^15.0.2"
   },

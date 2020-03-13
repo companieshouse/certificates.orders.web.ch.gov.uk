@@ -1,7 +1,5 @@
-jest.mock("ch-node-session-handler");
-const {SessionMiddleware} = require("ch-node-session-handler");
-import {validSessionMiddleware} from "../utils/mock.session";
-SessionMiddleware.mockImplementation(validSessionMiddleware);
+import {createRedisMock, getSignedInCookie, getSignedOutCookie} from "../utils/mock.redis"
+jest.mock('ioredis', () => createRedisMock());
 
 import app from "../../app";
 import * as request from "supertest";
