@@ -5,7 +5,7 @@ import router from "./routers/routers";
 import {ERROR_SUMMARY_TITLE} from "./model/error.messages";
 import {PIWIK_SITE_ID, PIWIK_URL, COOKIE_SECRET, CACHE_SERVER} from "./session/config";
 import {SessionStore, SessionMiddleware} from "ch-node-session-handler";
-import {ROOT} from "../src/model/page.urls";
+import {ROOT} from "./model/page.urls";
 import authMiddleware from "./middleware/auth.middleware";
 import * as cookieParser from "cookie-parser";
 import * as Redis from "ioredis";
