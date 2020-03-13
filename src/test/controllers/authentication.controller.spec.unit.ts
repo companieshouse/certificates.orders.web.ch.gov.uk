@@ -1,4 +1,4 @@
-import {createRedisMock, getSignedInCookie, getSignedOutCookie} from "../utils/mock.redis"
+import {createRedisMock, getSignedOutCookie} from "../utils/mock.redis"
 jest.mock('ioredis', () => createRedisMock());
 import app from "../../app";
 import * as request from "supertest";  

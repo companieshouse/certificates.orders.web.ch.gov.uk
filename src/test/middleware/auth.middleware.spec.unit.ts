@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 import { Just, Nothing } from "purify-ts";
 import authMiddleware from "../../middleware/auth.middleware";
 import { Session } from 'ch-node-session-handler/lib/session/model/Session';
