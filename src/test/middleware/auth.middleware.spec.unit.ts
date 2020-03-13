@@ -15,11 +15,13 @@ describe("auth.middleware", () => {
     beforeEach(() => {
         mockNextFunc.mockClear();
     });
+
     it("should call next if the path is root", () => {
         const req = { path: "/" } as Request
         authMiddleware(req, res, mockNextFunc)
         expect(mockNextFunc).toHaveBeenCalled();
     })
+
     it("should call next if path is not root and user is signed in", () => {
         let req = {
             path: "/order-details"
@@ -34,6 +36,7 @@ describe("auth.middleware", () => {
         authMiddleware(req, res, mockNextFunc)
         expect(mockNextFunc).toHaveBeenCalled();
     });
+    
     it("should call res.redirect if path is not root and user is not signed in", () => {
         let req = {
             path: "/order-details",

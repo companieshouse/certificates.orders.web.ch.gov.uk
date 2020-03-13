@@ -3,7 +3,7 @@ import * as nunjucks from "nunjucks";
 import * as path from "path";
 import router from "./routers/routers";
 import {ERROR_SUMMARY_TITLE} from "./model/error.messages";
-import {PIWIK_SITE_ID, PIWIK_URL} from "./session/config";
+import {PIWIK_SITE_ID, PIWIK_URL, COOKIE_SECRET, CACHE_SERVER} from "./session/config";
 import {SessionStore, SessionMiddleware} from "ch-node-session-handler";
 import {ROOT} from "../src/model/page.urls";
 import authMiddleware from "./middleware/auth.middleware";
@@ -29,9 +29,9 @@ const env = nunjucks.configure([
   express: app,
 });
 
-const sessionStore = new SessionStore(new Redis(`redis://${process.env.CACHE_SERVER}`));
+const sessionStore = new SessionStore(new Redis(`redis://${CACHE_SERVER}`));
 const middleware = SessionMiddleware(
-  { cookieName: "__SID", cookieSecret: process.env.COOKIE_SECRET || "" },
+  { cookieName: "__SID", cookieSecret: COOKIE_SECRET},
   sessionStore);
 
 app.use(middleware);

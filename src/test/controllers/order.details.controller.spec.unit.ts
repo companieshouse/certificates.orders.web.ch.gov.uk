@@ -12,7 +12,6 @@ const INVALID_CHARACTER = "|"
 const FIRST_NAME_INVALID_CHARACTER_ERROR = "First name cannot include"
 const LAST_NAME_INVALID_CHARACTER_ERROR = "Last name cannot include"
 
-
 describe("order details url test", () => {
 
   it("renders the order details web page", async () => {
@@ -35,7 +34,6 @@ describe("order details validation test", () => {
         expect(res.status).toEqual(200);
         expect(res.text).toContain(ENTER_YOUR_FIRST_NAME)
     });
-
 
     it("should receive error message requesting less than 32 characters in input fields", async () => {
         const res = await request(app)
