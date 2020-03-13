@@ -14,7 +14,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ch-node-session-handler": "git+ssh://git@github.com/companieshouse/node-session-handler.git#master",
+    "ch-node-session-handler": "git+ssh://git@github.com/companieshouse/node-session-handler.git#d34e1a1618cf096cdc10e56dcd06bbc974679da4",
     "cookie-parser": "^1.4.4",
     "express": "^4.17.1",
     "express-validator": "^6.3.0",
