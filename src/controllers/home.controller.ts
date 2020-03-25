@@ -2,7 +2,7 @@ import {Request, Response} from "express";
 import {ORDER_DETAILS, replaceCompanyNumber} from "../model/page.urls";
 import {getCompanyProfile} from "../client/api.client";
 
-const oAuth: string = "D0gHboWxynS1gpDbnNocyckM9MmpYc73KuT1qKJfznxZEiUXdnu1Zi7uG2sm9NSVKUuVaEA4cipZ6W1U80c3aQ";
+const oAuth: string = "Z6XVoSwl_fzdW4JMPkkwUK4E26tlJKfQDbDcuN0vXqnFHj_ABPwgugsit9CqtrTKIbQDYMEgTDZLByNnAnsavA";
 const url: string = "http://api.chs-dev.internal:4001";
 
 export default async (req: Request, res: Response) => {

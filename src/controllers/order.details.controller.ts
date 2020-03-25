@@ -4,6 +4,8 @@ import {createGovUkErrorData, GovUkErrorData} from "../model/govuk.error.data";
 import * as errorMessages from "../model/error.messages";
 import * as templatePaths from "../model/template.paths";
 import {validateCharSet} from "../utils/char-set";
+import {CertificateItemPostRequest} from "ch-sdk-node/dist/services/order/item/certificate/types";
+import {postCertificateItem} from "../client/api.client";
 
 const FIRST_NAME_FIELD: string = "firstName";
 const LAST_NAME_FIELD: string = "lastName";
@@ -31,10 +33,11 @@ const validators = [
         }),
 ];
 
-const route = (req: Request, res: Response, next: NextFunction) => {
+const route = async (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
     const firstName: string = req.body[FIRST_NAME_FIELD];
     const lastName: string = req.body[LAST_NAME_FIELD];
+
     if (!errors.isEmpty()) {
         let firstNameError;
         let lastNameError;
@@ -60,6 +63,20 @@ const route = (req: Request, res: Response, next: NextFunction) => {
             templateName: (templatePaths.ORDER_DETAILS),
         });
     }
+
+    const c: CertificateItemPostRequest = {
+        companyNumber: "00006400",
+        itemOptions: {
+            forename: firstName,
+            surname: lastName,
+        },
+        quantity: 1,
+    };
+
+    const oAuth: string = "Z6XVoSwl_fzdW4JMPkkwUK4E26tlJKfQDbDcuN0vXqnFHj_ABPwgugsit9CqtrTKIbQDYMEgTDZLByNnAnsavA";
+    const url: string = "http://api.chs-dev.internal:4001";
+
+    const createCertItem = await postCertificateItem(oAuth, url, c);
     return res.redirect(templatePaths.GOOD_STANDING);
 };
 
