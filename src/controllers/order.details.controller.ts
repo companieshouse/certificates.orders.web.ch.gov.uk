@@ -6,6 +6,9 @@ import * as templatePaths from "../model/template.paths";
 import {validateCharSet} from "../utils/char-set";
 import {CertificateItemPostRequest} from "ch-sdk-node/dist/services/order/item/certificate/types";
 import {postCertificateItem} from "../client/api.client";
+import { SessionKey } from "ch-node-session-handler/lib/session/keys/SessionKey";
+import { SignInInfoKeys } from "ch-node-session-handler/lib/session/keys/SignInInfoKeys";
+import { ISignInInfo } from "ch-node-session-handler/lib/session/model/SessionInterfaces";
 
 const FIRST_NAME_FIELD: string = "firstName";
 const LAST_NAME_FIELD: string = "lastName";
@@ -73,8 +76,21 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         quantity: 1,
     };
 
-    const oAuth: string = "Z6XVoSwl_fzdW4JMPkkwUK4E26tlJKfQDbDcuN0vXqnFHj_ABPwgugsit9CqtrTKIbQDYMEgTDZLByNnAnsavA";
+    const oAuth: string = "8NBPk3G3oEW-duEVXDSUzg9rzBVaoaEBpP5VzbPBOCOEHxl1QyH5EhaxEmUUAeb0YTYLd4iPnYSF1ToBEdVlQw";
     const url: string = "http://api.chs-dev.internal:4001";
+
+    const signInInfo = req.session
+        .map(_ => _.getValue<ISignInInfo>(SessionKey.SignInInfo))
+        .unsafeCoerce();
+
+        console.log("SIGN IN INFO!!!!!!!!!" + signInInfo);
+
+    const accessToken = signInInfo
+        .map(info => info[SignInInfoKeys.AccessToken])
+        .map(token => token.access_token as string)
+        .unsafeCoerce();
+
+        console.log("access token!!!" + accessToken);
 
     const createCertItem = await postCertificateItem(oAuth, url, c);
     return res.redirect(templatePaths.GOOD_STANDING);
