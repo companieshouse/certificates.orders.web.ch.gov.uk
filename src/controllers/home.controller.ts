@@ -8,7 +8,7 @@ const url: string = "http://api.chs-dev.internal:4001";
 export default async (req: Request, res: Response) => {
   const companyNumber: string = req.params.companyNumber;
   const orderDetailsUrl = replaceCompanyNumber(ORDER_DETAILS, companyNumber);
-  const getprofile = await getCompanyProfile(companyNumber, oAuth, url);
-  const companyName = getprofile.companyName;
+  //const getprofile = await getCompanyProfile(companyNumber, oAuth, url);
+  const companyName = "bob";
   res.render("index", {orderDetailsUrl, companyNumber, companyName});
 };
