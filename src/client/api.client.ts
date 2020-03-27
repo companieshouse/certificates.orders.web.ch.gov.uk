@@ -19,8 +19,8 @@ export const getCompanyProfile = async (companyNumber: string, oAuth: string) =>
 };
 
 export const postCertificateItem =
-        async (oAuth: string, certificateItem: CertificateItemPostRequest) => {
-    const api = createApiClient(undefined, oAuth, API_URL);
-    const postCertificateItem: Resource<CertificateItem> = await api.certificate.postCertificate(certificateItem);
-    return postCertificateItem;
-}
+    async (oAuth: string, certificateItem: CertificateItemPostRequest) => {
+        const api = createApiClient(undefined, oAuth, API_URL);
+        const postCertificateItem: Resource<CertificateItem> = await api.certificate.postCertificate(certificateItem);
+        return postCertificateItem;
+};

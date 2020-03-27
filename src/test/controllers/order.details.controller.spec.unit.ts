@@ -72,4 +72,18 @@ describe("order details validation test", () => {
         expect(res.status).toEqual(200);
         expect(res.text).toContain(LAST_NAME_INVALID_CHARACTER_ERROR);
     });
+
+    it("should post a certificate item and go to next page", async () => {
+        const res = await request(app)
+        .post(ORDER_DETAILS)
+        .send({
+            firstName: "first name",
+            lastName: "lastName"
+        })
+        .set('Cookie', [getSignedInCookie()]);
+
+        expect(res.status).toEqual(302);
+    });
 });
+
+
