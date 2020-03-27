@@ -66,16 +66,14 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         });
     }
 
-    const c: CertificateItemPostRequest = {
-        companyNumber: "00006400",
+    const certificateItem: CertificateItemPostRequest = {
+        companyNumber: req.params.companyNumber,
         itemOptions: {
             forename: firstName,
             surname: lastName,
         },
         quantity: 1,
     };
-
-    const url: string = "http://api.chs-dev.internal:4001";
 
     const signInInfo = req.session
         .map((_) => _.getValue<ISignInInfo>(SessionKey.SignInInfo))
@@ -86,7 +84,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         .map((token: IAccessToken) => token.access_token as string)
         .unsafeCoerce();
 
-    const createCertItem = await postCertificateItem(accessToken, url, c);
+    const createCertItem = await postCertificateItem(accessToken, certificateItem);
     return res.redirect(templatePaths.GOOD_STANDING);
 };
 
