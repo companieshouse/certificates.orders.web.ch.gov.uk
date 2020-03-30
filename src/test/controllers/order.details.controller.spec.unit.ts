@@ -1,9 +1,14 @@
 import {createRedisMock, getSignedInCookie} from "../utils/mock.redis"
+import { postCertificateItem } from "../../client/api.client";
 jest.mock('ioredis', () => createRedisMock());
 
 import app from "../../app";
 import * as request from "supertest";  
 import {ORDER_DETAILS} from "../../model/page.urls";
+
+jest.mock("../../client/api.client");
+
+const mockPostCertificateItem: jest.Mock = (<unknown>postCertificateItem as jest.Mock<typeof postCertificateItem>);
 
 const ENTER_YOUR_FIRST_NAME = "Enter your first name"
 const CHARACTER_LENGTH_TEXT = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
@@ -26,6 +31,66 @@ describe("order details url test", () => {
 });
 
 describe("order details validation test", () => {
+  
+    beforeEach(() => {
+      mockPostCertificateItem.prototype.constructor.mockImplementation(() => {
+        return {
+          companyNumber: "00006400",
+          companyName: "Girls Trust",
+          description: "certificate",
+          descriptionIdentifier: "certificate",
+          descriptionValues: {
+            "item": "certificate"
+          },
+          etag: "33a64df551425fcc55e4d42a148795d9f25f89d4",
+          id: "CHS00000000000000004",
+          itemCosts: [],
+          customerReference: "1133XR",
+          itemOptions: {
+            certificateType: "incorporation",
+            collectionLocation: "cardiff",
+            contactNumber: "07596820642",
+            deliveryMethod: "collection",
+            deliveryTimescale: "standard",
+            directorDetails: {
+              includeAddress: true,
+              includeAppointmentDate: false,
+              includeBasicInformation: false,
+              includeCountryOfResidence: false,
+              includeDobType: "yes",
+              includeNationality: true,
+              includeOccupation: true
+            },
+            forename: "John",
+            includeCompanyObjectsInformation: true,
+            includeEmailCopy: true,
+            includeGoodStandingInformation: true,
+            registeredOfficeAddressDetails: {
+              includeAddressRecordsType: "yes",
+              includeDates: true,
+            },
+            secretaryDetails: {
+              includeAddress: true,
+              includeAppointmentDate: false,
+              includeBasicInformation: false,
+              includeCountryOfResidence: false,
+              includeDobType: "yes",
+              includeNationality: true,
+              includeOccupation: true
+            },
+            surname: "Smith",
+          },
+          kind: "item#certificate",
+          links: {
+            self: "/cert"
+          },
+          postageCost: "0",
+          postalDelivery: false,
+          quantity: 1,
+          totalItemCost: "50"
+        }
+      });
+    });
 
     it("should receive error message instructing user to select an option", async () => {
         const res = await request(app)
@@ -73,3 +138,17 @@ describe("order details validation test", () => {
         expect(res.text).toContain(LAST_NAME_INVALID_CHARACTER_ERROR);
     });
 });
+
+describe("POST certificate", () => {
+    it("should post a certificate item and go to next page", async () => {
+        const res = await request(app)
+        .post(ORDER_DETAILS)
+        .send({
+            firstName: "John",
+            lastName: "Smith"
+        })
+        .set('Cookie', [getSignedInCookie()]);
+
+        expect(res.status).toEqual(302);
+    });
+  });

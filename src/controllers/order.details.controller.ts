@@ -4,6 +4,11 @@ import {createGovUkErrorData, GovUkErrorData} from "../model/govuk.error.data";
 import * as errorMessages from "../model/error.messages";
 import * as templatePaths from "../model/template.paths";
 import {validateCharSet} from "../utils/char-set";
+import {CertificateItemPostRequest} from "ch-sdk-node/dist/services/order/item/certificate/types";
+import {postCertificateItem} from "../client/api.client";
+import {SessionKey} from "ch-node-session-handler/lib/session/keys/SessionKey";
+import {SignInInfoKeys} from "ch-node-session-handler/lib/session/keys/SignInInfoKeys";
+import {ISignInInfo, IAccessToken} from "ch-node-session-handler/lib/session/model/SessionInterfaces";
 
 const FIRST_NAME_FIELD: string = "firstName";
 const LAST_NAME_FIELD: string = "lastName";
@@ -31,7 +36,7 @@ const validators = [
         }),
 ];
 
-const route = (req: Request, res: Response, next: NextFunction) => {
+const route = async (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
     const firstName: string = req.body[FIRST_NAME_FIELD];
     const lastName: string = req.body[LAST_NAME_FIELD];
@@ -60,6 +65,26 @@ const route = (req: Request, res: Response, next: NextFunction) => {
             templateName: (templatePaths.ORDER_DETAILS),
         });
     }
+
+    const certificateItem: CertificateItemPostRequest = {
+        companyNumber: req.params.companyNumber,
+        itemOptions: {
+            forename: firstName,
+            surname: lastName,
+        },
+        quantity: 1,
+    };
+
+    const signInInfo = req.session
+        .map((_) => _.getValue<ISignInInfo>(SessionKey.SignInInfo))
+        .unsafeCoerce();
+
+    const accessToken = signInInfo
+        .map((info) => info[SignInInfoKeys.AccessToken])
+        .map((token: IAccessToken) => token.access_token as string)
+        .unsafeCoerce();
+
+    const createCertItem = await postCertificateItem(accessToken, certificateItem);
     return res.redirect(templatePaths.GOOD_STANDING);
 };
 
