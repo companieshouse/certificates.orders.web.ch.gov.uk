@@ -9,22 +9,22 @@ const dummySDKResponse: Resource<CertificateItem> = {
   httpStatusCode: 200,
   resource: {
     companyNumber: "00006400",
-    companyName: "Company Name",
-    description: "description",
-    descriptionIdentifier: "description identifier",
+    companyName: "Girls Trust",
+    description: "certificate",
+    descriptionIdentifier: "certificate",
     descriptionValues: {
-      "test": "test"
+      "item": "certificate"
     },
-    etag: "etag",
-    id: "CHS001",
+    etag: "33a64df551425fcc55e4d42a148795d9f25f89d4",
+    id: "CHS00000000000000004",
     itemCosts: [],
-    customerReference: "reference",
+    customerReference: "1133XR",
     itemOptions: {
       certificateType: "incorporation",
-      collectionLocation: "loc",
-      contactNumber: "number",
-      deliveryMethod: "del",
-      deliveryTimescale: "time",
+      collectionLocation: "cardiff",
+      contactNumber: "07596820642",
+      deliveryMethod: "collection",
+      deliveryTimescale: "standard",
       directorDetails: {
         includeAddress: true,
         includeAppointmentDate: false,
@@ -34,7 +34,7 @@ const dummySDKResponse: Resource<CertificateItem> = {
         includeNationality: true,
         includeOccupation: true
       },
-      forename: "first name",
+      forename: "John",
       includeCompanyObjectsInformation: true,
       includeEmailCopy: true,
       includeGoodStandingInformation: true,
@@ -51,24 +51,24 @@ const dummySDKResponse: Resource<CertificateItem> = {
         includeNationality: true,
         includeOccupation: true
       },
-      surname: "last name",
+      surname: "Smith",
     },
-    kind: "cert",
+    kind: "item#certificate",
     links: {
       self: "/cert"
     },
-    postageCost: "21",
+    postageCost: "0",
     postalDelivery: false,
     quantity: 1,
-    totalItemCost: "23"
+    totalItemCost: "50"
   },
 };
 
 const certificateItemRequest: CertificateItemPostRequest = {
   companyNumber: "00006400",
   itemOptions: {
-    forename: "first name",
-    surname: "last name",
+    forename: "John",
+    surname: "Smith",
   },
   quantity: 1,
 };

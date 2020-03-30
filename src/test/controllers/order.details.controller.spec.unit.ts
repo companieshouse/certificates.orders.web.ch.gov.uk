@@ -32,64 +32,63 @@ describe("order details url test", () => {
 
 describe("order details validation test", () => {
   
-    
     beforeEach(() => {
       mockPostCertificateItem.prototype.constructor.mockImplementation(() => {
         return {
-            companyNumber: "00006400",
-            companyName: "Company Name",
-            description: "description",
-            descriptionIdentifier: "description identifier",
-            descriptionValues: {
-              "test": "test"
+          companyNumber: "00006400",
+          companyName: "Girls Trust",
+          description: "certificate",
+          descriptionIdentifier: "certificate",
+          descriptionValues: {
+            "item": "certificate"
+          },
+          etag: "33a64df551425fcc55e4d42a148795d9f25f89d4",
+          id: "CHS00000000000000004",
+          itemCosts: [],
+          customerReference: "1133XR",
+          itemOptions: {
+            certificateType: "incorporation",
+            collectionLocation: "cardiff",
+            contactNumber: "07596820642",
+            deliveryMethod: "collection",
+            deliveryTimescale: "standard",
+            directorDetails: {
+              includeAddress: true,
+              includeAppointmentDate: false,
+              includeBasicInformation: false,
+              includeCountryOfResidence: false,
+              includeDobType: "yes",
+              includeNationality: true,
+              includeOccupation: true
             },
-            etag: "etag",
-            id: "CHS001",
-            itemCosts: [],
-            customerReference: "reference",
-            itemOptions: {
-              certificateType: "incorporation",
-              collectionLocation: "loc",
-              contactNumber: "number",
-              deliveryMethod: "del",
-              deliveryTimescale: "time",
-              directorDetails: {
-                includeAddress: true,
-                includeAppointmentDate: false,
-                includeBasicInformation: false,
-                includeCountryOfResidence: false,
-                includeDobType: "yes",
-                includeNationality: true,
-                includeOccupation: true
-              },
-              forename: "first name",
-              includeCompanyObjectsInformation: true,
-              includeEmailCopy: true,
-              includeGoodStandingInformation: true,
-              registeredOfficeAddressDetails: {
-                includeAddressRecordsType: "yes",
-                includeDates: true,
-              },
-              secretaryDetails: {
-                includeAddress: true,
-                includeAppointmentDate: false,
-                includeBasicInformation: false,
-                includeCountryOfResidence: false,
-                includeDobType: "yes",
-                includeNationality: true,
-                includeOccupation: true
-              },
-              surname: "last name",
+            forename: "John",
+            includeCompanyObjectsInformation: true,
+            includeEmailCopy: true,
+            includeGoodStandingInformation: true,
+            registeredOfficeAddressDetails: {
+              includeAddressRecordsType: "yes",
+              includeDates: true,
             },
-            kind: "cert",
-            links: {
-              self: "/cert"
+            secretaryDetails: {
+              includeAddress: true,
+              includeAppointmentDate: false,
+              includeBasicInformation: false,
+              includeCountryOfResidence: false,
+              includeDobType: "yes",
+              includeNationality: true,
+              includeOccupation: true
             },
-            postageCost: "21",
-            postalDelivery: false,
-            quantity: 1,
-            totalItemCost: "23"
-          }
+            surname: "Smith",
+          },
+          kind: "item#certificate",
+          links: {
+            self: "/cert"
+          },
+          postageCost: "0",
+          postalDelivery: false,
+          quantity: 1,
+          totalItemCost: "50"
+        }
       });
     });
 
@@ -138,18 +137,18 @@ describe("order details validation test", () => {
         expect(res.status).toEqual(200);
         expect(res.text).toContain(LAST_NAME_INVALID_CHARACTER_ERROR);
     });
+});
 
+describe("POST certificate", () => {
     it("should post a certificate item and go to next page", async () => {
         const res = await request(app)
         .post(ORDER_DETAILS)
         .send({
-            firstName: "first name",
-            lastName: "lastName"
+            firstName: "John",
+            lastName: "Smith"
         })
         .set('Cookie', [getSignedInCookie()]);
 
         expect(res.status).toEqual(302);
     });
-});
-
-
+  });
