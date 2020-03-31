@@ -70,6 +70,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         companyNumber: req.params.companyNumber,
         itemOptions: {
             certificateType: "incorporation-with-all-name-changes",
+            collectionLocation: "cardiff",
             deliveryMethod: "collection",
             deliveryTimescale: "standard",
             forename: firstName,
