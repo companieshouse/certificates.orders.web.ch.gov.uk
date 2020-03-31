@@ -69,6 +69,9 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
     const certificateItem: CertificateItemPostRequest = {
         companyNumber: req.params.companyNumber,
         itemOptions: {
+            certificateType: "incorporation-with-all-name-changes",
+            deliveryMethod: "collection",
+            deliveryTimescale: "standard",
             forename: firstName,
             surname: lastName,
         },
