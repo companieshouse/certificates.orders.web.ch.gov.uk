@@ -25,7 +25,7 @@ describe("auth.middleware", () => {
 
     it("should call next if path is not root and user is signed in", () => {
         let req = {
-            path: "/order-details"
+            path: "/certificate-options"
         } as Request
         req.session = Just(new Session(
             {
@@ -40,7 +40,7 @@ describe("auth.middleware", () => {
     
     it("should call res.redirect if path is not root and user is not signed in", () => {
         let req = {
-            path: "/order-details",
+            path: "/certificate-options",
         } as Request
         req.params = {companyNumber: "0001"}
         req.session = Just(new Session(
@@ -51,16 +51,16 @@ describe("auth.middleware", () => {
             }
         ));
         authMiddleware(req, res, mockNextFunc)
-        expect(mockRedirectFunc).toBeCalledWith("/signin?return_to=/company/0001/orderable/certificates/order-details");
+        expect(mockRedirectFunc).toBeCalledWith("/signin?return_to=/company/0001/orderable/certificates/certificate-options");
     });
 
     it("should call res.redirect if path is not root and no session", async () => {
         let req = {
-            path: "/order-details",
+            path: "/certificate-options",
         } as Request
         req.params = {companyNumber: "0001"}
         req.session = Nothing;
         authMiddleware(req, res, mockNextFunc)
-        expect(mockRedirectFunc).toBeCalledWith("/signin?return_to=/company/0001/orderable/certificates/order-details");    
+        expect(mockRedirectFunc).toBeCalledWith("/signin?return_to=/company/0001/orderable/certificates/certificate-options");    
     });
 })

@@ -3,7 +3,7 @@ import { ISignInInfo } from "ch-node-session-handler/lib/session/model/SessionIn
 import { SessionKey } from "ch-node-session-handler/lib/session/keys/SessionKey";
 import { SignInInfoKeys } from "ch-node-session-handler/lib/session/keys/SignInInfoKeys";
 import { Session, VerifiedSession } from "ch-node-session-handler/lib/session/model/Session";
-import { ORDER_DETAILS, replaceCompanyNumber } from "./../model/page.urls";
+import { CERTIFICATE_OPTIONS, replaceCompanyNumber } from "./../model/page.urls";
 
 export default (req: Request, res: Response, next: NextFunction) => {
     if (req.path !== "/") {
@@ -16,8 +16,8 @@ export default (req: Request, res: Response, next: NextFunction) => {
 
         if (!signedIn) {
             const companyNumber = req.params.companyNumber;
-            const orderDetailsUrl = replaceCompanyNumber(ORDER_DETAILS, companyNumber);
-            return res.redirect(`/signin?return_to=${orderDetailsUrl}`);
+            const certificateOptionssUrl = replaceCompanyNumber(CERTIFICATE_OPTIONS, companyNumber);
+            return res.redirect(`/signin?return_to=${certificateOptionssUrl}`);
         }
     }
     next();
