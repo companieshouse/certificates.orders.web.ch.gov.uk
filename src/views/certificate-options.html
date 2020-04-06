@@ -1,0 +1,86 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  {% if errorList.length > 0 %}
+    Error:
+  {% endif %}
+    Choose certificate information
+{% endblock %}
+
+{% set mainClasses = "govuk-main-wrapper--l" %}
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "."
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds-from-desktop">
+      <form method="post">
+
+        {{ govukCheckboxes({
+            idPrefix: "more-info",
+            name: "more-info",
+            fieldset: {
+            legend: {
+            text: "What information would you like to be included on the certificate?",
+            isPageHeading: true,
+            classes: "govuk-fieldset__legend--xl"
+          }
+        },
+        hint: {
+          text: "Select all that apply."
+        },
+        items: [
+          {
+            value: "good-standing",
+            text: "Statement of good standing",
+            hint: {
+              text: "A statement that the company is in good standing (not added if the company is not in good standing)."
+        }
+        },
+        {
+              value: "registered-office",
+              text: "Registered office address",
+              hint: {
+                text: "The current registered office address, no dates included."
+        }
+        },
+          {
+              value: "directors",
+              text: "Directors",
+              hint: {
+               text: "The names of all current company directors."
+        }
+        },
+          {
+              value: "secretaries",
+              text: "Secretaries",
+              hint: {
+                text: "The names of all current company secretaries."
+        }
+        },
+            {
+              value: "company-objects",
+              text: "Company objects",
+              hint: {
+                text: "The first few lines of the company objects."
+        }
+        }
+        ]
+        }) }}
+        
+        {{ govukButton({
+          text: "Continue",
+          attributes: {
+            "data-event-id": "continue-button",
+            id: "submit"
+            }
+        }) }}
+
+  </form>
+</div>
+</div>
+{% endblock %}
