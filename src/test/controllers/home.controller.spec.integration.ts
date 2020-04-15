@@ -1,8 +1,8 @@
-jest.mock('ioredis');
+jest.mock("ioredis");
 
 import app from "../../app";
 import * as request from "supertest";
-import {ROOT} from "../../model/page.urls"
+import {ROOT} from "../../model/page.urls";
 
 describe("home handler", () => {
   it("renders the start page", async () => {

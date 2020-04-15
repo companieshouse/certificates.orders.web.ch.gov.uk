@@ -23,7 +23,7 @@ describe("setItemOptions", () => {
         expect(returnedItemOptions?.includeGoodStandingInformation).toBeTruthy();
     });
 
-    it("should set includeAddressRecordsType on registeredOfficeAddressDetails to current, when the option is registered-office", () => {
+    it("should set includeAddressRecordsType to current, when option is registered-office", () => {
         const options = ["registered-office"];
         const returnedItemOptions = setItemOptions(options);
 
