@@ -9,7 +9,7 @@ module.exports = {
   preset: "ts-jest",
   testEnvironment: "node",
   verbose: true,
-  testMatch: ["**/test/**/*.spec.unit.[jt]s"],
+  testMatch: ["**/test/**/*.spec.*.[jt]s"],
   globals: {
     "ts-jest": {
       diagnostics: false,
