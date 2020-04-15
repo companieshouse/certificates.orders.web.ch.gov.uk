@@ -7,7 +7,7 @@
     "start": "node dist/bin/www.js",
     "start:watch": "NODE_ENV=development nodemon",
     "build": "NODE_ENV=production tsc && cp -r src/views dist/ && gulp static",
-    "lint": "tslint -p .",
+    "lint": "tslint --project .",
     "test": "jest -c src/test/jest.config.js"
   },
   "keywords": [],

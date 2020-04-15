@@ -14,4 +14,4 @@ export const getAccessToken = (session: Maybe<Session>): string => {
         .unsafeCoerce();
 
     return accessToken;
-}
+};

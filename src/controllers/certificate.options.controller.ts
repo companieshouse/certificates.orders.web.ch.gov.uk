@@ -37,8 +37,6 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 
         return res.redirect(ORDER_DETAILS);
     } catch (err) {
-        // tslint:disable-next-line
-        console.log(err)
         return next(err);
     }
 };
@@ -80,6 +78,8 @@ export const setItemOptions = (options: string[]): ItemOptionsRequest => {
                 itemOptionsAccum.includeCompanyObjectsInformation = true;
                 break;
             }
+            default:
+                break;
         }
         return itemOptionsAccum;
     }, initialItemOptions);
