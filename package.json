@@ -15,7 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "ch-node-session-handler": "git+ssh://git@github.com/companieshouse/node-session-handler.git#c85dad518b56374400ee48ce5340d7fbe24a4a5f",
-    "ch-sdk-node": "../ch-sdk-node",
+    "ch-sdk-node": "git+ssh://git@github.com/companieshouse/ch-sdk-node.git#7c178fbf5e9ea7ba3c735aa7d93a0dd554d35771",
     "cookie-parser": "^1.4.4",
     "express": "^4.17.1",
     "express-validator": "^6.3.0",
