@@ -9,22 +9,22 @@ describe("setItemOptions", () => {
         expect(returnedItemOptions?.directorDetails?.includeBasicInformation).toBeTruthy();
     });
 
-    it("should set includeCompanyObjectsInformation to true, when the option is company-objects", () => {
-        const options = ["company-objects"];
+    it("should set includeCompanyObjectsInformation to true, when the option is companyObjects", () => {
+        const options = ["companyObjects"];
         const returnedItemOptions = setItemOptions(options);
 
         expect(returnedItemOptions?.includeCompanyObjectsInformation).toBeTruthy();
     });
 
-    it("should set includeGoodStandingInformation to true, when the option is good-standing", () => {
-        const options = ["good-standing"];
+    it("should set includeGoodStandingInformation to true, when the option is goodStanding", () => {
+        const options = ["goodStanding"];
         const returnedItemOptions = setItemOptions(options);
 
         expect(returnedItemOptions?.includeGoodStandingInformation).toBeTruthy();
     });
 
-    it("should set includeAddressRecordsType to current, when option is registered-office", () => {
-        const options = ["registered-office"];
+    it("should set includeAddressRecordsType to current, when option is registeredOffice", () => {
+        const options = ["registeredOffice"];
         const returnedItemOptions = setItemOptions(options);
 
         expect(returnedItemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType).toBe("current");
@@ -38,7 +38,7 @@ describe("setItemOptions", () => {
     });
 
     it("should set multiple itemOptions, when multiple options are set", () => {
-        const options = ["secretaries", "good-standing", "company-objects"];
+        const options = ["secretaries", "goodStanding", "companyObjects"];
         const returnedItemOptions = setItemOptions(options);
 
         expect(returnedItemOptions?.secretaryDetails?.includeBasicInformation).toBeTruthy();

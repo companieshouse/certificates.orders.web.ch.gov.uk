@@ -22,7 +22,7 @@
 
         {{ govukCheckboxes({
             idPrefix: "more-info",
-            name: "more-info",
+            name: "moreInfo",
             fieldset: {
             legend: {
             text: "What information would you like to be included on the certificate?",
@@ -35,14 +35,14 @@
         },
         items: [
           {
-            value: "good-standing",
+            value: "goodStanding",
             text: "Statement of good standing",
             hint: {
               text: "A statement that the company is in good standing (not added if the company is not in good standing)."
         }
         },
         {
-              value: "registered-office",
+              value: "registeredOffice",
               text: "Registered office address",
               hint: {
                 text: "The current registered office address, no dates included."
@@ -63,7 +63,7 @@
         }
         },
             {
-              value: "company-objects",
+              value: "companyObjects",
               text: "Company objects",
               hint: {
                 text: "The first few lines of the company objects."

@@ -5,12 +5,12 @@ import {postCertificateItem} from "../client/api.client";
 import {ORDER_DETAILS} from "../model/template.paths";
 import {getAccessToken} from "../session/helper";
 
-const GOOD_STANDING_FIELD: string = "good-standing";
-const REGISTERED_OFFICE_FIELD: string = "registered-office";
+const GOOD_STANDING_FIELD: string = "goodStanding";
+const REGISTERED_OFFICE_FIELD: string = "registeredOffice";
 const DIRECTORS_FIELD: string = "directors";
 const SECRETARIES_FIELD: string = "secretaries";
-const COMPANY_OBJECTS_FIELD: string = "company-objects";
-const MORE_INFO_FIELD: string = "more-info";
+const COMPANY_OBJECTS_FIELD: string = "companyObjects";
+const MORE_INFO_FIELD: string = "moreInfo";
 
 export default async (req: Request, res: Response, next: NextFunction) => {
     try {
