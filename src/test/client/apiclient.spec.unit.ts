@@ -8,17 +8,17 @@ jest.mock("ch-sdk-node/dist/services/order/item/certificate/service");
 const dummySDKResponse: Resource<CertificateItem> = {
   httpStatusCode: 200,
   resource: {
-    companyNumber: "00006400",
-    companyName: "Girls Trust",
+    companyName: "Company Name",
+    companyNumber: "00000000",
+    customerReference: "1133XR",
     description: "certificate",
     descriptionIdentifier: "certificate",
     descriptionValues: {
-      "item": "certificate"
+      item: "certificate",
     },
     etag: "33a64df551425fcc55e4d42a148795d9f25f89d4",
     id: "CHS00000000000000004",
     itemCosts: [],
-    customerReference: "1133XR",
     itemOptions: {
       certificateType: "incorporation",
       collectionLocation: "cardiff",
@@ -32,7 +32,7 @@ const dummySDKResponse: Resource<CertificateItem> = {
         includeCountryOfResidence: false,
         includeDobType: "yes",
         includeNationality: true,
-        includeOccupation: true
+        includeOccupation: true,
       },
       forename: "John",
       includeCompanyObjectsInformation: true,
@@ -49,23 +49,23 @@ const dummySDKResponse: Resource<CertificateItem> = {
         includeCountryOfResidence: false,
         includeDobType: "yes",
         includeNationality: true,
-        includeOccupation: true
+        includeOccupation: true,
       },
       surname: "Smith",
     },
     kind: "item#certificate",
     links: {
-      self: "/cert"
+      self: "/cert",
     },
     postageCost: "0",
     postalDelivery: false,
     quantity: 1,
-    totalItemCost: "50"
+    totalItemCost: "50",
   },
 };
 
 const certificateItemRequest: CertificateItemPostRequest = {
-  companyNumber: "00006400",
+  companyNumber: "00000000",
   itemOptions: {
     forename: "John",
     surname: "Smith",

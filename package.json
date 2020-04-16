@@ -7,7 +7,7 @@
     "start": "node dist/bin/www.js",
     "start:watch": "NODE_ENV=development nodemon",
     "build": "NODE_ENV=production tsc && cp -r src/views dist/ && gulp static",
-    "lint": "tslint -p .",
+    "lint": "tslint --project .",
     "test": "jest -c src/test/jest.config.js"
   },
   "keywords": [],
@@ -15,7 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "ch-node-session-handler": "git+ssh://git@github.com/companieshouse/node-session-handler.git#c85dad518b56374400ee48ce5340d7fbe24a4a5f",
-    "ch-sdk-node": "git+ssh://git@github.com/companieshouse/ch-sdk-node.git#b8fa8a6f02eb51e18be9bf00b528c326dfa80334",
+    "ch-sdk-node": "git+ssh://git@github.com/companieshouse/ch-sdk-node.git#7c178fbf5e9ea7ba3c735aa7d93a0dd554d35771",
     "cookie-parser": "^1.4.4",
     "express": "^4.17.1",
     "express-validator": "^6.3.0",
@@ -23,6 +23,7 @@
     "ioredis": "^4.16.0",
     "ioredis-mock": "^4.19.0",
     "nunjucks": "^3.2.0",
+    "ts-lint": "^4.5.1",
     "yargs": "^15.0.2"
   },
   "devDependencies": {
@@ -40,9 +41,9 @@
     "nodemon": "^1.19.3",
     "supertest": "^4.0.2",
     "ts-jest": "^24.1.0",
-    "ts-node": "^8.4.1",
+    "ts-node": "^8.8.2",
     "tslint": "^5.20.0",
-    "typescript": "^3.6.3"
+    "typescript": "^3.8.3"
   },
   "nodemonConfig": {
     "watch": [

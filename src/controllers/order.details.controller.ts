@@ -52,6 +52,8 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
                 case LAST_NAME_FIELD:
                     lastNameError = govUkErrorData;
                     break;
+                default:
+                    break;
             }
             return govUkErrorData;
         });
