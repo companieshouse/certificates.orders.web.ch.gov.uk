@@ -8,8 +8,8 @@ jest.mock("ch-sdk-node/dist/services/order/item/certificate/service");
 const dummySDKResponse: Resource<CertificateItem> = {
   httpStatusCode: 200,
   resource: {
-    companyName: "Girls Trust",
-    companyNumber: "00006400",
+    companyName: "Company Name",
+    companyNumber: "00000000",
     customerReference: "1133XR",
     description: "certificate",
     descriptionIdentifier: "certificate",
@@ -65,7 +65,7 @@ const dummySDKResponse: Resource<CertificateItem> = {
 };
 
 const certificateItemRequest: CertificateItemPostRequest = {
-  companyNumber: "00006400",
+  companyNumber: "00000000",
   itemOptions: {
     forename: "John",
     surname: "Smith",
