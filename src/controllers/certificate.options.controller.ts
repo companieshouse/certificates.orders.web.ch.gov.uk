@@ -55,8 +55,8 @@ export const setItemOptions = (options: string[]): ItemOptionsRequest => {
             includeBasicInformation: null,
         },
     };
-
-    return options.reduce((itemOptionsAccum: ItemOptionsRequest, option: string) => {
+    return options === undefined ? initialItemOptions :
+        options.reduce((itemOptionsAccum: ItemOptionsRequest, option: string) => {
         switch (option) {
             case GOOD_STANDING_FIELD: {
                 itemOptionsAccum.includeGoodStandingInformation = true;
