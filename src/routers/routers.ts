@@ -34,4 +34,6 @@ router.post(pageUrls.GOOD_STANDING, goodStandingController);
 router.get(pageUrls.COLLECTION, renderTemplate(templatePaths.COLLECTION));
 router.post(pageUrls.COLLECTION, collectionController);
 
+router.get(pageUrls.CHECK_DETAILS, renderTemplate(templatePaths.CHECK_DETAILS));
+
 export default router;

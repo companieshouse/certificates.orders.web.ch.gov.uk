@@ -1,0 +1,114 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  Check your order details
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/company/" + companyNumber + "/more"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds-from-desktop">
+
+        <form action="/payment-review" method="post">
+
+            <h1 class="govuk-heading-xl">Check your order details</h1>
+
+            <h2 class="govuk-heading-m">Order details</h2>
+
+            {{ govukSummaryList({
+              classes: 'govuk-!-margin-bottom-9',
+              rows: [
+                {
+                  key: {
+                    text: "Company name",
+                    classes: 'govuk-!-width-one-half'
+                  },
+                  value: {
+                    text: "Stationary LTD"
+                  }
+                },
+                {
+                  key: {
+                    text: "Company number"
+                  },
+                  value: {
+                    text: "027389177"
+                  }
+                },
+                {
+                  key: {
+                    text: "Certificate type"
+                  },
+                  value: {
+                    text: "Incorporation"
+                  }
+                },
+                 {
+                  key: {
+                    text: "Included on certificate"
+                  },
+                  value: {
+                    html:"Statement of good standing<br> Registered office address<br> Directors<br>Secretaries<br> Company objects"
+                  },
+                  actions: {
+                    items: [
+                      {
+                        href: "#",
+                        text: "Change",
+                        visuallyHiddenText: "Included on certifcate"
+                      }
+                    ]
+                  }
+                },
+                {
+                  key: {
+                    text: "Delivery method"
+                  },
+                  value: {
+                    text: "Standard delivery (dispatched within 4 working days)"
+                  }
+                },
+                {
+                  key: {
+                    text: "Delivery details"
+                  },
+                  value: {
+                    html: "Mr Jamies Hanson </br> 48 Tonna Road </br> Barry </br> CF45 8YG"
+                  },
+                  actions: {
+                    items: [
+                      {
+                        href: "#",
+                        text: "Change",
+                        visuallyHiddenText: "delivery address"
+                      }
+                    ]
+                  }
+                },
+                {
+                  key: {
+                    text: "Fee"
+                  },
+                  value: {
+                    text: "£15"
+                  }
+                }
+              ]
+            }) }}
+
+        {{ govukButton({
+          text: "Continue to payment",
+          href:"confirmation-standard-delivery-MVP"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+{% endblock %}
