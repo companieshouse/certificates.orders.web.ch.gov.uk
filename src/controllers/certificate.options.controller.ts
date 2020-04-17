@@ -2,7 +2,7 @@ import {Request, Response, NextFunction} from "express";
 import {CertificateItemPostRequest, ItemOptionsRequest} from "ch-sdk-node/dist/services/order/item/certificate/types";
 import {postCertificateItem} from "../client/api.client";
 
-import {ORDER_DETAILS} from "../model/template.paths";
+import {DELIVERY_DETAILS} from "../model/template.paths";
 import {getAccessToken} from "../session/helper";
 
 const GOOD_STANDING_FIELD: string = "goodStanding";
@@ -35,7 +35,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const accessToken: string = getAccessToken(req.session);
         await postCertificateItem(accessToken, certificateItem);
 
-        return res.redirect(ORDER_DETAILS);
+        return res.redirect(DELIVERY_DETAILS);
     } catch (err) {
         return next(err);
     }
@@ -55,8 +55,8 @@ export const setItemOptions = (options: string[]): ItemOptionsRequest => {
             includeBasicInformation: null,
         },
     };
-
-    return options.reduce((itemOptionsAccum: ItemOptionsRequest, option: string) => {
+    return options === undefined ? initialItemOptions :
+        options.reduce((itemOptionsAccum: ItemOptionsRequest, option: string) => {
         switch (option) {
             case GOOD_STANDING_FIELD: {
                 itemOptionsAccum.includeGoodStandingInformation = true;

@@ -59,4 +59,14 @@ describe("setItemOptions", () => {
         expect(returnedItemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType).toBeNull();
     });
 
+    it("should leave multiple itemOptions to null, when there options are undefined", () => {
+        const returnedItemOptions = setItemOptions(undefined as unknown as string[]);
+
+        expect(returnedItemOptions?.secretaryDetails?.includeBasicInformation).toBeNull();
+        expect(returnedItemOptions?.includeGoodStandingInformation).toBeNull();
+        expect(returnedItemOptions?.includeCompanyObjectsInformation).toBeNull();
+        expect(returnedItemOptions?.directorDetails?.includeBasicInformation).toBeNull();
+        expect(returnedItemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType).toBeNull();
+    });
+
 });

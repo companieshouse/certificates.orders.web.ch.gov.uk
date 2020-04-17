@@ -1,0 +1,138 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+    {% if errorList.length > 0 %}
+        Error:
+    {% endif %}
+        Tell us about the delivery details
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "certificate-options"
+  }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form method="post">
+        {% call govukFieldset({
+          legend: {
+            text: "What are the delivery details?",
+            classes: "govuk-fieldset__legend--xl",
+            isPageHeading: true
+          }
+        }) %}
+
+        {% if errorList.length > 0 %}
+          {{ govukErrorSummary({
+            titleText: ERROR_SUMMARY_TITLE,
+            errorList: errorList
+          }) }}
+        {% endif %}
+
+        {% if collectionErr.flag %}
+          {% set collectionErrorMessage = {
+            text: collectionErr.text
+          } %}
+        {% endif %}
+
+        {{ govukInput({
+          label: {
+            text: "First name"
+          },
+        classes: "govuk-!-width-two-thirds",
+        id: "firstName",
+        name: "firstName",
+        value: firstName,
+        errorMessage: firstNameError
+        }) }}
+
+        {{ govukInput({
+          label: {
+            text: "Last name"
+          },
+        classes: "govuk-!-width-two-thirds",
+        id: "lastName",
+        name: "lastName",
+        value: lastName,
+        errorMessage: lastNameError
+        }) }}
+
+        {{ govukInput({
+          label: {
+            html: 'Building and street <span class="govuk-visually-hidden">line 1 of 2</span>'
+          },
+          id: "addressLineOne",
+          name: "addressLineOne",
+          value: addressLineOne,
+          autocomplete: "address-line1",
+          errorMessage: addressLineOneError
+        }) }}
+
+        {{ govukInput({
+          label: {
+            html: '<span class="govuk-visually-hidden">Building and street line 2 of 2</span>'
+          },
+          id: "addressLineTwo",
+          name: "addressLineTwo",
+          value: addressLineTwo,
+          autocomplete: "address-line2",
+          errorMessage: addressLineTwoError
+        }) }}
+
+        {{ govukInput({
+          label: {
+            text: "Town or city"
+          },
+        classes: "govuk-!-width-two-thirds",
+        id: "addressTown",
+        name: "addressTown",
+        value: addressTown,
+        errorMessage: addressTownError
+        }) }}
+
+        {{ govukInput({
+          label: {
+            text: "County"
+          },
+        classes: "govuk-!-width-two-thirds",
+        id: "addressCounty",
+        name: "addressCounty",
+        value: addressCounty,
+        errorMessage: addressCountyError
+        }) }}
+
+        {{ govukInput({
+          label: {
+            text: "Postcode"
+          },
+        classes: "govuk-input--width-10",
+        id: "addressPostcode",
+        name: "addressPostcode",
+        value: addressPostcode,
+        errorMessage: addressPostcodeError
+        }) }}
+
+        {{ govukInput({
+          label: {
+            text: "Country"
+          },
+        classes: "govuk-!-width-two-thirds",
+        id: "addressCountry",
+        name: "addressCountry",
+        value: addressCountry,
+        errorMessage: addressCountryError
+        }) }}
+
+          {{ govukButton({
+            text: "Continue"
+          }) }}
+
+    {% endcall %}
+    </form>
+  </div>
+</div>  
+{% endblock %} 
