@@ -29,7 +29,7 @@ describe("certificate options controller", () => {
             const resp = await request(app)
                 .post(CERTIFICATE_OPTIONS)
                 .send({
-                    "moreInfo": ["goodStanding", "registeredOffice"],
+                    moreInfo: ["goodStanding", "registeredOffice"],
                 })
                 .set("Cookie", [getSignedInCookie()]);
 
