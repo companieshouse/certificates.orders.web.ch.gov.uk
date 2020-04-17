@@ -34,11 +34,9 @@ export default async (req: Request, res: Response, next: NextFunction) => {
             req.session = req.session.
                 map((value) => value.saveExtraData(APPLICATION_DATA_KEY, applicationData));
 
-            const certificateOptionssUrl = replaceCompanyNumber(CERTIFICATE_OPTIONS, companyNumber);
-            //return res.redirect(certificateOptionssUrl);
             return next();
         } else if (currentApplicationData.certificate.companyNumber !== companyNumber) {
-            // clear data and redirect to certitifce toptions page
+            // clear data and redirect to certificate toptions page
         }
     }
     return next();
