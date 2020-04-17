@@ -1,19 +1,17 @@
-import { NextFunction, Request, RequestHandler, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { CertificateItemPostRequest, CertificateItem } from "ch-sdk-node/dist/services/order/item/certificate/types";
 
-import { getExtraData, getAccessToken, addExtraData } from "../session/helper";
+import { getExtraData, getAccessToken } from "../session/helper";
 import { postCertificateItem } from "../client/api.client";
-import { ApplicationData } from "model/session.data";
+import { ApplicationData, APPLICATION_DATA_KEY } from "../model/session.data";
 import { CERTIFICATE_OPTIONS, replaceCompanyNumber } from "./../model/page.urls";
 
 export default async (req: Request, res: Response, next: NextFunction) => {
     if (req.path !== "/") {
-        const currentApplicationData: any = await getExtraData(req.session);
+        const currentApplicationData: ApplicationData = getExtraData(req.session);
         const companyNumber = req.params.companyNumber;
-        console.log("currentApplicationData")
-        console.log(currentApplicationData);
+
         if (!currentApplicationData?.certificate?.id) {
-            console.log("setting data")
             const certificateItemRequest: CertificateItemPostRequest = {
                 companyNumber: req.params.companyNumber,
                 itemOptions: {
@@ -32,13 +30,16 @@ export default async (req: Request, res: Response, next: NextFunction) => {
                     id: certificateItem.id,
                 },
             };
-            const extraData = await addExtraData(req.session, applicationData);
-            console.log(extraData);
+
+            req.session = req.session.
+                map((value) => value.saveExtraData(APPLICATION_DATA_KEY, applicationData));
+
             const certificateOptionssUrl = replaceCompanyNumber(CERTIFICATE_OPTIONS, companyNumber);
-            return res.redirect(certificateOptionssUrl);
+            //return res.redirect(certificateOptionssUrl);
+            return next();
         } else if (currentApplicationData.certificate.companyNumber !== companyNumber) {
             // clear data and redirect to certitifce toptions page
         }
     }
-    next();
+    return next();
 };
