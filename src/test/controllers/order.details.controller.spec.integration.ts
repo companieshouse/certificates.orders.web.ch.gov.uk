@@ -36,8 +36,8 @@ describe("order details validation test", () => {
     beforeEach(() => {
       mockPostCertificateItem.prototype.constructor.mockImplementation(() => {
         return {
-          companyName: "Girls Trust",
-          companyNumber: "00006400",
+          companyName: "Company Name",
+          companyNumber: "00000000",
           customerReference: "1133XR",
           description: "certificate",
           descriptionIdentifier: "certificate",

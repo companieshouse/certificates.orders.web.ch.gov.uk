@@ -33,7 +33,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
             quantity: 1,
         };
         const accessToken: string = getAccessToken(req.session);
-        await postCertificateItem(accessToken, certificateItem);
+        //await postCertificateItem(accessToken, certificateItem);
 
         return res.redirect(ORDER_DETAILS);
     } catch (err) {
