@@ -31,7 +31,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
                 },
             };
 
-            req.session = req.session.
+            req.session.
                 map((value) => value.saveExtraData(APPLICATION_DATA_KEY, applicationData));
 
             return next();

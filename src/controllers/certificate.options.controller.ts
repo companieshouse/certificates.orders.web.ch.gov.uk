@@ -1,9 +1,9 @@
 import {Request, Response, NextFunction} from "express";
-import {CertificateItemPostRequest, ItemOptionsRequest} from "ch-sdk-node/dist/services/order/item/certificate/types";
-import {postCertificateItem} from "../client/api.client";
+import {CertificateItemPatchRequest, ItemOptionsRequest, CertificateItem} from "ch-sdk-node/dist/services/order/item/certificate/types";
+import {postCertificateItem, patchCertificateItem, getCertificateItem} from "../client/api.client";
 
-import {ORDER_DETAILS} from "../model/template.paths";
-import {getAccessToken} from "../session/helper";
+import {ORDER_DETAILS, CERTIFICATE_OPTIONS} from "../model/template.paths";
+import {getAccessToken, getExtraData} from "../session/helper";
 
 const GOOD_STANDING_FIELD: string = "goodStanding";
 const REGISTERED_OFFICE_FIELD: string = "registeredOffice";
@@ -11,6 +11,17 @@ const DIRECTORS_FIELD: string = "directors";
 const SECRETARIES_FIELD: string = "secretaries";
 const COMPANY_OBJECTS_FIELD: string = "companyObjects";
 const MORE_INFO_FIELD: string = "moreInfo";
+
+export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    const accessToken: string = getAccessToken(req.session);
+    const certificateItem: CertificateItem =
+        await getCertificateItem(accessToken, getExtraData(req.session)?.certificate?.id || "");
+
+    return res.render(CERTIFICATE_OPTIONS, {
+      itemOptions: certificateItem.itemOptions,
+      templateName: CERTIFICATE_OPTIONS,
+    });
+  };
 
 export default async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -22,18 +33,14 @@ export default async (req: Request, res: Response, next: NextFunction) => {
             additionalInfoItemOptions = setItemOptions(moreInfo);
         }
 
-        const certificateItem: CertificateItemPostRequest = {
-            companyNumber: req.params.companyNumber,
+        const certificateItem: CertificateItemPatchRequest = {
             itemOptions: {
-                certificateType: "incorporation-with-all-name-changes",
-                collectionLocation: "cardiff",
-                deliveryTimescale: "standard",
                 ...additionalInfoItemOptions,
             },
             quantity: 1,
         };
         const accessToken: string = getAccessToken(req.session);
-        //await postCertificateItem(accessToken, certificateItem);
+        await patchCertificateItem(accessToken, getExtraData(req.session)?.certificate?.id || "", certificateItem);
 
         return res.redirect(ORDER_DETAILS);
     } catch (err) {
