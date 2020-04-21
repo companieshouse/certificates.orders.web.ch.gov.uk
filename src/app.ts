@@ -1,16 +1,17 @@
 import * as express from "express";
 import * as nunjucks from "nunjucks";
 import * as path from "path";
+import * as cookieParser from "cookie-parser";
+import * as Redis from "ioredis";
+import {SessionStore, SessionMiddleware, CookieConfig} from "ch-node-session-handler";
+
 import router from "./routers/routers";
 import {ERROR_SUMMARY_TITLE} from "./model/error.messages";
-import {PIWIK_SITE_ID, PIWIK_URL, COOKIE_SECRET, CACHE_SERVER} from "./session/config";
-import {SessionStore, SessionMiddleware} from "ch-node-session-handler";
 import {ROOT} from "./model/page.urls";
 import authMiddleware from "./middleware/auth.middleware";
 import certifcateMiddleware from "./middleware/certificate.middleware";
-import {SessionSync} from "./middleware/session.sync.middleware";
-import * as cookieParser from "cookie-parser";
-import * as Redis from "ioredis";
+import SaveSessionWrapper from "./session/save-session-wrapper";
+import {PIWIK_SITE_ID, PIWIK_URL, COOKIE_SECRET, CACHE_SERVER} from "./session/config";
 
 const app = express();
 
@@ -31,15 +32,13 @@ const env = nunjucks.configure([
   express: app,
 });
 
+const cookieConfig: CookieConfig = { cookieName: "__SID", cookieSecret: COOKIE_SECRET};
 const sessionStore = new SessionStore(new Redis(`redis://${CACHE_SERVER}`));
-const middleware = SessionMiddleware(
-  { cookieName: "__SID", cookieSecret: COOKIE_SECRET},
-  sessionStore);
 
-app.use(middleware);
+app.use(SessionMiddleware(cookieConfig, sessionStore));
+app.use(SaveSessionWrapper(cookieConfig, sessionStore));
 app.use(ROOT, authMiddleware);
 app.use(ROOT, certifcateMiddleware);
-app.use(ROOT, SessionSync({ cookieName: "__SID", cookieSecret: COOKIE_SECRET}, sessionStore));
 
 app.set("views", viewPath);
 app.set("view engine", "html");

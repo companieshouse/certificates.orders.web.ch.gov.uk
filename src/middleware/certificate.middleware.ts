@@ -5,6 +5,9 @@ import { getExtraData, getAccessToken } from "../session/helper";
 import { postCertificateItem } from "../client/api.client";
 import { ApplicationData, APPLICATION_DATA_KEY } from "../model/session.data";
 import { CERTIFICATE_OPTIONS, replaceCompanyNumber } from "./../model/page.urls";
+import { Cookie } from "ch-node-session-handler/lib/session/model/Cookie";
+import {SessionStore, CookieConfig, Session} from "ch-node-session-handler";
+import {PIWIK_SITE_ID, PIWIK_URL, COOKIE_SECRET, CACHE_SERVER} from "../session/config";
 
 export default async (req: Request, res: Response, next: NextFunction) => {
     if (req.path !== "/") {
@@ -31,8 +34,8 @@ export default async (req: Request, res: Response, next: NextFunction) => {
                 },
             };
 
-            req.session.
-                map((value) => value.saveExtraData(APPLICATION_DATA_KEY, applicationData));
+            req.session.map((value) => value.saveExtraData(APPLICATION_DATA_KEY, applicationData));
+            await req.app.locals.saveSession(req.session.unsafeCoerce());
 
             return next();
         } else if (currentApplicationData.certificate.companyNumber !== companyNumber) {
