@@ -4,7 +4,7 @@ jest.mock("ioredis", () => createRedisMock());
 
 import app from "../../app";
 import * as request from "supertest";
-import {ORDER_DETAILS} from "../../model/page.urls";
+import {ORDER_DETAILS, replaceCompanyNumber} from "../../model/page.urls";
 
 jest.mock("../../client/api.client");
 
@@ -17,12 +17,15 @@ const INVALID_CHARACTER = "|";
 const FIRST_NAME_INVALID_CHARACTER_ERROR = "First name cannot include";
 const LAST_NAME_INVALID_CHARACTER_ERROR = "Last name cannot include";
 
+const COMPANY_NUMBER = "00000000";
+const ORDER_DETAILS_URL = replaceCompanyNumber(ORDER_DETAILS, COMPANY_NUMBER)
+
 describe("order details url test", () => {
 
   it("renders the order details web page", async () => {
     // dispatch a request to the homepage using supertest
     const resp = await request(app)
-        .get(ORDER_DETAILS)
+        .get(ORDER_DETAILS_URL)
         .set("Cookie", [getSignedInCookie()]);
 
     // make some assertions on the response
@@ -45,7 +48,7 @@ describe("order details validation test", () => {
             item: "certificate",
           },
           etag: "33a64df551425fcc55e4d42a148795d9f25f89d4",
-          id: "CHS00000000000000004",
+          id: COMPANY_NUMBER,
           itemCosts: [],
           itemOptions: {
             certificateType: "incorporation",
@@ -95,7 +98,7 @@ describe("order details validation test", () => {
 
     it("should receive error message instructing user to select an option", async () => {
         const res = await request(app)
-        .post(ORDER_DETAILS)
+        .post(ORDER_DETAILS_URL)
         .set("Cookie", [getSignedInCookie()]);
         expect(res.status).toEqual(200);
         expect(res.text).toContain(ENTER_YOUR_FIRST_NAME);
@@ -103,7 +106,7 @@ describe("order details validation test", () => {
 
     it("should receive error message requesting less than 32 characters in input fields", async () => {
         const res = await request(app)
-        .post(ORDER_DETAILS)
+        .post(ORDER_DETAILS_URL)
         .send({
             firstName: CHARACTER_LENGTH_TEXT,
             lastName: CHARACTER_LENGTH_TEXT,
@@ -115,7 +118,7 @@ describe("order details validation test", () => {
 
     it("should receive error message when entering invalid characters for first name", async () => {
         const res = await request(app)
-        .post(ORDER_DETAILS)
+        .post(ORDER_DETAILS_URL)
         .set("Accept", "application/json")
         .send({
             firstName: INVALID_CHARACTER,
@@ -128,7 +131,7 @@ describe("order details validation test", () => {
 
     it("should receive error message when entering invalid characters for last name", async () => {
         const res = await request(app)
-        .post(ORDER_DETAILS)
+        .post(ORDER_DETAILS_URL)
         .set("Accept", "application/json")
         .send({
             lastName: INVALID_CHARACTER,
@@ -143,7 +146,7 @@ describe("order details validation test", () => {
 describe("POST certificate", () => {
     it("should post a certificate item and go to next page", async () => {
         const res = await request(app)
-        .post(ORDER_DETAILS)
+        .post(ORDER_DETAILS_URL)
         .send({
             firstName: "John",
             lastName: "Smith",

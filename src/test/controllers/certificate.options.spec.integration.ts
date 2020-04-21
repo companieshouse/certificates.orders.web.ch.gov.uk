@@ -7,10 +7,13 @@ jest.mock("../../client/api.client");
 import app from "../../app";
 import * as request from "supertest";
 import {CertificateItem} from "ch-sdk-node/dist/services/order/item/certificate/types";
-import {CERTIFICATE_OPTIONS} from "../../model/page.urls";
+import {CERTIFICATE_OPTIONS, replaceCompanyNumber} from "../../model/page.urls";
 
 const mockPatchCertificateItem: jest.Mock = (<unknown> patchCertificateItem as jest.Mock<typeof patchCertificateItem>);
 const mockGetCertificateItem: jest.Mock = (<unknown> getCertificateItem as jest.Mock<typeof getCertificateItem>);
+
+const COMPANY_NUMBER = "00000000";
+const CERTIFICATE_OPTIONS_URL = replaceCompanyNumber(CERTIFICATE_OPTIONS, COMPANY_NUMBER);
 
 describe("certificate options controller", () => {
 
@@ -34,7 +37,7 @@ describe("certificate options controller", () => {
             mockGetCertificateItem.mockImplementation(() => Promise.resolve(certificateItem));
 
             const resp = await request(app)
-                .get(CERTIFICATE_OPTIONS)
+                .get(CERTIFICATE_OPTIONS_URL)
                 .set("Cookie", [getSignedInCookie()]);
 
             expect(resp.status).toEqual(200);
@@ -47,7 +50,7 @@ describe("certificate options controller", () => {
         it("redirects the user to the order-details page", async () => {
             mockPatchCertificateItem.mockImplementation(() => undefined);
             const resp = await request(app)
-                .post(CERTIFICATE_OPTIONS)
+                .post(CERTIFICATE_OPTIONS_URL)
                 .send({
                     moreInfo: ["goodStanding", "registeredOffice"],
                 })
