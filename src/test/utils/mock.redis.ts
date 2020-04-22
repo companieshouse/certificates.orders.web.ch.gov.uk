@@ -44,6 +44,21 @@ const signedOutSession = {
     signed_in: 0,
   },
 };
+
+const signedInSessionNoExtraData = {
+  ".id": "Q0alkZmcO+AqPLpC/Nm29VTSjbJy",
+  ".client.signature": "/qh+oX5bffvASs+AAUYbfbhm+QU",
+  "expires": Date.now() + 3600 * 1000,
+  "signin_info": {
+    "access_token": {
+      "access_token": "oKi1z8KY0gXsXu__hy2-YU_JJSdtxOkJ4K5MAE-gOFVzpKt5lvqnFpVeUjhqhVHZ1K8Hkr7M4IYdzJUnOz2hQw",
+      "expires_in": 3600,
+      "refresh_token": "y4YXof84bkUeBZlavRlAGfdq5VMkpPm6UR0OYwPvI6i6UDmtEiTQ1Ro-HGCGo01y4ploP4Kdwd6H4dEh8-E_Fg",
+      "token_type": "Bearer"
+    },
+    "signed_in": 1
+  }
+}
 export const getCookieHeader = (cookieId: string): string => {
   return `__SID=${cookieId}`;
 };
@@ -53,6 +68,10 @@ export const getSignedInCookie = (): string => {
 export const getSignedOutCookie = (): string => {
   return getCookieHeader(SIGNED_OUT_COOKIE);
 };
+export const getSignedInCookieNoExtraData = (): string => {
+  return getCookieHeader(signedInSessionNoExtraData[".id"] + signedInSessionNoExtraData[".client.signature"]);
+};
+
 export const createRedisMock = () => {
   const ioredisMock = require("ioredis-mock");
   if (typeof ioredisMock === "object") {
@@ -69,6 +88,7 @@ export const createRedisMock = () => {
     const redisMock = new ioredisMock();
     redisMock.set(SIGNED_IN_ID, Encoding.encode(signedInSession));
     redisMock.set(SIGNED_OUT_ID, Encoding.encode(signedOutSession));
+    redisMock.set(signedInSessionNoExtraData[".id"], Encoding.encode(signedInSessionNoExtraData));
     return redisMock;
   };
 };

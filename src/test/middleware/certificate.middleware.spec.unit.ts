@@ -15,7 +15,7 @@ res.redirect = mockRedirectFunc;
 
 const mockPostCertificateItem: jest.Mock = (<unknown> postCertificateItem as jest.Mock<typeof postCertificateItem>);
 
-describe("certificate.middleware", () => {
+describe("certificate.middleware.unit", () => {
     beforeEach(() => {
         mockNextFunc.mockClear();
         mockRedirectFunc.mockClear();

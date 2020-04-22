@@ -51,4 +51,4 @@ export const getCertificateItem = async (oAuth: string, certificateId: string): 
         };
     }
     return certificateItemResource.resource as CertificateItem;
-}
+};

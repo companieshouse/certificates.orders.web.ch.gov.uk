@@ -37,7 +37,6 @@ export default async (req: Request, res: Response, next: NextFunction) => {
                 return res.redirect(replaceCompanyNumber(CERTIFICATE_OPTIONS, companyNumber));
             }
         } catch (err) {
-            console.log(err)
             return next(err);
         }
     }
@@ -64,4 +63,4 @@ const createCertificate = async (companyNumber, accessToken) => {
         },
     };
     return applicationData;
-}
+};
