@@ -3,7 +3,7 @@ jest.mock("ioredis", () => createRedisMock());
 
 import app from "../../app";
 import * as request from "supertest";
-import {DELIVERY_DETAILS} from "../../model/page.urls";
+import {DELIVERY_DETAILS, replaceCompanyNumber} from "../../model/page.urls";
 import * as errorMessages from "../../model/error.messages";
 
 const ENTER_YOUR_FIRST_NAME_NOT_INPUT = "Enter your first name";
@@ -18,13 +18,15 @@ const ADDRESS_COUNTY_INVALID_CHARACTERS_ERROR: string = "County cannot include "
 const ADDRESS_POSTCODE_INVALID_CHARACTERS_ERROR: string = "Postcode cannot include ";
 const ADDRESS_COUNTRY_INVALID_CHARACTERS_ERROR: string = "Country cannot include ";
 const INVALID_CHARACTER = "|";
-const CHARACTER_LENGTH_TEXT_50
-    = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+const CHARACTER_LENGTH_TEXT_50 = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+
+const COMPANY_NUMBER = "00000000";
+const DELIVERY_DETAILS_URL = replaceCompanyNumber(DELIVERY_DETAILS, COMPANY_NUMBER);
 
 describe("delivery details url test", () => {
 
   it("renders the delivery details web page", async () => {
-    const resp = await request(app).get(DELIVERY_DETAILS).set("Cookie", [getSignedInCookie()]);
+    const resp = await request(app).get(DELIVERY_DETAILS_URL).set("Cookie", [getSignedInCookie()]);
     expect(resp.status).toEqual(200);
     expect(resp.text).toContain("What are the delivery details?");
   });
@@ -33,7 +35,7 @@ describe("delivery details url test", () => {
 describe("delivery details validation test", () => {
 
     it("should receive error message instructing user to input required fields", async () => {
-        const res = await request(app).post(DELIVERY_DETAILS).set("Cookie", [getSignedInCookie()]);
+        const res = await request(app).post(DELIVERY_DETAILS_URL).set("Cookie", [getSignedInCookie()]);
         expect(res.status).toEqual(200);
         expect(res.text).toContain(ENTER_YOUR_FIRST_NAME_NOT_INPUT);
         expect(res.text).toContain(ENTER_YOUR_LAST_NAME_NOT_INPUT);
@@ -45,7 +47,7 @@ describe("delivery details validation", () => {
 
     it("should receive error message when entering invalid characters in all fields", async () => {
         const res = await request(app)
-        .post(DELIVERY_DETAILS)
+        .post(DELIVERY_DETAILS_URL)
         .set("Accept", "application/json")
         .send({
             addressCountry: INVALID_CHARACTER,
@@ -71,7 +73,7 @@ describe("delivery details validation", () => {
 
     it("should receive error messages requesting less than allowed character length in input fields", async () => {
         const res = await request(app)
-        .post(DELIVERY_DETAILS)
+        .post(DELIVERY_DETAILS_URL)
         .send({
             addressCountry: CHARACTER_LENGTH_TEXT_50,
             addressCounty: CHARACTER_LENGTH_TEXT_50,
