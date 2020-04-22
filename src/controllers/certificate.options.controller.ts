@@ -40,7 +40,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
             quantity: 1,
         };
         const accessToken: string = getAccessToken(req.session);
-        await patchCertificateItem(accessToken, getExtraData(req.session)?.certificate?.id || "", certificateItem);
+        await patchCertificateItem(accessToken, getExtraData(req.session)?.certificate?.id!, certificateItem);
 
         return res.redirect(DELIVERY_DETAILS);
     } catch (err) {
