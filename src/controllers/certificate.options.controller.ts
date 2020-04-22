@@ -15,7 +15,7 @@ const MORE_INFO_FIELD: string = "moreInfo";
 export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const accessToken: string = getAccessToken(req.session);
     const certificateItem: CertificateItem =
-        await getCertificateItem(accessToken, getExtraData(req.session)?.certificate?.id || "");
+        await getCertificateItem(accessToken, getExtraData(req.session)?.certificate?.id!);
 
     return res.render(CERTIFICATE_OPTIONS, {
       itemOptions: certificateItem.itemOptions,
