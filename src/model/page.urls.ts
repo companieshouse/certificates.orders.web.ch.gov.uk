@@ -4,6 +4,7 @@ export const ORDER_DETAILS: string = ROOT + "/order-details";
 export const CERTIFICATE_OPTIONS: string = ROOT + "/certificate-options";
 export const COLLECTION: string =  ROOT + "/collection";
 export const CHECK_DETAILS: string = ROOT + "/check-details";
+export const DELIVERY_DETAILS: string = ROOT + "/delivery-details";
 
 export const replaceCompanyNumber = (uri: string, companyNumber: string) => {
     return uri.replace(":companyNumber", companyNumber );

@@ -57,7 +57,7 @@ describe("certificate options controller", () => {
                 .set("Cookie", [getSignedInCookie()]);
 
             expect(resp.status).toEqual(302);
-            expect(resp.text).toContain("Found. Redirecting to order-details");
+            expect(resp.text).toContain("Found. Redirecting to delivery-details");
         });
     });
 

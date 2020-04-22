@@ -4,3 +4,4 @@ export const ORDER_DETAILS: string = "order-details";
 export const COLLECTION: string = "collection";
 export const CHECK_DETAILS: string = "check-details";
 export const CERTIFICATE_OPTIONS: string = "certificate-options";
+export const DELIVERY_DETAILS: string = "delivery-details";

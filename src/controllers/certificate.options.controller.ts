@@ -2,7 +2,7 @@ import {Request, Response, NextFunction} from "express";
 import {CertificateItemPatchRequest, ItemOptionsRequest, CertificateItem} from "ch-sdk-node/dist/services/order/item/certificate/types";
 import {postCertificateItem, patchCertificateItem, getCertificateItem} from "../client/api.client";
 
-import {ORDER_DETAILS, CERTIFICATE_OPTIONS} from "../model/template.paths";
+import {DELIVERY_DETAILS, CERTIFICATE_OPTIONS} from "../model/template.paths";
 import {getAccessToken, getExtraData} from "../session/helper";
 
 const GOOD_STANDING_FIELD: string = "goodStanding";
@@ -42,7 +42,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const accessToken: string = getAccessToken(req.session);
         await patchCertificateItem(accessToken, getExtraData(req.session)?.certificate?.id || "", certificateItem);
 
-        return res.redirect(ORDER_DETAILS);
+        return res.redirect(DELIVERY_DETAILS);
     } catch (err) {
         return next(err);
     }
