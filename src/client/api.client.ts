@@ -1,6 +1,7 @@
 import { createApiClient } from "ch-sdk-node";
 import { CompanyProfile } from "ch-sdk-node/dist/services/company-profile";
 import { CertificateItemPostRequest, CertificateItem } from "ch-sdk-node/dist/services/order/item/certificate/types";
+import { ItemUri, ItemUriPostRequest } from "ch-sdk-node/dist/services/order/basket/types";
 import { API_URL } from "../session/config";
 import Resource from "ch-sdk-node/dist/services/resource";
 
@@ -27,4 +28,15 @@ export const postCertificateItem =
         };
     }
     return certificateItemResource.resource as CertificateItem;
+};
+
+export const addItemToBasket = async (oAuth: string, certificateId: ItemUriPostRequest): Promise<ItemUri> => {
+    const api = createApiClient(undefined, oAuth, API_URL);
+    const itemUriResource: Resource<ItemUri> = await api.basket.postItemToBasket(certificateId);
+    if (itemUriResource.httpStatusCode !== 200 && itemUriResource.httpStatusCode !== 201) {
+        throw {
+            status: itemUriResource.httpStatusCode,
+        };
+    }
+    return itemUriResource.resource as ItemUri;
 };

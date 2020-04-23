@@ -8,6 +8,7 @@ import collectionController from "../controllers/collection.controller";
 import homeController from "../controllers/home.controller";
 import collectionOptionsController from "../controllers/certificate.options.controller";
 import deliveryDetailsController from "../controllers/delivery.details.controller";
+import checkDetailsController from "../controllers/check.details.controller";
 
 // a router is a collection of routes that can have their own middleware chain. It is helpful to create routers for
 // a collection of related routes for better organisation and specific logic.
@@ -35,5 +36,6 @@ router.get(pageUrls.COLLECTION, renderTemplate(templatePaths.COLLECTION));
 router.post(pageUrls.COLLECTION, collectionController);
 
 router.get(pageUrls.CHECK_DETAILS, renderTemplate(templatePaths.CHECK_DETAILS));
+router.post(pageUrls.CHECK_DETAILS, checkDetailsController);
 
 export default router;
