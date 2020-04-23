@@ -2,6 +2,7 @@ import {Maybe, Session} from "ch-node-session-handler";
 import {SessionKey} from "ch-node-session-handler/lib/session/keys/SessionKey";
 import {SignInInfoKeys} from "ch-node-session-handler/lib/session/keys/SignInInfoKeys";
 import {ISignInInfo, IAccessToken} from "ch-node-session-handler/lib/session/model/SessionInterfaces";
+import { ApplicationData, APPLICATION_DATA_KEY } from "../model/session.data";
 
 export const getAccessToken = (session: Maybe<Session>): string => {
     const signInInfo = session
@@ -14,4 +15,11 @@ export const getAccessToken = (session: Maybe<Session>): string => {
         .unsafeCoerce();
 
     return accessToken;
+};
+
+export const getExtraData = (session: Maybe<Session>): ApplicationData => {
+    return session
+                .chain((_) => _.getExtraData())
+                .map<ApplicationData>((data) => data[APPLICATION_DATA_KEY])
+                .orDefault({} as ApplicationData);
 };
