@@ -19,9 +19,11 @@ const ADDRESS_POSTCODE_INVALID_CHARACTERS_ERROR: string = "Postcode cannot inclu
 const ADDRESS_COUNTRY_INVALID_CHARACTERS_ERROR: string = "Country cannot include ";
 const INVALID_CHARACTER = "|";
 const CHARACTER_LENGTH_TEXT_50 = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-
+const POSTCODE: string = "CX14 1BX";
+const COUNTY: string = "county";
 const COMPANY_NUMBER = "00000000";
 const DELIVERY_DETAILS_URL = replaceCompanyNumber(DELIVERY_DETAILS, COMPANY_NUMBER);
+
 
 describe("delivery details url test", () => {
 
@@ -40,6 +42,7 @@ describe("delivery details validation test", () => {
         expect(res.text).toContain(ENTER_YOUR_FIRST_NAME_NOT_INPUT);
         expect(res.text).toContain(ENTER_YOUR_LAST_NAME_NOT_INPUT);
         expect(res.text).toContain(ENTER_BUILDING_AND_STREET_LINE_ONE);
+        expect(res.text).toContain(errorMessages.ADDRESS_COUNTY_AND_POSTCODE_EMPTY)
     });
 });
 
@@ -95,5 +98,27 @@ describe("delivery details validation", () => {
         expect(res.text).toContain(errorMessages.ADDRESS_POSTCODE_MAX_LENGTH);
         expect(res.text).toContain(errorMessages.ADDRESS_COUNTRY_MAX_LENGTH);
 
+    });
+
+    it("should not receive Postcode or county error message when postcode is input", async () => {
+        const res = await request(app)
+        .post(DELIVERY_DETAILS_URL)
+        .send({
+            addressPostcode: POSTCODE,
+        })
+        .set("Cookie", [getSignedInCookie()]);
+        expect(res.status).toEqual(200);
+        expect(res.text).not.toContain(errorMessages.ADDRESS_COUNTY_AND_POSTCODE_EMPTY);
+    });
+
+    it("should not receive Postcode or county error message when county is input", async () => {
+        const res = await request(app)
+        .post(DELIVERY_DETAILS_URL)
+        .send({
+            addressCounty: COUNTY,
+        })
+        .set("Cookie", [getSignedInCookie()]);
+        expect(res.status).toEqual(200);
+        expect(res.text).not.toContain(errorMessages.ADDRESS_COUNTY_AND_POSTCODE_EMPTY);
     });
 });
