@@ -123,10 +123,6 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         let lastNameError;
         const errorList = errors.array({ onlyFirstError: true }).map((error) => {
             const govUkErrorData: GovUkErrorData = createGovUkErrorData(error.msg, "#" + error.param, true, "");
-            if (error.msg === errorMessages.ADDRESS_COUNTY_AND_POSTCODE_EMPTY) {
-                addressCountyError = govUkErrorData;
-                addressPostcodeError = govUkErrorData;
-            }
             switch (error.param) {
                 case FIRST_NAME_FIELD:
                     firstNameError = govUkErrorData;
@@ -152,6 +148,11 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
                 case ADDRESS_COUNTRY_FIELD:
                         addressCountryError = govUkErrorData;
                         break;
+            }
+            if (error.msg === errorMessages.ADDRESS_COUNTY_AND_POSTCODE_EMPTY) {
+                addressCountyError = createGovUkErrorData(errorMessages.ADDRESS_COUNTY_EMPTY, "#" + error.param, true, "");
+                addressPostcodeError = createGovUkErrorData(
+                    errorMessages.ADDRESS_POSTCODE_EMPTY, "#" + error.param, true, "");
             }
             return govUkErrorData;
         });
