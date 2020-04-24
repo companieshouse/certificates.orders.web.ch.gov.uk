@@ -64,6 +64,15 @@ const validators = [
             }
             return true;
         }),
+
+    check(ADDRESS_COUNTY_FIELD)
+        .custom((addressCounty, {req}) => {
+            const addressPostcodeValue = req.body[ADDRESS_POSTCODE_FIELD];
+            if (!addressPostcodeValue && !addressCounty) {
+                throw Error(errorMessages.ADDRESS_COUNTY_AND_POSTCODE_EMPTY);
+            }
+            return true;
+        }),
     check(ADDRESS_COUNTY_FIELD)
         .isLength({max: 50}).withMessage(errorMessages.ADDRESS_COUNTY_MAX_LENGTH)
         .custom((addressCounty, {req}) => {
@@ -74,7 +83,6 @@ const validators = [
             return true;
         }),
     check(ADDRESS_POSTCODE_FIELD)
-        .not().isEmpty().withMessage(errorMessages.ADDRESS_POSTCODE_EMPTY)
         .isLength({max: 15}).withMessage(errorMessages.ADDRESS_POSTCODE_MAX_LENGTH)
         .custom((addressPostcode, {req}) => {
             const invalidChar = validateCharSet(req.body[ADDRESS_POSTCODE_FIELD]);
@@ -115,6 +123,10 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         let lastNameError;
         const errorList = errors.array({ onlyFirstError: true }).map((error) => {
             const govUkErrorData: GovUkErrorData = createGovUkErrorData(error.msg, "#" + error.param, true, "");
+            if (error.msg === errorMessages.ADDRESS_COUNTY_AND_POSTCODE_EMPTY) {
+                addressCountyError = govUkErrorData;
+                addressPostcodeError = govUkErrorData;
+            }
             switch (error.param) {
                 case FIRST_NAME_FIELD:
                     firstNameError = govUkErrorData;

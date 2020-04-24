@@ -11,7 +11,6 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
     const resp = await addItemToBasket(
         accessToken,
         {itemUri: "/orderable/certificates/CHS00000000000000024"});
-    console.log(resp);
     res.redirect("http://web.chs-dev.internal:4000/basket");
 };
 
