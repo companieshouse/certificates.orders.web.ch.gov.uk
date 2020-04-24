@@ -19,6 +19,7 @@ export const ADDRESS_TOWN_INVALID_CHARACTERS: string = "Town or city cannot incl
 export const ADDRESS_TOWN_MAX_LENGTH: string = "Town or city must be 50 characters or fewer";
 export const ADDRESS_COUNTY_INVALID_CHARACTERS: string = "County cannot include ";
 export const ADDRESS_COUNTY_MAX_LENGTH: string = "County must be 50 characters or fewer";
+export const ADDRESS_COUNTY_EMPTY: string = "Enter a county";
 export const ADDRESS_POSTCODE_EMPTY: string = "Enter a postcode";
 export const ADDRESS_POSTCODE_INVALID_CHARACTERS: string = "Postcode cannot include ";
 export const ADDRESS_POSTCODE_MAX_LENGTH: string = "Postcode must be 15 characters or fewer";
