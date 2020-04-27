@@ -18,6 +18,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         await getCertificateItem(accessToken, getExtraData(req.session)?.certificate?.id!);
 
     return res.render(CERTIFICATE_OPTIONS, {
+      companyNumber: req.params.companyNumber,
       itemOptions: certificateItem.itemOptions,
       templateName: CERTIFICATE_OPTIONS,
     });

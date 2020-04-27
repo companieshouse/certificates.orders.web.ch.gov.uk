@@ -18,3 +18,5 @@ export const COOKIE_SECRET = getEnvironmentValue("COOKIE_SECRET");
 export const CACHE_SERVER = getEnvironmentValue("CACHE_SERVER");
 
 export const API_URL = getEnvironmentValue("API_URL");
+
+export const CHS_URL = getEnvironmentValue("CHS_URL");

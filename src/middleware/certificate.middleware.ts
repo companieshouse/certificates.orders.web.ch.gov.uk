@@ -8,10 +8,9 @@ import { CERTIFICATE_OPTIONS, replaceCompanyNumber } from "./../model/page.urls"
 
 export default async (req: Request, res: Response, next: NextFunction) => {
     if (req.path !== "/") {
+        try {
         const currentApplicationData: ApplicationData = getExtraData(req.session);
         const companyNumber = req.params.companyNumber;
-
-        try {
             if (!currentApplicationData?.certificate?.id) {
                 // create certificate if it does not exist in session
                 const accessToken: string = getAccessToken(req.session);

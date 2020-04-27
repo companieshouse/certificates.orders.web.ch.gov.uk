@@ -15,7 +15,7 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds-from-desktop">
 
-        <form action="/payment-review" method="post">
+        <form method="post">
 
             <h1 class="govuk-heading-xl">Check your order details</h1>
 
@@ -104,7 +104,7 @@
 
         {{ govukButton({
           text: "Continue to payment",
-          href:"confirmation-standard-delivery-MVP"
+          id: "submit"
         }) }}
 
       </form>
