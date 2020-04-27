@@ -54,9 +54,9 @@ export const getCertificateItem = async (oAuth: string, certificateId: string): 
     return certificateItemResource.resource as CertificateItem;
 };
 
-export const addItemToBasket = async (oAuth: string, certificateId: ItemUriPostRequest): Promise<ItemUri> => {
+export const addItemToBasket = async (oAuth: string, itemUri: ItemUriPostRequest): Promise<ItemUri> => {
     const api = createApiClient(undefined, oAuth, API_URL);
-    const itemUriResource: Resource<ItemUri> = await api.basket.postItemToBasket(certificateId);
+    const itemUriResource: Resource<ItemUri> = await api.basket.postItemToBasket(itemUri);
     if (itemUriResource.httpStatusCode !== 200 && itemUriResource.httpStatusCode !== 201) {
         throw {
             status: itemUriResource.httpStatusCode,
