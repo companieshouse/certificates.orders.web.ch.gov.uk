@@ -17,7 +17,6 @@ const renderTemplate = (template: string) => async (req: Request, res: Response,
   const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
   return res.render(template, { templateName: template, companyNumber: certificateItem.companyNumber });
   } catch (err) {
-    console.log(err);
     next(err);
   }
 };

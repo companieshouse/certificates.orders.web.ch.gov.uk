@@ -15,7 +15,11 @@ const mockGetCertificateItem: jest.Mock = (<unknown> getCertificateItem as jest.
 const CERTIFICATE_ID = "CHS00000000000000001";
 const CERTIFICATE_OPTIONS_URL = replaceCertificateId(CERTIFICATE_OPTIONS, CERTIFICATE_ID);
 
-describe("certificate options controller", () => {
+describe("certificate.options.controller", () => {
+    beforeEach(() => {
+        mockPatchCertificateItem.mockClear();
+        mockGetCertificateItem.mockClear();
+    });
 
     describe("certificate options get", () => {
         it("renders the certificate options page", async () => {
