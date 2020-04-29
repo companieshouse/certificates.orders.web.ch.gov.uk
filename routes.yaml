@@ -7,5 +7,5 @@ routes:
   2: /company/(.*)/orderable/certificates/.*
   3: /orderable/certificates-assets
   4: /orderable/certificates-assets/.*
-  3: /orderable/certificates
-  4: /orderable/certificates/.*
+  5: /orderable/certificates
+  6: /orderable/certificates/.*

@@ -9,9 +9,9 @@ const getEnvironmentValue = (key: string, defaultValue?: any): string => {
     return value || defaultValue as string;
 };
 
-export const PIWIK_URL = getEnvironmentValue("PIWIK_URL", "test");
+export const PIWIK_URL = getEnvironmentValue("PIWIK_URL");
 
-export const PIWIK_SITE_ID = getEnvironmentValue("PIWIK_SITE_ID", "test");
+export const PIWIK_SITE_ID = getEnvironmentValue("PIWIK_SITE_ID");
 
 export const COOKIE_SECRET = getEnvironmentValue("COOKIE_SECRET");
 
