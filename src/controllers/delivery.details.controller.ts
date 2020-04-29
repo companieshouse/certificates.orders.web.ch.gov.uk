@@ -9,7 +9,6 @@ import {validateCharSet} from "../utils/char-set";
 import {getAccessToken } from "../session/helper";
 import {getCertificateItem} from "../client/api.client";
 
-
 const FIRST_NAME_FIELD: string = "firstName";
 const LAST_NAME_FIELD: string = "lastName";
 const ADDRESS_LINE_ONE_FIELD: string = "addressLineOne";
