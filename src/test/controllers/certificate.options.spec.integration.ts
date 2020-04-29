@@ -7,13 +7,13 @@ jest.mock("../../client/api.client");
 import app from "../../app";
 import * as request from "supertest";
 import {CertificateItem} from "ch-sdk-node/dist/services/order/item/certificate/types";
-import {CERTIFICATE_OPTIONS, replaceCompanyNumber} from "../../model/page.urls";
+import {CERTIFICATE_OPTIONS, replaceCertificateId} from "../../model/page.urls";
 
 const mockPatchCertificateItem: jest.Mock = (<unknown> patchCertificateItem as jest.Mock<typeof patchCertificateItem>);
 const mockGetCertificateItem: jest.Mock = (<unknown> getCertificateItem as jest.Mock<typeof getCertificateItem>);
 
-const COMPANY_NUMBER = "00000000";
-const CERTIFICATE_OPTIONS_URL = replaceCompanyNumber(CERTIFICATE_OPTIONS, COMPANY_NUMBER);
+const CERTIFICATE_ID = "CHS00000000000000001";
+const CERTIFICATE_OPTIONS_URL = replaceCertificateId(CERTIFICATE_OPTIONS, CERTIFICATE_ID);
 
 describe("certificate options controller", () => {
 

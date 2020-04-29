@@ -1,10 +1,13 @@
 import {createRedisMock, getSignedInCookie} from "../utils/mock.redis";
 jest.mock("ioredis", () => createRedisMock());
+import { getCertificateItem } from "../../client/api.client";
+jest.mock("../../client/api.client");
 
 import app from "../../app";
 import * as request from "supertest";
-import {DELIVERY_DETAILS, replaceCompanyNumber} from "../../model/page.urls";
+import {DELIVERY_DETAILS, replaceCertificateId} from "../../model/page.urls";
 import * as errorMessages from "../../model/error.messages";
+import { CertificateItem } from "ch-sdk-node/dist/services/order/item/certificate/types";
 
 const ENTER_YOUR_FIRST_NAME_NOT_INPUT = "Enter your first name";
 const ENTER_YOUR_LAST_NAME_NOT_INPUT = "Enter your last name";
@@ -21,11 +24,16 @@ const INVALID_CHARACTER = "|";
 const CHARACTER_LENGTH_TEXT_50 = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
 const POSTCODE: string = "CX14 1BX";
 const COUNTY: string = "county";
-const COMPANY_NUMBER = "00000000";
-const DELIVERY_DETAILS_URL = replaceCompanyNumber(DELIVERY_DETAILS, COMPANY_NUMBER);
+const CERTIFICATE_ID = "CHS00000000000000001";
+const DELIVERY_DETAILS_URL = replaceCertificateId(DELIVERY_DETAILS, CERTIFICATE_ID);
 
+const mockGetCertificateItem: jest.Mock = (<unknown>getCertificateItem as jest.Mock<typeof getCertificateItem>);
 
 describe("delivery details url test", () => {
+    beforeEach(() => {
+        const certificateItem = {} as CertificateItem;
+        mockGetCertificateItem.mockImplementation(() => Promise.resolve(certificateItem));
+    });
 
   it("renders the delivery details web page", async () => {
     const resp = await request(app).get(DELIVERY_DETAILS_URL).set("Cookie", [getSignedInCookie()]);
@@ -35,6 +43,10 @@ describe("delivery details url test", () => {
 });
 
 describe("delivery details validation test", () => {
+    beforeEach(() => {
+        const certificateItem = {} as CertificateItem;
+        mockGetCertificateItem.mockImplementation(() => Promise.resolve(certificateItem));
+    });
 
     it("should receive error message instructing user to input required fields", async () => {
         const res = await request(app).post(DELIVERY_DETAILS_URL).set("Cookie", [getSignedInCookie()]);
@@ -47,6 +59,11 @@ describe("delivery details validation test", () => {
 });
 
 describe("delivery details validation", () => {
+
+    beforeEach(() => {
+        const certificateItem = {} as CertificateItem;
+        mockGetCertificateItem.mockImplementation(() => Promise.resolve(certificateItem));
+    });
 
     it("should receive error message when entering invalid characters in all fields", async () => {
         const res = await request(app)

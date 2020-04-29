@@ -52,7 +52,7 @@ describe("auth.middleware", () => {
         ));
         authMiddleware(req, res, mockNextFunc);
         expect(mockRedirectFunc)
-            .toBeCalledWith("/signin?return_to=/company/0001/orderable/certificates/certificate-options");
+            .toBeCalledWith("/signin?return_to=/company/0001/orderable/certificates/certificate-type");
     });
 
     it("should call res.redirect if path is not root and no session", async () => {
@@ -63,6 +63,6 @@ describe("auth.middleware", () => {
         req.session = Nothing;
         authMiddleware(req, res, mockNextFunc);
         expect(mockRedirectFunc)
-            .toBeCalledWith("/signin?return_to=/company/0001/orderable/certificates/certificate-options");
+            .toBeCalledWith("/signin?return_to=/company/0001/orderable/certificates/certificate-type");
     });
 });
