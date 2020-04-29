@@ -55,7 +55,7 @@ describe("auth.middleware", () => {
             .toBeCalledWith("/signin?return_to=/company/0001/orderable/certificates/certificate-type");
     });
 
-    it("should call res.redirect if path is not root and no session", async () => {
+    it("should call res.redirect if path is not root and no session", () => {
         let req = {
             path: "/certificate-options",
         } as Request;

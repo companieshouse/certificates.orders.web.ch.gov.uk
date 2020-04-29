@@ -9,7 +9,7 @@ import router from "./routers/routers";
 import {ERROR_SUMMARY_TITLE} from "./model/error.messages";
 import {ROOT, ROOT_CERTIFICATE} from "./model/page.urls";
 import authMiddleware from "./middleware/auth.middleware";
-import authCertificateMiddleware from "./middleware/auth.certificate.middleware";
+import authCertificateMiddleware from "./middleware/certificate.auth.middleware";
 import {PIWIK_SITE_ID, PIWIK_URL, COOKIE_SECRET, CACHE_SERVER} from "./session/config";
 
 const app = express();

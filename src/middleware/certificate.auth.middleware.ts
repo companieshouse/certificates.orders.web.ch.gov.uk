@@ -3,10 +3,9 @@ import { ISignInInfo } from "ch-node-session-handler/lib/session/model/SessionIn
 import { SessionKey } from "ch-node-session-handler/lib/session/keys/SessionKey";
 import { SignInInfoKeys } from "ch-node-session-handler/lib/session/keys/SignInInfoKeys";
 import { Session } from "ch-node-session-handler/lib/session/model/Session";
-import { CertificateItem } from "ch-sdk-node/dist/services/order/item/certificate/types";
 
 import { getCertificateItem } from "../client/api.client";
-import { CERTIFICATE_TYPE, replaceCertificateId } from "./../model/page.urls";
+import { CERTIFICATE_OPTIONS, replaceCertificateId } from "./../model/page.urls";
 import { getAccessToken } from "../session/helper";
 
 export default async (req: Request, res: Response, next: NextFunction) => {
@@ -20,14 +19,11 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 
         if (!signedIn) {
             const certificateId = req.params.certificateId;
-            const returnToUrl = replaceCertificateId(CERTIFICATE_TYPE, certificateId);
+            const returnToUrl = replaceCertificateId(CERTIFICATE_OPTIONS, certificateId);
             return res.redirect(`/signin?return_to=${returnToUrl}`);
         } else {
             const accessToken: string = getAccessToken(req.session);
-            const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
-            if (!certificateItem) {
-                throw new Error("Certificate not found");
-            }
+            await getCertificateItem(accessToken, req.params.certificateId);
         }
         next();
     } catch (err) {
