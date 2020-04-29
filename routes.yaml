@@ -5,5 +5,7 @@ weight: 990
 routes:
   1: /company/(.*)/orderable/certificates
   2: /company/(.*)/orderable/certificates/.*
+  3: /orderable/certificates-assets
+  4: /orderable/certificates-assets/.*
   3: /orderable/certificates
   4: /orderable/certificates/.*
