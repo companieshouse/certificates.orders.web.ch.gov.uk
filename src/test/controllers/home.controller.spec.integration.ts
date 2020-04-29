@@ -6,7 +6,7 @@ import {ROOT, replaceCompanyNumber} from "../../model/page.urls";
 
 const COMPANY_NUMBER = "00000000";
 
-describe("home handler", () => {
+describe("home.controller", () => {
   it("renders the start page", async () => {
     // dispatch a request to the homepage using supertest
     const resp = await request(app).get(replaceCompanyNumber(ROOT, COMPANY_NUMBER));
