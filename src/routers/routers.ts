@@ -2,9 +2,6 @@ import {Router, Response, NextFunction, Request} from "express";
 
 import * as pageUrls from "../model/page.urls";
 import * as templatePaths from "../model/template.paths";
-import goodStandingController from "../controllers/good.standing.controller";
-import orderDetailsController from "../controllers/order.details.controller";
-import collectionController from "../controllers/collection.controller";
 import homeController from "../controllers/home.controller";
 import collectionOptionsController, {render as renderCertificateOptions} from "../controllers/certificate.options.controller";
 import deliveryDetailsController from "../controllers/delivery.details.controller";
@@ -25,15 +22,6 @@ router.post(pageUrls.CERTIFICATE_OPTIONS, collectionOptionsController);
 
 router.get(pageUrls.DELIVERY_DETAILS, renderTemplate(templatePaths.DELIVERY_DETAILS));
 router.post(pageUrls.DELIVERY_DETAILS, deliveryDetailsController);
-
-router.get(pageUrls.ORDER_DETAILS, renderTemplate(templatePaths.ORDER_DETAILS));
-router.post(pageUrls.ORDER_DETAILS, orderDetailsController);
-
-router.get(pageUrls.GOOD_STANDING, renderTemplate(templatePaths.GOOD_STANDING));
-router.post(pageUrls.GOOD_STANDING, goodStandingController);
-
-router.get(pageUrls.COLLECTION, renderTemplate(templatePaths.COLLECTION));
-router.post(pageUrls.COLLECTION, collectionController);
 
 router.get(pageUrls.CHECK_DETAILS, renderTemplate(templatePaths.CHECK_DETAILS));
 router.post(pageUrls.CHECK_DETAILS, checkDetailsController);
