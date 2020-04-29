@@ -6,7 +6,7 @@ import {createGovUkErrorData, GovUkErrorData} from "../model/govuk.error.data";
 import * as errorMessages from "../model/error.messages";
 import * as templatePaths from "../model/template.paths";
 import {validateCharSet} from "../utils/char-set";
-import {getAccessToken } from "../session/helper";
+import {getAccessToken} from "../session/helper";
 import {getCertificateItem} from "../client/api.client";
 
 const FIRST_NAME_FIELD: string = "firstName";
