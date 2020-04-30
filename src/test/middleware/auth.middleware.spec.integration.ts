@@ -3,16 +3,16 @@ jest.mock("ioredis", () => createRedisMock());
 import app from "../../app";
 import * as request from "supertest";
 import {
-    COLLECTION,
-    GOOD_STANDING,
-    ORDER_DETAILS,
+    CERTIFICATE_OPTIONS,
+    DELIVERY_DETAILS,
+    CHECK_DETAILS,
     replaceCompanyNumber
 } from "../../model/page.urls";
 
 const protectedPages = [
-    COLLECTION,
-    GOOD_STANDING,
-    ORDER_DETAILS,
+    CERTIFICATE_OPTIONS,
+    DELIVERY_DETAILS,
+    CHECK_DETAILS,
 ];
 
 const COMPANY_NUMBER = "00000000";

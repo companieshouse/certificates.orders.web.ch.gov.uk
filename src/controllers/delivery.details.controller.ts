@@ -1,9 +1,13 @@
 import {NextFunction, Request, Response} from "express";
 import {check, validationResult} from "express-validator";
+import { CertificateItem } from "ch-sdk-node/dist/services/order/item/certificate/types";
+
 import {createGovUkErrorData, GovUkErrorData} from "../model/govuk.error.data";
 import * as errorMessages from "../model/error.messages";
 import * as templatePaths from "../model/template.paths";
 import {validateCharSet} from "../utils/char-set";
+import {getAccessToken} from "../session/helper";
+import {getCertificateItem} from "../client/api.client";
 
 const FIRST_NAME_FIELD: string = "firstName";
 const LAST_NAME_FIELD: string = "lastName";
@@ -157,6 +161,9 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
             return govUkErrorData;
         });
 
+        const accessToken: string = getAccessToken(req.session);
+        const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
+
         return res.render(templatePaths.DELIVERY_DETAILS, {
             addressCountry,
             addressCountryError,
@@ -170,6 +177,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
             addressPostcodeError,
             addressTown,
             addressTownError,
+            companyNumber: certificateItem.companyNumber,
             errorList,
             firstName,
             firstNameError,

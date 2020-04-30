@@ -18,14 +18,6 @@ const signedInSession = {
       token_type: "Bearer",
     },
     signed_in: 1,
-  },
-  "extra_data": {
-    "certificates.orders.web.ch.gov.uk": {
-      certificate: {
-        id: "CHS00000000000000001",
-        companyNumber: "00000000"
-      }
-    }
   }
 };
 const signedOutSession = {

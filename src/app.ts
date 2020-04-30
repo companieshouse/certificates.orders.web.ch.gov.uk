@@ -7,10 +7,9 @@ import {SessionStore, SessionMiddleware, CookieConfig} from "ch-node-session-han
 
 import router from "./routers/routers";
 import {ERROR_SUMMARY_TITLE} from "./model/error.messages";
-import {ROOT} from "./model/page.urls";
+import {ROOT, ROOT_CERTIFICATE} from "./model/page.urls";
 import authMiddleware from "./middleware/auth.middleware";
-import certifcateMiddleware from "./middleware/certificate.middleware";
-import SaveSessionWrapper from "./session/save-session-wrapper";
+import authCertificateMiddleware from "./middleware/certificate.auth.middleware";
 import {PIWIK_SITE_ID, PIWIK_URL, COOKIE_SECRET, CACHE_SERVER} from "./session/config";
 
 const app = express();
@@ -35,10 +34,9 @@ const env = nunjucks.configure([
 const cookieConfig: CookieConfig = { cookieName: "__SID", cookieSecret: COOKIE_SECRET};
 const sessionStore = new SessionStore(new Redis(`redis://${CACHE_SERVER}`));
 
-app.use(SessionMiddleware(cookieConfig, sessionStore));
-app.use(SaveSessionWrapper(cookieConfig, sessionStore));
+app.use([ROOT, ROOT_CERTIFICATE], SessionMiddleware(cookieConfig, sessionStore));
 app.use(ROOT, authMiddleware);
-app.use(ROOT, certifcateMiddleware);
+app.use(ROOT_CERTIFICATE, authCertificateMiddleware);
 
 app.set("views", viewPath);
 app.set("view engine", "html");
@@ -52,13 +50,13 @@ env.addGlobal("ERROR_SUMMARY_TITLE", ERROR_SUMMARY_TITLE);
 // serve static assets in development.
 // this will execute in production for now, but we will host these else where in the future.
 if (process.env.NODE_ENV !== "production") {
-  app.use("/orderable/certificates/static", express.static("dist/static"));
-  env.addGlobal("CSS_URL", "/orderable/certificates/static/app.css");
-  env.addGlobal("FOOTER", "/orderable/certificates/static/footer.css");
+  app.use("/orderable/certificates-assets/static", express.static("dist/static"));
+  env.addGlobal("CSS_URL", "/orderable/certificates-assets/static/app.css");
+  env.addGlobal("FOOTER", "/orderable/certificates-assets/static/footer.css");
 } else {
-  app.use("/orderable/certificates/static", express.static("static"));
-  env.addGlobal("CSS_URL", "/orderable/certificates/static/app.css");
-  env.addGlobal("FOOTER", "/orderable/certificates/static/footer.css");
+  app.use("/orderable/certificates-assets/static", express.static("static"));
+  env.addGlobal("CSS_URL", "/orderable/certificates-assets/static/app.css");
+  env.addGlobal("FOOTER", "/orderable/certificates-assets/static/footer.css");
 }
 
 // apply our default router to /

@@ -1,9 +1,9 @@
-import {Request, Response, NextFunction} from "express";
-import {CertificateItemPatchRequest, ItemOptionsRequest, CertificateItem} from "ch-sdk-node/dist/services/order/item/certificate/types";
-import {postCertificateItem, patchCertificateItem, getCertificateItem} from "../client/api.client";
+import { Request, Response, NextFunction } from "express";
+import { CertificateItemPatchRequest, ItemOptionsRequest, CertificateItem } from "ch-sdk-node/dist/services/order/item/certificate/types";
+import { patchCertificateItem, getCertificateItem } from "../client/api.client";
 
-import {DELIVERY_DETAILS, CERTIFICATE_OPTIONS} from "../model/template.paths";
-import {getAccessToken, getExtraData} from "../session/helper";
+import { DELIVERY_DETAILS, CERTIFICATE_OPTIONS } from "../model/template.paths";
+import { getAccessToken } from "../session/helper";
 
 const GOOD_STANDING_FIELD: string = "goodStanding";
 const REGISTERED_OFFICE_FIELD: string = "registeredOffice";
@@ -13,16 +13,19 @@ const COMPANY_OBJECTS_FIELD: string = "companyObjects";
 const MORE_INFO_FIELD: string = "moreInfo";
 
 export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const accessToken: string = getAccessToken(req.session);
-    const certificateItem: CertificateItem =
-        await getCertificateItem(accessToken, getExtraData(req.session)?.certificate?.id!);
+    try {
+        const accessToken: string = getAccessToken(req.session);
+        const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
 
-    return res.render(CERTIFICATE_OPTIONS, {
-      companyNumber: req.params.companyNumber,
-      itemOptions: certificateItem.itemOptions,
-      templateName: CERTIFICATE_OPTIONS,
-    });
-  };
+        return res.render(CERTIFICATE_OPTIONS, {
+            companyNumber: certificateItem.companyNumber,
+            itemOptions: certificateItem.itemOptions,
+            templateName: CERTIFICATE_OPTIONS,
+        });
+    } catch (err) {
+        next(err);
+    }
+};
 
 export default async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -41,7 +44,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
             quantity: 1,
         };
         const accessToken: string = getAccessToken(req.session);
-        await patchCertificateItem(accessToken, getExtraData(req.session)?.certificate?.id!, certificateItem);
+        await patchCertificateItem(accessToken, req.params.certificateId, certificateItem);
 
         return res.redirect(DELIVERY_DETAILS);
     } catch (err) {
@@ -65,30 +68,30 @@ export const setItemOptions = (options: string[]): ItemOptionsRequest => {
     };
     return options === undefined ? initialItemOptions :
         options.reduce((itemOptionsAccum: ItemOptionsRequest, option: string) => {
-        switch (option) {
-            case GOOD_STANDING_FIELD: {
-                itemOptionsAccum.includeGoodStandingInformation = true;
-                break;
+            switch (option) {
+                case GOOD_STANDING_FIELD: {
+                    itemOptionsAccum.includeGoodStandingInformation = true;
+                    break;
+                }
+                case REGISTERED_OFFICE_FIELD: {
+                    itemOptionsAccum.registeredOfficeAddressDetails = { includeAddressRecordsType: "current" };
+                    break;
+                }
+                case DIRECTORS_FIELD: {
+                    itemOptionsAccum.directorDetails = { includeBasicInformation: true };
+                    break;
+                }
+                case SECRETARIES_FIELD: {
+                    itemOptionsAccum.secretaryDetails = { includeBasicInformation: true };
+                    break;
+                }
+                case COMPANY_OBJECTS_FIELD: {
+                    itemOptionsAccum.includeCompanyObjectsInformation = true;
+                    break;
+                }
+                default:
+                    break;
             }
-            case REGISTERED_OFFICE_FIELD: {
-                itemOptionsAccum.registeredOfficeAddressDetails = { includeAddressRecordsType: "current" };
-                break;
-            }
-            case DIRECTORS_FIELD: {
-                itemOptionsAccum.directorDetails = { includeBasicInformation: true };
-                break;
-            }
-            case SECRETARIES_FIELD: {
-                itemOptionsAccum.secretaryDetails = { includeBasicInformation: true };
-                break;
-            }
-            case COMPANY_OBJECTS_FIELD: {
-                itemOptionsAccum.includeCompanyObjectsInformation = true;
-                break;
-            }
-            default:
-                break;
-        }
-        return itemOptionsAccum;
-    }, initialItemOptions);
+            return itemOptionsAccum;
+        }, initialItemOptions);
 };

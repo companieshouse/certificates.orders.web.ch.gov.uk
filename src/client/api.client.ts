@@ -47,9 +47,7 @@ export const getCertificateItem = async (oAuth: string, certificateId: string): 
     const api = createApiClient(undefined, oAuth, API_URL);
     const certificateItemResource: Resource<CertificateItem> = await api.certificate.getCertificate(certificateId);
     if (certificateItemResource.httpStatusCode !== 200) {
-        throw {
-          status: certificateItemResource.httpStatusCode,
-        };
+        throw new Error("Unable to retrieve certificate");
     }
     return certificateItemResource.resource as CertificateItem;
 };
