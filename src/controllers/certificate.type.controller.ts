@@ -15,7 +15,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             itemOptions: {
                 certificateType: "incorporation-with-all-name-changes",
                 deliveryMethod: "postal",
-                deliveryTimescale: "standard"
+                deliveryTimescale: "standard",
             },
             quantity: 1,
         };
