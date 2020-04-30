@@ -14,8 +14,8 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             companyNumber,
             itemOptions: {
                 certificateType: "incorporation-with-all-name-changes",
-                collectionLocation: "cardiff",
-                deliveryTimescale: "standard",
+                deliveryMethod: "postal",
+                deliveryTimescale: "standard"
             },
             quantity: 1,
         };
