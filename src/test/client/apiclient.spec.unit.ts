@@ -1,11 +1,45 @@
-import { postCertificateItem } from "../../client/api.client";
+import { postCertificateItem, patchBasket, getBasket } from "../../client/api.client";
 import Resource from "ch-sdk-node/dist/services/resource";
 import CertificateItemService from "ch-sdk-node/dist/services/order/item/certificate/service";
+import BasketService from "ch-sdk-node/dist/services/order/basket/service";
 import { CertificateItemPostRequest, CertificateItem } from "ch-sdk-node/dist/services/order/item/certificate/types";
+import { Basket, BasketPatchRequest } from "ch-sdk-node/dist/services/order/basket/types";
 
 jest.mock("ch-sdk-node/dist/services/order/item/certificate/service");
+jest.mock("ch-sdk-node/dist/services/order/basket/service");
 
-const dummySDKResponse: Resource<CertificateItem> = {
+const dummyBasketSDKResponse: Resource<Basket> = {
+  httpStatusCode: 200,
+  resource: {
+    deliveryDetails: {
+      addressLine1: "117 kings road",
+      addressLine2: "canton",
+      country: "wales",
+      forename: "John",
+      locality: "Cardiff",
+      poBox: "po box",
+      postalCode: "CF5 3NB",
+      region: "Glamorgan",
+      surname: "Smith"
+    }
+  }
+}
+
+const basketPatchRequest: BasketPatchRequest = {
+  deliveryDetails: {
+    addressLine1: "117 kings road",
+    addressLine2: "canton",
+    country: "wales",
+    forename: "John",
+    locality: "Cardiff",
+    poBox: "po box",
+    postalCode: "CF5 3NB",
+    region: "Glamorgan",
+    surname: "Smith"
+  }
+}
+
+const dummyCertificateItemSDKResponse: Resource<CertificateItem> = {
   httpStatusCode: 200,
   resource: {
     companyName: "Company Name",
@@ -80,8 +114,29 @@ describe("apiclient company profile unit tests", () => {
   });
 
   it("returns an Certificate Item object", async () => {
-    mockPostCertificateItem.mockResolvedValueOnce(dummySDKResponse);
+    mockPostCertificateItem.mockResolvedValueOnce(dummyCertificateItemSDKResponse);
     const certificateItem = await postCertificateItem("oauth", certificateItemRequest);
-    expect(certificateItem).toEqual(dummySDKResponse.resource);
+    expect(certificateItem).toEqual(dummyCertificateItemSDKResponse.resource);
   });
 });
+
+describe("apiclient basket unit tests", () => {
+  const mockGetBasket = (BasketService.prototype.getBasket as jest.Mock);
+  const mockPatchBasket =(BasketService.prototype.patchBasket as jest.Mock);
+  beforeEach(() => {
+    mockGetBasket.mockReset();
+    mockPatchBasket.mockReset();
+  });
+
+  it("returns the Basket details following GET basket", async () => {
+    mockGetBasket.mockResolvedValueOnce(dummyBasketSDKResponse);
+    const basketDetails = await getBasket("oauth");
+    expect(basketDetails).toEqual(dummyBasketSDKResponse.resource);
+  });
+
+  it("PATCH basket", async () => {
+    mockPatchBasket.mockResolvedValue(dummyBasketSDKResponse);
+    const patchBasketDetails = await patchBasket("oauth", basketPatchRequest);
+    expect(patchBasketDetails).toEqual(dummyBasketSDKResponse.resource);
+  });
+})

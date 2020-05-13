@@ -6,7 +6,7 @@ jest.mock("../../client/api.client");
 import app from "../../app";
 import * as request from "supertest";
 import { CHECK_DETAILS, replaceCertificateId } from "../../model/page.urls";
-import { ItemUri } from "ch-sdk-node/dist/services/order/basket/types";
+import { BasketItem } from "ch-sdk-node/dist/services/order/basket/types";
 import { CertificateItem } from "ch-sdk-node/dist/services/order/item/certificate/types";
 
 const CERTIFICATE_ID = "CHS00000000000000001";
@@ -39,7 +39,7 @@ describe("check.details.controller", () => {
 
     describe("check details post", () => {
         it("redirects the user to orders url", async () => {
-            const itemUri = { itemUri: ITEM_URI } as ItemUri;
+            const itemUri = { itemUri: ITEM_URI } as BasketItem;
             const certificateItem = {} as CertificateItem;
 
             mockAddItemToBasket.mockImplementation(() => Promise.resolve(itemUri));
