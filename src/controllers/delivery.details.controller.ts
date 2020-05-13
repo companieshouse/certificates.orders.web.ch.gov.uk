@@ -1,13 +1,14 @@
 import {NextFunction, Request, Response} from "express";
 import {check, validationResult} from "express-validator";
-import { CertificateItem } from "ch-sdk-node/dist/services/order/item/certificate/types";
-
+import { CertificateItem, CertificateItemPatchRequest } from "ch-sdk-node/dist/services/order/item/certificate/types";
+import { Basket, BasketPatchRequest } from "ch-sdk-node/dist/services/order/basket/types";
 import {createGovUkErrorData, GovUkErrorData} from "../model/govuk.error.data";
 import * as errorMessages from "../model/error.messages";
 import * as templatePaths from "../model/template.paths";
 import {validateCharSet} from "../utils/char-set";
 import {getAccessToken} from "../session/helper";
-import {getCertificateItem} from "../client/api.client";
+import {getCertificateItem, patchCertificateItem, getBasket, patchBasket} from "../client/api.client";
+import {DELIVERY_DETAILS} from "../model/template.paths";
 
 const FIRST_NAME_FIELD: string = "firstName";
 const LAST_NAME_FIELD: string = "lastName";
@@ -17,6 +18,31 @@ const ADDRESS_TOWN_FIELD: string = "addressTown";
 const ADDRESS_COUNTY_FIELD: string = "addressCounty";
 const ADDRESS_POSTCODE_FIELD: string = "addressPostcode";
 const ADDRESS_COUNTRY_FIELD: string = "addressCountry";
+
+export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+        const accessToken: string = getAccessToken(req.session);
+        const basket: Basket = await getBasket(accessToken);
+        const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
+
+        return res.render(DELIVERY_DETAILS, {
+                firstName: certificateItem.itemOptions.forename,
+                lastName: certificateItem.itemOptions.surname,
+            // tslint:disable-next-line: object-literal-sort-keys
+                addressLineOne: basket.deliveryDetails?.addressLine1,
+                addressLineTwo: basket.deliveryDetails?.addressLine2,
+                // tslint:disable-next-line: object-literal-sort-keys
+                addressCountry: basket.deliveryDetails?.country,
+                addressTown: basket.deliveryDetails?.locality,
+                addressPoBox: basket.deliveryDetails?.poBox,
+                addressPostcode: basket.deliveryDetails?.postalCode,
+                addressCounty: basket.deliveryDetails?.region,
+            templateName: DELIVERY_DETAILS,
+        });
+    } catch (err) {
+        next(err);
+    }
+};
 
 const validators = [
     check(FIRST_NAME_FIELD)
@@ -186,7 +212,32 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
             templateName: (templatePaths.DELIVERY_DETAILS),
         });
     }
-    res.redirect(templatePaths.CHECK_DETAILS);
+    try {
+        const accessToken: string = getAccessToken(req.session);
+        const certificateItem: CertificateItemPatchRequest = {
+            itemOptions: {
+                forename: firstName,
+                surname: lastName,
+            },
+        };
+        const basketDeliveryDetails: BasketPatchRequest = {
+            deliveryDetails: {
+                addressLine1: addressLineOne,
+                addressLine2: addressLineTwo,
+                country: addressCountry,
+                forename: firstName,
+                locality: addressTown,
+                postalCode: addressPostcode,
+                region: addressCounty,
+                surname: lastName,
+            },
+        };
+        await patchCertificateItem(accessToken, req.params.certificateId, certificateItem);
+        await patchBasket(accessToken, basketDeliveryDetails);
+        return res.redirect(templatePaths.CHECK_DETAILS);
+    } catch (err) {
+        return next(err);
+    }
 };
 
 export default [...validators, route];

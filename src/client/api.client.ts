@@ -1,6 +1,6 @@
 import { createApiClient } from "ch-sdk-node";
 import { CompanyProfile } from "ch-sdk-node/dist/services/company-profile";
-import { BasketItem, ItemUriPostRequest } from "ch-sdk-node/dist/services/order/basket/types";
+import { BasketItem, ItemUriPostRequest, Basket, BasketPatchRequest, BasketItemResource } from "ch-sdk-node/dist/services/order/basket/types";
 import { CertificateItemPostRequest, CertificateItemPatchRequest, CertificateItem } from "ch-sdk-node/dist/services/order/item/certificate/types";
 import { API_URL } from "../session/config";
 import Resource from "ch-sdk-node/dist/services/resource";
@@ -62,3 +62,25 @@ export const addItemToBasket = async (oAuth: string, itemUri: ItemUriPostRequest
     }
     return itemUriResource.resource as BasketItem;
 };
+
+export const getBasket = async (oAuth: string): Promise<Basket> => {
+    const api = createApiClient(undefined, oAuth, API_URL);
+    const basketResource: Resource<Basket> = await api.basket.getBasket();
+    if (basketResource.httpStatusCode !== 200 && basketResource.httpStatusCode !== 201) {
+        throw {
+            status: basketResource.httpStatusCode,
+        };
+    }
+    return basketResource.resource as Basket;
+};
+
+export const patchBasket = async (oAuth: string, basketPatchRequest: BasketPatchRequest): Promise<Basket> => {
+    const api = createApiClient(undefined, oAuth, API_URL);
+    const basketResource: Resource<Basket> = await api.basket.patchBasket(basketPatchRequest);
+    if (basketResource.httpStatusCode !== 200 && basketResource.httpStatusCode !== 201) {
+        throw {
+            status: basketResource.httpStatusCode,
+        };
+    }
+    return basketResource.resource as Basket;
+}
