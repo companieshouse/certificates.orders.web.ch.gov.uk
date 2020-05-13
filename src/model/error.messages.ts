@@ -26,3 +26,4 @@ export const ADDRESS_POSTCODE_MAX_LENGTH: string = "Postcode must be 15 characte
 export const ADDRESS_COUNTRY_INVALID_CHARACTERS: string = "Country cannot include ";
 export const ADDRESS_COUNTRY_MAX_LENGTH: string = "Country must be 50 characters or fewer";
 export const ADDRESS_COUNTY_AND_POSTCODE_EMPTY: string = "Enter a county or postcode";
+export const ADDRESS_COUNTRY_EMPTY: string = "Enter a country";

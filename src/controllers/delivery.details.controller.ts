@@ -122,6 +122,7 @@ const validators = [
             return true;
         }),
     check(ADDRESS_COUNTRY_FIELD)
+        .not().isEmpty().withMessage(errorMessages.ADDRESS_COUNTRY_EMPTY)
         .isLength({max: 50}).withMessage(errorMessages.ADDRESS_COUNTRY_MAX_LENGTH)
         .custom((addressCountry, {req}) => {
             const invalidChar = validateCharSet(req.body[ADDRESS_COUNTRY_FIELD]);

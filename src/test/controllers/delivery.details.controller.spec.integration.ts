@@ -75,6 +75,7 @@ describe("delivery.details.controller", () => {
             expect(res.text).toContain(ENTER_YOUR_LAST_NAME_NOT_INPUT);
             expect(res.text).toContain(ENTER_BUILDING_AND_STREET_LINE_ONE);
             expect(res.text).toContain(errorMessages.ADDRESS_COUNTY_AND_POSTCODE_EMPTY)
+            expect(res.text).toContain(errorMessages.ADDRESS_COUNTRY_EMPTY);
         });
     });
 
