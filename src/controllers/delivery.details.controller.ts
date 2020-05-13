@@ -37,6 +37,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
                 addressPoBox: basket.deliveryDetails?.poBox,
                 addressPostcode: basket.deliveryDetails?.postalCode,
                 addressCounty: basket.deliveryDetails?.region,
+                companyNumber: certificateItem.companyNumber,
             templateName: DELIVERY_DETAILS,
         });
     } catch (err) {
