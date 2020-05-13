@@ -83,4 +83,4 @@ export const patchBasket = async (oAuth: string, basketPatchRequest: BasketPatch
         };
     }
     return basketResource.resource as Basket;
-}
+};
