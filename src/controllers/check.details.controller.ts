@@ -4,8 +4,9 @@ import { addItemToBasket } from "../client/api.client";
 import { CHS_URL } from "../session/config";
 import { CertificateItem , ItemOptions} from "ch-sdk-node/dist/services/order/item/certificate/types";
 import { CHECK_DETAILS } from "../model/template.paths";
-import { getCertificateItem } from "../client/api.client";
+import { getCertificateItem , getBasket} from "../client/api.client";
 import { CERTIFICATE_OPTIONS , DELIVERY_DETAILS , replaceCertificateId} from "../model/page.urls";
+import { Basket, DeliveryDetails } from "ch-sdk-node/dist/services/order/basket/types";
 
 const GOOD_STANDING = "Statement of good standing";
 const COMPANY_OBJECTS = "Company objects";
@@ -14,16 +15,20 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
     try {
         const accessToken: string = getAccessToken(req.session);
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
+        const basket: Basket = await getBasket(accessToken);
 
         console.log(certificateItem);
+        console.log(basket);
 
         return res.render(CHECK_DETAILS, {
             companyName: certificateItem.companyName,
             companyNumber: certificateItem.companyNumber,
             itemOptions: certificateItem.itemOptions,
+            fee: applyCurrencySymbol(certificateItem.itemCosts[0].itemCost),
             certificateMappings: mapIncludedOnCertificate(certificateItem.itemOptions),
             changeIncludedOn: replaceCertificateId(CERTIFICATE_OPTIONS, req.params.certificateId),
             changedeliveryDetails: replaceCertificateId(DELIVERY_DETAILS, req.params.certificateId),
+            deliveryDetails: mapDeliveryDetails(basket.deliveryDetails),
             templateName: CHECK_DETAILS,
         });
     } catch (err) {
@@ -50,7 +55,7 @@ const route = async (req: Request, res: Response, next:  NextFunction) => {
 
 function mapIncludedOnCertificate(itemOptions: ItemOptions): string {
 
-    let mappings = new Array<string>(); 
+    let mappings = new Array<string>();
 
     if (itemOptions.includeGoodStandingInformation) {
         mappings.push(GOOD_STANDING)
@@ -63,6 +68,36 @@ function mapIncludedOnCertificate(itemOptions: ItemOptions): string {
     return mapToHtml(mappings);
 }
 
+function mapDeliveryDetails(deliveryDetails: DeliveryDetails | undefined): string {
+
+    let mappings = new Array<string>();
+
+    if (deliveryDetails == undefined) {
+        return "";
+    }
+
+    mappings.push(deliveryDetails.forename + " " + deliveryDetails.surname);
+    mappings.push(deliveryDetails.addressLine1);
+
+    if (deliveryDetails.addressLine2 != "" && deliveryDetails.addressLine2 != undefined) {
+        mappings.push(deliveryDetails.addressLine2);
+    }
+
+    mappings.push(deliveryDetails.locality);
+
+    if (deliveryDetails.region != "" && deliveryDetails.region != undefined) {
+        mappings.push(deliveryDetails.region);
+    }
+
+    if (deliveryDetails.postalCode != "" && deliveryDetails.postalCode != undefined) {
+        mappings.push(deliveryDetails.postalCode);
+    }
+
+    mappings.push(deliveryDetails.country);
+
+    return mapToHtml(mappings);
+}
+
 function mapToHtml(mappings: Array<string>): string {
     let htmlString: string = "";
 
@@ -70,6 +105,10 @@ function mapToHtml(mappings: Array<string>): string {
         htmlString += element + "<br>";
     });
     return htmlString;
+}
+
+function applyCurrencySymbol(fee: string):string {
+    return "£" + fee;
 }
 
 export default [route];
