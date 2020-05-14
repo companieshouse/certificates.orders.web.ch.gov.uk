@@ -2,8 +2,36 @@ import { getAccessToken } from "../session/helper";
 import { NextFunction, Request, Response } from "express";
 import { addItemToBasket } from "../client/api.client";
 import { CHS_URL } from "../session/config";
+import { CertificateItem , ItemOptions} from "ch-sdk-node/dist/services/order/item/certificate/types";
+import { CHECK_DETAILS } from "../model/template.paths";
+import { getCertificateItem } from "../client/api.client";
+import { CERTIFICATE_OPTIONS , DELIVERY_DETAILS , replaceCertificateId} from "../model/page.urls";
 
-const route = async (req: Request, res: Response, next: NextFunction) => {
+const GOOD_STANDING = "Statement of good standing";
+const COMPANY_OBJECTS = "Company objects";
+
+export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+        const accessToken: string = getAccessToken(req.session);
+        const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
+
+        console.log(certificateItem);
+
+        return res.render(CHECK_DETAILS, {
+            companyName: certificateItem.companyName,
+            companyNumber: certificateItem.companyNumber,
+            itemOptions: certificateItem.itemOptions,
+            certificateMappings: mapIncludedOnCertificate(certificateItem.itemOptions),
+            changeIncludedOn: replaceCertificateId(CERTIFICATE_OPTIONS, req.params.certificateId),
+            changedeliveryDetails: replaceCertificateId(DELIVERY_DETAILS, req.params.certificateId),
+            templateName: CHECK_DETAILS,
+        });
+    } catch (err) {
+        next(err);
+    }
+};
+
+const route = async (req: Request, res: Response, next:  NextFunction) => {
 
     // add item to basket
     // then redirect
@@ -19,5 +47,29 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         return next(error);
     }
 };
+
+function mapIncludedOnCertificate(itemOptions: ItemOptions): string {
+
+    let mappings = new Array<string>(); 
+
+    if (itemOptions.includeGoodStandingInformation) {
+        mappings.push(GOOD_STANDING)
+    }
+
+    if (itemOptions.includeCompanyObjectsInformation) {
+        mappings.push(COMPANY_OBJECTS);
+    }
+
+    return mapToHtml(mappings);
+}
+
+function mapToHtml(mappings: Array<string>): string {
+    let htmlString: string = "";
+
+    mappings.forEach(element => {
+        htmlString += element + "<br>";
+    });
+    return htmlString;
+}
 
 export default [route];

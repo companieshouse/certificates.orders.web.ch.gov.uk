@@ -5,6 +5,7 @@ import * as pageUrls from "../model/page.urls";
 import * as templatePaths from "../model/template.paths";
 import homeController from "../controllers/home.controller";
 import {render as renderCertificateType} from "../controllers/certificate.type.controller";
+import {render as renderCheckDetails} from "../controllers/check.details.controller";
 import collectionOptionsController, {render as renderCertificateOptions} from "../controllers/certificate.options.controller";
 import deliveryDetailsController from "../controllers/delivery.details.controller";
 import checkDetailsController from "../controllers/check.details.controller";
@@ -32,7 +33,7 @@ router.post(pageUrls.CERTIFICATE_OPTIONS, collectionOptionsController);
 router.get(pageUrls.DELIVERY_DETAILS, renderTemplate(templatePaths.DELIVERY_DETAILS));
 router.post(pageUrls.DELIVERY_DETAILS, deliveryDetailsController);
 
-router.get(pageUrls.CHECK_DETAILS, renderTemplate(templatePaths.CHECK_DETAILS));
+router.get(pageUrls.CHECK_DETAILS, renderCheckDetails);
 router.post(pageUrls.CHECK_DETAILS, checkDetailsController);
 
 export default router;
