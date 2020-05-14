@@ -1,6 +1,6 @@
 import { createRedisMock, getSignedInCookie } from "../utils/mock.redis";
 jest.mock("ioredis", () => createRedisMock());
-import { getCertificateItem } from "../../client/api.client";
+import { getCertificateItem,getBasket, patchBasket } from "../../client/api.client";
 jest.mock("../../client/api.client");
 
 import app from "../../app";
@@ -8,6 +8,7 @@ import * as request from "supertest";
 import { DELIVERY_DETAILS, replaceCertificateId } from "../../model/page.urls";
 import * as errorMessages from "../../model/error.messages";
 import { CertificateItem } from "ch-sdk-node/dist/services/order/item/certificate/types";
+import { Basket } from "ch-sdk-node/dist/services/order/basket/types";
 
 const ENTER_YOUR_FIRST_NAME_NOT_INPUT = "Enter your first name";
 const ENTER_YOUR_LAST_NAME_NOT_INPUT = "Enter your last name";
@@ -28,6 +29,8 @@ const CERTIFICATE_ID = "CHS00000000000000001";
 const DELIVERY_DETAILS_URL = replaceCertificateId(DELIVERY_DETAILS, CERTIFICATE_ID);
 
 const mockGetCertificateItem: jest.Mock = (<unknown>getCertificateItem as jest.Mock<typeof getCertificateItem>);
+const mockGetBasket: jest.Mock = (<unknown>getBasket as jest.Mock<typeof getBasket>);
+const mockPatchBasket: jest.Mock = (<unknown>patchBasket as jest.Mock<typeof patchBasket>);
 
 describe("delivery.details.controller", () => {
 
@@ -38,6 +41,26 @@ describe("delivery.details.controller", () => {
 
     describe("delivery details url test", () => {
         it("renders the delivery details web page", async () => {
+            const certificateItem = {
+                itemOptions: {
+                    forename: "john",
+                    surname: "smith",
+                }
+            } as CertificateItem;
+
+            const basketDetails = {
+                deliveryDetails: {
+                    addressLine1: "117 kings road",
+                    addressLine2: "pontcanna",
+                    country: "wales",
+                    locality: "canton",
+                    postalCode: "cf5 4xb",
+                    region: "glamorgan",
+                }
+            } as Basket;
+            mockGetCertificateItem.mockImplementation(() => Promise.resolve(certificateItem));
+            mockGetBasket.mockImplementation(() => Promise.resolve(basketDetails));
+
             const resp = await request(app).get(DELIVERY_DETAILS_URL).set("Cookie", [getSignedInCookie()]);
             expect(resp.status).toEqual(200);
             expect(resp.text).toContain("What are the delivery details?");
@@ -52,6 +75,7 @@ describe("delivery.details.controller", () => {
             expect(res.text).toContain(ENTER_YOUR_LAST_NAME_NOT_INPUT);
             expect(res.text).toContain(ENTER_BUILDING_AND_STREET_LINE_ONE);
             expect(res.text).toContain(errorMessages.ADDRESS_COUNTY_AND_POSTCODE_EMPTY)
+            expect(res.text).toContain(errorMessages.ADDRESS_COUNTRY_EMPTY);
         });
     });
 
@@ -128,6 +152,28 @@ describe("delivery.details.controller", () => {
                 .set("Cookie", [getSignedInCookie()]);
             expect(res.status).toEqual(200);
             expect(res.text).not.toContain(errorMessages.ADDRESS_COUNTY_AND_POSTCODE_EMPTY);
+        });
+    });
+
+    describe("delivery details patch to Basket", () => {
+        it("redirects the user to the check details page", async () => {
+            mockPatchBasket.mockImplementation(() => undefined);
+            const resp = await request(app)
+                .post(DELIVERY_DETAILS_URL)
+                .send({
+                    addressCountry: "Wales",
+                    addressCounty: "glamorgan",
+                    addressLineOne: "117 kings road",
+                    addressLineTwo: "Pontcanna",
+                    addressPostcode: "CF11 9VE",
+                    addressTown: "CARDIFF",
+                    firstName: "JOHN",
+                    lastName: "SMITH",
+                })
+                .set("Cookie", [getSignedInCookie()]);
+
+            expect(resp.status).toEqual(302);
+            expect(resp.text).toContain("Found. Redirecting to check-details");
         });
     });
 });

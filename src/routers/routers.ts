@@ -7,7 +7,7 @@ import homeController from "../controllers/home.controller";
 import {render as renderCertificateType} from "../controllers/certificate.type.controller";
 import {render as renderCheckDetails} from "../controllers/check.details.controller";
 import collectionOptionsController, {render as renderCertificateOptions} from "../controllers/certificate.options.controller";
-import deliveryDetailsController from "../controllers/delivery.details.controller";
+import deliveryDetailsController, {render as renderDeliveryDetails} from "../controllers/delivery.details.controller";
 import checkDetailsController from "../controllers/check.details.controller";
 import {getAccessToken } from "../session/helper";
 import {getCertificateItem} from "../client/api.client";
@@ -30,7 +30,7 @@ router.get(pageUrls.CERTIFICATE_TYPE, renderCertificateType);
 router.get(pageUrls.CERTIFICATE_OPTIONS, renderCertificateOptions);
 router.post(pageUrls.CERTIFICATE_OPTIONS, collectionOptionsController);
 
-router.get(pageUrls.DELIVERY_DETAILS, renderTemplate(templatePaths.DELIVERY_DETAILS));
+router.get(pageUrls.DELIVERY_DETAILS, renderDeliveryDetails);
 router.post(pageUrls.DELIVERY_DETAILS, deliveryDetailsController);
 
 router.get(pageUrls.CHECK_DETAILS, renderCheckDetails);
