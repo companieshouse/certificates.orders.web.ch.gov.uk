@@ -15,15 +15,13 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
     try {
         const accessToken: string = getAccessToken(req.session);
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
+        const itemOptions: ItemOptions = certificateItem.itemOptions;
         const basket: Basket = await getBasket(accessToken);
-
-        console.log(certificateItem);
-        console.log(basket);
 
         return res.render(CHECK_DETAILS, {
             companyName: certificateItem.companyName,
             companyNumber: certificateItem.companyNumber,
-            itemOptions: certificateItem.itemOptions,
+            certificateType: mapCertificateType(itemOptions.certificateType),
             fee: applyCurrencySymbol(certificateItem.itemCosts[0].itemCost),
             certificateMappings: mapIncludedOnCertificate(certificateItem.itemOptions),
             changeIncludedOn: replaceCertificateId(CERTIFICATE_OPTIONS, req.params.certificateId),
@@ -105,6 +103,13 @@ function mapToHtml(mappings: Array<string>): string {
         htmlString += element + "<br>";
     });
     return htmlString;
+}
+
+function mapCertificateType(certificateType: string): string {
+    const typeCapitalised = certificateType.charAt(0).toUpperCase()
+    + certificateType.slice(1);
+
+    return typeCapitalised.replace(/-/g, " ");
 }
 
 function applyCurrencySymbol(fee: string):string {
