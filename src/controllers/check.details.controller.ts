@@ -23,7 +23,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             companyNumber: certificateItem.companyNumber,
             certificateType: mapCertificateType(itemOptions.certificateType),
             fee: applyCurrencySymbol(certificateItem.itemCosts[0].itemCost),
-            certificateMappings: mapIncludedOnCertificate(certificateItem.itemOptions),
+            certificateMappings: mapIncludedOnCertificate(itemOptions),
             changeIncludedOn: replaceCertificateId(CERTIFICATE_OPTIONS, req.params.certificateId),
             changedeliveryDetails: replaceCertificateId(DELIVERY_DETAILS, req.params.certificateId),
             deliveryDetails: mapDeliveryDetails(basket.deliveryDetails),
