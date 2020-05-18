@@ -132,6 +132,11 @@ export const mapToHtml = (mappings: Array<string>): string => {
 }
 
 export const mapCertificateType = (certificateType: string): string => {
+
+    if (certificateType == "incorporation-with-all-name-changes") {
+        certificateType = "incorporation-with-all-company-name-changes"
+    }
+
     const typeCapitalised = certificateType.charAt(0).toUpperCase()
     + certificateType.slice(1);
 

@@ -171,7 +171,7 @@ describe("mapCertificateType", () => {
         const mappedTestString2: string = mapCertificateType(testString2);
 
         expect(mappedTestString1).toEqual("Incorporation");
-        expect(mappedTestString2).toEqual("Incorporation with all name changes");
+        expect(mappedTestString2).toEqual("Incorporation with all company name changes");
     });
 });
 
