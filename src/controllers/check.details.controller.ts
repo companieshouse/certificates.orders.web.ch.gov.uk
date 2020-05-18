@@ -9,6 +9,9 @@ import { CERTIFICATE_OPTIONS , DELIVERY_DETAILS , replaceCertificateId} from "..
 import { Basket, DeliveryDetails } from "ch-sdk-node/dist/services/order/basket/types";
 
 const GOOD_STANDING = "Statement of good standing";
+const REGISTERED_OFFICE_ADDRESS = "Registered office address";
+const DIRECTORS = "Directors";
+const SECRETARIES = "Secretaries";
 const COMPANY_OBJECTS = "Company objects";
 
 export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -55,11 +58,23 @@ function mapIncludedOnCertificate(itemOptions: ItemOptions): string {
 
     let mappings = new Array<string>();
 
-    if (itemOptions.includeGoodStandingInformation) {
+    if (itemOptions?.includeGoodStandingInformation) {
         mappings.push(GOOD_STANDING)
     }
 
-    if (itemOptions.includeCompanyObjectsInformation) {
+    if (itemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType?.length !==0) {
+        mappings.push(REGISTERED_OFFICE_ADDRESS)
+    }
+
+    if (itemOptions?.directorDetails?.includeBasicInformation) {
+        mappings.push(DIRECTORS)
+    }
+
+    if (itemOptions?.secretaryDetails?.includeBasicInformation) {
+        mappings.push(SECRETARIES)
+    }
+
+    if (itemOptions?.includeCompanyObjectsInformation) {
         mappings.push(COMPANY_OBJECTS);
     }
 
