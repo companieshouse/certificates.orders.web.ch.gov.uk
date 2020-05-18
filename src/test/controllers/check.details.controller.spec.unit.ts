@@ -166,12 +166,18 @@ describe("mapCertificateType", () => {
 
         const testString1: string = "incorporation";
         const testString2: string = "incorporation-with-all-name-changes";
+        const testString3: string = "incorporation-with-last-name-change";
+        const testString4: string = "dissolution-liquidation";
 
         const mappedTestString1: string = mapCertificateType(testString1);
         const mappedTestString2: string = mapCertificateType(testString2);
+        const mappedTestString3: string = mapCertificateType(testString3);
+        const mappedTestString4: string = mapCertificateType(testString4);
 
         expect(mappedTestString1).toEqual("Incorporation");
         expect(mappedTestString2).toEqual("Incorporation with all company name changes");
+        expect(mappedTestString3).toEqual("Incorporation with last name change");
+        expect(mappedTestString4).toEqual("Dissolution liquidation");
     });
 });
 
