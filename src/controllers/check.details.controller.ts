@@ -25,6 +25,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             companyName: certificateItem.companyName,
             companyNumber: certificateItem.companyNumber,
             certificateType: mapCertificateType(itemOptions.certificateType),
+            deliveryMethod: mapDeliveryMethod(itemOptions),
             fee: applyCurrencySymbol(certificateItem.itemCosts[0].itemCost),
             certificateMappings: mapIncludedOnCertificate(itemOptions),
             changeIncludedOn: replaceCertificateId(CERTIFICATE_OPTIONS, req.params.certificateId),
@@ -54,7 +55,7 @@ const route = async (req: Request, res: Response, next:  NextFunction) => {
     }
 };
 
-function mapIncludedOnCertificate(itemOptions: ItemOptions): string {
+export const mapIncludedOnCertificate = (itemOptions: ItemOptions): string => {
 
     let mappings = new Array<string>();
 
@@ -81,7 +82,7 @@ function mapIncludedOnCertificate(itemOptions: ItemOptions): string {
     return mapToHtml(mappings);
 }
 
-function mapDeliveryDetails(deliveryDetails: DeliveryDetails | undefined): string {
+export const mapDeliveryDetails = (deliveryDetails: DeliveryDetails | undefined): string => {
 
     let mappings = new Array<string>();
 
@@ -111,7 +112,17 @@ function mapDeliveryDetails(deliveryDetails: DeliveryDetails | undefined): strin
     return mapToHtml(mappings);
 }
 
-function mapToHtml(mappings: Array<string>): string {
+export const mapDeliveryMethod = (itemOptions: Record<string, any>): string | null => {
+    if (itemOptions?.deliveryTimescale === "standard") {
+        return "Standard delivery (dispatched within 4 working days)";
+    }
+    if (itemOptions?.deliveryTimescale === "same-day") {
+        return "Same Day";
+    }
+    return null;
+};
+
+export const mapToHtml = (mappings: Array<string>): string => {
     let htmlString: string = "";
 
     mappings.forEach(element => {
@@ -120,14 +131,14 @@ function mapToHtml(mappings: Array<string>): string {
     return htmlString;
 }
 
-function mapCertificateType(certificateType: string): string {
+export const mapCertificateType = (certificateType: string): string => {
     const typeCapitalised = certificateType.charAt(0).toUpperCase()
     + certificateType.slice(1);
 
     return typeCapitalised.replace(/-/g, " ");
 }
 
-function applyCurrencySymbol(fee: string):string {
+export const applyCurrencySymbol = (fee: string):string => {
     return "£" + fee;
 }
 

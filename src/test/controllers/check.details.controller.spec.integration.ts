@@ -10,12 +10,12 @@ import { BasketItem, Basket } from "ch-sdk-node/dist/services/order/basket/types
 import { CertificateItem, ItemOptions } from "ch-sdk-node/dist/services/order/item/certificate/types";
 
 const CERTIFICATE_ID = "CHS00000000000000001";
-const ITEM_URI = "/orderable/certificates/CHS00000000000000052"
+const ITEM_URI = "/orderable/certificates/CHS00000000000000052";
 const CHECK_DETAILS_URL = replaceCertificateId(CHECK_DETAILS, CERTIFICATE_ID);
 
-const mockAddItemToBasket: jest.Mock = (<unknown>addItemToBasket as jest.Mock<typeof addItemToBasket>);
-const mockGetCertificateItem: jest.Mock = (<unknown>getCertificateItem as jest.Mock<typeof getCertificateItem>);
-const mockGetBasket: jest.Mock = (<unknown>getBasket as jest.Mock<typeof getBasket>);
+const mockAddItemToBasket: jest.Mock = (<unknown> addItemToBasket as jest.Mock<typeof addItemToBasket>);
+const mockGetCertificateItem: jest.Mock = (<unknown> getCertificateItem as jest.Mock<typeof getCertificateItem>);
+const mockGetBasket: jest.Mock = (<unknown> getBasket as jest.Mock<typeof getBasket>);
 
 describe("check.details.controller", () => {
 
@@ -30,18 +30,18 @@ describe("check.details.controller", () => {
             const certificateItem = {
                 companyName: "test company",
                 companyNumber: "00000000",
-                itemOptions: {
-                    forename: "john",
-                    surname: "smith",
-                    certificateType: "cert type",
-                    includeGoodStandingInformation: true,
-                    includeCompanyObjectsInformation: true
-                },
-                itemCosts: [ 
+                itemCosts: [
                     {
-                        itemCost: "15"
-                    }
-                ]
+                        itemCost: "15",
+                    },
+                ],
+                itemOptions: {
+                    certificateType: "cert type",
+                    forename: "john",
+                    includeCompanyObjectsInformation: true,
+                    includeGoodStandingInformation: true,
+                    surname: "smith",
+                },
             } as CertificateItem;
 
             const basketDetails = {
@@ -52,7 +52,7 @@ describe("check.details.controller", () => {
                     locality: "canton",
                     postalCode: "cf5 4xb",
                     region: "glamorgan",
-                }
+                },
             } as Basket;
 
             mockGetCertificateItem.mockImplementation(() => Promise.resolve(certificateItem));
@@ -81,7 +81,7 @@ describe("check.details.controller", () => {
                 .set("Cookie", [getSignedInCookie()]);
 
             expect(resp.status).toEqual(302);
-            expect(resp.text).toContain("/basket")
+            expect(resp.text).toContain("/basket");
         });
     });
 });
