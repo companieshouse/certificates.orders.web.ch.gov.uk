@@ -26,8 +26,8 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
 
         return res.render(DELIVERY_DETAILS, {
-                firstName: certificateItem.itemOptions.forename,
-                lastName: certificateItem.itemOptions.surname,
+                firstName: basket.deliveryDetails?.forename,
+                lastName: basket.deliveryDetails?.surname,
             // tslint:disable-next-line: object-literal-sort-keys
                 addressLineOne: basket.deliveryDetails?.addressLine1,
                 addressLineTwo: basket.deliveryDetails?.addressLine2,
@@ -225,12 +225,12 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         const basketDeliveryDetails: BasketPatchRequest = {
             deliveryDetails: {
                 addressLine1: addressLineOne,
-                addressLine2: addressLineTwo,
+                addressLine2: addressLineTwo ? addressLineTwo : null,
                 country: addressCountry,
                 forename: firstName,
                 locality: addressTown,
-                postalCode: addressPostcode,
-                region: addressCounty,
+                postalCode: addressPostcode ? addressPostcode : null,
+                region: addressCounty ? addressCounty : null,
                 surname: lastName,
             },
         };
