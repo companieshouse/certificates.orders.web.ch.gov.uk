@@ -30,7 +30,7 @@
                     classes: 'govuk-!-width-one-half'
                   },
                   value: {
-                    text: "Stationary LTD"
+                    text: companyName
                   }
                 },
                 {
@@ -38,7 +38,7 @@
                     text: "Company number"
                   },
                   value: {
-                    text: "027389177"
+                    text: companyNumber
                   }
                 },
                 {
@@ -46,7 +46,7 @@
                     text: "Certificate type"
                   },
                   value: {
-                    text: "Incorporation"
+                    text: certificateType
                   }
                 },
                  {
@@ -54,12 +54,12 @@
                     text: "Included on certificate"
                   },
                   value: {
-                    html:"Statement of good standing<br> Registered office address<br> Directors<br>Secretaries<br> Company objects"
+                    html: certificateMappings
                   },
                   actions: {
                     items: [
                       {
-                        href: "#",
+                        href: changeIncludedOn,
                         text: "Change",
                         visuallyHiddenText: "Included on certifcate"
                       }
@@ -71,7 +71,7 @@
                     text: "Delivery method"
                   },
                   value: {
-                    text: "Standard delivery (dispatched within 4 working days)"
+                    text: deliveryMethod
                   }
                 },
                 {
@@ -79,12 +79,12 @@
                     text: "Delivery details"
                   },
                   value: {
-                    html: "Mr Jamies Hanson </br> 48 Tonna Road </br> Barry </br> CF45 8YG"
+                    html: deliveryDetails
                   },
                   actions: {
                     items: [
                       {
-                        href: "#",
+                        href: changedeliveryDetails,
                         text: "Change",
                         visuallyHiddenText: "delivery address"
                       }
@@ -96,7 +96,7 @@
                     text: "Fee"
                   },
                   value: {
-                    text: "£15"
+                    text: fee
                   }
                 }
               ]
