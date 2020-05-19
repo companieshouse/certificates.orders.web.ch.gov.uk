@@ -63,7 +63,7 @@ export const mapIncludedOnCertificate = (itemOptions: ItemOptions): string => {
         mappings.push(GOOD_STANDING)
     }
 
-    if (itemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType?.length !==0) {
+    if (itemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType != undefined) {
         mappings.push(REGISTERED_OFFICE_ADDRESS)
     }
 

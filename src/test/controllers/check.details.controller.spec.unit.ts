@@ -71,7 +71,7 @@ describe("mapIncludedOnCertificate", () => {
     it("should map the no values when all options are false", () => {
 
         itemOptions.includeGoodStandingInformation = false;
-        itemOptions.registeredOfficeAddressDetails.includeAddressRecordsType = "";
+        delete itemOptions.registeredOfficeAddressDetails.includeAddressRecordsType;
         itemOptions.directorDetails.includeBasicInformation = false;
         itemOptions.secretaryDetails.includeBasicInformation = false;
         itemOptions.includeCompanyObjectsInformation = false;
