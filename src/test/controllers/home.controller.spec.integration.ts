@@ -1,7 +1,7 @@
 jest.mock("ioredis");
 
 import app from "../../app";
-import * as request from "supertest";
+import request from "supertest";
 import {ROOT, replaceCompanyNumber} from "../../model/page.urls";
 
 const COMPANY_NUMBER = "00000000";

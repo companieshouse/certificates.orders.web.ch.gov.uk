@@ -1,16 +1,16 @@
-import * as express from "express";
-import * as nunjucks from "nunjucks";
-import * as path from "path";
-import * as cookieParser from "cookie-parser";
-import * as Redis from "ioredis";
-import {SessionStore, SessionMiddleware, CookieConfig} from "ch-node-session-handler";
+import express from "express";
+import nunjucks from "nunjucks";
+import path from "path";
+import cookieParser from "cookie-parser";
+import Redis from "ioredis";
+import { SessionStore, SessionMiddleware, CookieConfig } from "ch-node-session-handler";
 
 import router from "./routers/routers";
-import {ERROR_SUMMARY_TITLE} from "./model/error.messages";
-import {ROOT, ROOT_CERTIFICATE} from "./model/page.urls";
+import { ERROR_SUMMARY_TITLE } from "./model/error.messages";
+import {ROOT, ROOT_CERTIFICATE } from "./model/page.urls";
 import authMiddleware from "./middleware/auth.middleware";
 import authCertificateMiddleware from "./middleware/certificate.auth.middleware";
-import {PIWIK_SITE_ID, PIWIK_URL, COOKIE_SECRET, CACHE_SERVER} from "./session/config";
+import { PIWIK_SITE_ID, PIWIK_URL, COOKIE_SECRET, CACHE_SERVER } from "./session/config";
 
 const app = express();
 

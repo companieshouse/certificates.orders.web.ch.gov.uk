@@ -1,5 +1,5 @@
-import {Request, Response} from "express";
-import {CERTIFICATE_TYPE, replaceCompanyNumber} from "../model/page.urls";
+import { Request, Response } from "express";
+import { CERTIFICATE_TYPE, replaceCompanyNumber } from "../model/page.urls";
 
 export default (req: Request, res: Response) => {
   const companyNumber: string = req.params.companyNumber;

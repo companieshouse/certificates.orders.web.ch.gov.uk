@@ -1,4 +1,4 @@
-import {validateCharSet} from "../../utils/char-set";
+import { validateCharSet } from "../../utils/char-set";
 
 const DUMMY_INVALID_NAME = "aaaa|";
 const DUMMY_VALID_NAME = "bbbbbbbb";

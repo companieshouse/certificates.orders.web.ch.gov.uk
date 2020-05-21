@@ -1,8 +1,8 @@
 import { createApiClient } from "ch-sdk-node";
 import { CompanyProfile } from "ch-sdk-node/dist/services/company-profile";
-import { BasketItem, ItemUriPostRequest, Basket, BasketPatchRequest, BasketItemResource } from "ch-sdk-node/dist/services/order/basket/types";
+import { BasketItem, ItemUriPostRequest, Basket, BasketPatchRequest } from "ch-sdk-node/dist/services/order/basket/types";
 import { CertificateItemPostRequest, CertificateItemPatchRequest, CertificateItem } from "ch-sdk-node/dist/services/order/item/certificate/types";
-import { API_URL } from "../session/config";
+import { API_URL } from "../config/config";
 import Resource from "ch-sdk-node/dist/services/resource";
 
 export const getCompanyProfile = async (companyNumber: string, oAuth: string) => {

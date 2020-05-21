@@ -1,14 +1,13 @@
-import {NextFunction, Request, Response} from "express";
-import {check, validationResult} from "express-validator";
+import { NextFunction, Request, Response } from "express";
+import { check, validationResult } from "express-validator";
 import { CertificateItem, CertificateItemPatchRequest } from "ch-sdk-node/dist/services/order/item/certificate/types";
 import { Basket, BasketPatchRequest } from "ch-sdk-node/dist/services/order/basket/types";
-import {createGovUkErrorData, GovUkErrorData} from "../model/govuk.error.data";
+import { createGovUkErrorData, GovUkErrorData } from "../model/govuk.error.data";
 import * as errorMessages from "../model/error.messages";
-import * as templatePaths from "../model/template.paths";
-import {validateCharSet} from "../utils/char-set";
-import {getAccessToken} from "../session/helper";
-import {getCertificateItem, patchCertificateItem, getBasket, patchBasket} from "../client/api.client";
-import {DELIVERY_DETAILS} from "../model/template.paths";
+import { validateCharSet } from "../utils/char-set";
+import { getAccessToken } from "../session/helper";
+import { getCertificateItem, patchCertificateItem, getBasket, patchBasket } from "../client/api.client";
+import { DELIVERY_DETAILS, CHECK_DETAILS } from "../model/template.paths";
 
 const FIRST_NAME_FIELD: string = "firstName";
 const LAST_NAME_FIELD: string = "lastName";
@@ -192,7 +191,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         const accessToken: string = getAccessToken(req.session);
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
 
-        return res.render(templatePaths.DELIVERY_DETAILS, {
+        return res.render(DELIVERY_DETAILS, {
             addressCountry,
             addressCountryError,
             addressCounty,
@@ -211,7 +210,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
             firstNameError,
             lastName,
             lastNameError,
-            templateName: (templatePaths.DELIVERY_DETAILS),
+            templateName: (DELIVERY_DETAILS),
         });
     }
     try {
@@ -236,7 +235,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         };
         await patchCertificateItem(accessToken, req.params.certificateId, certificateItem);
         await patchBasket(accessToken, basketDeliveryDetails);
-        return res.redirect(templatePaths.CHECK_DETAILS);
+        return res.redirect(CHECK_DETAILS);
     } catch (err) {
         return next(err);
     }

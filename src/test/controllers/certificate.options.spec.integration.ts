@@ -1,13 +1,13 @@
-import {createRedisMock, getSignedInCookie} from "../utils/mock.redis";
+import { createRedisMock, getSignedInCookie } from "../utils/mock.redis";
 jest.mock("ioredis", () => createRedisMock());
 
-import {patchCertificateItem, getCertificateItem} from "../../client/api.client";
+import { patchCertificateItem, getCertificateItem } from "../../client/api.client";
 jest.mock("../../client/api.client");
 
 import app from "../../app";
-import * as request from "supertest";
-import {CertificateItem} from "ch-sdk-node/dist/services/order/item/certificate/types";
-import {CERTIFICATE_OPTIONS, replaceCertificateId} from "../../model/page.urls";
+import request from "supertest";
+import { CertificateItem } from "ch-sdk-node/dist/services/order/item/certificate/types";
+import { CERTIFICATE_OPTIONS, replaceCertificateId } from "../../model/page.urls";
 
 const mockPatchCertificateItem: jest.Mock = (<unknown> patchCertificateItem as jest.Mock<typeof patchCertificateItem>);
 const mockGetCertificateItem: jest.Mock = (<unknown> getCertificateItem as jest.Mock<typeof getCertificateItem>);

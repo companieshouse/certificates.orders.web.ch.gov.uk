@@ -4,8 +4,8 @@
  * Module dependencies.
  */
 
-import * as http from "http";
-import * as yargs from "yargs";
+import http from "http";
+import yargs from "yargs";
 import app from "../app";
 
 /**

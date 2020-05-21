@@ -1,7 +1,7 @@
-import {Maybe, Session} from "ch-node-session-handler";
-import {SessionKey} from "ch-node-session-handler/lib/session/keys/SessionKey";
-import {SignInInfoKeys} from "ch-node-session-handler/lib/session/keys/SignInInfoKeys";
-import {ISignInInfo, IAccessToken} from "ch-node-session-handler/lib/session/model/SessionInterfaces";
+import { Maybe, Session } from "ch-node-session-handler";
+import { SessionKey } from "ch-node-session-handler/lib/session/keys/SessionKey";
+import { SignInInfoKeys } from "ch-node-session-handler/lib/session/keys/SignInInfoKeys";
+import { ISignInInfo, IAccessToken } from "ch-node-session-handler/lib/session/model/SessionInterfaces";
 
 export const getAccessToken = (session: Maybe<Session>): string => {
     const signInInfo = session

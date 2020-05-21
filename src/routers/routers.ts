@@ -1,16 +1,15 @@
-import {Router, Response, NextFunction, Request} from "express";
-import {CertificateItemPatchRequest, ItemOptionsRequest, CertificateItem} from "ch-sdk-node/dist/services/order/item/certificate/types";
+import { Router, Response, NextFunction, Request } from "express";
+import { CertificateItem } from "ch-sdk-node/dist/services/order/item/certificate/types";
 
-import * as pageUrls from "../model/page.urls";
-import * as templatePaths from "../model/template.paths";
+import { ROOT, CERTIFICATE_TYPE, CERTIFICATE_OPTIONS, DELIVERY_DETAILS, CHECK_DETAILS } from "../model/page.urls";
 import homeController from "../controllers/home.controller";
-import {render as renderCertificateType} from "../controllers/certificate.type.controller";
-import {render as renderCheckDetails} from "../controllers/check.details.controller";
+import { render as renderCertificateType } from "../controllers/certificate.type.controller";
+import { render as renderCheckDetails } from "../controllers/check.details.controller";
 import collectionOptionsController, {render as renderCertificateOptions} from "../controllers/certificate.options.controller";
 import deliveryDetailsController, {render as renderDeliveryDetails} from "../controllers/delivery.details.controller";
 import checkDetailsController from "../controllers/check.details.controller";
-import {getAccessToken } from "../session/helper";
-import {getCertificateItem} from "../client/api.client";
+import { getAccessToken } from "../session/helper";
+import { getCertificateItem } from "../client/api.client";
 
 const renderTemplate = (template: string) => async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -23,17 +22,17 @@ const renderTemplate = (template: string) => async (req: Request, res: Response,
 };
 const router: Router = Router();
 
-router.get(pageUrls.ROOT, homeController);
+router.get(ROOT, homeController);
 
-router.get(pageUrls.CERTIFICATE_TYPE, renderCertificateType);
+router.get(CERTIFICATE_TYPE, renderCertificateType);
 
-router.get(pageUrls.CERTIFICATE_OPTIONS, renderCertificateOptions);
-router.post(pageUrls.CERTIFICATE_OPTIONS, collectionOptionsController);
+router.get(CERTIFICATE_OPTIONS, renderCertificateOptions);
+router.post(CERTIFICATE_OPTIONS, collectionOptionsController);
 
-router.get(pageUrls.DELIVERY_DETAILS, renderDeliveryDetails);
-router.post(pageUrls.DELIVERY_DETAILS, deliveryDetailsController);
+router.get(DELIVERY_DETAILS, renderDeliveryDetails);
+router.post(DELIVERY_DETAILS, deliveryDetailsController);
 
-router.get(pageUrls.CHECK_DETAILS, renderCheckDetails);
-router.post(pageUrls.CHECK_DETAILS, checkDetailsController);
+router.get(CHECK_DETAILS, renderCheckDetails);
+router.post(CHECK_DETAILS, checkDetailsController);
 
 export default router;

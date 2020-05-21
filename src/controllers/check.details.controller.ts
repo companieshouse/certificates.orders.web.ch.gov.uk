@@ -1,11 +1,11 @@
 import { getAccessToken } from "../session/helper";
 import { NextFunction, Request, Response } from "express";
 import { addItemToBasket } from "../client/api.client";
-import { CHS_URL } from "../session/config";
-import { CertificateItem , ItemOptions} from "ch-sdk-node/dist/services/order/item/certificate/types";
+import { CHS_URL } from "../config/config";
+import { CertificateItem , ItemOptions } from "ch-sdk-node/dist/services/order/item/certificate/types";
 import { CHECK_DETAILS } from "../model/template.paths";
-import { getCertificateItem , getBasket} from "../client/api.client";
-import { CERTIFICATE_OPTIONS , DELIVERY_DETAILS , replaceCertificateId} from "../model/page.urls";
+import { getCertificateItem , getBasket } from "../client/api.client";
+import { CERTIFICATE_OPTIONS , DELIVERY_DETAILS , replaceCertificateId } from "../model/page.urls";
 import { Basket, DeliveryDetails } from "ch-sdk-node/dist/services/order/basket/types";
 
 const GOOD_STANDING = "Statement of good standing";
