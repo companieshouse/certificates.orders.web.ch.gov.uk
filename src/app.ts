@@ -7,10 +7,11 @@ import { SessionStore, SessionMiddleware, CookieConfig } from "ch-node-session-h
 
 import router from "./routers/routers";
 import { ERROR_SUMMARY_TITLE } from "./model/error.messages";
-import {ROOT, ROOT_CERTIFICATE } from "./model/page.urls";
+import * as pageUrls from "./model/page.urls";
+import { createLoggerMiddleware } from "ch-structured-logging";
 import authMiddleware from "./middleware/auth.middleware";
 import authCertificateMiddleware from "./middleware/certificate.auth.middleware";
-import { PIWIK_SITE_ID, PIWIK_URL, COOKIE_SECRET, CACHE_SERVER } from "./session/config";
+import { PIWIK_SITE_ID, PIWIK_URL, COOKIE_SECRET, CACHE_SERVER, APPLICATION_NAME } from "./config/config";
 
 const app = express();
 
@@ -34,9 +35,12 @@ const env = nunjucks.configure([
 const cookieConfig: CookieConfig = { cookieName: "__SID", cookieSecret: COOKIE_SECRET};
 const sessionStore = new SessionStore(new Redis(`redis://${CACHE_SERVER}`));
 
-app.use([ROOT, ROOT_CERTIFICATE], SessionMiddleware(cookieConfig, sessionStore));
-app.use(ROOT, authMiddleware);
-app.use(ROOT_CERTIFICATE, authCertificateMiddleware);
+const PROTECTED_PATHS =
+  [pageUrls.CERTIFICATE_OPTIONS, pageUrls.CERTIFICATE_TYPE, pageUrls.CHECK_DETAILS, pageUrls.DELIVERY_DETAILS];
+app.use(PROTECTED_PATHS, createLoggerMiddleware(APPLICATION_NAME));
+app.use([pageUrls.ROOT, pageUrls.ROOT_CERTIFICATE], SessionMiddleware(cookieConfig, sessionStore));
+app.use(pageUrls.ROOT, authMiddleware);
+app.use(pageUrls.ROOT_CERTIFICATE, authCertificateMiddleware);
 
 app.set("views", viewPath);
 app.set("view engine", "html");

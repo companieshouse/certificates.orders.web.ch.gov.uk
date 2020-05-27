@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { Just, Nothing } from "purify-ts";
 import certificateAuthMiddleware from "../../middleware/certificate.auth.middleware";
 import { Session } from "ch-node-session-handler/lib/session/model/Session";
 import { getCertificateItem } from "../../client/api.client";
@@ -30,14 +29,16 @@ describe("certificate.auth.middleware", () => {
         req.params = {certificateId: "0001"};
         const certificateItem = {} as CertificateItem;
         mockGetCertificateItem.mockImplementation(() => Promise.resolve(certificateItem));
-        req.session = Just(new Session(
+        req.session = new Session(
             {
                 signin_info: {
+                    access_token: {
+                        // tslint:disable-next-line: max-line-length
+                        access_token: '/T+R3ABq5SPPbZWSeePnrDE1122FEZSAGRuhmn21aZSqm5UQt/wqixlSViQPOrWe2iFb8PeYjZzmNehMA3JCJg==',
+                    },
                     signed_in: 1,
-                    access_token: "abc"
                 },
-            },
-        ));
+            });
         await certificateAuthMiddleware(req, res, mockNextFunc);
         expect(mockNextFunc).toHaveBeenCalled();
     });
@@ -48,14 +49,16 @@ describe("certificate.auth.middleware", () => {
         } as Request;
         req.params = {certificateId: "0001"};
         mockGetCertificateItem.mockImplementation(() => Promise.reject("Error"));
-        req.session = Just(new Session(
+        req.session = new Session(
             {
                 signin_info: {
+                    access_token: {
+                        // tslint:disable-next-line: max-line-length
+                        access_token: '/T+R3ABq5SPPbZWSeePnrDE1122FEZSAGRuhmn21aZSqm5UQt/wqixlSViQPOrWe2iFb8PeYjZzmNehMA3JCJg==',
+                    },
                     signed_in: 1,
-                    access_token: "abc"
                 },
-            },
-        ));
+            });
         await certificateAuthMiddleware(req, res, mockNextFunc)
         expect(mockNextFunc).toHaveBeenCalled();
         expect(mockNextFunc).toBeCalledWith("Error")
@@ -66,13 +69,13 @@ describe("certificate.auth.middleware", () => {
             path: "/certificate-options",
         } as Request;
         req.params = {certificateId: "0001"};
-        req.session = Just(new Session(
+        req.session = new Session(
             {
                 signin_info: {
                     signed_in: 0,
                 },
             },
-        ));
+        );
         await certificateAuthMiddleware(req, res, mockNextFunc);
         expect(mockRedirectFunc)
             .toBeCalledWith("/signin?return_to=/orderable/certificates/0001/certificate-options");
@@ -83,7 +86,7 @@ describe("certificate.auth.middleware", () => {
             path: "/certificate-options",
         } as Request;
         req.params = {certificateId: "0001"};
-        req.session = Nothing;
+        req.session = undefined;
         await certificateAuthMiddleware(req, res, mockNextFunc);
         expect(mockRedirectFunc)
             .toBeCalledWith("/signin?return_to=/orderable/certificates/0001/certificate-options");

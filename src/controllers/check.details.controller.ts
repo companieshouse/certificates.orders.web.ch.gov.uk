@@ -24,6 +24,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         return res.render(CHECK_DETAILS, {
             companyName: certificateItem.companyName,
             companyNumber: certificateItem.companyNumber,
+            // tslint:disable-next-line: object-literal-sort-keys
             certificateType: mapCertificateType(itemOptions.certificateType),
             deliveryMethod: mapDeliveryMethod(itemOptions),
             fee: applyCurrencySymbol(certificateItem.itemCosts[0].itemCost),
@@ -38,7 +39,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
     }
 };
 
-const route = async (req: Request, res: Response, next:  NextFunction) => {
+const route = async (req: Request, res: Response, next: NextFunction) => {
 
     // add item to basket
     // then redirect
@@ -57,22 +58,22 @@ const route = async (req: Request, res: Response, next:  NextFunction) => {
 
 export const mapIncludedOnCertificate = (itemOptions: ItemOptions): string => {
 
-    let mappings = new Array<string>();
+    const mappings = new Array<string>();
 
     if (itemOptions?.includeGoodStandingInformation) {
-        mappings.push(GOOD_STANDING)
+        mappings.push(GOOD_STANDING);
     }
 
-    if (itemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType != undefined) {
-        mappings.push(REGISTERED_OFFICE_ADDRESS)
+    if (itemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType !== undefined) {
+        mappings.push(REGISTERED_OFFICE_ADDRESS);
     }
 
     if (itemOptions?.directorDetails?.includeBasicInformation) {
-        mappings.push(DIRECTORS)
+        mappings.push(DIRECTORS);
     }
 
     if (itemOptions?.secretaryDetails?.includeBasicInformation) {
-        mappings.push(SECRETARIES)
+        mappings.push(SECRETARIES);
     }
 
     if (itemOptions?.includeCompanyObjectsInformation) {
@@ -80,37 +81,37 @@ export const mapIncludedOnCertificate = (itemOptions: ItemOptions): string => {
     }
 
     return mapToHtml(mappings);
-}
+};
 
 export const mapDeliveryDetails = (deliveryDetails: DeliveryDetails | undefined): string => {
 
-    let mappings = new Array<string>();
+    const mappings = new Array<string>();
 
-    if (deliveryDetails == undefined) {
+    if (deliveryDetails === undefined) {
         return "";
     }
 
     mappings.push(deliveryDetails.forename + " " + deliveryDetails.surname);
     mappings.push(deliveryDetails.addressLine1);
 
-    if (deliveryDetails.addressLine2 != "" && deliveryDetails.addressLine2 != undefined) {
+    if (deliveryDetails.addressLine2 !== "" && deliveryDetails.addressLine2 !== undefined) {
         mappings.push(deliveryDetails.addressLine2);
     }
 
     mappings.push(deliveryDetails.locality);
 
-    if (deliveryDetails.region != "" && deliveryDetails.region != undefined) {
+    if (deliveryDetails.region !== "" && deliveryDetails.region !== undefined) {
         mappings.push(deliveryDetails.region);
     }
 
-    if (deliveryDetails.postalCode != "" && deliveryDetails.postalCode != undefined) {
+    if (deliveryDetails.postalCode !== "" && deliveryDetails.postalCode !== undefined) {
         mappings.push(deliveryDetails.postalCode);
     }
 
     mappings.push(deliveryDetails.country);
 
     return mapToHtml(mappings);
-}
+};
 
 export const mapDeliveryMethod = (itemOptions: Record<string, any>): string | null => {
     if (itemOptions?.deliveryTimescale === "standard") {
@@ -122,18 +123,18 @@ export const mapDeliveryMethod = (itemOptions: Record<string, any>): string | nu
     return null;
 };
 
-export const mapToHtml = (mappings: Array<string>): string => {
+export const mapToHtml = (mappings: string[]): string => {
     let htmlString: string = "";
 
-    mappings.forEach(element => {
+    mappings.forEach((element) => {
         htmlString += element + "<br>";
     });
     return htmlString;
-}
+};
 
 export const mapCertificateType = (certificateType: string): string => {
 
-    if (certificateType == "incorporation-with-all-name-changes") {
+    if (certificateType === "incorporation-with-all-name-changes") {
         return "Incorporation with all company name changes";
     }
 
@@ -141,10 +142,10 @@ export const mapCertificateType = (certificateType: string): string => {
     + certificateType.slice(1);
 
     return typeCapitalised.replace(/-/g, " ");
-}
+};
 
-export const applyCurrencySymbol = (fee: string):string => {
+export const applyCurrencySymbol = (fee: string): string => {
     return "£" + fee;
-}
+};
 
 export default [route];

@@ -1,9 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import { CertificateItemPatchRequest, ItemOptionsRequest, CertificateItem } from "ch-sdk-node/dist/services/order/item/certificate/types";
 import { patchCertificateItem, getCertificateItem } from "../client/api.client";
-
+import { createLogger } from "ch-structured-logging";
 import { DELIVERY_DETAILS, CERTIFICATE_OPTIONS } from "../model/template.paths";
-import { getAccessToken } from "../session/helper";
+import { getAccessToken, getUserId } from "../session/helper";
+import { APPLICATION_NAME } from "../config/config";
 
 const GOOD_STANDING_FIELD: string = "goodStanding";
 const REGISTERED_OFFICE_FIELD: string = "registeredOffice";
@@ -12,11 +13,14 @@ const SECRETARIES_FIELD: string = "secretaries";
 const COMPANY_OBJECTS_FIELD: string = "companyObjects";
 const MORE_INFO_FIELD: string = "moreInfo";
 
+const logger = createLogger(APPLICATION_NAME);
+
 export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
+        const userId = getUserId(req.session);
         const accessToken: string = getAccessToken(req.session);
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
-
+        logger.info(`Get certificate item, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
         return res.render(CERTIFICATE_OPTIONS, {
             companyNumber: certificateItem.companyNumber,
             itemOptions: certificateItem.itemOptions,
@@ -44,8 +48,9 @@ export default async (req: Request, res: Response, next: NextFunction) => {
             quantity: 1,
         };
         const accessToken: string = getAccessToken(req.session);
+        const userId = getUserId(req.session);
         await patchCertificateItem(accessToken, req.params.certificateId, certificateItem);
-
+        logger.info(`Patch certificate item with certificate options, id=${req.params.certificateId}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
         return res.redirect(DELIVERY_DETAILS);
     } catch (err) {
         return next(err);

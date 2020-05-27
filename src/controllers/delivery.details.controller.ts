@@ -5,9 +5,11 @@ import { Basket, BasketPatchRequest } from "ch-sdk-node/dist/services/order/bask
 import { createGovUkErrorData, GovUkErrorData } from "../model/govuk.error.data";
 import * as errorMessages from "../model/error.messages";
 import { validateCharSet } from "../utils/char-set";
-import { getAccessToken } from "../session/helper";
+import { getAccessToken, getUserId } from "../session/helper";
 import { getCertificateItem, patchCertificateItem, getBasket, patchBasket } from "../client/api.client";
 import { DELIVERY_DETAILS, CHECK_DETAILS } from "../model/template.paths";
+import { createLogger } from "ch-structured-logging";
+import { APPLICATION_NAME } from "../config/config";
 
 const FIRST_NAME_FIELD: string = "firstName";
 const LAST_NAME_FIELD: string = "lastName";
@@ -18,12 +20,15 @@ const ADDRESS_COUNTY_FIELD: string = "addressCounty";
 const ADDRESS_POSTCODE_FIELD: string = "addressPostcode";
 const ADDRESS_COUNTRY_FIELD: string = "addressCountry";
 
+const logger = createLogger(APPLICATION_NAME);
+
 export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
+        const userId = getUserId(req.session);
         const accessToken: string = getAccessToken(req.session);
         const basket: Basket = await getBasket(accessToken);
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
-
+        logger.info(`Get certificate item, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
         return res.render(DELIVERY_DETAILS, {
                 firstName: basket.deliveryDetails?.forename,
                 lastName: basket.deliveryDetails?.surname,
@@ -233,8 +238,11 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
                 surname: lastName,
             },
         };
+        const userId = getUserId(req.session);
         await patchCertificateItem(accessToken, req.params.certificateId, certificateItem);
+        logger.info(`Patch certificate item with delivery details, id=${req.params.certificateId}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
         await patchBasket(accessToken, basketDeliveryDetails);
+        logger.info(`Patch basket with delivery details, certificate_id=${req.params.certificateId}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
         return res.redirect(CHECK_DETAILS);
     } catch (err) {
         return next(err);
