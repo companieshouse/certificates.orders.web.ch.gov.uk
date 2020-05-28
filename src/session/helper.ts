@@ -1,17 +1,19 @@
-import {Maybe, Session} from "ch-node-session-handler";
-import {SessionKey} from "ch-node-session-handler/lib/session/keys/SessionKey";
-import {SignInInfoKeys} from "ch-node-session-handler/lib/session/keys/SignInInfoKeys";
-import {ISignInInfo, IAccessToken} from "ch-node-session-handler/lib/session/model/SessionInterfaces";
+import { SessionKey } from "ch-node-session-handler/lib/session/keys/SessionKey";
+import { SignInInfoKeys } from "ch-node-session-handler/lib/session/keys/SignInInfoKeys";
+import { UserProfileKeys } from "ch-node-session-handler/lib/session/keys/UserProfileKeys";
 
-export const getAccessToken = (session: Maybe<Session>): string => {
-    const signInInfo = session
-        .map((_) => _.getValue<ISignInInfo>(SessionKey.SignInInfo))
-        .unsafeCoerce();
+export const getAccessToken = (session): string => {
+    const signInInfo = session?.data[SessionKey.SignInInfo];
 
-    const accessToken = signInInfo
-        .map((info) => info[SignInInfoKeys.AccessToken])
-        .map((token: IAccessToken) => token.access_token as string)
-        .unsafeCoerce();
+    const accessToken = signInInfo?.[SignInInfoKeys.AccessToken]?.[SignInInfoKeys.AccessToken]!;
 
     return accessToken;
+};
+
+export const getUserId = (session): string => {
+    const signInInfo = session?.data[SessionKey.SignInInfo];
+
+    const userId = signInInfo?.[SignInInfoKeys.UserProfile]?.[UserProfileKeys.UserId];
+
+    return userId;
 };

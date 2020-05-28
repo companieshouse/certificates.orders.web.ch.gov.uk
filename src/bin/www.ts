@@ -4,9 +4,14 @@
  * Module dependencies.
  */
 
-import * as http from "http";
-import * as yargs from "yargs";
+import http from "http";
+import yargs from "yargs";
+import { createLogger } from "ch-structured-logging";
+
 import app from "../app";
+import { APPLICATION_NAME } from "../config/config";
+
+const logger = createLogger(APPLICATION_NAME);
 
 /**
  * Get port from environment and store in Express.
@@ -66,12 +71,12 @@ function onError(error) {
   switch (error.code) {
     case "EACCES":
       // tslint:disable-next-line
-      console.error(bind + " requires elevated privileges");
+      logger.error(bind + " requires elevated privileges");
       process.exit(1);
       break;
     case "EADDRINUSE":
       // tslint:disable-next-line
-      console.error(bind + " is already in use");
+      logger.error(bind + " is already in use");
       process.exit(1);
       break;
     default:
@@ -89,5 +94,5 @@ function onListening() {
     ? "pipe " + addr
     : "port " + addr!.port;
   // tslint:disable-next-line
-  console.log("Listening on " + bind);
+  logger.info("Listening on " + bind);
 }

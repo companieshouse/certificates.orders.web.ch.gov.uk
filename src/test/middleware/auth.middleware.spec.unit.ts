@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { Just, Nothing } from "purify-ts";
 import authMiddleware from "../../middleware/auth.middleware";
 import { Session } from "ch-node-session-handler/lib/session/model/Session";
 
@@ -27,13 +26,13 @@ describe("auth.middleware", () => {
         let req = {
             path: "/certificate-options",
         } as Request;
-        req.session = Just(new Session(
+        req.session = new Session(
             {
                 signin_info: {
                     signed_in: 1,
                 },
             },
-        ));
+        );
         authMiddleware(req, res, mockNextFunc);
         expect(mockNextFunc).toHaveBeenCalled();
     });
@@ -43,13 +42,13 @@ describe("auth.middleware", () => {
             path: "/certificate-options",
         } as Request;
         req.params = {companyNumber: "0001"};
-        req.session = Just(new Session(
+        req.session = new Session(
             {
                 signin_info: {
                     signed_in: 0,
                 },
             },
-        ));
+        );
         authMiddleware(req, res, mockNextFunc);
         expect(mockRedirectFunc)
             .toBeCalledWith("/signin?return_to=/company/0001/orderable/certificates/certificate-type");
@@ -60,7 +59,7 @@ describe("auth.middleware", () => {
             path: "/certificate-options",
         } as Request;
         req.params = {companyNumber: "0001"};
-        req.session = Nothing;
+        req.session = undefined;
         authMiddleware(req, res, mockNextFunc);
         expect(mockRedirectFunc)
             .toBeCalledWith("/signin?return_to=/company/0001/orderable/certificates/certificate-type");

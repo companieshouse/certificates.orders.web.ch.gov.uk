@@ -4,7 +4,7 @@ import { getCertificateItem,getBasket, patchBasket } from "../../client/api.clie
 jest.mock("../../client/api.client");
 
 import app from "../../app";
-import * as request from "supertest";
+import request from "supertest";
 import { DELIVERY_DETAILS, replaceCertificateId } from "../../model/page.urls";
 import * as errorMessages from "../../model/error.messages";
 import { CertificateItem } from "ch-sdk-node/dist/services/order/item/certificate/types";

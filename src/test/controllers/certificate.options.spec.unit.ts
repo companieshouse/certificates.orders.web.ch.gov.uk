@@ -1,4 +1,4 @@
-import {setItemOptions} from "../../controllers/certificate.options.controller";
+import { setItemOptions } from "../../controllers/certificate.options.controller";
 
 describe("setItemOptions", () => {
 
