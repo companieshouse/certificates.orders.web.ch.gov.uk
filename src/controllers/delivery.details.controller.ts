@@ -45,6 +45,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             templateName: DELIVERY_DETAILS,
         });
     } catch (err) {
+        logger.error(`${err}`);
         next(err);
     }
 };
@@ -245,6 +246,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         logger.info(`Patch basket with delivery details, certificate_id=${req.params.certificateId}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
         return res.redirect(CHECK_DETAILS);
     } catch (err) {
+        logger.error(`${err}`);
         return next(err);
     }
 };

@@ -29,6 +29,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         }
         next();
     } catch (err) {
+        logger.error(`Certificate auth middleware retrieve certificate item, ${err}`);
         next(err);
     }
 };

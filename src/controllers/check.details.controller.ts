@@ -1,4 +1,4 @@
-import { getAccessToken } from "../session/helper";
+import { getAccessToken, getUserId } from "../session/helper";
 import { NextFunction, Request, Response } from "express";
 import { addItemToBasket } from "../client/api.client";
 import { CHS_URL } from "../config/config";
@@ -7,12 +7,16 @@ import { CHECK_DETAILS } from "../model/template.paths";
 import { getCertificateItem , getBasket } from "../client/api.client";
 import { CERTIFICATE_OPTIONS , DELIVERY_DETAILS , replaceCertificateId } from "../model/page.urls";
 import { Basket, DeliveryDetails } from "ch-sdk-node/dist/services/order/basket/types";
+import { createLogger } from "ch-structured-logging";
+import { APPLICATION_NAME } from "../config/config";
 
 const GOOD_STANDING = "Statement of good standing";
 const REGISTERED_OFFICE_ADDRESS = "Registered office address";
 const DIRECTORS = "Directors";
 const SECRETARIES = "Secretaries";
 const COMPANY_OBJECTS = "Company objects";
+
+const logger = createLogger(APPLICATION_NAME);
 
 export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
@@ -35,6 +39,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             templateName: CHECK_DETAILS,
         });
     } catch (err) {
+        logger.error(`${err}`);
         next(err);
     }
 };
@@ -46,12 +51,14 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const accessToken: string = getAccessToken(req.session);
         const certificateId: string = req.params.certificateId;
-
+        const userId = getUserId(req.session);
         const resp = await addItemToBasket(
             accessToken,
             { itemUri: `/orderable/certificates/${certificateId}` });
+        logger.info(`item added to basket certificate_id=${certificateId}, user_id=${userId}, company_number=${resp.companyNumber}, redirecting to basket`);
         res.redirect(`${CHS_URL}/basket`);
     } catch (error) {
+        logger.error(`error=${error}`);
         return next(error);
     }
 };

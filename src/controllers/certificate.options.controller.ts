@@ -27,6 +27,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             templateName: CERTIFICATE_OPTIONS,
         });
     } catch (err) {
+        logger.error(`Error retrieving certificate item, ${err}`);
         next(err);
     }
 };
@@ -53,6 +54,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         logger.info(`Patch certificate item with certificate options, id=${req.params.certificateId}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
         return res.redirect(DELIVERY_DETAILS);
     } catch (err) {
+        logger.error(`${err}`);
         return next(err);
     }
 };

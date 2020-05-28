@@ -28,6 +28,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         logger.info(`Certificate Item created, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
         res.redirect(replaceCertificateId(CERTIFICATE_OPTIONS, certificateItem.id));
     } catch (err) {
+        logger.error(`${err}`);
         next(err);
     }
 };
