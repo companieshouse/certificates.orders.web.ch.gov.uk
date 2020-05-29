@@ -50,8 +50,8 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         };
         const accessToken: string = getAccessToken(req.session);
         const userId = getUserId(req.session);
-        await patchCertificateItem(accessToken, req.params.certificateId, certificateItem);
-        logger.info(`Patch certificate item with certificate options, id=${req.params.certificateId}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
+        const patchResponse = await patchCertificateItem(accessToken, req.params.certificateId, certificateItem);
+        logger.info(`Patch certificate item with certificate options, id=${req.params.certificateId}, user_id=${userId}, company_number=${patchResponse.companyNumber}`);
         return res.redirect(DELIVERY_DETAILS);
     } catch (err) {
         logger.error(`${err}`);
