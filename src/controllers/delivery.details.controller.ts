@@ -242,9 +242,9 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         };
         const certificatePatchResponse = await patchCertificateItem(
                 accessToken, req.params.certificateId, certificateItem);
-        logger.info(`Patch certificate item with delivery details, id=${req.params.certificateId}, user_id=${userId}, company_number=${certificatePatchResponse.companyNumber}, status_code: 200`);
+        logger.info(`Patched certificate item with delivery details, id=${req.params.certificateId}, user_id=${userId}, company_number=${certificatePatchResponse.companyNumber}`);
         await patchBasket(accessToken, basketDeliveryDetails);
-        logger.info(`Patch basket with delivery details, certificate_id=${req.params.certificateId}, user_id=${userId}, company_number=${certificatePatchResponse.companyNumber}, status_code: 200`);
+        logger.info(`Patched basket with delivery details, certificate_id=${req.params.certificateId}, user_id=${userId}, company_number=${certificatePatchResponse.companyNumber}`);
         return res.redirect(CHECK_DETAILS);
     } catch (err) {
         logger.error(`${err}`);

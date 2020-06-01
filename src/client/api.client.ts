@@ -30,6 +30,7 @@ export const postCertificateItem =
     if (certificateItemResource.httpStatusCode !== 200 && certificateItemResource.httpStatusCode !== 201) {
         throw createError(certificateItemResource.httpStatusCode, certificateItemResource.httpStatusCode.toString());
     }
+    logger.info(`Create certificate, status_code=${certificateItemResource.httpStatusCode}`);
     return certificateItemResource.resource as CertificateItem;
 };
 
@@ -41,6 +42,7 @@ export const patchCertificateItem = async (
     if (certificateItemResource.httpStatusCode !== 200) {
         throw createError(certificateItemResource.httpStatusCode, certificateItemResource.httpStatusCode.toString());
     }
+    logger.info(`Patch certificate, id=${certificateId}, status_code=${certificateItemResource.httpStatusCode}`);
     return certificateItemResource.resource as CertificateItem;
 };
 
@@ -59,6 +61,7 @@ export const addItemToBasket = async (oAuth: string, itemUri: ItemUriPostRequest
     if (itemUriResource.httpStatusCode !== 200 && itemUriResource.httpStatusCode !== 201) {
         throw createError(itemUriResource.httpStatusCode, itemUriResource.httpStatusCode.toString());
     }
+    logger.info(`Add item to basket, status_code=${itemUriResource.httpStatusCode}`);
     return itemUriResource.resource as BasketItem;
 };
 
@@ -77,5 +80,6 @@ export const patchBasket = async (oAuth: string, basketPatchRequest: BasketPatch
     if (basketResource.httpStatusCode !== 200 && basketResource.httpStatusCode !== 201) {
         throw createError(basketResource.httpStatusCode, basketResource.httpStatusCode.toString());
     }
+    logger.info(`Patch basket, status_code=${basketResource.httpStatusCode}`);
     return basketResource.resource as Basket;
 };
