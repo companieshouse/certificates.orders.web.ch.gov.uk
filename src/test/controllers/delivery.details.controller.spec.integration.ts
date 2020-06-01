@@ -1,6 +1,6 @@
 import { createRedisMock, getSignedInCookie } from "../utils/mock.redis";
 jest.mock("ioredis", () => createRedisMock());
-import { getCertificateItem,getBasket, patchBasket } from "../../client/api.client";
+import { getCertificateItem,getBasket, patchBasket, patchCertificateItem } from "../../client/api.client";
 jest.mock("../../client/api.client");
 
 import app from "../../app";
@@ -31,6 +31,7 @@ const DELIVERY_DETAILS_URL = replaceCertificateId(DELIVERY_DETAILS, CERTIFICATE_
 const mockGetCertificateItem: jest.Mock = (<unknown>getCertificateItem as jest.Mock<typeof getCertificateItem>);
 const mockGetBasket: jest.Mock = (<unknown>getBasket as jest.Mock<typeof getBasket>);
 const mockPatchBasket: jest.Mock = (<unknown>patchBasket as jest.Mock<typeof patchBasket>);
+const mockPatchCertificateItem: jest.Mock = (<unknown> patchCertificateItem as jest.Mock<typeof patchCertificateItem>);
 
 describe("delivery.details.controller", () => {
 
@@ -157,7 +158,11 @@ describe("delivery.details.controller", () => {
 
     describe("delivery details patch to Basket", () => {
         it("redirects the user to the check details page", async () => {
-            mockPatchBasket.mockImplementation(() => undefined);
+            const basketDetails = {} as Basket;
+            const certificateDetails = {} as CertificateItem;
+            
+            mockPatchBasket.mockImplementation(() => Promise.resolve(basketDetails));
+            mockPatchCertificateItem.mockImplementation(() => Promise.resolve(certificateDetails));
             const resp = await request(app)
                 .post(DELIVERY_DETAILS_URL)
                 .send({

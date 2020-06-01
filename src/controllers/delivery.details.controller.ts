@@ -220,6 +220,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         });
     }
     try {
+        const userId = getUserId(req.session);
         const accessToken: string = getAccessToken(req.session);
         const certificateItem: CertificateItemPatchRequest = {
             itemOptions: {
@@ -239,11 +240,11 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
                 surname: lastName,
             },
         };
-        const userId = getUserId(req.session);
-        await patchCertificateItem(accessToken, req.params.certificateId, certificateItem);
-        logger.info(`Patch certificate item with delivery details, id=${req.params.certificateId}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
+        const certificatePatchResponse = await patchCertificateItem(
+                accessToken, req.params.certificateId, certificateItem);
+        logger.info(`Patched certificate item with delivery details, id=${req.params.certificateId}, user_id=${userId}, company_number=${certificatePatchResponse.companyNumber}`);
         await patchBasket(accessToken, basketDeliveryDetails);
-        logger.info(`Patch basket with delivery details, certificate_id=${req.params.certificateId}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
+        logger.info(`Patched basket with delivery details, certificate_id=${req.params.certificateId}, user_id=${userId}, company_number=${certificatePatchResponse.companyNumber}`);
         return res.redirect(CHECK_DETAILS);
     } catch (err) {
         logger.error(`${err}`);

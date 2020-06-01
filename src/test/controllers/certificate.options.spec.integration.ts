@@ -16,6 +16,23 @@ const CERTIFICATE_ID = "CHS00000000000000001";
 const CERTIFICATE_OPTIONS_URL = replaceCertificateId(CERTIFICATE_OPTIONS, CERTIFICATE_ID);
 
 describe("certificate.options.controller", () => {
+    
+    const certificateItem = {
+        itemOptions: {
+            directorDetails: {
+                includeBasicInformation: true,
+            },
+            includeCompanyObjectsInformation: true,
+            includeGoodStandingInformation: true,
+            registeredOfficeAddressDetails: {
+                includeAddressRecordsType: "current",
+            },
+            secretaryDetails: {
+                includeBasicInformation: true,
+            }
+        }
+    } as CertificateItem;
+
     beforeEach(() => {
         mockPatchCertificateItem.mockClear();
         mockGetCertificateItem.mockClear();
@@ -23,21 +40,6 @@ describe("certificate.options.controller", () => {
 
     describe("certificate options get", () => {
         it("renders the certificate options page", async () => {
-            const certificateItem = {
-                itemOptions: {
-                    directorDetails: {
-                        includeBasicInformation: true,
-                    },
-                    includeCompanyObjectsInformation: true,
-                    includeGoodStandingInformation: true,
-                    registeredOfficeAddressDetails: {
-                        includeAddressRecordsType: "current",
-                    },
-                    secretaryDetails: {
-                        includeBasicInformation: true,
-                    }
-                }
-            } as CertificateItem;
             mockGetCertificateItem.mockImplementation(() => Promise.resolve(certificateItem));
 
             const resp = await request(app)
@@ -52,7 +54,9 @@ describe("certificate.options.controller", () => {
 
     describe("certificate options post", () => {
         it("redirects the user to the order-details page", async () => {
-            mockPatchCertificateItem.mockImplementation(() => undefined);
+            const certificateDetails = {} as CertificateItem;
+            
+            mockPatchCertificateItem.mockImplementation(() => Promise.resolve(certificateDetails));
             const resp = await request(app)
                 .post(CERTIFICATE_OPTIONS_URL)
                 .send({
