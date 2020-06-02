@@ -9,20 +9,6 @@ import createError from "http-errors";
 
 const logger = createLogger(APPLICATION_NAME);
 
-export const getCompanyProfile = async (companyNumber: string, oAuth: string) => {
-    const api = createApiClient(undefined, oAuth, API_URL);
-
-    const companyProfileResource =
-        await api.companyProfile.getCompanyProfile(companyNumber.toUpperCase());
-    if (companyProfileResource.httpStatusCode !== 200 && companyProfileResource.httpStatusCode !== 201) {
-        throw createError(companyProfileResource.httpStatusCode, companyProfileResource.httpStatusCode.toString());
-    }
-    const companyProfile = companyProfileResource.resource as CompanyProfile;
-    return {
-        companyName: companyProfile.companyName,
-    };
-};
-
 export const postCertificateItem =
     async (oAuth: string, certificateItem: CertificateItemPostRequest): Promise<CertificateItem> => {
     const api = createApiClient(undefined, oAuth, API_URL);
@@ -71,6 +57,7 @@ export const getBasket = async (oAuth: string): Promise<Basket> => {
     if (basketResource.httpStatusCode !== 200 && basketResource.httpStatusCode !== 201) {
         throw createError(basketResource.httpStatusCode, basketResource.httpStatusCode.toString());
     }
+    logger.info(`Get basket, status_code=${basketResource.httpStatusCode}`);
     return basketResource.resource as Basket;
 };
 
