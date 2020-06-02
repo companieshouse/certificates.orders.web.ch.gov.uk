@@ -1,7 +1,7 @@
 import chai from "chai";
 import sinonChai from "sinon-chai";
 import chaiAsPromised from "chai-as-promised";
-import chaiHttp = require("chai-http");
+import chaiHttp from "chai-http";
 
 chai.use(chaiHttp);
 chai.use(sinonChai);
