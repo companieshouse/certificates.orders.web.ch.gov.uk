@@ -20,6 +20,7 @@ export default (req: Request, res: Response, next: NextFunction) => {
             if (!signedIn) {
                 const companyNumber = req.params.companyNumber;
                 const returnToUrl = replaceCompanyNumber(CERTIFICATE_TYPE, companyNumber);
+                logger.info(`User unauthorized, status_code=401, redirecting to sign in page`);
                 return res.redirect(`/signin?return_to=${returnToUrl}`);
         }
     }
