@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from "express";
-import { Session } from "ch-node-session-handler";
 import { CertificateItemPatchRequest, ItemOptionsRequest, CertificateItem } from "ch-sdk-node/dist/services/order/item/certificate/types";
 import { patchCertificateItem, getCertificateItem } from "../client/api.client";
 import { createLogger } from "ch-structured-logging";
