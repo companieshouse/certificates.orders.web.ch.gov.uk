@@ -22,6 +22,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         if (!signedIn) {
             const certificateId = req.params.certificateId;
             const returnToUrl = replaceCertificateId(CERTIFICATE_OPTIONS, certificateId);
+            logger.info(`User unauthorized, status_code=401, redirecting to sign in page`);
             return res.redirect(`/signin?return_to=${returnToUrl}`);
         } else {
             const accessToken: string = getAccessToken(req.session);
