@@ -14,7 +14,7 @@ const redirectSpy = sandbox.spy();
 
 res.redirect = redirectSpy;
 
-describe("auth.middleware", () => {
+describe("auth.middleware.unit", () => {
     afterEach(() => {
         sandbox.reset();
         sandbox.restore();
