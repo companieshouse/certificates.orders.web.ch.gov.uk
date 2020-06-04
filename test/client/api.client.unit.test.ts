@@ -1,12 +1,12 @@
-import { postCertificateItem, patchBasket, getBasket } from "../../client/api.client";
+import sinon from "sinon";
+import chai from "chai";
 import Resource from "ch-sdk-node/dist/services/resource";
 import CertificateItemService from "ch-sdk-node/dist/services/order/item/certificate/service";
 import BasketService from "ch-sdk-node/dist/services/order/basket/service";
 import { CertificateItemPostRequest, CertificateItem } from "ch-sdk-node/dist/services/order/item/certificate/types";
 import { Basket, BasketPatchRequest } from "ch-sdk-node/dist/services/order/basket/types";
 
-jest.mock("ch-sdk-node/dist/services/order/item/certificate/service");
-jest.mock("ch-sdk-node/dist/services/order/basket/service");
+import { postCertificateItem, patchBasket, getBasket } from "../../src/client/api.client";
 
 const dummyBasketSDKResponse: Resource<Basket> = {
   httpStatusCode: 200,
@@ -20,10 +20,10 @@ const dummyBasketSDKResponse: Resource<Basket> = {
       poBox: "po box",
       postalCode: "CF5 3NB",
       region: "Glamorgan",
-      surname: "Smith"
-    }
-  }
-}
+      surname: "Smith",
+    },
+  },
+};
 
 const basketPatchRequest: BasketPatchRequest = {
   deliveryDetails: {
@@ -35,9 +35,9 @@ const basketPatchRequest: BasketPatchRequest = {
     poBox: "po box",
     postalCode: "CF5 3NB",
     region: "Glamorgan",
-    surname: "Smith"
-  }
-}
+    surname: "Smith",
+  },
+};
 
 const dummyCertificateItemSDKResponse: Resource<CertificateItem> = {
   httpStatusCode: 200,
@@ -107,36 +107,38 @@ const certificateItemRequest: CertificateItemPostRequest = {
   quantity: 1,
 };
 
-describe("apiclient company profile unit tests", () => {
-  const mockPostCertificateItem = (CertificateItemService.prototype.postCertificate as jest.Mock);
-  beforeEach(() => {
-    mockPostCertificateItem.mockReset();
+const sandbox = sinon.createSandbox();
+
+describe("api.client", () => {
+  afterEach(() => {
+    sandbox.reset();
+    sandbox.restore();
   });
 
-  it("returns an Certificate Item object", async () => {
-    mockPostCertificateItem.mockResolvedValueOnce(dummyCertificateItemSDKResponse);
-    const certificateItem = await postCertificateItem("oauth", certificateItemRequest);
-    expect(certificateItem).toEqual(dummyCertificateItemSDKResponse.resource);
+  describe("postCertificateItem", () => {
+    it("returns a Certificate Item object", async () => {
+      sandbox.stub(CertificateItemService.prototype, "postCertificate")
+        .returns(Promise.resolve(dummyCertificateItemSDKResponse));
+
+      const certificateItem = await postCertificateItem("oauth", certificateItemRequest);
+      chai.expect(certificateItem).to.equal(dummyCertificateItemSDKResponse.resource);
+    });
   });
+
+  describe("getBasket", () => {
+    it("returns the Basket details following GET basket", async () => {
+      sandbox.stub(BasketService.prototype, "getBasket").returns(Promise.resolve(dummyBasketSDKResponse));
+      const basketDetails = await getBasket("oauth");
+      chai.expect(basketDetails).to.equal(dummyBasketSDKResponse.resource);
+    });
+  });
+
+  describe("patchBasket", () => {
+    it("returns the Basket details following PATCH basket", async () => {
+      sandbox.stub(BasketService.prototype, "patchBasket").returns(Promise.resolve(dummyBasketSDKResponse));
+      const patchBasketDetails = await patchBasket("oauth", basketPatchRequest);
+      chai.expect(patchBasketDetails).to.equal(dummyBasketSDKResponse.resource);
+    });
+  });
+
 });
-
-describe("apiclient basket unit tests", () => {
-  const mockGetBasket = (BasketService.prototype.getBasket as jest.Mock);
-  const mockPatchBasket =(BasketService.prototype.patchBasket as jest.Mock);
-  beforeEach(() => {
-    mockGetBasket.mockReset();
-    mockPatchBasket.mockReset();
-  });
-
-  it("returns the Basket details following GET basket", async () => {
-    mockGetBasket.mockResolvedValueOnce(dummyBasketSDKResponse);
-    const basketDetails = await getBasket("oauth");
-    expect(basketDetails).toEqual(dummyBasketSDKResponse.resource);
-  });
-
-  it("PATCH basket", async () => {
-    mockPatchBasket.mockResolvedValue(dummyBasketSDKResponse);
-    const patchBasketDetails = await patchBasket("oauth", basketPatchRequest);
-    expect(patchBasketDetails).toEqual(dummyBasketSDKResponse.resource);
-  });
-})

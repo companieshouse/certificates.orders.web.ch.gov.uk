@@ -7,7 +7,8 @@
   "rules": {
     "interface-name": false,
     "variable-name": [true, "check-format", "allow-leading-underscore"],
-    "ordered-imports": false
+    "ordered-imports": false,
+    "no-unused-expression": false
   },
   "linterOptions": {
     "exclude": [
