@@ -2,5 +2,5 @@
     "file": ["test/setup.ts"],
     "require": "ts-node/register",
     "spec": "test/**/*.test.ts",
-    "timeout": 3000
+    "timeout": 4000
 }
