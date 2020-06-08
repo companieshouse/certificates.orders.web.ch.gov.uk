@@ -62,7 +62,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const mapIncludedOnCertificate = (itemOptions: ItemOptions): string => {
-    const mappings:string[];
+    const mappings:string[] = [];
 
     if (itemOptions?.includeGoodStandingInformation) {
         mappings.push(GOOD_STANDING);
@@ -88,7 +88,7 @@ export const mapIncludedOnCertificate = (itemOptions: ItemOptions): string => {
 };
 
 export const mapDeliveryDetails = (deliveryDetails: DeliveryDetails | undefined): string => {
-    const mappings:string[];
+    const mappings:string[] = [];
 
     if (deliveryDetails === undefined) {
         return "";
