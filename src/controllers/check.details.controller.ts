@@ -27,7 +27,6 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         return res.render(CHECK_DETAILS, {
             companyName: certificateItem.companyName,
             companyNumber: certificateItem.companyNumber,
-            // tslint:disable-next-line: object-literal-sort-keys
             certificateType: mapCertificateType(itemOptions.certificateType),
             deliveryMethod: mapDeliveryMethod(itemOptions),
             fee: applyCurrencySymbol(certificateItem.itemCosts[0].itemCost),

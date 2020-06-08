@@ -32,10 +32,8 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         return res.render(DELIVERY_DETAILS, {
             firstName: basket.deliveryDetails?.forename,
             lastName: basket.deliveryDetails?.surname,
-            // tslint:disable-next-line: object-literal-sort-keys
             addressLineOne: basket.deliveryDetails?.addressLine1,
             addressLineTwo: basket.deliveryDetails?.addressLine2,
-            // tslint:disable-next-line: object-literal-sort-keys
             addressCountry: basket.deliveryDetails?.country,
             addressTown: basket.deliveryDetails?.locality,
             addressPoBox: basket.deliveryDetails?.poBox,

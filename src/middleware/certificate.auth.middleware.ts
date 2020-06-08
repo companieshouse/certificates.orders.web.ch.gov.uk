@@ -13,7 +13,6 @@ const logger = createLogger(APPLICATION_NAME);
 
 export default async (req: Request, res: Response, next: NextFunction) => {
     try {
-        // tslint:disable-next-line
         if (!req.session) {
             logger.info(`${req.url}: Session object is missing!`);
         }

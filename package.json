@@ -25,7 +25,6 @@
     "http-errors": "^1.7.3",
     "ioredis": "^4.16.0",
     "nunjucks": "^3.2.0",
-    "ts-lint": "^4.5.1",
     "yargs": "^15.0.2"
   },
   "devDependencies": {

@@ -33,7 +33,6 @@ describe("certificate.auth.middleware.unit", () => {
             {
                 signin_info: {
                     access_token: {
-                        // tslint:disable-next-line: max-line-length
                         access_token: "/T+R3ABq5SPPbZWSeePnrDE1122FEZSAGRuhmn21aZSqm5UQt/wqixlSViQPOrWe2iFb8PeYjZzmNehMA3JCJg=="
                     },
                     signed_in: 1
@@ -53,7 +52,6 @@ describe("certificate.auth.middleware.unit", () => {
             {
                 signin_info: {
                     access_token: {
-                        // tslint:disable-next-line: max-line-length
                         access_token: "/T+R3ABq5SPPbZWSeePnrDE1122FEZSAGRuhmn21aZSqm5UQt/wqixlSViQPOrWe2iFb8PeYjZzmNehMA3JCJg=="
                     },
                     signed_in: 1

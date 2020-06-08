@@ -70,9 +70,11 @@ TypeScript compiles down the JavaScript code that eventually gets run via NodeJS
 
 ### Linting
 
-[TSLint](https://palantir.github.io/tslint/) is used to perform static analysis on code style.
+[ESLint](https://eslint.org/) is used to perform static analysis on code using a [StandardJS](https://standardjs.com/) ruleset as its base.
 
     npm run lint
+
+You can also autofix minor linting errors by running `npm run lint:fix`
 
 ### Testing
 

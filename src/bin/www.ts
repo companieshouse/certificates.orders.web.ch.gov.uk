@@ -70,11 +70,9 @@ function onError (error) {
     // handle specific listen errors with friendly messages
     switch (error.code) {
     case "EACCES":
-        // tslint:disable-next-line
         logger.error(bind + " requires elevated privileges");
         process.exit(1);
     case "EADDRINUSE":
-        // tslint:disable-next-line
         logger.error(bind + " is already in use");
         process.exit(1);
     default:
@@ -91,6 +89,5 @@ function onListening () {
     const bind = typeof addr === "string"
         ? "pipe " + addr
         : "port " + addr!.port;
-    // tslint:disable-next-line
     logger.info("Listening on " + bind);
 }
