@@ -17,21 +17,20 @@ let getCertificateItemStub;
 let patchCertificateItemStub;
 
 describe("certificate.options.controller.integration", () => {
-
     const certificateItem = {
         itemOptions: {
             directorDetails: {
-                includeBasicInformation: true,
+                includeBasicInformation: true
             },
             includeCompanyObjectsInformation: true,
             includeGoodStandingInformation: true,
             registeredOfficeAddressDetails: {
-                includeAddressRecordsType: "current",
+                includeAddressRecordsType: "current"
             },
             secretaryDetails: {
-                includeBasicInformation: true,
-            },
-        },
+                includeBasicInformation: true
+            }
+        }
     } as CertificateItem;
 
     beforeEach((done) => {
@@ -78,13 +77,11 @@ describe("certificate.options.controller.integration", () => {
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
                 .redirects(0)
                 .send({
-                    moreInfo: ["goodStanding", "registeredOffice"],
+                    moreInfo: ["goodStanding", "registeredOffice"]
                 });
 
             chai.expect(resp.status).to.equal(302);
             chai.expect(resp.text).to.include("Found. Redirecting to delivery-details");
-
         });
     });
-
 });

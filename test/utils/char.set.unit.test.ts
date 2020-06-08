@@ -5,7 +5,6 @@ const DUMMY_INVALID_NAME = "aaaa|";
 const DUMMY_VALID_NAME = "bbbbbbbb";
 
 describe("char.set.unit", () => {
-
     it("should return the invalid character if one is found", () => {
         const validatedCharSet = validateCharSet(DUMMY_INVALID_NAME);
         chai.expect(validatedCharSet).to.equal("|");

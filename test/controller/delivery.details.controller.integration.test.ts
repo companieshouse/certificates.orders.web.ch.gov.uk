@@ -37,7 +37,6 @@ let patchCertificateItemStub;
 const emptyCertificateItem = {} as CertificateItem;
 
 describe("delivery.details.controller", () => {
-
     beforeEach((done) => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
         sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
@@ -55,8 +54,8 @@ describe("delivery.details.controller", () => {
             const certificateItem = {
                 itemOptions: {
                     forename: "john",
-                    surname: "smith",
-                },
+                    surname: "smith"
+                }
             } as CertificateItem;
 
             const basketDetails = {
@@ -66,8 +65,8 @@ describe("delivery.details.controller", () => {
                     country: "wales",
                     locality: "canton",
                     postalCode: "cf5 4xb",
-                    region: "glamorgan",
-                },
+                    region: "glamorgan"
+                }
             } as Basket;
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItem));
@@ -116,7 +115,7 @@ describe("delivery.details.controller", () => {
                     addressPostcode: INVALID_CHARACTER,
                     addressTown: INVALID_CHARACTER,
                     firstName: INVALID_CHARACTER,
-                    lastName: INVALID_CHARACTER,
+                    lastName: INVALID_CHARACTER
                 })
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
 
@@ -145,7 +144,7 @@ describe("delivery.details.controller", () => {
                     addressPostcode: CHARACTER_LENGTH_TEXT_50,
                     addressTown: CHARACTER_LENGTH_TEXT_50,
                     firstName: CHARACTER_LENGTH_TEXT_50,
-                    lastName: CHARACTER_LENGTH_TEXT_50,
+                    lastName: CHARACTER_LENGTH_TEXT_50
                 })
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
 
@@ -158,7 +157,6 @@ describe("delivery.details.controller", () => {
             chai.expect(res.text).to.contain(errorMessages.ADDRESS_COUNTY_MAX_LENGTH);
             chai.expect(res.text).to.contain(errorMessages.ADDRESS_POSTCODE_MAX_LENGTH);
             chai.expect(res.text).to.contain(errorMessages.ADDRESS_COUNTRY_MAX_LENGTH);
-
         });
 
         it("should not receive Postcode or county error message when postcode is input", async () => {
@@ -168,7 +166,7 @@ describe("delivery.details.controller", () => {
             const res = await chai.request(testApp)
                 .post(DELIVERY_DETAILS_URL)
                 .send({
-                    addressPostcode: POSTCODE,
+                    addressPostcode: POSTCODE
                 })
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
 
@@ -183,7 +181,7 @@ describe("delivery.details.controller", () => {
             const res = await chai.request(testApp)
                 .post(DELIVERY_DETAILS_URL)
                 .send({
-                    addressCounty: COUNTY,
+                    addressCounty: COUNTY
                 })
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
 
@@ -213,7 +211,7 @@ describe("delivery.details.controller", () => {
                     addressPostcode: "CF11 9VE",
                     addressTown: "CARDIFF",
                     firstName: "JOHN",
-                    lastName: "SMITH",
+                    lastName: "SMITH"
                 })
                 .redirects(0)
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);

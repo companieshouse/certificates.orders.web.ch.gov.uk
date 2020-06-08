@@ -8,13 +8,13 @@ import {
     CERTIFICATE_OPTIONS,
     DELIVERY_DETAILS,
     CHECK_DETAILS,
-    replaceCertificateId,
+    replaceCertificateId
 } from "../../src/model/page.urls";
 
 const PROTECTED_PAGED = [
     CERTIFICATE_OPTIONS,
     DELIVERY_DETAILS,
-    CHECK_DETAILS,
+    CHECK_DETAILS
 ];
 
 const CERTIFICATE_ID = "CHS00000000000000000";

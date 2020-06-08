@@ -7,8 +7,8 @@
     "start": "node dist/bin/www.js",
     "start:watch": "NODE_ENV=development nodemon",
     "build": "NODE_ENV=production tsc && cp -r src/views dist/ && gulp static",
-    "lint": "eslint src/**/*.ts",
-    "lint:fix": "eslint src/**/*.ts --fix",
+    "lint": "eslint 'src/*.ts' 'src/**/*.ts' 'test/*.ts' 'test/**/*.ts'",
+    "lint:fix": "eslint 'src/*.ts' 'src/**/*.ts' 'test/*.ts' 'test/**/*.ts' --fix",
     "test": "mocha"
   },
   "keywords": [],
@@ -62,7 +62,6 @@
     "sinon": "^9.0.2",
     "sinon-chai": "^3.5.0",
     "ts-node": "^8.8.2",
-    "tslint": "^5.20.0",
     "typescript": "^3.8.3"
   },
   "nodemonConfig": {
