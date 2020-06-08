@@ -1,14 +1,13 @@
 import { getAccessToken, getUserId } from "../session/helper";
 import { NextFunction, Request, Response } from "express";
-import { addItemToBasket } from "../client/api.client";
-import { CHS_URL } from "../config/config";
-import { CertificateItem , ItemOptions } from "ch-sdk-node/dist/services/order/item/certificate/types";
+import { addItemToBasket, getCertificateItem, getBasket } from "../client/api.client";
+import { CHS_URL, APPLICATION_NAME } from "../config/config";
+import { CertificateItem, ItemOptions } from "ch-sdk-node/dist/services/order/item/certificate/types";
 import { CHECK_DETAILS } from "../model/template.paths";
-import { getCertificateItem , getBasket } from "../client/api.client";
-import { CERTIFICATE_OPTIONS , DELIVERY_DETAILS , replaceCertificateId } from "../model/page.urls";
+
+import { CERTIFICATE_OPTIONS, DELIVERY_DETAILS, replaceCertificateId } from "../model/page.urls";
 import { Basket, DeliveryDetails } from "ch-sdk-node/dist/services/order/basket/types";
 import { createLogger } from "ch-structured-logging";
-import { APPLICATION_NAME } from "../config/config";
 
 const GOOD_STANDING = "Statement of good standing";
 const REGISTERED_OFFICE_ADDRESS = "Registered office address";
@@ -36,7 +35,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             changeIncludedOn: replaceCertificateId(CERTIFICATE_OPTIONS, req.params.certificateId),
             changedeliveryDetails: replaceCertificateId(DELIVERY_DETAILS, req.params.certificateId),
             deliveryDetails: mapDeliveryDetails(basket.deliveryDetails),
-            templateName: CHECK_DETAILS,
+            templateName: CHECK_DETAILS
         });
     } catch (err) {
         logger.error(`${err}`);
@@ -45,7 +44,6 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
 };
 
 const route = async (req: Request, res: Response, next: NextFunction) => {
-
     // add item to basket
     // then redirect
     try {
@@ -64,8 +62,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const mapIncludedOnCertificate = (itemOptions: ItemOptions): string => {
-
-    const mappings = new Array<string>();
+    const mappings:string[];
 
     if (itemOptions?.includeGoodStandingInformation) {
         mappings.push(GOOD_STANDING);
@@ -91,8 +88,7 @@ export const mapIncludedOnCertificate = (itemOptions: ItemOptions): string => {
 };
 
 export const mapDeliveryDetails = (deliveryDetails: DeliveryDetails | undefined): string => {
-
-    const mappings = new Array<string>();
+    const mappings:string[];
 
     if (deliveryDetails === undefined) {
         return "";
@@ -140,13 +136,12 @@ export const mapToHtml = (mappings: string[]): string => {
 };
 
 export const mapCertificateType = (certificateType: string): string => {
-
     if (certificateType === "incorporation-with-all-name-changes") {
         return "Incorporation with all company name changes";
     }
 
-    const typeCapitalised = certificateType.charAt(0).toUpperCase()
-    + certificateType.slice(1);
+    const typeCapitalised = certificateType.charAt(0).toUpperCase() +
+    certificateType.slice(1);
 
     return typeCapitalised.replace(/-/g, " ");
 };

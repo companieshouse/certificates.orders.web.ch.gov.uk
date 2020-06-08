@@ -24,7 +24,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         return res.render(CERTIFICATE_OPTIONS, {
             companyNumber: certificateItem.companyNumber,
             itemOptions: certificateItem.itemOptions,
-            templateName: CERTIFICATE_OPTIONS,
+            templateName: CERTIFICATE_OPTIONS
         });
     } catch (err) {
         logger.error(`Error retrieving certificate item, ${err}`);
@@ -44,9 +44,9 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 
         const certificateItem: CertificateItemPatchRequest = {
             itemOptions: {
-                ...additionalInfoItemOptions,
+                ...additionalInfoItemOptions
             },
-            quantity: 1,
+            quantity: 1
         };
         const accessToken: string = getAccessToken(req.session);
         const userId = getUserId(req.session);
@@ -62,42 +62,42 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 export const setItemOptions = (options: string[]): ItemOptionsRequest => {
     const initialItemOptions: ItemOptionsRequest = {
         directorDetails: {
-            includeBasicInformation: null,
+            includeBasicInformation: null
         },
         includeCompanyObjectsInformation: null,
         includeGoodStandingInformation: null,
         registeredOfficeAddressDetails: {
-            includeAddressRecordsType: null,
+            includeAddressRecordsType: null
         },
         secretaryDetails: {
-            includeBasicInformation: null,
-        },
+            includeBasicInformation: null
+        }
     };
-    return options === undefined ? initialItemOptions :
-        options.reduce((itemOptionsAccum: ItemOptionsRequest, option: string) => {
+    return options === undefined ? initialItemOptions
+        : options.reduce((itemOptionsAccum: ItemOptionsRequest, option: string) => {
             switch (option) {
-                case GOOD_STANDING_FIELD: {
-                    itemOptionsAccum.includeGoodStandingInformation = true;
-                    break;
-                }
-                case REGISTERED_OFFICE_FIELD: {
-                    itemOptionsAccum.registeredOfficeAddressDetails = { includeAddressRecordsType: "current" };
-                    break;
-                }
-                case DIRECTORS_FIELD: {
-                    itemOptionsAccum.directorDetails = { includeBasicInformation: true };
-                    break;
-                }
-                case SECRETARIES_FIELD: {
-                    itemOptionsAccum.secretaryDetails = { includeBasicInformation: true };
-                    break;
-                }
-                case COMPANY_OBJECTS_FIELD: {
-                    itemOptionsAccum.includeCompanyObjectsInformation = true;
-                    break;
-                }
-                default:
-                    break;
+            case GOOD_STANDING_FIELD: {
+                itemOptionsAccum.includeGoodStandingInformation = true;
+                break;
+            }
+            case REGISTERED_OFFICE_FIELD: {
+                itemOptionsAccum.registeredOfficeAddressDetails = { includeAddressRecordsType: "current" };
+                break;
+            }
+            case DIRECTORS_FIELD: {
+                itemOptionsAccum.directorDetails = { includeBasicInformation: true };
+                break;
+            }
+            case SECRETARIES_FIELD: {
+                itemOptionsAccum.secretaryDetails = { includeBasicInformation: true };
+                break;
+            }
+            case COMPANY_OBJECTS_FIELD: {
+                itemOptionsAccum.includeCompanyObjectsInformation = true;
+                break;
+            }
+            default:
+                break;
             }
             return itemOptionsAccum;
         }, initialItemOptions);

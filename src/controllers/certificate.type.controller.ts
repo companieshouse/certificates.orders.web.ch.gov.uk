@@ -19,9 +19,9 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             itemOptions: {
                 certificateType: "incorporation-with-all-name-changes",
                 deliveryMethod: "postal",
-                deliveryTimescale: "standard",
+                deliveryTimescale: "standard"
             },
-            quantity: 1,
+            quantity: 1
         };
         const userId = getUserId(req.session);
         const certificateItem: CertificateItem = await postCertificateItem(accessToken, certificateItemRequest);

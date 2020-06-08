@@ -24,15 +24,15 @@ const viewPath = path.join(__dirname, "views");
 
 // set up the template engine
 const env = nunjucks.configure([
-  viewPath,
-  "node_modules/govuk-frontend/",
-  "node_modules/govuk-frontend/components",
+    viewPath,
+    "node_modules/govuk-frontend/",
+    "node_modules/govuk-frontend/components"
 ], {
-  autoescape: true,
-  express: app,
+    autoescape: true,
+    express: app
 });
 
-const cookieConfig: CookieConfig = { cookieName: "__SID", cookieSecret: COOKIE_SECRET};
+const cookieConfig: CookieConfig = { cookieName: "__SID", cookieSecret: COOKIE_SECRET };
 const sessionStore = new SessionStore(new Redis(`redis://${CACHE_SERVER}`));
 
 const PROTECTED_PATHS =
@@ -54,13 +54,13 @@ env.addGlobal("ERROR_SUMMARY_TITLE", ERROR_SUMMARY_TITLE);
 // serve static assets in development.
 // this will execute in production for now, but we will host these else where in the future.
 if (process.env.NODE_ENV !== "production") {
-  app.use("/orderable/certificates-assets/static", express.static("dist/static"));
-  env.addGlobal("CSS_URL", "/orderable/certificates-assets/static/app.css");
-  env.addGlobal("FOOTER", "/orderable/certificates-assets/static/footer.css");
+    app.use("/orderable/certificates-assets/static", express.static("dist/static"));
+    env.addGlobal("CSS_URL", "/orderable/certificates-assets/static/app.css");
+    env.addGlobal("FOOTER", "/orderable/certificates-assets/static/footer.css");
 } else {
-  app.use("/orderable/certificates-assets/static", express.static("static"));
-  env.addGlobal("CSS_URL", "/orderable/certificates-assets/static/app.css");
-  env.addGlobal("FOOTER", "/orderable/certificates-assets/static/footer.css");
+    app.use("/orderable/certificates-assets/static", express.static("static"));
+    env.addGlobal("CSS_URL", "/orderable/certificates-assets/static/app.css");
+    env.addGlobal("FOOTER", "/orderable/certificates-assets/static/footer.css");
 }
 
 // apply our default router to /
