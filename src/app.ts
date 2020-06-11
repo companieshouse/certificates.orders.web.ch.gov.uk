@@ -11,7 +11,9 @@ import * as pageUrls from "./model/page.urls";
 import { createLoggerMiddleware } from "ch-structured-logging";
 import authMiddleware from "./middleware/auth.middleware";
 import authCertificateMiddleware from "./middleware/certificate.auth.middleware";
-import { PIWIK_SITE_ID, PIWIK_URL, COOKIE_SECRET, CACHE_SERVER, APPLICATION_NAME } from "./config/config";
+import {
+  PIWIK_SITE_ID, PIWIK_URL, COOKIE_SECRET, COOKIE_DOMAIN, CACHE_SERVER, APPLICATION_NAME,
+} from "./config/config";
 
 const app = express();
 
@@ -32,7 +34,7 @@ const env = nunjucks.configure([
     express: app
 });
 
-const cookieConfig: CookieConfig = { cookieName: "__SID", cookieSecret: COOKIE_SECRET };
+const cookieConfig: CookieConfig = { cookieName: "__SID", cookieSecret: COOKIE_SECRET, cookieDomain: COOKIE_DOMAIN};
 const sessionStore = new SessionStore(new Redis(`redis://${CACHE_SERVER}`));
 
 const PROTECTED_PATHS =
