@@ -10,7 +10,6 @@ const sandbox = sinon.createSandbox();
 let testApp = null;
 
 describe("home.controller.integration", () => {
-
     beforeEach((done) => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
 
@@ -30,5 +29,4 @@ describe("home.controller.integration", () => {
         chai.expect(resp.status).to.equal(200);
         chai.expect(resp.text).to.contain("Order a certificate");
     });
-
 });

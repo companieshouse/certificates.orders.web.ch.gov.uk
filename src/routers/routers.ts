@@ -4,21 +4,21 @@ import { CertificateItem } from "ch-sdk-node/dist/services/order/item/certificat
 import { ROOT, CERTIFICATE_TYPE, CERTIFICATE_OPTIONS, DELIVERY_DETAILS, CHECK_DETAILS } from "../model/page.urls";
 import homeController from "../controllers/home.controller";
 import { render as renderCertificateType } from "../controllers/certificate.type.controller";
-import { render as renderCheckDetails } from "../controllers/check.details.controller";
-import collectionOptionsController, {render as renderCertificateOptions} from "../controllers/certificate.options.controller";
-import deliveryDetailsController, {render as renderDeliveryDetails} from "../controllers/delivery.details.controller";
-import checkDetailsController from "../controllers/check.details.controller";
+import checkDetailsController, { render as renderCheckDetails } from "../controllers/check.details.controller";
+import collectionOptionsController, { render as renderCertificateOptions } from "../controllers/certificate.options.controller";
+import deliveryDetailsController, { render as renderDeliveryDetails } from "../controllers/delivery.details.controller";
+
 import { getAccessToken } from "../session/helper";
 import { getCertificateItem } from "../client/api.client";
 
 const renderTemplate = (template: string) => async (req: Request, res: Response, next: NextFunction) => {
-  try {
-  const accessToken: string = getAccessToken(req.session);
-  const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
-  return res.render(template, { templateName: template, companyNumber: certificateItem.companyNumber });
-  } catch (err) {
-    next(err);
-  }
+    try {
+        const accessToken: string = getAccessToken(req.session);
+        const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
+        return res.render(template, { templateName: template, companyNumber: certificateItem.companyNumber });
+    } catch (err) {
+        next(err);
+    }
 };
 const router: Router = Router();
 

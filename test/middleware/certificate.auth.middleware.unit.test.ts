@@ -16,7 +16,6 @@ res.redirect = redirectSpy;
 let getCertificateItemStub;
 
 describe("certificate.auth.middleware.unit", () => {
-
     afterEach(() => {
         sandbox.reset();
         sandbox.restore();
@@ -24,9 +23,9 @@ describe("certificate.auth.middleware.unit", () => {
 
     it("should call next if user is signed in and has access to the certificate", async () => {
         const req = {
-            path: "/certificate-options",
+            path: "/certificate-options"
         } as Request;
-        req.params = {certificateId: "0001"};
+        req.params = { certificateId: "0001" };
         const certificateItem = {} as CertificateItem;
         getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
             .returns(Promise.resolve(certificateItem));
@@ -34,11 +33,10 @@ describe("certificate.auth.middleware.unit", () => {
             {
                 signin_info: {
                     access_token: {
-                        // tslint:disable-next-line: max-line-length
-                        access_token: "/T+R3ABq5SPPbZWSeePnrDE1122FEZSAGRuhmn21aZSqm5UQt/wqixlSViQPOrWe2iFb8PeYjZzmNehMA3JCJg==",
+                        access_token: "/T+R3ABq5SPPbZWSeePnrDE1122FEZSAGRuhmn21aZSqm5UQt/wqixlSViQPOrWe2iFb8PeYjZzmNehMA3JCJg=="
                     },
-                    signed_in: 1,
-                },
+                    signed_in: 1
+                }
             });
         await certificateAuthMiddleware(req, res, nextFunctionSpy);
         chai.expect(nextFunctionSpy).to.have.been.called;
@@ -46,19 +44,18 @@ describe("certificate.auth.middleware.unit", () => {
 
     it("should call next if user is signed in and does not have access to the certificate", async () => {
         const req = {
-            path: "/certificate-options",
+            path: "/certificate-options"
         } as Request;
-        req.params = {certificateId: "0001"};
-        getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem").returns(Promise.resolve(Promise.reject("Error")));
+        req.params = { certificateId: "0001" };
+        getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem").returns(Promise.reject("Error")); // eslint-disable-line prefer-promise-reject-errors
         req.session = new Session(
             {
                 signin_info: {
                     access_token: {
-                        // tslint:disable-next-line: max-line-length
-                        access_token: "/T+R3ABq5SPPbZWSeePnrDE1122FEZSAGRuhmn21aZSqm5UQt/wqixlSViQPOrWe2iFb8PeYjZzmNehMA3JCJg==",
+                        access_token: "/T+R3ABq5SPPbZWSeePnrDE1122FEZSAGRuhmn21aZSqm5UQt/wqixlSViQPOrWe2iFb8PeYjZzmNehMA3JCJg=="
                     },
-                    signed_in: 1,
-                },
+                    signed_in: 1
+                }
             });
         await certificateAuthMiddleware(req, res, nextFunctionSpy);
         chai.expect(nextFunctionSpy).to.have.been.calledWith("Error");
@@ -66,15 +63,15 @@ describe("certificate.auth.middleware.unit", () => {
 
     it("should call res.redirect if user is not signed in", async () => {
         const req = {
-            path: "/certificate-options",
+            path: "/certificate-options"
         } as Request;
-        req.params = {certificateId: "0001"};
+        req.params = { certificateId: "0001" };
         req.session = new Session(
             {
                 signin_info: {
-                    signed_in: 0,
-                },
-            },
+                    signed_in: 0
+                }
+            }
         );
         await certificateAuthMiddleware(req, res, nextFunctionSpy);
         chai.expect(redirectSpy)
@@ -83,9 +80,9 @@ describe("certificate.auth.middleware.unit", () => {
 
     it("should call res.redirect if there is no session", async () => {
         const req = {
-            path: "/certificate-options",
+            path: "/certificate-options"
         } as Request;
-        req.params = {certificateId: "0001"};
+        req.params = { certificateId: "0001" };
         req.session = undefined;
         await certificateAuthMiddleware(req, res, nextFunctionSpy);
         chai.expect(redirectSpy)

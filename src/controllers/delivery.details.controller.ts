@@ -30,19 +30,17 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
         logger.info(`Get certificate item, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
         return res.render(DELIVERY_DETAILS, {
-                firstName: basket.deliveryDetails?.forename,
-                lastName: basket.deliveryDetails?.surname,
-            // tslint:disable-next-line: object-literal-sort-keys
-                addressLineOne: basket.deliveryDetails?.addressLine1,
-                addressLineTwo: basket.deliveryDetails?.addressLine2,
-                // tslint:disable-next-line: object-literal-sort-keys
-                addressCountry: basket.deliveryDetails?.country,
-                addressTown: basket.deliveryDetails?.locality,
-                addressPoBox: basket.deliveryDetails?.poBox,
-                addressPostcode: basket.deliveryDetails?.postalCode,
-                addressCounty: basket.deliveryDetails?.region,
-                companyNumber: certificateItem.companyNumber,
-            templateName: DELIVERY_DETAILS,
+            firstName: basket.deliveryDetails?.forename,
+            lastName: basket.deliveryDetails?.surname,
+            addressLineOne: basket.deliveryDetails?.addressLine1,
+            addressLineTwo: basket.deliveryDetails?.addressLine2,
+            addressCountry: basket.deliveryDetails?.country,
+            addressTown: basket.deliveryDetails?.locality,
+            addressPoBox: basket.deliveryDetails?.poBox,
+            addressPostcode: basket.deliveryDetails?.postalCode,
+            addressCounty: basket.deliveryDetails?.region,
+            companyNumber: certificateItem.companyNumber,
+            templateName: DELIVERY_DETAILS
         });
     } catch (err) {
         logger.error(`${err}`);
@@ -53,8 +51,8 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
 const validators = [
     check(FIRST_NAME_FIELD)
         .not().isEmpty().withMessage(errorMessages.ORDERS_DETAILS_FIRST_NAME_EMPTY)
-        .isLength({max: 32}).withMessage(errorMessages.ORDER_DETAILS_FIRST_NAME_MAX_LENGTH)
-        .custom((firstName, {req}) => {
+        .isLength({ max: 32 }).withMessage(errorMessages.ORDER_DETAILS_FIRST_NAME_MAX_LENGTH)
+        .custom((firstName, { req }) => {
             const invalidChar = validateCharSet(req.body[FIRST_NAME_FIELD]);
             if (invalidChar) {
                 throw Error(errorMessages.FIRST_NAME_INVALID_CHARACTERS + invalidChar);
@@ -63,8 +61,8 @@ const validators = [
         }),
     check(LAST_NAME_FIELD)
         .not().isEmpty().withMessage(errorMessages.ORDERS_DETAILS_LAST_NAME_EMPTY)
-        .isLength({max: 32}).withMessage(errorMessages.ORDER_DETAILS_LAST_NAME_MAX_LENGTH)
-        .custom((lastName, {req}) => {
+        .isLength({ max: 32 }).withMessage(errorMessages.ORDER_DETAILS_LAST_NAME_MAX_LENGTH)
+        .custom((lastName, { req }) => {
             const invalidChar = validateCharSet(req.body[LAST_NAME_FIELD]);
             if (invalidChar) {
                 throw Error(errorMessages.LAST_NAME_INVALID_CHARACTERS + invalidChar);
@@ -73,8 +71,8 @@ const validators = [
         }),
     check(ADDRESS_LINE_ONE_FIELD)
         .not().isEmpty().withMessage(errorMessages.ADDRESS_LINE_ONE_EMPTY)
-        .isLength({max: 50}).withMessage(errorMessages.ADDRESS_LINE_ONE_MAX_LENGTH)
-        .custom((addressLineOne, {req}) => {
+        .isLength({ max: 50 }).withMessage(errorMessages.ADDRESS_LINE_ONE_MAX_LENGTH)
+        .custom((addressLineOne, { req }) => {
             const invalidChar = validateCharSet(req.body[ADDRESS_LINE_ONE_FIELD]);
             if (invalidChar) {
                 throw Error(errorMessages.ADDRESS_LINE_ONE_INVALID_CHARACTERS + invalidChar);
@@ -82,8 +80,8 @@ const validators = [
             return true;
         }),
     check(ADDRESS_LINE_TWO_FIELD)
-        .isLength({max: 50}).withMessage(errorMessages.ADDRESS_LINE_TWO_MAX_LENGTH)
-        .custom((addressLineTwo, {req}) => {
+        .isLength({ max: 50 }).withMessage(errorMessages.ADDRESS_LINE_TWO_MAX_LENGTH)
+        .custom((addressLineTwo, { req }) => {
             const invalidChar = validateCharSet(req.body[ADDRESS_LINE_TWO_FIELD]);
             if (invalidChar) {
                 throw Error(errorMessages.ADDRESS_LINE_TWO_INVALID_CHARACTERS + invalidChar);
@@ -92,8 +90,8 @@ const validators = [
         }),
     check(ADDRESS_TOWN_FIELD)
         .not().isEmpty().withMessage(errorMessages.ADDRESS_TOWN_EMPTY)
-        .isLength({max: 50}).withMessage(errorMessages.ADDRESS_TOWN_MAX_LENGTH)
-        .custom((addressTown, {req}) => {
+        .isLength({ max: 50 }).withMessage(errorMessages.ADDRESS_TOWN_MAX_LENGTH)
+        .custom((addressTown, { req }) => {
             const invalidChar = validateCharSet(req.body[ADDRESS_TOWN_FIELD]);
             if (invalidChar) {
                 throw Error(errorMessages.ADDRESS_TOWN_INVALID_CHARACTERS + invalidChar);
@@ -102,7 +100,7 @@ const validators = [
         }),
 
     check(ADDRESS_COUNTY_FIELD)
-        .custom((addressCounty, {req}) => {
+        .custom((addressCounty, { req }) => {
             const addressPostcodeValue = req.body[ADDRESS_POSTCODE_FIELD];
             if (!addressPostcodeValue && !addressCounty) {
                 throw Error(errorMessages.ADDRESS_COUNTY_AND_POSTCODE_EMPTY);
@@ -110,8 +108,8 @@ const validators = [
             return true;
         }),
     check(ADDRESS_COUNTY_FIELD)
-        .isLength({max: 50}).withMessage(errorMessages.ADDRESS_COUNTY_MAX_LENGTH)
-        .custom((addressCounty, {req}) => {
+        .isLength({ max: 50 }).withMessage(errorMessages.ADDRESS_COUNTY_MAX_LENGTH)
+        .custom((addressCounty, { req }) => {
             const invalidChar = validateCharSet(req.body[ADDRESS_COUNTY_FIELD]);
             if (invalidChar) {
                 throw Error(errorMessages.ADDRESS_COUNTY_INVALID_CHARACTERS + invalidChar);
@@ -119,8 +117,8 @@ const validators = [
             return true;
         }),
     check(ADDRESS_POSTCODE_FIELD)
-        .isLength({max: 15}).withMessage(errorMessages.ADDRESS_POSTCODE_MAX_LENGTH)
-        .custom((addressPostcode, {req}) => {
+        .isLength({ max: 15 }).withMessage(errorMessages.ADDRESS_POSTCODE_MAX_LENGTH)
+        .custom((addressPostcode, { req }) => {
             const invalidChar = validateCharSet(req.body[ADDRESS_POSTCODE_FIELD]);
             if (invalidChar) {
                 throw Error(errorMessages.ADDRESS_POSTCODE_INVALID_CHARACTERS + invalidChar);
@@ -129,14 +127,14 @@ const validators = [
         }),
     check(ADDRESS_COUNTRY_FIELD)
         .not().isEmpty().withMessage(errorMessages.ADDRESS_COUNTRY_EMPTY)
-        .isLength({max: 50}).withMessage(errorMessages.ADDRESS_COUNTRY_MAX_LENGTH)
-        .custom((addressCountry, {req}) => {
+        .isLength({ max: 50 }).withMessage(errorMessages.ADDRESS_COUNTRY_MAX_LENGTH)
+        .custom((addressCountry, { req }) => {
             const invalidChar = validateCharSet(req.body[ADDRESS_COUNTRY_FIELD]);
             if (invalidChar) {
                 throw Error(errorMessages.ADDRESS_COUNTRY_INVALID_CHARACTERS + invalidChar);
             }
             return true;
-        }),
+        })
 ];
 
 const route = async (req: Request, res: Response, next: NextFunction) => {
@@ -161,30 +159,30 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         const errorList = errors.array({ onlyFirstError: true }).map((error) => {
             const govUkErrorData: GovUkErrorData = createGovUkErrorData(error.msg, "#" + error.param, true, "");
             switch (error.param) {
-                case FIRST_NAME_FIELD:
-                    firstNameError = govUkErrorData;
-                    break;
-                case LAST_NAME_FIELD:
-                    lastNameError = govUkErrorData;
-                    break;
-                case ADDRESS_LINE_ONE_FIELD:
-                    addressLineOneError = govUkErrorData;
-                    break;
-                case ADDRESS_LINE_TWO_FIELD:
-                    addressLineTwoError = govUkErrorData;
-                    break;
-                case ADDRESS_TOWN_FIELD:
-                    addressTownError = govUkErrorData;
-                    break;
-                case ADDRESS_COUNTY_FIELD:
-                    addressCountyError = govUkErrorData;
-                    break;
-                case ADDRESS_POSTCODE_FIELD:
-                    addressPostcodeError = govUkErrorData;
-                    break;
-                case ADDRESS_COUNTRY_FIELD:
-                        addressCountryError = govUkErrorData;
-                        break;
+            case FIRST_NAME_FIELD:
+                firstNameError = govUkErrorData;
+                break;
+            case LAST_NAME_FIELD:
+                lastNameError = govUkErrorData;
+                break;
+            case ADDRESS_LINE_ONE_FIELD:
+                addressLineOneError = govUkErrorData;
+                break;
+            case ADDRESS_LINE_TWO_FIELD:
+                addressLineTwoError = govUkErrorData;
+                break;
+            case ADDRESS_TOWN_FIELD:
+                addressTownError = govUkErrorData;
+                break;
+            case ADDRESS_COUNTY_FIELD:
+                addressCountyError = govUkErrorData;
+                break;
+            case ADDRESS_POSTCODE_FIELD:
+                addressPostcodeError = govUkErrorData;
+                break;
+            case ADDRESS_COUNTRY_FIELD:
+                addressCountryError = govUkErrorData;
+                break;
             }
             if (error.msg === errorMessages.ADDRESS_COUNTY_AND_POSTCODE_EMPTY) {
                 addressCountyError = createGovUkErrorData(errorMessages.ADDRESS_COUNTY_EMPTY, "#" + error.param, true, "");
@@ -216,7 +214,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
             firstNameError,
             lastName,
             lastNameError,
-            templateName: (DELIVERY_DETAILS),
+            templateName: (DELIVERY_DETAILS)
         });
     }
     try {
@@ -225,23 +223,23 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         const certificateItem: CertificateItemPatchRequest = {
             itemOptions: {
                 forename: firstName,
-                surname: lastName,
-            },
+                surname: lastName
+            }
         };
         const basketDeliveryDetails: BasketPatchRequest = {
             deliveryDetails: {
                 addressLine1: addressLineOne,
-                addressLine2: addressLineTwo ? addressLineTwo : null,
+                addressLine2: addressLineTwo || null,
                 country: addressCountry,
                 forename: firstName,
                 locality: addressTown,
-                postalCode: addressPostcode ? addressPostcode : null,
-                region: addressCounty ? addressCounty : null,
-                surname: lastName,
-            },
+                postalCode: addressPostcode || null,
+                region: addressCounty || null,
+                surname: lastName
+            }
         };
         const certificatePatchResponse = await patchCertificateItem(
-                accessToken, req.params.certificateId, certificateItem);
+            accessToken, req.params.certificateId, certificateItem);
         logger.info(`Patched certificate item with delivery details, id=${req.params.certificateId}, user_id=${userId}, company_number=${certificatePatchResponse.companyNumber}`);
         await patchBasket(accessToken, basketDeliveryDetails);
         logger.info(`Patched basket with delivery details, certificate_id=${req.params.certificateId}, user_id=${userId}, company_number=${certificatePatchResponse.companyNumber}`);

@@ -28,14 +28,14 @@ describe("auth.middleware.unit", () => {
 
     it("should call next if path is not root and user is signed in", () => {
         const req = {
-            path: "/certificate-options",
+            path: "/certificate-options"
         } as Request;
         req.session = new Session(
             {
                 signin_info: {
-                    signed_in: 1,
-                },
-            },
+                    signed_in: 1
+                }
+            }
         );
         authMiddleware(req, res, nextFunctionSpy);
         chai.expect(nextFunctionSpy).to.have.been.called;
@@ -43,15 +43,15 @@ describe("auth.middleware.unit", () => {
 
     it("should call res.redirect if path is not root and user is not signed in", () => {
         const req = {
-            path: "/certificate-options",
+            path: "/certificate-options"
         } as Request;
-        req.params = {companyNumber: "0001"};
+        req.params = { companyNumber: "0001" };
         req.session = new Session(
             {
                 signin_info: {
-                    signed_in: 0,
-                },
-            },
+                    signed_in: 0
+                }
+            }
         );
         authMiddleware(req, res, nextFunctionSpy);
         chai.expect(redirectSpy)
@@ -60,9 +60,9 @@ describe("auth.middleware.unit", () => {
 
     it("should call res.redirect if path is not root and no session", () => {
         const req = {
-            path: "/certificate-options",
+            path: "/certificate-options"
         } as Request;
-        req.params = {companyNumber: "0001"};
+        req.params = { companyNumber: "0001" };
         req.session = undefined;
         authMiddleware(req, res, nextFunctionSpy);
         chai.expect(redirectSpy)

@@ -4,9 +4,7 @@ import sessionHandler from "ch-node-session-handler"; // need this to allow cert
 import { setItemOptions } from "../../src/controllers/certificate.options.controller";
 
 describe("certificate.options.controller.unit", () => {
-
     describe("setItemOptions", () => {
-
         it("should set includeBasicInformation on DirectorDetails to true, when the option is directors", () => {
             const options = ["directors"];
             const returnedItemOptions = setItemOptions(options);
@@ -73,6 +71,5 @@ describe("certificate.options.controller.unit", () => {
             chai.expect(returnedItemOptions?.directorDetails?.includeBasicInformation).to.be.null;
             chai.expect(returnedItemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType).to.be.null;
         });
-
     });
 });

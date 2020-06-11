@@ -1,12 +1,12 @@
 import chai from "chai";
 import {
-    ItemOptions, RegisteredOfficeAddressDetails , DirectorOrSecretaryDetails,
+    ItemOptions, RegisteredOfficeAddressDetails, DirectorOrSecretaryDetails
 } from "ch-sdk-node/dist/services/order/item/certificate/types";
 import { DeliveryDetails } from "ch-sdk-node/dist/services/order/basket/types";
 
 import {
     mapIncludedOnCertificate, mapDeliveryDetails, mapDeliveryMethod, mapToHtml,
-    mapCertificateType, applyCurrencySymbol,
+    mapCertificateType, applyCurrencySymbol
 } from "../../src/controllers/check.details.controller";
 
 const directorDetails: DirectorOrSecretaryDetails = {
@@ -16,7 +16,7 @@ const directorDetails: DirectorOrSecretaryDetails = {
     includeCountryOfResidence: true,
     includeDobType: "DobType",
     includeNationality: true,
-    includeOccupation: true,
+    includeOccupation: true
 };
 
 const secretaryDetails: DirectorOrSecretaryDetails = {
@@ -26,12 +26,12 @@ const secretaryDetails: DirectorOrSecretaryDetails = {
     includeCountryOfResidence: true,
     includeDobType: "DobType",
     includeNationality: true,
-    includeOccupation: true,
+    includeOccupation: true
 };
 
 const registeredOfficeAddressDetails: RegisteredOfficeAddressDetails = {
     includeAddressRecordsType: "includeAddressRecordsType",
-    includeDates: true,
+    includeDates: true
 };
 
 const itemOptions: ItemOptions = {
@@ -47,7 +47,7 @@ const itemOptions: ItemOptions = {
     includeGoodStandingInformation: true,
     registeredOfficeAddressDetails,
     secretaryDetails,
-    surname: "surname",
+    surname: "surname"
 };
 
 const deliveryDetails: DeliveryDetails = {
@@ -59,13 +59,11 @@ const deliveryDetails: DeliveryDetails = {
     poBox: "PO Box",
     postalCode: "CF10 2AA",
     region: "Region",
-    surname: "Smith",
+    surname: "Smith"
 };
 
 describe("check.details.controller.unit", () => {
-
     describe("mapIncludedOnCertificate", () => {
-
         it("should map the correct values when all options are true", () => {
             const returnedString: string = mapIncludedOnCertificate(itemOptions);
             const expectedString: string = "Statement of good standing<br>" +
@@ -75,7 +73,6 @@ describe("check.details.controller.unit", () => {
         });
 
         it("should map the no values when all options are false", () => {
-
             itemOptions.includeGoodStandingInformation = false;
             delete itemOptions.registeredOfficeAddressDetails.includeAddressRecordsType;
             itemOptions.directorDetails.includeBasicInformation = false;
@@ -101,9 +98,7 @@ describe("check.details.controller.unit", () => {
     });
 
     describe("mapDeliveryDetails", () => {
-
         it("should map the correct values when all options are present", () => {
-
             const returnedString: string = mapDeliveryDetails(deliveryDetails);
             const expectedString: string = "John Smith<br>" +
                 "Address Line 1<br>Address Line 2<br>Locality<br>Region<br>CF10 2AA<br>Wales<br>";
@@ -112,7 +107,6 @@ describe("check.details.controller.unit", () => {
         });
 
         it("should return a blank string if the delivery details are undefined", () => {
-
             const returnedString: string = mapDeliveryDetails(undefined);
             const expectedString: string = "";
 
@@ -121,9 +115,7 @@ describe("check.details.controller.unit", () => {
     });
 
     describe("mapDeliveryMethod", () => {
-
         it("should map the standard delivery string when 'standard' is returned from API", () => {
-
             const returnedString: string | null = mapDeliveryMethod(itemOptions);
             const expectedString: string = "Standard delivery (dispatched within 4 working days)";
 
@@ -131,7 +123,6 @@ describe("check.details.controller.unit", () => {
         });
 
         it("should map the same day delivery string when 'same-day' is returned from API", () => {
-
             itemOptions.deliveryTimescale = "same-day";
 
             const returnedString: string | null = mapDeliveryMethod(itemOptions);
@@ -150,10 +141,8 @@ describe("check.details.controller.unit", () => {
     });
 
     describe("mapToHtml", () => {
-
         it("constructs a html string that spaces each value with a <br> tag", () => {
-
-            const mappings = new Array<string>();
+            const mappings:string[] = [];
             mappings.push("Mapping 1");
             mappings.push("Mapping 2");
             mappings.push("Mapping 3");
@@ -166,9 +155,7 @@ describe("check.details.controller.unit", () => {
     });
 
     describe("mapCertificateType", () => {
-
         it("removes the '-' if present and capitalises the first letter", () => {
-
             const testString1: string = "incorporation";
             const testString2: string = "incorporation-with-all-name-changes";
             const testString3: string = "incorporation-with-last-name-change";
@@ -187,10 +174,8 @@ describe("check.details.controller.unit", () => {
     });
 
     describe("applyCurrencySymbol", () => {
-
         it("it applies a '£' to the value passed in", () => {
             chai.expect(applyCurrencySymbol("15")).to.equal("£15");
         });
     });
-
 });

@@ -21,11 +21,11 @@ export default (req: Request, res: Response, next: NextFunction) => {
                 const returnToUrl = replaceCompanyNumber(CERTIFICATE_TYPE, companyNumber);
                 logger.info(`User unauthorized, status_code=401, redirecting to sign in page`);
                 return res.redirect(`/signin?return_to=${returnToUrl}`);
-        } else {
+            } else {
                 const userId = getUserId(req.session);
                 logger.info(`User is signed in, user_id=${userId}`);
+            }
         }
-    }
         next();
     } catch (err) {
         logger.error(`Authentication middleware: ${err}`);

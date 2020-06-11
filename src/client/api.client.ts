@@ -11,14 +11,14 @@ const logger = createLogger(APPLICATION_NAME);
 
 export const postCertificateItem =
     async (oAuth: string, certificateItem: CertificateItemPostRequest): Promise<CertificateItem> => {
-    const api = createApiClient(undefined, oAuth, API_URL);
-    const certificateItemResource: Resource<CertificateItem> = await api.certificate.postCertificate(certificateItem);
-    if (certificateItemResource.httpStatusCode !== 200 && certificateItemResource.httpStatusCode !== 201) {
-        throw createError(certificateItemResource.httpStatusCode, certificateItemResource.httpStatusCode.toString());
-    }
-    logger.info(`Create certificate, status_code=${certificateItemResource.httpStatusCode}`);
-    return certificateItemResource.resource as CertificateItem;
-};
+        const api = createApiClient(undefined, oAuth, API_URL);
+        const certificateItemResource: Resource<CertificateItem> = await api.certificate.postCertificate(certificateItem);
+        if (certificateItemResource.httpStatusCode !== 200 && certificateItemResource.httpStatusCode !== 201) {
+            throw createError(certificateItemResource.httpStatusCode, certificateItemResource.httpStatusCode.toString());
+        }
+        logger.info(`Create certificate, status_code=${certificateItemResource.httpStatusCode}`);
+        return certificateItemResource.resource as CertificateItem;
+    };
 
 export const patchCertificateItem = async (
     oAuth: string, certificateId: string, certificateItem: CertificateItemPatchRequest): Promise<CertificateItem> => {

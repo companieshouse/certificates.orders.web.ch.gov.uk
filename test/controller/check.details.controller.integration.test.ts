@@ -20,7 +20,6 @@ let getCertificateItemStub;
 let getBasketStub;
 
 describe("check.details.controller.integration", () => {
-
     beforeEach((done) => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
         sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
@@ -41,16 +40,16 @@ describe("check.details.controller.integration", () => {
                 companyNumber: "00000000",
                 itemCosts: [
                     {
-                        itemCost: "15",
-                    },
+                        itemCost: "15"
+                    }
                 ],
                 itemOptions: {
                     certificateType: "cert type",
                     forename: "john",
                     includeCompanyObjectsInformation: true,
                     includeGoodStandingInformation: true,
-                    surname: "smith",
-                },
+                    surname: "smith"
+                }
             } as CertificateItem;
 
             const basketDetails = {
@@ -60,8 +59,8 @@ describe("check.details.controller.integration", () => {
                     country: "wales",
                     locality: "canton",
                     postalCode: "cf5 4xb",
-                    region: "glamorgan",
-                },
+                    region: "glamorgan"
+                }
             } as Basket;
 
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
@@ -78,7 +77,6 @@ describe("check.details.controller.integration", () => {
             chai.expect(resp.status).to.equal(200);
             chai.expect($(".govuk-heading-xl").text()).to.equal("Check your order details");
             chai.expect($(".govuk-heading-m").text()).to.equal("Order details");
-
         });
     });
 
