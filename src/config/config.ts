@@ -21,4 +21,6 @@ export const API_URL = getEnvironmentValue("API_URL");
 
 export const CHS_URL = getEnvironmentValue("CHS_URL");
 
+export const COOKIE_DOMAIN = getEnvironmentValue("COOKIE_DOMAIN");
+
 export const APPLICATION_NAME = "certificates.orders.web.ch.gov.uk";
