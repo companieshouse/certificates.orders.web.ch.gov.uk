@@ -4,10 +4,10 @@ import ioredis from "ioredis";
 import { CertificateItem } from "ch-sdk-node/dist/services/order/item/certificate/types";
 import { Basket } from "ch-sdk-node/dist/services/order/basket/types";
 
-import * as apiClient from "../../src/client/api.client";
+import * as apiClient from "../../../src/client/api.client";
 import { DELIVERY_DETAILS, replaceCertificateId } from "../../src/model/page.urls";
-import * as errorMessages from "../../src/model/error.messages";
-import { SIGNED_IN_COOKIE, signedInSession } from "../__mocks__/redis.mocks";
+import * as errorMessages from "../../../src/model/error.messages";
+import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
 
 const ENTER_YOUR_FIRST_NAME_NOT_INPUT = "Enter your first name";
 const ENTER_YOUR_LAST_NAME_NOT_INPUT = "Enter your last name";
@@ -40,7 +40,7 @@ describe("delivery.details.controller", () => {
     beforeEach((done) => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
         sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
-        testApp = require("../../src/app").default;
+        testApp = require("../../../src/app").default;
         done();
     });
 

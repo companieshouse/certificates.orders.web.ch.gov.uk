@@ -5,13 +5,13 @@ import cheerio from "cheerio";
 import { BasketItem, Basket } from "ch-sdk-node/dist/services/order/basket/types";
 import { CertificateItem } from "ch-sdk-node/dist/services/order/item/certificate/types";
 
-import * as apiClient from "../../src/client/api.client";
-import { CHECK_DETAILS, replaceCertificateId } from "../../src/model/page.urls";
-import { SIGNED_IN_COOKIE, signedInSession } from "../__mocks__/redis.mocks";
+import * as apiClient from "../../../src/client/api.client";
+import { CERTIFICATE_CHECK_DETAILS, replaceCertificateId } from "../../../src/model/page.urls";
+import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
 
 const CERTIFICATE_ID = "CHS00000000000000001";
 const ITEM_URI = "/orderable/certificates/CHS00000000000000052";
-const CHECK_DETAILS_URL = replaceCertificateId(CHECK_DETAILS, CERTIFICATE_ID);
+const CHECK_DETAILS_URL = replaceCertificateId(CERTIFICATE_CHECK_DETAILS, CERTIFICATE_ID);
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
@@ -24,7 +24,7 @@ describe("check.details.controller.integration", () => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
         sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
 
-        testApp = require("../../src/app").default;
+        testApp = require("../../../src/app").default;
         done();
     });
 

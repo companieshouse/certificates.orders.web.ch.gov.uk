@@ -4,9 +4,9 @@ import ioredis from "ioredis";
 import cheerio from "cheerio";
 import { CertificateItem } from "ch-sdk-node/dist/services/order/item/certificate/types";
 
-import * as apiClient from "../../src/client/api.client";
-import { CERTIFICATE_OPTIONS, replaceCertificateId } from "../../src/model/page.urls";
-import { SIGNED_IN_COOKIE, signedInSession } from "../__mocks__/redis.mocks";
+import * as apiClient from "../../../src/client/api.client";
+import { CERTIFICATE_OPTIONS, replaceCertificateId } from "../../../src/model/page.urls";
+import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
 
 const CERTIFICATE_ID = "CHS00000000000000001";
 const CERTIFICATE_OPTIONS_URL = replaceCertificateId(CERTIFICATE_OPTIONS, CERTIFICATE_ID);
@@ -37,7 +37,7 @@ describe("certificate.options.controller.integration", () => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
         sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
 
-        testApp = require("../../src/app").default;
+        testApp = require("../../../src/app").default;
         done();
     });
 

@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from "express";
 
-import { getAccessToken, getUserId } from "../session/helper";
+import { getAccessToken, getUserId } from "../../session/helper";
 import { CertificateItemPostRequest, CertificateItem } from "ch-sdk-node/dist/services/order/item/certificate/types";
-import { postCertificateItem } from "../client/api.client";
-import { CERTIFICATE_OPTIONS, replaceCertificateId } from "./../model/page.urls";
+import { postCertificateItem } from "../../client/api.client";
+import { CERTIFICATE_OPTIONS, replaceCertificateId } from "./../../model/page.urls";
 import { createLogger } from "ch-structured-logging";
-import { APPLICATION_NAME } from "../config/config";
+import { APPLICATION_NAME } from "../../config/config";
 
 const logger = createLogger(APPLICATION_NAME);
 

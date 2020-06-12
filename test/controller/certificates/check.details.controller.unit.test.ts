@@ -7,7 +7,7 @@ import { DeliveryDetails } from "ch-sdk-node/dist/services/order/basket/types";
 import {
     mapIncludedOnCertificate, mapDeliveryDetails, mapDeliveryMethod, mapToHtml,
     mapCertificateType, applyCurrencySymbol
-} from "../../src/controllers/check.details.controller";
+} from "../../../src/controllers/certificates/check.details.controller";
 
 const directorDetails: DirectorOrSecretaryDetails = {
     includeAddress: true,

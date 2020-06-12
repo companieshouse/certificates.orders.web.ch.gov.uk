@@ -2,7 +2,7 @@ import chai from "chai";
 import sinon from "sinon";
 import ioredis from "ioredis";
 
-import { ROOT, replaceCompanyNumber } from "../../src/model/page.urls";
+import { ROOT, replaceCompanyNumber } from "../../../src/model/page.urls";
 
 const COMPANY_NUMBER = "00000000";
 
@@ -13,7 +13,7 @@ describe("home.controller.integration", () => {
     beforeEach((done) => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
 
-        testApp = require("../../src/app").default;
+        testApp = require("../../../src/app").default;
         done();
     });
 

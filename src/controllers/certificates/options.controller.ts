@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import { CertificateItemPatchRequest, ItemOptionsRequest, CertificateItem } from "ch-sdk-node/dist/services/order/item/certificate/types";
-import { patchCertificateItem, getCertificateItem } from "../client/api.client";
+import { patchCertificateItem, getCertificateItem } from "../../client/api.client";
 import { createLogger } from "ch-structured-logging";
-import { DELIVERY_DETAILS, CERTIFICATE_OPTIONS } from "../model/template.paths";
-import { getAccessToken, getUserId } from "../session/helper";
-import { APPLICATION_NAME } from "../config/config";
+import { DELIVERY_DETAILS, CERTIFICATE_OPTIONS } from "../../model/template.paths";
+import { getAccessToken, getUserId } from "../../session/helper";
+import { APPLICATION_NAME } from "../../config/config";
 
 const GOOD_STANDING_FIELD: string = "goodStanding";
 const REGISTERED_OFFICE_FIELD: string = "registeredOffice";
