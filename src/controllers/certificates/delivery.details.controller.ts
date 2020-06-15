@@ -24,8 +24,6 @@ const logger = createLogger(APPLICATION_NAME);
 
 export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      console.log('CERTIFICATE_DELIVERY_DETAILS');
-      console.log(CERTIFICATE_DELIVERY_DETAILS);
         const userId = getUserId(req.session);
         const accessToken: string = getAccessToken(req.session);
         const basket: Basket = await getBasket(accessToken);
@@ -45,8 +43,6 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             templateName: CERTIFICATE_DELIVERY_DETAILS
         });
     } catch (err) {
-      console.log('CERTIFICATE_DELIVERY_DETAILS-ERR');
-      console.log(CERTIFICATE_DELIVERY_DETAILS);
         logger.error(`${err}`);
         next(err);
     }
@@ -247,7 +243,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         logger.info(`Patched certificate item with delivery details, id=${req.params.certificateId}, user_id=${userId}, company_number=${certificatePatchResponse.companyNumber}`);
         await patchBasket(accessToken, basketDeliveryDetails);
         logger.info(`Patched basket with delivery details, certificate_id=${req.params.certificateId}, user_id=${userId}, company_number=${certificatePatchResponse.companyNumber}`);
-        return res.redirect('check-details');
+        return res.redirect("check-details");
     } catch (err) {
         logger.error(`${err}`);
         return next(err);

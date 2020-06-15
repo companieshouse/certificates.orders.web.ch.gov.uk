@@ -9,7 +9,6 @@ export const CERTIFICATE_OPTIONS: string = ROOT_CERTIFICATE_ID + "/certificate-o
 export const CERTIFICATE_DELIVERY_DETAILS: string = ROOT_CERTIFICATE_ID + "/delivery-details";
 export const CERTIFICATE_CHECK_DETAILS: string = ROOT_CERTIFICATE_ID + "/check-details";
 
-
 // Certified copy section:
 
 export const ROOT_CERTIFIED_COPY: string = "/company/:companyNumber/orderable/certified-copies";
