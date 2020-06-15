@@ -2,7 +2,7 @@ import chai from "chai";
 import sinon from "sinon";
 import ioredis from "ioredis";
 
-import { ROOT, replaceCompanyNumber } from "../../../src/model/page.urls";
+import { ROOT_CERTIFICATE, replaceCompanyNumber } from "../../../src/model/page.urls";
 
 const COMPANY_NUMBER = "00000000";
 
@@ -24,7 +24,7 @@ describe("home.controller.integration", () => {
 
     it("renders the start page", async () => {
         const resp = await chai.request(testApp)
-            .get(replaceCompanyNumber(ROOT, COMPANY_NUMBER));
+            .get(replaceCompanyNumber(ROOT_CERTIFICATE, COMPANY_NUMBER));
 
         chai.expect(resp.status).to.equal(200);
         chai.expect(resp.text).to.contain("Order a certificate");

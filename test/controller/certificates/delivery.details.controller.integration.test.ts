@@ -5,7 +5,7 @@ import { CertificateItem } from "ch-sdk-node/dist/services/order/item/certificat
 import { Basket } from "ch-sdk-node/dist/services/order/basket/types";
 
 import * as apiClient from "../../../src/client/api.client";
-import { DELIVERY_DETAILS, replaceCertificateId } from "../../src/model/page.urls";
+import { CERTIFICATE_DELIVERY_DETAILS, replaceCertificateId } from "../../../src/model/page.urls";
 import * as errorMessages from "../../../src/model/error.messages";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
 
@@ -25,7 +25,7 @@ const CHARACTER_LENGTH_TEXT_50 = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 const POSTCODE: string = "CX14 1BX";
 const COUNTY: string = "county";
 const CERTIFICATE_ID = "CHS00000000000000001";
-const DELIVERY_DETAILS_URL = replaceCertificateId(DELIVERY_DETAILS, CERTIFICATE_ID);
+const DELIVERY_DETAILS_URL = replaceCertificateId(CERTIFICATE_DELIVERY_DETAILS, CERTIFICATE_ID);
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
