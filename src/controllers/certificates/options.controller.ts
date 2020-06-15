@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { CertificateItemPatchRequest, ItemOptionsRequest, CertificateItem } from "ch-sdk-node/dist/services/order/item/certificate/types";
 import { patchCertificateItem, getCertificateItem } from "../../client/api.client";
 import { createLogger } from "ch-structured-logging";
-import { DELIVERY_DETAILS, CERTIFICATE_OPTIONS } from "../../model/template.paths";
+import { CERTIFICATE_DELIVERY_DETAILS, CERTIFICATE_OPTIONS } from "../../model/template.paths";
 import { getAccessToken, getUserId } from "../../session/helper";
 import { APPLICATION_NAME } from "../../config/config";
 
@@ -52,7 +52,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const userId = getUserId(req.session);
         const patchResponse = await patchCertificateItem(accessToken, req.params.certificateId, certificateItem);
         logger.info(`Patched certificate item with certificate options, id=${req.params.certificateId}, user_id=${userId}, company_number=${patchResponse.companyNumber}, certificate_options=${JSON.stringify(certificateItem)}`);
-        return res.redirect(DELIVERY_DETAILS);
+        return res.redirect('delivery-details');
     } catch (err) {
         logger.error(`${err}`);
         return next(err);
