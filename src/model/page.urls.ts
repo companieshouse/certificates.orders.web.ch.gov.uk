@@ -12,7 +12,7 @@ export const CERTIFICATE_CHECK_DETAILS: string = ROOT_CERTIFICATE_ID + "/check-d
 // Certified copy section:
 
 export const ROOT_CERTIFIED_COPY: string = "/company/:companyNumber/orderable/certified-copies";
-export const ROOT_CERTIFIED_COPY_ID: string = "/orderable/certificates/:certifiedCopyId";
+export const ROOT_CERTIFIED_COPY_ID: string = "/orderable/certified-copies/:certifiedCopyId";
 
 export const CERTIFIFIED_COPY_FILING_HISTORY: string = "/company/:companyNumber/certified-documents";
 
