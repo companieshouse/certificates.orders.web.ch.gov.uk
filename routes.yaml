@@ -12,4 +12,4 @@ routes:
   7: /company/(.*)/orderable/certified-copies
   8: /company/(.*)/orderable/certified-copies/.*
   9: /orderable/certified-copies
-  10: /orderable/certified-copies/
+  10: /orderable/certified-copies/.*
