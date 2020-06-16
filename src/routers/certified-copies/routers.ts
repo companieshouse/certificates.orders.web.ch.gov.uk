@@ -1,5 +1,4 @@
 import { Router, Response, NextFunction, Request } from "express";
-import { CertificateItem } from "ch-sdk-node/dist/services/order/item/certificate/types";
 
 import { ROOT_CERTIFIED_COPY, CERTIFIFIED_COPY_DELIVERY_DETAILS, CERTIFIFIED_COPY_CHECK_DETAILS } from "../../model/page.urls";
 
