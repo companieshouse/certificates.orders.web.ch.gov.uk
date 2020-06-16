@@ -5,12 +5,14 @@ import cookieParser from "cookie-parser";
 import Redis from "ioredis";
 import { SessionStore, SessionMiddleware, CookieConfig } from "ch-node-session-handler";
 
-import router from "./routers/routers";
+import certRouter from "./routers/certificates/routers";
+import certCopyRouter from "./routers/certified-copies/routers";
+
 import { ERROR_SUMMARY_TITLE } from "./model/error.messages";
 import * as pageUrls from "./model/page.urls";
 import { createLoggerMiddleware } from "ch-structured-logging";
 import authMiddleware from "./middleware/auth.middleware";
-import authCertificateMiddleware from "./middleware/certificate.auth.middleware";
+import authCertificateMiddleware from "./middleware/certificates/auth.middleware";
 import {
     PIWIK_SITE_ID, PIWIK_URL, COOKIE_SECRET, COOKIE_DOMAIN, CACHE_SERVER, APPLICATION_NAME
 } from "./config/config";
@@ -38,11 +40,11 @@ const cookieConfig: CookieConfig = { cookieName: "__SID", cookieSecret: COOKIE_S
 const sessionStore = new SessionStore(new Redis(`redis://${CACHE_SERVER}`));
 
 const PROTECTED_PATHS =
-  [pageUrls.CERTIFICATE_OPTIONS, pageUrls.CERTIFICATE_TYPE, pageUrls.CHECK_DETAILS, pageUrls.DELIVERY_DETAILS];
+  [pageUrls.CERTIFICATE_OPTIONS, pageUrls.CERTIFICATE_TYPE, pageUrls.CERTIFICATE_CHECK_DETAILS, pageUrls.CERTIFICATE_DELIVERY_DETAILS];
 app.use(PROTECTED_PATHS, createLoggerMiddleware(APPLICATION_NAME));
-app.use([pageUrls.ROOT, pageUrls.ROOT_CERTIFICATE], SessionMiddleware(cookieConfig, sessionStore));
-app.use(pageUrls.ROOT, authMiddleware);
-app.use(pageUrls.ROOT_CERTIFICATE, authCertificateMiddleware);
+app.use([pageUrls.ROOT_CERTIFICATE, pageUrls.ROOT_CERTIFICATE_ID], SessionMiddleware(cookieConfig, sessionStore));
+app.use(pageUrls.ROOT_CERTIFICATE, authMiddleware);
+app.use(pageUrls.ROOT_CERTIFICATE_ID, authCertificateMiddleware);
 
 app.set("views", viewPath);
 app.set("view engine", "html");
@@ -66,6 +68,7 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 // apply our default router to /
-app.use("/", router);
+app.use("/", certRouter);
+app.use("/", certCopyRouter);
 
 export default app;

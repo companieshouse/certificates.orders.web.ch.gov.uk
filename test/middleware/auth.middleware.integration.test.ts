@@ -6,15 +6,15 @@ import { SIGNED_OUT_COOKIE, signedOutSession } from "../__mocks__/redis.mocks";
 
 import {
     CERTIFICATE_OPTIONS,
-    DELIVERY_DETAILS,
-    CHECK_DETAILS,
+    CERTIFICATE_DELIVERY_DETAILS,
+    CERTIFICATE_CHECK_DETAILS,
     replaceCertificateId
 } from "../../src/model/page.urls";
 
 const PROTECTED_PAGED = [
     CERTIFICATE_OPTIONS,
-    DELIVERY_DETAILS,
-    CHECK_DETAILS
+    CERTIFICATE_DELIVERY_DETAILS,
+    CERTIFICATE_CHECK_DETAILS
 ];
 
 const CERTIFICATE_ID = "CHS00000000000000000";

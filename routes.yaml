@@ -9,3 +9,7 @@ routes:
   4: /orderable/certificates-assets/.*
   5: /orderable/certificates
   6: /orderable/certificates/.*
+  7: /company/(.*)/orderable/certified-copies
+  8: /company/(.*)/orderable/certified-copies/.*
+  9: /orderable/certified-copies
+  10: /orderable/certified-copies/.*

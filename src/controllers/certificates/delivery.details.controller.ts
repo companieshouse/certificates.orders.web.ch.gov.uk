@@ -2,14 +2,14 @@ import { NextFunction, Request, Response } from "express";
 import { check, validationResult } from "express-validator";
 import { CertificateItem, CertificateItemPatchRequest } from "ch-sdk-node/dist/services/order/item/certificate/types";
 import { Basket, BasketPatchRequest } from "ch-sdk-node/dist/services/order/basket/types";
-import { createGovUkErrorData, GovUkErrorData } from "../model/govuk.error.data";
-import * as errorMessages from "../model/error.messages";
-import { validateCharSet } from "../utils/char-set";
-import { getAccessToken, getUserId } from "../session/helper";
-import { getCertificateItem, patchCertificateItem, getBasket, patchBasket } from "../client/api.client";
-import { DELIVERY_DETAILS, CHECK_DETAILS } from "../model/template.paths";
+import { createGovUkErrorData, GovUkErrorData } from "../../model/govuk.error.data";
+import * as errorMessages from "../../model/error.messages";
+import { validateCharSet } from "../../utils/char-set";
+import { getAccessToken, getUserId } from "../../session/helper";
+import { getCertificateItem, patchCertificateItem, getBasket, patchBasket } from "../../client/api.client";
+import { CERTIFICATE_DELIVERY_DETAILS, CERTIFICATE_CHECK_DETAILS } from "../../model/template.paths";
 import { createLogger } from "ch-structured-logging";
-import { APPLICATION_NAME } from "../config/config";
+import { APPLICATION_NAME } from "../../config/config";
 
 const FIRST_NAME_FIELD: string = "firstName";
 const LAST_NAME_FIELD: string = "lastName";
@@ -29,7 +29,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const basket: Basket = await getBasket(accessToken);
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
         logger.info(`Get certificate item, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
-        return res.render(DELIVERY_DETAILS, {
+        return res.render(CERTIFICATE_DELIVERY_DETAILS, {
             firstName: basket.deliveryDetails?.forename,
             lastName: basket.deliveryDetails?.surname,
             addressLineOne: basket.deliveryDetails?.addressLine1,
@@ -40,7 +40,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             addressPostcode: basket.deliveryDetails?.postalCode,
             addressCounty: basket.deliveryDetails?.region,
             companyNumber: certificateItem.companyNumber,
-            templateName: DELIVERY_DETAILS
+            templateName: CERTIFICATE_DELIVERY_DETAILS
         });
     } catch (err) {
         logger.error(`${err}`);
@@ -195,7 +195,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         const accessToken: string = getAccessToken(req.session);
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
 
-        return res.render(DELIVERY_DETAILS, {
+        return res.render(CERTIFICATE_DELIVERY_DETAILS, {
             addressCountry,
             addressCountryError,
             addressCounty,
@@ -214,7 +214,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
             firstNameError,
             lastName,
             lastNameError,
-            templateName: (DELIVERY_DETAILS)
+            templateName: (CERTIFICATE_DELIVERY_DETAILS)
         });
     }
     try {
@@ -243,7 +243,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         logger.info(`Patched certificate item with delivery details, id=${req.params.certificateId}, user_id=${userId}, company_number=${certificatePatchResponse.companyNumber}`);
         await patchBasket(accessToken, basketDeliveryDetails);
         logger.info(`Patched basket with delivery details, certificate_id=${req.params.certificateId}, user_id=${userId}, company_number=${certificatePatchResponse.companyNumber}`);
-        return res.redirect(CHECK_DETAILS);
+        return res.redirect("check-details");
     } catch (err) {
         logger.error(`${err}`);
         return next(err);

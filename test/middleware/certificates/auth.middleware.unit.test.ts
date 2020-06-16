@@ -4,8 +4,8 @@ import { Request, Response } from "express";
 import { Session } from "ch-node-session-handler/lib/session/model/Session";
 import { CertificateItem } from "ch-sdk-node/dist/services/order/item/certificate/types";
 
-import certificateAuthMiddleware from "../../src/middleware/certificate.auth.middleware";
-import * as apiClient from "../../src/client/api.client";
+import certificateAuthMiddleware from "../../../src/middleware/certificates/auth.middleware";
+import * as apiClient from "../../../src/client/api.client";
 
 const sandbox = sinon.createSandbox();
 

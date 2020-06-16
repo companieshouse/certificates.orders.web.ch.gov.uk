@@ -1,11 +1,11 @@
-import { getAccessToken, getUserId } from "../session/helper";
+import { getAccessToken, getUserId } from "../../session/helper";
 import { NextFunction, Request, Response } from "express";
-import { addItemToBasket, getCertificateItem, getBasket } from "../client/api.client";
-import { CHS_URL, APPLICATION_NAME } from "../config/config";
+import { addItemToBasket, getCertificateItem, getBasket } from "../../client/api.client";
+import { CHS_URL, APPLICATION_NAME } from "../../config/config";
 import { CertificateItem, ItemOptions } from "ch-sdk-node/dist/services/order/item/certificate/types";
-import { CHECK_DETAILS } from "../model/template.paths";
+import { CERTIFICATE_CHECK_DETAILS } from "../../model/template.paths";
 
-import { CERTIFICATE_OPTIONS, DELIVERY_DETAILS, replaceCertificateId } from "../model/page.urls";
+import { CERTIFICATE_OPTIONS, CERTIFICATE_DELIVERY_DETAILS, replaceCertificateId } from "../../model/page.urls";
 import { Basket, DeliveryDetails } from "ch-sdk-node/dist/services/order/basket/types";
 import { createLogger } from "ch-structured-logging";
 
@@ -24,7 +24,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const itemOptions: ItemOptions = certificateItem.itemOptions;
         const basket: Basket = await getBasket(accessToken);
 
-        return res.render(CHECK_DETAILS, {
+        return res.render(CERTIFICATE_CHECK_DETAILS, {
             companyName: certificateItem.companyName,
             companyNumber: certificateItem.companyNumber,
             certificateType: mapCertificateType(itemOptions.certificateType),
@@ -32,9 +32,9 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             fee: applyCurrencySymbol(certificateItem.itemCosts[0].itemCost),
             certificateMappings: mapIncludedOnCertificate(itemOptions),
             changeIncludedOn: replaceCertificateId(CERTIFICATE_OPTIONS, req.params.certificateId),
-            changedeliveryDetails: replaceCertificateId(DELIVERY_DETAILS, req.params.certificateId),
+            changedeliveryDetails: replaceCertificateId(CERTIFICATE_DELIVERY_DETAILS, req.params.certificateId),
             deliveryDetails: mapDeliveryDetails(basket.deliveryDetails),
-            templateName: CHECK_DETAILS
+            templateName: CERTIFICATE_CHECK_DETAILS
         });
     } catch (err) {
         logger.error(`${err}`);
