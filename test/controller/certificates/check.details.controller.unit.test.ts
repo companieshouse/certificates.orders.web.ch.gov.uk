@@ -63,7 +63,7 @@ const deliveryDetails: DeliveryDetails = {
     surname: "Smith"
 };
 
-describe("check.details.controller.unit", () => {
+describe("certificate.check.details.controller.unit", () => {
     describe("mapIncludedOnCertificate", () => {
         it("should map the correct values when all options are true", () => {
             const returnedString: string = mapIncludedOnCertificate(itemOptions);

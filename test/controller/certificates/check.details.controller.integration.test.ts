@@ -20,7 +20,7 @@ let addItemToBasketStub;
 let getCertificateItemStub;
 let getBasketStub;
 
-describe("check.details.controller.integration", () => {
+describe("certificate.check.details.controller.integration", () => {
     beforeEach((done) => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
         sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
