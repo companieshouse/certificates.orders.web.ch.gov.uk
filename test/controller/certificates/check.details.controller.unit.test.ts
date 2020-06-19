@@ -118,7 +118,7 @@ describe("check.details.controller.unit", () => {
     describe("mapDeliveryMethod", () => {
         it("should map the standard delivery string when 'standard' is returned from API", () => {
             const returnedString: string | null = mapDeliveryMethod(itemOptions);
-            const expectedString: string = "Standard delivery (dispatched within 4 working days)";
+            const expectedString: string = "Standard delivery (aim to dispatch within 4 working days)";
 
             chai.expect(returnedString).to.equal(expectedString);
         });
