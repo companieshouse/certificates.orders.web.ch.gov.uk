@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  Order a certified document
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/company/" + companyNumber + "/more"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h1 class="govuk-heading-xl">Order a certified document</h1>
+            <p class="govuk-body-l">
+                Use this service to order certified copies of documents in a company's filing history.
+            </p>
+            <p class="govuk-body">
+                You can order more than one certified document using this service.
+            </p>
+            <p class="govuk-body">You'll need:</p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>to sign in to or create a Companies House account</li>
+                <li>a debit or credit card</li>
+            </ul>
+            <p class="govuk-body">Ordering certified documents takes around 5 minutes.</p>
+
+            {{ govukButton({
+              text: "Start now",
+              href: startNowUrl,
+              classes: "govuk-!-margin-top-2 govuk-!-margin-bottom-8",
+              isStartButton: true,
+              attributes: {
+                "data-event-id": "start-now-button"
+              }
+            }) }}
+
+            <h2 class="govuk-heading-m">Fee</h2>
+
+            <p class="govuk-body">Standard delivery costs:</p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>&pound;15 for each certified document</li>
+                <li>&pound;30 for incorporation documents (including the memorandum and articles)</li>
+            </ul>
+
+            <p class="govuk-body">
+              The order can be sent to a UK or international address. We will aim to dispatch the order within 4 working days.
+            </p>
+            <p class="govuk-body">
+              You cannot pay using a Companies House account.
+            </p>
+        </div>
+    </div>
+{% endblock %}
