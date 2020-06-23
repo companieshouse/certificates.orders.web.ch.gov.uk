@@ -26,3 +26,7 @@ export const replaceCompanyNumber = (uri: string, companyNumber: string) => {
 export const replaceCertificateId = (uri: string, certificateId: string) => {
     return uri.replace(":certificateId", certificateId);
 };
+
+export const replaceCertifiedCopyId = (uri: string, certifiedCopyId: string) => {
+    return uri.replace(":certifiedCopyId", certifiedCopyId);
+};
