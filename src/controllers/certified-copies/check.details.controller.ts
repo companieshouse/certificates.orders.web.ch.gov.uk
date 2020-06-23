@@ -6,7 +6,7 @@ const logger = createLogger(APPLICATION_NAME);
 
 export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-        res.status(200).json({value: true});
+        res.status(200).json({ value: true });
     } catch (err) {
         logger.error(`${err}`);
         next(err);
