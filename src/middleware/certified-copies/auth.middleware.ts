@@ -2,7 +2,7 @@ import { NextFunction, Request, RequestHandler, Response } from "express";
 import { SessionKey } from "ch-node-session-handler/lib/session/keys/SessionKey";
 import { SignInInfoKeys } from "ch-node-session-handler/lib/session/keys/SignInInfoKeys";
 import { getAccessToken } from "../../session/helper";
-import { CERTIFIFIED_COPY_DELIVERY_DETAILS, replaceCertifiedCopyId } from "../../model/page.urls";
+import { CERTIFIED_COPY_DELIVERY_DETAILS, replaceCertifiedCopyId } from "../../model/page.urls";
 
 import { createLogger } from "ch-structured-logging";
 
@@ -19,7 +19,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 
         if (!signedIn) {
             const certifiedCopyId = req.params.certifiedCopyId;
-            const returnToUrl = replaceCertifiedCopyId(CERTIFIFIED_COPY_DELIVERY_DETAILS, certifiedCopyId);
+            const returnToUrl = replaceCertifiedCopyId(CERTIFIED_COPY_DELIVERY_DETAILS, certifiedCopyId);
             logger.info(`User unauthorized, status_code=401, redirecting to sign in page`);
             return res.redirect(`/signin?return_to=${returnToUrl}`);
         } else {

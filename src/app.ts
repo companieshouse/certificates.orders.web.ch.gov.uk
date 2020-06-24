@@ -46,8 +46,8 @@ const PROTECTED_PATHS = [
     pageUrls.CERTIFICATE_TYPE,
     pageUrls.CERTIFICATE_CHECK_DETAILS,
     pageUrls.CERTIFICATE_DELIVERY_DETAILS,
-    pageUrls.CERTIFIFIED_COPY_DELIVERY_DETAILS,
-    pageUrls.CERTIFIFIED_COPY_CHECK_DETAILS
+    pageUrls.CERTIFIED_COPY_DELIVERY_DETAILS,
+    pageUrls.CERTIFIED_COPY_CHECK_DETAILS
 ];
 
 app.use(PROTECTED_PATHS, createLoggerMiddleware(APPLICATION_NAME));
@@ -56,8 +56,9 @@ app.use(pageUrls.ROOT_CERTIFICATE, authMiddleware);
 app.use(pageUrls.ROOT_CERTIFICATE_ID, authCertificateMiddleware);
 
 app.use([pageUrls.ROOT_CERTIFIED_COPY, pageUrls.ROOT_CERTIFIED_COPY_ID], SessionMiddleware(cookieConfig, sessionStore));
-app.use(pageUrls.CERTIFIFIED_COPY_DELIVERY_DETAILS, authCertifiedCopyMiddleware);
-app.use(pageUrls.CERTIFIFIED_COPY_CHECK_DETAILS, authCertifiedCopyMiddleware);
+app.use(pageUrls.ROOT_CERTIFIED_COPY_ID, authCertifiedCopyMiddleware);
+// app.use(pageUrls.CERTIFIED_COPY_DELIVERY_DETAILS, authCertifiedCopyMiddleware);
+// app.use(pageUrls.CERTIFIED_COPY_CHECK_DETAILS, authCertifiedCopyMiddleware);
 
 app.set("views", viewPath);
 app.set("view engine", "html");
