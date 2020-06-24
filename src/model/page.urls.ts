@@ -14,10 +14,10 @@ export const CERTIFICATE_CHECK_DETAILS: string = ROOT_CERTIFICATE_ID + "/check-d
 export const ROOT_CERTIFIED_COPY: string = "/company/:companyNumber/orderable/certified-copies";
 export const ROOT_CERTIFIED_COPY_ID: string = "/orderable/certified-copies/:certifiedCopyId";
 
-export const CERTIFIFIED_COPY_FILING_HISTORY: string = "/company/:companyNumber/certified-documents";
+export const CERTIFIED_COPY_FILING_HISTORY: string = "/company/:companyNumber/certified-documents";
 
-export const CERTIFIFIED_COPY_DELIVERY_DETAILS: string = ROOT_CERTIFIED_COPY_ID + "/delivery-details";
-export const CERTIFIFIED_COPY_CHECK_DETAILS: string = ROOT_CERTIFIED_COPY_ID + "/check-details";
+export const CERTIFIED_COPY_DELIVERY_DETAILS: string = ROOT_CERTIFIED_COPY_ID + "/delivery-details";
+export const CERTIFIED_COPY_CHECK_DETAILS: string = ROOT_CERTIFIED_COPY_ID + "/check-details";
 
 export const replaceCompanyNumber = (uri: string, companyNumber: string) => {
     return uri.replace(":companyNumber", companyNumber);
@@ -25,4 +25,8 @@ export const replaceCompanyNumber = (uri: string, companyNumber: string) => {
 
 export const replaceCertificateId = (uri: string, certificateId: string) => {
     return uri.replace(":certificateId", certificateId);
+};
+
+export const replaceCertifiedCopyId = (uri: string, certifiedCopyId: string) => {
+    return uri.replace(":certifiedCopyId", certifiedCopyId);
 };
