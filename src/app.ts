@@ -57,8 +57,6 @@ app.use(pageUrls.ROOT_CERTIFICATE_ID, authCertificateMiddleware);
 
 app.use([pageUrls.ROOT_CERTIFIED_COPY, pageUrls.ROOT_CERTIFIED_COPY_ID], SessionMiddleware(cookieConfig, sessionStore));
 app.use(pageUrls.ROOT_CERTIFIED_COPY_ID, authCertifiedCopyMiddleware);
-// app.use(pageUrls.CERTIFIED_COPY_DELIVERY_DETAILS, authCertifiedCopyMiddleware);
-// app.use(pageUrls.CERTIFIED_COPY_CHECK_DETAILS, authCertifiedCopyMiddleware);
 
 app.set("views", viewPath);
 app.set("view engine", "html");
