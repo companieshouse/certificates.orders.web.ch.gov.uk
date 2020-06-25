@@ -16,7 +16,14 @@ import authCertificateMiddleware from "./middleware/certificates/auth.middleware
 import authCertifiedCopyMiddleware from "./middleware/certified-copies/auth.middleware";
 
 import {
-    PIWIK_SITE_ID, PIWIK_URL, COOKIE_SECRET, COOKIE_DOMAIN, CACHE_SERVER, APPLICATION_NAME
+    PIWIK_SITE_ID,
+    PIWIK_URL,
+    COOKIE_SECRET,
+    COOKIE_DOMAIN,
+    CACHE_SERVER,
+    APPLICATION_NAME,
+    SERVICE_NAME_CERTIFICATES,
+    SERVICE_NAME_CERTIFIED_COPIES
 } from "./config/config";
 
 const app = express();
@@ -57,6 +64,17 @@ app.use(pageUrls.ROOT_CERTIFICATE_ID, authCertificateMiddleware);
 
 app.use([pageUrls.ROOT_CERTIFIED_COPY, pageUrls.ROOT_CERTIFIED_COPY_ID], SessionMiddleware(cookieConfig, sessionStore));
 app.use(pageUrls.ROOT_CERTIFIED_COPY_ID, authCertifiedCopyMiddleware);
+
+app.use((req, res, next) => {
+  if(req.path.includes('/certificates')) {
+    env.addGlobal("SERVICE_NAME", SERVICE_NAME_CERTIFICATES);
+  } else if(req.path.includes('/certified-copies')) {
+    env.addGlobal("SERVICE_NAME", SERVICE_NAME_CERTIFIED_COPIES);
+  } else {
+    env.addGlobal("SERVICE_NAME", SERVICE_NAME_GENERIC);
+  }
+  next();
+});
 
 app.set("views", viewPath);
 app.set("view engine", "html");
