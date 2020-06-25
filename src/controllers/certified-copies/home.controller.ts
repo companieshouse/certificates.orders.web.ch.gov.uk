@@ -6,5 +6,6 @@ import { CHS_URL } from "../../config/config";
 export default (req: Request, res: Response) => {
     const companyNumber: string = req.params.companyNumber;
     const startNowUrl = `${CHS_URL}${replaceCompanyNumber(CERTIFIED_COPY_FILING_HISTORY, companyNumber)}`;
-    res.render(CERTIFIED_COPY_INDEX, { startNowUrl, companyNumber });
+    const serviceName: string = "Order a certified document";
+    res.render(CERTIFIED_COPY_INDEX, { startNowUrl, companyNumber, serviceName });
 };

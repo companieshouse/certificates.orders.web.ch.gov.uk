@@ -36,7 +36,7 @@
   {% include "includes/cookie-banner.html" %}
   {{ chHeader({
     homepageUrl: "/",
-    serviceName: "Order a certificate",
+    serviceName: serviceName if serviceName else "Order a certificate",
     serviceUrl: "/company/" + companyNumber + "/orderable/certificates",
     containerClasses: "govuk-width-container",
     assetPath: ""
