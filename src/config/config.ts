@@ -27,4 +27,4 @@ export const APPLICATION_NAME = "certificates.orders.web.ch.gov.uk";
 
 export const SERVICE_NAME_CERTIFIED_COPIES = "Order a certified document";
 
-export const SERVICE_NAME_CERTIFICATE = "Order a certificate";
+export const SERVICE_NAME_CERTIFICATES = "Order a certificate";
