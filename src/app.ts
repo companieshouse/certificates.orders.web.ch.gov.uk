@@ -23,7 +23,8 @@ import {
     CACHE_SERVER,
     APPLICATION_NAME,
     SERVICE_NAME_CERTIFICATES,
-    SERVICE_NAME_CERTIFIED_COPIES
+    SERVICE_NAME_CERTIFIED_COPIES,
+    SERVICE_NAME_GENERIC
 } from "./config/config";
 
 const app = express();
