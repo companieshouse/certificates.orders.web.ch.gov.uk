@@ -67,14 +67,14 @@ app.use([pageUrls.ROOT_CERTIFIED_COPY, pageUrls.ROOT_CERTIFIED_COPY_ID], Session
 app.use(pageUrls.ROOT_CERTIFIED_COPY_ID, authCertifiedCopyMiddleware);
 
 app.use((req, res, next) => {
-  if(req.path.includes('/certificates')) {
-    env.addGlobal("SERVICE_NAME", SERVICE_NAME_CERTIFICATES);
-  } else if(req.path.includes('/certified-copies')) {
-    env.addGlobal("SERVICE_NAME", SERVICE_NAME_CERTIFIED_COPIES);
-  } else {
-    env.addGlobal("SERVICE_NAME", SERVICE_NAME_GENERIC);
-  }
-  next();
+    if (req.path.includes("/certificates")) {
+        env.addGlobal("SERVICE_NAME", SERVICE_NAME_CERTIFICATES);
+    } else if (req.path.includes("/certified-copies")) {
+        env.addGlobal("SERVICE_NAME", SERVICE_NAME_CERTIFIED_COPIES);
+    } else {
+        env.addGlobal("SERVICE_NAME", SERVICE_NAME_GENERIC);
+    }
+    next();
 });
 
 app.set("views", viewPath);
