@@ -69,10 +69,13 @@ app.use(pageUrls.ROOT_CERTIFIED_COPY_ID, authCertifiedCopyMiddleware);
 app.use((req, res, next) => {
     if (req.path.includes("/certificates")) {
         env.addGlobal("SERVICE_NAME", SERVICE_NAME_CERTIFICATES);
+        env.addGlobal("SERVICE_PATH", "/certificates");
     } else if (req.path.includes("/certified-copies")) {
         env.addGlobal("SERVICE_NAME", SERVICE_NAME_CERTIFIED_COPIES);
+        env.addGlobal("SERVICE_PATH", "/certified-copies");
     } else {
         env.addGlobal("SERVICE_NAME", SERVICE_NAME_GENERIC);
+        env.addGlobal("SERVICE_PATH", "");
     }
     next();
 });
