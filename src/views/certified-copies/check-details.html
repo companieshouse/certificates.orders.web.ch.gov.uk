@@ -1,0 +1,106 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  Order a certified document
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: data.backUrl
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds-from-desktop">
+            <form action="/payment-review" method="post">
+                <h1 class="govuk-heading-xl">Check your order details</h1>
+                <h2 class="govuk-heading-m">Order details</h2>
+                <dl class="govuk-summary-list govuk-!-margin-bottom-9">
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+                      Company name
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      John Lewis PLC
+                    </dd>
+                      <span class="govuk-summary-list__actions"></span>
+                  </div>
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Company number
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      00233462
+                    </dd>
+                      <span class="govuk-summary-list__actions"></span>
+                  </div>
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Delivery method
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      Standard delivery (aim to dispatch within 4 working days)
+                    </dd>
+                      <span class="govuk-summary-list__actions"></span>
+                  </div>
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Delivery details
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      Mr Jamies Hanson <br> 48 Tonna Road <br> Barry <br> CF45 8YG
+                    </dd>
+                      <dd class="govuk-summary-list__actions">
+                          <a class="govuk-link" href="#">
+                            Change<span class="govuk-visually-hidden"> delivery address</span>
+                            </a>
+                      </dd>
+                  </div>
+                </dl>
+                <h3 class="govuk-heading-m">Document details </h3>
+                <table class="govuk-table">
+                    <thead class="govuk-table__head">
+                      <tr class="govuk-table__row">
+                          <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Date filed</th>
+                          <th scope="col" class="govuk-table__header">Type</th>
+                          <th scope="col" class="govuk-table__header govuk-!-width-half">Description</th>
+                          <th scope="col" class="govuk-table__header">Fee</th>
+                          <th scope="col" class="govuk-table__header"></th>
+                      </tr>
+                    </thead>
+                    <tbody class="govuk-table__body">
+                        <tr class="govuk-table__row">
+                            <td class="govuk-table__cell">15 Feb 2018</td>
+                            <td class="govuk-table__cell">AP01</td>
+                            <td class="govuk-table__cell">Appointment of Ms Sharon Michelle White as a director on 4 February 2020</td>
+                            <td class="govuk-table__cell">£15</td>
+                            <td class="govuk-table__cell"><a href="#" class="govuk-link">Remove</a></td>
+                        </tr>
+                        <tr class="govuk-table__row">
+                            <td class="govuk-table__cell">07 Feb 2020</td>
+                            <td class="govuk-table__cell">AP03</td>
+                            <td class="govuk-table__cell">Appointment of Mr Peter Simpson as a secretary on 31 January 2018.</td>
+                            <td class="govuk-table__cell">£15</td>
+                            <td class="govuk-table__cell"><a href="#" class="govuk-link">Remove</a></td>
+                        </tr>
+                        <tr class="govuk-table__row">
+                            <td class="govuk-table__cell"><h4 class="govuk-heading-s">Total</h4></td>
+                            <td class="govuk-table__cell"></td>
+                            <td class="govuk-table__cell"></td>
+                            <td class="govuk-table__cell"><h4 class="govuk-heading-s">£30</h4></td>
+                            <td class="govuk-table__cell"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <a href="/filter-document-list" class="govuk-body govuk-link">Add document</a> <br><br>
+                <a href="https://products.payments.service.gov.uk/pay/60317897263e405d963cdb92a76deffa" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
+                Continue to payment
+                </a>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

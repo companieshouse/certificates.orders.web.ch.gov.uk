@@ -67,7 +67,7 @@
     "watch": [
       "./src"
     ],
-    "ext": "ts",
+    "ext": "ts,json,html,njk",
     "legacyWatch": true,
     "ignore": [
       "**/*.spec.ts"
