@@ -7,7 +7,7 @@
 {% block beforeContent %}
   {{ govukBackLink({
     text: "Back",
-    href: "/company/" + companyNumber + "/more"
+    href: data.backUrl
   }) }}
 {% endblock %}
 
@@ -64,35 +64,35 @@
                 <table class="govuk-table">
                     <thead class="govuk-table__head">
                       <tr class="govuk-table__row">
-                        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Date filed</th>
-                        <th scope="col" class="govuk-table__header">Type</th>
-                        <th scope="col" class="govuk-table__header govuk-!-width-half">Description</th>
-                        <th scope="col" class="govuk-table__header">Fee</th>
-                        <th scope="col" class="govuk-table__header"></th>
+                          <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Date filed</th>
+                          <th scope="col" class="govuk-table__header">Type</th>
+                          <th scope="col" class="govuk-table__header govuk-!-width-half">Description</th>
+                          <th scope="col" class="govuk-table__header">Fee</th>
+                          <th scope="col" class="govuk-table__header"></th>
                       </tr>
                     </thead>
                     <tbody class="govuk-table__body">
-                          <tr class="govuk-table__row">
+                        <tr class="govuk-table__row">
                             <td class="govuk-table__cell">15 Feb 2018</td>
                             <td class="govuk-table__cell">AP01</td>
                             <td class="govuk-table__cell">Appointment of Ms Sharon Michelle White as a director on 4 February 2020</td>
                             <td class="govuk-table__cell">£15</td>
                             <td class="govuk-table__cell"><a href="#" class="govuk-link">Remove</a></td>
-                          </tr>
-                          <tr class="govuk-table__row">
+                        </tr>
+                        <tr class="govuk-table__row">
                             <td class="govuk-table__cell">07 Feb 2020</td>
                             <td class="govuk-table__cell">AP03</td>
                             <td class="govuk-table__cell">Appointment of Mr Peter Simpson as a secretary on 31 January 2018.</td>
                             <td class="govuk-table__cell">£15</td>
                             <td class="govuk-table__cell"><a href="#" class="govuk-link">Remove</a></td>
-                          </tr>
-                          <tr class="govuk-table__row">
+                        </tr>
+                        <tr class="govuk-table__row">
                             <td class="govuk-table__cell"><h4 class="govuk-heading-s">Total</h4></td>
                             <td class="govuk-table__cell"></td>
                             <td class="govuk-table__cell"></td>
                             <td class="govuk-table__cell"><h4 class="govuk-heading-s">£30</h4></td>
                             <td class="govuk-table__cell"></td>
-                          </tr>
+                        </tr>
                     </tbody>
                 </table>
                 <a href="/filter-document-list" class="govuk-body govuk-link">Add document</a> <br><br>
