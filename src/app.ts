@@ -70,11 +70,9 @@ app.use((req, res, next) => {
     if (req.path.includes("/certificates")) {
         env.addGlobal("SERVICE_NAME", SERVICE_NAME_CERTIFICATES);
         env.addGlobal("SERVICE_PATH", "/certificates");
-        env.addGlobal("DELIVERY_DETAILS_BACK_LINK", "certificate-options");
     } else if (req.path.includes("/certified-copies")) {
         env.addGlobal("SERVICE_NAME", SERVICE_NAME_CERTIFIED_COPIES);
         env.addGlobal("SERVICE_PATH", "/certified-copies");
-        env.addGlobal("DELIVERY_DETAILS_BACK_LINK", "test");
     } else {
         env.addGlobal("SERVICE_NAME", SERVICE_NAME_GENERIC);
         env.addGlobal("SERVICE_PATH", "");

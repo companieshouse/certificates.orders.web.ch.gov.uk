@@ -75,7 +75,8 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
             companyNumber: certificateItem.companyNumber,
             firstName,
             lastName,
-            templateName: (DELIVERY_DETAILS)
+            templateName: (DELIVERY_DETAILS),
+            backLink
         });
     }
     try {

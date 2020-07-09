@@ -68,7 +68,8 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
             addressTown,
             firstName,
             lastName,
-            templateName: (DELIVERY_DETAILS)
+            templateName: (DELIVERY_DETAILS),
+            backLink
         });
     }
 };
