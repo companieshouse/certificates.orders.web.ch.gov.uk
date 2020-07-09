@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { CertificateItemPatchRequest, ItemOptionsRequest, CertificateItem } from "ch-sdk-node/dist/services/order/item/certificate/types";
 import { patchCertificateItem, getCertificateItem } from "../../client/api.client";
 import { createLogger } from "ch-structured-logging";
-import { CERTIFICATE_DELIVERY_DETAILS, CERTIFICATE_OPTIONS } from "../../model/template.paths";
+import { CERTIFICATE_OPTIONS } from "../../model/template.paths";
 import { getAccessToken, getUserId } from "../../session/helper";
 import { APPLICATION_NAME } from "../../config/config";
 

@@ -4,7 +4,7 @@ import { CertificateItem, CertificateItemPatchRequest } from "ch-sdk-node/dist/s
 import { Basket, BasketPatchRequest } from "ch-sdk-node/dist/services/order/basket/types";
 import { getAccessToken, getUserId } from "../../session/helper";
 import { getCertificateItem, patchCertificateItem, getBasket, patchBasket } from "../../client/api.client";
-import { CERTIFICATE_DELIVERY_DETAILS, CERTIFICATE_CHECK_DETAILS } from "../../model/template.paths";
+import { DELIVERY_DETAILS, CERTIFICATE_CHECK_DETAILS } from "../../model/template.paths";
 import { createLogger } from "ch-structured-logging";
 import { APPLICATION_NAME } from "../../config/config";
 import { deliveryDetailsValidationRules, validate } from "../../utils/delivery-details-validation";
@@ -17,6 +17,7 @@ const ADDRESS_TOWN_FIELD: string = "addressTown";
 const ADDRESS_COUNTY_FIELD: string = "addressCounty";
 const ADDRESS_POSTCODE_FIELD: string = "addressPostcode";
 const ADDRESS_COUNTRY_FIELD: string = "addressCountry";
+const backLink: string = "certificate-options";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -27,7 +28,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const basket: Basket = await getBasket(accessToken);
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
         logger.info(`Get certificate item, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
-        return res.render(CERTIFICATE_DELIVERY_DETAILS, {
+        return res.render(DELIVERY_DETAILS, {
             firstName: basket.deliveryDetails?.forename,
             lastName: basket.deliveryDetails?.surname,
             addressLineOne: basket.deliveryDetails?.addressLine1,
@@ -38,7 +39,8 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             addressPostcode: basket.deliveryDetails?.postalCode,
             addressCounty: basket.deliveryDetails?.region,
             companyNumber: certificateItem.companyNumber,
-            templateName: CERTIFICATE_DELIVERY_DETAILS
+            templateName: DELIVERY_DETAILS,
+            backLink
         });
     } catch (err) {
         logger.error(`${err}`);
@@ -62,7 +64,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         const accessToken: string = getAccessToken(req.session);
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
 
-        return res.render(CERTIFICATE_DELIVERY_DETAILS, {
+        return res.render(DELIVERY_DETAILS, {
             ...errorList,
             addressCountry,
             addressCounty,
@@ -73,7 +75,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
             companyNumber: certificateItem.companyNumber,
             firstName,
             lastName,
-            templateName: (CERTIFICATE_DELIVERY_DETAILS)
+            templateName: (DELIVERY_DETAILS)
         });
     }
     try {

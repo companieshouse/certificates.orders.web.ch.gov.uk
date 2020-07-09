@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 import { getAccessToken, getUserId } from "../../session/helper";
-import { CERTIFIED_COPY_DELIVERY_DETAILS } from "../../model/template.paths";
+import { DELIVERY_DETAILS } from "../../model/template.paths";
 import { createLogger } from "ch-structured-logging";
 import { APPLICATION_NAME } from "../../config/config";
 import { Basket } from "ch-sdk-node/dist/services/order/basket/types";
@@ -16,6 +16,7 @@ const ADDRESS_TOWN_FIELD: string = "addressTown";
 const ADDRESS_COUNTY_FIELD: string = "addressCounty";
 const ADDRESS_POSTCODE_FIELD: string = "addressPostcode";
 const ADDRESS_COUNTRY_FIELD: string = "addressCountry";
+const backLink: string = "";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -24,8 +25,8 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const userId = getUserId(req.session);
         const accessToken: string = getAccessToken(req.session);
         const basket: Basket = await getBasket(accessToken);
-        // logger.info(`Get certificate item, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
-        return res.render(CERTIFIED_COPY_DELIVERY_DETAILS, {
+        logger.info(`Get basket, user_id=${userId}`);
+        return res.render(DELIVERY_DETAILS, {
             firstName: basket.deliveryDetails?.forename,
             lastName: basket.deliveryDetails?.surname,
             addressLineOne: basket.deliveryDetails?.addressLine1,
@@ -35,7 +36,8 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             addressPoBox: basket.deliveryDetails?.poBox,
             addressPostcode: basket.deliveryDetails?.postalCode,
             addressCounty: basket.deliveryDetails?.region,
-            templateName: CERTIFIED_COPY_DELIVERY_DETAILS
+            templateName: DELIVERY_DETAILS,
+            backLink
         });
     } catch (err) {
         logger.error(`${err}`);
@@ -56,7 +58,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
     const addressCountry: string = req.body[ADDRESS_COUNTRY_FIELD];
 
     if (!errors.isEmpty()) {
-        return res.render(CERTIFIED_COPY_DELIVERY_DETAILS, {
+        return res.render(DELIVERY_DETAILS, {
             ...errorList,
             addressCountry,
             addressCounty,
@@ -66,7 +68,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
             addressTown,
             firstName,
             lastName,
-            templateName: (CERTIFIED_COPY_DELIVERY_DETAILS)
+            templateName: (DELIVERY_DETAILS)
         });
     }
 };
