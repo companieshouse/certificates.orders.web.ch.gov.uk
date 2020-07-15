@@ -1,11 +1,12 @@
 import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
+import { Basket, BasketPatchRequest } from "ch-sdk-node/dist/services/order/basket/types";
+import { createLogger } from "ch-structured-logging";
+
 import { getAccessToken, getUserId } from "../../session/helper";
 import { DELIVERY_DETAILS } from "../../model/template.paths";
-import { createLogger } from "ch-structured-logging";
 import { APPLICATION_NAME } from "../../config/config";
-import { Basket } from "ch-sdk-node/dist/services/order/basket/types";
-import { getBasket } from "../../client/api.client";
+import { getBasket, patchBasket } from "../../client/api.client";
 import { deliveryDetailsValidationRules, validate } from "../../utils/delivery-details-validation";
 
 const FIRST_NAME_FIELD: string = "firstName";
@@ -71,6 +72,27 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
             templateName: (DELIVERY_DETAILS),
             backLink
         });
+    }
+    try {
+        const userId = getUserId(req.session);
+        const accessToken: string = getAccessToken(req.session);
+        const basketDeliveryDetails: BasketPatchRequest = {
+            deliveryDetails: {
+                addressLine1: addressLineOne,
+                addressLine2: addressLineTwo || null,
+                country: addressCountry,
+                forename: firstName,
+                locality: addressTown,
+                postalCode: addressPostcode || null,
+                region: addressCounty || null,
+                surname: lastName
+            }
+        };
+        logger.info(`Patched basket with delivery details, certified_copy_id=${req.params.certifiedCopyId}, user_id=${userId}`);
+        await patchBasket(accessToken, basketDeliveryDetails);
+        return res.redirect("check-details");
+    } catch (err) {
+        next(err);
     }
 };
 

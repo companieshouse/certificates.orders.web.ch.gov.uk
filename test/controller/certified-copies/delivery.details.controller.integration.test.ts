@@ -29,6 +29,7 @@ const DELIVERY_DETAILS_URL = replaceCertifiedCopyId(CERTIFIED_COPY_DELIVERY_DETA
 const sandbox = sinon.createSandbox();
 let testApp = null;
 let getBasketStub;
+let patchBasketStub;
 
 describe("certified.copies.delivery.details.controller", () => {
     beforeEach((done) => {
@@ -160,6 +161,32 @@ describe("certified.copies.delivery.details.controller", () => {
 
             chai.expect(res.status).to.equal(200);
             chai.expect(res.text).not.to.contain(errorMessages.ADDRESS_COUNTY_AND_POSTCODE_EMPTY);
+        });
+    });
+
+    describe("delivery details patch to Basket", () => {
+        it("redirects the user to the check details page", async () => {
+            const basketDetails = {} as Basket;
+
+            patchBasketStub = sandbox.stub(apiClient, "patchBasket").returns(Promise.resolve(basketDetails));
+
+            const resp = await chai.request(testApp)
+                .post(DELIVERY_DETAILS_URL)
+                .send({
+                    addressCountry: "Wales",
+                    addressCounty: "glamorgan",
+                    addressLineOne: "117 kings road",
+                    addressLineTwo: "Pontcanna",
+                    addressPostcode: "CF11 9VE",
+                    addressTown: "CARDIFF",
+                    firstName: "JOHN",
+                    lastName: "SMITH"
+                })
+                .redirects(0)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+            chai.expect(resp.status).to.equal(302);
+            chai.expect(resp.text).to.contain("Found. Redirecting to check-details");
         });
     });
 });
