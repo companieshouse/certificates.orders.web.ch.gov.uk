@@ -6,7 +6,9 @@ import BasketService from "ch-sdk-node/dist/services/order/basket/service";
 import { CertificateItemPostRequest, CertificateItem } from "ch-sdk-node/dist/services/order/item/certificate/types";
 import { Basket, BasketPatchRequest } from "ch-sdk-node/dist/services/order/basket/types";
 
-import { postCertificateItem, patchBasket, getBasket } from "../../src/client/api.client";
+import { postCertificateItem, patchBasket, getBasket, getCompanyProfile } from "../../src/client/api.client";
+import CompanyProfileService from "ch-sdk-node/dist/services/company-profile/service";
+import { CompanyProfile } from "ch-sdk-node/dist/services/company-profile/types";
 
 const dummyBasketSDKResponse: Resource<Basket> = {
     httpStatusCode: 200,
@@ -107,12 +109,62 @@ const certificateItemRequest: CertificateItemPostRequest = {
     quantity: 1
 };
 
+const dummyCompanyProfileSDKResponse: Resource<CompanyProfile> = {
+    httpStatusCode: 200,
+    resource: {
+        companyName: "company name",
+        companyNumber: "00000000",
+        companyStatus: "active",
+        companyStatusDetail: "company status detail",
+        dateOfCreation: "date of creation",
+        jurisdiction: "jurisdiction",
+        sicCodes: ["85100", "85200"],
+        hasBeenLiquidated: false,
+        type: "ltd",
+        hasCharges: false,
+        hasInsolvencyHistory: false,
+        registeredOfficeAddress: {
+            addressLineOne: "line1",
+            addressLineTwo: "line2",
+            careOf: "careOf",
+            country: "uk",
+            locality: "locality",
+            poBox: "123",
+            postalCode: "post code",
+            premises: "premises",
+            region: "region"
+        },
+        accounts: {
+            nextAccounts: {
+                periodEndOn: "2019-10-10",
+                periodStartOn: "2019-01-01"
+            },
+            nextDue: "2020-05-31",
+            overdue: false
+        },
+        confirmationStatement: {
+            nextDue: "2020-05-31",
+            overdue: false
+        }
+    }
+};
+
 const sandbox = sinon.createSandbox();
 
 describe("api.client", () => {
     afterEach(() => {
         sandbox.reset();
         sandbox.restore();
+    });
+
+    describe("getCompanyProfile", () => {
+        it("returns a company profile object", async () => {
+            sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
+                .returns(Promise.resolve(dummyCompanyProfileSDKResponse));
+
+            const companyProfile = await getCompanyProfile("api key", "00000000");
+            chai.expect(companyProfile).to.equal(dummyCompanyProfileSDKResponse.resource);
+        });
     });
 
     describe("postCertificateItem", () => {

@@ -1,13 +1,23 @@
 import { createApiClient } from "ch-sdk-node";
-import { CompanyProfile } from "ch-sdk-node/dist/services/company-profile";
+import { CompanyProfile, CompanyProfileResource } from "ch-sdk-node/dist/services/company-profile";
 import { BasketItem, ItemUriPostRequest, Basket, BasketPatchRequest } from "ch-sdk-node/dist/services/order/basket/types";
 import { CertificateItemPostRequest, CertificateItemPatchRequest, CertificateItem } from "ch-sdk-node/dist/services/order/item/certificate/types";
-import { API_URL, APPLICATION_NAME } from "../config/config";
+import { API_KEY, API_URL, APPLICATION_NAME } from "../config/config";
 import { createLogger } from "ch-structured-logging";
 import Resource from "ch-sdk-node/dist/services/resource";
 import createError from "http-errors";
 
 const logger = createLogger(APPLICATION_NAME);
+
+export const getCompanyProfile = async (apiKey: string, companyNumber: string): Promise<CompanyProfile> => {
+    const api = createApiClient(apiKey, undefined, API_URL);
+    const companyProfileResource: Resource<CompanyProfile> = await api.companyProfile.getCompanyProfile(companyNumber.toUpperCase());
+    if (companyProfileResource.httpStatusCode !== 200 && companyProfileResource.httpStatusCode !== 201) {
+        throw createError(companyProfileResource.httpStatusCode, companyProfileResource.httpStatusCode.toString());
+    }
+    logger.info(`Get company profile, company number=${companyNumber}, status code=${companyProfileResource.httpStatusCode}`);
+    return companyProfileResource.resource as CompanyProfile;
+};
 
 export const postCertificateItem =
     async (oAuth: string, certificateItem: CertificateItemPostRequest): Promise<CertificateItem> => {
