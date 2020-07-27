@@ -54,7 +54,7 @@ const dummyCompanyProfileAcceptableCompanyType: Resource<CompanyProfile> = {
 };
 
 const dummyCompanyProfileNotAcceptableCompanyType: Resource<CompanyProfile> = {
-    httpStatusCode: 200,
+    httpStatusCode: 500,
     resource: {
         companyName: "company name",
         companyNumber: "00000000",

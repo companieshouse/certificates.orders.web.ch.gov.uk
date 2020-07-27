@@ -15,7 +15,7 @@ export const getCompanyProfile = async (apiKey: string, companyNumber: string): 
     if (companyProfileResource.httpStatusCode !== 200 && companyProfileResource.httpStatusCode !== 201) {
         throw createError(companyProfileResource.httpStatusCode, companyProfileResource.httpStatusCode.toString());
     }
-    logger.info(`Get company profile, company number=${companyNumber}, status code=${companyProfileResource.httpStatusCode}`);
+    logger.info(`Get company profile, company_number=${companyNumber}, status_code=${companyProfileResource.httpStatusCode}`);
     return companyProfileResource.resource as CompanyProfile;
 };
 
