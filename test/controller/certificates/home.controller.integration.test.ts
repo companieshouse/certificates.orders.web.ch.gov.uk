@@ -49,6 +49,9 @@ const dummyCompanyProfileAcceptableCompanyType: Resource<CompanyProfile> = {
         confirmationStatement: {
             nextDue: "2020-05-31",
             overdue: false
+        },
+        links: {
+            filingHistory: "/company/00000000/filing-history"
         }
     }
 };
@@ -89,6 +92,9 @@ const dummyCompanyProfileNotAcceptableCompanyType: Resource<CompanyProfile> = {
         confirmationStatement: {
             nextDue: "2020-05-31",
             overdue: false
+        },
+        links: {
+            filingHistory: "/company/00000000/filing-history"
         }
     }
 };
