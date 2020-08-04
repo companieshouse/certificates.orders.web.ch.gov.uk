@@ -8,6 +8,7 @@ import { DELIVERY_DETAILS } from "../../model/template.paths";
 import { APPLICATION_NAME } from "../../config/config";
 import { getBasket, patchBasket, getCertifiedCopyItem } from "../../client/api.client";
 import { deliveryDetailsValidationRules, validate } from "../../utils/delivery-details-validation";
+import { CertifiedCopyItem } from "ch-sdk-node/dist/services/order/item/certified-copies/types";
 
 const FIRST_NAME_FIELD: string = "firstName";
 const LAST_NAME_FIELD: string = "lastName";
@@ -26,9 +27,9 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const accessToken: string = getAccessToken(req.session);
         const basket: Basket = await getBasket(accessToken);
         logger.info(`Get basket, user_id=${userId}`);
-        const certifiedCopyItemId = req.params.certifiedCopyId;
-        const certifiedCopyItem = await getCertifiedCopyItem(accessToken, certifiedCopyItemId);
-        const companyNumber = certifiedCopyItem.companyNumber;
+        const certifiedCopyItemId:string = req.params.certifiedCopyId;
+        const certifiedCopyItem:CertifiedCopyItem = await getCertifiedCopyItem(accessToken, certifiedCopyItemId);
+        const companyNumber:string = certifiedCopyItem.companyNumber;
         const backLink: string = `/company/${companyNumber}/certified-documents`;
         return res.render(DELIVERY_DETAILS, {
             firstName: basket.deliveryDetails?.forename,
