@@ -3,10 +3,12 @@ import chai from "chai";
 import Resource from "ch-sdk-node/dist/services/resource";
 import CertificateItemService from "ch-sdk-node/dist/services/order/item/certificate/service";
 import BasketService from "ch-sdk-node/dist/services/order/basket/service";
+import CertifiedCopyItemService from "ch-sdk-node/dist/services/order/item/certified-copies/service";
 import { CertificateItemPostRequest, CertificateItem } from "ch-sdk-node/dist/services/order/item/certificate/types";
+import { CertifiedCopyItem, CertifiedCopyItemResource } from "ch-sdk-node/dist/services/order/item/certified-copies/types";
 import { Basket, BasketPatchRequest } from "ch-sdk-node/dist/services/order/basket/types";
 
-import { postCertificateItem, patchBasket, getBasket, getCompanyProfile } from "../../src/client/api.client";
+import { postCertificateItem, patchBasket, getBasket, getCompanyProfile, getCertifiedCopyItem } from "../../src/client/api.client";
 import CompanyProfileService from "ch-sdk-node/dist/services/company-profile/service";
 import { CompanyProfile } from "ch-sdk-node/dist/services/company-profile/types";
 
@@ -149,6 +151,13 @@ const dummyCompanyProfileSDKResponse: Resource<CompanyProfile> = {
     }
 };
 
+const dummyCertifiedCopyItemSDKResponse: Resource<CertifiedCopyItem> = {
+    httpStatusCode: 200,
+    resource: {
+        companyNumber: "test company"
+    }
+};
+
 const sandbox = sinon.createSandbox();
 
 describe("api.client", () => {
@@ -190,6 +199,14 @@ describe("api.client", () => {
             sandbox.stub(BasketService.prototype, "patchBasket").returns(Promise.resolve(dummyBasketSDKResponse));
             const patchBasketDetails = await patchBasket("oauth", basketPatchRequest);
             chai.expect(patchBasketDetails).to.equal(dummyBasketSDKResponse.resource);
+        });
+    });
+
+    describe("getCertifiedCopyItem", () => {
+        it("returns a certified copy item object", async () => {
+            sandbox.stub(CertifiedCopyItemService.prototype, "getCertifiedCopy").returns(Promise.resolve(dummyCertifiedCopyItemSDKResponse));
+            const certifiedCopyItem = await getCertifiedCopyItem("oauth", "CRT-360615-955167");
+            chai.expect(certifiedCopyItem).to.equal(dummyCertifiedCopyItemSDKResponse.resource);
         });
     });
 });
