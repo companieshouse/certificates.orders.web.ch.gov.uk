@@ -6,8 +6,9 @@ import { createLogger } from "ch-structured-logging";
 import { getAccessToken, getUserId } from "../../session/helper";
 import { DELIVERY_DETAILS } from "../../model/template.paths";
 import { APPLICATION_NAME } from "../../config/config";
-import { getBasket, patchBasket } from "../../client/api.client";
+import { getBasket, patchBasket, getCertifiedCopyItem } from "../../client/api.client";
 import { deliveryDetailsValidationRules, validate } from "../../utils/delivery-details-validation";
+import { CertifiedCopyItem } from "ch-sdk-node/dist/services/order/item/certified-copies/types";
 
 const FIRST_NAME_FIELD: string = "firstName";
 const LAST_NAME_FIELD: string = "lastName";
@@ -17,7 +18,6 @@ const ADDRESS_TOWN_FIELD: string = "addressTown";
 const ADDRESS_COUNTY_FIELD: string = "addressCounty";
 const ADDRESS_POSTCODE_FIELD: string = "addressPostcode";
 const ADDRESS_COUNTRY_FIELD: string = "addressCountry";
-const backLink: string = "";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -27,6 +27,10 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const accessToken: string = getAccessToken(req.session);
         const basket: Basket = await getBasket(accessToken);
         logger.info(`Get basket, user_id=${userId}`);
+        const certifiedCopyItemId:string = req.params.certifiedCopyId;
+        const certifiedCopyItem:CertifiedCopyItem = await getCertifiedCopyItem(accessToken, certifiedCopyItemId);
+        const companyNumber:string = certifiedCopyItem.companyNumber;
+        const backLink: string = `/company/${companyNumber}/certified-documents`;
         return res.render(DELIVERY_DETAILS, {
             firstName: basket.deliveryDetails?.forename,
             lastName: basket.deliveryDetails?.surname,
@@ -37,8 +41,9 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             addressPoBox: basket.deliveryDetails?.poBox,
             addressPostcode: basket.deliveryDetails?.postalCode,
             addressCounty: basket.deliveryDetails?.region,
-            templateName: DELIVERY_DETAILS,
-            backLink
+            backLink,
+            companyNumber,
+            templateName: DELIVERY_DETAILS
         });
     } catch (err) {
         logger.error(`${err}`);
@@ -47,6 +52,11 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
 };
 
 const route = async (req: Request, res: Response, next: NextFunction) => {
+    const accessToken: string = getAccessToken(req.session);
+    const certifiedCopyItemId = req.params.certifiedCopyId;
+    const certifiedCopyItem = await getCertifiedCopyItem(accessToken, certifiedCopyItemId);
+    const companyNumber = certifiedCopyItem.companyNumber;
+    const backLink: string = `/company/${companyNumber}/certified-documents`;
     const errors = validationResult(req);
     const errorList = validate(errors);
     const firstName: string = req.body[FIRST_NAME_FIELD];
@@ -69,8 +79,9 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
             addressTown,
             firstName,
             lastName,
-            templateName: (DELIVERY_DETAILS),
-            backLink
+            backLink,
+            companyNumber,
+            templateName: (DELIVERY_DETAILS)
         });
     }
     try {

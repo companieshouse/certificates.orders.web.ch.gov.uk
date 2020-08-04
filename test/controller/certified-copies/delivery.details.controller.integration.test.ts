@@ -7,6 +7,7 @@ import * as errorMessages from "../../../src/model/error.messages";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
 import { Basket } from "ch-sdk-node/dist/services/order/basket/types";
 import * as apiClient from "../../../src/client/api.client";
+import { CertifiedCopyItem } from "ch-sdk-node/dist/services/order/item/certified-copies/types";
 
 const ENTER_YOUR_FIRST_NAME_NOT_INPUT = "Enter your first name";
 const ENTER_YOUR_LAST_NAME_NOT_INPUT = "Enter your last name";
@@ -30,6 +31,10 @@ const sandbox = sinon.createSandbox();
 let testApp = null;
 let getBasketStub;
 let patchBasketStub;
+let getCertifiedCopyItemStub;
+const certifiedCopyItem = {
+    companyNumber: "test company"
+} as CertifiedCopyItem;
 
 describe("certified.copies.delivery.details.controller", () => {
     beforeEach((done) => {
@@ -60,6 +65,7 @@ describe("certified.copies.delivery.details.controller", () => {
             } as Basket;
 
             getBasketStub = sandbox.stub(apiClient, "getBasket").returns(Promise.resolve(basketDetails));
+            getCertifiedCopyItemStub = sandbox.stub(apiClient, "getCertifiedCopyItem").returns(Promise.resolve(certifiedCopyItem));
 
             const res = await chai.request(testApp)
                 .get(DELIVERY_DETAILS_URL)
@@ -72,6 +78,8 @@ describe("certified.copies.delivery.details.controller", () => {
 
     describe("delivery details validation test", () => {
         it("should receive error message instructing user to input required fields", async () => {
+            getCertifiedCopyItemStub = sandbox.stub(apiClient, "getCertifiedCopyItem").returns(Promise.resolve(certifiedCopyItem));
+
             const res = await chai.request(testApp)
                 .post(DELIVERY_DETAILS_URL)
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
@@ -87,6 +95,8 @@ describe("certified.copies.delivery.details.controller", () => {
 
     describe("delivery details validation", () => {
         it("should receive error message when entering invalid characters in all fields", async () => {
+            getCertifiedCopyItemStub = sandbox.stub(apiClient, "getCertifiedCopyItem").returns(Promise.resolve(certifiedCopyItem));
+
             const res = await chai.request(testApp)
                 .post(DELIVERY_DETAILS_URL)
                 .set("Accept", "application/json")
@@ -114,6 +124,8 @@ describe("certified.copies.delivery.details.controller", () => {
         });
 
         it("should receive error messages requesting less than allowed character length in input fields", async () => {
+            getCertifiedCopyItemStub = sandbox.stub(apiClient, "getCertifiedCopyItem").returns(Promise.resolve(certifiedCopyItem));
+
             const res = await chai.request(testApp)
                 .post(DELIVERY_DETAILS_URL)
                 .send({
@@ -140,6 +152,8 @@ describe("certified.copies.delivery.details.controller", () => {
         });
 
         it("should not receive Postcode or county error message when postcode is input", async () => {
+            getCertifiedCopyItemStub = sandbox.stub(apiClient, "getCertifiedCopyItem").returns(Promise.resolve(certifiedCopyItem));
+
             const res = await chai.request(testApp)
                 .post(DELIVERY_DETAILS_URL)
                 .send({
@@ -152,6 +166,8 @@ describe("certified.copies.delivery.details.controller", () => {
         });
 
         it("should not receive Postcode or county error message when county is input", async () => {
+            getCertifiedCopyItemStub = sandbox.stub(apiClient, "getCertifiedCopyItem").returns(Promise.resolve(certifiedCopyItem));
+
             const res = await chai.request(testApp)
                 .post(DELIVERY_DETAILS_URL)
                 .send({
@@ -169,6 +185,7 @@ describe("certified.copies.delivery.details.controller", () => {
             const basketDetails = {} as Basket;
 
             patchBasketStub = sandbox.stub(apiClient, "patchBasket").returns(Promise.resolve(basketDetails));
+            getCertifiedCopyItemStub = sandbox.stub(apiClient, "getCertifiedCopyItem").returns(Promise.resolve(certifiedCopyItem));
 
             const resp = await chai.request(testApp)
                 .post(DELIVERY_DETAILS_URL)
