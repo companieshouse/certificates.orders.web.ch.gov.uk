@@ -2,6 +2,7 @@ import { createApiClient } from "ch-sdk-node";
 import { CompanyProfile, CompanyProfileResource } from "ch-sdk-node/dist/services/company-profile";
 import { BasketItem, ItemUriPostRequest, Basket, BasketPatchRequest } from "ch-sdk-node/dist/services/order/basket/types";
 import { CertificateItemPostRequest, CertificateItemPatchRequest, CertificateItem } from "ch-sdk-node/dist/services/order/item/certificate/types";
+import { CertifiedCopyItem, CertifiedCopyItemResource } from "ch-sdk-node/dist/services/order/item/certified-copies/types";
 import { API_KEY, API_URL, APPLICATION_NAME } from "../config/config";
 import { createLogger } from "ch-structured-logging";
 import Resource from "ch-sdk-node/dist/services/resource";
@@ -79,4 +80,14 @@ export const patchBasket = async (oAuth: string, basketPatchRequest: BasketPatch
     }
     logger.info(`Patch basket, status_code=${basketResource.httpStatusCode}`);
     return basketResource.resource as Basket;
+};
+
+export const getCertifiedCopyItem = async (oAuth: string, certifiedCopyId: string) : Promise<CertifiedCopyItem> => {
+    const api = createApiClient(undefined, oAuth, API_URL);
+    const certifiedCopyItemResource: Resource<CertifiedCopyItem> = await api.certifiedCopies.getCertifiedCopy(certifiedCopyId);
+    if (certifiedCopyItemResource.httpStatusCode !== 200 && certifiedCopyItemResource.httpStatusCode !== 201) {
+        throw createError(certifiedCopyItemResource.httpStatusCode, certifiedCopyItemResource.httpStatusCode.toString());
+    }
+    logger.info(`Get certified copy item, certified_copy_item_id=${certifiedCopyId}, status_code=${certifiedCopyItemResource.httpStatusCode}`);
+    return certifiedCopyItemResource.resource as CertifiedCopyItem;
 };

@@ -57,7 +57,7 @@ const dummyCompanyProfileAcceptableCompanyType: Resource<CompanyProfile> = {
 };
 
 const dummyCompanyProfileNotAcceptableCompanyType: Resource<CompanyProfile> = {
-    httpStatusCode: 500,
+    httpStatusCode: 200,
     resource: {
         companyName: "company name",
         companyNumber: "00000000",
@@ -130,7 +130,7 @@ describe("certificate.home.controller.integration", () => {
         const resp = await chai.request(testApp)
             .get(replaceCompanyNumber(ROOT_CERTIFICATE, COMPANY_NUMBER));
 
-        chai.expect(resp.status).to.equal(500);
-        chai.expect(resp.text).to.contain("Error");
+        chai.expect(resp.status).to.equal(200);
+        chai.expect(resp.text).to.contain("You cannot order a certificate or certified document for this company. ");
     });
 });
