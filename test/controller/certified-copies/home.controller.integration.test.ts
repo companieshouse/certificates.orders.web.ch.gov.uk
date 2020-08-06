@@ -1,7 +1,6 @@
 import chai from "chai";
 import sinon from "sinon";
 import ioredis from "ioredis";
-
 import { ROOT_CERTIFIED_COPY, replaceCompanyNumber } from "../../../src/model/page.urls";
 import { CompanyProfile } from "ch-sdk-node/dist/services/company-profile";
 import Resource from "ch-sdk-node/dist/services/resource";
@@ -14,7 +13,7 @@ let testApp = null;
 let getCompanyProfileStub;
 
 const dummyCompanyProfileNoFilingHistory: Resource<CompanyProfile> = {
-    httpStatusCode: 500,
+    httpStatusCode: 200,
     resource: {
         companyName: "company name",
         companyNumber: "00000000",
@@ -55,15 +54,15 @@ const dummyCompanyProfileNoFilingHistory: Resource<CompanyProfile> = {
     }
 };
 
-    let dummyCompanyProfileUkEstablishmentFilingHistory: Resource<CompanyProfile> = JSON.parse(JSON.stringify(dummyCompanyProfileNoFilingHistory));
-        dummyCompanyProfileUkEstablishmentFilingHistory.resource!.links.filingHistory = "/company/00000000/filing-history";
-        dummyCompanyProfileUkEstablishmentFilingHistory.resource!.type = "uk-establishment";
+const dummyCompanyProfileUkEstablishmentFilingHistory: Resource<CompanyProfile> = JSON.parse(JSON.stringify(dummyCompanyProfileNoFilingHistory));
+    dummyCompanyProfileUkEstablishmentFilingHistory.resource!.links.filingHistory = "/company/00000000/filing-history";
+    dummyCompanyProfileUkEstablishmentFilingHistory.resource!.type = "uk-establishment";
 
-    let dummyCompanyProfileWithFilingHistoryLink: Resource<CompanyProfile>= JSON.parse(JSON.stringify(dummyCompanyProfileNoFilingHistory));
-        dummyCompanyProfileWithFilingHistoryLink.resource!.links.filingHistory =  "/company/00000000/filing-history";
-        dummyCompanyProfileWithFilingHistoryLink.httpStatusCode = 200;
-        
-describe("certified-copy.home.controller.integration", () => {
+const dummyCompanyProfileWithFilingHistoryLink: Resource<CompanyProfile> = JSON.parse(JSON.stringify(dummyCompanyProfileNoFilingHistory));
+    dummyCompanyProfileWithFilingHistoryLink.resource!.links.filingHistory = "/company/00000000/filing-history";
+    dummyCompanyProfileWithFilingHistoryLink.httpStatusCode = 200;
+
+    describe("certified-copy.home.controller.integration", () => {
     beforeEach((done) => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
 
@@ -94,8 +93,8 @@ describe("certified-copy.home.controller.integration", () => {
         const resp = await chai.request(testApp)
             .get(replaceCompanyNumber(ROOT_CERTIFIED_COPY, COMPANY_NUMBER));
 
-        chai.expect(resp.status).to.equal(500);
-        chai.expect(resp.text).to.contain("Error");
+        chai.expect(resp.status).to.equal(200);
+        chai.expect(resp.text).to.contain("You cannot order a certificate or certified document for this company. ");
     });
 
     it("does not render the start now page if company type is uk establishment and has a filing history link", async () => {
@@ -105,7 +104,7 @@ describe("certified-copy.home.controller.integration", () => {
         const resp = await chai.request(testApp)
             .get(replaceCompanyNumber(ROOT_CERTIFIED_COPY, COMPANY_NUMBER));
 
-        chai.expect(resp.status).to.equal(500);
-        chai.expect(resp.text).to.contain("Error");
+        chai.expect(resp.status).to.equal(200);
+        chai.expect(resp.text).to.contain("You cannot order a certificate or certified document for this company. ");
     });
 });

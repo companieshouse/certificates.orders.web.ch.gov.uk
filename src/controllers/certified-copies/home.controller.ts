@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { CERTIFIED_COPY_FILING_HISTORY, replaceCompanyNumber } from "../../model/page.urls";
-import { CERTIFIED_COPY_INDEX } from "../../model/template.paths";
+import { CERTIFIED_COPY_INDEX, YOU_CANNOT_USE_THIS_SERVICE } from "../../model/template.paths";
 import { CHS_URL, API_KEY, APPLICATION_NAME } from "../../config/config";
 import { getCompanyProfile } from "../../client/api.client";
 import { createLogger } from "ch-structured-logging";
@@ -18,7 +18,8 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const filingHistory = companyProfile.links.filingHistory;
 
         if (!filingHistory || (filingHistory && companyType === "uk-establishment")) {
-            throw createError("Cannot order certified copy for this company");
+            const SERVICE_NAME = null;
+            res.render(YOU_CANNOT_USE_THIS_SERVICE, { SERVICE_NAME });
         } else {
             res.render(CERTIFIED_COPY_INDEX, { startNowUrl, companyNumber });
         }
