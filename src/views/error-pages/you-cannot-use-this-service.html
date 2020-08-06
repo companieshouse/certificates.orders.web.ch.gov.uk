@@ -1,0 +1,22 @@
+  
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  You cannot use this service
+{% endblock %}
+
+{% set mainClasses = "govuk-main-wrapper--l" %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">You cannot use this service</h1>
+        <p class="govuk-body">
+          You cannot order a certificate or certified document for this company.   
+        </p>
+
+        <a href="https://beta.companieshouse.gov.uk/" class="govuk-link">Return to the Companies House service</a>
+
+    </div>
+  </div>
+{% endblock %}
