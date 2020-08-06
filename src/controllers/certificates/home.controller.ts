@@ -4,6 +4,7 @@ import { CompanyProfile } from "ch-sdk-node/dist/services/company-profile";
 import { getCompanyProfile } from "../../client/api.client";
 import { createLogger } from "ch-structured-logging";
 import { APPLICATION_NAME, API_KEY } from "../../config/config";
+import { YOU_CANNOT_USE_THIS_SERVICE } from "../../model/template.paths";
 import createError from "http-errors";
 
 const logger = createLogger(APPLICATION_NAME);
@@ -33,7 +34,8 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         if (allow && companyStatus === "active") {
             res.render("certificates/index", { startNowUrl, companyNumber });
         } else {
-            throw createError("Cannot order certificate for company type");
+            const SERVICE_NAME = null;
+            res.render(YOU_CANNOT_USE_THIS_SERVICE, { SERVICE_NAME });
         };
     } catch (err) {
         logger.error(`${err}`);
