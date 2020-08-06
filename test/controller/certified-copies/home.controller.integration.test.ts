@@ -54,13 +54,92 @@ const dummyCompanyProfileNoFilingHistory: Resource<CompanyProfile> = {
     }
 };
 
-const dummyCompanyProfileUkEstablishmentFilingHistory: Resource<CompanyProfile> = JSON.parse(JSON.stringify(dummyCompanyProfileNoFilingHistory));
-    dummyCompanyProfileUkEstablishmentFilingHistory.resource!.links.filingHistory = "/company/00000000/filing-history";
-    dummyCompanyProfileUkEstablishmentFilingHistory.resource!.type = "uk-establishment";
+const dummyCompanyProfileUkEstablishmentFilingHistory: Resource<CompanyProfile> = {
+    httpStatusCode: 200,
+    resource: {
+        companyName: "company name",
+        companyNumber: "00000000",
+        companyStatus: "active",
+        companyStatusDetail: "company status detail",
+        dateOfCreation: "date of creation",
+        jurisdiction: "jurisdiction",
+        sicCodes: ["85100", "85200"],
+        hasBeenLiquidated: false,
+        type: "uk-establishment",
+        hasCharges: false,
+        hasInsolvencyHistory: false,
+        registeredOfficeAddress: {
+            addressLineOne: "line1",
+            addressLineTwo: "line2",
+            careOf: "careOf",
+            country: "uk",
+            locality: "locality",
+            poBox: "123",
+            postalCode: "post code",
+            premises: "premises",
+            region: "region"
+        },
+        accounts: {
+            nextAccounts: {
+                periodEndOn: "2019-10-10",
+                periodStartOn: "2019-01-01"
+            },
+            nextDue: "2020-05-31",
+            overdue: false
+        },
+        confirmationStatement: {
+            nextDue: "2020-05-31",
+            overdue: false
+        },
+        links: {
+            filingHistory: "/company/00000000/filing-history"
+        }
+    }
+};
 
-const dummyCompanyProfileWithFilingHistoryLink: Resource<CompanyProfile> = JSON.parse(JSON.stringify(dummyCompanyProfileNoFilingHistory));
-    dummyCompanyProfileWithFilingHistoryLink.resource!.links.filingHistory = "/company/00000000/filing-history";
-    dummyCompanyProfileWithFilingHistoryLink.httpStatusCode = 200;
+
+const dummyCompanyProfileWithFilingHistoryLink: Resource<CompanyProfile> = {
+    httpStatusCode: 200,
+    resource: {
+        companyName: "company name",
+        companyNumber: "00000000",
+        companyStatus: "active",
+        companyStatusDetail: "company status detail",
+        dateOfCreation: "date of creation",
+        jurisdiction: "jurisdiction",
+        sicCodes: ["85100", "85200"],
+        hasBeenLiquidated: false,
+        type: "ltd",
+        hasCharges: false,
+        hasInsolvencyHistory: false,
+        registeredOfficeAddress: {
+            addressLineOne: "line1",
+            addressLineTwo: "line2",
+            careOf: "careOf",
+            country: "uk",
+            locality: "locality",
+            poBox: "123",
+            postalCode: "post code",
+            premises: "premises",
+            region: "region"
+        },
+        accounts: {
+            nextAccounts: {
+                periodEndOn: "2019-10-10",
+                periodStartOn: "2019-01-01"
+            },
+            nextDue: "2020-05-31",
+            overdue: false
+        },
+        confirmationStatement: {
+            nextDue: "2020-05-31",
+            overdue: false
+        },
+        links: {
+            filingHistory: "/company/00000000/filing-history"
+        }
+    }
+};
 
     describe("certified-copy.home.controller.integration", () => {
     beforeEach((done) => {
