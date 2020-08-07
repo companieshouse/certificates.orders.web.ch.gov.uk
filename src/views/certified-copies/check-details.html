@@ -33,7 +33,7 @@
                       Company number
                     </dt>
                     <dd class="govuk-summary-list__value">
-                      00233462
+                      {{ companyNumber }}
                     </dd>
                       <span class="govuk-summary-list__actions"></span>
                   </div>
@@ -42,7 +42,7 @@
                       Delivery method
                     </dt>
                     <dd class="govuk-summary-list__value">
-                      Standard delivery (aim to dispatch within 4 working days)
+                      {{ deliveryMethod }}
                     </dd>
                       <span class="govuk-summary-list__actions"></span>
                   </div>
@@ -51,7 +51,7 @@
                       Delivery details
                     </dt>
                     <dd class="govuk-summary-list__value">
-                      Mr Jamies Hanson <br> 48 Tonna Road <br> Barry <br> CF45 8YG
+                      {{ deliveryDetails | safe }}
                     </dd>
                       <dd class="govuk-summary-list__actions">
                           <a class="govuk-link" href="#">
@@ -72,6 +72,14 @@
                       </tr>
                     </thead>
                     <tbody class="govuk-table__body">
+                      {% for filingHistoryDocument in filingHistoryDocuments %}
+                      <tr class="govuk-table__row">
+                        <td class="govuk-table__cell">{{ filingHistoryDocument.filingHistoryDate }}</td>
+                        <td class="govuk-table__cell">{{ filingHistoryDocument.filingHistoryType }}</td>
+                        <td class="govuk-table__cell">{{ filingHistoryDocument.filingHistoryDescription }}</td>
+                        <td class="govuk-table__cell">£15</td>
+                      </tr>
+                      {% endfor %}
                         <tr class="govuk-table__row">
                             <td class="govuk-table__cell">15 Feb 2018</td>
                             <td class="govuk-table__cell">AP01</td>

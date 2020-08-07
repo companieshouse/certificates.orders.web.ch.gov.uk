@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 
 import { getAccessToken, getUserId } from "../../session/helper";
-import { CertificateItemPostRequest, CertificateItem } from "ch-sdk-node/dist/services/order/item/certificate/types";
+import { CertificateItemPostRequest, CertificateItem } from "ch-sdk-node/dist/services/certificates/types";
 import { postCertificateItem } from "../../client/api.client";
 import { CERTIFICATE_OPTIONS, replaceCertificateId } from "./../../model/page.urls";
 import { createLogger } from "ch-structured-logging";

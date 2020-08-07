@@ -7,7 +7,7 @@ import * as errorMessages from "../../../src/model/error.messages";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
 import { Basket } from "ch-sdk-node/dist/services/order/basket/types";
 import * as apiClient from "../../../src/client/api.client";
-import { CertifiedCopyItem } from "ch-sdk-node/dist/services/order/item/certified-copies/types";
+import { CertifiedCopyItem } from "ch-sdk-node/dist/services/certified-copies/types";
 
 const ENTER_YOUR_FIRST_NAME_NOT_INPUT = "Enter your first name";
 const ENTER_YOUR_LAST_NAME_NOT_INPUT = "Enter your last name";

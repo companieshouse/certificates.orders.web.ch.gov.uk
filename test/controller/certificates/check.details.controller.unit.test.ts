@@ -2,7 +2,7 @@ import chai from "chai";
 import sessionHandler from "ch-node-session-handler";
 import {
     ItemOptions, RegisteredOfficeAddressDetails, DirectorOrSecretaryDetails
-} from "ch-sdk-node/dist/services/order/item/certificate/types";
+} from "ch-sdk-node/dist/services//certificates/types";
 import { DeliveryDetails } from "ch-sdk-node/dist/services/order/basket/types";
 
 import {

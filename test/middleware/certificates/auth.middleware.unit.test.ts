@@ -2,7 +2,7 @@ import chai from "chai";
 import sinon from "sinon";
 import { Request, Response } from "express";
 import { Session } from "ch-node-session-handler/lib/session/model/Session";
-import { CertificateItem } from "ch-sdk-node/dist/services/order/item/certificate/types";
+import { CertificateItem } from "ch-sdk-node/dist/services//certificates/types";
 
 import certificateAuthMiddleware from "../../../src/middleware/certificates/auth.middleware";
 import * as apiClient from "../../../src/client/api.client";

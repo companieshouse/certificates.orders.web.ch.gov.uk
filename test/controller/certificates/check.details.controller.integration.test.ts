@@ -4,7 +4,7 @@ import ioredis from "ioredis";
 import cheerio from "cheerio";
 import sessionHandler from "ch-node-session-handler";
 import { BasketItem, Basket } from "ch-sdk-node/dist/services/order/basket/types";
-import { CertificateItem } from "ch-sdk-node/dist/services/order/item/certificate/types";
+import { CertificateItem } from "ch-sdk-node/dist/services//certificates/types";
 
 import * as apiClient from "../../../src/client/api.client";
 import { CERTIFICATE_CHECK_DETAILS, replaceCertificateId } from "../../../src/model/page.urls";

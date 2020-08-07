@@ -1,11 +1,11 @@
 import sinon from "sinon";
 import chai from "chai";
 import Resource from "ch-sdk-node/dist/services/resource";
-import CertificateItemService from "ch-sdk-node/dist/services/order/item/certificate/service";
+import CertificateItemService from "ch-sdk-node/dist/services//certificates/service";
 import BasketService from "ch-sdk-node/dist/services/order/basket/service";
-import CertifiedCopyItemService from "ch-sdk-node/dist/services/order/item/certified-copies/service";
-import { CertificateItemPostRequest, CertificateItem } from "ch-sdk-node/dist/services/order/item/certificate/types";
-import { CertifiedCopyItem, CertifiedCopyItemResource } from "ch-sdk-node/dist/services/order/item/certified-copies/types";
+import CertifiedCopyItemService from "ch-sdk-node/dist/services/certified-copies/service";
+import { CertificateItemPostRequest, CertificateItem } from "ch-sdk-node/dist/services//certificates/types";
+import { CertifiedCopyItem, CertifiedCopyItemResource } from "ch-sdk-node/dist/services/certified-copies/types";
 import { Basket, BasketPatchRequest } from "ch-sdk-node/dist/services/order/basket/types";
 
 import { postCertificateItem, patchBasket, getBasket, getCompanyProfile, getCertifiedCopyItem } from "../../src/client/api.client";
