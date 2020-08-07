@@ -1,0 +1,4 @@
+[submodule "api-enumerations"]
+	path = api-enumerations
+	url = https://github.com/companieshouse/api-enumerations.git
+	branch = develop

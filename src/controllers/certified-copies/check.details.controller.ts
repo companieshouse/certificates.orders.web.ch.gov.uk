@@ -9,6 +9,7 @@ import { getAccessToken, getUserId } from "../../session/helper";
 import { APPLICATION_NAME } from "../../config/config";
 import { getCertifiedCopyItem, getBasket } from "../../client/api.client";
 import { mapDeliveryDetails, mapDeliveryMethod } from "../../utils/check-details-utils";
+import { getFullFilingHistoryDescription } from "../../config/api.enumerations";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -17,8 +18,6 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const accessToken: string = getAccessToken(req.session);
         const certifiedCopyItem: CertifiedCopyItem = await getCertifiedCopyItem(accessToken, req.params.certifiedCopyId);
         const basket: Basket = await getBasket(accessToken);
-
-        console.log(certifiedCopyItem.itemOptions.filingHistoryDocuments);
 
         res.render(CERTIFIED_COPY_CHECK_DETAILS, {
             backUrl: replaceCertifiedCopyId(CERTIFIED_COPY_DELIVERY_DETAILS, req.params.certifiedCopyId),
@@ -33,16 +32,28 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
     }
 };
 
+export const mapFilingHistoryDescriptionValues = (description: string, descriptionValues: Record<string, string>) => {
+    return Object.entries(descriptionValues).reduce((newObj, [key, val]) => {
+        return newObj.replace("{" + key + "}", val as string);
+    }, description);
+};
+
+export const removeAsterisks = (description: string) => {
+    return description.replace(/\*/g, "");
+};
+
 export const mapFilingHistoriesDocuments = (filingHistoryDocuments: FilingHistoryDocuments[]) => {
     const mappedFilingHistories = filingHistoryDocuments.map(filingHistoryDocument => {
+        const descriptionFromFile = getFullFilingHistoryDescription(filingHistoryDocument.filingHistoryDescription);
+        const mappedFilingHistroyDescription = mapFilingHistoryDescriptionValues(descriptionFromFile, filingHistoryDocument.filingHistoryDescriptionValues || {});
+        const cleanedFilingHistoryDescription = removeAsterisks(mappedFilingHistroyDescription);
         return {
             filingHistoryDate: filingHistoryDocument.filingHistoryDate,
-            filingHistoryDescription: filingHistoryDocument.filingHistoryDescription,
+            filingHistoryDescription: cleanedFilingHistoryDescription,
             filingHistoryId: filingHistoryDocument.filingHistoryId,
             filingHistoryType: filingHistoryDocument.filingHistoryType
         };
     });
-
     return mappedFilingHistories;
 };
 
