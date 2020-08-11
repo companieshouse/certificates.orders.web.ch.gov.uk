@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { createLogger } from "ch-structured-logging";
-import { CertifiedCopyItem, FilingHistoryDocuments } from "ch-sdk-node/dist/services/certified-copies";
+import { CertifiedCopyItem, FilingHistoryDocuments } from "ch-sdk-node/dist/services/order/certified-copies";
 import { Basket } from "ch-sdk-node/dist/services/order/basket";
 
 import { CERTIFIED_COPY_DELIVERY_DETAILS, replaceCertifiedCopyId } from "../../model/page.urls";

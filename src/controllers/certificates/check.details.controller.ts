@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { CertificateItem, ItemOptions } from "ch-sdk-node/dist/services/certificates/types";
+import { CertificateItem, ItemOptions } from "ch-sdk-node/dist/services/order/certificates/types";
 import { Basket, DeliveryDetails } from "ch-sdk-node/dist/services/order/basket/types";
 import { createLogger } from "ch-structured-logging";
 

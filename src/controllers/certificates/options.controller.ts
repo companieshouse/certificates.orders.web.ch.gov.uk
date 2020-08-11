@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { CertificateItemPatchRequest, ItemOptionsRequest, CertificateItem } from "ch-sdk-node/dist/services/certificates/types";
+import { CertificateItemPatchRequest, ItemOptionsRequest, CertificateItem } from "ch-sdk-node/dist/services/order/certificates/types";
 import { patchCertificateItem, getCertificateItem } from "../../client/api.client";
 import { createLogger } from "ch-structured-logging";
 import { CERTIFICATE_OPTIONS } from "../../model/template.paths";

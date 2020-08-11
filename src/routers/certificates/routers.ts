@@ -1,5 +1,5 @@
 import { Router, Response, NextFunction, Request } from "express";
-import { CertificateItem } from "ch-sdk-node/dist/services/certificates/types";
+import { CertificateItem } from "ch-sdk-node/dist/services/order/certificates/types";
 
 import { ROOT_CERTIFICATE, CERTIFICATE_TYPE, CERTIFICATE_OPTIONS, CERTIFICATE_DELIVERY_DETAILS, CERTIFICATE_CHECK_DETAILS } from "../../model/page.urls";
 import homeController from "../../controllers/certificates/home.controller";

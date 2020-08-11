@@ -8,7 +8,7 @@ import { DELIVERY_DETAILS } from "../../model/template.paths";
 import { APPLICATION_NAME } from "../../config/config";
 import { getBasket, patchBasket, getCertifiedCopyItem } from "../../client/api.client";
 import { deliveryDetailsValidationRules, validate } from "../../utils/delivery-details-validation";
-import { CertifiedCopyItem } from "ch-sdk-node/dist/services/certified-copies/types";
+import { CertifiedCopyItem } from "ch-sdk-node/dist/services/order/certified-copies/types";
 
 const FIRST_NAME_FIELD: string = "firstName";
 const LAST_NAME_FIELD: string = "lastName";

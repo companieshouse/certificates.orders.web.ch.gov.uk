@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
-import { CertificateItem, CertificateItemPatchRequest } from "ch-sdk-node/dist/services/certificates/types";
+import { CertificateItem, CertificateItemPatchRequest } from "ch-sdk-node/dist/services/order/certificates/types";
 import { Basket, BasketPatchRequest } from "ch-sdk-node/dist/services/order/basket/types";
 import { getAccessToken, getUserId } from "../../session/helper";
 import { getCertificateItem, patchCertificateItem, getBasket, patchBasket } from "../../client/api.client";
