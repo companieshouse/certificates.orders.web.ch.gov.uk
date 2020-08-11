@@ -1,4 +1,4 @@
-import { Router, Response, NextFunction, Request } from "express";
+import { Router } from "express";
 
 import { ROOT_CERTIFIED_COPY, CERTIFIED_COPY_DELIVERY_DETAILS, CERTIFIED_COPY_CHECK_DETAILS } from "../../model/page.urls";
 import deliveryDetailsController, { render as renderCertifiedCopies } from "../../controllers/certified-copies/delivery.details.controller";
