@@ -4,7 +4,7 @@ import { Basket, DeliveryDetails } from "ch-sdk-node/dist/services/order/basket/
 import { createLogger } from "ch-structured-logging";
 
 import { CERTIFICATE_OPTIONS, CERTIFICATE_DELIVERY_DETAILS, replaceCertificateId } from "../../model/page.urls";
-import { mapDeliveryDetails, mapToHtml, mapDeliveryMethod } from "../../utils/check-details-utils";
+import { mapDeliveryDetails, mapToHtml, mapDeliveryMethod } from "../../utils/check.details.utils";
 import { CERTIFICATE_CHECK_DETAILS } from "../../model/template.paths";
 import { addItemToBasket, getCertificateItem, getBasket } from "../../client/api.client";
 import { CHS_URL, APPLICATION_NAME } from "../../config/config";

@@ -8,7 +8,7 @@ import { CERTIFIED_COPY_CHECK_DETAILS } from "../../model/template.paths";
 import { getAccessToken, getUserId } from "../../session/helper";
 import { APPLICATION_NAME } from "../../config/config";
 import { getCertifiedCopyItem, getBasket } from "../../client/api.client";
-import { mapDeliveryDetails, mapDeliveryMethod } from "../../utils/check-details-utils";
+import { mapDeliveryDetails, mapDeliveryMethod } from "../../utils/check.details.utils";
 import { getFullFilingHistoryDescription } from "../../config/api.enumerations";
 
 const logger = createLogger(APPLICATION_NAME);
