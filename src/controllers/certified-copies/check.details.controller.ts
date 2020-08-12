@@ -22,6 +22,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         res.render(CERTIFIED_COPY_CHECK_DETAILS, {
             backUrl: replaceCertifiedCopyId(CERTIFIED_COPY_DELIVERY_DETAILS, req.params.certifiedCopyId),
             companyNumber: certifiedCopyItem.companyNumber,
+            companyName: certifiedCopyItem.companyName,
             deliveryMethod: mapDeliveryMethod(certifiedCopyItem.itemOptions),
             deliveryDetails: mapDeliveryDetails(basket.deliveryDetails),
             filingHistoryDocuments: mapFilingHistoriesDocuments(certifiedCopyItem.itemOptions.filingHistoryDocuments)

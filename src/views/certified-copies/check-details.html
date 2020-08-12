@@ -23,8 +23,8 @@
                     <dt class="govuk-summary-list__key govuk-!-width-one-half">
                       Company name
                     </dt>
-                    <dd class="govuk-summary-list__value">
-                      John Lewis PLC
+                    <dd class="govuk-summary-list__value" id="companyNameValue">
+                      {{ companyName }}
                     </dd>
                       <span class="govuk-summary-list__actions"></span>
                   </div>
@@ -32,7 +32,7 @@
                     <dt class="govuk-summary-list__key">
                       Company number
                     </dt>
-                    <dd class="govuk-summary-list__value">
+                    <dd class="govuk-summary-list__value" id="companyNumberValue">
                       {{ companyNumber }}
                     </dd>
                       <span class="govuk-summary-list__actions"></span>
@@ -41,7 +41,7 @@
                     <dt class="govuk-summary-list__key">
                       Delivery method
                     </dt>
-                    <dd class="govuk-summary-list__value">
+                    <dd class="govuk-summary-list__value" id="deliveryMethodValue">
                       {{ deliveryMethod }}
                     </dd>
                       <span class="govuk-summary-list__actions"></span>
@@ -50,7 +50,7 @@
                     <dt class="govuk-summary-list__key">
                       Delivery details
                     </dt>
-                    <dd class="govuk-summary-list__value">
+                    <dd class="govuk-summary-list__value" id="deliveryDetailsValue">
                       {{ deliveryDetails | safe }}
                     </dd>
                       <dd class="govuk-summary-list__actions">
@@ -74,10 +74,10 @@
                     <tbody class="govuk-table__body">
                       {% for filingHistoryDocument in filingHistoryDocuments %}
                       <tr class="govuk-table__row">
-                        <td class="govuk-table__cell">{{ filingHistoryDocument.filingHistoryDate }}</td>
-                        <td class="govuk-table__cell">{{ filingHistoryDocument.filingHistoryType }}</td>
-                        <td class="govuk-table__cell">{{ filingHistoryDocument.filingHistoryDescription }}</td>
-                        <td class="govuk-table__cell">£15</td>
+                        <td class="govuk-table__cell" id="filingHistoryDateValue{{loop.index}}">{{ filingHistoryDocument.filingHistoryDate }}</td>
+                        <td class="govuk-table__cell" id="filingHistoryTypeValue{{loop.index}}">{{ filingHistoryDocument.filingHistoryType }}</td>
+                        <td class="govuk-table__cell" id="filingHistoryDescriptionValue{{loop.index}}">{{ filingHistoryDocument.filingHistoryDescription }}</td>
+                        <td class="govuk-table__cell" id="filingHistoryFeeValue{{loop.index}}">£15</td>
                       </tr>
                       {% endfor %}
                     </tbody>
