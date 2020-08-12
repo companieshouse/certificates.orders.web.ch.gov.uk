@@ -71,10 +71,9 @@ export const mapFilingHistoriesDocuments = (filingHistoryDocuments: FilingHistor
         const descriptionFromFile = getFullFilingHistoryDescription(filingHistoryDocument.filingHistoryDescription);
         const mappedFilingHistroyDescription = mapFilingHistoryDescriptionValues(descriptionFromFile, filingHistoryDocument.filingHistoryDescriptionValues || {});
         const cleanedFilingHistoryDescription = removeAsterisks(mappedFilingHistroyDescription);
-        console.log(filingHistoryDocument.filingHistoryDescription);
-        console.log(cleanedFilingHistoryDescription);
+        const mappedFilingHistoryDescriptionDate = mapDate(filingHistoryDocument.filingHistoryDate);
         return {
-            filingHistoryDate: mapDate(filingHistoryDocument.filingHistoryDate),
+            filingHistoryDate: mappedFilingHistoryDescriptionDate,
             filingHistoryDescription: cleanedFilingHistoryDescription,
             filingHistoryId: filingHistoryDocument.filingHistoryId,
             filingHistoryType: filingHistoryDocument.filingHistoryType
