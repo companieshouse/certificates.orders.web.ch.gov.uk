@@ -40,7 +40,10 @@
             hint: {
               text: "A statement that the company is in good standing (not added if the company is not in good standing)."
             },
-            checked: true if itemOptions.includeGoodStandingInformation else false
+            checked: true if itemOptions.includeGoodStandingInformation else false,
+            attributes: {
+              "data-event-id" : "good-standing-option"
+            }
           },
           {
             value: "registeredOffice",
@@ -48,7 +51,10 @@
             hint: {
               text: "The current registered office address, no dates included."
             },
-            checked: true if itemOptions.registeredOfficeAddressDetails.includeAddressRecordsType == "current" else false
+            checked: true if itemOptions.registeredOfficeAddressDetails.includeAddressRecordsType == "current" else false,
+            attributes: {
+              "data-event-id" : "registered-office-address-option"
+            }
           },
           {
             value: "directors",
@@ -56,7 +62,10 @@
             hint: {
              text: "The names of all current company directors."
             },
-            checked: true if itemOptions.directorDetails.includeBasicInformation else false
+            checked: true if itemOptions.directorDetails.includeBasicInformation else false,
+            attributes: {
+              "data-event-id" : "directors-option"
+            }
           },
           {
             value: "secretaries",
@@ -64,7 +73,10 @@
             hint: {
               text: "The names of all current company secretaries."
             },
-            checked: true if itemOptions.secretaryDetails.includeBasicInformation else false
+            checked: true if itemOptions.secretaryDetails.includeBasicInformation else false,
+            attributes: {
+              "data-event-id" : "secretaries-option"
+            }
           },
           {
             value: "companyObjects",
@@ -72,7 +84,10 @@
             hint: {
               text: "Summary of company objects."
             },
-            checked: true if itemOptions.includeCompanyObjectsInformation else false
+            checked: true if itemOptions.includeCompanyObjectsInformation else false,
+            attributes: {
+              "data-event-id" : "company-objects-option"
+            }
           }
         ]
         }) }}
