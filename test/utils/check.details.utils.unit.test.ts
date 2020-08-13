@@ -63,7 +63,6 @@ const deliveryDetails: DeliveryDetails = {
 };
 
 describe("certificate.check.details.controller.unit", () => {
-
     describe("mapDeliveryDetails", () => {
         it("should map the correct values when all options are present", () => {
             const returnedString: string = mapDeliveryDetails(deliveryDetails);
