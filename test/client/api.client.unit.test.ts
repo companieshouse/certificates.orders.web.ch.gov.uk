@@ -1,11 +1,11 @@
 import sinon from "sinon";
 import chai from "chai";
 import Resource from "ch-sdk-node/dist/services/resource";
-import CertificateItemService from "ch-sdk-node/dist/services/order/item/certificate/service";
+import CertificateItemService from "ch-sdk-node/dist/services/order/certificates/service";
 import BasketService from "ch-sdk-node/dist/services/order/basket/service";
-import CertifiedCopyItemService from "ch-sdk-node/dist/services/order/item/certified-copies/service";
-import { CertificateItemPostRequest, CertificateItem } from "ch-sdk-node/dist/services/order/item/certificate/types";
-import { CertifiedCopyItem, CertifiedCopyItemResource } from "ch-sdk-node/dist/services/order/item/certified-copies/types";
+import CertifiedCopyItemService from "ch-sdk-node/dist/services/order/certified-copies/service";
+import { CertificateItemPostRequest, CertificateItem } from "ch-sdk-node/dist/services/order/certificates/types";
+import { CertifiedCopyItem, CertifiedCopyItemResource } from "ch-sdk-node/dist/services/order/certified-copies/types";
 import { Basket, BasketPatchRequest } from "ch-sdk-node/dist/services/order/basket/types";
 
 import { postCertificateItem, patchBasket, getBasket, getCompanyProfile, getCertifiedCopyItem } from "../../src/client/api.client";
@@ -157,7 +157,22 @@ const dummyCompanyProfileSDKResponse: Resource<CompanyProfile> = {
 const dummyCertifiedCopyItemSDKResponse: Resource<CertifiedCopyItem> = {
     httpStatusCode: 200,
     resource: {
-        companyNumber: "test company"
+        companyName: "test company",
+        companyNumber: "00000000",
+        itemOptions: {
+            deliveryMethod: "postal",
+            deliveryTimescale: "same-day",
+            filingHistoryDocuments: [{
+                filingHistoryDate: "2010-02-12",
+                filingHistoryDescription: "change-person-director-company-with-change-date",
+                filingHistoryDescriptionValues: {
+                    change_date: "2010-02-12",
+                    officer_name: "Thomas David Wheare"
+                },
+                filingHistoryId: "MzAwOTM2MDg5OWFkaXF6a2N4",
+                filingHistoryType: "CH01"
+            }]
+        }
     }
 };
 

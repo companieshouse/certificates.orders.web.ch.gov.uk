@@ -1,7 +1,7 @@
 import chai from "chai";
 import sinon from "sinon";
 import ioredis from "ioredis";
-import { CertificateItem } from "ch-sdk-node/dist/services/order/item/certificate/types";
+import { CertificateItem } from "ch-sdk-node/dist/services/order/certificates/types";
 import { Basket } from "ch-sdk-node/dist/services/order/basket/types";
 
 import * as apiClient from "../../../src/client/api.client";

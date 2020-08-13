@@ -16,7 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "ch-node-session-handler": "git+ssh://git@github.com/companieshouse/node-session-handler.git#3.0.1",
-    "ch-sdk-node": "git+ssh://git@github.com/companieshouse/ch-sdk-node.git#0.2.17",
+    "ch-sdk-node": "git+ssh://git@github.com/companieshouse/ch-sdk-node.git#0.2.18",
     "ch-structured-logging": "git+ssh://git@github.com/companieshouse/ch-structured-logging-node.git#15a811238ceb58988ab755229a5c07b9500200f2",
     "cookie-parser": "~1.4.4",
     "express": "~4.17.1",
@@ -24,6 +24,7 @@
     "govuk-frontend": "~3.2.0",
     "http-errors": "~1.7.3",
     "ioredis": "~4.16.0",
+    "js-yaml": "^3.14.0",
     "nunjucks": "~3.2.1",
     "yargs": "~15.3.1"
   },
@@ -36,6 +37,7 @@
     "@types/express": "~4.17.6",
     "@types/http-errors": "~1.6.3",
     "@types/ioredis": "~4.14.8",
+    "@types/js-yaml": "^3.12.5",
     "@types/mocha": "~7.0.2",
     "@types/node": "~12.7.8",
     "@types/nunjucks": "~3.1.2",
