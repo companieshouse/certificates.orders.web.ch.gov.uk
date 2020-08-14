@@ -3,21 +3,22 @@ import sinon from "sinon";
 import ioredis from "ioredis";
 import cheerio from "cheerio";
 import sessionHandler from "ch-node-session-handler";
-import { Basket } from "ch-sdk-node/dist/services/order/basket/types";
+import { Basket, BasketItem } from "ch-sdk-node/dist/services/order/basket/types";
 import { CertifiedCopyItem } from "ch-sdk-node/dist/services/order/certified-copies/types";
 
 import * as apiClient from "../../../src/client/api.client";
 import { CERTIFIED_COPY_CHECK_DETAILS, replaceCertifiedCopyId } from "../../../src/model/page.urls";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
 
-const CERTIFIED_COPY_ID = "CHS00000000000000001";
-const ITEM_URI = "/orderable/certified-copies/CHS00000000000000052";
+const CERTIFIED_COPY_ID = "CCD-123456-123456";
+const ITEM_URI = "/orderable/certified-copies/CCD-123456-123456";
 const CHECK_DETAILS_URL = replaceCertifiedCopyId(CERTIFIED_COPY_CHECK_DETAILS, CERTIFIED_COPY_ID);
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
 let getCertifiedCopyItemStub;
 let getBasketStub;
+let addItemToBasketStub;
 
 describe("certified-copy.check.details.controller.integration", () => {
     beforeEach((done) => {
@@ -84,6 +85,26 @@ describe("certified-copy.check.details.controller.integration", () => {
             chai.expect($("#filingHistoryTypeValue1").text().trim()).to.equal("CH01");
             chai.expect($("#filingHistoryDescriptionValue1").text().trim()).to.equal("Director's details changed for Thomas David Wheare on 12 February 2010");
             chai.expect($("#filingHistoryFeeValue1").text().trim()).to.equal("£15");
+        });
+    });
+
+    describe("check details post", () => {
+        it("redirects the user to orders url", async () => {
+            const itemUri = { itemUri: ITEM_URI } as BasketItem;
+            const certifiedCopyItem = {} as CertifiedCopyItem;
+
+            addItemToBasketStub = sandbox.stub(apiClient, "addItemToBasket")
+                .returns(Promise.resolve(itemUri));
+            getCertifiedCopyItemStub = sandbox.stub(apiClient, "getCertifiedCopyItem")
+                .returns(Promise.resolve(certifiedCopyItem));
+
+            const resp = await chai.request(testApp)
+                .post(CHECK_DETAILS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
+                .redirects(0);
+
+            chai.expect(resp.status).to.equal(302);
+            chai.expect(resp.text).to.contain("/basket");
         });
     });
 });

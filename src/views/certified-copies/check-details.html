@@ -15,7 +15,7 @@
 
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds-from-desktop">
-            <form action="/payment-review" method="post">
+            <form method="post">
                 <h1 class="govuk-heading-xl">Check your order details</h1>
                 <h2 class="govuk-heading-m">Order details</h2>
                 <dl class="govuk-summary-list govuk-!-margin-bottom-9">
@@ -83,9 +83,10 @@
                     </tbody>
                 </table>
                 <p class="govuk-body">To make any changes, you must <a href="#" class="govuk-body govuk-link">start the order again</a>.</p>
-                <a href="https://products.payments.service.gov.uk/pay/60317897263e405d963cdb92a76deffa" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
-                Continue to payment
-                </a>
+                {{ govukButton({
+                  text: "Continue to payment",
+                  id: "submit"
+                }) }}
             </form>
         </div>
     </div>
