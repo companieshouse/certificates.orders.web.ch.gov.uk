@@ -7,7 +7,7 @@
 {% block beforeContent %}
   {{ govukBackLink({
     text: "Back",
-    href: data.backUrl
+    href: "delivery-details"
   }) }}
 {% endblock %}
 
@@ -54,7 +54,7 @@
                       {{ deliveryDetails | safe }}
                     </dd>
                       <dd class="govuk-summary-list__actions">
-                          <a class="govuk-link" href="#">
+                          <a class="govuk-link" href="delivery-details">
                             Change<span class="govuk-visually-hidden"> delivery address</span>
                             </a>
                       </dd>
@@ -82,7 +82,7 @@
                       {% endfor %}
                     </tbody>
                 </table>
-                <p class="govuk-body">To make any changes, you must <a href="#" class="govuk-body govuk-link">start the order again</a>.</p>
+                <p class="govuk-body">To make any changes, you must <a href="/company/{{companyNumber}}/orderable/certified-copies" class="govuk-body govuk-link">start the order again</a>.</p>
                 {{ govukButton({
                   text: "Continue to payment",
                   id: "submit"
