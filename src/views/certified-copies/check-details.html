@@ -18,48 +18,48 @@
             <form method="post">
                 <h1 class="govuk-heading-xl">Check your order details</h1>
                 <h2 class="govuk-heading-m">Order details</h2>
-                <dl class="govuk-summary-list govuk-!-margin-bottom-9">
+                <div class="govuk-summary-list govuk-!-margin-bottom-9">
                   <div class="govuk-summary-list__row">
-                    <dt class="govuk-summary-list__key govuk-!-width-one-half">
+                    <div class="govuk-summary-list__key govuk-!-width-one-half">
                       Company name
-                    </dt>
-                    <dd class="govuk-summary-list__value" id="companyNameValue">
+                    </div>
+                    <div class="govuk-summary-list__value" id="companyNameValue">
                       {{ companyName }}
-                    </dd>
+                    </div>
                       <span class="govuk-summary-list__actions"></span>
                   </div>
                   <div class="govuk-summary-list__row">
-                    <dt class="govuk-summary-list__key">
+                    <div class="govuk-summary-list__key">
                       Company number
-                    </dt>
-                    <dd class="govuk-summary-list__value" id="companyNumberValue">
+                    </div>
+                    <div class="govuk-summary-list__value" id="companyNumberValue">
                       {{ companyNumber }}
-                    </dd>
+                    </div>
                       <span class="govuk-summary-list__actions"></span>
                   </div>
                   <div class="govuk-summary-list__row">
-                    <dt class="govuk-summary-list__key">
+                    <div class="govuk-summary-list__key">
                       Delivery method
-                    </dt>
-                    <dd class="govuk-summary-list__value" id="deliveryMethodValue">
+                    </div>
+                    <div class="govuk-summary-list__value" id="deliveryMethodValue">
                       {{ deliveryMethod }}
-                    </dd>
+                    </div>
                       <span class="govuk-summary-list__actions"></span>
                   </div>
                   <div class="govuk-summary-list__row">
-                    <dt class="govuk-summary-list__key">
+                    <div class="govuk-summary-list__key">
                       Delivery details
-                    </dt>
-                    <dd class="govuk-summary-list__value" id="deliveryDetailsValue">
+                    </div>
+                    <div class="govuk-summary-list__value" id="deliveryDetailsValue">
                       {{ deliveryDetails | safe }}
-                    </dd>
-                      <dd class="govuk-summary-list__actions">
-                          <a class="govuk-link" href="delivery-details">
-                            Change<span class="govuk-visually-hidden"> delivery address</span>
-                            </a>
-                      </dd>
+                    </div>
+                    <div class="govuk-summary-list__actions">
+                      <a class="govuk-link" href="delivery-details">
+                        Change<span class="govuk-visually-hidden"> delivery address</span>
+                      </a>
+                    </div>
                   </div>
-                </dl>
+                </div>
                 <h3 class="govuk-heading-m">Document details </h3>
                 <table class="govuk-table">
                     <thead class="govuk-table__head">
@@ -82,7 +82,7 @@
                       {% endfor %}
                     </tbody>
                 </table>
-                <p class="govuk-body">To make any changes, you must <a href="/company/{{companyNumber}}/orderable/certified-copies" class="govuk-body govuk-link">start the order again</a>.</p>
+                <p class="govuk-body">To make any changes to the documents selected, <a href="/company/{{companyNumber}}/certified-documents" class="govuk-body govuk-link">start the order again</a>.</p>
                 {{ govukButton({
                   text: "Continue to payment",
                   id: "submit"
