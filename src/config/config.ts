@@ -32,3 +32,7 @@ export const SERVICE_NAME_CERTIFIED_COPIES = "Order a certified document";
 export const SERVICE_NAME_CERTIFICATES = "Order a certificate";
 
 export const SERVICE_NAME_GENERIC = "";
+
+export const CERTIFICATE_PIWIK_START_GOAL_ID = getEnvironmentValue("CERTIFICATE_PIWIK_START_GOAL_ID");
+
+export const CERTIFIED_COPIES_PIWIK_START_GOAL_ID = getEnvironmentValue("CERTIFIED_COPIES_PIWIK_START_GOAL_ID");

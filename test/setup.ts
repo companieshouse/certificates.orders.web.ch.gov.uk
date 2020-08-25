@@ -15,3 +15,5 @@ process.env.CACHE_SERVER = "secret";
 process.env.CHS_API_KEY = "Xy6onkjQWF0TkRn0hfdq=";
 process.env.API_URL = "http://apiurl.co";
 process.env.CHS_URL = "http://chsurl.co";
+process.env.CERTIFICATE_PIWIK_START_GOAL_ID="1";
+process.env.CERTIFIED_COPIES_PIWIK_START_GOAL_ID="2";
