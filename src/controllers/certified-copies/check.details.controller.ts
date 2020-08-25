@@ -8,7 +8,7 @@ import { CERTIFIED_COPY_CHECK_DETAILS } from "../../model/template.paths";
 import { getAccessToken, getUserId } from "../../session/helper";
 import { APPLICATION_NAME, CHS_URL } from "../../config/config";
 import { getCertifiedCopyItem, getBasket, addItemToBasket } from "../../client/api.client";
-import { mapDeliveryDetails, mapDeliveryMethod } from "../../utils/check.details.utils";
+import { mapDeliveryDetails, mapDeliveryMethod, mapTotalItemCost } from "../../utils/check.details.utils";
 import { getFullFilingHistoryDescription } from "../../config/api.enumerations";
 
 const logger = createLogger(APPLICATION_NAME);
@@ -25,7 +25,8 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             companyName: certifiedCopyItem.companyName,
             deliveryMethod: mapDeliveryMethod(certifiedCopyItem.itemOptions),
             deliveryDetails: mapDeliveryDetails(basket.deliveryDetails),
-            filingHistoryDocuments: mapFilingHistoriesDocuments(certifiedCopyItem.itemOptions.filingHistoryDocuments)
+            filingHistoryDocuments: mapFilingHistoriesDocuments(certifiedCopyItem.itemOptions.filingHistoryDocuments),
+            totalCost: mapTotalItemCost(basket.items),
         });
     } catch (err) {
         logger.error(`${err}`);
@@ -88,11 +89,13 @@ export const mapFilingHistoriesDocuments = (filingHistoryDocuments: FilingHistor
         const mappedFilingHistroyDescription = mapFilingHistoryDescriptionValues(descriptionFromFile, filingHistoryDocument.filingHistoryDescriptionValues || {});
         const cleanedFilingHistoryDescription = removeAsterisks(mappedFilingHistroyDescription);
         const mappedFilingHistoryDescriptionDate = mapDate(filingHistoryDocument.filingHistoryDate);
+        const costWithCurrencySymbol = "£" + filingHistoryDocument.filingHistoryCost;
         return {
             filingHistoryDate: mappedFilingHistoryDescriptionDate,
             filingHistoryDescription: cleanedFilingHistoryDescription,
             filingHistoryId: filingHistoryDocument.filingHistoryId,
-            filingHistoryType: filingHistoryDocument.filingHistoryType
+            filingHistoryType: filingHistoryDocument.filingHistoryType,
+            filingHistoryCost: costWithCurrencySymbol
         };
     });
     return mappedFilingHistories;
