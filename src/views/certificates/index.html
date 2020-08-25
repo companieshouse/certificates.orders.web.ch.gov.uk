@@ -36,7 +36,8 @@
         classes: "govuk-!-margin-top-2 govuk-!-margin-bottom-8",
         isStartButton: true,
         attributes: {
-          "data-event-id": "start-now-button"
+          "data-event-id": "start-now-button",
+          onclick: "_paq.push(['trackGoal', {{CERTIFICATE_PIWIK_START_GOAL_ID}}]);"
         }
       }) }}
 

@@ -24,7 +24,9 @@ import {
     APPLICATION_NAME,
     SERVICE_NAME_CERTIFICATES,
     SERVICE_NAME_CERTIFIED_COPIES,
-    SERVICE_NAME_GENERIC
+    SERVICE_NAME_GENERIC,
+    CERTIFICATE_PIWIK_START_GOAL_ID,
+    CERTIFIED_COPIES_PIWIK_START_GOAL_ID
 } from "./config/config";
 
 const app = express();
@@ -70,9 +72,11 @@ app.use((req, res, next) => {
     if (req.path.includes("/certificates")) {
         env.addGlobal("SERVICE_NAME", SERVICE_NAME_CERTIFICATES);
         env.addGlobal("SERVICE_PATH", "/certificates");
+        env.addGlobal("CERTIFICATE_PIWIK_START_GOAL_ID", CERTIFICATE_PIWIK_START_GOAL_ID);
     } else if (req.path.includes("/certified-copies")) {
         env.addGlobal("SERVICE_NAME", SERVICE_NAME_CERTIFIED_COPIES);
         env.addGlobal("SERVICE_PATH", "/certified-copies");
+        env.addGlobal("CERTIFIED_COPIES_PIWIK_START_GOAL_ID",CERTIFIED_COPIES_PIWIK_START_GOAL_ID);
     } else {
         env.addGlobal("SERVICE_NAME", SERVICE_NAME_GENERIC);
         env.addGlobal("SERVICE_PATH", "");
