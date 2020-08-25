@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import sinon from "sinon";
+import sinon, { restore } from "sinon";
 
 import {
     mapFilingHistoryDescriptionValues, removeAsterisks, mapDate, mapDateFullMonth,
@@ -63,7 +63,8 @@ describe("certified-copies.check.details.controller.unit", () => {
                     officer_name: "Thomas David Wheare"
                 },
                 filingHistoryId: "MzAwOTM2MDg5OWFkaXF6a2N4",
-                filingHistoryType: "CH01"
+                filingHistoryType: "CH01",
+                filingHistoryCost: "15"
             }];
             sinon.stub(apiEnumerations, "getFullFilingHistoryDescription")
                 .returns("Appointment of {officer_name} as a director on {change_date}");
@@ -73,6 +74,7 @@ describe("certified-copies.check.details.controller.unit", () => {
             expect(result[0].filingHistoryDate).to.equal("12 Feb 2010");
             expect(result[0].filingHistoryId).to.equal("MzAwOTM2MDg5OWFkaXF6a2N4");
             expect(result[0].filingHistoryType).to.equal("CH01");
+            expect(result[0].filingHistoryCost).to.equal("£15");
         });
     });
 });

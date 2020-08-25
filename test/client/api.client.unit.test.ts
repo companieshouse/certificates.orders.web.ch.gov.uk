@@ -170,7 +170,8 @@ const dummyCertifiedCopyItemSDKResponse: Resource<CertifiedCopyItem> = {
                     officer_name: "Thomas David Wheare"
                 },
                 filingHistoryId: "MzAwOTM2MDg5OWFkaXF6a2N4",
-                filingHistoryType: "CH01"
+                filingHistoryType: "CH01",
+                filingHistoryCost: "15"
             }]
         }
     }

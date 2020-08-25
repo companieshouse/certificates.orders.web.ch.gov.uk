@@ -49,7 +49,8 @@ describe("certified-copy.check.details.controller.integration", () => {
                             officer_name: "Thomas David Wheare"
                         },
                         filingHistoryId: "MzAwOTM2MDg5OWFkaXF6a2N4",
-                        filingHistoryType: "CH01"
+                        filingHistoryType: "CH01",
+                        filingHistoryCost: "15"
                     }]
                 }
             } as CertifiedCopyItem;
@@ -64,7 +65,12 @@ describe("certified-copy.check.details.controller.integration", () => {
                     locality: "canton",
                     postalCode: "cf5 4xb",
                     region: "glamorgan"
-                }
+                },
+                items: [
+                    {
+                    totalItemCost: "15"
+                    }
+                ]
             } as Basket;
 
             getCertifiedCopyItemStub = sandbox.stub(apiClient, "getCertifiedCopyItem")
@@ -85,6 +91,7 @@ describe("certified-copy.check.details.controller.integration", () => {
             chai.expect($("#filingHistoryTypeValue1").text().trim()).to.equal("CH01");
             chai.expect($("#filingHistoryDescriptionValue1").text().trim()).to.equal("Director's details changed for Thomas David Wheare on 12 February 2010");
             chai.expect($("#filingHistoryFeeValue1").text().trim()).to.equal("£15");
+            chai.expect($("#totalItemCostValue").text().trim()).to.equal("£15");
         });
     });
 
