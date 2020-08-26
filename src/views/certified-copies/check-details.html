@@ -77,9 +77,19 @@
                         <td class="govuk-table__cell" id="filingHistoryDateValue{{loop.index}}">{{ filingHistoryDocument.filingHistoryDate }}</td>
                         <td class="govuk-table__cell" id="filingHistoryTypeValue{{loop.index}}">{{ filingHistoryDocument.filingHistoryType }}</td>
                         <td class="govuk-table__cell" id="filingHistoryDescriptionValue{{loop.index}}">{{ filingHistoryDocument.filingHistoryDescription }}</td>
-                        <td class="govuk-table__cell" id="filingHistoryFeeValue{{loop.index}}">£15</td>
+                        <td class="govuk-table__cell" id="filingHistoryFeeValue{{loop.index}}">{{ filingHistoryDocument.filingHistoryCost }}</td>
                       </tr>
                       {% endfor %}
+                      <tr class="govuk-table__row">
+                        <td class="govuk-table__cell">
+                          <h4 class="govuk-heading-s">Total</h4>
+                        </td>
+                        <td class="govuk-table__cell"></td>
+                        <td class="govuk-table__cell"></td>
+                        <td class="govuk-table__cell">
+                          <h4 class="govuk-heading-s" id="totalItemCostValue">{{ totalCost }}</h4>
+                        </td>
+                      </tr>
                     </tbody>
                 </table>
                 <p class="govuk-body">To make any changes to the documents selected, <a href="/company/{{companyNumber}}/certified-documents" class="govuk-body govuk-link">start the order again</a>.</p>

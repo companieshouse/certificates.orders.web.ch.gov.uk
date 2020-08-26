@@ -3,10 +3,10 @@ import sessionHandler from "ch-node-session-handler";
 import {
     ItemOptions, RegisteredOfficeAddressDetails, DirectorOrSecretaryDetails
 } from "ch-sdk-node/dist/services/order/certificates/types";
-import { DeliveryDetails } from "ch-sdk-node/dist/services/order/basket/types";
+import { BasketItem, DeliveryDetails } from "ch-sdk-node/dist/services/order/basket/types";
 
 import {
-    mapDeliveryDetails, mapDeliveryMethod, mapToHtml
+    mapDeliveryDetails, mapDeliveryMethod, mapToHtml, mapTotalItemCost
 } from "../../src/utils/check.details.utils";
 
 const directorDetails: DirectorOrSecretaryDetails = {
@@ -79,6 +79,25 @@ describe("certificate.check.details.controller.unit", () => {
             chai.expect(returnedString).to.equal(expectedString);
         });
     });
+
+    describe("mapTotalItemCost"), () => {
+        it("should map the correct values when all options are present", () => {
+            const totalItemCost = { totalItemCost: "15"} as BasketItem;
+            const basketItems: BasketItem[] = [totalItemCost];
+
+            const returnedString: string = mapTotalItemCost(basketItems);
+            const expectedString: string = "£15";
+
+            chai.expect(returnedString).to.equal(expectedString);
+        });
+
+        it("should return a blank string if the items are undefined", () => {
+            const returnedString: string = mapTotalItemCost(undefined);
+            const expectedString: string = "";
+
+            chai.expect(returnedString).to.equal(expectedString);
+        });
+    }
 
     describe("mapDeliveryMethod", () => {
         it("should map the standard delivery string when 'standard' is returned from API", () => {
