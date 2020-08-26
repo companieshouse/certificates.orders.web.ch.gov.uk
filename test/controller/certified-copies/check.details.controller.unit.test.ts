@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import sinon, { restore } from "sinon";
+import sinon from "sinon";
 
 import {
     mapFilingHistoryDescriptionValues, removeAsterisks, mapDate, mapDateFullMonth,
