@@ -3,7 +3,8 @@ import sinon from "sinon";
 
 import {
     mapFilingHistoryDescriptionValues, removeAsterisks, mapDate, mapDateFullMonth,
-    mapFilingHistoriesDocuments
+    mapFilingHistoriesDocuments,
+    addCurrencySymbol
 } from "../../../src/controllers/certified-copies/check.details.controller";
 import * as apiEnumerations from "../../../src/config/api.enumerations";
 
@@ -34,6 +35,14 @@ describe("certified-copies.check.details.controller.unit", () => {
             const text = "**Appointment** of ";
             const result = removeAsterisks(text);
             expect(result).to.equal("Appointment of ");
+        });
+    });
+
+    describe("addCurrencySymbol", () => {
+        it("should add currency symbol to cost", () => {
+            const cost = "15";
+            const result = addCurrencySymbol(cost);
+            expect(result).to.equal("£15");
         });
     });
 

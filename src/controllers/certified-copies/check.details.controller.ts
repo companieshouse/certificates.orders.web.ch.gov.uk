@@ -8,7 +8,7 @@ import { CERTIFIED_COPY_CHECK_DETAILS } from "../../model/template.paths";
 import { getAccessToken, getUserId } from "../../session/helper";
 import { APPLICATION_NAME, CHS_URL } from "../../config/config";
 import { getCertifiedCopyItem, getBasket, addItemToBasket } from "../../client/api.client";
-import { mapDeliveryDetails, mapDeliveryMethod, mapTotalItemCost } from "../../utils/check.details.utils";
+import { mapDeliveryDetails, mapDeliveryMethod } from "../../utils/check.details.utils";
 import { getFullFilingHistoryDescription } from "../../config/api.enumerations";
 
 const logger = createLogger(APPLICATION_NAME);
@@ -26,7 +26,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             deliveryMethod: mapDeliveryMethod(certifiedCopyItem.itemOptions),
             deliveryDetails: mapDeliveryDetails(basket.deliveryDetails),
             filingHistoryDocuments: mapFilingHistoriesDocuments(certifiedCopyItem.itemOptions.filingHistoryDocuments),
-            totalCost: mapTotalItemCost(basket.items),
+            totalCost: addCurrencySymbol(certifiedCopyItem.totalItemCost),
         });
     } catch (err) {
         logger.error(`${err}`);
@@ -65,6 +65,10 @@ export const removeAsterisks = (description: string) => {
     return description.replace(/\*/g, "");
 };
 
+export const addCurrencySymbol = (cost: string) => {
+    return "£" + cost;
+};
+
 export const mapDate = (dateString: string): string => {
     const d = new Date(dateString);
     const year = new Intl.DateTimeFormat("en", { year: "numeric" }).format(d);
@@ -89,7 +93,7 @@ export const mapFilingHistoriesDocuments = (filingHistoryDocuments: FilingHistor
         const mappedFilingHistroyDescription = mapFilingHistoryDescriptionValues(descriptionFromFile, filingHistoryDocument.filingHistoryDescriptionValues || {});
         const cleanedFilingHistoryDescription = removeAsterisks(mappedFilingHistroyDescription);
         const mappedFilingHistoryDescriptionDate = mapDate(filingHistoryDocument.filingHistoryDate);
-        const costWithCurrencySymbol = "£" + filingHistoryDocument.filingHistoryCost;
+        const costWithCurrencySymbol = addCurrencySymbol(filingHistoryDocument.filingHistoryCost);
         return {
             filingHistoryDate: mappedFilingHistoryDescriptionDate,
             filingHistoryDescription: cleanedFilingHistoryDescription,

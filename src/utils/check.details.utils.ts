@@ -1,4 +1,4 @@
-import { BasketItem, DeliveryDetails } from "ch-sdk-node/dist/services/order/basket/types";
+import { DeliveryDetails } from "ch-sdk-node/dist/services/order/basket/types";
 
 export const mapDeliveryDetails = (deliveryDetails: DeliveryDetails | undefined): string => {
     const mappings:string[] = [];
@@ -28,15 +28,6 @@ export const mapDeliveryDetails = (deliveryDetails: DeliveryDetails | undefined)
 
     return mapToHtml(mappings);
 };
-
-export const mapTotalItemCost = (items: BasketItem[] | undefined): string => {
-
-    if (items === undefined) {
-        return "";
-    }
-
-    return "£" + items[0].totalItemCost;;
-}
 
 export const mapDeliveryMethod = (itemOptions: Record<string, any>): string | null => {
     if (itemOptions?.deliveryTimescale === "standard") {
