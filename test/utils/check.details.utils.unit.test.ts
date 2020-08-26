@@ -80,7 +80,7 @@ describe("certificate.check.details.controller.unit", () => {
         });
     });
 
-    describe("mapTotalItemCost"), () => {
+    describe("mapTotalItemCost", () => {
         it("should map the correct values when all options are present", () => {
             const totalItemCost = { totalItemCost: "15"} as BasketItem;
             const basketItems: BasketItem[] = [totalItemCost];
@@ -97,7 +97,7 @@ describe("certificate.check.details.controller.unit", () => {
 
             chai.expect(returnedString).to.equal(expectedString);
         });
-    }
+    });
 
     describe("mapDeliveryMethod", () => {
         it("should map the standard delivery string when 'standard' is returned from API", () => {
