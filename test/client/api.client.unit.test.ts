@@ -159,6 +159,7 @@ const dummyCertifiedCopyItemSDKResponse: Resource<CertifiedCopyItem> = {
     resource: {
         companyName: "test company",
         companyNumber: "00000000",
+        totalItemCost: "15",
         itemOptions: {
             deliveryMethod: "postal",
             deliveryTimescale: "same-day",

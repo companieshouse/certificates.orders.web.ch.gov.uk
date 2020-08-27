@@ -38,6 +38,7 @@ describe("certified-copy.check.details.controller.integration", () => {
             const certifiedCopyItem = {
                 companyName: "test company",
                 companyNumber: "00000000",
+                totalItemCost: "15",
                 itemOptions: {
                     deliveryMethod: "postal",
                     deliveryTimescale: "standard",
