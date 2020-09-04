@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+ SCUD
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/company/" + companyNumber + "/filing-history"
+  }) }}
+{% endblock %}
+
+{% block content %}
+<h1> HELLO SCUD </h1>
+{% endblock %}

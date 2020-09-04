@@ -7,6 +7,7 @@ import { SessionStore, SessionMiddleware, CookieConfig } from "ch-node-session-h
 
 import certRouter from "./routers/certificates/routers";
 import certCopyRouter from "./routers/certified-copies/routers";
+import scudRouter from "./routers/scud/routers";
 
 import { ERROR_SUMMARY_TITLE } from "./model/error.messages";
 import * as pageUrls from "./model/page.urls";
@@ -108,5 +109,6 @@ if (process.env.NODE_ENV !== "production") {
 // apply our default router to /
 app.use("/", certRouter);
 app.use("/", certCopyRouter);
+app.use("/", scudRouter);
 
 export default app;

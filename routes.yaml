@@ -13,3 +13,7 @@ routes:
   8: /company/(.*)/orderable/certified-copies/.*
   9: /orderable/certified-copies
   10: /orderable/certified-copies/.*
+  11: /company/(.*)/orderable/scan-upon-demand
+  12: /company/(.*)/orderable/scan-upon-demand/.*
+  13: /orderable/scan-upon-demand
+  14: /orderable/scan-upon-demand/.
