@@ -21,6 +21,7 @@ export const CERTIFIED_COPY_CHECK_DETAILS: string = ROOT_CERTIFIED_COPY_ID + "/c
 
 // Scan upon demand section
 export const ROOT_SCAN_UPON_DEMAND: string = "/company/:companyNumber/orderable/scan-upon-demand/:filingHistoryId";
+export const SCAN_UPON_DEMAND_CREATE: string = ROOT_SCAN_UPON_DEMAND + "/create";
 
 export const replaceCompanyNumber = (uri: string, companyNumber: string) => {
     return uri.replace(":companyNumber", companyNumber);
