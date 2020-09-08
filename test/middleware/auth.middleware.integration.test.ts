@@ -10,8 +10,11 @@ import {
     CERTIFICATE_CHECK_DETAILS,
     CERTIFIED_COPY_DELIVERY_DETAILS,
     CERTIFIED_COPY_CHECK_DETAILS,
+    SCAN_UPON_DEMAND_CHECK_DETAILS,
+    SCAN_UPON_DEMAND_CREATE,
     replaceCertificateId,
-    replaceCertifiedCopyId
+    replaceCertifiedCopyId,
+    replaceScudCompanyNumberAndFilingHistoryId
 } from "../../src/model/page.urls";
 
 const PROTECTED_PAGED_CERTIFICATES = [
@@ -25,8 +28,15 @@ const PROTECTED_PAGED_CERTIFIED_COPIES = [
     CERTIFIED_COPY_CHECK_DETAILS
 ];
 
+const PROTECTED_PAGED_SCUD = [
+    SCAN_UPON_DEMAND_CHECK_DETAILS,
+    SCAN_UPON_DEMAND_CREATE
+];
+
 const CERTIFICATE_ID = "CHS00000000000000000";
 const CERTIFIED_COPY_ID = "CHS00000000000000001";
+const FILING_HISTORY_ID = "MzAwOTM2MDg5OWFkaXF6a2N5";
+const COMPANY_NUMBER = "00006500";
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
@@ -59,6 +69,16 @@ describe("auth.middleware.integration", () => {
         it("should redirect " + page + " to signin if user is not logged in", async () => {
             const resp = await chai.request(testApp)
                 .get(replaceCertifiedCopyId(page, CERTIFIED_COPY_ID))
+                .set("Cookie", [`__SID=${SIGNED_OUT_COOKIE}`]);
+
+            chai.expect(resp.redirects[0]).to.include("/signin");
+        });
+    });
+
+    PROTECTED_PAGED_SCUD.forEach((page) => {
+        it("should redirect " + page + " to signin in if user is not logged in", async () => {
+            const resp = await chai.request(testApp)
+                .get(replaceScudCompanyNumberAndFilingHistoryId(page, COMPANY_NUMBER, FILING_HISTORY_ID))
                 .set("Cookie", [`__SID=${SIGNED_OUT_COOKIE}`]);
 
             chai.expect(resp.redirects[0]).to.include("/signin");

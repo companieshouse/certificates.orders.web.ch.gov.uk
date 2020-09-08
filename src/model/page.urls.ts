@@ -21,7 +21,10 @@ export const CERTIFIED_COPY_CHECK_DETAILS: string = ROOT_CERTIFIED_COPY_ID + "/c
 
 // Scan upon demand section
 export const ROOT_SCAN_UPON_DEMAND: string = "/company/:companyNumber/orderable/scan-upon-demand/:filingHistoryId";
+export const ROOT_SCAN_UPON_DEMAND_ID: string = "/orderable/scan-upon-demand/:scudId";
+
 export const SCAN_UPON_DEMAND_CREATE: string = ROOT_SCAN_UPON_DEMAND + "/create";
+export const SCAN_UPON_DEMAND_CHECK_DETAILS: string = ROOT_SCAN_UPON_DEMAND_ID + "/check-details";
 
 export const replaceCompanyNumber = (uri: string, companyNumber: string) => {
     return uri.replace(":companyNumber", companyNumber);
@@ -33,4 +36,9 @@ export const replaceCertificateId = (uri: string, certificateId: string) => {
 
 export const replaceCertifiedCopyId = (uri: string, certifiedCopyId: string) => {
     return uri.replace(":certifiedCopyId", certifiedCopyId);
+};
+
+export const replaceScudCompanyNumberAndFilingHistoryId = (uri: string, companyNumber: string, filingHistoryId: string) => {
+    console.log(filingHistoryId);
+    return uri.replace(":companyNumber", companyNumber).replace(":filingHistoryId", filingHistoryId);
 };
