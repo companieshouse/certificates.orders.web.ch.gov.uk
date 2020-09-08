@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+ Request a document
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/company/" + companyNumber + "/filing-history"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl">Request a document</h1>
+
+      <p class="govuk-body-l">Use this service to ask us to add a document to a company's filing history if it is not currently available. </p>
+
+      <h2 class="govuk-heading-m">How long it takes</h2>
+
+      <p class="govuk-body">It takes us up to 2 hours to check the availability of a document and add it to a company's filing history between 8.30am - 3pm, Monday - Friday (excluding holidays).</p>
+
+      <p class="govuk-body">If you make a request outside of this time, the document will be added the next working day.</p>
+
+      <p class="govuk-body">After you have made the request, you can check the company's filing history for updates on the document's availability.</p>
+
+
+      <p class="govuk-body">Requesting a document takes around 5 minutes.</p>
+
+
+      {{ govukButton({
+        text: "Start now",
+        href: startNowUrl,
+        classes: "govuk-!-margin-top-2 govuk-!-margin-bottom-8",
+        isStartButton: true
+      }) }}
+
+      <h2 class="govuk-heading-m">Fee</h2>
+
+      <p class="govuk-body">It costs £3 to request a document. If we cannot add the document to the filing history we will contact you to issue a refund.</p>
+
+      <p class="govuk-body"> You can pay by debit or credit card. You cannot pay using a Companies House account. </p>
+
+    </div>
+  </div>
+{% endblock %}

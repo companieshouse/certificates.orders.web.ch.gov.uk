@@ -19,6 +19,10 @@ export const CERTIFIED_COPY_FILING_HISTORY: string = "/company/:companyNumber/ce
 export const CERTIFIED_COPY_DELIVERY_DETAILS: string = ROOT_CERTIFIED_COPY_ID + "/delivery-details";
 export const CERTIFIED_COPY_CHECK_DETAILS: string = ROOT_CERTIFIED_COPY_ID + "/check-details";
 
+// Scan upon demand section
+export const ROOT_SCAN_UPON_DEMAND: string = "/company/:companyNumber/orderable/scan-upon-demand/:filingHistoryId";
+export const SCAN_UPON_DEMAND_CREATE: string = ROOT_SCAN_UPON_DEMAND + "/create";
+
 export const replaceCompanyNumber = (uri: string, companyNumber: string) => {
     return uri.replace(":companyNumber", companyNumber);
 };

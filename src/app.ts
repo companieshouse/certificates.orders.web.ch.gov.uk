@@ -7,6 +7,7 @@ import { SessionStore, SessionMiddleware, CookieConfig } from "ch-node-session-h
 
 import certRouter from "./routers/certificates/routers";
 import certCopyRouter from "./routers/certified-copies/routers";
+import scudRouter from "./routers/scud/routers";
 
 import { ERROR_SUMMARY_TITLE } from "./model/error.messages";
 import * as pageUrls from "./model/page.urls";
@@ -24,6 +25,7 @@ import {
     APPLICATION_NAME,
     SERVICE_NAME_CERTIFICATES,
     SERVICE_NAME_CERTIFIED_COPIES,
+    SERVICE_NAME_SCUD,
     SERVICE_NAME_GENERIC,
     CERTIFICATE_PIWIK_START_GOAL_ID,
     CERTIFIED_COPIES_PIWIK_START_GOAL_ID
@@ -77,6 +79,9 @@ app.use((req, res, next) => {
         env.addGlobal("SERVICE_NAME", SERVICE_NAME_CERTIFIED_COPIES);
         env.addGlobal("SERVICE_PATH", "/certified-copies");
         env.addGlobal("CERTIFIED_COPIES_PIWIK_START_GOAL_ID",CERTIFIED_COPIES_PIWIK_START_GOAL_ID);
+    } else if (req.path.includes("scan-upon-demand")) {
+        env.addGlobal("SERVICE_NAME", SERVICE_NAME_SCUD);
+        env.addGlobal("SERVICE_PATH", "/scan-upon-demand");
     } else {
         env.addGlobal("SERVICE_NAME", SERVICE_NAME_GENERIC);
         env.addGlobal("SERVICE_PATH", "");
@@ -108,5 +113,6 @@ if (process.env.NODE_ENV !== "production") {
 // apply our default router to /
 app.use("/", certRouter);
 app.use("/", certCopyRouter);
+app.use("/", scudRouter);
 
 export default app;
