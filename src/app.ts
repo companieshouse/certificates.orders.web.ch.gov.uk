@@ -28,7 +28,8 @@ import {
     SERVICE_NAME_SCUD,
     SERVICE_NAME_GENERIC,
     CERTIFICATE_PIWIK_START_GOAL_ID,
-    CERTIFIED_COPIES_PIWIK_START_GOAL_ID
+    CERTIFIED_COPIES_PIWIK_START_GOAL_ID,
+    SCUD_PIWIK_START_GOAL_ID
 } from "./config/config";
 
 const app = express();
@@ -82,6 +83,7 @@ app.use((req, res, next) => {
     } else if (req.path.includes("scan-upon-demand")) {
         env.addGlobal("SERVICE_NAME", SERVICE_NAME_SCUD);
         env.addGlobal("SERVICE_PATH", "/scan-upon-demand");
+        env.addGlobal("SCUD_PIWIK_START_GOAL_ID", SCUD_PIWIK_START_GOAL_ID);
     } else {
         env.addGlobal("SERVICE_NAME", SERVICE_NAME_GENERIC);
         env.addGlobal("SERVICE_PATH", "");
