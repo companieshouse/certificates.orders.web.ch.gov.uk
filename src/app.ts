@@ -15,6 +15,7 @@ import { createLoggerMiddleware } from "ch-structured-logging";
 import authMiddleware from "./middleware/auth.middleware";
 import authCertificateMiddleware from "./middleware/certificates/auth.middleware";
 import authCertifiedCopyMiddleware from "./middleware/certified-copies/auth.middleware";
+import authScudMiddleware from "./middleware/scud/auth.middleware";
 
 import {
     PIWIK_SITE_ID,
@@ -60,7 +61,9 @@ const PROTECTED_PATHS = [
     pageUrls.CERTIFICATE_CHECK_DETAILS,
     pageUrls.CERTIFICATE_DELIVERY_DETAILS,
     pageUrls.CERTIFIED_COPY_DELIVERY_DETAILS,
-    pageUrls.CERTIFIED_COPY_CHECK_DETAILS
+    pageUrls.CERTIFIED_COPY_CHECK_DETAILS,
+    pageUrls.SCAN_UPON_DEMAND_CREATE,
+    pageUrls.SCAN_UPON_DEMAND_CHECK_DETAILS
 ];
 
 app.use(PROTECTED_PATHS, createLoggerMiddleware(APPLICATION_NAME));
@@ -71,6 +74,9 @@ app.use(pageUrls.ROOT_CERTIFICATE_ID, authCertificateMiddleware);
 app.use([pageUrls.ROOT_CERTIFIED_COPY, pageUrls.ROOT_CERTIFIED_COPY_ID], SessionMiddleware(cookieConfig, sessionStore));
 app.use(pageUrls.ROOT_CERTIFIED_COPY_ID, authCertifiedCopyMiddleware);
 
+app.use(pageUrls.ROOT_SCAN_UPON_DEMAND, SessionMiddleware(cookieConfig, sessionStore));
+app.use([pageUrls.SCAN_UPON_DEMAND_CREATE, pageUrls.ROOT_SCAN_UPON_DEMAND_ID], authScudMiddleware);
+
 app.use((req, res, next) => {
     if (req.path.includes("/certificates")) {
         env.addGlobal("SERVICE_NAME", SERVICE_NAME_CERTIFICATES);
@@ -79,7 +85,7 @@ app.use((req, res, next) => {
     } else if (req.path.includes("/certified-copies")) {
         env.addGlobal("SERVICE_NAME", SERVICE_NAME_CERTIFIED_COPIES);
         env.addGlobal("SERVICE_PATH", "/certified-copies");
-        env.addGlobal("CERTIFIED_COPIES_PIWIK_START_GOAL_ID",CERTIFIED_COPIES_PIWIK_START_GOAL_ID);
+        env.addGlobal("CERTIFIED_COPIES_PIWIK_START_GOAL_ID", CERTIFIED_COPIES_PIWIK_START_GOAL_ID);
     } else if (req.path.includes("scan-upon-demand")) {
         env.addGlobal("SERVICE_NAME", SERVICE_NAME_SCUD);
         env.addGlobal("SERVICE_PATH", "/scan-upon-demand");

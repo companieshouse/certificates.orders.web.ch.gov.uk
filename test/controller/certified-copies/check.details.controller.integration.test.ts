@@ -69,7 +69,7 @@ describe("certified-copy.check.details.controller.integration", () => {
                 },
                 items: [
                     {
-                    totalItemCost: "15"
+                        totalItemCost: "15"
                     }
                 ]
             } as Basket;

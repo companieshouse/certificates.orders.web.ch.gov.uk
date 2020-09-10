@@ -26,7 +26,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             deliveryMethod: mapDeliveryMethod(certifiedCopyItem.itemOptions),
             deliveryDetails: mapDeliveryDetails(basket.deliveryDetails),
             filingHistoryDocuments: mapFilingHistoriesDocuments(certifiedCopyItem.itemOptions.filingHistoryDocuments),
-            totalCost: addCurrencySymbol(certifiedCopyItem.totalItemCost),
+            totalCost: addCurrencySymbol(certifiedCopyItem.totalItemCost)
         });
     } catch (err) {
         logger.error(`${err}`);
