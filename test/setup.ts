@@ -17,3 +17,4 @@ process.env.API_URL = "http://apiurl.co";
 process.env.CHS_URL = "http://chsurl.co";
 process.env.CERTIFICATE_PIWIK_START_GOAL_ID = "1";
 process.env.CERTIFIED_COPIES_PIWIK_START_GOAL_ID = "2";
+process.env.SCUD_PIWIK_START_GOAL_ID = "8";
