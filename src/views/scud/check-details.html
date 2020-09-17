@@ -12,8 +12,78 @@
 {% endblock %}
 
 {% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds-from-desktop">
 
-<h1>Check Details</h1>
-    
+      <h1 class="govuk-heading-xl">Request a document</h1>
 
+      <h2 class="govuk-heading-m">Document details</h2>
+
+      {{ govukSummaryList({
+        classes: 'govuk-!-margin-bottom-9',
+        rows: [
+        {
+            key: {
+              text: "Company name"
+            },
+            value: {
+              text: "FILINGS LTD"
+            }
+          },
+          {
+            key: {
+              text: "Company number"
+            },
+            value: {
+              text: "00002065"
+            }
+          },
+          {
+            key: {
+              text: "Date"
+            },
+            value: {
+              text: "4 Dec 2017"
+            }
+          },
+          {
+            key: {
+              text: "Type"
+            },
+            value: {
+              text: "TM02"
+            }
+          },
+          {
+            key: {
+              text: "Description"
+            },
+            value: {
+              html: "Termination of appointment of Secretary Ltd as a secretary on 4 December 2017"
+            }
+          },
+          {
+            key: {
+              text: "Fee"
+            },
+            value: {
+              text: "£3"
+            }
+          }
+        ]
+      }) }}
+      <p class="govuk-body">
+        It takes us up to 2 hours to check if a document is available and add it to a company's filing history between 8.30am - 4pm, Monday - Friday (excluding holidays).</p>
+
+        <p class="govuk-body">If you make a request outside of this time, the document will be added the next working day.</p>
+
+
+        {{ govukButton({
+          text: "Continue to payment",
+          href: "https://products.payments.service.gov.uk/pay/e4618f8b039a42799b2dd66bd5a169ac"
+        }) }}
+        <p> <a href="/index#filing-history" class="govuk-link govuk-link--no-visited-state">Cancel</a> </p>
+
+    </div>
+  </div>
 {% endblock %}
