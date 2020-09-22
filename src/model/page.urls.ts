@@ -41,3 +41,7 @@ export const replaceCertifiedCopyId = (uri: string, certifiedCopyId: string) => 
 export const replaceScudCompanyNumberAndFilingHistoryId = (uri: string, companyNumber: string, filingHistoryId: string) => {
     return uri.replace(":companyNumber", companyNumber).replace(":filingHistoryId", filingHistoryId);
 };
+
+export const replaceScudId = (uri: string, scudId: string) => {
+    return uri.replace(":scudId", scudId);
+};

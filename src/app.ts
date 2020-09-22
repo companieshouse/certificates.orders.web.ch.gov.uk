@@ -73,7 +73,7 @@ app.use(pageUrls.ROOT_CERTIFICATE_ID, authCertificateMiddleware);
 app.use([pageUrls.ROOT_CERTIFIED_COPY, pageUrls.ROOT_CERTIFIED_COPY_ID], SessionMiddleware(cookieConfig, sessionStore));
 app.use(pageUrls.ROOT_CERTIFIED_COPY_ID, authCertifiedCopyMiddleware);
 
-app.use(pageUrls.ROOT_SCAN_UPON_DEMAND, SessionMiddleware(cookieConfig, sessionStore));
+app.use([pageUrls.ROOT_SCAN_UPON_DEMAND, pageUrls.ROOT_SCAN_UPON_DEMAND_ID], SessionMiddleware(cookieConfig, sessionStore));
 app.use([pageUrls.SCAN_UPON_DEMAND_CREATE, pageUrls.ROOT_SCAN_UPON_DEMAND_ID], authScudMiddleware);
 
 app.use((req, res, next) => {
