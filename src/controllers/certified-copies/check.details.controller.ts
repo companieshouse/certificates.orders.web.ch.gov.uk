@@ -96,7 +96,7 @@ export const mapFilingHistoryDescription = (filing: Filing) => {
             }
         }, "");
     }
-    return filingHistoryDescription;
+    return removeAsterisks(filingHistoryDescription);
 };
 
 export const replaceVariables = (key, val, newObj) => {
@@ -134,12 +134,11 @@ export const mapFilingHistoriesDocuments = (filingHistoryDocuments: FilingHistor
     const mappedFilingHistories = Promise.all(filingHistoryDocuments.map(async (filingHistoryDocument) => {
         const result = await getFilingHistoryById(accessToken, companyNumber, filingHistoryDocument.filingHistoryId);
         const mappedFilingHistroyDescription = mapFilingHistoryDescription(result);
-        const cleanedFilingHistoryDescription = removeAsterisks(mappedFilingHistroyDescription);
         const mappedFilingHistoryDescriptionDate = mapDate(filingHistoryDocument.filingHistoryDate);
         const costWithCurrencySymbol = addCurrencySymbol(filingHistoryDocument.filingHistoryCost);
         return {
             filingHistoryDate: mappedFilingHistoryDescriptionDate,
-            filingHistoryDescription: cleanedFilingHistoryDescription,
+            filingHistoryDescription: mappedFilingHistroyDescription,
             filingHistoryId: filingHistoryDocument.filingHistoryId,
             filingHistoryType: filingHistoryDocument.filingHistoryType,
             filingHistoryCost: costWithCurrencySymbol
