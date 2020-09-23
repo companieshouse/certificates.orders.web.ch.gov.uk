@@ -2,12 +2,13 @@ import { NextFunction, Request, Response } from "express";
 import { createLogger } from "ch-structured-logging";
 import { CertifiedCopyItem, FilingHistoryDocuments } from "ch-sdk-node/dist/services/order/certified-copies";
 import { Basket } from "ch-sdk-node/dist/services/order/basket";
+import { Filing } from "ch-sdk-node/dist/services/filing-history";
 
 import { CERTIFIED_COPY_DELIVERY_DETAILS, replaceCertifiedCopyId } from "../../model/page.urls";
 import { CERTIFIED_COPY_CHECK_DETAILS } from "../../model/template.paths";
 import { getAccessToken, getUserId } from "../../session/helper";
 import { APPLICATION_NAME, CHS_URL } from "../../config/config";
-import { getCertifiedCopyItem, getBasket, addItemToBasket } from "../../client/api.client";
+import { getCertifiedCopyItem, getBasket, addItemToBasket, getFilingHistoryById } from "../../client/api.client";
 import { mapDeliveryDetails, mapDeliveryMethod } from "../../utils/check.details.utils";
 import { getFullFilingHistoryDescription } from "../../config/api.enumerations";
 
@@ -18,14 +19,15 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const accessToken: string = getAccessToken(req.session);
         const certifiedCopyItem: CertifiedCopyItem = await getCertifiedCopyItem(accessToken, req.params.certifiedCopyId);
         const basket: Basket = await getBasket(accessToken);
-
         res.render(CERTIFIED_COPY_CHECK_DETAILS, {
             backUrl: replaceCertifiedCopyId(CERTIFIED_COPY_DELIVERY_DETAILS, req.params.certifiedCopyId),
             companyNumber: certifiedCopyItem.companyNumber,
             companyName: certifiedCopyItem.companyName,
             deliveryMethod: mapDeliveryMethod(certifiedCopyItem.itemOptions),
             deliveryDetails: mapDeliveryDetails(basket.deliveryDetails),
-            filingHistoryDocuments: mapFilingHistoriesDocuments(certifiedCopyItem.itemOptions.filingHistoryDocuments),
+            filingHistoryDocuments: await mapFilingHistoriesDocuments(
+                certifiedCopyItem.itemOptions.filingHistoryDocuments,
+                certifiedCopyItem.companyNumber, accessToken),
             totalCost: addCurrencySymbol(certifiedCopyItem.totalItemCost)
         });
     } catch (err) {
@@ -50,15 +52,56 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
-export const mapFilingHistoryDescriptionValues = (description: string, descriptionValues: Record<string, string>) => {
+export const mapFilingHistoryDescriptionValues = (description: string, descriptionValues: Record<string, any>) => {
     if (descriptionValues.description) {
         return descriptionValues.description;
     } else {
         return Object.entries(descriptionValues).reduce((newObj, [key, val]) => {
-            const value = key.includes("date") ? mapDateFullMonth(val) : val;
-            return newObj.replace("{" + key + "}", value as string);
+            if (key === "statement-of-capital") {
+                const statementOfCapital = getFullFilingHistoryDescription(key);
+                const statementOfCapitalDate = replaceVariables("date", val.date, statementOfCapital);
+                console.log(statementOfCapitalDate);
+                return statementOfCapitalDate;
+            } else {
+                return replaceVariables(key, val, newObj);
+            }
         }, description);
     }
+};
+
+export const lookupFh = (descriptionKey: string, descriptionValues: Record<string, any>) => {
+    const description = getFullFilingHistoryDescription(descriptionKey);
+    return Object.entries(descriptionValues).reduce((newObj, [key, val]) => {
+        const value = key.includes("date") ? mapDateFullMonth(val) : val;
+        return newObj.replace("{" + key + "}", value as string);
+    }, description);
+};
+
+export const mapFilingHistoryDescription = (filing: Filing) => {
+    let filingHistoryDescription = "";
+    if (filing?.descriptionValues?.description) {
+        filingHistoryDescription += filing?.descriptionValues?.description;
+    } else if (filing?.description && filing?.descriptionValues) {
+        filingHistoryDescription += lookupFh(filing.description, filing.descriptionValues);
+    }
+
+    // capital
+    if (filing?.descriptionValues?.capital) {
+        filingHistoryDescription += filing?.descriptionValues?.capital.reduce((accum, capitalData) => {
+            if (!capitalData.date || filing.description === "capital-cancellation-treasury-shares-with-date-currency-capital-figure" ||
+                filing.description === "second-filing-capital-cancellation-treasury-shares-with-date-currency-capital-figure") {
+                return `${accum}, ${capitalData.currency} ${capitalData.figure}`;
+            } else {
+                return `${accum}, ${capitalData.currency} ${capitalData.figure} on ${capitalData.date}`;
+            }
+        }, "");
+    }
+    return filingHistoryDescription;
+};
+
+export const replaceVariables = (key, val, newObj) => {
+    const value = key.includes("date") ? mapDateFullMonth(val) : val;
+    return newObj.replace("{" + key + "}", value as string);
 };
 
 export const removeAsterisks = (description: string) => {
@@ -87,10 +130,10 @@ export const mapDateFullMonth = (dateString: string): string => {
     return `${day} ${month} ${year}`;
 };
 
-export const mapFilingHistoriesDocuments = (filingHistoryDocuments: FilingHistoryDocuments[]) => {
-    const mappedFilingHistories = filingHistoryDocuments.map(filingHistoryDocument => {
-        const descriptionFromFile = getFullFilingHistoryDescription(filingHistoryDocument.filingHistoryDescription);
-        const mappedFilingHistroyDescription = mapFilingHistoryDescriptionValues(descriptionFromFile, filingHistoryDocument.filingHistoryDescriptionValues || {});
+export const mapFilingHistoriesDocuments = (filingHistoryDocuments: FilingHistoryDocuments[], companyNumber, accessToken) => {
+    const mappedFilingHistories = Promise.all(filingHistoryDocuments.map(async (filingHistoryDocument) => {
+        const result = await getFilingHistoryById(accessToken, companyNumber, filingHistoryDocument.filingHistoryId);
+        const mappedFilingHistroyDescription = mapFilingHistoryDescription(result);
         const cleanedFilingHistoryDescription = removeAsterisks(mappedFilingHistroyDescription);
         const mappedFilingHistoryDescriptionDate = mapDate(filingHistoryDocument.filingHistoryDate);
         const costWithCurrencySymbol = addCurrencySymbol(filingHistoryDocument.filingHistoryCost);
@@ -101,7 +144,7 @@ export const mapFilingHistoriesDocuments = (filingHistoryDocuments: FilingHistor
             filingHistoryType: filingHistoryDocument.filingHistoryType,
             filingHistoryCost: costWithCurrencySymbol
         };
-    });
+    }));
     return mappedFilingHistories;
 };
 

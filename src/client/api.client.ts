@@ -3,6 +3,7 @@ import { CompanyProfile, CompanyProfileResource } from "ch-sdk-node/dist/service
 import { BasketItem, ItemUriPostRequest, Basket, BasketPatchRequest } from "ch-sdk-node/dist/services/order/basket/types";
 import { CertificateItemPostRequest, CertificateItemPatchRequest, CertificateItem } from "ch-sdk-node/dist/services/order/certificates/types";
 import { CertifiedCopyItem, CertifiedCopyItemResource } from "ch-sdk-node/dist/services/order/certified-copies/types";
+import { Filing } from "ch-sdk-node/dist/services/filing-history";
 import { API_KEY, API_URL, APPLICATION_NAME } from "../config/config";
 import { createLogger } from "ch-structured-logging";
 import Resource from "ch-sdk-node/dist/services/resource";
@@ -90,4 +91,14 @@ export const getCertifiedCopyItem = async (oAuth: string, certifiedCopyId: strin
     }
     logger.info(`Get certified copy item, certified_copy_item_id=${certifiedCopyId}, status_code=${certifiedCopyItemResource.httpStatusCode}`);
     return certifiedCopyItemResource.resource as CertifiedCopyItem;
+};
+
+export const getFilingHistoryById = async (oAuth: string, companyNumber: string, filingHistoryId: string) : Promise<Filing> => {
+    const api = createApiClient(undefined, oAuth, API_URL);
+    const filingHistoryItemResource: Resource<Filing> = await api.filingHistory.getFilingHistoryItemById(companyNumber, filingHistoryId);
+    if (filingHistoryItemResource.httpStatusCode !== 200) {
+        throw createError(filingHistoryItemResource.httpStatusCode, filingHistoryItemResource.httpStatusCode.toString());
+    }
+    logger.info(`Get filing history by id, company_number=${companyNumber}, filing_history_id=${filingHistoryId}, status_code=${filingHistoryItemResource.httpStatusCode}`);
+    return filingHistoryItemResource.resource as Filing;
 };
