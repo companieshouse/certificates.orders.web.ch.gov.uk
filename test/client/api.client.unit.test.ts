@@ -186,13 +186,13 @@ const dummyScudItemSDKResponse: Resource<ScudItem> = {
         companyName: "Company Name",
         companyNumber: "00000000",
         customerReference: "1133XR",
-        description: "certificate",
-        descriptionIdentifier: "certificate",
+        description: "scan-upon-demand",
+        descriptionIdentifier: "scan-upon-demand",
         descriptionValues: {
-            item: "certificate"
+            item: "scan-upon-demand"
         },
         etag: "33a64df551425fcc55e4d42a148795d9f25f89d4",
-        id: "CHS00000000000000004",
+        id: "SCD00000000000000004",
         itemCosts: [],
         itemOptions: {
             filingHistoryDate: "2010-02-12",
@@ -204,9 +204,9 @@ const dummyScudItemSDKResponse: Resource<ScudItem> = {
             filingHistoryId: "MzAwOTM2MDg5OWFkaXF6a2N4",
             filingHistoryType: "CH01"
         },
-        kind: "item#certificate",
+        kind: "item#scan-upon-demand",
         links: {
-            self: "/cert"
+            self: "/scud"
         },
         postageCost: "0",
         postalDelivery: false,
