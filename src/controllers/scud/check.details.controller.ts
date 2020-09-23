@@ -10,8 +10,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userId = getUserId(req.session);
         const accessToken: string = getAccessToken(req.session);
-        
-        console.log("You have hit the check details controller, Rendering: " + SCAN_UPON_DEMAND_CHECK_DETAILS);
+
         return res.render(SCAN_UPON_DEMAND_CHECK_DETAILS);
     } catch (err) {
         logger.error(`${err}`);
