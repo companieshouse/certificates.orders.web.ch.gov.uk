@@ -3,6 +3,7 @@ import { CompanyProfile, CompanyProfileResource } from "ch-sdk-node/dist/service
 import { BasketItem, ItemUriPostRequest, Basket, BasketPatchRequest } from "ch-sdk-node/dist/services/order/basket/types";
 import { CertificateItemPostRequest, CertificateItemPatchRequest, CertificateItem } from "ch-sdk-node/dist/services/order/certificates/types";
 import { CertifiedCopyItem, CertifiedCopyItemResource } from "ch-sdk-node/dist/services/order/certified-copies/types";
+import { ScudItemPostRequest, ScudItem } from "ch-sdk-node/dist/services/order/scud/types";
 import { API_KEY, API_URL, APPLICATION_NAME } from "../config/config";
 import { createLogger } from "ch-structured-logging";
 import Resource from "ch-sdk-node/dist/services/resource";
@@ -90,4 +91,14 @@ export const getCertifiedCopyItem = async (oAuth: string, certifiedCopyId: strin
     }
     logger.info(`Get certified copy item, certified_copy_item_id=${certifiedCopyId}, status_code=${certifiedCopyItemResource.httpStatusCode}`);
     return certifiedCopyItemResource.resource as CertifiedCopyItem;
+};
+
+export const postScudItem = async (oAuth: string, scudItem: ScudItemPostRequest): Promise<ScudItem> => {
+    const api = createApiClient(undefined, oAuth, API_URL);
+    const scudItemResource: Resource<ScudItem> = await api.scud.postScud(scudItem);
+    if (scudItemResource.httpStatusCode !== 200 && scudItemResource.httpStatusCode !== 201) {
+        throw createError(scudItemResource.httpStatusCode, scudItemResource.httpStatusCode.toString());
+    }
+    logger.info(`Create SCUD, status_code=${scudItemResource.httpStatusCode}`);
+    return scudItemResource.resource as ScudItem;
 };
