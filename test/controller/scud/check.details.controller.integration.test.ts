@@ -9,7 +9,6 @@ const SCUD_ID = "SCD-869116-008636";
 const ITEM_URI = "/orderable/scans-upon-demand/SCD-869116-008636";
 const CHECK_DETAILS_URL = replaceScudId(SCAN_UPON_DEMAND_CHECK_DETAILS, SCUD_ID);
 
-
 const sandbox = sinon.createSandbox();
 let testApp = null;
 
@@ -29,7 +28,6 @@ describe("check.details.controller.integration", () => {
 
     describe("check details get", () => {
         it("renders the check details screen", async () => {
-
             const resp = await chai.request(testApp)
                 .get(CHECK_DETAILS_URL)
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
@@ -39,5 +37,5 @@ describe("check.details.controller.integration", () => {
             chai.expect(resp.status).to.equal(200);
             chai.expect($(".govuk-heading-xl").text()).to.equal("Request a document");
         });
-    });    
+    });
 });
