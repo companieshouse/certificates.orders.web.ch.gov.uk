@@ -19,3 +19,4 @@ export const CERTIFIED_COPY_CHECK_DETAILS: string = `${certifiedCopyRoot}/check-
 export const CERTIFIED_COPY_ORDER_DETAILS: string = `${certifiedCopyRoot}/order-details`;
 
 export const SCAN_UPON_DEMAND_INDEX: string = `${scanUponDemandRoot}/index`;
+export const SCAN_UPON_DEMAND_CHECK_DETAILS: string = `${scanUponDemandRoot}/check-details`;
