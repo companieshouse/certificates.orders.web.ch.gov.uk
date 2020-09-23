@@ -1,20 +1,32 @@
-import { NextFunction, Request, Response } from "express";
-import { SCAN_UPON_DEMAND_CHECK_DETAILS } from "../../model/page.urls";
+import { Request, Response, NextFunction } from "express";
+import { getAccessToken, getUserId } from "../../session/helper";
+import { ScudItemPostRequest, ScudItem } from "ch-sdk-node/dist/services/order/scud/types";
+import { postScudItem } from "../../client/api.client";
+import { SCAN_UPON_DEMAND_CHECK_DETAILS, replaceScudId } from "./../../model/page.urls";
 import { createLogger } from "ch-structured-logging";
 import { APPLICATION_NAME } from "../../config/config";
-import { getAccessToken, getUserId } from "../../session/helper";
 
 const logger = createLogger(APPLICATION_NAME);
 
-export default async (req: Request, res: Response, next: NextFunction) => {
+export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-        const userId = getUserId(req.session);
         const accessToken: string = getAccessToken(req.session);
+        const companyNumber = req.params.companyNumber;
+        const filingHistoryId = req.params.filingHistoryId;
 
-        console.log("You have hit the SCUD controller - Redirecting: " + SCAN_UPON_DEMAND_CHECK_DETAILS);
-        res.redirect(SCAN_UPON_DEMAND_CHECK_DETAILS);
+        const scudItemRequest: ScudItemPostRequest = {
+            companyNumber,
+            itemOptions: {
+                filingHistoryId
+            },
+            quantity: 1
+        };
+        const userId = getUserId(req.session);
+        const scudItem: ScudItem = await postScudItem(accessToken, scudItemRequest);
+        logger.info(`SCUD Item created, id=${scudItem.id}, user_id=${userId}, company_number=${scudItem.companyNumber}`);
+        res.redirect(replaceScudId(SCAN_UPON_DEMAND_CHECK_DETAILS, scudItem.id));
     } catch (err) {
         logger.error(`${err}`);
         next(err);
-    }
+    };
 };
