@@ -93,12 +93,12 @@ export const getCertifiedCopyItem = async (oAuth: string, certifiedCopyId: strin
     return certifiedCopyItemResource.resource as CertifiedCopyItem;
 };
 
-export const postScudItem = async (oAuth: string, scudItem: ScudItemPostRequest): Promise<ScudItem> => {
+export const postMissingImageDeliveryItem = async (oAuth: string, missingImageDeliveryItem: ScudItemPostRequest): Promise<ScudItem> => {
     const api = createApiClient(undefined, oAuth, API_URL);
-    const scudItemResource: Resource<ScudItem> = await api.scud.postScud(scudItem);
-    if (scudItemResource.httpStatusCode !== 200 && scudItemResource.httpStatusCode !== 201) {
-        throw createError(scudItemResource.httpStatusCode, scudItemResource.httpStatusCode.toString());
+    const missingImageDeliveryItemResource: Resource<ScudItem> = await api.scud.postScud(missingImageDeliveryItem);
+    if (missingImageDeliveryItemResource.httpStatusCode !== 200 && missingImageDeliveryItemResource.httpStatusCode !== 201) {
+        throw createError(missingImageDeliveryItemResource.httpStatusCode, missingImageDeliveryItemResource.httpStatusCode.toString());
     }
-    logger.info(`Create SCUD, status_code=${scudItemResource.httpStatusCode}`);
-    return scudItemResource.resource as ScudItem;
+    logger.info(`Create Missing Image Delivery, status_code=${missingImageDeliveryItemResource.httpStatusCode}`);
+    return missingImageDeliveryItemResource.resource as ScudItem;
 };

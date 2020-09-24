@@ -2,7 +2,7 @@ import { NextFunction, Request, RequestHandler, Response } from "express";
 import { SessionKey } from "ch-node-session-handler/lib/session/keys/SessionKey";
 import { SignInInfoKeys } from "ch-node-session-handler/lib/session/keys/SignInInfoKeys";
 import { getUserId } from "../../session/helper";
-import { SCAN_UPON_DEMAND_CREATE, replaceScudCompanyNumberAndFilingHistoryId } from "../../model/page.urls";
+import { MISSING_IMAGE_DELIVERY_CREATE, replaceCompanyNumberAndFilingHistoryId } from "../../model/page.urls";
 import { createLogger } from "ch-structured-logging";
 import { APPLICATION_NAME } from "../../config/config";
 
@@ -18,7 +18,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         if (!signedIn) {
             const companyNumber = req.params.companyNumber;
             const filingHistoryId = req.params.filingHistoryId;
-            const returnToUrl = replaceScudCompanyNumberAndFilingHistoryId(SCAN_UPON_DEMAND_CREATE, companyNumber, filingHistoryId);
+            const returnToUrl = replaceCompanyNumberAndFilingHistoryId(MISSING_IMAGE_DELIVERY_CREATE, companyNumber, filingHistoryId);
             logger.info(`User unauthorized, status_code=401, redirecting to sign in page`);
             return res.redirect(`/signin?return_to=${returnToUrl}`);
         } else {
@@ -27,7 +27,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         };
         next();
     } catch (err) {
-        logger.error(`SCUD authentication middleware: ${err}`);
+        logger.error(`Missing Image Delivery authentication middleware: ${err}`);
         next(err);
     };
 };

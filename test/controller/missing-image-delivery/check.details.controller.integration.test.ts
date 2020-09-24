@@ -2,12 +2,12 @@ import chai from "chai";
 import sinon from "sinon";
 import ioredis from "ioredis";
 import cheerio from "cheerio";
-import { SCAN_UPON_DEMAND_CHECK_DETAILS, replaceScudId } from "../../../src/model/page.urls";
+import { MISSING_IMAGE_DELIVERY_CHECK_DETAILS, replaceMissingImageDeliveryId } from "../../../src/model/page.urls";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
 
-const SCUD_ID = "SCD-869116-008636";
-const ITEM_URI = "/orderable/scans-upon-demand/SCD-869116-008636";
-const CHECK_DETAILS_URL = replaceScudId(SCAN_UPON_DEMAND_CHECK_DETAILS, SCUD_ID);
+const MISSING_IMAGE_DELIVERY_ID = "MID-869116-008636";
+const ITEM_URI = "/orderable/missing-image-delivery/MID-869116-008636";
+const CHECK_DETAILS_URL = replaceMissingImageDeliveryId(MISSING_IMAGE_DELIVERY_CHECK_DETAILS, MISSING_IMAGE_DELIVERY_ID);
 
 const sandbox = sinon.createSandbox();
 let testApp = null;

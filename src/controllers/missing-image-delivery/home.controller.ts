@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import { SCAN_UPON_DEMAND_INDEX } from "../../model/template.paths";
-import { SCAN_UPON_DEMAND_CREATE, replaceScudCompanyNumberAndFilingHistoryId } from "../../model/page.urls";
+import { MISSING_IMAGE_DELIVERY_INDEX } from "../../model/template.paths";
+import { MISSING_IMAGE_DELIVERY_CREATE, replaceCompanyNumberAndFilingHistoryId } from "../../model/page.urls";
 
 export default async (req: Request, res: Response) => {
     const companyNumber: string = req.params.companyNumber;
     const filingHistoryId: string = req.params.filingHistoryId;
-    const startNowUrl: string = replaceScudCompanyNumberAndFilingHistoryId(SCAN_UPON_DEMAND_CREATE, companyNumber, filingHistoryId);
+    const startNowUrl: string = replaceCompanyNumberAndFilingHistoryId(MISSING_IMAGE_DELIVERY_CREATE, companyNumber, filingHistoryId);
 
-    res.render(SCAN_UPON_DEMAND_INDEX, { companyNumber, startNowUrl });
+    res.render(MISSING_IMAGE_DELIVERY_INDEX, { companyNumber, startNowUrl });
 };
