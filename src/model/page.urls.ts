@@ -19,12 +19,12 @@ export const CERTIFIED_COPY_FILING_HISTORY: string = "/company/:companyNumber/ce
 export const CERTIFIED_COPY_DELIVERY_DETAILS: string = ROOT_CERTIFIED_COPY_ID + "/delivery-details";
 export const CERTIFIED_COPY_CHECK_DETAILS: string = ROOT_CERTIFIED_COPY_ID + "/check-details";
 
-// Scan upon demand section
-export const ROOT_SCAN_UPON_DEMAND: string = "/company/:companyNumber/orderable/scan-upon-demand/:filingHistoryId";
-export const ROOT_SCAN_UPON_DEMAND_ID: string = "/orderable/scan-upon-demand/:scudId";
+// Missing image delivery section
+export const ROOT_MISSING_IMAGE_DELIVERY: string = "/company/:companyNumber/orderable/missing-image-delivery/:filingHistoryId";
+export const ROOT_MISSING_IMAGE_DELIVERY_ID: string = "/orderable/missing-image-delivery/:missingImageDeliveryId";
 
-export const SCAN_UPON_DEMAND_CREATE: string = ROOT_SCAN_UPON_DEMAND + "/create";
-export const SCAN_UPON_DEMAND_CHECK_DETAILS: string = ROOT_SCAN_UPON_DEMAND_ID + "/check-details";
+export const MISSING_IMAGE_DELIVERY_CREATE: string = ROOT_MISSING_IMAGE_DELIVERY + "/create";
+export const MISSING_IMAGE_DELIVERY_CHECK_DETAILS: string = ROOT_MISSING_IMAGE_DELIVERY_ID + "/check-details";
 
 export const replaceCompanyNumber = (uri: string, companyNumber: string) => {
     return uri.replace(":companyNumber", companyNumber);
@@ -38,10 +38,10 @@ export const replaceCertifiedCopyId = (uri: string, certifiedCopyId: string) => 
     return uri.replace(":certifiedCopyId", certifiedCopyId);
 };
 
-export const replaceScudCompanyNumberAndFilingHistoryId = (uri: string, companyNumber: string, filingHistoryId: string) => {
+export const replaceCompanyNumberAndFilingHistoryId = (uri: string, companyNumber: string, filingHistoryId: string) => {
     return uri.replace(":companyNumber", companyNumber).replace(":filingHistoryId", filingHistoryId);
 };
 
-export const replaceScudId = (uri: string, scudId: string) => {
-    return uri.replace(":scudId", scudId);
+export const replaceMissingImageDeliveryId = (uri: string, missingImageDeliveryId: string) => {
+    return uri.replace(":missingImageDeliveryId", missingImageDeliveryId);
 };

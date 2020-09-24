@@ -3,7 +3,7 @@ import sinon from "sinon";
 import { Request, Response } from "express";
 import { Session } from "ch-node-session-handler/lib/session/model/Session";
 
-import scudAuthMiddleware from "../../../src/middleware/scud/auth.middleware";
+import missingImageDeliveryAuthMiddleware from "../../../src/middleware/missing-image-delivery/auth.middleware";
 import * as apiClient from "../../../src/client/api.client";
 
 const sandbox = sinon.createSandbox();
@@ -13,7 +13,7 @@ const res = {} as Response;
 const redirectSpy = sandbox.spy();
 res.redirect = redirectSpy;
 
-describe("scud.auth.middleware.unit", () => {
+describe("missingImageDeliveryAuthMiddleware.auth.middleware.unit", () => {
     afterEach(() => {
         sandbox.reset();
         sandbox.restore();
@@ -31,9 +31,9 @@ describe("scud.auth.middleware.unit", () => {
                 }
             }
         );
-        await scudAuthMiddleware(req, res, nextFunctionSpy);
+        await missingImageDeliveryAuthMiddleware(req, res, nextFunctionSpy);
         chai.expect(redirectSpy)
-            .to.have.been.calledWith("/signin?return_to=/company/00006500/orderable/scan-upon-demand/0001/create");
+            .to.have.been.calledWith("/signin?return_to=/company/00006500/orderable/missing-image-delivery/0001/create");
     });
 
     it("should call res.redirect if there an attempt to access the create page with no session", async () => {
@@ -42,9 +42,9 @@ describe("scud.auth.middleware.unit", () => {
         } as Request;
         req.params = { companyNumber: "00006500", filingHistoryId: "0001" };
         req.session = undefined;
-        await scudAuthMiddleware(req, res, nextFunctionSpy);
+        await missingImageDeliveryAuthMiddleware(req, res, nextFunctionSpy);
         chai.expect(redirectSpy)
-            .to.have.been.calledWith("/signin?return_to=/company/00006500/orderable/scan-upon-demand/0001/create");
+            .to.have.been.calledWith("/signin?return_to=/company/00006500/orderable/missing-image-delivery/0001/create");
     });
 
     it("should call res.redirect if user is not signed in and trying to access the check details page", async () => {
@@ -59,9 +59,9 @@ describe("scud.auth.middleware.unit", () => {
                 }
             }
         );
-        await scudAuthMiddleware(req, res, nextFunctionSpy);
+        await missingImageDeliveryAuthMiddleware(req, res, nextFunctionSpy);
         chai.expect(redirectSpy)
-            .to.have.been.calledWith("/signin?return_to=/company/00006500/orderable/scan-upon-demand/0001/create");
+            .to.have.been.calledWith("/signin?return_to=/company/00006500/orderable/missing-image-delivery/0001/create");
     });
 
     it("should call res.redirect if there an attempt to access the check details page with no session", async () => {
@@ -70,8 +70,8 @@ describe("scud.auth.middleware.unit", () => {
         } as Request;
         req.params = { companyNumber: "00006500", filingHistoryId: "0001" };
         req.session = undefined;
-        await scudAuthMiddleware(req, res, nextFunctionSpy);
+        await missingImageDeliveryAuthMiddleware(req, res, nextFunctionSpy);
         chai.expect(redirectSpy)
-            .to.have.been.calledWith("/signin?return_to=/company/00006500/orderable/scan-upon-demand/0001/create");
+            .to.have.been.calledWith("/signin?return_to=/company/00006500/orderable/missing-image-delivery/0001/create");
     });
 });

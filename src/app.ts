@@ -7,7 +7,7 @@ import { SessionStore, SessionMiddleware, CookieConfig } from "ch-node-session-h
 
 import certRouter from "./routers/certificates/routers";
 import certCopyRouter from "./routers/certified-copies/routers";
-import scudRouter from "./routers/scud/routers";
+import missingImageDeliveryRouter from "./routers/missing-image-delivery/routers";
 
 import { ERROR_SUMMARY_TITLE } from "./model/error.messages";
 import * as pageUrls from "./model/page.urls";
@@ -15,7 +15,7 @@ import { createLoggerMiddleware } from "ch-structured-logging";
 import authMiddleware from "./middleware/auth.middleware";
 import authCertificateMiddleware from "./middleware/certificates/auth.middleware";
 import authCertifiedCopyMiddleware from "./middleware/certified-copies/auth.middleware";
-import authScudMiddleware from "./middleware/scud/auth.middleware";
+import authMissingImageDeliveryMiddleware from "./middleware/missing-image-delivery/auth.middleware";
 
 import {
     PIWIK_SITE_ID,
@@ -26,11 +26,11 @@ import {
     APPLICATION_NAME,
     SERVICE_NAME_CERTIFICATES,
     SERVICE_NAME_CERTIFIED_COPIES,
-    SERVICE_NAME_SCUD,
+    SERVICE_NAME_MISSING_IMAGE_DELIVERY,
     SERVICE_NAME_GENERIC,
     CERTIFICATE_PIWIK_START_GOAL_ID,
     CERTIFIED_COPIES_PIWIK_START_GOAL_ID,
-    SCUD_PIWIK_START_GOAL_ID
+    MISSING_IMAGE_DELIVERY_PIWIK_START_GOAL_ID
 } from "./config/config";
 
 const app = express();
@@ -62,8 +62,8 @@ const PROTECTED_PATHS = [
     pageUrls.CERTIFICATE_DELIVERY_DETAILS,
     pageUrls.CERTIFIED_COPY_DELIVERY_DETAILS,
     pageUrls.CERTIFIED_COPY_CHECK_DETAILS,
-    pageUrls.SCAN_UPON_DEMAND_CREATE,
-    pageUrls.SCAN_UPON_DEMAND_CHECK_DETAILS
+    pageUrls.MISSING_IMAGE_DELIVERY_CREATE,
+    pageUrls.MISSING_IMAGE_DELIVERY_CHECK_DETAILS
 ];
 
 app.use(PROTECTED_PATHS, createLoggerMiddleware(APPLICATION_NAME));
@@ -74,8 +74,8 @@ app.use(pageUrls.ROOT_CERTIFICATE_ID, authCertificateMiddleware);
 app.use([pageUrls.ROOT_CERTIFIED_COPY, pageUrls.ROOT_CERTIFIED_COPY_ID], SessionMiddleware(cookieConfig, sessionStore));
 app.use(pageUrls.ROOT_CERTIFIED_COPY_ID, authCertifiedCopyMiddleware);
 
-app.use([pageUrls.ROOT_SCAN_UPON_DEMAND, pageUrls.ROOT_SCAN_UPON_DEMAND_ID], SessionMiddleware(cookieConfig, sessionStore));
-app.use([pageUrls.SCAN_UPON_DEMAND_CREATE, pageUrls.ROOT_SCAN_UPON_DEMAND_ID], authScudMiddleware);
+app.use([pageUrls.ROOT_MISSING_IMAGE_DELIVERY, pageUrls.ROOT_MISSING_IMAGE_DELIVERY_ID], SessionMiddleware(cookieConfig, sessionStore));
+app.use([pageUrls.MISSING_IMAGE_DELIVERY_CREATE, pageUrls.ROOT_MISSING_IMAGE_DELIVERY_ID], authMissingImageDeliveryMiddleware);
 
 app.use((req, res, next) => {
     if (req.path.includes("/certificates")) {
@@ -86,10 +86,10 @@ app.use((req, res, next) => {
         env.addGlobal("SERVICE_NAME", SERVICE_NAME_CERTIFIED_COPIES);
         env.addGlobal("SERVICE_PATH", "/certified-copies");
         env.addGlobal("CERTIFIED_COPIES_PIWIK_START_GOAL_ID", CERTIFIED_COPIES_PIWIK_START_GOAL_ID);
-    } else if (req.path.includes("scan-upon-demand")) {
-        env.addGlobal("SERVICE_NAME", SERVICE_NAME_SCUD);
-        env.addGlobal("SERVICE_PATH", "/scan-upon-demand");
-        env.addGlobal("SCUD_PIWIK_START_GOAL_ID", SCUD_PIWIK_START_GOAL_ID);
+    } else if (req.path.includes("missing-image-delivery")) {
+        env.addGlobal("SERVICE_NAME", SERVICE_NAME_MISSING_IMAGE_DELIVERY);
+        env.addGlobal("SERVICE_PATH", "/missing-image-delivery");
+        env.addGlobal("MISSING_IMAGE_DELIVERY_PIWIK_START_GOAL_ID", MISSING_IMAGE_DELIVERY_PIWIK_START_GOAL_ID);
     } else {
         env.addGlobal("SERVICE_NAME", SERVICE_NAME_GENERIC);
         env.addGlobal("SERVICE_PATH", "");
@@ -121,6 +121,6 @@ if (process.env.NODE_ENV !== "production") {
 // apply our default router to /
 app.use("/", certRouter);
 app.use("/", certCopyRouter);
-app.use("/", scudRouter);
+app.use("/", missingImageDeliveryRouter);
 
 export default app;

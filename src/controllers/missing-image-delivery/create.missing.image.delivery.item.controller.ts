@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import { getAccessToken, getUserId } from "../../session/helper";
 import { ScudItemPostRequest, ScudItem } from "ch-sdk-node/dist/services/order/scud/types";
-import { postScudItem } from "../../client/api.client";
-import { SCAN_UPON_DEMAND_CHECK_DETAILS, replaceScudId } from "./../../model/page.urls";
+import { postMissingImageDeliveryItem } from "../../client/api.client";
+import { MISSING_IMAGE_DELIVERY_CHECK_DETAILS, replaceMissingImageDeliveryId } from "../../model/page.urls";
 import { createLogger } from "ch-structured-logging";
 import { APPLICATION_NAME } from "../../config/config";
 
@@ -14,7 +14,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const companyNumber = req.params.companyNumber;
         const filingHistoryId = req.params.filingHistoryId;
 
-        const scudItemRequest: ScudItemPostRequest = {
+        const missingImageDeliveryItemRequest: ScudItemPostRequest = {
             companyNumber,
             itemOptions: {
                 filingHistoryId
@@ -22,9 +22,9 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             quantity: 1
         };
         const userId = getUserId(req.session);
-        const scudItem: ScudItem = await postScudItem(accessToken, scudItemRequest);
-        logger.info(`SCUD Item created, id=${scudItem.id}, user_id=${userId}, company_number=${scudItem.companyNumber}`);
-        res.redirect(replaceScudId(SCAN_UPON_DEMAND_CHECK_DETAILS, scudItem.id));
+        const missingImageDeliveryItem: ScudItem = await postMissingImageDeliveryItem(accessToken, missingImageDeliveryItemRequest);
+        logger.info(`Missing Image Delivery Item created, id=${missingImageDeliveryItem.id}, user_id=${userId}, company_number=${missingImageDeliveryItem.companyNumber}`);
+        res.redirect(replaceMissingImageDeliveryId(MISSING_IMAGE_DELIVERY_CHECK_DETAILS, missingImageDeliveryItem.id));
     } catch (err) {
         logger.error(`${err}`);
         next(err);

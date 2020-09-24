@@ -8,7 +8,7 @@ import { CertificateItemPostRequest, CertificateItem } from "ch-sdk-node/dist/se
 import { CertifiedCopyItem, CertifiedCopyItemResource } from "ch-sdk-node/dist/services/order/certified-copies/types";
 import { Basket, BasketPatchRequest } from "ch-sdk-node/dist/services/order/basket/types";
 
-import { postCertificateItem, patchBasket, getBasket, getCompanyProfile, getCertifiedCopyItem, postScudItem } from "../../src/client/api.client";
+import { postCertificateItem, patchBasket, getBasket, getCompanyProfile, getCertifiedCopyItem, postMissingImageDeliveryItem } from "../../src/client/api.client";
 import CompanyProfileService from "ch-sdk-node/dist/services/company-profile/service";
 import { CompanyProfile } from "ch-sdk-node/dist/services/company-profile/types";
 import { ScudService } from "ch-sdk-node/dist/services/order";
@@ -180,19 +180,19 @@ const dummyCertifiedCopyItemSDKResponse: Resource<CertifiedCopyItem> = {
     }
 };
 
-const dummyScudItemSDKResponse: Resource<ScudItem> = {
+const dummyMissingImageDeliveryItemSDKResponse: Resource<ScudItem> = {
     httpStatusCode: 200,
     resource: {
         companyName: "Company Name",
         companyNumber: "00000000",
         customerReference: "1133XR",
-        description: "scan-upon-demand",
-        descriptionIdentifier: "scan-upon-demand",
+        description: "missing-image-delivery",
+        descriptionIdentifier: "missing-image-delivery",
         descriptionValues: {
-            item: "scan-upon-demand"
+            item: "missing-image-delivery"
         },
         etag: "33a64df551425fcc55e4d42a148795d9f25f89d4",
-        id: "SCD00000000000000004",
+        id: "MID00000000000000004",
         itemCosts: [],
         itemOptions: {
             filingHistoryDate: "2010-02-12",
@@ -204,9 +204,9 @@ const dummyScudItemSDKResponse: Resource<ScudItem> = {
             filingHistoryId: "MzAwOTM2MDg5OWFkaXF6a2N4",
             filingHistoryType: "CH01"
         },
-        kind: "item#scan-upon-demand",
+        kind: "item#missing-image-delivery",
         links: {
-            self: "/scud"
+            self: "/missing-image-delivery"
         },
         postageCost: "0",
         postalDelivery: false,
@@ -215,7 +215,7 @@ const dummyScudItemSDKResponse: Resource<ScudItem> = {
     }
 };
 
-const scudItemRequest: ScudItemPostRequest = {
+const missingImageDeliveryItemRequest: ScudItemPostRequest = {
     companyNumber: "1471",
     customerReference: "reference",
     itemOptions: {
@@ -276,12 +276,12 @@ describe("api.client", () => {
         });
     });
 
-    describe("postScudItem", () => {
-        it("returns a SCUD Item object", async () => {
+    describe("postMissingImageDeliveryItem", () => {
+        it("returns a Missing Image Delivery Item object", async () => {
             sandbox.stub(ScudService.prototype, "postScud")
-                .returns(Promise.resolve(dummyScudItemSDKResponse));
-            const scudItem = await postScudItem("oauth", scudItemRequest);
-            chai.expect(scudItem).to.equal(dummyScudItemSDKResponse.resource);
+                .returns(Promise.resolve(dummyMissingImageDeliveryItemSDKResponse));
+            const missingImageDeliveryItem = await postMissingImageDeliveryItem("oauth", missingImageDeliveryItemRequest);
+            chai.expect(missingImageDeliveryItem).to.equal(dummyMissingImageDeliveryItemSDKResponse.resource);
         });
     });
 });
