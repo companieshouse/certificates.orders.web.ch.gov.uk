@@ -7,7 +7,7 @@ import { SessionStore, SessionMiddleware, CookieConfig } from "ch-node-session-h
 
 import certRouter from "./routers/certificates/routers";
 import certCopyRouter from "./routers/certified-copies/routers";
-import scudRouter from "./routers/scud/routers";
+import scudRouter from "./routers/missing-image-delivery/routers";
 
 import { ERROR_SUMMARY_TITLE } from "./model/error.messages";
 import * as pageUrls from "./model/page.urls";
@@ -15,7 +15,7 @@ import { createLoggerMiddleware } from "ch-structured-logging";
 import authMiddleware from "./middleware/auth.middleware";
 import authCertificateMiddleware from "./middleware/certificates/auth.middleware";
 import authCertifiedCopyMiddleware from "./middleware/certified-copies/auth.middleware";
-import authScudMiddleware from "./middleware/scud/auth.middleware";
+import authScudMiddleware from "./middleware/missing-image-delivery/auth.middleware";
 
 import {
     PIWIK_SITE_ID,

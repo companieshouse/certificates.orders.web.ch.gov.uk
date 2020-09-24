@@ -1,8 +1,8 @@
 import { Router } from "express";
 import { ROOT_SCAN_UPON_DEMAND, SCAN_UPON_DEMAND_CHECK_DETAILS, SCAN_UPON_DEMAND_CREATE } from "../../model/page.urls";
-import homeController from "../../controllers/scud/home.controller";
-import { render as renderCreateController } from "../../controllers/scud/create.scud.item.controller";
-import checkDetailsController from "../../controllers/scud/check.details.controller";
+import homeController from "../../controllers/missing-image-delivery/home.controller";
+import { render as renderCreateController } from "../../controllers/missing-image-delivery/create.scud.item.controller";
+import checkDetailsController from "../../controllers/missing-image-delivery/check.details.controller";
 
 const router: Router = Router();
 
