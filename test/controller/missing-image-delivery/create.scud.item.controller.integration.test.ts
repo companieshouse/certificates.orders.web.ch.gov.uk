@@ -5,7 +5,7 @@ import ioredis from "ioredis";
 import * as apiClient from "../../../src/client/api.client";
 import { MISSING_IMAGE_DELIVERY_CREATE, replaceCompanyNumberAndFilingHistoryId } from "../../../src/model/page.urls";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
-import { ScudItem } from "ch-sdk-node/dist/services/order/scud/types";
+import { MidItem } from "ch-sdk-node/dist/services/order/mid/types";
 
 const FILING_HISTORY_ID = "MzAwOTM2MDg5OWFkaXF6a2N4";
 const COMPANY_NUMBER = "00006500";
@@ -33,7 +33,7 @@ describe("create.missing.image.delivery.item.controller.integration", () => {
         it("redirects the user to the check details page", async () => {
             const missingImageDeliveryDetails = {
                 id: "MID-951616-000712"
-            } as ScudItem;
+            } as MidItem;
 
             postMissingImageDeliveryItemStub = sandbox.stub(apiClient, "postMissingImageDeliveryItem")
                 .returns(Promise.resolve(missingImageDeliveryDetails));
