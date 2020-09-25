@@ -10,7 +10,7 @@ import { getAccessToken, getUserId } from "../../session/helper";
 import { APPLICATION_NAME, CHS_URL } from "../../config/config";
 import { getCertifiedCopyItem, getBasket, addItemToBasket, getFilingHistoryById } from "../../client/api.client";
 import { mapDeliveryDetails, mapDeliveryMethod } from "../../utils/check.details.utils";
-import { getFullFilingHistoryDescription } from "../../config/api.enumerations";
+import { mapFilingHistoryDescription } from "../../service/map.filing.history.service";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -52,62 +52,6 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
-export const mapFilingHistoryDescriptionValues = (description: string, descriptionValues: Record<string, any>) => {
-    if (descriptionValues.description) {
-        return descriptionValues.description;
-    } else {
-        return Object.entries(descriptionValues).reduce((newObj, [key, val]) => {
-            if (key === "statement-of-capital") {
-                const statementOfCapital = getFullFilingHistoryDescription(key);
-                const statementOfCapitalDate = replaceVariables("date", val.date, statementOfCapital);
-                console.log(statementOfCapitalDate);
-                return statementOfCapitalDate;
-            } else {
-                return replaceVariables(key, val, newObj);
-            }
-        }, description);
-    }
-};
-
-export const lookupFh = (descriptionKey: string, descriptionValues: Record<string, any>) => {
-    const description = getFullFilingHistoryDescription(descriptionKey);
-    return Object.entries(descriptionValues).reduce((newObj, [key, val]) => {
-        const value = key.includes("date") ? mapDateFullMonth(val) : val;
-        return newObj.replace("{" + key + "}", value as string);
-    }, description);
-};
-
-export const mapFilingHistoryDescription = (filing: Filing) => {
-    let filingHistoryDescription = "";
-    if (filing?.descriptionValues?.description) {
-        filingHistoryDescription += filing?.descriptionValues?.description;
-    } else if (filing?.description && filing?.descriptionValues) {
-        filingHistoryDescription += lookupFh(filing.description, filing.descriptionValues);
-    }
-
-    // capital
-    if (filing?.descriptionValues?.capital) {
-        filingHistoryDescription += filing?.descriptionValues?.capital.reduce((accum, capitalData) => {
-            if (!capitalData.date || filing.description === "capital-cancellation-treasury-shares-with-date-currency-capital-figure" ||
-                filing.description === "second-filing-capital-cancellation-treasury-shares-with-date-currency-capital-figure") {
-                return `${accum}, ${capitalData.currency} ${capitalData.figure}`;
-            } else {
-                return `${accum}, ${capitalData.currency} ${capitalData.figure} on ${capitalData.date}`;
-            }
-        }, "");
-    }
-    return removeAsterisks(filingHistoryDescription);
-};
-
-export const replaceVariables = (key, val, newObj) => {
-    const value = key.includes("date") ? mapDateFullMonth(val) : val;
-    return newObj.replace("{" + key + "}", value as string);
-};
-
-export const removeAsterisks = (description: string) => {
-    return description.replace(/\*/g, "");
-};
-
 export const addCurrencySymbol = (cost: string) => {
     return "£" + cost;
 };
@@ -116,15 +60,6 @@ export const mapDate = (dateString: string): string => {
     const d = new Date(dateString);
     const year = new Intl.DateTimeFormat("en", { year: "numeric" }).format(d);
     const month = new Intl.DateTimeFormat("en", { month: "short" }).format(d);
-    const day = new Intl.DateTimeFormat("en", { day: "2-digit" }).format(d);
-
-    return `${day} ${month} ${year}`;
-};
-
-export const mapDateFullMonth = (dateString: string): string => {
-    const d = new Date(dateString);
-    const year = new Intl.DateTimeFormat("en", { year: "numeric" }).format(d);
-    const month = new Intl.DateTimeFormat("en", { month: "long" }).format(d);
     const day = new Intl.DateTimeFormat("en", { day: "2-digit" }).format(d);
 
     return `${day} ${month} ${year}`;

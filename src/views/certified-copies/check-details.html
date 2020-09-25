@@ -76,7 +76,7 @@
                       <tr class="govuk-table__row">
                         <td class="govuk-table__cell" id="filingHistoryDateValue{{loop.index}}">{{ filingHistoryDocument.filingHistoryDate }}</td>
                         <td class="govuk-table__cell" id="filingHistoryTypeValue{{loop.index}}">{{ filingHistoryDocument.filingHistoryType }}</td>
-                        <td class="govuk-table__cell" id="filingHistoryDescriptionValue{{loop.index}}">{{ filingHistoryDocument.filingHistoryDescription }}</td>
+                        <td class="govuk-table__cell" id="filingHistoryDescriptionValue{{loop.index}}">{{ filingHistoryDocument.filingHistoryDescription | safe}}</td>
                         <td class="govuk-table__cell" id="filingHistoryFeeValue{{loop.index}}">{{ filingHistoryDocument.filingHistoryCost }}</td>
                       </tr>
                       {% endfor %}
