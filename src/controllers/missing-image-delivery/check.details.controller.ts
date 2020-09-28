@@ -1,0 +1,19 @@
+import { NextFunction, Request, Response } from "express";
+import { MISSING_IMAGE_DELIVERY_CHECK_DETAILS } from "../../model/template.paths";
+import { getAccessToken, getUserId } from "../../session/helper";
+import { APPLICATION_NAME } from "../../config/config";
+import { createLogger } from "ch-structured-logging";
+
+const logger = createLogger(APPLICATION_NAME);
+
+export default async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const userId = getUserId(req.session);
+        const accessToken: string = getAccessToken(req.session);
+
+        return res.render(MISSING_IMAGE_DELIVERY_CHECK_DETAILS);
+    } catch (err) {
+        logger.error(`${err}`);
+        next(err);
+    }
+};

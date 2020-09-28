@@ -4,6 +4,7 @@ import { BasketItem, ItemUriPostRequest, Basket, BasketPatchRequest } from "ch-s
 import { CertificateItemPostRequest, CertificateItemPatchRequest, CertificateItem } from "ch-sdk-node/dist/services/order/certificates/types";
 import { CertifiedCopyItem, CertifiedCopyItemResource } from "ch-sdk-node/dist/services/order/certified-copies/types";
 import { Filing } from "ch-sdk-node/dist/services/filing-history";
+import { ScudItemPostRequest, ScudItem } from "ch-sdk-node/dist/services/order/scud/types";
 import { API_KEY, API_URL, APPLICATION_NAME } from "../config/config";
 import { createLogger } from "ch-structured-logging";
 import Resource from "ch-sdk-node/dist/services/resource";
@@ -91,6 +92,16 @@ export const getCertifiedCopyItem = async (oAuth: string, certifiedCopyId: strin
     }
     logger.info(`Get certified copy item, certified_copy_item_id=${certifiedCopyId}, status_code=${certifiedCopyItemResource.httpStatusCode}`);
     return certifiedCopyItemResource.resource as CertifiedCopyItem;
+};
+
+export const postMissingImageDeliveryItem = async (oAuth: string, missingImageDeliveryItem: ScudItemPostRequest): Promise<ScudItem> => {
+    const api = createApiClient(undefined, oAuth, API_URL);
+    const missingImageDeliveryItemResource: Resource<ScudItem> = await api.scud.postScud(missingImageDeliveryItem);
+    if (missingImageDeliveryItemResource.httpStatusCode !== 200 && missingImageDeliveryItemResource.httpStatusCode !== 201) {
+        throw createError(missingImageDeliveryItemResource.httpStatusCode, missingImageDeliveryItemResource.httpStatusCode.toString());
+    }
+    logger.info(`Create Missing Image Delivery, status_code=${missingImageDeliveryItemResource.httpStatusCode}`);
+    return missingImageDeliveryItemResource.resource as ScudItem;
 };
 
 export const getFilingHistoryById = async (oAuth: string, companyNumber: string, filingHistoryId: string) : Promise<Filing> => {

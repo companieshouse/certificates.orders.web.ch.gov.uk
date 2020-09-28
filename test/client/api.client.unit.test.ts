@@ -8,9 +8,11 @@ import { CertificateItemPostRequest, CertificateItem } from "ch-sdk-node/dist/se
 import { CertifiedCopyItem, CertifiedCopyItemResource } from "ch-sdk-node/dist/services/order/certified-copies/types";
 import { Basket, BasketPatchRequest } from "ch-sdk-node/dist/services/order/basket/types";
 
-import { postCertificateItem, patchBasket, getBasket, getCompanyProfile, getCertifiedCopyItem } from "../../src/client/api.client";
+import { postCertificateItem, patchBasket, getBasket, getCompanyProfile, getCertifiedCopyItem, postMissingImageDeliveryItem } from "../../src/client/api.client";
 import CompanyProfileService from "ch-sdk-node/dist/services/company-profile/service";
 import { CompanyProfile } from "ch-sdk-node/dist/services/company-profile/types";
+import { ScudService } from "ch-sdk-node/dist/services/order";
+import { ScudItem, ScudItemPostRequest } from "ch-sdk-node/dist/services/order/scud/types";
 
 const dummyBasketSDKResponse: Resource<Basket> = {
     httpStatusCode: 200,
@@ -178,6 +180,50 @@ const dummyCertifiedCopyItemSDKResponse: Resource<CertifiedCopyItem> = {
     }
 };
 
+const dummyMissingImageDeliveryItemSDKResponse: Resource<ScudItem> = {
+    httpStatusCode: 200,
+    resource: {
+        companyName: "Company Name",
+        companyNumber: "00000000",
+        customerReference: "1133XR",
+        description: "missing-image-delivery",
+        descriptionIdentifier: "missing-image-delivery",
+        descriptionValues: {
+            item: "missing-image-delivery"
+        },
+        etag: "33a64df551425fcc55e4d42a148795d9f25f89d4",
+        id: "MID00000000000000004",
+        itemCosts: [],
+        itemOptions: {
+            filingHistoryDate: "2010-02-12",
+            filingHistoryDescription: "change-person-director-company-with-change-date",
+            filingHistoryDescriptionValues: {
+                changeDate: "2010-02-12",
+                officerName: "Thomas David Wheare"
+            },
+            filingHistoryId: "MzAwOTM2MDg5OWFkaXF6a2N4",
+            filingHistoryType: "CH01"
+        },
+        kind: "item#missing-image-delivery",
+        links: {
+            self: "/missing-image-delivery"
+        },
+        postageCost: "0",
+        postalDelivery: false,
+        quantity: 1,
+        totalItemCost: "50"
+    }
+};
+
+const missingImageDeliveryItemRequest: ScudItemPostRequest = {
+    companyNumber: "1471",
+    customerReference: "reference",
+    itemOptions: {
+        filingHistoryId: "MzAwOTM2MDg5OWFkaXF6a2N4"
+    },
+    quantity: 1
+};
+
 const sandbox = sinon.createSandbox();
 
 describe("api.client", () => {
@@ -227,6 +273,15 @@ describe("api.client", () => {
             sandbox.stub(CertifiedCopyItemService.prototype, "getCertifiedCopy").returns(Promise.resolve(dummyCertifiedCopyItemSDKResponse));
             const certifiedCopyItem = await getCertifiedCopyItem("oauth", "CRT-360615-955167");
             chai.expect(certifiedCopyItem).to.equal(dummyCertifiedCopyItemSDKResponse.resource);
+        });
+    });
+
+    describe("postMissingImageDeliveryItem", () => {
+        it("returns a Missing Image Delivery Item object", async () => {
+            sandbox.stub(ScudService.prototype, "postScud")
+                .returns(Promise.resolve(dummyMissingImageDeliveryItemSDKResponse));
+            const missingImageDeliveryItem = await postMissingImageDeliveryItem("oauth", missingImageDeliveryItemRequest);
+            chai.expect(missingImageDeliveryItem).to.equal(dummyMissingImageDeliveryItemSDKResponse.resource);
         });
     });
 });
