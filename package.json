@@ -16,7 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "ch-node-session-handler": "git+ssh://git@github.com/companieshouse/node-session-handler.git#3.0.1",
-    "ch-sdk-node": "git+ssh://git@github.com/companieshouse/ch-sdk-node.git#0.2.23",
+    "ch-sdk-node": "git+ssh://git@github.com/companieshouse/ch-sdk-node.git#0.2.25",
     "ch-structured-logging": "git+ssh://git@github.com/companieshouse/ch-structured-logging-node.git#15a811238ceb58988ab755229a5c07b9500200f2",
     "cookie-parser": "~1.4.4",
     "express": "~4.17.1",
