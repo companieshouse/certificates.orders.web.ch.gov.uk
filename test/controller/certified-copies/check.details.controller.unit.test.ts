@@ -3,11 +3,18 @@ import sinon from "sinon";
 
 import { mapFilingHistoriesDocuments } from "../../../src/controllers/certified-copies/check.details.controller";
 import * as apiEnumerations from "../../../src/config/api.enumerations";
-import { 
+import {
     mapFilingHistoryDescriptionValues, removeAsterisks, addCurrencySymbol, mapDate, mapDateFullMonth 
 } from "../../../src/service/map.filing.history.service";
 
+const sandbox = sinon.createSandbox();
+
 describe("certified-copies.check.details.controller.unit", () => {
+    afterEach(() => {
+        sandbox.reset();
+        sandbox.restore();
+    });
+
     describe("mapFilingHistoryDescriptionValues", () => {
         it("should return the description in the descriptionValues if it is present", () => {
             const description = "legacy";
@@ -74,7 +81,7 @@ describe("certified-copies.check.details.controller.unit", () => {
                 filingHistoryType: "CH01",
                 filingHistoryCost: "15"
             }];
-            sinon.stub(apiEnumerations, "getFullFilingHistoryDescription")
+            sandbox.stub(apiEnumerations, "getFullFilingHistoryDescription")
                 .returns("Appointment of {officer_name} as a director on {change_date}");
             const result = mapFilingHistoriesDocuments(filingHistoryDocuments);
 

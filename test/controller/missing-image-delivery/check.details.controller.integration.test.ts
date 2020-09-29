@@ -14,7 +14,7 @@ const sandbox = sinon.createSandbox();
 let testApp = null;
 let getMissingImageDeliveryItem;
 
-describe("check.details.controller.integration", () => {
+describe("mid.check.details.controller.integration", () => {
     beforeEach((done) => {
         sandbox.reset();
         sandbox.restore();
@@ -52,14 +52,14 @@ describe("check.details.controller.integration", () => {
                 ],
                 totalItemCost: "3",
                 itemOptions: {
-                        filingHistoryDate: "2010-02-12",
-                        filingHistoryDescription: "change-person-director-company-with-change-date",
-                        filingHistoryDescriptionValues: {
-                            change_date: "2010-02-12",
-                            officer_name: "Thomas David Wheare"
-                        },
-                        filingHistoryId: "MzAwOTM2MDg5OWFkaXF6a2N4",
-                        filingHistoryType: "CH01",
+                    filingHistoryDate: "2010-02-12",
+                    filingHistoryDescription: "change-person-director-company-with-change-date",
+                    filingHistoryDescriptionValues: {
+                        change_date: "2010-02-12",
+                        officer_name: "Thomas David Wheare"
+                    },
+                    filingHistoryId: "MzAwOTM2MDg5OWFkaXF6a2N4",
+                    filingHistoryType: "CH01"
                 },
                 kind: "kind",
                 links: {
@@ -67,18 +67,18 @@ describe("check.details.controller.integration", () => {
                 },
                 postageCost: "4",
                 postalDelivery: false,
-                quantity: 1,
+                quantity: 1
             } as MidItem;
 
             getMissingImageDeliveryItem = sandbox.stub(apiClient, "getMissingImageDeliveryItem")
                 .returns(Promise.resolve(missingImageDeliveryItem));
-            
+
             const resp = await chai.request(testApp)
                 .get(CHECK_DETAILS_URL)
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
 
             const $ = cheerio.load(resp.text);
-                
+
             chai.expect(resp.status).to.equal(200);
             chai.expect($(".govuk-heading-xl").text()).to.equal("Confirm this is the document you want to order");
             chai.expect($("#companyNameValue").text().trim()).to.equal(missingImageDeliveryItem.companyName);
