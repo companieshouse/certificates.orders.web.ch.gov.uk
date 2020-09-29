@@ -1,12 +1,11 @@
 import { expect } from "chai";
 import sinon from "sinon";
 
-import {
-    mapFilingHistoryDescriptionValues, removeAsterisks, mapDate, mapDateFullMonth,
-    mapFilingHistoriesDocuments,
-    addCurrencySymbol
-} from "../../../src/controllers/certified-copies/check.details.controller";
+import { mapFilingHistoriesDocuments } from "../../../src/controllers/certified-copies/check.details.controller";
 import * as apiEnumerations from "../../../src/config/api.enumerations";
+import { 
+    mapFilingHistoryDescriptionValues, removeAsterisks, addCurrencySymbol, mapDate, mapDateFullMonth 
+} from "../../../src/service/map.filing.history.service";
 
 describe("certified-copies.check.details.controller.unit", () => {
     describe("mapFilingHistoryDescriptionValues", () => {

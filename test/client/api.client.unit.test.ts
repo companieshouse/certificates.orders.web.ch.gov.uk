@@ -8,11 +8,11 @@ import { CertificateItemPostRequest, CertificateItem } from "ch-sdk-node/dist/se
 import { CertifiedCopyItem, CertifiedCopyItemResource } from "ch-sdk-node/dist/services/order/certified-copies/types";
 import { Basket, BasketPatchRequest } from "ch-sdk-node/dist/services/order/basket/types";
 
-import { postCertificateItem, patchBasket, getBasket, getCompanyProfile, getCertifiedCopyItem, postMissingImageDeliveryItem } from "../../src/client/api.client";
+import { postCertificateItem, patchBasket, getBasket, getCompanyProfile, getCertifiedCopyItem, postMissingImageDeliveryItem, getMissingImageDeliveryItem } from "../../src/client/api.client";
 import CompanyProfileService from "ch-sdk-node/dist/services/company-profile/service";
 import { CompanyProfile } from "ch-sdk-node/dist/services/company-profile/types";
-import { ScudService } from "ch-sdk-node/dist/services/order";
-import { ScudItem, ScudItemPostRequest } from "ch-sdk-node/dist/services/order/scud/types";
+import { MidService } from "ch-sdk-node/dist/services/order";
+import { MidItem, MidItemPostRequest } from "ch-sdk-node/dist/services/order/mid/types";
 
 const dummyBasketSDKResponse: Resource<Basket> = {
     httpStatusCode: 200,
@@ -180,7 +180,7 @@ const dummyCertifiedCopyItemSDKResponse: Resource<CertifiedCopyItem> = {
     }
 };
 
-const dummyMissingImageDeliveryItemSDKResponse: Resource<ScudItem> = {
+const dummyMissingImageDeliveryItemSDKResponse: Resource<MidItem> = {
     httpStatusCode: 200,
     resource: {
         companyName: "Company Name",
@@ -215,7 +215,7 @@ const dummyMissingImageDeliveryItemSDKResponse: Resource<ScudItem> = {
     }
 };
 
-const missingImageDeliveryItemRequest: ScudItemPostRequest = {
+const missingImageDeliveryItemRequest: MidItemPostRequest = {
     companyNumber: "1471",
     customerReference: "reference",
     itemOptions: {
@@ -278,10 +278,19 @@ describe("api.client", () => {
 
     describe("postMissingImageDeliveryItem", () => {
         it("returns a Missing Image Delivery Item object", async () => {
-            sandbox.stub(ScudService.prototype, "postScud")
+            sandbox.stub(MidService.prototype, "postMid")
                 .returns(Promise.resolve(dummyMissingImageDeliveryItemSDKResponse));
             const missingImageDeliveryItem = await postMissingImageDeliveryItem("oauth", missingImageDeliveryItemRequest);
             chai.expect(missingImageDeliveryItem).to.equal(dummyMissingImageDeliveryItemSDKResponse.resource);
+        });
+    });
+
+    describe("getMissingImageDeliveryItem", () => {
+        it("returns a missing image delivery item", async () => {
+            sandbox.stub(MidService.prototype, "getMid")
+                .returns(Promise.resolve(dummyMissingImageDeliveryItemSDKResponse));
+                const missingImageDeliveryItem = await getMissingImageDeliveryItem("oauth", "MID-360615-955167");
+                chai.expect(missingImageDeliveryItem).to.equal(dummyMissingImageDeliveryItemSDKResponse.resource);
         });
     });
 });

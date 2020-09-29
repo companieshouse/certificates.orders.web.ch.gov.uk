@@ -3,11 +3,11 @@ import { CompanyProfile, CompanyProfileResource } from "ch-sdk-node/dist/service
 import { BasketItem, ItemUriPostRequest, Basket, BasketPatchRequest } from "ch-sdk-node/dist/services/order/basket/types";
 import { CertificateItemPostRequest, CertificateItemPatchRequest, CertificateItem } from "ch-sdk-node/dist/services/order/certificates/types";
 import { CertifiedCopyItem, CertifiedCopyItemResource } from "ch-sdk-node/dist/services/order/certified-copies/types";
-import { ScudItemPostRequest, ScudItem } from "ch-sdk-node/dist/services/order/scud/types";
 import { API_KEY, API_URL, APPLICATION_NAME } from "../config/config";
 import { createLogger } from "ch-structured-logging";
 import Resource from "ch-sdk-node/dist/services/resource";
 import createError from "http-errors";
+import { MidItemPostRequest, MidItem } from "ch-sdk-node/dist/services/order/mid/types";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -93,12 +93,22 @@ export const getCertifiedCopyItem = async (oAuth: string, certifiedCopyId: strin
     return certifiedCopyItemResource.resource as CertifiedCopyItem;
 };
 
-export const postMissingImageDeliveryItem = async (oAuth: string, missingImageDeliveryItem: ScudItemPostRequest): Promise<ScudItem> => {
+export const postMissingImageDeliveryItem = async (oAuth: string, missingImageDeliveryItem: MidItemPostRequest): Promise<MidItem> => {
     const api = createApiClient(undefined, oAuth, API_URL);
-    const missingImageDeliveryItemResource: Resource<ScudItem> = await api.scud.postScud(missingImageDeliveryItem);
+    const missingImageDeliveryItemResource: Resource<MidItem> = await api.mid.postMid(missingImageDeliveryItem);
     if (missingImageDeliveryItemResource.httpStatusCode !== 200 && missingImageDeliveryItemResource.httpStatusCode !== 201) {
         throw createError(missingImageDeliveryItemResource.httpStatusCode, missingImageDeliveryItemResource.httpStatusCode.toString());
     }
     logger.info(`Create Missing Image Delivery, status_code=${missingImageDeliveryItemResource.httpStatusCode}`);
-    return missingImageDeliveryItemResource.resource as ScudItem;
+    return missingImageDeliveryItemResource.resource as MidItem;
+};
+
+export const getMissingImageDeliveryItem = async (oAuth: string, missingImageDeliveryId: string): Promise<MidItem> => {
+    const api = createApiClient(undefined, oAuth, API_URL);
+    const midItemResource: Resource<MidItem> = await api.mid.getMid(missingImageDeliveryId);
+    if(midItemResource.httpStatusCode !== 200 && midItemResource.httpStatusCode !==201) {
+        throw createError(midItemResource.httpStatusCode, midItemResource.httpStatusCode.toString());
+    }
+    logger.info(`Get missing image delivery item, missing_image_delivery_id=${missingImageDeliveryId}, status_code=${midItemResource.httpStatusCode}`);
+    return midItemResource.resource as MidItem;
 };
