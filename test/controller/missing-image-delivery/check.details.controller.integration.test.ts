@@ -35,7 +35,7 @@ describe("check.details.controller.integration", () => {
             const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect($(".govuk-heading-xl").text()).to.equal("Request a document");
+            chai.expect($(".govuk-heading-xl").text()).to.equal("Confirm this is the document you want to order");
         });
     });
 });
