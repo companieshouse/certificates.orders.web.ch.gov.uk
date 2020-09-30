@@ -4,7 +4,7 @@ import sinon from "sinon";
 import { mapFilingHistoriesDocuments } from "../../../src/controllers/certified-copies/check.details.controller";
 import * as apiEnumerations from "../../../src/config/api.enumerations";
 import {
-    mapFilingHistoryDescriptionValues, removeAsterisks, addCurrencySymbol, mapDate, mapDateFullMonth 
+    mapFilingHistoryDescriptionValues, removeAsterisks, addCurrencySymbol, mapDate, mapDateFullMonth
 } from "../../../src/service/map.filing.history.service";
 
 const sandbox = sinon.createSandbox();

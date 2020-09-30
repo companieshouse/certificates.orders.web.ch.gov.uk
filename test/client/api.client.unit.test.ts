@@ -289,8 +289,8 @@ describe("api.client", () => {
         it("returns a missing image delivery item", async () => {
             sandbox.stub(MidService.prototype, "getMid")
                 .returns(Promise.resolve(dummyMissingImageDeliveryItemSDKResponse));
-                const missingImageDeliveryItem = await getMissingImageDeliveryItem("oauth", "MID-360615-955167");
-                chai.expect(missingImageDeliveryItem).to.equal(dummyMissingImageDeliveryItemSDKResponse.resource);
+            const missingImageDeliveryItem = await getMissingImageDeliveryItem("oauth", "MID-360615-955167");
+            chai.expect(missingImageDeliveryItem).to.equal(dummyMissingImageDeliveryItemSDKResponse.resource);
         });
     });
 });

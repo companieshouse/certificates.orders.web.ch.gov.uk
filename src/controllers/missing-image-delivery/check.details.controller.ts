@@ -15,7 +15,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userId = getUserId(req.session);
         const accessToken: string = getAccessToken(req.session);
-        const midID: string = req.params.missingImageDeliveryId
+        const midID: string = req.params.missingImageDeliveryId;
         const missingImageDeliveryItem: MidItem = await getMissingImageDeliveryItem(accessToken, midID);
 
         const descriptionFromFile = getFullFilingHistoryDescription(missingImageDeliveryItem.itemOptions.filingHistoryDescription);

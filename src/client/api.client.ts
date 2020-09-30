@@ -106,7 +106,7 @@ export const postMissingImageDeliveryItem = async (oAuth: string, missingImageDe
 export const getMissingImageDeliveryItem = async (oAuth: string, missingImageDeliveryId: string): Promise<MidItem> => {
     const api = createApiClient(undefined, oAuth, API_URL);
     const midItemResource: Resource<MidItem> = await api.mid.getMid(missingImageDeliveryId);
-    if(midItemResource.httpStatusCode !== 200 && midItemResource.httpStatusCode !==201) {
+    if (midItemResource.httpStatusCode !== 200 && midItemResource.httpStatusCode !== 201) {
         throw createError(midItemResource.httpStatusCode, midItemResource.httpStatusCode.toString());
     }
     logger.info(`Get missing image delivery item, missing_image_delivery_id=${missingImageDeliveryId}, status_code=${midItemResource.httpStatusCode}`);
