@@ -28,11 +28,12 @@ export default async (req: Request, res: Response, next: NextFunction) => {
             "private-unlimited-nsc"
         ];
         const startNowUrl = replaceCompanyNumber(CERTIFICATE_TYPE, companyNumber);
+        const SERVICE_URL = `/company/${companyNumber}/orderable/certificates`;
 
         const allow: boolean = acceptableCompanyTypes.some(type => type === companyType);
 
         if (allow && companyStatus === "active") {
-            res.render("certificates/index", { startNowUrl, companyNumber });
+            res.render("certificates/index", { startNowUrl, companyNumber, SERVICE_URL });
         } else {
             const SERVICE_NAME = null;
             res.render(YOU_CANNOT_USE_THIS_SERVICE, { SERVICE_NAME });

@@ -20,11 +20,13 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const userId = getUserId(req.session);
         const accessToken: string = getAccessToken(req.session);
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
+        const SERVICE_URL = `/company/${certificateItem.companyNumber}/orderable/certificates`;
         logger.info(`Certificate item retrieved, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
         return res.render(CERTIFICATE_OPTIONS, {
             companyNumber: certificateItem.companyNumber,
             itemOptions: certificateItem.itemOptions,
-            templateName: CERTIFICATE_OPTIONS
+            templateName: CERTIFICATE_OPTIONS,
+            SERVICE_URL
         });
     } catch (err) {
         logger.error(`Error retrieving certificate item, ${err}`);

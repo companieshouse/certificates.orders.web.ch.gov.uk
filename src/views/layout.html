@@ -34,23 +34,13 @@
 
 {% block header %}
   {% include "includes/cookie-banner.html" %}
-  {% if SERVICE_NAME == "Request a document" %}
     {{ chHeader({
       homepageUrl: "/",
       serviceName: SERVICE_NAME,
-      serviceUrl: "/company/" + companyNumber + "/filing-history",
+      serviceUrl: SERVICE_URL,
       containerClasses: "govuk-width-container",
       assetPath: ""
     }) }}
-  {% else %}  
-    {{ chHeader({
-      homepageUrl: "/",
-      serviceName: SERVICE_NAME,
-      serviceUrl: "/company/" + companyNumber + "/orderable" + SERVICE_PATH,
-      containerClasses: "govuk-width-container",
-      assetPath: ""
-    }) }}
-  {% endif %}
 {% endblock %}
 
 {% block footer %}

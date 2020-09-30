@@ -31,6 +31,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const certifiedCopyItem:CertifiedCopyItem = await getCertifiedCopyItem(accessToken, certifiedCopyItemId);
         const companyNumber:string = certifiedCopyItem.companyNumber;
         const backLink: string = `/company/${companyNumber}/certified-documents`;
+        const SERVICE_URL = `/company/${companyNumber}/orderable/certified-copies`;
         return res.render(DELIVERY_DETAILS, {
             firstName: basket.deliveryDetails?.forename,
             lastName: basket.deliveryDetails?.surname,
@@ -42,6 +43,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             addressPostcode: basket.deliveryDetails?.postalCode,
             addressCounty: basket.deliveryDetails?.region,
             backLink,
+            SERVICE_URL,
             companyNumber,
             templateName: DELIVERY_DETAILS
         });
@@ -67,6 +69,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
     const addressCounty: string = req.body[ADDRESS_COUNTY_FIELD];
     const addressPostcode: string = req.body[ADDRESS_POSTCODE_FIELD];
     const addressCountry: string = req.body[ADDRESS_COUNTRY_FIELD];
+    const SERVICE_URL = `/company/${companyNumber}/orderable/certified-copies`;
 
     if (!errors.isEmpty()) {
         return res.render(DELIVERY_DETAILS, {
@@ -81,7 +84,8 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
             lastName,
             backLink,
             companyNumber,
-            templateName: (DELIVERY_DETAILS)
+            templateName: (DELIVERY_DETAILS),
+            SERVICE_URL
         });
     }
     try {

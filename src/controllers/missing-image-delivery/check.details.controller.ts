@@ -17,6 +17,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const accessToken: string = getAccessToken(req.session);
         const midID: string = req.params.missingImageDeliveryId;
         const missingImageDeliveryItem: MidItem = await getMissingImageDeliveryItem(accessToken, midID);
+        const SERVICE_URL = `/company/${missingImageDeliveryItem.companyNumber}/filing-history`;
 
         const descriptionFromFile = getFullFilingHistoryDescription(missingImageDeliveryItem.itemOptions.filingHistoryDescription);
         const mappedFilingHistoryDescription = mapFilingHistoryDescriptionValues(descriptionFromFile, missingImageDeliveryItem.itemOptions.filingHistoryDescriptionValues || {});
@@ -24,7 +25,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 
         return res.render(MISSING_IMAGE_DELIVERY_CHECK_DETAILS, {
             backUrl: replaceCompanyNumberAndFilingHistoryId(ROOT_MISSING_IMAGE_DELIVERY, missingImageDeliveryItem.companyNumber, missingImageDeliveryItem.itemOptions.filingHistoryId),
-            serviceUrl: "test",
+            SERVICE_URL,
             companyName: missingImageDeliveryItem.companyName,
             companyNumber: missingImageDeliveryItem.companyNumber,
             filingHistoryDate: mapDate(missingImageDeliveryItem.itemOptions.filingHistoryDate),

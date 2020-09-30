@@ -27,6 +27,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const accessToken: string = getAccessToken(req.session);
         const basket: Basket = await getBasket(accessToken);
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
+        const SERVICE_URL = `/company/${certificateItem.companyNumber}/orderable/certificates`;
         logger.info(`Get certificate item, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
         return res.render(DELIVERY_DETAILS, {
             firstName: basket.deliveryDetails?.forename,
@@ -40,6 +41,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             addressCounty: basket.deliveryDetails?.region,
             companyNumber: certificateItem.companyNumber,
             templateName: DELIVERY_DETAILS,
+            SERVICE_URL,
             backLink
         });
     } catch (err) {
@@ -63,6 +65,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
     if (!errors.isEmpty()) {
         const accessToken: string = getAccessToken(req.session);
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
+        const SERVICE_URL = `/company/${certificateItem.companyNumber}/orderable/certificates`;
 
         return res.render(DELIVERY_DETAILS, {
             ...errorList,
@@ -76,6 +79,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
             firstName,
             lastName,
             templateName: (DELIVERY_DETAILS),
+            SERVICE_URL,
             backLink
         });
     }

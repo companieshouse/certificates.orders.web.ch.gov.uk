@@ -19,6 +19,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const accessToken: string = getAccessToken(req.session);
         const certifiedCopyItem: CertifiedCopyItem = await getCertifiedCopyItem(accessToken, req.params.certifiedCopyId);
         const basket: Basket = await getBasket(accessToken);
+        const SERVICE_URL = `/company/${certifiedCopyItem.companyNumber}/orderable/certified-copies`;
 
         res.render(CERTIFIED_COPY_CHECK_DETAILS, {
             backUrl: replaceCertifiedCopyId(CERTIFIED_COPY_DELIVERY_DETAILS, req.params.certifiedCopyId),
@@ -27,7 +28,8 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             deliveryMethod: mapDeliveryMethod(certifiedCopyItem.itemOptions),
             deliveryDetails: mapDeliveryDetails(basket.deliveryDetails),
             filingHistoryDocuments: mapFilingHistoriesDocuments(certifiedCopyItem.itemOptions.filingHistoryDocuments),
-            totalCost: addCurrencySymbol(certifiedCopyItem.totalItemCost)
+            totalCost: addCurrencySymbol(certifiedCopyItem.totalItemCost),
+            SERVICE_URL
         });
     } catch (err) {
         logger.error(`${err}`);

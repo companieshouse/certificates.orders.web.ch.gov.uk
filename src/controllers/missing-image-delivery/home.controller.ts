@@ -6,6 +6,7 @@ export default async (req: Request, res: Response) => {
     const companyNumber: string = req.params.companyNumber;
     const filingHistoryId: string = req.params.filingHistoryId;
     const startNowUrl: string = replaceCompanyNumberAndFilingHistoryId(MISSING_IMAGE_DELIVERY_CREATE, companyNumber, filingHistoryId);
+    const SERVICE_URL = `/company/${companyNumber}/filing-history`;
 
-    res.render(MISSING_IMAGE_DELIVERY_INDEX, { companyNumber, startNowUrl });
+    res.render(MISSING_IMAGE_DELIVERY_INDEX, { companyNumber, startNowUrl, SERVICE_URL });
 };
