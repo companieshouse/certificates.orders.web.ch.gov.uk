@@ -16,12 +16,13 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const companyProfile: CompanyProfile = await getCompanyProfile(API_KEY, companyNumber);
         const companyType = companyProfile.type;
         const filingHistory = companyProfile.links.filingHistory;
+        const SERVICE_URL = `/company/${companyNumber}/orderable/certified-copies`;
 
         if (!filingHistory || (filingHistory && companyType === "uk-establishment")) {
             const SERVICE_NAME = null;
             res.render(YOU_CANNOT_USE_THIS_SERVICE, { SERVICE_NAME });
         } else {
-            res.render(CERTIFIED_COPY_INDEX, { startNowUrl, companyNumber });
+            res.render(CERTIFIED_COPY_INDEX, { startNowUrl, companyNumber, SERVICE_URL });
         }
     } catch (err) {
         logger.error(`${err}`);

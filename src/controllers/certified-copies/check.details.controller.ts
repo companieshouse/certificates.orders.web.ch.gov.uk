@@ -10,6 +10,7 @@ import { APPLICATION_NAME, CHS_URL } from "../../config/config";
 import { getCertifiedCopyItem, getBasket, addItemToBasket } from "../../client/api.client";
 import { mapDeliveryDetails, mapDeliveryMethod } from "../../utils/check.details.utils";
 import { getFullFilingHistoryDescription } from "../../config/api.enumerations";
+import { mapFilingHistoryDescriptionValues, removeAsterisks, mapDate, addCurrencySymbol } from "../../service/map.filing.history.service";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -18,6 +19,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const accessToken: string = getAccessToken(req.session);
         const certifiedCopyItem: CertifiedCopyItem = await getCertifiedCopyItem(accessToken, req.params.certifiedCopyId);
         const basket: Basket = await getBasket(accessToken);
+        const SERVICE_URL = `/company/${certifiedCopyItem.companyNumber}/orderable/certified-copies`;
 
         res.render(CERTIFIED_COPY_CHECK_DETAILS, {
             backUrl: replaceCertifiedCopyId(CERTIFIED_COPY_DELIVERY_DETAILS, req.params.certifiedCopyId),
@@ -26,7 +28,8 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             deliveryMethod: mapDeliveryMethod(certifiedCopyItem.itemOptions),
             deliveryDetails: mapDeliveryDetails(basket.deliveryDetails),
             filingHistoryDocuments: mapFilingHistoriesDocuments(certifiedCopyItem.itemOptions.filingHistoryDocuments),
-            totalCost: addCurrencySymbol(certifiedCopyItem.totalItemCost)
+            totalCost: addCurrencySymbol(certifiedCopyItem.totalItemCost),
+            SERVICE_URL
         });
     } catch (err) {
         logger.error(`${err}`);
@@ -48,43 +51,6 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         logger.error(`error=${error}`);
         return next(error);
     }
-};
-
-export const mapFilingHistoryDescriptionValues = (description: string, descriptionValues: Record<string, string>) => {
-    if (descriptionValues.description) {
-        return descriptionValues.description;
-    } else {
-        return Object.entries(descriptionValues).reduce((newObj, [key, val]) => {
-            const value = key.includes("date") ? mapDateFullMonth(val) : val;
-            return newObj.replace("{" + key + "}", value as string);
-        }, description);
-    }
-};
-
-export const removeAsterisks = (description: string) => {
-    return description.replace(/\*/g, "");
-};
-
-export const addCurrencySymbol = (cost: string) => {
-    return "£" + cost;
-};
-
-export const mapDate = (dateString: string): string => {
-    const d = new Date(dateString);
-    const year = new Intl.DateTimeFormat("en", { year: "numeric" }).format(d);
-    const month = new Intl.DateTimeFormat("en", { month: "short" }).format(d);
-    const day = new Intl.DateTimeFormat("en", { day: "2-digit" }).format(d);
-
-    return `${day} ${month} ${year}`;
-};
-
-export const mapDateFullMonth = (dateString: string): string => {
-    const d = new Date(dateString);
-    const year = new Intl.DateTimeFormat("en", { year: "numeric" }).format(d);
-    const month = new Intl.DateTimeFormat("en", { month: "long" }).format(d);
-    const day = new Intl.DateTimeFormat("en", { day: "2-digit" }).format(d);
-
-    return `${day} ${month} ${year}`;
 };
 
 export const mapFilingHistoriesDocuments = (filingHistoryDocuments: FilingHistoryDocuments[]) => {

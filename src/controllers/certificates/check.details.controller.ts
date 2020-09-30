@@ -24,6 +24,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
         const itemOptions: ItemOptions = certificateItem.itemOptions;
         const basket: Basket = await getBasket(accessToken);
+        const SERVICE_URL = `/company/${certificateItem.companyNumber}/orderable/certificates`;
 
         return res.render(CERTIFICATE_CHECK_DETAILS, {
             companyName: certificateItem.companyName,
@@ -35,6 +36,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             changeIncludedOn: replaceCertificateId(CERTIFICATE_OPTIONS, req.params.certificateId),
             changedeliveryDetails: replaceCertificateId(CERTIFICATE_DELIVERY_DETAILS, req.params.certificateId),
             deliveryDetails: mapDeliveryDetails(basket.deliveryDetails),
+            SERVICE_URL,
             templateName: CERTIFICATE_CHECK_DETAILS
         });
     } catch (err) {

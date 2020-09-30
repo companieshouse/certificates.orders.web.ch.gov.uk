@@ -3,11 +3,11 @@ import { CompanyProfile, CompanyProfileResource } from "ch-sdk-node/dist/service
 import { BasketItem, ItemUriPostRequest, Basket, BasketPatchRequest } from "ch-sdk-node/dist/services/order/basket/types";
 import { CertificateItemPostRequest, CertificateItemPatchRequest, CertificateItem } from "ch-sdk-node/dist/services/order/certificates/types";
 import { CertifiedCopyItem, CertifiedCopyItemResource } from "ch-sdk-node/dist/services/order/certified-copies/types";
-import { MidItemPostRequest, MidItem } from "ch-sdk-node/dist/services/order/mid/types";
 import { API_KEY, API_URL, APPLICATION_NAME } from "../config/config";
 import { createLogger } from "ch-structured-logging";
 import Resource from "ch-sdk-node/dist/services/resource";
 import createError from "http-errors";
+import { MidItemPostRequest, MidItem } from "ch-sdk-node/dist/services/order/mid/types";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -101,4 +101,14 @@ export const postMissingImageDeliveryItem = async (oAuth: string, missingImageDe
     }
     logger.info(`Create Missing Image Delivery, status_code=${missingImageDeliveryItemResource.httpStatusCode}`);
     return missingImageDeliveryItemResource.resource as MidItem;
+};
+
+export const getMissingImageDeliveryItem = async (oAuth: string, missingImageDeliveryId: string): Promise<MidItem> => {
+    const api = createApiClient(undefined, oAuth, API_URL);
+    const midItemResource: Resource<MidItem> = await api.mid.getMid(missingImageDeliveryId);
+    if (midItemResource.httpStatusCode !== 200 && midItemResource.httpStatusCode !== 201) {
+        throw createError(midItemResource.httpStatusCode, midItemResource.httpStatusCode.toString());
+    }
+    logger.info(`Get missing image delivery item, missing_image_delivery_id=${missingImageDeliveryId}, status_code=${midItemResource.httpStatusCode}`);
+    return midItemResource.resource as MidItem;
 };

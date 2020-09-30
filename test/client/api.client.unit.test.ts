@@ -8,7 +8,7 @@ import { CertificateItemPostRequest, CertificateItem } from "ch-sdk-node/dist/se
 import { CertifiedCopyItem, CertifiedCopyItemResource } from "ch-sdk-node/dist/services/order/certified-copies/types";
 import { Basket, BasketPatchRequest } from "ch-sdk-node/dist/services/order/basket/types";
 
-import { postCertificateItem, patchBasket, getBasket, getCompanyProfile, getCertifiedCopyItem, postMissingImageDeliveryItem } from "../../src/client/api.client";
+import { postCertificateItem, patchBasket, getBasket, getCompanyProfile, getCertifiedCopyItem, postMissingImageDeliveryItem, getMissingImageDeliveryItem } from "../../src/client/api.client";
 import CompanyProfileService from "ch-sdk-node/dist/services/company-profile/service";
 import { CompanyProfile } from "ch-sdk-node/dist/services/company-profile/types";
 import { MidService } from "ch-sdk-node/dist/services/order";
@@ -281,6 +281,15 @@ describe("api.client", () => {
             sandbox.stub(MidService.prototype, "postMid")
                 .returns(Promise.resolve(dummyMissingImageDeliveryItemSDKResponse));
             const missingImageDeliveryItem = await postMissingImageDeliveryItem("oauth", missingImageDeliveryItemRequest);
+            chai.expect(missingImageDeliveryItem).to.equal(dummyMissingImageDeliveryItemSDKResponse.resource);
+        });
+    });
+
+    describe("getMissingImageDeliveryItem", () => {
+        it("returns a missing image delivery item", async () => {
+            sandbox.stub(MidService.prototype, "getMid")
+                .returns(Promise.resolve(dummyMissingImageDeliveryItemSDKResponse));
+            const missingImageDeliveryItem = await getMissingImageDeliveryItem("oauth", "MID-360615-955167");
             chai.expect(missingImageDeliveryItem).to.equal(dummyMissingImageDeliveryItemSDKResponse.resource);
         });
     });
