@@ -1,17 +1,17 @@
 import { NextFunction, Request, Response } from "express";
 import { MISSING_IMAGE_DELIVERY_CHECK_DETAILS } from "../../model/template.paths";
 import { getAccessToken, getUserId } from "../../session/helper";
-import { APPLICATION_NAME } from "../../config/config";
+import { APPLICATION_NAME, CHS_URL } from "../../config/config";
 import { createLogger } from "ch-structured-logging";
 import { MidItem } from "ch-sdk-node/dist/services/order/mid/types";
-import { getMissingImageDeliveryItem } from "../../client/api.client";
+import { getMissingImageDeliveryItem, addItemToBasket } from "../../client/api.client";
 import { getFullFilingHistoryDescription } from "../../config/api.enumerations";
 import { replaceCompanyNumberAndFilingHistoryId, ROOT_MISSING_IMAGE_DELIVERY } from "../../model/page.urls";
 import { mapFilingHistoryDescriptionValues, removeAsterisks, mapDate, addCurrencySymbol } from "../../service/map.filing.history.service";
 
 const logger = createLogger(APPLICATION_NAME);
 
-export default async (req: Request, res: Response, next: NextFunction) => {
+export const render = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userId = getUserId(req.session);
         const accessToken: string = getAccessToken(req.session);
@@ -38,3 +38,21 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         next(err);
     }
 };
+
+const route = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const accessToken: string = getAccessToken(req.session);
+        const missingImageDeliveryId: string = req.params.missingImageDeliveryId;
+        const userId = getUserId(req.session);
+        const resp = await addItemToBasket(
+            accessToken,
+            { itemUri: `/orderable/missing-image-deliveries/${missingImageDeliveryId}` });
+        logger.info(`item added to basket missing_image_delivery_id=${missingImageDeliveryId}, user_id=${userId}, company_number=${resp.companyNumber}, redirecting to basket`);
+        res.redirect(`${CHS_URL}/basket`);
+    } catch (error) {
+        logger.error(`error=${error}`);
+        return next(error);
+    }
+};
+
+export default [route];

@@ -14,72 +14,72 @@
 {% block content %}
    <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds-from-desktop">
+        <form method="post">
+            <h1 class="govuk-heading-xl">Confirm this is the document you want to order</h1>
 
-      <h1 class="govuk-heading-xl">Confirm this is the document you want to order</h1>
+            <h2 class="govuk-heading-m">Document details</h2>
 
-      <h2 class="govuk-heading-m">Document details</h2>
+            <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                Company name
+                </dt>
+                <dd class="govuk-summary-list__value" id="companyNameValue">
+                {{ companyName }}
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                Company number
+                </dt>
+                <dd class="govuk-summary-list__value" id="companyNumberValue">
+                {{ companyNumber }}
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                Date
+                </dt>
+                <dd class="govuk-summary-list__value" id="filingHistoryDateValue">
+                {{ filingHistoryDate }}
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                Type
+                </dt>
+                <dd class="govuk-summary-list__value" id="filingHistoryTypeValue">
+                {{ filingHistoryType }}
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                Description
+                </dt>
+                <dd class="govuk-summary-list__value" id="filingHistoryDescriptionValue">
+                {{ filingHistoryDescription }}
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                Fee
+                </dt>
+                <dd class="govuk-summary-list__value" id="totalCostValue">
+                {{ totalCost }}
+                </dd>
+            </div>
+            </dl>
+            <p class="govuk-body">
+            It takes us up to 2 hours to check if a document is available and add it to a company's filing history between 8.30am - 4pm, Monday - Friday (excluding holidays).</p>
 
-      <dl class="govuk-summary-list">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Company name
-          </dt>
-          <dd class="govuk-summary-list__value" id="companyNameValue">
-            {{ companyName }}
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Company number
-          </dt>
-          <dd class="govuk-summary-list__value" id="companyNumberValue">
-            {{ companyNumber }}
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Date
-          </dt>
-          <dd class="govuk-summary-list__value" id="filingHistoryDateValue">
-            {{ filingHistoryDate }}
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Type
-          </dt>
-          <dd class="govuk-summary-list__value" id="filingHistoryTypeValue">
-            {{ filingHistoryType }}
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Description
-          </dt>
-          <dd class="govuk-summary-list__value" id="filingHistoryDescriptionValue">
-            {{ filingHistoryDescription }}
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Fee
-          </dt>
-          <dd class="govuk-summary-list__value" id="totalCostValue">
-            {{ totalCost }}
-          </dd>
-        </div>
-      </dl>
-      <p class="govuk-body">
-        It takes us up to 2 hours to check if a document is available and add it to a company's filing history between 8.30am - 4pm, Monday - Friday (excluding holidays).</p>
+            <p class="govuk-body">If you make a request outside of this time, the document will be added the next working day.</p>
 
-        <p class="govuk-body">If you make a request outside of this time, the document will be added the next working day.</p>
-
-
-        {{ govukButton({
-          text: "Continue to payment",
-          href: "https://products.payments.service.gov.uk/pay/e4618f8b039a42799b2dd66bd5a169ac"
-        }) }}
-        <p> <a href="/" class="govuk-link govuk-link--no-visited-state">Cancel</a> </p>
+            {{ govukButton({
+                text: "Continue to payment",
+                id: "submit"
+            }) }}
+            <p> <a href="/" class="govuk-link govuk-link--no-visited-state">Cancel</a> </p>
+            </form>
     </div>
   </div>
 {% endblock %}

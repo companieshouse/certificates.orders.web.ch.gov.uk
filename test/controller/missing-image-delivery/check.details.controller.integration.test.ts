@@ -2,17 +2,21 @@ import chai from "chai";
 import sinon from "sinon";
 import ioredis from "ioredis";
 import cheerio from "cheerio";
+import { MidItem } from "ch-sdk-node/dist/services/order/mid/types";
+import { Basket, BasketItem } from "ch-sdk-node/dist/services/order/basket/types";
+
 import { MISSING_IMAGE_DELIVERY_CHECK_DETAILS, replaceMissingImageDeliveryId } from "../../../src/model/page.urls";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
-import { MidItem } from "ch-sdk-node/dist/services/order/mid/types";
 import * as apiClient from "../../../src/client/api.client";
 
 const MISSING_IMAGE_DELIVERY_ID = "MID-869116-008636";
+const ITEM_URI = "/orderable/missing-image-deliveries/MID-123456-123456";
 const CHECK_DETAILS_URL = replaceMissingImageDeliveryId(MISSING_IMAGE_DELIVERY_CHECK_DETAILS, MISSING_IMAGE_DELIVERY_ID);
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
 let getMissingImageDeliveryItem;
+let addItemToBasketStub;
 
 describe("mid.check.details.controller.integration", () => {
     beforeEach((done) => {
@@ -87,6 +91,26 @@ describe("mid.check.details.controller.integration", () => {
             chai.expect($("#filingHistoryTypeValue").text().trim()).to.equal("CH01");
             chai.expect($("#filingHistoryDescriptionValue").text().trim()).to.equal("Director's details changed for Thomas David Wheare on 12 February 2010");
             chai.expect($("#totalCostValue").text().trim()).to.equal("£3");
+        });
+    });
+
+    describe("check details post", () => {
+        it("redirects the user to orders url", async () => {
+            const itemUri = { itemUri: ITEM_URI } as BasketItem;
+            const missingImageDeliveryItem = {} as MidItem;
+
+            addItemToBasketStub = sandbox.stub(apiClient, "addItemToBasket")
+                .returns(Promise.resolve(itemUri));
+            getMissingImageDeliveryItem = sandbox.stub(apiClient, "getMissingImageDeliveryItem")
+                .returns(Promise.resolve(missingImageDeliveryItem));
+
+            const resp = await chai.request(testApp)
+                .post(CHECK_DETAILS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
+                .redirects(0);
+
+            chai.expect(resp.status).to.equal(302);
+            chai.expect(resp.text).to.contain("/basket");
         });
     });
 });
