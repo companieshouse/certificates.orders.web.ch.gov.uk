@@ -44,7 +44,7 @@ describe("create.missing.image.delivery.item.controller.integration", () => {
                 .redirects(0);
 
             chai.expect(resp.status).to.equal(302);
-            chai.expect(resp.text).to.include("Found. Redirecting to /orderable/missing-image-delivery/MID-951616-000712/check-details");
+            chai.expect(resp.text).to.include("Found. Redirecting to /orderable/missing-image-deliveries/MID-951616-000712/check-details");
         });
     });
 });

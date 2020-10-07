@@ -33,7 +33,7 @@ describe("missingImageDeliveryAuthMiddleware.auth.middleware.unit", () => {
         );
         await missingImageDeliveryAuthMiddleware(req, res, nextFunctionSpy);
         chai.expect(redirectSpy)
-            .to.have.been.calledWith("/signin?return_to=/company/00006500/orderable/missing-image-delivery/0001/create");
+            .to.have.been.calledWith("/signin?return_to=/company/00006500/orderable/missing-image-deliveries/0001/create");
     });
 
     it("should call res.redirect if there an attempt to access the create page with no session", async () => {
@@ -44,7 +44,7 @@ describe("missingImageDeliveryAuthMiddleware.auth.middleware.unit", () => {
         req.session = undefined;
         await missingImageDeliveryAuthMiddleware(req, res, nextFunctionSpy);
         chai.expect(redirectSpy)
-            .to.have.been.calledWith("/signin?return_to=/company/00006500/orderable/missing-image-delivery/0001/create");
+            .to.have.been.calledWith("/signin?return_to=/company/00006500/orderable/missing-image-deliveries/0001/create");
     });
 
     it("should call res.redirect if user is not signed in and trying to access the check details page", async () => {
@@ -61,7 +61,7 @@ describe("missingImageDeliveryAuthMiddleware.auth.middleware.unit", () => {
         );
         await missingImageDeliveryAuthMiddleware(req, res, nextFunctionSpy);
         chai.expect(redirectSpy)
-            .to.have.been.calledWith("/signin?return_to=/company/00006500/orderable/missing-image-delivery/0001/create");
+            .to.have.been.calledWith("/signin?return_to=/company/00006500/orderable/missing-image-deliveries/0001/create");
     });
 
     it("should call res.redirect if there an attempt to access the check details page with no session", async () => {
@@ -72,6 +72,6 @@ describe("missingImageDeliveryAuthMiddleware.auth.middleware.unit", () => {
         req.session = undefined;
         await missingImageDeliveryAuthMiddleware(req, res, nextFunctionSpy);
         chai.expect(redirectSpy)
-            .to.have.been.calledWith("/signin?return_to=/company/00006500/orderable/missing-image-delivery/0001/create");
+            .to.have.been.calledWith("/signin?return_to=/company/00006500/orderable/missing-image-deliveries/0001/create");
     });
 });
