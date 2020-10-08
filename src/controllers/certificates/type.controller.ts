@@ -12,18 +12,6 @@ const logger = createLogger(APPLICATION_NAME);
 const INCORPORATION_WITH_ALL_NAME_CHANGES: string = "incorporation-with-all-name-changes";
 const DISSOLUTION: string = "dissolution";
 
-const createCertificateItemRequest = (companyNumber, certificateType: string):CertificateItemPostRequest => {
-    return {
-        companyNumber,
-        itemOptions: {
-            certificateType,
-            deliveryMethod: "postal",
-            deliveryTimescale: "standard"
-        },
-        quantity: 1
-    };
-};
-
 export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const accessToken: string = getAccessToken(req.session);
@@ -48,4 +36,16 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         logger.error(`${err}`);
         next(err);
     }
+};
+
+const createCertificateItemRequest = (companyNumber, certificateType: string):CertificateItemPostRequest => {
+    return {
+        companyNumber,
+        itemOptions: {
+            certificateType,
+            deliveryMethod: "postal",
+            deliveryTimescale: "standard"
+        },
+        quantity: 1
+    };
 };
