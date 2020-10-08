@@ -7,7 +7,7 @@ import { SessionStore, SessionMiddleware, CookieConfig } from "ch-node-session-h
 
 import certRouter from "./routers/certificates/routers";
 import certCopyRouter from "./routers/certified-copies/routers";
-import missingImageDeliveryRouter from "./routers/missing-image-delivery/routers";
+import missingImageDeliveryRouter from "./routers/missing-image-deliveries/routers";
 
 import { ERROR_SUMMARY_TITLE } from "./model/error.messages";
 import * as pageUrls from "./model/page.urls";
@@ -15,7 +15,7 @@ import { createLoggerMiddleware } from "ch-structured-logging";
 import authMiddleware from "./middleware/auth.middleware";
 import authCertificateMiddleware from "./middleware/certificates/auth.middleware";
 import authCertifiedCopyMiddleware from "./middleware/certified-copies/auth.middleware";
-import authMissingImageDeliveryMiddleware from "./middleware/missing-image-delivery/auth.middleware";
+import authMissingImageDeliveryMiddleware from "./middleware/missing-image-deliveries/auth.middleware";
 
 import {
     PIWIK_SITE_ID,
@@ -84,7 +84,7 @@ app.use((req, res, next) => {
     } else if (req.path.includes("/certified-copies")) {
         env.addGlobal("SERVICE_NAME", SERVICE_NAME_CERTIFIED_COPIES);
         env.addGlobal("CERTIFIED_COPIES_PIWIK_START_GOAL_ID", CERTIFIED_COPIES_PIWIK_START_GOAL_ID);
-    } else if (req.path.includes("missing-image-delivery")) {
+    } else if (req.path.includes("missing-image-deliveries")) {
         env.addGlobal("SERVICE_NAME", SERVICE_NAME_MISSING_IMAGE_DELIVERY);
         env.addGlobal("MISSING_IMAGE_DELIVERY_PIWIK_START_GOAL_ID", MISSING_IMAGE_DELIVERY_PIWIK_START_GOAL_ID);
     } else {

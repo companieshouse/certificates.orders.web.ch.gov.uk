@@ -3,7 +3,7 @@ import sinon from "sinon";
 import { Request, Response } from "express";
 import { Session } from "ch-node-session-handler/lib/session/model/Session";
 
-import missingImageDeliveryAuthMiddleware from "../../../src/middleware/missing-image-delivery/auth.middleware";
+import missingImageDeliveryAuthMiddleware from "../../../src/middleware/missing-image-deliveries/auth.middleware";
 import * as apiClient from "../../../src/client/api.client";
 
 const sandbox = sinon.createSandbox();

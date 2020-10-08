@@ -1,6 +1,6 @@
 const certRoot = "certificates";
 const certifiedCopyRoot = "certified-copies";
-const missingImageDeliveryRoot = "missing-image-delivery";
+const missingImageDeliveryRoot = "missing-image-deliveries";
 const errorRoot = "error-pages";
 
 export const GOOD_STANDING: string = "good-standing";
