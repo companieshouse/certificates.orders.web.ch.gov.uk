@@ -9,6 +9,20 @@ import { APPLICATION_NAME, API_KEY } from "../../config/config";
 import { CompanyProfile } from "ch-sdk-node/dist/services/company-profile/types";
 
 const logger = createLogger(APPLICATION_NAME);
+const INCORPORATION_WITH_ALL_NAME_CHANGES: string = "incorporation-with-all-name-changes";
+const DISSOLUTION: string = "dissolution";
+
+const createCertificateItemRequest = (companyNumber, certificateType: string):CertificateItemPostRequest => {
+    return {
+        companyNumber,
+        itemOptions: {
+            certificateType,
+            deliveryMethod: "postal",
+            deliveryTimescale: "standard"
+        },
+        quantity: 1
+    };
+};
 
 export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
@@ -18,32 +32,15 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const companyStatus = companyProfile.companyStatus;
 
         if (companyStatus === "active") {
-            const certificateItemRequest: CertificateItemPostRequest = {
-                companyNumber,
-                itemOptions: {
-                    certificateType: "incorporation-with-all-name-changes",
-                    deliveryMethod: "postal",
-                    deliveryTimescale: "standard"
-                },
-                quantity: 1
-            };
-
+            const certificateItemRequest = createCertificateItemRequest(companyNumber, INCORPORATION_WITH_ALL_NAME_CHANGES);
             const userId = getUserId(req.session);
             const certificateItem: CertificateItem = await postCertificateItem(accessToken, certificateItemRequest);
             logger.info(`Certificate Item created, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
             res.redirect(replaceCertificateId(CERTIFICATE_OPTIONS, certificateItem.id));
         } else {
-            const certificateItemRequest: CertificateItemPostRequest = {
-                companyNumber,
-                itemOptions: {
-                    certificateType: "dissolution",
-                    deliveryMethod: "postal",
-                    deliveryTimescale: "standard"
-                },
-                quantity: 1
-            };
+            const dissolvedCertificateItemRequest = createCertificateItemRequest(companyNumber, DISSOLUTION);
             const userId = getUserId(req.session);
-            const certificateItem: CertificateItem = await postCertificateItem(accessToken, certificateItemRequest);
+            const certificateItem: CertificateItem = await postCertificateItem(accessToken, dissolvedCertificateItemRequest);
             logger.info(`Dissolved certificate Item created, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
             res.redirect(replaceCertificateId(CERTIFICATE_DELIVERY_DETAILS, certificateItem.id));
         }
