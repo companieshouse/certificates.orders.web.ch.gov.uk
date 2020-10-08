@@ -16,7 +16,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const companyNumber = req.params.companyNumber;
         const companyProfile: CompanyProfile = await getCompanyProfile(API_KEY, companyNumber);
         const companyStatus = companyProfile.companyStatus;
-       
+
         if (companyStatus === "active") {
             const certificateItemRequest: CertificateItemPostRequest = {
                 companyNumber,
@@ -27,7 +27,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
                 },
                 quantity: 1
             };
-        
+
             const userId = getUserId(req.session);
             const certificateItem: CertificateItem = await postCertificateItem(accessToken, certificateItemRequest);
             logger.info(`Certificate Item created, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);

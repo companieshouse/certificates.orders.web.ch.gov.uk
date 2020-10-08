@@ -6,7 +6,7 @@ import * as apiClient from "../../../src/client/api.client";
 import { CERTIFICATE_TYPE, replaceCertificateId } from "../../../src/model/page.urls";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
 import { CertificateItem } from "ch-sdk-node/dist/services/order/certificates/types";
-import { dummyCompanyProfileActiveCompany, dummyCompanyProfileDissolvedCompany } from "../../__mocks__/company.profile.mocks"
+import { dummyCompanyProfileActiveCompany, dummyCompanyProfileDissolvedCompany } from "../../__mocks__/company.profile.mocks";
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
@@ -42,7 +42,7 @@ describe("type.controller.integration", () => {
             postCertificateItemStub = sandbox.stub(apiClient, "postCertificateItem")
                 .returns(Promise.resolve(certificateDetails));
             getCompanyProfileStub = sandbox.stub(apiClient, "getCompanyProfile")
-            .returns(Promise.resolve(dummyCompanyProfileActiveCompany));
+                .returns(Promise.resolve(dummyCompanyProfileActiveCompany));
 
             const resp = await chai.request(testApp)
                 .get(CERTIFICATE_TYPE_URL)
