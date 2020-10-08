@@ -20,8 +20,8 @@ export const CERTIFIED_COPY_DELIVERY_DETAILS: string = ROOT_CERTIFIED_COPY_ID + 
 export const CERTIFIED_COPY_CHECK_DETAILS: string = ROOT_CERTIFIED_COPY_ID + "/check-details";
 
 // Missing image delivery section
-export const ROOT_MISSING_IMAGE_DELIVERY: string = "/company/:companyNumber/orderable/missing-image-delivery/:filingHistoryId";
-export const ROOT_MISSING_IMAGE_DELIVERY_ID: string = "/orderable/missing-image-delivery/:missingImageDeliveryId";
+export const ROOT_MISSING_IMAGE_DELIVERY: string = "/company/:companyNumber/orderable/missing-image-deliveries/:filingHistoryId";
+export const ROOT_MISSING_IMAGE_DELIVERY_ID: string = "/orderable/missing-image-deliveries/:missingImageDeliveryId";
 
 export const MISSING_IMAGE_DELIVERY_CREATE: string = ROOT_MISSING_IMAGE_DELIVERY + "/create";
 export const MISSING_IMAGE_DELIVERY_CHECK_DETAILS: string = ROOT_MISSING_IMAGE_DELIVERY_ID + "/check-details";

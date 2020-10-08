@@ -13,7 +13,7 @@ routes:
   8: /company/(.*)/orderable/certified-copies/.*
   9: /orderable/certified-copies
   10: /orderable/certified-copies/.*
-  11: /company/(.*)/orderable/missing-image-delivery
-  12: /company/(.*)/orderable/missing-image-delivery/.*
-  13: /orderable/missing-image-delivery
-  14: /orderable/missing-image-delivery/.
+  11: /company/(.*)/orderable/missing-image-deliveries
+  12: /company/(.*)/orderable/missing-image-deliveries/.*
+  13: /orderable/missing-image-deliveries
+  14: /orderable/missing-image-deliveries/.
