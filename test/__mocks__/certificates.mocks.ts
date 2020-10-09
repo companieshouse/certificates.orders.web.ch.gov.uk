@@ -1,9 +1,38 @@
 import Resource from "ch-sdk-node/dist/services/resource";
 import { CompanyProfile } from "ch-sdk-node/dist/services/company-profile";
+import { CertificateItem } from "ch-sdk-node/dist/services/order/certificates/types";
 
 export const mockCompanyProfileConfiguration: any = {
     companyNumber: "00000000"
 };
+
+export const mockBasketDetails: any = {
+    deliveryDetails: {
+        addressLine1: "117 kings road",
+        addressLine2: "pontcanna",
+        country: "wales",
+        locality: "canton",
+        postalCode: "cf5 4xb",
+        region: "glamorgan"
+    }
+};
+
+export const mockCertificateItem = {
+    companyName: "test company",
+    companyNumber: "00000000",
+    itemCosts: [
+        {
+            itemCost: "15"
+        }
+    ],
+    itemOptions: {
+        certificateType: "cert type",
+        forename: "john",
+        includeCompanyObjectsInformation: true,
+        includeGoodStandingInformation: true,
+        surname: "smith"
+    }
+} as CertificateItem;
 
 export const mockAcceptableDissolvedCompanyProfile: Resource<CompanyProfile> = {
     httpStatusCode: 200,

@@ -25,6 +25,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const itemOptions: ItemOptions = certificateItem.itemOptions;
         const basket: Basket = await getBasket(accessToken);
         const SERVICE_URL = `/company/${certificateItem.companyNumber}/orderable/certificates`;
+        const isNotDissolutionCertificateType: Boolean = itemOptions.certificateType !== "dissolution";
 
         return res.render(CERTIFICATE_CHECK_DETAILS, {
             companyName: certificateItem.companyName,
@@ -37,6 +38,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             changedeliveryDetails: replaceCertificateId(CERTIFICATE_DELIVERY_DETAILS, req.params.certificateId),
             deliveryDetails: mapDeliveryDetails(basket.deliveryDetails),
             SERVICE_URL,
+            isNotDissolutionCertificateType,
             templateName: CERTIFICATE_CHECK_DETAILS
         });
     } catch (err) {
@@ -92,6 +94,8 @@ export const mapIncludedOnCertificate = (itemOptions: ItemOptions): string => {
 export const mapCertificateType = (certificateType: string): string => {
     if (certificateType === "incorporation-with-all-name-changes") {
         return "Incorporation with all company name changes";
+    } else if (certificateType === "dissolution") {
+        return "Dissolution with all company name changes";
     }
 
     const typeCapitalised = certificateType.charAt(0).toUpperCase() +

@@ -9,6 +9,11 @@ import { CertificateItem } from "ch-sdk-node/dist/services/order/certificates/ty
 import * as apiClient from "../../../src/client/api.client";
 import { CERTIFICATE_CHECK_DETAILS, replaceCertificateId } from "../../../src/model/page.urls";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
+import {
+    mockBasketDetails,
+    mockCertificateItem,
+    mockAcceptableDissolvedCompanyProfile
+} from "../../__mocks__/certificates.mocks";
 
 const CERTIFICATE_ID = "CHS00000000000000001";
 const ITEM_URI = "/orderable/certificates/CHS00000000000000052";
@@ -76,10 +81,29 @@ describe("certificate.check.details.controller.integration", () => {
             const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("Included on certificate");
             chai.expect($(".govuk-heading-xl").text()).to.equal("Check your order details");
             chai.expect($(".govuk-heading-m").text()).to.equal("Order details");
         });
     });
+
+    /*     describe("check details for dissolved company", () => {
+        it("renders the check details get screen", async () => {
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(mockCertificateItem));
+
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve(mockBasketDetails));
+
+            const resp = await chai.request(testApp)
+                .get(CHECK_DETAILS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).not.to.contain("Included on certificate");
+            chai.expect(resp.text).to.contain("Dissolution with all company name changes");
+        });
+    }); */
 
     describe("check details post", () => {
         it("redirects the user to orders url", async () => {
