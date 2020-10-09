@@ -3,7 +3,7 @@ import { CompanyProfile } from "ch-sdk-node/dist/services/company-profile";
 
 export const mockCompanyProfileConfiguration: any = {
     companyNumber: "00000000"
-}
+};
 
 export const mockAcceptableDissolvedCompanyProfile: Resource<CompanyProfile> = {
     httpStatusCode: 200,
@@ -89,7 +89,7 @@ export const mockAcceptableNonDissolvedCompanyProfile: Resource<CompanyProfile> 
             filingHistory: "/company/00000000/filing-history"
         }
     }
-}
+};
 
 export const mockNotAcceptableDissolvedCompanyLimitedPartnershipProfile: Resource<CompanyProfile> = {
     httpStatusCode: 200,

@@ -6,10 +6,12 @@ import { ROOT_CERTIFICATE, replaceCompanyNumber } from "../../../src/model/page.
 import CompanyProfileService from "ch-sdk-node/dist/services/company-profile/service";
 import { dummyCompanyProfileAcceptableCompanyType, dummyCompanyProfileNotAcceptableCompanyType } from "../../__mocks__/company.profile.mocks";
 
-import { mockNotAcceptableDissolvedCompanyLimitedPartnershipProfile,       
-         mockAcceptableNonDissolvedCompanyProfile,
-         mockAcceptableDissolvedCompanyProfile,
-         mockCompanyProfileConfiguration } from "../../__mocks__/certificates.mocks";
+import {
+    mockNotAcceptableDissolvedCompanyLimitedPartnershipProfile,
+    mockAcceptableNonDissolvedCompanyProfile,
+    mockAcceptableDissolvedCompanyProfile,
+    mockCompanyProfileConfiguration
+} from "../../__mocks__/certificates.mocks";
 
 const COMPANY_NUMBER = "00000000";
 
@@ -58,7 +60,7 @@ describe("certificate.home.controller.integration", () => {
 
         const resp = await chai.request(testApp)
             .get(replaceCompanyNumber(ROOT_CERTIFICATE, mockCompanyProfileConfiguration.companyNumber));
- 
+
         chai.expect(resp.status).to.equal(200);
         chai.expect(resp.text).to.contain("Use this service to order a signed certificate of dissolution for a company, including all company name changes.");
         chai.expect(resp.text).not.to.contain("statement of good standing");
@@ -74,7 +76,7 @@ describe("certificate.home.controller.integration", () => {
 
         const resp = await chai.request(testApp)
             .get(replaceCompanyNumber(ROOT_CERTIFICATE, mockCompanyProfileConfiguration.companyNumber));
-        
+
         chai.expect(resp.status).to.equal(200);
         chai.expect(resp.text).to.contain("Use this service to order a signed certificate of incorporation for a company, including all company name changes.");
         chai.expect(resp.text).to.contain("statement of good standing");
