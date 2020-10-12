@@ -26,11 +26,7 @@ export const mockCertificateItem = {
         }
     ],
     itemOptions: {
-        certificateType: "cert type",
-        forename: "john",
-        includeCompanyObjectsInformation: true,
-        includeGoodStandingInformation: true,
-        surname: "smith"
+        certificateType: "dissolution"
     }
 } as CertificateItem;
 

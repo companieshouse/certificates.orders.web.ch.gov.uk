@@ -87,7 +87,7 @@ describe("certificate.check.details.controller.integration", () => {
         });
     });
 
-    /*     describe("check details for dissolved company", () => {
+    describe("check details for dissolved company", () => {
         it("renders the check details get screen", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(mockCertificateItem));
@@ -103,7 +103,7 @@ describe("certificate.check.details.controller.integration", () => {
             chai.expect(resp.text).not.to.contain("Included on certificate");
             chai.expect(resp.text).to.contain("Dissolution with all company name changes");
         });
-    }); */
+    });
 
     describe("check details post", () => {
         it("redirects the user to orders url", async () => {
