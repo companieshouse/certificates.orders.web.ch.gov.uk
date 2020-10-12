@@ -30,10 +30,10 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const startNowUrl = replaceCompanyNumber(CERTIFICATE_TYPE, companyNumber);
         const SERVICE_URL = `/company/${companyNumber}/orderable/certificates`;
 
-        if(companyStatus === "dissolved") acceptableCompanyTypes.shift(); //Remove limited-partnership from list
+        if (companyStatus === "dissolved") acceptableCompanyTypes.shift(); // Remove limited-partnership from list
 
         const allow: boolean = acceptableCompanyTypes.some(type => type === companyType);
-        
+
         if (allow && ["active", "dissolved"].includes(companyStatus)) {
             res.render("certificates/index", { companyStatus, startNowUrl, companyNumber, SERVICE_URL });
         } else {

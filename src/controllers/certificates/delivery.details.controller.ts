@@ -17,9 +17,12 @@ const ADDRESS_TOWN_FIELD: string = "addressTown";
 const ADDRESS_COUNTY_FIELD: string = "addressCounty";
 const ADDRESS_POSTCODE_FIELD: string = "addressPostcode";
 const ADDRESS_COUNTRY_FIELD: string = "addressCountry";
-const backLink: string = "certificate-options";
 
 const logger = createLogger(APPLICATION_NAME);
+
+const setBackLink = (certificateItem: CertificateItem) => {
+    return (certificateItem.itemOptions?.certificateType !== "dissolution") ? "certificate-options" : `/company/${certificateItem.companyNumber}/orderable/certificates`;
+};
 
 export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
@@ -42,7 +45,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             companyNumber: certificateItem.companyNumber,
             templateName: DELIVERY_DETAILS,
             SERVICE_URL,
-            backLink
+            backLink: setBackLink(certificateItem)
         });
     } catch (err) {
         logger.error(`${err}`);
@@ -80,7 +83,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
             lastName,
             templateName: (DELIVERY_DETAILS),
             SERVICE_URL,
-            backLink
+            backLink: setBackLink(certificateItem)
         });
     }
     try {

@@ -1,9 +1,34 @@
 import Resource from "ch-sdk-node/dist/services/resource";
 import { CompanyProfile } from "ch-sdk-node/dist/services/company-profile";
+import { CertificateItem } from "ch-sdk-node/dist/services/order/certificates/types";
 
 export const mockCompanyProfileConfiguration: any = {
     companyNumber: "00000000"
-}
+};
+
+export const mockBasketDetails: any = {
+    deliveryDetails: {
+        addressLine1: "117 kings road",
+        addressLine2: "pontcanna",
+        country: "wales",
+        locality: "canton",
+        postalCode: "cf5 4xb",
+        region: "glamorgan"
+    }
+};
+
+export const mockDissolvedCertificateItem = {
+    companyName: "test company",
+    companyNumber: "00000000",
+    itemCosts: [
+        {
+            itemCost: "15"
+        }
+    ],
+    itemOptions: {
+        certificateType: "dissolution"
+    }
+} as CertificateItem;
 
 export const mockAcceptableDissolvedCompanyProfile: Resource<CompanyProfile> = {
     httpStatusCode: 200,
@@ -89,7 +114,7 @@ export const mockAcceptableNonDissolvedCompanyProfile: Resource<CompanyProfile> 
             filingHistory: "/company/00000000/filing-history"
         }
     }
-}
+};
 
 export const mockNotAcceptableDissolvedCompanyLimitedPartnershipProfile: Resource<CompanyProfile> = {
     httpStatusCode: 200,
