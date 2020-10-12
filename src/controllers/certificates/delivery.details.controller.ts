@@ -22,7 +22,7 @@ const logger = createLogger(APPLICATION_NAME);
 
 const setBackLink = (certificateItem: CertificateItem) => {
     return (certificateItem.itemOptions?.certificateType !== "dissolution") ? "certificate-options" : `/company/${certificateItem.companyNumber}/orderable/certificates`;
-}
+};
 
 export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {

@@ -11,8 +11,7 @@ import { CERTIFICATE_CHECK_DETAILS, replaceCertificateId } from "../../../src/mo
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
 import {
     mockBasketDetails,
-    mockCertificateItem,
-    mockAcceptableDissolvedCompanyProfile
+    mockDissolvedCertificateItem
 } from "../../__mocks__/certificates.mocks";
 
 const CERTIFICATE_ID = "CHS00000000000000001";
@@ -90,7 +89,7 @@ describe("certificate.check.details.controller.integration", () => {
     describe("check details for dissolved company", () => {
         it("renders the check details get screen", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
-                .returns(Promise.resolve(mockCertificateItem));
+                .returns(Promise.resolve(mockDissolvedCertificateItem));
 
             getBasketStub = sandbox.stub(apiClient, "getBasket")
                 .returns(Promise.resolve(mockBasketDetails));

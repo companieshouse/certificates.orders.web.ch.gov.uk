@@ -17,7 +17,7 @@ export const mockBasketDetails: any = {
     }
 };
 
-export const mockCertificateItem = {
+export const mockDissolvedCertificateItem = {
     companyName: "test company",
     companyNumber: "00000000",
     itemCosts: [
