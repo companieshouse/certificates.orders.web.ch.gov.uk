@@ -30,7 +30,8 @@ import {
     SERVICE_NAME_GENERIC,
     CERTIFICATE_PIWIK_START_GOAL_ID,
     CERTIFIED_COPIES_PIWIK_START_GOAL_ID,
-    MISSING_IMAGE_DELIVERY_PIWIK_START_GOAL_ID
+    MISSING_IMAGE_DELIVERY_PIWIK_START_GOAL_ID,
+    DISSOLVED_CERTIFICATE_PIWIK_START_GOAL_ID
 } from "./config/config";
 
 const app = express();
@@ -81,6 +82,7 @@ app.use((req, res, next) => {
     if (req.path.includes("/certificates")) {
         env.addGlobal("SERVICE_NAME", SERVICE_NAME_CERTIFICATES);
         env.addGlobal("CERTIFICATE_PIWIK_START_GOAL_ID", CERTIFICATE_PIWIK_START_GOAL_ID);
+        env.addGlobal("DISSOLVED_CERTIFICATE_PIWIK_START_GOAL_ID", DISSOLVED_CERTIFICATE_PIWIK_START_GOAL_ID);
     } else if (req.path.includes("/certified-copies")) {
         env.addGlobal("SERVICE_NAME", SERVICE_NAME_CERTIFIED_COPIES);
         env.addGlobal("CERTIFIED_COPIES_PIWIK_START_GOAL_ID", CERTIFIED_COPIES_PIWIK_START_GOAL_ID);
