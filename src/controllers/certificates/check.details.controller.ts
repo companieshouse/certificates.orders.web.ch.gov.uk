@@ -9,6 +9,7 @@ import { CERTIFICATE_CHECK_DETAILS } from "../../model/template.paths";
 import { addItemToBasket, getCertificateItem, getBasket } from "../../client/api.client";
 import { CHS_URL, APPLICATION_NAME } from "../../config/config";
 import { getAccessToken, getUserId } from "../../session/helper";
+import { setServiceUrl } from "../../utils/service.url.utils";
 
 const GOOD_STANDING = "Statement of good standing";
 const REGISTERED_OFFICE_ADDRESS = "Registered office address";
@@ -18,13 +19,22 @@ const COMPANY_OBJECTS = "Company objects";
 
 const logger = createLogger(APPLICATION_NAME);
 
+const setChangeDeliveryDetails = (certificateItem: CertificateItem) => {
+    return (certificateItem.itemOptions?.certificateType !== "dissolution")
+        ? `/orderable/certificates/${certificateItem.id}/delivery-details` : `/orderable/dissolved-certificates/${certificateItem.id}/delivery-details`;
+};
+
+const setItemUri = (certificateItem: CertificateItem) => {
+    return (certificateItem.itemOptions?.certificateType !== "dissolution")
+        ? `/orderable/certificates/${certificateItem.id}` : `/orderable/dissolved-certificates/${certificateItem.id}`;
+};
+
 export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const accessToken: string = getAccessToken(req.session);
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
         const itemOptions: ItemOptions = certificateItem.itemOptions;
         const basket: Basket = await getBasket(accessToken);
-        const SERVICE_URL = `/company/${certificateItem.companyNumber}/orderable/certificates`;
         const isNotDissolutionCertificateType: Boolean = itemOptions.certificateType !== "dissolution";
 
         return res.render(CERTIFICATE_CHECK_DETAILS, {
@@ -35,9 +45,9 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             fee: applyCurrencySymbol(certificateItem.itemCosts[0].itemCost),
             certificateMappings: mapIncludedOnCertificate(itemOptions),
             changeIncludedOn: replaceCertificateId(CERTIFICATE_OPTIONS, req.params.certificateId),
-            changedeliveryDetails: replaceCertificateId(CERTIFICATE_DELIVERY_DETAILS, req.params.certificateId),
+            changedeliveryDetails: setChangeDeliveryDetails(certificateItem),
             deliveryDetails: mapDeliveryDetails(basket.deliveryDetails),
-            SERVICE_URL,
+            SERVICE_URL: setServiceUrl(certificateItem),
             isNotDissolutionCertificateType,
             templateName: CERTIFICATE_CHECK_DETAILS
         });
@@ -52,11 +62,12 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
     // then redirect
     try {
         const accessToken: string = getAccessToken(req.session);
+        const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
         const certificateId: string = req.params.certificateId;
         const userId = getUserId(req.session);
         const resp = await addItemToBasket(
             accessToken,
-            { itemUri: `/orderable/certificates/${certificateId}` });
+            { itemUri: setItemUri(certificateItem) });
         logger.info(`item added to basket certificate_id=${certificateId}, user_id=${userId}, company_number=${resp.companyNumber}, redirecting to basket`);
         res.redirect(`${CHS_URL}/basket`);
     } catch (error) {

@@ -8,6 +8,7 @@ import { DELIVERY_DETAILS, CERTIFICATE_CHECK_DETAILS } from "../../model/templat
 import { createLogger } from "ch-structured-logging";
 import { APPLICATION_NAME } from "../../config/config";
 import { deliveryDetailsValidationRules, validate } from "../../utils/delivery-details-validation";
+import { setServiceUrl } from "../../utils/service.url.utils";
 
 const FIRST_NAME_FIELD: string = "firstName";
 const LAST_NAME_FIELD: string = "lastName";
@@ -21,7 +22,7 @@ const ADDRESS_COUNTRY_FIELD: string = "addressCountry";
 const logger = createLogger(APPLICATION_NAME);
 
 const setBackLink = (certificateItem: CertificateItem) => {
-    return (certificateItem.itemOptions?.certificateType !== "dissolution") ? "certificate-options" : `/company/${certificateItem.companyNumber}/orderable/certificates`;
+    return (certificateItem.itemOptions?.certificateType !== "dissolution") ? "certificate-options" : `/company/${certificateItem.companyNumber}/orderable/dissolved-certificates`;
 };
 
 export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -30,7 +31,6 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const accessToken: string = getAccessToken(req.session);
         const basket: Basket = await getBasket(accessToken);
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
-        const SERVICE_URL = `/company/${certificateItem.companyNumber}/orderable/certificates`;
         logger.info(`Get certificate item, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
         return res.render(DELIVERY_DETAILS, {
             firstName: basket.deliveryDetails?.forename,
@@ -44,7 +44,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             addressCounty: basket.deliveryDetails?.region,
             companyNumber: certificateItem.companyNumber,
             templateName: DELIVERY_DETAILS,
-            SERVICE_URL,
+            SERVICE_URL: setServiceUrl(certificateItem),
             backLink: setBackLink(certificateItem)
         });
     } catch (err) {
@@ -68,7 +68,6 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
     if (!errors.isEmpty()) {
         const accessToken: string = getAccessToken(req.session);
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
-        const SERVICE_URL = `/company/${certificateItem.companyNumber}/orderable/certificates`;
 
         return res.render(DELIVERY_DETAILS, {
             ...errorList,
@@ -82,7 +81,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
             firstName,
             lastName,
             templateName: (DELIVERY_DETAILS),
-            SERVICE_URL,
+            SERVICE_URL: setServiceUrl(certificateItem),
             backLink: setBackLink(certificateItem)
         });
     }

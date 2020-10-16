@@ -61,6 +61,10 @@ const PROTECTED_PATHS = [
     pageUrls.CERTIFICATE_TYPE,
     pageUrls.CERTIFICATE_CHECK_DETAILS,
     pageUrls.CERTIFICATE_DELIVERY_DETAILS,
+    pageUrls.DISSOLVED_CERTIFICATE_OPTIONS,
+    pageUrls.DISSOLVED_CERTIFICATE_TYPE,
+    pageUrls.DISSOLVED_CERTIFICATE_CHECK_DETAILS,
+    pageUrls.DISSOLVED_CERTIFICATE_DELIVERY_DETAILS,
     pageUrls.CERTIFIED_COPY_DELIVERY_DETAILS,
     pageUrls.CERTIFIED_COPY_CHECK_DETAILS,
     pageUrls.MISSING_IMAGE_DELIVERY_CREATE,
@@ -72,6 +76,10 @@ app.use([pageUrls.ROOT_CERTIFICATE, pageUrls.ROOT_CERTIFICATE_ID], SessionMiddle
 app.use(pageUrls.ROOT_CERTIFICATE, authMiddleware);
 app.use(pageUrls.ROOT_CERTIFICATE_ID, authCertificateMiddleware);
 
+app.use([pageUrls.ROOT_DISSOLVED_CERTIFICATE, pageUrls.ROOT_DISSOLVED_CERTIFICATE_ID], SessionMiddleware(cookieConfig, sessionStore));
+app.use(pageUrls.ROOT_DISSOLVED_CERTIFICATE, authMiddleware);
+app.use(pageUrls.ROOT_DISSOLVED_CERTIFICATE_ID, authCertificateMiddleware);
+
 app.use([pageUrls.ROOT_CERTIFIED_COPY, pageUrls.ROOT_CERTIFIED_COPY_ID], SessionMiddleware(cookieConfig, sessionStore));
 app.use(pageUrls.ROOT_CERTIFIED_COPY_ID, authCertifiedCopyMiddleware);
 
@@ -82,6 +90,8 @@ app.use((req, res, next) => {
     if (req.path.includes("/certificates")) {
         env.addGlobal("SERVICE_NAME", SERVICE_NAME_CERTIFICATES);
         env.addGlobal("CERTIFICATE_PIWIK_START_GOAL_ID", CERTIFICATE_PIWIK_START_GOAL_ID);
+    } else if (req.path.includes("/dissolved-certificates")) {
+        env.addGlobal("SERVICE_NAME", SERVICE_NAME_CERTIFICATES);
         env.addGlobal("DISSOLVED_CERTIFICATE_PIWIK_START_GOAL_ID", DISSOLVED_CERTIFICATE_PIWIK_START_GOAL_ID);
     } else if (req.path.includes("/certified-copies")) {
         env.addGlobal("SERVICE_NAME", SERVICE_NAME_CERTIFIED_COPIES);

@@ -3,7 +3,7 @@ import { SessionKey } from "ch-node-session-handler/lib/session/keys/SessionKey"
 import { SignInInfoKeys } from "ch-node-session-handler/lib/session/keys/SignInInfoKeys";
 
 import { getCertificateItem } from "../../client/api.client";
-import { CERTIFICATE_OPTIONS, replaceCertificateId } from "./../../model/page.urls";
+import { CERTIFICATE_OPTIONS, replaceCertificateId, DISSOLVED_CERTIFICATE_DELIVERY_DETAILS } from "./../../model/page.urls";
 import { getAccessToken } from "../../session/helper";
 import { createLogger } from "ch-structured-logging";
 
@@ -20,7 +20,14 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 
         if (!signedIn) {
             const certificateId = req.params.certificateId;
-            const returnToUrl = replaceCertificateId(CERTIFICATE_OPTIONS, certificateId);
+            const originatingUrl = req.originalUrl;
+            let returnToUrl;
+
+            if (originatingUrl.includes("/dissolved-certificates")) {
+                returnToUrl = replaceCertificateId(DISSOLVED_CERTIFICATE_DELIVERY_DETAILS, certificateId);
+            } else {
+                returnToUrl = replaceCertificateId(CERTIFICATE_OPTIONS, certificateId);
+            }
             logger.info(`User unauthorized, status_code=401, redirecting to sign in page`);
             return res.redirect(`/signin?return_to=${returnToUrl}`);
         } else {
