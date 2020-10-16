@@ -3,11 +3,19 @@
 export const ROOT_CERTIFICATE: string = "/company/:companyNumber/orderable/certificates";
 export const ROOT_CERTIFICATE_ID: string = "/orderable/certificates/:certificateId";
 
+export const ROOT_DISSOLVED_CERTIFICATE: string = "/company/:companyNumber/orderable/dissolved-certificates";
+export const ROOT_DISSOLVED_CERTIFICATE_ID: string = "/orderable/dissolved-certificates/:certificateId";
+
 export const CERTIFICATE_TYPE: string = ROOT_CERTIFICATE + "/certificate-type";
+export const DISSOLVED_CERTIFICATE_TYPE: string = ROOT_DISSOLVED_CERTIFICATE + "/certificate-type";
 
 export const CERTIFICATE_OPTIONS: string = ROOT_CERTIFICATE_ID + "/certificate-options";
 export const CERTIFICATE_DELIVERY_DETAILS: string = ROOT_CERTIFICATE_ID + "/delivery-details";
 export const CERTIFICATE_CHECK_DETAILS: string = ROOT_CERTIFICATE_ID + "/check-details";
+
+export const DISSOLVED_CERTIFICATE_OPTIONS: string = ROOT_DISSOLVED_CERTIFICATE_ID + "/certificate-options";
+export const DISSOLVED_CERTIFICATE_DELIVERY_DETAILS: string = ROOT_DISSOLVED_CERTIFICATE_ID + "/delivery-details";
+export const DISSOLVED_CERTIFICATE_CHECK_DETAILS: string = ROOT_DISSOLVED_CERTIFICATE_ID + "/check-details";
 
 // Certified copy section:
 

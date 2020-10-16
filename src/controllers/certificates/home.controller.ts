@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { CERTIFICATE_TYPE, replaceCompanyNumber } from "../../model/page.urls";
+import { DISSOLVED_CERTIFICATE_TYPE, CERTIFICATE_TYPE, replaceCompanyNumber } from "../../model/page.urls";
 import { CompanyProfile } from "ch-sdk-node/dist/services/company-profile";
 import { getCompanyProfile } from "../../client/api.client";
 import { createLogger } from "ch-structured-logging";
@@ -27,11 +27,17 @@ export default async (req: Request, res: Response, next: NextFunction) => {
             "private-unlimited",
             "private-unlimited-nsc"
         ];
-        const startNowUrl = replaceCompanyNumber(CERTIFICATE_TYPE, companyNumber);
-        const SERVICE_URL = `/company/${companyNumber}/orderable/certificates`;
+        let startNowUrl;
+        let SERVICE_URL;
 
-        if (companyStatus === "dissolved") acceptableCompanyTypes.shift(); // Remove limited-partnership from list
-
+        if (companyStatus === "dissolved") {
+            acceptableCompanyTypes.shift(); // Remove limited-partnership from list
+            SERVICE_URL = `/company/${companyNumber}/orderable/dissolved-certificates`;
+            startNowUrl = replaceCompanyNumber(DISSOLVED_CERTIFICATE_TYPE, companyNumber);
+        } else {
+            SERVICE_URL = `/company/${companyNumber}/orderable/certificates`;
+            startNowUrl = replaceCompanyNumber(CERTIFICATE_TYPE, companyNumber);
+        }
         const allow: boolean = acceptableCompanyTypes.some(type => type === companyType);
 
         if (allow && ["active", "dissolved"].includes(companyStatus)) {

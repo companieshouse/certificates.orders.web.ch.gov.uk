@@ -17,3 +17,7 @@ routes:
   12: /company/(.*)/orderable/missing-image-deliveries/.*
   13: /orderable/missing-image-deliveries
   14: /orderable/missing-image-deliveries/.
+  15: /company/(.*)/orderable/dissolved-certificates
+  16: /company/(.*)/orderable/dissolved-certificates/.*
+  17: /orderable/dissolved-certificates
+  18: /orderable/dissolved-certificates/.*

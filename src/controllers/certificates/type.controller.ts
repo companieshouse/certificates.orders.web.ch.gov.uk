@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from "express";
 import { getAccessToken, getUserId } from "../../session/helper";
 import { CertificateItemPostRequest, CertificateItem } from "ch-sdk-node/dist/services/order/certificates/types";
 import { postCertificateItem, getCompanyProfile } from "../../client/api.client";
-import { CERTIFICATE_OPTIONS, replaceCertificateId, CERTIFICATE_DELIVERY_DETAILS } from "./../../model/page.urls";
+import { CERTIFICATE_OPTIONS, replaceCertificateId, DISSOLVED_CERTIFICATE_DELIVERY_DETAILS } from "./../../model/page.urls";
 import { createLogger } from "ch-structured-logging";
 import { APPLICATION_NAME, API_KEY } from "../../config/config";
 import { CompanyProfile } from "ch-sdk-node/dist/services/company-profile/types";
@@ -30,7 +30,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             const userId = getUserId(req.session);
             const certificateItem: CertificateItem = await postCertificateItem(accessToken, dissolvedCertificateItemRequest);
             logger.info(`Dissolved certificate Item created, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
-            res.redirect(replaceCertificateId(CERTIFICATE_DELIVERY_DETAILS, certificateItem.id));
+            res.redirect(replaceCertificateId(DISSOLVED_CERTIFICATE_DELIVERY_DETAILS, certificateItem.id));
         }
     } catch (err) {
         logger.error(`${err}`);
