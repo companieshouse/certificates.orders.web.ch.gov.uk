@@ -24,11 +24,6 @@ const setChangeDeliveryDetails = (certificateItem: CertificateItem) => {
         ? `/orderable/certificates/${certificateItem.id}/delivery-details` : `/orderable/dissolved-certificates/${certificateItem.id}/delivery-details`;
 };
 
-const setItemUri = (certificateItem: CertificateItem) => {
-    return (certificateItem.itemOptions?.certificateType !== "dissolution")
-        ? `/orderable/certificates/${certificateItem.id}` : `/orderable/dissolved-certificates/${certificateItem.id}`;
-};
-
 export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const accessToken: string = getAccessToken(req.session);
@@ -67,7 +62,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         const userId = getUserId(req.session);
         const resp = await addItemToBasket(
             accessToken,
-            { itemUri: setItemUri(certificateItem) });
+            { itemUri: `/orderable/certificates/${certificateId}` });
         logger.info(`item added to basket certificate_id=${certificateId}, user_id=${userId}, company_number=${resp.companyNumber}, redirecting to basket`);
         res.redirect(`${CHS_URL}/basket`);
     } catch (error) {
