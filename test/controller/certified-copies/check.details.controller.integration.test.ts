@@ -2,7 +2,7 @@ import chai from "chai";
 import sinon from "sinon";
 import ioredis from "ioredis";
 import cheerio from "cheerio";
-import sessionHandler from "ch-node-session-handler";
+import sessionHandler from "@companieshouse/node-session-handler";
 import { Basket, BasketItem } from "ch-sdk-node/dist/services/order/basket/types";
 import { CertifiedCopyItem } from "ch-sdk-node/dist/services/order/certified-copies/types";
 

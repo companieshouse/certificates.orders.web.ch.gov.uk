@@ -1,5 +1,5 @@
 import chai from "chai";
-import sessionHandler from "ch-node-session-handler"; // need this to allow certificate.options.controller to compile
+import sessionHandler from "@companieshouse/node-session-handler"; // need this to allow certificate.options.controller to compile
 
 import { setItemOptions } from "../../../src/controllers/certificates/options.controller";
 
