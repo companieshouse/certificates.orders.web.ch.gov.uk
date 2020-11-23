@@ -1,8 +1,8 @@
 import chai from "chai";
 import sinon from "sinon";
 import { Request, Response } from "express";
-import SessionHandler from "ch-node-session-handler";
-import { Session } from "ch-node-session-handler/lib/session/model/Session";
+import SessionHandler from "@companieshouse/node-session-handler";
+import { Session } from "@companieshouse/node-session-handler/lib/session/model/Session";
 
 import authMiddleware from "../../src/middleware/auth.middleware";
 

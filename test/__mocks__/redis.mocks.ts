@@ -1,4 +1,4 @@
-import { Encoding } from "ch-node-session-handler/lib/encoding/Encoding";
+import { Encoding } from "@companieshouse/node-session-handler/lib/encoding/Encoding";
 
 const SIGNED_IN_ID = "4ZhJ6pAmB5NAJbjy/6fU1DWMqqrk";
 const SIGNED_IN_SIGNATURE = "Ak4CCqkfPTY7VN6f9Lo5jHCUYpM";
