@@ -77,11 +77,31 @@ describe("certificate.options.controller.integration", () => {
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
                 .redirects(0)
                 .send({
-                    moreInfo: ["goodStanding", "registeredOffice"]
+                    moreInfo: ["goodStanding"]
                 });
 
             chai.expect(resp.status).to.equal(302);
             chai.expect(resp.text).to.include("Found. Redirecting to delivery-details");
+        });
+
+        it("redirects the user to the registered-office-options page", async () => {
+            const certificateDetails = {} as CertificateItem;
+
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateDetails));
+            patchCertificateItemStub = sandbox.stub(apiClient, "patchCertificateItem")
+                .returns(Promise.resolve(certificateDetails));
+
+            const resp = await chai.request(testApp)
+                .post(CERTIFICATE_OPTIONS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
+                .redirects(0)
+                .send({
+                    moreInfo: ["goodStanding", "registeredOffice"]
+                });
+
+            chai.expect(resp.status).to.equal(302);
+            chai.expect(resp.text).to.include("Found. Redirecting to registered-office-options");
         });
     });
 });
