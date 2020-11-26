@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  {% if errorList.length > 0 %}
+    Error:
+  {% endif %}
+    Choose registered office options
+{% endblock %}
+
+{% set mainClasses = "govuk-main-wrapper--l" %}
+{% block beforeContent %}
+  {{ govukBackLink ({
+    text: "Back",
+    href: "/company/" + companyNumber + "/orderable/certificates"
+  }) 
+}}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds-from-desktop">
+      <form method="post">
+
+        {{ govukRadios({
+            idPrefix: "What registered office address information do you need?",
+            name: "What registered office address information do you need?",
+            fieldset: {
+            legend: {
+            text: "What registered office address information do you need?",
+            isPageHeading: true,
+            classes: "govuk-fieldset__legend--xl"
+          }
+        },
+        hint: {
+            text: "No dates will be included on your certificate."
+          },
+        items: [
+          {
+            value: "currentAddress",
+            text: "Current address"
+          },
+          {
+            value: "currentAddressAndTheOnePrevious",
+            text: "Current address and the one previous"
+          },
+          {
+            value: "currentAddressAndTheTwoPrevious",
+            text: "Current address and the two previous"
+          },
+          {
+            value: "allCurrentAndPreviousAddresses",
+            text: "All current and previous addresses"
+          }
+        ]
+        }) }}
+        
+        {{ govukButton({
+          text: "Continue",
+          attributes: {
+            "data-event-id": "continue-button",
+            id: "submit"
+            }
+        }) }}
+
+  </form>
+</div>
+</div>
+{% endblock %}
