@@ -4,11 +4,9 @@ import ioredis from "ioredis";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
 import { CertificateItem } from "ch-sdk-node/dist/services/order/certificates/types";
 import * as apiClient from "../../../src/client/api.client";
-
 import { CERTIFICATE_REGISTERED_OFFICE_OPTIONS, replaceCertificateId } from "../../../src/model/page.urls";
 
 const CERTIFICATE_ID = "CRT-000000-000000";
-
 const sandbox = sinon.createSandbox();
 let testApp = null;
 let getCertificateItemStub;
