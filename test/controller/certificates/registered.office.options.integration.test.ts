@@ -2,13 +2,16 @@ import chai from "chai";
 import sinon from "sinon";
 import ioredis from "ioredis";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
+import { CertificateItem } from "ch-sdk-node/dist/services/order/certificates/types";
+import * as apiClient from "../../../src/client/api.client";
 
 import { CERTIFICATE_REGISTERED_OFFICE_OPTIONS, replaceCertificateId } from "../../../src/model/page.urls";
 
-const CERTIFICATE_ID = "CRT-354516-063896";
+const CERTIFICATE_ID = "CRT-000000-000000";
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
+let getCertificateItemStub;
 
 describe("registered.office.options.integration.test", () => {
     beforeEach((done) => {
@@ -24,13 +27,24 @@ describe("registered.office.options.integration.test", () => {
         sandbox.restore();
     });
 
-    it("renders the registred office options page if company type is allowed to order a certificate", async () => {
+    describe("Check the page renders", () => {
+        it("renders the registred office options page", async () => {
+            const certificateItem = {
+                itemOptions: {
+                    forename: "john",
+                    surname: "smith"
+                }
+            } as CertificateItem;
 
-        const resp = await chai.request(testApp)
-            .get(replaceCertificateId(CERTIFICATE_REGISTERED_OFFICE_OPTIONS, CERTIFICATE_ID))
-            .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItem));
 
-        chai.expect(resp.status).to.equal(200);
-        chai.expect(resp.text).to.contain("What registered office address information do you need?");
+            const resp = await chai.request(testApp)
+                .get(replaceCertificateId(CERTIFICATE_REGISTERED_OFFICE_OPTIONS, CERTIFICATE_ID))
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("What registered office address information do you need?");
+        });
     });
 });
