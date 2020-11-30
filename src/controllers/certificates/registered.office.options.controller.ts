@@ -6,7 +6,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
 };
 
 const route =  async (req: Request, res: Response, next: NextFunction) => {
-    return res.redirect("check-details");
+    return res.redirect("delivery-details");
 };
 
 export default route;
