@@ -18,12 +18,9 @@ const ADDRESS_TOWN_FIELD: string = "addressTown";
 const ADDRESS_COUNTY_FIELD: string = "addressCounty";
 const ADDRESS_POSTCODE_FIELD: string = "addressPostcode";
 const ADDRESS_COUNTRY_FIELD: string = "addressCountry";
+let backLink;
 
 const logger = createLogger(APPLICATION_NAME);
-
-const setBackLink = (certificateItem: CertificateItem) => {
-    return (certificateItem.itemOptions?.certificateType !== "dissolution") ? "certificate-options" : `/company/${certificateItem.companyNumber}/orderable/dissolved-certificates`;
-};
 
 export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
@@ -116,6 +113,17 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         logger.error(`${err}`);
         return next(err);
     }
+};
+
+export const setBackLink = (certificateItem: CertificateItem) => {
+    if (certificateItem.itemOptions?.certificateType === "dissolution") {
+        backLink = `/company/${certificateItem.companyNumber}/orderable/dissolved-certificates`;
+    } else if (certificateItem.itemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType) {
+        backLink = "registered-office-options";
+    } else {
+        backLink = "certificate-options";
+    }
+    return backLink;
 };
 
 export default [...deliveryDetailsValidationRules, route];
