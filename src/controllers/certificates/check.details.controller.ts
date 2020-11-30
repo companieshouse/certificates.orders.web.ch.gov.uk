@@ -19,6 +19,14 @@ const COMPANY_OBJECTS = "Company objects";
 
 const logger = createLogger(APPLICATION_NAME);
 
+export const isOptionSelected = (itemOption: Boolean | undefined) : string => {
+    if (itemOption === undefined) {
+        return "No";
+    } else {
+        return "Yes";
+    }
+};
+
 const setChangeDeliveryDetails = (certificateItem: CertificateItem) => {
     return (certificateItem.itemOptions?.certificateType !== "dissolution")
         ? `/orderable/certificates/${certificateItem.id}/delivery-details` : `/orderable/dissolved-certificates/${certificateItem.id}/delivery-details`;
@@ -44,7 +52,11 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             deliveryDetails: mapDeliveryDetails(basket.deliveryDetails),
             SERVICE_URL: setServiceUrl(certificateItem),
             isNotDissolutionCertificateType,
-            templateName: CERTIFICATE_CHECK_DETAILS
+            templateName: CERTIFICATE_CHECK_DETAILS,
+            statementOfGoodStanding: isOptionSelected(itemOptions.includeGoodStandingInformation),
+            currentCompanyDirectorsNames: isOptionSelected(itemOptions.directorDetails?.includeBasicInformation),
+            currentSecretariesNames: isOptionSelected(itemOptions.secretaryDetails?.includeBasicInformation),
+            companyObjects: isOptionSelected(itemOptions.includeCompanyObjectsInformation)
         });
     } catch (err) {
         logger.error(`${err}`);

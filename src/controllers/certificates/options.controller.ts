@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { CertificateItemPatchRequest, ItemOptionsRequest, CertificateItem } from "ch-sdk-node/dist/services/order/certificates/types";
+import { CertificateItemPatchRequest, ItemOptionsRequest, CertificateItem, ItemOptions } from "ch-sdk-node/dist/services/order/certificates/types";
 import { patchCertificateItem, getCertificateItem } from "../../client/api.client";
 import { createLogger } from "ch-structured-logging";
 import { CERTIFICATE_OPTIONS } from "../../model/template.paths";
@@ -20,6 +20,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const userId = getUserId(req.session);
         const accessToken: string = getAccessToken(req.session);
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
+        const itemOptions: ItemOptions = certificateItem.itemOptions;
         const SERVICE_URL = `/company/${certificateItem.companyNumber}/orderable/certificates`;
         logger.info(`Certificate item retrieved, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
         return res.render(CERTIFICATE_OPTIONS, {
@@ -38,10 +39,14 @@ export default async (req: Request, res: Response, next: NextFunction) => {
     try {
         const moreInfo: string[] | string = req.body[MORE_INFO_FIELD];
         let additionalInfoItemOptions: ItemOptionsRequest;
+        let registeredOfficeOptions: boolean;
+
         if (typeof moreInfo === "string") {
             additionalInfoItemOptions = setItemOptions([moreInfo]);
+            registeredOfficeOptions = hasRegisterOfficeAddressOptions([moreInfo]);
         } else {
             additionalInfoItemOptions = setItemOptions(moreInfo);
+            registeredOfficeOptions = hasRegisterOfficeAddressOptions(moreInfo);
         }
 
         const certificateItem: CertificateItemPatchRequest = {
@@ -54,7 +59,12 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const userId = getUserId(req.session);
         const patchResponse = await patchCertificateItem(accessToken, req.params.certificateId, certificateItem);
         logger.info(`Patched certificate item with certificate options, id=${req.params.certificateId}, user_id=${userId}, company_number=${patchResponse.companyNumber}, certificate_options=${JSON.stringify(certificateItem)}`);
-        return res.redirect("delivery-details");
+
+        if (registeredOfficeOptions) {
+            return res.redirect("registered-office-options");
+        } else {
+            return res.redirect("delivery-details");
+        }
     } catch (err) {
         logger.error(`${err}`);
         return next(err);
@@ -83,7 +93,6 @@ export const setItemOptions = (options: string[]): ItemOptionsRequest => {
                 break;
             }
             case REGISTERED_OFFICE_FIELD: {
-                itemOptionsAccum.registeredOfficeAddressDetails = { includeAddressRecordsType: "current" };
                 break;
             }
             case DIRECTORS_FIELD: {
@@ -103,4 +112,13 @@ export const setItemOptions = (options: string[]): ItemOptionsRequest => {
             }
             return itemOptionsAccum;
         }, initialItemOptions);
+};
+
+export const hasRegisterOfficeAddressOptions = (options: string[]): boolean => {
+    for (const option of options) {
+        if ( option === REGISTERED_OFFICE_FIELD) {
+            return true;
+        }
+    }
+    return false;
 };

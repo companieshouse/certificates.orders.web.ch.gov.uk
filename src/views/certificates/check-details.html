@@ -19,7 +19,7 @@
 
             <h1 class="govuk-heading-xl">Check your order details</h1>
 
-            <h2 class="govuk-heading-m">Order details</h2>
+            <h2 class="govuk-heading-m" id = "orderDetails">Order details</h2>
 
           {% if isNotDissolutionCertificateType %}
             {{ govukSummaryList({
@@ -71,72 +71,130 @@
                     ]
                   }
                 },
-                 {
+                {
                   key: {
-                    text: "Included on certificate"
+                    text: "Statement of good standing"
                   },
                   value: {
-                    html: certificateMappings
+                    classes: "statementOfGoodStanding",
+                    text: statementOfGoodStanding
                   },
                   actions: {
                     items: [
                       {
-                        href: changeIncludedOn,
-                        text: "Change",
-                        visuallyHiddenText: "Included on certifcate"
+                      visuallyHiddenText: "statement of good standing"
                       }
                     ]
                   }
                 },
                 {
                   key: {
-                    text: "Delivery method"
+                    text: "The names of all current company directors"
                   },
                   value: {
-                    text: deliveryMethod
+                    classes: "currentCompanyDirectorsNames",
+                    text: currentCompanyDirectorsNames
                   },
                   actions: {
                     items: [
                       {
-                      visuallyHiddenText: "delivery method"
+                      visuallyHiddenText: "current company directors names"
                       }
                     ]
                   }
                 },
                 {
                   key: {
-                    text: "Delivery details"
+                    text: "The names of all current secretaries"
                   },
                   value: {
-                    html: deliveryDetails
+                    classes: "currentSecretariesNames",
+                    text: currentSecretariesNames
                   },
                   actions: {
                     items: [
                       {
-                        href: changedeliveryDetails,
-                        text: "Change",
-                        visuallyHiddenText: "delivery address"
+                      visuallyHiddenText: "current secretaries names"
                       }
                     ]
                   }
                 },
                 {
                   key: {
-                    text: "Fee"
+                    text: "Company objects"
                   },
                   value: {
-                    text: fee
+                    classes: "companyObjects",
+                    text: companyObjects
                   },
                   actions: {
                     items: [
                       {
-                      visuallyHiddenText: "fee"
+                      visuallyHiddenText: "company objects"
                       }
                     ]
                   }
                 }
               ]
             }) }}
+
+            <p class="govuk-body"> To change your certificate options, you'll need to <a href="{{ SERVICE_URL }}" class="govuk-link">start the order again</a>.</p>
+
+            <h2 class="govuk-heading-m" id = "deliveryDetails">Delivery details</h2>
+
+            {{govukSummaryList({
+              classes: 'govuk-!-margin-bottom-9',
+              rows: [
+              {
+                key: {
+                  text: "Delivery method"
+                },
+                value: {
+                  text: deliveryMethod
+                },
+                actions: {
+                  items: [
+                    {
+                    visuallyHiddenText: "delivery method"
+                    }
+                  ]
+                }
+              },
+              {
+                key: {
+                  text: "Delivery details"
+                },
+                value: {
+                  html: deliveryDetails
+                },
+                actions: {
+                  items: [
+                    {
+                      href: changedeliveryDetails,
+                      text: "Change",
+                      visuallyHiddenText: "delivery address"
+                    }
+                  ]
+                }
+              },
+              {
+                key: {
+                  text: "Fee"
+                },
+                value: {
+                  text: fee
+                },
+                actions: {
+                  items: [
+                    {
+                    visuallyHiddenText: "fee"
+                    }
+                  ]
+                }
+              }
+              ]
+            })}}
+
           {% else %}
             {{ govukSummaryList({
               classes: 'govuk-!-margin-bottom-9',

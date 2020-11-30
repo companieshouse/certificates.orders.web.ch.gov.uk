@@ -11,7 +11,7 @@
 {% block beforeContent %}
   {{ govukBackLink ({
     text: "Back",
-    href: "/company/" + companyNumber + "/orderable/certificates"
+    href: "options"
   }) 
 }}
 {% endblock %}
@@ -22,7 +22,7 @@
       <form method="post">
 
         {{ govukRadios({
-            iidPrefix: "registered-office",
+            idPrefix: "registered-office",
             name: "registered-office",
             fieldset: {
             legend: {

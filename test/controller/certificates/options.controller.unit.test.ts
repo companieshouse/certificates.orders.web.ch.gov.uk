@@ -1,7 +1,7 @@
 import chai from "chai";
 import sessionHandler from "@companieshouse/node-session-handler"; // need this to allow certificate.options.controller to compile
 
-import { setItemOptions } from "../../../src/controllers/certificates/options.controller";
+import { hasRegisterOfficeAddressOptions, setItemOptions } from "../../../src/controllers/certificates/options.controller";
 
 describe("certificate.options.controller.unit", () => {
     describe("setItemOptions", () => {
@@ -30,7 +30,7 @@ describe("certificate.options.controller.unit", () => {
             const options = ["registeredOffice"];
             const returnedItemOptions = setItemOptions(options);
 
-            chai.expect(returnedItemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType).to.equal("current");
+            chai.expect(returnedItemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType).to.equal(null);
         });
 
         it("should set includeBasicInformation on secretaryDetails to true, when the option is secretaries", () => {
@@ -70,6 +70,22 @@ describe("certificate.options.controller.unit", () => {
             chai.expect(returnedItemOptions?.includeCompanyObjectsInformation).to.be.null;
             chai.expect(returnedItemOptions?.directorDetails?.includeBasicInformation).to.be.null;
             chai.expect(returnedItemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType).to.be.null;
+        });
+    });
+
+    describe("hasRegisterOfficeAddressOptions", () => {
+        it("should return true if registered office address option selected", () => {
+            const options = ["registeredOffice"];
+            const expectedResult = hasRegisterOfficeAddressOptions(options);
+
+            chai.expect(expectedResult).to.equal(true);
+        });
+
+        it("should return false if registered office address option is not selected", () => {
+            const options = ["goodStanding"];
+            const expectedResult = hasRegisterOfficeAddressOptions(options);
+
+            chai.expect(expectedResult).to.equal(false);
         });
     });
 });

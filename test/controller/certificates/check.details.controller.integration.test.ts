@@ -18,6 +18,34 @@ const CERTIFICATE_ID = "CHS00000000000000001";
 const ITEM_URI = "/orderable/certificates/CHS00000000000000052";
 const CHECK_DETAILS_URL = replaceCertificateId(CERTIFICATE_CHECK_DETAILS, CERTIFICATE_ID);
 
+const basketDetails = {
+    deliveryDetails: {
+        addressLine1: "117 kings road",
+        addressLine2: "pontcanna",
+        country: "wales",
+        locality: "canton",
+        postalCode: "cf5 4xb",
+        region: "glamorgan"
+    }
+} as Basket;
+
+const certificateItem = {
+    companyName: "test company",
+    companyNumber: "00000000",
+    itemCosts: [
+        {
+            itemCost: "15"
+        }
+    ],
+    itemOptions: {
+        certificateType: "cert type",
+        forename: "john",
+        includeCompanyObjectsInformation: true,
+        includeGoodStandingInformation: true,
+        surname: "smith"
+    }
+} as CertificateItem;
+
 const sandbox = sinon.createSandbox();
 let testApp = null;
 let addItemToBasketStub;
@@ -40,34 +68,6 @@ describe("certificate.check.details.controller.integration", () => {
 
     describe("check details get", () => {
         it("renders the check details screen", async () => {
-            const certificateItem = {
-                companyName: "test company",
-                companyNumber: "00000000",
-                itemCosts: [
-                    {
-                        itemCost: "15"
-                    }
-                ],
-                itemOptions: {
-                    certificateType: "cert type",
-                    forename: "john",
-                    includeCompanyObjectsInformation: true,
-                    includeGoodStandingInformation: true,
-                    surname: "smith"
-                }
-            } as CertificateItem;
-
-            const basketDetails = {
-                deliveryDetails: {
-                    addressLine1: "117 kings road",
-                    addressLine2: "pontcanna",
-                    country: "wales",
-                    locality: "canton",
-                    postalCode: "cf5 4xb",
-                    region: "glamorgan"
-                }
-            } as Basket;
-
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItem));
             getBasketStub = sandbox.stub(apiClient, "getBasket")
@@ -80,9 +80,29 @@ describe("certificate.check.details.controller.integration", () => {
             const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("Included on certificate");
             chai.expect($(".govuk-heading-xl").text()).to.equal("Check your order details");
-            chai.expect($(".govuk-heading-m").text()).to.equal("Order details");
+            chai.expect($("#orderDetails").text()).to.equal("Order details");
+        });
+    });
+
+    describe("check value returns yes or no for certificate item options", () => {
+        it("returns a yes or no value if selected on certificate item options", async () => {
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItem));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve(basketDetails));
+
+            const resp = await chai.request(testApp)
+                .get(CHECK_DETAILS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+            const $ = cheerio.load(resp.text);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect($(".statementOfGoodStanding").text().trim()).to.equal("Yes");
+            chai.expect($(".currentCompanyDirectorsNames").text().trim()).to.equal("No");
+            chai.expect($(".currentSecretariesNames").text().trim()).to.equal("No");
+            chai.expect($(".companyObjects").text().trim()).to.equal("Yes");
         });
     });
 
