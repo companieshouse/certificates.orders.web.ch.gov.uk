@@ -10,7 +10,7 @@ import { render as renderCertificateType } from "../../controllers/certificates/
 import checkDetailsController, { render as renderCheckDetails } from "../../controllers/certificates/check.details.controller";
 import collectionOptionsController, { render as renderCertificateOptions } from "../../controllers/certificates/options.controller";
 import deliveryDetailsController, { render as renderDeliveryDetails } from "../../controllers/certificates/delivery.details.controller";
-import registeredOfficeOptionsController, { render as renderRegisteredOfficeOptions } from "../../controllers/certificates/registered.office.options.controller";
+import { render as renderRegisteredOfficeOptions } from "../../controllers/certificates/registered.office.options.controller";
 
 const router: Router = Router();
 
@@ -24,7 +24,6 @@ router.get(CERTIFICATE_OPTIONS, renderCertificateOptions);
 router.post(CERTIFICATE_OPTIONS, collectionOptionsController);
 
 router.get(CERTIFICATE_REGISTERED_OFFICE_OPTIONS, renderRegisteredOfficeOptions);
-router.post(CERTIFICATE_REGISTERED_OFFICE_OPTIONS, registeredOfficeOptionsController);
 
 router.get(CERTIFICATE_DELIVERY_DETAILS, renderDeliveryDetails);
 router.post(CERTIFICATE_DELIVERY_DETAILS, deliveryDetailsController);
