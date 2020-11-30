@@ -115,6 +115,9 @@ export const setItemOptions = (options: string[]): ItemOptionsRequest => {
 };
 
 export const hasRegisterOfficeAddressOptions = (options: string[]): boolean => {
+    if (options === undefined) {
+        return false;
+    }
     for (const option of options) {
         if ( option === REGISTERED_OFFICE_FIELD) {
             return true;

@@ -21,48 +21,56 @@
     <div class="govuk-grid-column-two-thirds-from-desktop">
       <form method="post">
 
+        {% if errorList.length > 0 %}
+          {{ govukErrorSummary({
+            titleText: ERROR_SUMMARY_TITLE,
+            errorList: errorList
+          }) }}
+        {% endif %}
+
         {{ govukRadios({
             idPrefix: "registered-office",
             name: "registered-office",
             fieldset: {
-            legend: {
-            text: "What registered office address information do you need?",
-            isPageHeading: true,
-            classes: "govuk-fieldset__legend--xl"
-          }
-        },
-        hint: {
-            text: "No dates will be included on your certificate."
-          },
-        items: [
-          {
-            value: "currentAddress",
-            text: "Current address"
-          },
-          {
-            value: "currentAddressAndTheOnePrevious",
-            text: "Current address and the one previous"
-          },
-          {
-            value: "currentAddressAndTheTwoPrevious",
-            text: "Current address and the two previous"
-          },
-          {
-            value: "allCurrentAndPreviousAddresses",
-            text: "All current and previous addresses"
-          }
-        ]
-        }) }}
-        
-        {{ govukButton({
-          text: "Continue",
-          attributes: {
-            "data-event-id": "continue-button",
-            id: "submit"
-            }
-        }) }}
+              legend: {
+                text: "What registered office address information do you need?",
+                isPageHeading: true,
+                classes: "govuk-fieldset__legend--xl"
+              }
+            },
+            errorMessage: registeredOfficeOptionError,
+            hint: {
+                text: "No dates will be included on your certificate."
+              },
+            items: [
+              {
+                value: "currentAddress",
+                text: "Current address"
+              },
+              {
+                value: "currentAddressAndTheOnePrevious",
+                text: "Current address and the one previous"
+              },
+              {
+                value: "currentAddressAndTheTwoPrevious",
+                text: "Current address and the two previous"
+              },
+              {
+                value: "allCurrentAndPreviousAddresses",
+                text: "All current and previous addresses"
+              }
+            ]
+            }) }}
 
-  </form>
-</div>
-</div>
+            {{ govukButton({
+              text: "Continue",
+              attributes: {
+                "data-event-id": "continue-button",
+                id: "submit"
+                }
+            }) }}
+
+      </form>
+    </div>
+  </div>
 {% endblock %}
