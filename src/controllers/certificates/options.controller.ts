@@ -39,10 +39,14 @@ export default async (req: Request, res: Response, next: NextFunction) => {
     try {
         const moreInfo: string[] | string = req.body[MORE_INFO_FIELD];
         let additionalInfoItemOptions: ItemOptionsRequest;
+        let registeredOfficeOptions: boolean;
+
         if (typeof moreInfo === "string") {
             additionalInfoItemOptions = setItemOptions([moreInfo]);
+            registeredOfficeOptions = hasRegisterOfficeAddressOptions([moreInfo]);
         } else {
             additionalInfoItemOptions = setItemOptions(moreInfo);
+            registeredOfficeOptions = hasRegisterOfficeAddressOptions(moreInfo);
         }
 
         const certificateItem: CertificateItemPatchRequest = {
@@ -55,7 +59,12 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const userId = getUserId(req.session);
         const patchResponse = await patchCertificateItem(accessToken, req.params.certificateId, certificateItem);
         logger.info(`Patched certificate item with certificate options, id=${req.params.certificateId}, user_id=${userId}, company_number=${patchResponse.companyNumber}, certificate_options=${JSON.stringify(certificateItem)}`);
-        return res.redirect("delivery-details");
+
+        if (registeredOfficeOptions) {
+            return res.redirect("registered-office-options");
+        } else {
+            return res.redirect("delivery-details");
+        }
     } catch (err) {
         logger.error(`${err}`);
         return next(err);
@@ -84,7 +93,6 @@ export const setItemOptions = (options: string[]): ItemOptionsRequest => {
                 break;
             }
             case REGISTERED_OFFICE_FIELD: {
-                itemOptionsAccum.registeredOfficeAddressDetails = { includeAddressRecordsType: "current" };
                 break;
             }
             case DIRECTORS_FIELD: {
@@ -104,4 +112,13 @@ export const setItemOptions = (options: string[]): ItemOptionsRequest => {
             }
             return itemOptionsAccum;
         }, initialItemOptions);
+};
+
+export const hasRegisterOfficeAddressOptions = (options: string[]): boolean => {
+    for (const option of options) {
+        if ( option === REGISTERED_OFFICE_FIELD) {
+            return true;
+        }
+    }
+    return false;
 };
