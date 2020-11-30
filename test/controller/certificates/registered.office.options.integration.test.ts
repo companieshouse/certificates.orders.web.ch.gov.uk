@@ -25,24 +25,40 @@ describe("registered.office.options.integration.test", () => {
         sandbox.restore();
     });
 
+    const certificateItem = {
+        itemOptions: {
+            forename: "john",
+            surname: "smith"
+        }
+    } as CertificateItem;
+
     describe("Check the page renders", () => {
         it("renders the registred office options page", async () => {
-            const certificateItem = {
-                itemOptions: {
-                    forename: "john",
-                    surname: "smith"
-                }
-            } as CertificateItem;
-
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItem));
 
             const resp = await chai.request(testApp)
-                .get(replaceCertificateId(CERTIFICATE_REGISTERED_OFFICE_OPTIONS, CERTIFICATE_ID))
+                .get(CERTIFICATE_REGISTERED_OFFICE_OPTIONS)
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("What registered office address information do you need?");
+        });
+    });
+
+    describe("registered office options post", () => {
+        it("redirects the user to the check-details page", async () => {
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItem));
+
+            const resp = await chai.request(testApp)
+                .post(CERTIFICATE_REGISTERED_OFFICE_OPTIONS)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
+                .redirects(0)
+                .send();
+
+            chai.expect(resp.status).to.equal(302);
+            chai.expect(resp.text).to.include("Found. Redirecting to check-details");
         });
     });
 });
