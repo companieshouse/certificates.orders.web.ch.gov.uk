@@ -5,7 +5,7 @@ import {
 } from "ch-sdk-node/dist/services/order/certificates/types";
 
 import {
-    mapIncludedOnCertificate, mapCertificateType, applyCurrencySymbol
+    mapIncludedOnCertificate, mapCertificateType, applyCurrencySymbol, isOptionSelected
 } from "../../../src/controllers/certificates/check.details.controller";
 
 const directorDetails: DirectorOrSecretaryDetails = {
@@ -106,6 +106,13 @@ describe("certificate.check.details.controller.unit", () => {
     describe("applyCurrencySymbol", () => {
         it("it applies a '£' to the value passed in", () => {
             chai.expect(applyCurrencySymbol("15")).to.equal("£15");
+        });
+    });
+
+    describe("returnsYesOrNo", () => {
+        it("it returns yes or no if value has been declared on certificate options", () => {
+            chai.expect(isOptionSelected(true)).to.equal("Yes");
+            chai.expect(isOptionSelected(undefined)).to.equal("No");
         });
     });
 });
