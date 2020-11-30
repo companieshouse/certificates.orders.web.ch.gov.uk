@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { CertificateItemPatchRequest, ItemOptionsRequest, CertificateItem } from "ch-sdk-node/dist/services/order/certificates/types";
+import { CertificateItemPatchRequest, ItemOptionsRequest, CertificateItem, ItemOptions } from "ch-sdk-node/dist/services/order/certificates/types";
 import { patchCertificateItem, getCertificateItem } from "../../client/api.client";
 import { createLogger } from "ch-structured-logging";
 import { CERTIFICATE_OPTIONS } from "../../model/template.paths";
@@ -20,6 +20,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const userId = getUserId(req.session);
         const accessToken: string = getAccessToken(req.session);
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
+        const itemOptions: ItemOptions = certificateItem.itemOptions;
         const SERVICE_URL = `/company/${certificateItem.companyNumber}/orderable/certificates`;
         logger.info(`Certificate item retrieved, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
         return res.render(CERTIFICATE_OPTIONS, {
