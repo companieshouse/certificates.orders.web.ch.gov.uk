@@ -16,7 +16,6 @@ export const validate = (validationErrors) => {
     const validationErrorList = validationErrors.array({ onlyFirstError: true }).map((error) => {
         const govUkErrorData: GovUkErrorData = createGovUkErrorData(error.msg, "#" + error.param, true, "");
 
-        console.log(error);
         if (error.param === REGISTERED_OFFICE_OPTION) {
             registeredOfficeOptionError = govUkErrorData;
         }
