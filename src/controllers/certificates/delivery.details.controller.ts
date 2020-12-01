@@ -18,7 +18,6 @@ const ADDRESS_TOWN_FIELD: string = "addressTown";
 const ADDRESS_COUNTY_FIELD: string = "addressCounty";
 const ADDRESS_POSTCODE_FIELD: string = "addressPostcode";
 const ADDRESS_COUNTRY_FIELD: string = "addressCountry";
-let backLink;
 
 const logger = createLogger(APPLICATION_NAME);
 
