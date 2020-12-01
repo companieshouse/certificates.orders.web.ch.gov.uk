@@ -60,7 +60,7 @@ describe("registered.office.options.integration.test", () => {
                 .send();
 
             chai.expect(resp.status).to.equal(302);
-            chai.expect(resp.text).to.include("Found. Redirecting to check-details");
+            chai.expect(resp.text).to.include("Found. Redirecting to delivery-details");
         });
     });
 });

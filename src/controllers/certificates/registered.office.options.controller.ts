@@ -43,7 +43,7 @@ const route =  async (req: Request, res: Response, next: NextFunction) => {
         });
     }
 
-    return res.redirect("check-details");
+    return res.redirect("delivery-details");
 };
 
 export default [...registeredOfficeAddressValidationRules, route];
