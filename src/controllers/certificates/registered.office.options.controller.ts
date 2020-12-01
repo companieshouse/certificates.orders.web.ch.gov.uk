@@ -27,16 +27,9 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
 const route =  async (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
     const errorList = validate(errors);
-    const registeredOfficeOption: string
-        = req.body[REGISTERED_OFFICE_OPTION];
-
-    console.log(registeredOfficeOption);
-
-    const util = require('util');
-    console.log(util.inspect(errorList, {showHidden: false, depth: null}))
+    const registeredOfficeOption: string = req.body[REGISTERED_OFFICE_OPTION];
 
     if (!errors.isEmpty()) {
-
         return res.render(CERTIFICATE_REGISTERED_OFFICE_OPTIONS, {
             ...errorList,
             registeredOfficeOption,
