@@ -24,7 +24,7 @@ export const validate = (validationErrors) => {
     });
 
     return {
-        errorlist: validationErrorList,
+        errorList: validationErrorList,
         registeredOfficeOptionError,
     };
 };
