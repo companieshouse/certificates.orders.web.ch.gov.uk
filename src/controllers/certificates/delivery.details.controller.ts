@@ -21,10 +21,6 @@ const ADDRESS_COUNTRY_FIELD: string = "addressCountry";
 
 const logger = createLogger(APPLICATION_NAME);
 
-const setBackLink = (certificateItem: CertificateItem) => {
-    return (certificateItem.itemOptions?.certificateType !== "dissolution") ? "certificate-options" : `/company/${certificateItem.companyNumber}/orderable/dissolved-certificates`;
-};
-
 export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const userId = getUserId(req.session);
@@ -116,6 +112,19 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         logger.error(`${err}`);
         return next(err);
     }
+};
+
+export const setBackLink = (certificateItem: CertificateItem) => {
+    let backLink;
+    
+    if (certificateItem.itemOptions?.certificateType === "dissolution") {
+        backLink = `/company/${certificateItem.companyNumber}/orderable/dissolved-certificates`;
+    } else if (certificateItem.itemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType) {
+        backLink = "registered-office-options";
+    } else {
+        backLink = "certificate-options";
+    }
+    return backLink;
 };
 
 export default [...deliveryDetailsValidationRules, route];

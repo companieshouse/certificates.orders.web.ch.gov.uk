@@ -1,6 +1,7 @@
 import chai from "chai";
 import sinon from "sinon";
 import ioredis from "ioredis";
+import cheerio from "cheerio";
 import { CertificateItem } from "ch-sdk-node/dist/services/order/certificates/types";
 import { Basket } from "ch-sdk-node/dist/services/order/basket/types";
 
@@ -218,6 +219,50 @@ describe("certificate.delivery.details.controller", () => {
 
             chai.expect(resp.status).to.equal(302);
             chai.expect(resp.text).to.contain("Found. Redirecting to check-details");
+        });
+    });
+
+    describe("delivery details back button", () => {
+        it("back button takes the user to the check details page if they have not selected the registered office option", async () => {
+            const basketDetails = {} as Basket;
+            const certificateItem = {} as CertificateItem;
+
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItem));
+            getBasketStub = sandbox.stub(apiClient, "getBasket").returns(Promise.resolve(basketDetails));
+
+            const resp = await chai.request(testApp)
+                .get(DELIVERY_DETAILS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+            const $ = cheerio.load(resp.text);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect($(".govuk-back-link").attr("href")).to.include("certificate-options");
+        });
+
+        it("back button takes the user to the registered office options page if they selected the registered office option", async () => {
+            const basketDetails = {} as Basket;
+            const certificateItem = {
+                itemOptions: {
+                    registeredOfficeAddressDetails: {
+                        includeAddressRecordsType: "current"
+                    }
+                }
+            } as CertificateItem;
+
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItem));
+            getBasketStub = sandbox.stub(apiClient, "getBasket").returns(Promise.resolve(basketDetails));
+
+            const resp = await chai.request(testApp)
+                .get(DELIVERY_DETAILS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+            const $ = cheerio.load(resp.text);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect($(".govuk-back-link").attr("href")).to.include("registered-office-options");
         });
     });
 });
