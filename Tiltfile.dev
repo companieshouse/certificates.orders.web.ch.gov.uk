@@ -1,0 +1,27 @@
+local_resource(
+  name = 'dev:certificates.orders.web.ch.gov.uk:init',
+  cmd = 'npm --silent install'
+)
+
+local_resource(
+  name = 'dev:certificates.orders.web.ch.gov.uk:build',
+  cmd = 'npm --silent run build',
+  deps = [
+    'src'
+  ]
+)
+
+custom_build(
+  ref = '169942020521.dkr.ecr.eu-west-1.amazonaws.com/local/certificates.orders.web.ch.gov.uk:latest',
+  command = 'DOCKER_BUILDKIT=0 docker build --build-arg SSH_PRIVATE_KEY="$(cat ~/.ssh/id_rsa)" --build-arg SSH_PRIVATE_KEY_PASSPHRASE --tag $EXPECTED_REF .',
+  live_update = [
+    sync(
+      local_path = './dist',
+      remote_path = '/app/dist'
+    ),
+    restart_container()
+  ],
+  deps = [
+    './dist'
+  ]
+)
