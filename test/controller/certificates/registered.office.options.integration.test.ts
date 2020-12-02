@@ -7,6 +7,8 @@ import * as apiClient from "../../../src/client/api.client";
 import { CERTIFICATE_REGISTERED_OFFICE_OPTIONS, replaceCertificateId } from "../../../src/model/page.urls";
 
 const CERTIFICATE_ID = "CRT-000000-000000";
+const REGISTERED_OFFICE_OPTION_NOT_SELECTED =
+    "Select which registered office address you need on your certificate";
 const REGISTERED_OFFICE_OPTTIONS_URL =
     replaceCertificateId(CERTIFICATE_REGISTERED_OFFICE_OPTIONS, CERTIFICATE_ID);
 const sandbox = sinon.createSandbox();
@@ -57,10 +59,26 @@ describe("registered.office.options.integration.test", () => {
                 .post(REGISTERED_OFFICE_OPTTIONS_URL)
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
                 .redirects(0)
-                .send();
+                .send({
+                    "registered-office" : "currentAddress"
+                });
 
             chai.expect(resp.status).to.equal(302);
             chai.expect(resp.text).to.include("Found. Redirecting to delivery-details");
+        });
+
+        it("throws a validation error when no option selected", async () => {
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItem));
+
+            const resp = await chai.request(testApp)
+                .post(REGISTERED_OFFICE_OPTTIONS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
+                .redirects(0)
+                .send();
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain(REGISTERED_OFFICE_OPTION_NOT_SELECTED);
         });
     });
 });
