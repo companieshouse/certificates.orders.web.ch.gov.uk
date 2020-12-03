@@ -116,7 +116,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
 
 export const setBackLink = (certificateItem: CertificateItem) => {
     let backLink;
-    
+
     if (certificateItem.itemOptions?.certificateType === "dissolution") {
         backLink = `/company/${certificateItem.companyNumber}/orderable/dissolved-certificates`;
     } else if (certificateItem.itemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType) {
