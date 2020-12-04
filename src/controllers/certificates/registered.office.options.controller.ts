@@ -63,24 +63,37 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
 
 export const setRegOfficeOption = (option: string): RegisteredOfficeAddressDetailsRequest => {
     let initialRegOfficeOption: RegisteredOfficeAddressDetailsRequest = {
-        includeAddressRecordsType: null
+        includeAddressRecordsType: null,
+        includeDates: false
     };
 
     switch (option) {
     case CURRENT_ADDRESS_FIELD: {
-        initialRegOfficeOption = { includeAddressRecordsType: "current" };
+        initialRegOfficeOption = {
+            includeAddressRecordsType: "current",
+            includeDates: false 
+        };
         break;
     }
     case CURRENT_ADDRESS_AND_THE_ONE_PREVIOUS_FIELD: {
-        initialRegOfficeOption = { includeAddressRecordsType: "current-and-previous" };
+        initialRegOfficeOption = {
+            includeAddressRecordsType: "current-and-previous",
+            includeDates: false
+        };
         break;
     }
     case CURRENT_ADDRESS_AND_THE_TWO_PREVIOUS_FIELD: {
-        initialRegOfficeOption = { includeAddressRecordsType: "current-previous-and-prior" };
+        initialRegOfficeOption = {
+            includeAddressRecordsType: "current-previous-and-prior",
+            includeDates: false
+        };
         break;
     }
     case ALL_CURRENT_AND_PREVIOUS_ADDRESSES_FIELD: {
-        initialRegOfficeOption = { includeAddressRecordsType: "all" };
+        initialRegOfficeOption = { 
+            includeAddressRecordsType: "all",
+            includeDates: false
+        };
         break;
     }
     default:
