@@ -9,11 +9,12 @@ import { CERTIFICATE_REGISTERED_OFFICE_OPTIONS, replaceCertificateId } from "../
 const CERTIFICATE_ID = "CRT-000000-000000";
 const REGISTERED_OFFICE_OPTION_NOT_SELECTED =
     "Select which registered office address you need on your certificate";
-const REGISTERED_OFFICE_OPTTIONS_URL =
+const REGISTERED_OFFICE_OPTIONS_URL =
     replaceCertificateId(CERTIFICATE_REGISTERED_OFFICE_OPTIONS, CERTIFICATE_ID);
 const sandbox = sinon.createSandbox();
 let testApp = null;
 let getCertificateItemStub;
+let patchCertificateItemStub;
 
 describe("registered.office.options.integration.test", () => {
     beforeEach((done) => {
@@ -37,12 +38,12 @@ describe("registered.office.options.integration.test", () => {
     } as CertificateItem;
 
     describe("Check the page renders", () => {
-        it("renders the registred office options page", async () => {
+        it("renders the registered office options page", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItem));
 
             const resp = await chai.request(testApp)
-                .get(REGISTERED_OFFICE_OPTTIONS_URL)
+                .get(REGISTERED_OFFICE_OPTIONS_URL)
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
 
             chai.expect(resp.status).to.equal(200);
@@ -51,16 +52,18 @@ describe("registered.office.options.integration.test", () => {
     });
 
     describe("registered office options post", () => {
-        it("redirects the user to the check-details page", async () => {
+        it("redirects the user to the delivery-details page", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItem));
+            patchCertificateItemStub = sandbox.stub(apiClient, "patchCertificateItem")
                 .returns(Promise.resolve(certificateItem));
 
             const resp = await chai.request(testApp)
-                .post(REGISTERED_OFFICE_OPTTIONS_URL)
+                .post(REGISTERED_OFFICE_OPTIONS_URL)
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
                 .redirects(0)
                 .send({
-                    "registered-office" : "currentAddress"
+                    registeredOffice: "currentAddressAndTheTwoPrevious"
                 });
 
             chai.expect(resp.status).to.equal(302);
@@ -72,7 +75,7 @@ describe("registered.office.options.integration.test", () => {
                 .returns(Promise.resolve(certificateItem));
 
             const resp = await chai.request(testApp)
-                .post(REGISTERED_OFFICE_OPTTIONS_URL)
+                .post(REGISTERED_OFFICE_OPTIONS_URL)
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
                 .redirects(0)
                 .send();

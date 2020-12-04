@@ -2,12 +2,12 @@ import { check } from "express-validator";
 import * as errorMessages from "../../model/error.messages";
 import { createGovUkErrorData, GovUkErrorData } from "../../model/govuk.error.data";
 
-const REGISTERED_OFFICE_OPTION: string = "registered-office";
+const REGISTERED_OFFICE_OPTION: string = "registeredOffice";
 
 export const registeredOfficeAddressValidationRules =
     [
         check(REGISTERED_OFFICE_OPTION)
-            .not().isEmpty().withMessage(errorMessages.REGISTERED_OFFICE_OPTION_NOT_SELECTED),
+            .not().isEmpty().withMessage(errorMessages.REGISTERED_OFFICE_OPTION_NOT_SELECTED)
     ];
 
 export const validate = (validationErrors) => {
@@ -24,6 +24,6 @@ export const validate = (validationErrors) => {
 
     return {
         errorList: validationErrorList,
-        registeredOfficeOptionError,
+        registeredOfficeOptionError
     };
 };

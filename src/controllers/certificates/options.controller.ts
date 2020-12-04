@@ -119,7 +119,7 @@ export const hasRegisterOfficeAddressOptions = (options: string[]): boolean => {
         return false;
     }
     for (const option of options) {
-        if ( option === REGISTERED_OFFICE_FIELD) {
+        if (option === REGISTERED_OFFICE_FIELD) {
             return true;
         }
     }
