@@ -71,7 +71,7 @@ export const setRegOfficeOption = (option: string): RegisteredOfficeAddressDetai
     case CURRENT_ADDRESS_FIELD: {
         initialRegOfficeOption = {
             includeAddressRecordsType: "current",
-            includeDates: false 
+            includeDates: false
         };
         break;
     }
@@ -90,7 +90,7 @@ export const setRegOfficeOption = (option: string): RegisteredOfficeAddressDetai
         break;
     }
     case ALL_CURRENT_AND_PREVIOUS_ADDRESSES_FIELD: {
-        initialRegOfficeOption = { 
+        initialRegOfficeOption = {
             includeAddressRecordsType: "all",
             includeDates: false
         };

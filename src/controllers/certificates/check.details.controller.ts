@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { CertificateItem, ItemOptions } from "ch-sdk-node/dist/services/order/certificates/types";
+import { CertificateItem, ItemOptions, RegisteredOfficeAddressDetails } from "ch-sdk-node/dist/services/order/certificates/types";
 import { Basket, DeliveryDetails } from "ch-sdk-node/dist/services/order/basket/types";
 import { createLogger } from "ch-structured-logging";
 
@@ -39,6 +39,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const itemOptions: ItemOptions = certificateItem.itemOptions;
         const basket: Basket = await getBasket(accessToken);
         const isNotDissolutionCertificateType: Boolean = itemOptions.certificateType !== "dissolution";
+        const includeAddressRecordsType: string | undefined = itemOptions.registeredOfficeAddressDetails?.includeAddressRecordsType;
 
         return res.render(CERTIFICATE_CHECK_DETAILS, {
             companyName: certificateItem.companyName,
@@ -56,7 +57,8 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             statementOfGoodStanding: isOptionSelected(itemOptions.includeGoodStandingInformation),
             currentCompanyDirectorsNames: isOptionSelected(itemOptions.directorDetails?.includeBasicInformation),
             currentSecretariesNames: isOptionSelected(itemOptions.secretaryDetails?.includeBasicInformation),
-            companyObjects: isOptionSelected(itemOptions.includeCompanyObjectsInformation)
+            companyObjects: isOptionSelected(itemOptions.includeCompanyObjectsInformation),
+            registeredOfficeAddress: mapRegisteredOfficeAddress(includeAddressRecordsType)
         });
     } catch (err) {
         logger.error(`${err}`);
@@ -124,6 +126,21 @@ export const mapCertificateType = (certificateType: string): string => {
 
 export const applyCurrencySymbol = (fee: string): string => {
     return "£" + fee;
+};
+
+export const mapRegisteredOfficeAddress = (registeredOfficeAddress: string | undefined): string => {
+    switch (registeredOfficeAddress) {
+    case "current":
+        return "Current address";
+    case "current-and-previous":
+        return "Current address and the one previous";
+    case "current-previous-and-prior":
+        return "Current address and the two previous";
+    case "all":
+        return "All current and previous addresses";
+    default:
+        return "No";
+    };
 };
 
 export default [route];

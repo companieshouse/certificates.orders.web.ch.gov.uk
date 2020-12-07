@@ -42,7 +42,10 @@ const certificateItem = {
         forename: "john",
         includeCompanyObjectsInformation: true,
         includeGoodStandingInformation: true,
-        surname: "smith"
+        surname: "smith",
+        registeredOfficeAddressDetails: {
+            includeAddressRecordsType: "all"
+        }
     }
 } as CertificateItem;
 
@@ -103,6 +106,24 @@ describe("certificate.check.details.controller.integration", () => {
             chai.expect($(".currentCompanyDirectorsNames").text().trim()).to.equal("No");
             chai.expect($(".currentSecretariesNames").text().trim()).to.equal("No");
             chai.expect($(".companyObjects").text().trim()).to.equal("Yes");
+        });
+    });
+
+    describe("check correct value is shown for registered office address field", () => {
+        it("returns the mapped value for registered office address", async () => {
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItem));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve(basketDetails));
+
+            const resp = await chai.request(testApp)
+                .get(CHECK_DETAILS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+            const $ = cheerio.load(resp.text);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect($(".registeredOfficeAddress").text().trim()).to.equal("All current and previous addresses");
         });
     });
 
