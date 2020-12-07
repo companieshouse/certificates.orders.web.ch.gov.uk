@@ -5,7 +5,7 @@ import {
 } from "ch-sdk-node/dist/services/order/certificates/types";
 
 import {
-    mapIncludedOnCertificate, mapCertificateType, applyCurrencySymbol, isOptionSelected
+    mapIncludedOnCertificate, mapCertificateType, applyCurrencySymbol, isOptionSelected, mapRegisteredOfficeAddress
 } from "../../../src/controllers/certificates/check.details.controller";
 
 const directorDetails: DirectorOrSecretaryDetails = {
@@ -113,6 +113,16 @@ describe("certificate.check.details.controller.unit", () => {
         it("it returns yes or no if value has been declared on certificate options", () => {
             chai.expect(isOptionSelected(true)).to.equal("Yes");
             chai.expect(isOptionSelected(undefined)).to.equal("No");
+        });
+    });
+
+    describe("mapRegisteredOfficeAddress", () => {
+        it("maps the include_address_records_type field to display on text on page", () => {
+            chai.expect(mapRegisteredOfficeAddress("current")).to.equal("Current address");
+            chai.expect(mapRegisteredOfficeAddress("current-and-previous")).to.equal("Current address and the one previous");
+            chai.expect(mapRegisteredOfficeAddress("current-previous-and-prior")).to.equal("Current address and the two previous");
+            chai.expect(mapRegisteredOfficeAddress("all")).to.equal("All current and previous addresses");
+            chai.expect(mapRegisteredOfficeAddress(undefined)).to.equal("No");
         });
     });
 });
