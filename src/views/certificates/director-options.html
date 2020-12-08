@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  Director information
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "registered-office-options"
+  }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form action="/director-options" method="post">
+
+      {{ govukCheckboxes({
+        idPrefix: "director-options",
+        name: "director-options",
+        fieldset: {
+          legend: {
+            text: "What director information do you need?",
+            isPageHeading: true,
+            classes: "govuk-fieldset__legend--xl"
+          }
+        },
+        hint: {
+          text: "The certificate will include the names of all current company directors, and any of the details you choose below."
+        },
+        items: [
+          {
+            value: "address",
+            text: "Correspondence address"
+          },
+          {
+            value: "occupation",
+            text: "Occupation"
+          },
+          {
+            value: "dob",
+            text: "Date of birth (month and year)"
+          },
+          {
+            value: "appointment",
+            text: "Appointment date"
+          },
+          {
+            value: "nationality",
+            text: "Nationality"
+          },
+          {
+            value: "country-of-residence",
+            text: "Country of residence"
+          }
+        ]
+      }) }}
+
+      {{ govukButton({
+        text: "Continue"
+      }) }}
+
+      </form>
+  </div>
+</div>  
+{% endblock %}
