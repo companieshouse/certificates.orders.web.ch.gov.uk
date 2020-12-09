@@ -46,6 +46,7 @@
               {
                 value: "currentAddress",
                 text: "Current address",
+                checked: true if regOfficeAddressDetails.includeAddressRecordsType == "current" else false,
                 attributes: {
                   "data-event-id" : "certificate-reg-office-address-current"
                 }
@@ -53,6 +54,7 @@
               {
                 value: "currentAddressAndTheOnePrevious",
                 text: "Current address and the one previous",
+                checked: true if regOfficeAddressDetails.includeAddressRecordsType == "current-and-previous" else false,
                 attributes: {
                   "data-event-id" : "certificate-reg-office-address-current-previous"
                 }
@@ -60,6 +62,7 @@
               {
                 value: "currentAddressAndTheTwoPrevious",
                 text: "Current address and the two previous",
+                checked: true if regOfficeAddressDetails.includeAddressRecordsType == "current-previous-and-prior" else false,
                 attributes: {
                   "data-event-id" : "certificate-reg-office-address-current-two-previous"
                 }
@@ -67,6 +70,7 @@
               {
                 value: "allCurrentAndPreviousAddresses",
                 text: "All current and previous addresses",
+                checked: true if regOfficeAddressDetails.includeAddressRecordsType == "all" else false,
                 attributes: {
                   "data-event-id" : "certificate-reg-office-address-all"
                 }
