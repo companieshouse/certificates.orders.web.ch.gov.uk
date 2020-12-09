@@ -30,7 +30,7 @@ describe("certificate.options.controller.unit", () => {
             const options = ["registeredOffice"];
             const returnedItemOptions = setItemOptions(options);
 
-            chai.expect(returnedItemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType).to.equal(null);
+            chai.expect(returnedItemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType).to.equal("current");
         });
 
         it("should set includeBasicInformation on secretaryDetails to true, when the option is secretaries", () => {
