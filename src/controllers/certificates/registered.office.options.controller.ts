@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 import { CERTIFICATE_REGISTERED_OFFICE_OPTIONS } from "../../model/template.paths";
-import { CertificateItem, RegisteredOfficeAddressDetailsRequest, CertificateItemPatchRequest } from "ch-sdk-node/dist/services/order/certificates/types";
+import { CertificateItem, RegisteredOfficeAddressDetailsRequest, CertificateItemPatchRequest, ItemOptions, RegisteredOfficeAddressDetails } from "ch-sdk-node/dist/services/order/certificates/types";
 import { getCertificateItem, patchCertificateItem } from "../../client/api.client";
 import { getAccessToken, getUserId } from "../../session/helper";
 import { createLogger } from "ch-structured-logging";
@@ -20,12 +20,15 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
     const userId = getUserId(req.session);
     const accessToken: string = getAccessToken(req.session);
     const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
+    const itemOptions: ItemOptions = certificateItem.itemOptions;
+    const regOfficeAddressDetails: RegisteredOfficeAddressDetails = itemOptions?.registeredOfficeAddressDetails;
     const SERVICE_URL = `/company/${certificateItem.companyNumber}/orderable/certificates`;
 
     logger.info(`Certificate item retrieved, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
 
     return res.render(CERTIFICATE_REGISTERED_OFFICE_OPTIONS, {
         companyNumber: certificateItem.companyNumber,
+        regOfficeAddressDetails,
         SERVICE_URL
     });
 };
