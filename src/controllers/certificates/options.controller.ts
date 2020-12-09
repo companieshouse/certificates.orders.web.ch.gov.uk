@@ -93,6 +93,7 @@ export const setItemOptions = (options: string[]): ItemOptionsRequest => {
                 break;
             }
             case REGISTERED_OFFICE_FIELD: {
+                itemOptionsAccum.registeredOfficeAddressDetails = { includeAddressRecordsType: "current" };
                 break;
             }
             case DIRECTORS_FIELD: {
