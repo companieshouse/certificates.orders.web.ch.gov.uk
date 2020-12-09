@@ -15,7 +15,7 @@ const sandbox = sinon.createSandbox();
 let testApp = null;
 let getCertificateItemStub;
 
-describe("registered.office.options.integration.test", () => {
+describe("director.options.integration.test", () => {
     beforeEach((done) => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
         sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
