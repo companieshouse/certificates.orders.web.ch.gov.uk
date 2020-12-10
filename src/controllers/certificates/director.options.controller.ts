@@ -11,6 +11,24 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
 
     return res.render(CERTIFICATE_DIRECTOR_OPTIONS, {
         companyNumber: certificateItem.companyNumber,
-        SERVICE_URL
+        SERVICE_URL,
+        backLink: setBackLink(certificateItem)
     });
 };
+
+const route = async (req: Request, res: Response, next: NextFunction) => {
+    return res.redirect("delivery-details");
+};
+
+export const setBackLink = (certificateItem: CertificateItem) => {
+    let backLink;
+
+    if (certificateItem.itemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType) {
+        backLink = "registered-office-options";
+    } else {
+        backLink = "certificate-options";
+    }
+    return backLink;
+};
+
+export default [route];

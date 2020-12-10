@@ -1,7 +1,7 @@
 import chai from "chai";
 import sessionHandler from "@companieshouse/node-session-handler"; // need this to allow certificate.options.controller to compile
 
-import { hasRegisterOfficeAddressOptions, setItemOptions } from "../../../src/controllers/certificates/options.controller";
+import { hasRegisterOfficeAddressOptions, setItemOptions, hasDirectorOption } from "../../../src/controllers/certificates/options.controller";
 
 describe("certificate.options.controller.unit", () => {
     describe("setItemOptions", () => {
@@ -84,6 +84,22 @@ describe("certificate.options.controller.unit", () => {
         it("should return false if registered office address option is not selected", () => {
             const options = ["goodStanding"];
             const expectedResult = hasRegisterOfficeAddressOptions(options);
+
+            chai.expect(expectedResult).to.equal(false);
+        });
+    });
+
+    describe("hasDirectorOption", () => {
+        it("should return true if directors option selected", () => {
+            const options = ["directors"];
+            const expectedResult = hasDirectorOption(options);
+
+            chai.expect(expectedResult).to.equal(true);
+        });
+
+        it("should return false if directors option is not selected", () => {
+            const options = ["goodStanding"];
+            const expectedResult = hasDirectorOption(options);
 
             chai.expect(expectedResult).to.equal(false);
         });

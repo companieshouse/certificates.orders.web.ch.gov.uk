@@ -55,7 +55,11 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         const userId = getUserId(req.session);
         const patchResponse = await patchCertificateItem(accessToken, req.params.certificateId, certificateItem);
         logger.info(`Patched certificate item with registered office option, id=${req.params.certificateId}, user_id=${userId}, company_number=${patchResponse.companyNumber}, certificate_options=${JSON.stringify(certificateItem)}`);
-        return res.redirect("delivery-details");
+        if (patchResponse.itemOptions.directorDetails) {
+            return res.redirect("director-options");
+        } else {
+            return res.redirect("delivery-details");
+        }
     } catch (err) {
         logger.error(`${err}`);
         return next(err);
