@@ -37,6 +37,16 @@ describe("registered.office.options.integration.test", () => {
         }
     } as CertificateItem;
 
+    const patchedCertificateItem = {
+        itemOptions: {
+            forename: "john",
+            surname: "smith",
+            directorDetails: {
+                includeBasicInformation: true
+            }
+        }
+    } as CertificateItem;
+
     describe("Check the page renders", () => {
         it("renders the registered office options page", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
@@ -68,6 +78,24 @@ describe("registered.office.options.integration.test", () => {
 
             chai.expect(resp.status).to.equal(302);
             chai.expect(resp.text).to.include("Found. Redirecting to delivery-details");
+        });
+
+        it("redirects the user to the director-options page", async () => {
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItem));
+            patchCertificateItemStub = sandbox.stub(apiClient, "patchCertificateItem")
+                .returns(Promise.resolve(patchedCertificateItem));
+
+            const resp = await chai.request(testApp)
+                .post(REGISTERED_OFFICE_OPTIONS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
+                .redirects(0)
+                .send({
+                    registeredOffice: "currentAddressAndTheTwoPrevious"
+                });
+
+            chai.expect(resp.status).to.equal(302);
+            chai.expect(resp.text).to.include("Found. Redirecting to director-options");
         });
 
         it("throws a validation error when no option selected", async () => {

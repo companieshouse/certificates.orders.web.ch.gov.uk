@@ -12,7 +12,7 @@ import checkDetailsController, { render as renderCheckDetails } from "../../cont
 import collectionOptionsController, { render as renderCertificateOptions } from "../../controllers/certificates/options.controller";
 import deliveryDetailsController, { render as renderDeliveryDetails } from "../../controllers/certificates/delivery.details.controller";
 import registeredOfficeOptionsController, { render as renderRegisteredOfficeOptions } from "../../controllers/certificates/registered.office.options.controller";
-import { render as renderDirectorOptions } from "../../controllers/certificates/director.options.controller";
+import directorOptionsController, { render as renderDirectorOptions } from "../../controllers/certificates/director.options.controller";
 import { render as renderSecretaryOptions } from "../../controllers/certificates/secretary.options.controller";
 
 const router: Router = Router();
@@ -30,6 +30,8 @@ router.get(CERTIFICATE_REGISTERED_OFFICE_OPTIONS, renderRegisteredOfficeOptions)
 router.post(CERTIFICATE_REGISTERED_OFFICE_OPTIONS, registeredOfficeOptionsController);
 
 router.get(CERTIFICATE_DIRECTOR_OPTIONS, renderDirectorOptions);
+router.post(CERTIFICATE_DIRECTOR_OPTIONS, directorOptionsController);
+
 router.get(CERTIFICATE_SECRETARY_OPTIONS, renderSecretaryOptions);
 
 router.get(CERTIFICATE_DELIVERY_DETAILS, renderDeliveryDetails);

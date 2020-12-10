@@ -49,4 +49,22 @@ describe("director.options.integration.test", () => {
             chai.expect(resp.text).to.contain(DIRECTOR_OPTIONS_NOT_SELECTED);
         });
     });
+
+    describe("director options patch", () => {
+        it("redirects the user to the delivery details page", async () => {
+            const certificateDetails = {} as CertificateItem;
+            const emptyCertificateItem = {} as CertificateItem;
+
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(emptyCertificateItem));
+
+            const resp = await chai.request(testApp)
+                .post(DIRECTOR_OPTIONS_URL)
+                .redirects(0)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+            chai.expect(resp.status).to.equal(302);
+            chai.expect(resp.text).to.contain("Found. Redirecting to delivery-details");
+        });
+    });
 });
