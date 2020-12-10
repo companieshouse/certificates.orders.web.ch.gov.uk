@@ -5,7 +5,7 @@ import { setBackLink } from "../../../src/controllers/certificates/delivery.deta
 import { mockDissolvedCertificateItem } from "../../__mocks__/certificates.mocks";
 
 describe("delivery.details.controller.unit", () => {
-    describe("setBackUrl for no registered address option selected", () => {
+    describe("setBackUrl for no option selected", () => {
         it("the back button link should take the user to the certificate options page", () => {
             const certificateItem = {
                 itemOptions: {
@@ -18,7 +18,7 @@ describe("delivery.details.controller.unit", () => {
         });
     });
 
-    describe("setBackUrl for registered office option selected", () => {
+    describe("setBackUrl for only registered office option selected", () => {
         it("the back button link should take the user to the registered office option page", () => {
             const certificateItem = {
                 itemOptions: {
@@ -29,6 +29,37 @@ describe("delivery.details.controller.unit", () => {
             } as CertificateItem;
 
             chai.expect(setBackLink(certificateItem)).to.equal("registered-office-options");
+        });
+    });
+
+    describe("setBackUrl for only director options selected", () => {
+        it("the back button link should take the user to the director options page", () => {
+            const certificateItem = {
+                itemOptions: {
+                    directorDetails: {
+                        includeBasicInformation: true
+                    }
+                }
+            } as CertificateItem;
+
+            chai.expect(setBackLink(certificateItem)).to.equal("director-options");
+        });
+    });
+
+    describe("setBackUrl for both director options and registered office options selected", () => {
+        it("the back button link should take the user to the director options page", () => {
+            const certificateItem = {
+                itemOptions: {
+                    registeredOfficeAddressDetails: {
+                        includeAddressRecordsType: "current"
+                    },
+                    directorDetails: {
+                        includeBasicInformation: true
+                    }
+                }
+            } as CertificateItem;
+
+            chai.expect(setBackLink(certificateItem)).to.equal("director-options");
         });
     });
 

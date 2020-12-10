@@ -114,17 +114,18 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
-export const setBackLink = (certificateItem: CertificateItem) => {
-    let backLink;
-
+export const setBackLink = (certificateItem: CertificateItem):string => {
     if (certificateItem.itemOptions?.certificateType === "dissolution") {
-        backLink = `/company/${certificateItem.companyNumber}/orderable/dissolved-certificates`;
-    } else if (certificateItem.itemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType) {
-        backLink = "registered-office-options";
-    } else {
-        backLink = "certificate-options";
+       return `/company/${certificateItem.companyNumber}/orderable/dissolved-certificates`;
     }
-    return backLink;
+
+    if (certificateItem.itemOptions?.directorDetails) {
+        return "director-options";
+    } else if (certificateItem.itemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType) {
+        return "registered-office-options";
+    }
+
+    return "certificate-options";
 };
 
 export default [...deliveryDetailsValidationRules, route];
