@@ -223,7 +223,7 @@ describe("certificate.delivery.details.controller", () => {
     });
 
     describe("delivery details back button", () => {
-        it("back button takes the user to the check details page if they have not selected the registered office option", async () => {
+        it("back button takes the user to the check details page if they have not selected any options", async () => {
             const basketDetails = {} as Basket;
             const certificateItem = {} as CertificateItem;
 
@@ -241,7 +241,7 @@ describe("certificate.delivery.details.controller", () => {
             chai.expect($(".govuk-back-link").attr("href")).to.include("certificate-options");
         });
 
-        it("back button takes the user to the registered office options page if they selected the registered office option", async () => {
+        it("back button takes the user to the registered office options page if they selected only the registered office option", async () => {
             const basketDetails = {} as Basket;
             const certificateItem = {
                 itemOptions: {
@@ -263,6 +263,57 @@ describe("certificate.delivery.details.controller", () => {
 
             chai.expect(resp.status).to.equal(200);
             chai.expect($(".govuk-back-link").attr("href")).to.include("registered-office-options");
+        });
+
+        it("back button takes the user to the director options page if they selected only the director office option", async () => {
+            const basketDetails = {} as Basket;
+            const certificateItem = {
+                itemOptions: {
+                    directorDetails: {
+                        includeBasicInformation: true
+                    }
+                }
+            } as CertificateItem;
+
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItem));
+            getBasketStub = sandbox.stub(apiClient, "getBasket").returns(Promise.resolve(basketDetails));
+
+            const resp = await chai.request(testApp)
+                .get(DELIVERY_DETAILS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+            const $ = cheerio.load(resp.text);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect($(".govuk-back-link").attr("href")).to.include("director-options");
+        });
+
+        it("back button takes the user to the director options page if they selected both the director options and registered office options", async () => {
+            const basketDetails = {} as Basket;
+            const certificateItem = {
+                itemOptions: {
+                    registeredOfficeAddressDetails: {
+                        includeAddressRecordsType: "current"
+                    },
+                    directorDetails: {
+                        includeBasicInformation: true
+                    }
+                }
+            } as CertificateItem;
+
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItem));
+            getBasketStub = sandbox.stub(apiClient, "getBasket").returns(Promise.resolve(basketDetails));
+
+            const resp = await chai.request(testApp)
+                .get(DELIVERY_DETAILS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+            const $ = cheerio.load(resp.text);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect($(".govuk-back-link").attr("href")).to.include("director-options");
         });
     });
 });
