@@ -4,7 +4,7 @@ import {
     ROOT_CERTIFICATE, CERTIFICATE_TYPE, CERTIFICATE_OPTIONS, CERTIFICATE_DELIVERY_DETAILS,
     CERTIFICATE_CHECK_DETAILS, ROOT_DISSOLVED_CERTIFICATE, DISSOLVED_CERTIFICATE_TYPE,
     DISSOLVED_CERTIFICATE_DELIVERY_DETAILS, DISSOLVED_CERTIFICATE_CHECK_DETAILS, CERTIFICATE_REGISTERED_OFFICE_OPTIONS,
-    CERTIFICATE_DIRECTOR_OPTIONS
+    CERTIFICATE_DIRECTOR_OPTIONS, CERTIFICATE_SECRETARY_OPTIONS
 } from "../../model/page.urls";
 import homeController from "../../controllers/certificates/home.controller";
 import { render as renderCertificateType } from "../../controllers/certificates/type.controller";
@@ -13,6 +13,7 @@ import collectionOptionsController, { render as renderCertificateOptions } from 
 import deliveryDetailsController, { render as renderDeliveryDetails } from "../../controllers/certificates/delivery.details.controller";
 import registeredOfficeOptionsController, { render as renderRegisteredOfficeOptions } from "../../controllers/certificates/registered.office.options.controller";
 import directorOptionsController, { render as renderDirectorOptions } from "../../controllers/certificates/director.options.controller";
+import { render as renderSecretaryOptions } from "../../controllers/certificates/secretary.options.controller";
 
 const router: Router = Router();
 
@@ -30,6 +31,8 @@ router.post(CERTIFICATE_REGISTERED_OFFICE_OPTIONS, registeredOfficeOptionsContro
 
 router.get(CERTIFICATE_DIRECTOR_OPTIONS, renderDirectorOptions);
 router.post(CERTIFICATE_DIRECTOR_OPTIONS, directorOptionsController);
+
+router.get(CERTIFICATE_SECRETARY_OPTIONS, renderSecretaryOptions);
 
 router.get(CERTIFICATE_DELIVERY_DETAILS, renderDeliveryDetails);
 router.post(CERTIFICATE_DELIVERY_DETAILS, deliveryDetailsController);

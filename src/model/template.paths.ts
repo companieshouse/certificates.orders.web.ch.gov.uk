@@ -15,6 +15,7 @@ export const CERTIFICATE_CHECK_DETAILS: string = `${certRoot}/check-details`;
 export const CERTIFICATE_ORDER_DETAILS: string = `${certRoot}/order-details`;
 export const CERTIFICATE_REGISTERED_OFFICE_OPTIONS: string = `${certRoot}/registered-office-options`;
 export const CERTIFICATE_DIRECTOR_OPTIONS: string = `${certRoot}/director-options`;
+export const CERTIFICATE_SECRETARY_OPTIONS: string = `${certRoot}/secretary-options`;
 
 export const CERTIFIED_COPY_INDEX: string = `${certifiedCopyRoot}/index`;
 export const CERTIFIED_COPY_CHECK_DETAILS: string = `${certifiedCopyRoot}/check-details`;
