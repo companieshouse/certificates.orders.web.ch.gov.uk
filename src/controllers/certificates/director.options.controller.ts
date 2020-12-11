@@ -4,9 +4,7 @@ import { CertificateItem, ItemOptions, DirectorOrSecretaryDetails, DirectorOrSec
 import { getCertificateItem, patchCertificateItem } from "../../client/api.client";
 import { CERTIFICATE_DIRECTOR_OPTIONS } from "../../model/template.paths";
 import { createLogger } from "ch-structured-logging";
-import ApplicationLogger from "ch-structured-logging/lib/ApplicationLogger";
 import { APPLICATION_NAME } from "../../config/config";
-import { validationResult } from "express-validator";
 
 const logger = createLogger(APPLICATION_NAME);
 const INCLUDE_ADDRESS_FIELD: string = "address";
