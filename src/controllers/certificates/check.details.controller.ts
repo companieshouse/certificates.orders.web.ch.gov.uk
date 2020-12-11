@@ -55,7 +55,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             isNotDissolutionCertificateType,
             templateName: CERTIFICATE_CHECK_DETAILS,
             statementOfGoodStanding: isOptionSelected(itemOptions.includeGoodStandingInformation),
-            currentCompanyDirectorsNames: isOptionSelected(itemOptions.directorDetails?.includeBasicInformation),
+            currentCompanyDirectorsNames: mapDirectorOptions(itemOptions.directorDetails),
             currentSecretariesNames: isOptionSelected(itemOptions.secretaryDetails?.includeBasicInformation),
             companyObjects: isOptionSelected(itemOptions.includeCompanyObjectsInformation),
             registeredOfficeAddress: mapRegisteredOfficeAddress(includeAddressRecordsType)
@@ -144,7 +144,7 @@ export const mapRegisteredOfficeAddress = (registeredOfficeAddress: string | und
 };
 
 export const mapDirectorOptions = (directorOptions: DirectorOrSecretaryDetails): string => {
-    if (directorOptions.includeBasicInformation === undefined) {
+    if (directorOptions  === undefined || directorOptions.includeBasicInformation === undefined) {
         return "No";
     }
 
