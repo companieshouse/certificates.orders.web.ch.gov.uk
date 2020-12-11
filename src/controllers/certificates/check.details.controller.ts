@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { CertificateItem, ItemOptions, RegisteredOfficeAddressDetails } from "ch-sdk-node/dist/services/order/certificates/types";
+import { CertificateItem, ItemOptions, DirectorOrSecretaryDetails } from "ch-sdk-node/dist/services/order/certificates/types";
 import { Basket, DeliveryDetails } from "ch-sdk-node/dist/services/order/basket/types";
 import { createLogger } from "ch-structured-logging";
 
@@ -141,6 +141,52 @@ export const mapRegisteredOfficeAddress = (registeredOfficeAddress: string | und
     default:
         return "No";
     };
+};
+
+export const mapDirectorOptions = (directorOptions: DirectorOrSecretaryDetails): string => {
+    if (directorOptions.includeBasicInformation === undefined) {
+        return "No";
+    }
+
+    if (directorOptions.includeBasicInformation === true &&
+        directorOptions.includeAddress === undefined &&
+        directorOptions.includeAppointmentDate === undefined &&
+        directorOptions.includeCountryOfResidence === undefined &&
+        directorOptions.includeDobType === undefined &&
+        directorOptions.includeNationality === undefined &&
+        directorOptions.includeOccupation === undefined) {
+        return "Yes";
+    }
+
+    const mappings:string[] = [];
+    mappings.push("Including directors':<br>");
+
+    if (directorOptions.includeAddress) {
+        mappings.push("Correspondence address");
+    }
+
+    if (directorOptions.includeOccupation) {
+        mappings.push("Occupation");
+    }
+
+    if (directorOptions.includeDobType === "partial" ||
+        directorOptions.includeDobType === "full") {
+        mappings.push("Date of birth (month and year)");
+    }
+
+    if (directorOptions.includeAppointmentDate) {
+        mappings.push("Appointment date");
+    }
+
+    if (directorOptions.includeNationality) {
+        mappings.push("Nationality");
+    }
+
+    if (directorOptions.includeCountryOfResidence) {
+        mappings.push("Country of residence");
+    }
+
+    return mapToHtml(mappings);
 };
 
 export default [route];
