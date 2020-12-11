@@ -14,6 +14,7 @@ const DIRECTOR_OPTIONS_URL =
 const sandbox = sinon.createSandbox();
 let testApp = null;
 let getCertificateItemStub;
+let patchCertificateItemStub;
 
 describe("director.options.integration.test", () => {
     beforeEach((done) => {
@@ -57,11 +58,16 @@ describe("director.options.integration.test", () => {
 
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(emptyCertificateItem));
+            patchCertificateItemStub = sandbox.stub(apiClient, "patchCertificateItem")
+                .returns(Promise.resolve(certificateItem));
 
             const resp = await chai.request(testApp)
                 .post(DIRECTOR_OPTIONS_URL)
                 .redirects(0)
-                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
+                .send({
+                    directorDetails: true
+                });
 
             chai.expect(resp.status).to.equal(302);
             chai.expect(resp.text).to.contain("Found. Redirecting to delivery-details");
