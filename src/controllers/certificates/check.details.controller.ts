@@ -47,7 +47,6 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             certificateType: mapCertificateType(itemOptions.certificateType),
             deliveryMethod: mapDeliveryMethod(itemOptions),
             fee: applyCurrencySymbol(certificateItem.itemCosts[0].itemCost),
-            certificateMappings: mapIncludedOnCertificate(itemOptions),
             changeIncludedOn: replaceCertificateId(CERTIFICATE_OPTIONS, req.params.certificateId),
             changeDeliveryDetails: setChangeDeliveryDetails(certificateItem),
             deliveryDetails: mapDeliveryDetails(basket.deliveryDetails),
@@ -83,32 +82,6 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         logger.error(`error=${error}`);
         return next(error);
     }
-};
-
-export const mapIncludedOnCertificate = (itemOptions: ItemOptions): string => {
-    const mappings:string[] = [];
-
-    if (itemOptions?.includeGoodStandingInformation) {
-        mappings.push(GOOD_STANDING);
-    }
-
-    if (itemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType !== undefined) {
-        mappings.push(REGISTERED_OFFICE_ADDRESS);
-    }
-
-    if (itemOptions?.directorDetails?.includeBasicInformation) {
-        mappings.push(DIRECTORS);
-    }
-
-    if (itemOptions?.secretaryDetails?.includeBasicInformation) {
-        mappings.push(SECRETARIES);
-    }
-
-    if (itemOptions?.includeCompanyObjectsInformation) {
-        mappings.push(COMPANY_OBJECTS);
-    }
-
-    return mapToHtml(mappings);
 };
 
 export const mapCertificateType = (certificateType: string): string => {

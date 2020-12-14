@@ -5,7 +5,7 @@ import {
 } from "ch-sdk-node/dist/services/order/certificates/types";
 
 import {
-    mapIncludedOnCertificate, mapCertificateType, applyCurrencySymbol, isOptionSelected, mapRegisteredOfficeAddress, mapDirectorOptions
+    mapCertificateType, applyCurrencySymbol, isOptionSelected, mapRegisteredOfficeAddress, mapDirectorOptions
 } from "../../../src/controllers/certificates/check.details.controller";
 
 const directorDetails: DirectorOrSecretaryDetails = {
@@ -50,40 +50,6 @@ const itemOptions: ItemOptions = {
 };
 
 describe("certificate.check.details.controller.unit", () => {
-    describe("mapIncludedOnCertificate", () => {
-        it("should map the correct values when all options are true", () => {
-            const returnedString: string = mapIncludedOnCertificate(itemOptions);
-            const expectedString: string = "Statement of good standing<br>" +
-                "Registered office address<br>Directors<br>Secretaries<br>Company objects<br>";
-
-            chai.expect(returnedString).to.equal(expectedString);
-        });
-
-        it("should map the no values when all options are false", () => {
-            itemOptions.includeGoodStandingInformation = false;
-            delete itemOptions.registeredOfficeAddressDetails.includeAddressRecordsType;
-            itemOptions.directorDetails.includeBasicInformation = false;
-            itemOptions.secretaryDetails.includeBasicInformation = false;
-            itemOptions.includeCompanyObjectsInformation = false;
-
-            const returnedString: string = mapIncludedOnCertificate(itemOptions);
-            const expectedString: string = "";
-
-            chai.expect(returnedString).to.equal(expectedString);
-        });
-
-        it("should map the the values that are present", () => {
-            itemOptions.includeGoodStandingInformation = true;
-            itemOptions.directorDetails.includeBasicInformation = true;
-            itemOptions.includeCompanyObjectsInformation = true;
-
-            const returnedString: string = mapIncludedOnCertificate(itemOptions);
-            const expectedString: string = "Statement of good standing<br>Directors<br>Company objects<br>";
-
-            chai.expect(returnedString).to.equal(expectedString);
-        });
-    });
-
     describe("mapCertificateType", () => {
         it("removes the '-' if present and capitalises the first letter", () => {
             const testString1: string = "incorporation";
