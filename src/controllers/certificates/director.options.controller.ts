@@ -65,7 +65,7 @@ export const setDirectorOption = (options: string[]): DirectorOrSecretaryDetails
         includeAppointmentDate: false,
         includeBasicInformation: true,
         includeCountryOfResidence: false,
-        includeDobType: undefined,
+        includeDobType: null,
         includeNationality: false,
         includeOccupation: false
     };
