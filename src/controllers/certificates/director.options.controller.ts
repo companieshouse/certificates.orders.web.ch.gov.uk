@@ -53,7 +53,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const patchResponse = await patchCertificateItem(accessToken, req.params.certificateId, certificateItem);
         logger.info(`Patched certificate item with registered office option, id=${req.params.certificateId}, user_id=${userId}, company_number=${patchResponse.companyNumber}, certificate_options=${JSON.stringify(certificateItem)}`);
         return res.redirect("delivery-details");
-    } catch(err) {
+    } catch (err) {
         logger.error(`{$err}`);
         return next(err);
     }

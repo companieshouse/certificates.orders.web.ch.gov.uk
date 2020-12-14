@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { CertificateItem, ItemOptions, RegisteredOfficeAddressDetails } from "ch-sdk-node/dist/services/order/certificates/types";
+import { CertificateItem, ItemOptions, DirectorOrSecretaryDetails } from "ch-sdk-node/dist/services/order/certificates/types";
 import { Basket, DeliveryDetails } from "ch-sdk-node/dist/services/order/basket/types";
 import { createLogger } from "ch-structured-logging";
 
@@ -47,7 +47,6 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             certificateType: mapCertificateType(itemOptions.certificateType),
             deliveryMethod: mapDeliveryMethod(itemOptions),
             fee: applyCurrencySymbol(certificateItem.itemCosts[0].itemCost),
-            certificateMappings: mapIncludedOnCertificate(itemOptions),
             changeIncludedOn: replaceCertificateId(CERTIFICATE_OPTIONS, req.params.certificateId),
             changeDeliveryDetails: setChangeDeliveryDetails(certificateItem),
             deliveryDetails: mapDeliveryDetails(basket.deliveryDetails),
@@ -55,7 +54,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             isNotDissolutionCertificateType,
             templateName: CERTIFICATE_CHECK_DETAILS,
             statementOfGoodStanding: isOptionSelected(itemOptions.includeGoodStandingInformation),
-            currentCompanyDirectorsNames: isOptionSelected(itemOptions.directorDetails?.includeBasicInformation),
+            currentCompanyDirectorsNames: mapDirectorOptions(itemOptions.directorDetails),
             currentSecretariesNames: isOptionSelected(itemOptions.secretaryDetails?.includeBasicInformation),
             companyObjects: isOptionSelected(itemOptions.includeCompanyObjectsInformation),
             registeredOfficeAddress: mapRegisteredOfficeAddress(includeAddressRecordsType)
@@ -83,32 +82,6 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         logger.error(`error=${error}`);
         return next(error);
     }
-};
-
-export const mapIncludedOnCertificate = (itemOptions: ItemOptions): string => {
-    const mappings:string[] = [];
-
-    if (itemOptions?.includeGoodStandingInformation) {
-        mappings.push(GOOD_STANDING);
-    }
-
-    if (itemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType !== undefined) {
-        mappings.push(REGISTERED_OFFICE_ADDRESS);
-    }
-
-    if (itemOptions?.directorDetails?.includeBasicInformation) {
-        mappings.push(DIRECTORS);
-    }
-
-    if (itemOptions?.secretaryDetails?.includeBasicInformation) {
-        mappings.push(SECRETARIES);
-    }
-
-    if (itemOptions?.includeCompanyObjectsInformation) {
-        mappings.push(COMPANY_OBJECTS);
-    }
-
-    return mapToHtml(mappings);
 };
 
 export const mapCertificateType = (certificateType: string): string => {
@@ -141,6 +114,52 @@ export const mapRegisteredOfficeAddress = (registeredOfficeAddress: string | und
     default:
         return "No";
     };
+};
+
+export const mapDirectorOptions = (directorOptions: DirectorOrSecretaryDetails): string => {
+    if (directorOptions === undefined || directorOptions.includeBasicInformation === undefined) {
+        return "No";
+    }
+
+    if (directorOptions.includeBasicInformation === true &&
+        directorOptions.includeAddress === false &&
+        directorOptions.includeAppointmentDate === false &&
+        directorOptions.includeCountryOfResidence === false &&
+        directorOptions.includeDobType === undefined &&
+        directorOptions.includeNationality === false &&
+        directorOptions.includeOccupation === false) {
+        return "Yes";
+    }
+
+    const mappings:string[] = [];
+    mappings.push("Including directors':<br>");
+
+    if (directorOptions.includeAddress) {
+        mappings.push("Correspondence address");
+    }
+
+    if (directorOptions.includeOccupation) {
+        mappings.push("Occupation");
+    }
+
+    if (directorOptions.includeDobType === "partial" ||
+        directorOptions.includeDobType === "full") {
+        mappings.push("Date of birth (month and year)");
+    }
+
+    if (directorOptions.includeAppointmentDate) {
+        mappings.push("Appointment date");
+    }
+
+    if (directorOptions.includeNationality) {
+        mappings.push("Nationality");
+    }
+
+    if (directorOptions.includeCountryOfResidence) {
+        mappings.push("Country of residence");
+    }
+
+    return mapToHtml(mappings);
 };
 
 export default [route];

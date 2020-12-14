@@ -116,7 +116,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
 
 export const setBackLink = (certificateItem: CertificateItem):string => {
     if (certificateItem.itemOptions?.certificateType === "dissolution") {
-       return `/company/${certificateItem.companyNumber}/orderable/dissolved-certificates`;
+        return `/company/${certificateItem.companyNumber}/orderable/dissolved-certificates`;
     }
 
     if (certificateItem.itemOptions?.directorDetails) {
