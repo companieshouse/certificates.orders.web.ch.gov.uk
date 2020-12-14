@@ -149,12 +149,12 @@ export const mapDirectorOptions = (directorOptions: DirectorOrSecretaryDetails):
     }
 
     if (directorOptions.includeBasicInformation === true &&
-        directorOptions.includeAddress === undefined &&
-        directorOptions.includeAppointmentDate === undefined &&
-        directorOptions.includeCountryOfResidence === undefined &&
+        directorOptions.includeAddress === false &&
+        directorOptions.includeAppointmentDate === false &&
+        directorOptions.includeCountryOfResidence === false &&
         directorOptions.includeDobType === undefined &&
-        directorOptions.includeNationality === undefined &&
-        directorOptions.includeOccupation === undefined) {
+        directorOptions.includeNationality === false &&
+        directorOptions.includeOccupation === false) {
         return "Yes";
     }
 
