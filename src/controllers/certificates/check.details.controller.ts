@@ -144,7 +144,7 @@ export const mapRegisteredOfficeAddress = (registeredOfficeAddress: string | und
 };
 
 export const mapDirectorOptions = (directorOptions: DirectorOrSecretaryDetails): string => {
-    if (directorOptions  === undefined || directorOptions.includeBasicInformation === undefined) {
+    if (directorOptions === undefined || directorOptions.includeBasicInformation === undefined) {
         return "No";
     }
 
