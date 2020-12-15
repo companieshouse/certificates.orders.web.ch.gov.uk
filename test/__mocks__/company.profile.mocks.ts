@@ -1,5 +1,5 @@
-import { CompanyProfile } from "ch-sdk-node/dist/services/company-profile/types";
-import Resource from "ch-sdk-node/dist/services/resource";
+import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
+import Resource from "@companieshouse/api-sdk-node/dist/services/resource";
 
 export const dummyCompanyProfileActiveCompany: CompanyProfile = {
     companyName: "company name",

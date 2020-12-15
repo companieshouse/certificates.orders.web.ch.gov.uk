@@ -5,7 +5,7 @@ import ioredis from "ioredis";
 import * as apiClient from "../../../src/client/api.client";
 import { CERTIFICATE_TYPE, replaceCertificateId } from "../../../src/model/page.urls";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
-import { CertificateItem } from "ch-sdk-node/dist/services/order/certificates/types";
+import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { dummyCompanyProfileActiveCompany, dummyCompanyProfileDissolvedCompany } from "../../__mocks__/company.profile.mocks";
 
 const sandbox = sinon.createSandbox();

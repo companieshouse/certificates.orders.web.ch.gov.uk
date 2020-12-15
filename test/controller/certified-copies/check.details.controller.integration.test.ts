@@ -3,8 +3,8 @@ import sinon from "sinon";
 import ioredis from "ioredis";
 import cheerio from "cheerio";
 import sessionHandler from "@companieshouse/node-session-handler";
-import { Basket, BasketItem } from "ch-sdk-node/dist/services/order/basket/types";
-import { CertifiedCopyItem } from "ch-sdk-node/dist/services/order/certified-copies/types";
+import { Basket, BasketItem } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
+import { CertifiedCopyItem } from "@companieshouse/api-sdk-node/dist/services/order/certified-copies/types";
 
 import * as apiClient from "../../../src/client/api.client";
 import { CERTIFIED_COPY_CHECK_DETAILS, replaceCertifiedCopyId } from "../../../src/model/page.urls";

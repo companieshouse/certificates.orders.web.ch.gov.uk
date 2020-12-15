@@ -1,4 +1,4 @@
-import { DeliveryDetails } from "ch-sdk-node/dist/services/order/basket/types";
+import { DeliveryDetails } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 
 export const mapDeliveryDetails = (deliveryDetails: DeliveryDetails | undefined): string => {
     const mappings:string[] = [];

@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { getAccessToken, getUserId } from "../../session/helper";
-import { CertificateItem, ItemOptions, DirectorOrSecretaryDetails, DirectorOrSecretaryDetailsRequest, CertificateItemPatchRequest } from "ch-sdk-node/dist/services/order/certificates/types";
+import { CertificateItem, ItemOptions, DirectorOrSecretaryDetails, DirectorOrSecretaryDetailsRequest, CertificateItemPatchRequest } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { getCertificateItem, patchCertificateItem } from "../../client/api.client";
 import { CERTIFICATE_DIRECTOR_OPTIONS } from "../../model/template.paths";
 import { createLogger } from "ch-structured-logging";

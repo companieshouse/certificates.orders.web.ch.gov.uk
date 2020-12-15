@@ -2,7 +2,7 @@ import chai from "chai";
 import sessionHandler from "@companieshouse/node-session-handler";
 import {
     ItemOptions, RegisteredOfficeAddressDetails, DirectorOrSecretaryDetails
-} from "ch-sdk-node/dist/services/order/certificates/types";
+} from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 
 import {
     mapCertificateType, applyCurrencySymbol, isOptionSelected, mapRegisteredOfficeAddress, mapDirectorOptions
