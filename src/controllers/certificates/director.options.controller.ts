@@ -25,6 +25,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
     return res.render(CERTIFICATE_DIRECTOR_OPTIONS, {
         companyNumber: certificateItem.companyNumber,
         itemOptions: certificateItem.itemOptions,
+        directorDetails: itemOptions.directorDetails,
         SERVICE_URL,
         backLink: setBackLink(certificateItem)
     });
