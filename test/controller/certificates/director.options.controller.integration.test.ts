@@ -1,6 +1,7 @@
 import chai from "chai";
 import sinon from "sinon";
 import ioredis from "ioredis";
+import cheerio from "cheerio";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
 import { CertificateItem } from "ch-sdk-node/dist/services/order/certificates/types";
 import * as apiClient from "../../../src/client/api.client";
@@ -37,6 +38,20 @@ describe("director.options.integration.test", () => {
         }
     } as CertificateItem;
 
+    const directorDetailsCertificateItem = {
+        itemOptions: {
+            directorDetails: {
+                includeAddress: false,
+                includeAppointmentDate: true,
+                includeBasicInformation: true,
+                includeCountryOfResidence: false,
+                includeDobType: "partial",
+                includeNationality: false,
+                includeOccupation: false
+            }
+        }
+    } as CertificateItem
+
     describe("Check the page renders", () => {
         it("renders the director options page", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
@@ -71,6 +86,27 @@ describe("director.options.integration.test", () => {
 
             chai.expect(resp.status).to.equal(302);
             chai.expect(resp.text).to.contain("Found. Redirecting to delivery-details");
+        });
+    });
+
+    describe("Check the page renders and retains checked boxes", () => {
+        it("renders the director options page with previously selected options checked", async () => {
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(directorDetailsCertificateItem));
+
+            const resp = await chai.request(testApp)
+                .get(DIRECTOR_OPTIONS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+                const $ = cheerio.load(resp.text);
+
+                chai.expect(resp.status).to.equal(200);
+                chai.expect($("#director-options").prop('checked')).be.false;
+                chai.expect($("#director-options-2").prop('checked')).be.false;
+                chai.expect($("#director-options-3").prop('checked')).be.true;
+                chai.expect($("#director-options-4").prop('checked')).be.true;
+                chai.expect($("#director-options-5").prop('checked')).be.false;
+                chai.expect($("#director-options-6").prop('checked')).be.false;
         });
     });
 });

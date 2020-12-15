@@ -33,6 +33,7 @@
           {
             value: "address",
             text: "Correspondence address",
+            checked: true if directorDetails.includeAddress else false,
             attributes: {
               "data-event-id" : "certificate-director-corr-addr"
             }
@@ -40,6 +41,7 @@
           {
             value: "occupation",
             text: "Occupation",
+            checked: true if directorDetails.includeOccupation else false,
             attributes: {
               "data-event-id" : "certificate-director-occupation"
             }
@@ -47,6 +49,7 @@
           {
             value: "dob",
             text: "Date of birth (month and year)",
+            checked: true if directorDetails.includeDobType else false,
             attributes: {
               "data-event-id" : "certificates-director-dob"
             }
@@ -54,6 +57,7 @@
           {
             value: "appointment",
             text: "Appointment date",
+            checked: true if directorDetails.includeAppointmentDate else false,
             attributes: {
               "data-event-id" : "certificate-director-appt-date"
             }
@@ -61,6 +65,7 @@
           {
             value: "nationality",
             text: "Nationality",
+            checked: true if directorDetails.includeNationality else false,
             attributes: {
               "data-event-id" : "certificate-director-nationality"
             }
@@ -68,6 +73,7 @@
           {
             value: "countryOfResidence",
             text: "Country of residence",
+            checked: true if directorDetails.includeCountryOfResidence else false,
             attributes: {
               "data-event-id" : "certificate-director-country"
             }
