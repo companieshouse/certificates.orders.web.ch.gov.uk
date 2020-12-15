@@ -79,7 +79,13 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 export const setItemOptions = (options: string[]): ItemOptionsRequest => {
     const initialItemOptions: ItemOptionsRequest = {
         directorDetails: {
-            includeBasicInformation: null
+            includeBasicInformation: null,
+            includeAddress: null,
+            includeAppointmentDate: null,
+            includeCountryOfResidence: null,
+            includeDobType: null,
+            includeNationality: null,
+            includeOccupation: null
         },
         includeCompanyObjectsInformation: null,
         includeGoodStandingInformation: null,
