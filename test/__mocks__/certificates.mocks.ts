@@ -1,6 +1,6 @@
-import Resource from "ch-sdk-node/dist/services/resource";
-import { CompanyProfile } from "ch-sdk-node/dist/services/company-profile";
-import { CertificateItem } from "ch-sdk-node/dist/services/order/certificates/types";
+import Resource from "@companieshouse/api-sdk-node/dist/services/resource";
+import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
+import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 
 export const mockCompanyProfileConfiguration: any = {
     companyNumber: "00000000"

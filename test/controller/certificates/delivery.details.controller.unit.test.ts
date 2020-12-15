@@ -1,6 +1,6 @@
 import chai from "chai";
 
-import { CertificateItem } from "ch-sdk-node/dist/services/order/certificates/types";
+import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { setBackLink } from "../../../src/controllers/certificates/delivery.details.controller";
 import { mockDissolvedCertificateItem } from "../../__mocks__/certificates.mocks";
 

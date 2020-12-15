@@ -2,8 +2,8 @@ import chai from "chai";
 import sessionHandler from "@companieshouse/node-session-handler";
 import {
     ItemOptions, RegisteredOfficeAddressDetails, DirectorOrSecretaryDetails
-} from "ch-sdk-node/dist/services/order/certificates/types";
-import { DeliveryDetails } from "ch-sdk-node/dist/services/order/basket/types";
+} from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
+import { DeliveryDetails } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 
 import {
     mapDeliveryDetails, mapDeliveryMethod, mapToHtml

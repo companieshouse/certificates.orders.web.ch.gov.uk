@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { getAccessToken } from "../../session/helper";
-import { CertificateItem } from "ch-sdk-node/dist/services/order/certificates/types";
+import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { getCertificateItem } from "../../client/api.client";
 import { CERTIFICATE_SECRETARY_OPTIONS } from "../../model/template.paths";
 

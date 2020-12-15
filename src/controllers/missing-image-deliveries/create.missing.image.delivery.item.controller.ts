@@ -4,7 +4,7 @@ import { postMissingImageDeliveryItem } from "../../client/api.client";
 import { MISSING_IMAGE_DELIVERY_CHECK_DETAILS, replaceMissingImageDeliveryId } from "../../model/page.urls";
 import { createLogger } from "ch-structured-logging";
 import { APPLICATION_NAME } from "../../config/config";
-import { MidItem, MidItemPostRequest } from "ch-sdk-node/dist/services/order/mid/types";
+import { MidItem, MidItemPostRequest } from "@companieshouse/api-sdk-node/dist/services/order/mid/types";
 
 const logger = createLogger(APPLICATION_NAME);
 

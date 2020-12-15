@@ -1,18 +1,18 @@
 import sinon from "sinon";
 import chai from "chai";
-import Resource from "ch-sdk-node/dist/services/resource";
-import CertificateItemService from "ch-sdk-node/dist/services/order/certificates/service";
-import BasketService from "ch-sdk-node/dist/services/order/basket/service";
-import CertifiedCopyItemService from "ch-sdk-node/dist/services/order/certified-copies/service";
-import { CertificateItemPostRequest, CertificateItem } from "ch-sdk-node/dist/services/order/certificates/types";
-import { CertifiedCopyItem, CertifiedCopyItemResource } from "ch-sdk-node/dist/services/order/certified-copies/types";
-import { Basket, BasketPatchRequest } from "ch-sdk-node/dist/services/order/basket/types";
+import Resource from "@companieshouse/api-sdk-node/dist/services/resource";
+import CertificateItemService from "@companieshouse/api-sdk-node/dist/services/order/certificates/service";
+import BasketService from "@companieshouse/api-sdk-node/dist/services/order/basket/service";
+import CertifiedCopyItemService from "@companieshouse/api-sdk-node/dist/services/order/certified-copies/service";
+import { CertificateItemPostRequest, CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
+import { CertifiedCopyItem, CertifiedCopyItemResource } from "@companieshouse/api-sdk-node/dist/services/order/certified-copies/types";
+import { Basket, BasketPatchRequest } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 
 import { postCertificateItem, patchBasket, getBasket, getCompanyProfile, getCertifiedCopyItem, postMissingImageDeliveryItem, getMissingImageDeliveryItem } from "../../src/client/api.client";
-import CompanyProfileService from "ch-sdk-node/dist/services/company-profile/service";
-import { CompanyProfile } from "ch-sdk-node/dist/services/company-profile/types";
-import { MidService } from "ch-sdk-node/dist/services/order";
-import { MidItem, MidItemPostRequest } from "ch-sdk-node/dist/services/order/mid/types";
+import CompanyProfileService from "@companieshouse/api-sdk-node/dist/services/company-profile/service";
+import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
+import { MidService } from "@companieshouse/api-sdk-node/dist/services/order";
+import { MidItem, MidItemPostRequest } from "@companieshouse/api-sdk-node/dist/services/order/mid/types";
 
 const dummyBasketSDKResponse: Resource<Basket> = {
     httpStatusCode: 200,

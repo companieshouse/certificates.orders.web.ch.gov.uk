@@ -2,7 +2,7 @@ import chai from "chai";
 import sinon from "sinon";
 import ioredis from "ioredis";
 import { ROOT_CERTIFIED_COPY, replaceCompanyNumber } from "../../../src/model/page.urls";
-import CompanyProfileService from "ch-sdk-node/dist/services/company-profile/service";
+import CompanyProfileService from "@companieshouse/api-sdk-node/dist/services/company-profile/service";
 
 const COMPANY_NUMBER = "00000000";
 
