@@ -98,6 +98,34 @@ describe("registered.office.options.integration.test", () => {
             chai.expect(resp.text).to.include("Found. Redirecting to director-options");
         });
 
+        it("redirects the user to the secretary-options page when the secretary option is selected", async () => {
+            const secretaryCertificateItem = {
+                itemOptions: {
+                    forename: "john",
+                    surname: "smith",
+                    secretaryDetails: {
+                        includeBasicInformation: true
+                    }
+                }
+            } as CertificateItem;
+
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItem));
+            patchCertificateItemStub = sandbox.stub(apiClient, "patchCertificateItem")
+                .returns(Promise.resolve(secretaryCertificateItem));
+
+            const resp = await chai.request(testApp)
+                .post(REGISTERED_OFFICE_OPTIONS_URL)
+                .redirects(0)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
+                .send({
+                    registeredOffice: "currentAddressAndTheTwoPrevious"
+                });
+
+            chai.expect(resp.status).to.equal(302);
+            chai.expect(resp.text).to.contain("Found. Redirecting to secretary-options");
+        });
+
         it("throws a validation error when no option selected", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItem));

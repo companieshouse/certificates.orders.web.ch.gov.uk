@@ -41,15 +41,18 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         let additionalInfoItemOptions: ItemOptionsRequest;
         let registeredOfficeOptions: boolean;
         let directorOptions: boolean;
+        let secretaryOptions: boolean;
 
         if (typeof moreInfo === "string") {
             additionalInfoItemOptions = setItemOptions([moreInfo]);
             registeredOfficeOptions = hasRegisterOfficeAddressOptions([moreInfo]);
             directorOptions = hasDirectorOption([moreInfo]);
+            secretaryOptions = hasSecretaryOptions([moreInfo]);
         } else {
             additionalInfoItemOptions = setItemOptions(moreInfo);
             registeredOfficeOptions = hasRegisterOfficeAddressOptions(moreInfo);
             directorOptions = hasDirectorOption(moreInfo);
+            secretaryOptions = hasSecretaryOptions(moreInfo);
         }
 
         const certificateItem: CertificateItemPatchRequest = {
@@ -67,6 +70,8 @@ export default async (req: Request, res: Response, next: NextFunction) => {
             return res.redirect("registered-office-options");
         } else if (directorOptions) {
             return res.redirect("director-options");
+        } else if (secretaryOptions) {
+            return res.redirect("secretary-options");
         } else {
             return res.redirect("delivery-details");
         }
@@ -138,6 +143,18 @@ export const hasDirectorOption = (options: string[]): boolean => {
     }
     for (const option of options) {
         if (option === DIRECTORS_FIELD) {
+            return true;
+        }
+    }
+    return false;
+};
+
+export const hasSecretaryOptions = (options: string[]): boolean => {
+    if (options === undefined) {
+        return false;
+    }
+    for (const option of options) {
+        if (option === SECRETARIES_FIELD) {
             return true;
         }
     }

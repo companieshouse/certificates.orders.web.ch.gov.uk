@@ -50,7 +50,7 @@ describe("director.options.integration.test", () => {
                 includeOccupation: false
             }
         }
-    } as CertificateItem
+    } as CertificateItem;
 
     describe("Check the page renders", () => {
         it("renders the director options page", async () => {
@@ -87,6 +87,30 @@ describe("director.options.integration.test", () => {
             chai.expect(resp.status).to.equal(302);
             chai.expect(resp.text).to.contain("Found. Redirecting to delivery-details");
         });
+
+        it("redirects the user to the secretary options page when the secretary option is selected", async () => {
+            const certificateDetails = {
+                itemOptions: {
+                    secretaryDetails: {
+                        includeBasicInformation: true
+                    }
+                }
+            } as CertificateItem;
+            const emptyCertificateItem = {} as CertificateItem;
+
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(emptyCertificateItem));
+            patchCertificateItemStub = sandbox.stub(apiClient, "patchCertificateItem")
+                .returns(Promise.resolve(certificateDetails));
+
+            const resp = await chai.request(testApp)
+                .post(DIRECTOR_OPTIONS_URL)
+                .redirects(0)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+            chai.expect(resp.status).to.equal(302);
+            chai.expect(resp.text).to.contain("Found. Redirecting to secretary-options");
+        });
     });
 
     describe("Check the page renders and retains checked boxes", () => {
@@ -98,15 +122,15 @@ describe("director.options.integration.test", () => {
                 .get(DIRECTOR_OPTIONS_URL)
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
 
-                const $ = cheerio.load(resp.text);
+            const $ = cheerio.load(resp.text);
 
-                chai.expect(resp.status).to.equal(200);
-                chai.expect($("#director-options").prop('checked')).be.false;
-                chai.expect($("#director-options-2").prop('checked')).be.false;
-                chai.expect($("#director-options-3").prop('checked')).be.true;
-                chai.expect($("#director-options-4").prop('checked')).be.true;
-                chai.expect($("#director-options-5").prop('checked')).be.false;
-                chai.expect($("#director-options-6").prop('checked')).be.false;
+            chai.expect(resp.status).to.equal(200);
+            chai.expect($("#director-options").prop("checked")).be.false;
+            chai.expect($("#director-options-2").prop("checked")).be.false;
+            chai.expect($("#director-options-3").prop("checked")).be.true;
+            chai.expect($("#director-options-4").prop("checked")).be.true;
+            chai.expect($("#director-options-5").prop("checked")).be.false;
+            chai.expect($("#director-options-6").prop("checked")).be.false;
         });
     });
 });

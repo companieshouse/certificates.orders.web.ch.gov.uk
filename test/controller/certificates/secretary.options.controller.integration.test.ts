@@ -14,6 +14,7 @@ const SECRETARY_OPTIONS_URL =
 const sandbox = sinon.createSandbox();
 let testApp = null;
 let getCertificateItemStub;
+let patchCertificateItemStub;
 
 describe("secretary.options.integration.test", () => {
     beforeEach((done) => {
@@ -47,6 +48,22 @@ describe("secretary.options.integration.test", () => {
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain(SECRETARY_OPTIONS_INFO_TEXT);
+        });
+    });
+    describe("registered office options post", () => {
+        it("redirects the user to the delivery-details page", async () => {
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItem));
+            patchCertificateItemStub = sandbox.stub(apiClient, "patchCertificateItem")
+                .returns(Promise.resolve(certificateItem));
+
+            const resp = await chai.request(testApp)
+                .post(SECRETARY_OPTIONS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
+                .redirects(0);
+
+            chai.expect(resp.status).to.equal(302);
+            chai.expect(resp.text).to.include("Found. Redirecting to delivery-details");
         });
     });
 });
