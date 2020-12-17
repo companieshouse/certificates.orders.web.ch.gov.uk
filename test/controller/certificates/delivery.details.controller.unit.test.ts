@@ -46,6 +46,20 @@ describe("delivery.details.controller.unit", () => {
         });
     });
 
+    describe("setBackUrl for only secretary options selected", () => {
+        it("the back button link should take the user to the secretary options page", () => {
+            const certificateItem = {
+                itemOptions: {
+                    secretaryDetails: {
+                        includeBasicInformation: true
+                    }
+                }
+            } as CertificateItem;
+
+            chai.expect(setBackLink(certificateItem)).to.equal("secretary-options");
+        });
+    });
+
     describe("setBackUrl for both director options and registered office options selected", () => {
         it("the back button link should take the user to the director options page", () => {
             const certificateItem = {
@@ -60,6 +74,26 @@ describe("delivery.details.controller.unit", () => {
             } as CertificateItem;
 
             chai.expect(setBackLink(certificateItem)).to.equal("director-options");
+        });
+    });
+
+    describe("setBackUrl for director, secretary and registered office options selected", () => {
+        it("the back button link should take the user to the secretary options page", () => {
+            const certificateItem = {
+                itemOptions: {
+                    registeredOfficeAddressDetails: {
+                        includeAddressRecordsType: "current"
+                    },
+                    directorDetails: {
+                        includeBasicInformation: true
+                    },
+                    secretaryDetails: {
+                        includeBasicInformation: true
+                    }
+                }
+            } as CertificateItem;
+
+            chai.expect(setBackLink(certificateItem)).to.equal("secretary-options");
         });
     });
 

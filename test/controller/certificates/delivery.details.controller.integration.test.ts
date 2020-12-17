@@ -265,7 +265,7 @@ describe("certificate.delivery.details.controller", () => {
             chai.expect($(".govuk-back-link").attr("href")).to.include("registered-office-options");
         });
 
-        it("back button takes the user to the director options page if they selected only the director office option", async () => {
+        it("back button takes the user to the director options page if they selected only the director options", async () => {
             const basketDetails = {} as Basket;
             const certificateItem = {
                 itemOptions: {
@@ -287,6 +287,30 @@ describe("certificate.delivery.details.controller", () => {
 
             chai.expect(resp.status).to.equal(200);
             chai.expect($(".govuk-back-link").attr("href")).to.include("director-options");
+        });
+
+        it("back button takes the user to the secretary options page if they selected only the secretary options", async () => {
+            const basketDetails = {} as Basket;
+            const certificateItem = {
+                itemOptions: {
+                    secretaryDetails: {
+                        includeBasicInformation: true
+                    }
+                }
+            } as CertificateItem;
+
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItem));
+            getBasketStub = sandbox.stub(apiClient, "getBasket").returns(Promise.resolve(basketDetails));
+
+            const resp = await chai.request(testApp)
+                .get(DELIVERY_DETAILS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+            const $ = cheerio.load(resp.text);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect($(".govuk-back-link").attr("href")).to.include("secretary-options");
         });
 
         it("back button takes the user to the director options page if they selected both the director options and registered office options", async () => {
@@ -314,6 +338,36 @@ describe("certificate.delivery.details.controller", () => {
 
             chai.expect(resp.status).to.equal(200);
             chai.expect($(".govuk-back-link").attr("href")).to.include("director-options");
+        });
+
+        it("back button takes the user to the secretary options page if they selected the director, secretary and registered office options", async () => {
+            const basketDetails = {} as Basket;
+            const certificateItem = {
+                itemOptions: {
+                    registeredOfficeAddressDetails: {
+                        includeAddressRecordsType: "current"
+                    },
+                    directorDetails: {
+                        includeBasicInformation: true
+                    },
+                    secretaryDetails: {
+                        includeBasicInformation: true
+                    }
+                }
+            } as CertificateItem;
+
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItem));
+            getBasketStub = sandbox.stub(apiClient, "getBasket").returns(Promise.resolve(basketDetails));
+
+            const resp = await chai.request(testApp)
+                .get(DELIVERY_DETAILS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+            const $ = cheerio.load(resp.text);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect($(".govuk-back-link").attr("href")).to.include("secretary-options");
         });
     });
 });
