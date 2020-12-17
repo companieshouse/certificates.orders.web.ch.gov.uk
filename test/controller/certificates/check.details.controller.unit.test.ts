@@ -140,7 +140,6 @@ describe("certificate.check.details.controller.unit", () => {
         });
     });
 
-    //FROM HERE
     describe("mapSecretaryOptions", () => {
         it("maps all options selected correctly", () => {
             const secretaryOptions = {

@@ -169,7 +169,7 @@ export const mapSecretaryOptions = (secretaryOptions: DirectorOrSecretaryDetails
 
     if (secretaryOptions.includeBasicInformation === true &&
         secretaryOptions.includeAddress === false &&
-        secretaryOptions.includeAppointmentDate === false ) {
+        secretaryOptions.includeAppointmentDate === false) {
         return "Yes";
     }
 

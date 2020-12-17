@@ -117,7 +117,6 @@ describe("certificate.check.details.controller.integration", () => {
 
             chai.expect(resp.status).to.equal(200);
             chai.expect($(".statementOfGoodStanding").text().trim()).to.equal("Yes");
-            //chai.expect($(".currentSecretariesNames").text().trim()).to.equal("No");
             chai.expect($(".companyObjects").text().trim()).to.equal("Yes");
         });
     });

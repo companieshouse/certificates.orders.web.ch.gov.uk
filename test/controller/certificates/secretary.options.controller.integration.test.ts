@@ -64,7 +64,7 @@ describe("secretary.options.integration.test", () => {
                 .send({
                     includeAddress: false,
                     includeAppointmentDate: true,
-                    includeBasicInformation: true,
+                    includeBasicInformation: true
                 });
 
             chai.expect(resp.status).to.equal(302);
