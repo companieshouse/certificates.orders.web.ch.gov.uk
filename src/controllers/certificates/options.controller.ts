@@ -98,7 +98,9 @@ export const setItemOptions = (options: string[]): ItemOptionsRequest => {
             includeAddressRecordsType: null
         },
         secretaryDetails: {
-            includeBasicInformation: null
+            includeBasicInformation: null,
+            includeAddress: null,
+            includeAppointmentDate: null
         }
     };
     return options === undefined ? initialItemOptions
