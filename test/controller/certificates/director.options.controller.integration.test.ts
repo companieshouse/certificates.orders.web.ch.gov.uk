@@ -3,7 +3,7 @@ import sinon from "sinon";
 import ioredis from "ioredis";
 import cheerio from "cheerio";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
-import { CertificateItem } from "ch-sdk-node/dist/services/order/certificates/types";
+import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import * as apiClient from "../../../src/client/api.client";
 import { CERTIFICATE_DIRECTOR_OPTIONS, replaceCertificateId } from "../../../src/model/page.urls";
 

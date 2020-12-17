@@ -1,13 +1,13 @@
-import { createApiClient } from "ch-sdk-node";
-import { CompanyProfile, CompanyProfileResource } from "ch-sdk-node/dist/services/company-profile";
-import { BasketItem, ItemUriPostRequest, Basket, BasketPatchRequest } from "ch-sdk-node/dist/services/order/basket/types";
-import { CertificateItemPostRequest, CertificateItemPatchRequest, CertificateItem } from "ch-sdk-node/dist/services/order/certificates/types";
-import { CertifiedCopyItem, CertifiedCopyItemResource } from "ch-sdk-node/dist/services/order/certified-copies/types";
+import { createApiClient } from "@companieshouse/api-sdk-node";
+import { CompanyProfile, CompanyProfileResource } from "@companieshouse/api-sdk-node/dist/services/company-profile";
+import { BasketItem, ItemUriPostRequest, Basket, BasketPatchRequest } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
+import { CertificateItemPostRequest, CertificateItemPatchRequest, CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
+import { CertifiedCopyItem, CertifiedCopyItemResource } from "@companieshouse/api-sdk-node/dist/services/order/certified-copies/types";
 import { API_KEY, API_URL, APPLICATION_NAME } from "../config/config";
 import { createLogger } from "ch-structured-logging";
-import Resource from "ch-sdk-node/dist/services/resource";
+import Resource from "@companieshouse/api-sdk-node/dist/services/resource";
 import createError from "http-errors";
-import { MidItemPostRequest, MidItem } from "ch-sdk-node/dist/services/order/mid/types";
+import { MidItemPostRequest, MidItem } from "@companieshouse/api-sdk-node/dist/services/order/mid/types";
 
 const logger = createLogger(APPLICATION_NAME);
 

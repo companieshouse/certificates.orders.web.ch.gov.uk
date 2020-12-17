@@ -1,5 +1,5 @@
 import chai from "chai";
-import { CertificateItem } from "ch-sdk-node/dist/services/order/certificates/types";
+import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { setBackLink, setDirectorOption } from "../../../src/controllers/certificates/director.options.controller";
 
 describe("director.options.controller.unit", () => {

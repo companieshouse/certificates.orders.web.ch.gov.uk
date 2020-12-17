@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { createLogger } from "ch-structured-logging";
-import { CertifiedCopyItem, FilingHistoryDocuments } from "ch-sdk-node/dist/services/order/certified-copies";
-import { Basket } from "ch-sdk-node/dist/services/order/basket";
+import { CertifiedCopyItem, FilingHistoryDocuments } from "@companieshouse/api-sdk-node/dist/services/order/certified-copies";
+import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket";
 
 import { CERTIFIED_COPY_DELIVERY_DETAILS, replaceCertifiedCopyId } from "../../model/page.urls";
 import { CERTIFIED_COPY_CHECK_DETAILS } from "../../model/template.paths";

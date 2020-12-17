@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import { CertificateItem, ItemOptions, DirectorOrSecretaryDetails } from "ch-sdk-node/dist/services/order/certificates/types";
-import { Basket, DeliveryDetails } from "ch-sdk-node/dist/services/order/basket/types";
+import { CertificateItem, ItemOptions, DirectorOrSecretaryDetails } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
+import { Basket, DeliveryDetails } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 import { createLogger } from "ch-structured-logging";
 
 import { CERTIFICATE_OPTIONS, CERTIFICATE_DELIVERY_DETAILS, replaceCertificateId } from "../../model/page.urls";

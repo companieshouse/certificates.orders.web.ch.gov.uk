@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 import { CERTIFICATE_REGISTERED_OFFICE_OPTIONS } from "../../model/template.paths";
-import { CertificateItem, RegisteredOfficeAddressDetailsRequest, CertificateItemPatchRequest, ItemOptions, RegisteredOfficeAddressDetails } from "ch-sdk-node/dist/services/order/certificates/types";
+import { CertificateItem, RegisteredOfficeAddressDetailsRequest, CertificateItemPatchRequest, ItemOptions, RegisteredOfficeAddressDetails } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { getCertificateItem, patchCertificateItem } from "../../client/api.client";
 import { getAccessToken, getUserId } from "../../session/helper";
 import { createLogger } from "ch-structured-logging";

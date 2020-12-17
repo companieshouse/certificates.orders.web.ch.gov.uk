@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { CertificateItemPatchRequest, ItemOptionsRequest, CertificateItem, ItemOptions } from "ch-sdk-node/dist/services/order/certificates/types";
+import { CertificateItemPatchRequest, ItemOptionsRequest, CertificateItem, ItemOptions } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { patchCertificateItem, getCertificateItem } from "../../client/api.client";
 import { createLogger } from "ch-structured-logging";
 import { CERTIFICATE_OPTIONS } from "../../model/template.paths";
@@ -84,7 +84,13 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 export const setItemOptions = (options: string[]): ItemOptionsRequest => {
     const initialItemOptions: ItemOptionsRequest = {
         directorDetails: {
-            includeBasicInformation: null
+            includeBasicInformation: null,
+            includeAddress: null,
+            includeAppointmentDate: null,
+            includeCountryOfResidence: null,
+            includeDobType: null,
+            includeNationality: null,
+            includeOccupation: null
         },
         includeCompanyObjectsInformation: null,
         includeGoodStandingInformation: null,

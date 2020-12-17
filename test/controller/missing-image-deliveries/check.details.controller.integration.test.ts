@@ -2,8 +2,8 @@ import chai from "chai";
 import sinon from "sinon";
 import ioredis from "ioredis";
 import cheerio from "cheerio";
-import { MidItem } from "ch-sdk-node/dist/services/order/mid/types";
-import { Basket, BasketItem } from "ch-sdk-node/dist/services/order/basket/types";
+import { MidItem } from "@companieshouse/api-sdk-node/dist/services/order/mid/types";
+import { Basket, BasketItem } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 
 import { MISSING_IMAGE_DELIVERY_CHECK_DETAILS, replaceMissingImageDeliveryId } from "../../../src/model/page.urls";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";

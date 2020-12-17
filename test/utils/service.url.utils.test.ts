@@ -1,7 +1,7 @@
 import chai from "chai";
 import { setServiceUrl } from "../../src/utils/service.url.utils";
 import { mockDissolvedCertificateItem } from "../__mocks__/certificates.mocks";
-import { CertificateItem } from "ch-sdk-node/dist/services/order/certificates/types";
+import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 
 const certificateItem: CertificateItem = mockDissolvedCertificateItem;
 

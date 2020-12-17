@@ -3,7 +3,7 @@ import sinon from "sinon";
 import ioredis from "ioredis";
 
 import { ROOT_CERTIFICATE, replaceCompanyNumber } from "../../../src/model/page.urls";
-import CompanyProfileService from "ch-sdk-node/dist/services/company-profile/service";
+import CompanyProfileService from "@companieshouse/api-sdk-node/dist/services/company-profile/service";
 import { dummyCompanyProfileAcceptableCompanyType, dummyCompanyProfileNotAcceptableCompanyType } from "../../__mocks__/company.profile.mocks";
 
 import {

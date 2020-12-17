@@ -3,7 +3,7 @@ import { MISSING_IMAGE_DELIVERY_CHECK_DETAILS } from "../../model/template.paths
 import { getAccessToken, getUserId } from "../../session/helper";
 import { APPLICATION_NAME, CHS_URL } from "../../config/config";
 import { createLogger } from "ch-structured-logging";
-import { MidItem } from "ch-sdk-node/dist/services/order/mid/types";
+import { MidItem } from "@companieshouse/api-sdk-node/dist/services/order/mid/types";
 import { getMissingImageDeliveryItem, addItemToBasket } from "../../client/api.client";
 import { getFullFilingHistoryDescription } from "../../config/api.enumerations";
 import { replaceCompanyNumberAndFilingHistoryId, ROOT_MISSING_IMAGE_DELIVERY } from "../../model/page.urls";

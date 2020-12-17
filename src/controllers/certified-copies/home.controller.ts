@@ -4,7 +4,7 @@ import { CERTIFIED_COPY_INDEX, YOU_CANNOT_USE_THIS_SERVICE } from "../../model/t
 import { CHS_URL, API_KEY, APPLICATION_NAME } from "../../config/config";
 import { getCompanyProfile } from "../../client/api.client";
 import { createLogger } from "ch-structured-logging";
-import { CompanyProfile } from "ch-sdk-node/dist/services/company-profile";
+import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
 import createError from "http-errors";
 
 const logger = createLogger(APPLICATION_NAME);

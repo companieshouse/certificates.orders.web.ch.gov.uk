@@ -2,8 +2,8 @@ import chai from "chai";
 import sinon from "sinon";
 import ioredis from "ioredis";
 import cheerio from "cheerio";
-import { CertificateItem } from "ch-sdk-node/dist/services/order/certificates/types";
-import { Basket } from "ch-sdk-node/dist/services/order/basket/types";
+import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
+import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 
 import * as apiClient from "../../../src/client/api.client";
 import { CERTIFICATE_DELIVERY_DETAILS, replaceCertificateId } from "../../../src/model/page.urls";

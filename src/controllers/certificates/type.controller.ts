@@ -1,12 +1,12 @@
 import { Request, Response, NextFunction } from "express";
 
 import { getAccessToken, getUserId } from "../../session/helper";
-import { CertificateItemPostRequest, CertificateItem } from "ch-sdk-node/dist/services/order/certificates/types";
+import { CertificateItemPostRequest, CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { postCertificateItem, getCompanyProfile } from "../../client/api.client";
 import { CERTIFICATE_OPTIONS, replaceCertificateId, DISSOLVED_CERTIFICATE_DELIVERY_DETAILS } from "./../../model/page.urls";
 import { createLogger } from "ch-structured-logging";
 import { APPLICATION_NAME, API_KEY } from "../../config/config";
-import { CompanyProfile } from "ch-sdk-node/dist/services/company-profile/types";
+import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
 
 const logger = createLogger(APPLICATION_NAME);
 const INCORPORATION_WITH_ALL_NAME_CHANGES: string = "incorporation-with-all-name-changes";
