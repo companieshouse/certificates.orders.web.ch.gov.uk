@@ -119,7 +119,9 @@ export const setBackLink = (certificateItem: CertificateItem):string => {
         return `/company/${certificateItem.companyNumber}/orderable/dissolved-certificates`;
     }
 
-    if (certificateItem.itemOptions?.directorDetails) {
+    if (certificateItem.itemOptions?.secretaryDetails) {
+        return "secretary-options";
+    } else if (certificateItem.itemOptions?.directorDetails) {
         return "director-options";
     } else if (certificateItem.itemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType) {
         return "registered-office-options";
