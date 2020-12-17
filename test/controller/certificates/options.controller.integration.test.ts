@@ -123,5 +123,25 @@ describe("certificate.options.controller.integration", () => {
             chai.expect(resp.status).to.equal(302);
             chai.expect(resp.text).to.include("Found. Redirecting to director-options");
         });
+
+        it("redirects the user to the secretary-options page", async () => {
+            const certificateDetails = {} as CertificateItem;
+
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateDetails));
+            patchCertificateItemStub = sandbox.stub(apiClient, "patchCertificateItem")
+                .returns(Promise.resolve(certificateDetails));
+
+            const resp = await chai.request(testApp)
+                .post(CERTIFICATE_OPTIONS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
+                .redirects(0)
+                .send({
+                    moreInfo: ["goodStanding", "secretaries"]
+                });
+
+            chai.expect(resp.status).to.equal(302);
+            chai.expect(resp.text).to.include("Found. Redirecting to secretary-options");
+        });
     });
 });

@@ -57,6 +57,8 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         logger.info(`Patched certificate item with registered office option, id=${req.params.certificateId}, user_id=${userId}, company_number=${patchResponse.companyNumber}, certificate_options=${JSON.stringify(certificateItem)}`);
         if (patchResponse.itemOptions.directorDetails) {
             return res.redirect("director-options");
+        } else if (patchResponse.itemOptions.secretaryDetails) {
+            return res.redirect("secretary-options");
         } else {
             return res.redirect("delivery-details");
         }
