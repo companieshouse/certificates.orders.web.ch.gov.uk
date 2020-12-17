@@ -5,7 +5,7 @@ import {
 } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 
 import {
-    mapCertificateType, applyCurrencySymbol, isOptionSelected, mapRegisteredOfficeAddress, mapDirectorOptions
+    mapCertificateType, applyCurrencySymbol, isOptionSelected, mapRegisteredOfficeAddress, mapDirectorOptions, mapSecretaryOptions
 } from "../../../src/controllers/certificates/check.details.controller";
 
 const directorDetails: DirectorOrSecretaryDetails = {
@@ -136,6 +136,48 @@ describe("certificate.check.details.controller.unit", () => {
             const directorOptions = {};
 
             chai.expect(mapDirectorOptions(directorOptions))
+                .to.equal("No");
+        });
+    });
+
+    //FROM HERE
+    describe("mapSecretaryOptions", () => {
+        it("maps all options selected correctly", () => {
+            const secretaryOptions = {
+                includeAddress: true,
+                includeAppointmentDate: true,
+                includeBasicInformation: true
+            };
+
+            chai.expect(mapSecretaryOptions(secretaryOptions))
+                .to.equal("Including secretaries':<br><br>Correspondence address<br>Appointment date<br>");
+        });
+
+        it("maps correctly when only one additional option selected", () => {
+            const secretaryOptions = {
+                includeBasicInformation: true,
+                includeAppointmentDate: true
+            };
+
+            chai.expect(mapSecretaryOptions(secretaryOptions))
+                .to.equal("Including secretaries':<br><br>Appointment date<br>");
+        });
+
+        it("maps correctly when only basic information present", () => {
+            const secretaryOptions = {
+                includeAddress: false,
+                includeAppointmentDate: false,
+                includeBasicInformation: true
+            };
+
+            chai.expect(mapSecretaryOptions(secretaryOptions))
+                .to.equal("Yes");
+        });
+
+        it("maps correctly when no secretary options are present", () => {
+            const secretaryOptions = {};
+
+            chai.expect(mapSecretaryOptions(secretaryOptions))
                 .to.equal("No");
         });
     });

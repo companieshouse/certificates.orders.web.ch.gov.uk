@@ -159,9 +159,6 @@ export const mapDirectorOptions = (directorOptions: DirectorOrSecretaryDetails):
         mappings.push("Country of residence");
     }
 
-    console.log("THIS IS DIRECTORS", mappings);
-    console.log("THIS IS DIRECTORS", mapToHtml(mappings));
-
     return mapToHtml(mappings);
 };
 
@@ -187,8 +184,6 @@ export const mapSecretaryOptions = (secretaryOptions: DirectorOrSecretaryDetails
         secretaryMappings.push("Appointment date");
     }
 
-    console.log("*****************", mapToHtml(secretaryMappings));
-    console.log("****** This is before html stuff", secretaryMappings);
     return mapToHtml(secretaryMappings);
 };
 

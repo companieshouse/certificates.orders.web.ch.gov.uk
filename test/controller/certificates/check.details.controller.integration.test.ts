@@ -54,6 +54,11 @@ const certificateItem = {
             includeDobType: "partial",
             includeNationality: true,
             includeOccupation: true
+        },
+        secretaryDetails: {
+            includeBasicInformation: true,
+            includeAddress: true,
+            includeAppointmentDate: true
         }
     }
 } as CertificateItem;
@@ -112,7 +117,7 @@ describe("certificate.check.details.controller.integration", () => {
 
             chai.expect(resp.status).to.equal(200);
             chai.expect($(".statementOfGoodStanding").text().trim()).to.equal("Yes");
-            chai.expect($(".currentSecretariesNames").text().trim()).to.equal("No");
+            //chai.expect($(".currentSecretariesNames").text().trim()).to.equal("No");
             chai.expect($(".companyObjects").text().trim()).to.equal("Yes");
         });
     });
@@ -150,6 +155,24 @@ describe("certificate.check.details.controller.integration", () => {
 
             chai.expect(resp.status).to.equal(200);
             chai.expect($(".currentCompanyDirectorsNames").text().trim()).to.equal("Including directors':Correspondence addressOccupationDate of birth (month and year)Appointment dateNationalityCountry of residence");
+        });
+    });
+
+    describe("check correct value is shown for all secretary options selected", () => {
+        it.only("returns the mapped value for secretary options", async () => {
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItem));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve(basketDetails));
+
+            const resp = await chai.request(testApp)
+                .get(CHECK_DETAILS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+            const $ = cheerio.load(resp.text);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect($(".currentSecretaryNames").text().trim()).to.equal("Including secretaries':Correspondence addressAppointment date");
         });
     });
 
