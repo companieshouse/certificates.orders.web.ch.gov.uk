@@ -50,7 +50,7 @@ describe("secretary.options.integration.test", () => {
             chai.expect(resp.text).to.contain(SECRETARY_OPTIONS_INFO_TEXT);
         });
     });
-    describe("registered office options post", () => {
+    describe("registered office options patch", () => {
         it("redirects the user to the delivery-details page", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItem));
@@ -60,7 +60,12 @@ describe("secretary.options.integration.test", () => {
             const resp = await chai.request(testApp)
                 .post(SECRETARY_OPTIONS_URL)
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
-                .redirects(0);
+                .redirects(0)
+                .send({
+                    includeAddress: false,
+                    includeAppointmentDate: true,
+                    includeBasicInformation: true,
+                });
 
             chai.expect(resp.status).to.equal(302);
             chai.expect(resp.text).to.include("Found. Redirecting to delivery-details");

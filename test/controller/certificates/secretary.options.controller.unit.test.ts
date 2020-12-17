@@ -1,6 +1,24 @@
 import chai from "chai";
 import { CertificateItem } from "ch-sdk-node/dist/services/order/certificates/types";
-import { setBackLink } from "../../../src/controllers/certificates/secretary.options.controller";
+import { setBackLink, setSecretaryOption } from "../../../src/controllers/certificates/secretary.options.controller";
+
+describe("setSecretaryOption function test", () => {
+    it("when address has been ticked it should return it as true", () => {
+        const option: string [] = ["address"];
+        const returnedSecretaryOption = setSecretaryOption(option);
+
+        chai.expect(returnedSecretaryOption.includeAddress).to.equal(true);
+    });
+
+    it("When address and appointment option are selected", () => {
+        const option: string [] = ["address", "appointment"];
+        const returnedSecretaryOption = setSecretaryOption(option);
+
+        chai.expect(returnedSecretaryOption.includeAddress).to.equal(true);
+        chai.expect(returnedSecretaryOption.includeAppointmentDate).to.equal(true);
+        chai.expect(returnedSecretaryOption.includeBasicInformation).to.equal(true);
+    });
+});
 
 describe("secretary.options.controller.unit", () => {
     describe("setBackUrl for no registered address option selected", () => {

@@ -52,7 +52,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const accessToken: string = getAccessToken(req.session);
         const userId = getUserId(req.session);
         const patchResponse = await patchCertificateItem(accessToken, req.params.certificateId, certificateItem);
-        logger.info(`Patched certificate item with registered office option, id=${req.params.certificateId}, user_id=${userId}, company_number=${patchResponse.companyNumber}, certificate_options=${JSON.stringify(certificateItem)}`);
+        logger.info(`Patched certificate item with director options, id=${req.params.certificateId}, user_id=${userId}, company_number=${patchResponse.companyNumber}, certificate_options=${JSON.stringify(certificateItem)}`);
         if (patchResponse.itemOptions.secretaryDetails) {
             return res.redirect("secretary-options");
         } else {
@@ -65,7 +65,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const setDirectorOption = (options: string[]): DirectorOrSecretaryDetailsRequest => {
-    const inititalDirectorOptions: DirectorOrSecretaryDetailsRequest = {
+    const initialDirectorOptions: DirectorOrSecretaryDetailsRequest = {
         includeAddress: false,
         includeAppointmentDate: false,
         includeBasicInformation: true,
@@ -74,7 +74,7 @@ export const setDirectorOption = (options: string[]): DirectorOrSecretaryDetails
         includeNationality: false,
         includeOccupation: false
     };
-    return options === undefined ? inititalDirectorOptions
+    return options === undefined ? initialDirectorOptions
         : options.reduce((directorOptionsAccum: DirectorOrSecretaryDetailsRequest, option: string) => {
             switch (option) {
             case INCLUDE_ADDRESS_FIELD: {
@@ -105,7 +105,7 @@ export const setDirectorOption = (options: string[]): DirectorOrSecretaryDetails
                 break;
             }
             return directorOptionsAccum;
-        }, inititalDirectorOptions);
+        }, initialDirectorOptions);
 };
 
 export const setBackLink = (certificateItem: CertificateItem) => {
