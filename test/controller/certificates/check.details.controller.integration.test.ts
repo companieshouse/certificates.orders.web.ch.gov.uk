@@ -159,7 +159,7 @@ describe("certificate.check.details.controller.integration", () => {
     });
 
     describe("check correct value is shown for all secretary options selected", () => {
-        it.only("returns the mapped value for secretary options", async () => {
+        it("returns the mapped value for secretary options", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItem));
             getBasketStub = sandbox.stub(apiClient, "getBasket")
@@ -172,7 +172,7 @@ describe("certificate.check.details.controller.integration", () => {
             const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect($(".currentSecretaryNames").text().trim()).to.equal("Including secretaries':Correspondence addressAppointment date");
+            chai.expect($(".currentSecretariesNames").text().trim()).to.equal("Including secretaries':Correspondence addressAppointment date");
         });
     });
 
