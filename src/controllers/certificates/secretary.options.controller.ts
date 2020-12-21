@@ -22,6 +22,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
     return res.render(CERTIFICATE_SECRETARY_OPTIONS, {
         companyNumber: certificateItem.companyNumber,
         backLink,
+        secretaryDetails: certificateItem.itemOptions?.secretaryDetails,
         SERVICE_URL
     });
 };
@@ -59,11 +60,7 @@ export const setSecretaryOption = (options: string[]): DirectorOrSecretaryDetail
     const initialSecretaryOptions: DirectorOrSecretaryDetailsRequest = {
         includeAddress: false,
         includeAppointmentDate: false,
-        includeBasicInformation: true,
-        includeCountryOfResidence: false,
-        includeDobType: null,
-        includeNationality: false,
-        includeOccupation: false
+        includeBasicInformation: true
     };
     return options === undefined ? initialSecretaryOptions
         : options.reduce((secretaryOptionsAccum: DirectorOrSecretaryDetailsRequest, option: string) => {
