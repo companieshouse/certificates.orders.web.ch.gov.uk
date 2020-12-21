@@ -59,11 +59,7 @@ export const setSecretaryOption = (options: string[]): DirectorOrSecretaryDetail
     const initialSecretaryOptions: DirectorOrSecretaryDetailsRequest = {
         includeAddress: false,
         includeAppointmentDate: false,
-        includeBasicInformation: true,
-        includeCountryOfResidence: false,
-        includeDobType: null,
-        includeNationality: false,
-        includeOccupation: false
+        includeBasicInformation: true
     };
     return options === undefined ? initialSecretaryOptions
         : options.reduce((secretaryOptionsAccum: DirectorOrSecretaryDetailsRequest, option: string) => {
