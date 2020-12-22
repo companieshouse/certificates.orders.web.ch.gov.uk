@@ -55,7 +55,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             templateName: CERTIFICATE_CHECK_DETAILS,
             statementOfGoodStanding: isOptionSelected(itemOptions.includeGoodStandingInformation),
             currentCompanyDirectorsNames: mapDirectorOptions(itemOptions.directorDetails),
-            currentSecretariesNames: isOptionSelected(itemOptions.secretaryDetails?.includeBasicInformation),
+            currentSecretariesNames: mapSecretaryOptions(itemOptions.secretaryDetails),
             companyObjects: isOptionSelected(itemOptions.includeCompanyObjectsInformation),
             registeredOfficeAddress: mapRegisteredOfficeAddress(includeAddressRecordsType)
         });
@@ -160,6 +160,31 @@ export const mapDirectorOptions = (directorOptions: DirectorOrSecretaryDetails):
     }
 
     return mapToHtml(mappings);
+};
+
+export const mapSecretaryOptions = (secretaryOptions: DirectorOrSecretaryDetails): string => {
+    if (secretaryOptions === undefined || secretaryOptions.includeBasicInformation === undefined) {
+        return "No";
+    }
+
+    if (secretaryOptions.includeBasicInformation === true &&
+        secretaryOptions.includeAddress === false &&
+        secretaryOptions.includeAppointmentDate === false) {
+        return "Yes";
+    }
+
+    const secretaryMappings:string[] = [];
+    secretaryMappings.push("Including secretaries':<br>");
+
+    if (secretaryOptions.includeAddress) {
+        secretaryMappings.push("Correspondence address");
+    }
+
+    if (secretaryOptions.includeAppointmentDate) {
+        secretaryMappings.push("Appointment date");
+    }
+
+    return mapToHtml(secretaryMappings);
 };
 
 export default [route];
