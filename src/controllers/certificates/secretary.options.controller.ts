@@ -22,6 +22,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
     return res.render(CERTIFICATE_SECRETARY_OPTIONS, {
         companyNumber: certificateItem.companyNumber,
         backLink,
+        secretaryDetails: certificateItem.itemOptions?.secretaryDetails,
         SERVICE_URL
     });
 };
