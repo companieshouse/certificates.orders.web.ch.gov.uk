@@ -29,9 +29,15 @@ export const APPLICATION_NAME = "certificates.orders.web.ch.gov.uk";
 
 export const SERVICE_NAME_CERTIFIED_COPIES = "Order a certified document";
 
+export const PIWIK_SERVICE_NAME_CERTIFIED_COPIES = "order-a-certified-document";
+
 export const SERVICE_NAME_CERTIFICATES = "Order a certificate";
 
+export const PIWIK_SERVICE_NAME_CERTIFICATES = "order-a-certificate";
+
 export const SERVICE_NAME_MISSING_IMAGE_DELIVERY = "Request a document";
+
+export const PIWIK_SERVICE_NAME_MISSING_IMAGE_DELIVERY = "request-a-document";
 
 export const SERVICE_NAME_GENERIC = "";
 
