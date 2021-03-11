@@ -34,7 +34,8 @@ import {
     CERTIFICATE_PIWIK_START_GOAL_ID,
     CERTIFIED_COPIES_PIWIK_START_GOAL_ID,
     MISSING_IMAGE_DELIVERY_PIWIK_START_GOAL_ID,
-    DISSOLVED_CERTIFICATE_PIWIK_START_GOAL_ID
+    DISSOLVED_CERTIFICATE_PIWIK_START_GOAL_ID,
+    CHS_URL
 } from "./config/config";
 
 const app = express();
@@ -121,6 +122,7 @@ app.set("view engine", "html");
 
 // add global variables to all templates
 env.addGlobal("CDN_URL", process.env.CDN_HOST);
+env.addGlobal("CHS_URL", CHS_URL);
 env.addGlobal("PIWIK_URL", PIWIK_URL);
 env.addGlobal("PIWIK_SITE_ID", PIWIK_SITE_ID);
 env.addGlobal("ERROR_SUMMARY_TITLE", ERROR_SUMMARY_TITLE);

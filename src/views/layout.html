@@ -29,8 +29,18 @@
           crossorigin="anonymous">
 </script>
 
+<script type="application/javascript">
+  window.SERVICE_NAME = '{{PIWIK_SERVICE_NAME}}'
+  window.PIWIK_URL = '{{PIWIK_URL}}'
+  window.PIWIK_SITE_ID = '{{PIWIK_SITE_ID}}'
+</script>
+
 <div id="templateName" data-id='{{templateName}}' hidden></div>
 
+{% endblock %}
+
+{% block bodyStart %}
+  {% include "components/cookie-consent-banner.html" %}
 {% endblock %}
 
 {% block header %}
@@ -72,15 +82,7 @@
 
 {% block bodyEnd %}
   {# Run JavaScript at end of the <body>, to avoid blocking the initial render. #}
-  <script src="//{{CDN_URL}}/javascripts/app/piwik-enable.js"></script>
-  <script type="application/javascript">
-    (function() {
-      bindPiwikListener('{{PIWIK_SERVICE_NAME}}', '{{PIWIK_URL}}', {{PIWIK_SITE_ID}});
-    }());
-  </script>
-  <noscript>
-    <p>
-      <img src="{{PIWIK_URL}}/piwik.php?idsite={{PIWIK_SITE_ID}}" style="border:0;" alt="" />
-    </p>
-  </noscript>
+    <script src="//{{CDN_URL}}/javascripts/app/piwik-enable.js"></script>
+    <script src="//{{CDN_URL}}/javascripts/app/cookie-consent/cookie-consent-1.0.0.js"></script>
+    <script src="//{{CDN_URL}}/javascripts/app/cookie-consent/piwik-only-cookie-consent.js"></script>
 {% endblock %}
