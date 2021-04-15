@@ -21,11 +21,18 @@
             </p>
             <p class="govuk-body">You'll need:</p>
             <ul class="govuk-list govuk-list--bullet">
-                <li>to sign in to or create a Companies House account</li>
-                <li>a debit or credit card</li>
+              <li>to sign in to or create a Companies House account</li>
+              <li>a debit or credit card</li>
             </ul>
+            <h2 class="govuk-heading-s">Ordering incorporation documents</h2>
+            <p class="govuk-body">Orders for incorporation documents consist of only the memorandum and articles. If these are not available, we will include IN01 or an equivalent documents instead.</p>
+              <p class="govuk-body">You cannot use this service to order:</p>
+              <ul class="govuk-list govuk-list--bullet">
+              <li>a copy of the certificate of incorporation that was issued when the company was formed. It can only be ordered by calling Companies House on 0303 1234 500.</li>
+                <li> a certificate that confirms company details and can include a statement of good standing (also known as a certificate of good standing). For this, you'll need to use our <a href="{{ moreTabUrl }}" class="govuk-link">Order a certificate service</a>.</li>
+              </ul>
             <p class="govuk-body">Ordering a certified document takes around 5 minutes.</p>
-
+    
             {{ govukButton({
               text: "Start now",
               href: startNowUrl,
@@ -39,18 +46,11 @@
 
             <h2 class="govuk-heading-m">Fee</h2>
 
-            <p class="govuk-body">
-                It costs £15 for a certified document with standard delivery.
-            </p>
-            <p class="govuk-body">
-              Incorporation orders cost £30 and include 2 certified documents, the memorandum and articles. We will include the IN01 or an equivalent document if the memorandum or articles are not available.
-            </p>
-            <p class="govuk-body">
-              The order can be sent to a UK or international address. We will aim to dispatch the order within 4 working days.
-            </p>
-            <p class="govuk-body">
-              You cannot pay using a Companies House account.
-            </p>
+            <p class="govuk-body">It costs £15 for a certified document with standard delivery. Incorporation orders cost £30, and include two documents (the memorandum and articles).</p> 
+    
+            <p class="govuk-body">The order can be sent to a UK or international address. We will aim to dispatch the order within {{ dispatchDays }} working days.</p>
+    
+            <p class="govuk-body">You cannot pay using a Companies House account. </p>
         </div>
     </div>
 {% endblock %}
