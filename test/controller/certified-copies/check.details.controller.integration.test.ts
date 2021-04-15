@@ -86,7 +86,7 @@ describe("certified-copy.check.details.controller.integration", () => {
             chai.expect(resp.status).to.equal(200);
             chai.expect($("#companyNameValue").text().trim()).to.equal(certifiedCopyItem.companyName);
             chai.expect($("#companyNumberValue").text().trim()).to.equal(certifiedCopyItem.companyNumber);
-            chai.expect($("#deliveryMethodValue").text().trim()).to.equal("Standard delivery (aim to dispatch within 4 working days)");
+            chai.expect($("#deliveryMethodValue").text().trim()).to.equal("Standard delivery (aim to dispatch within 10 working days)");
             chai.expect($("#deliveryDetailsValue").text().trim()).to.equal("bob jones117 kings roadpontcannacantonglamorgancf5 4xbwales");
             chai.expect($("#filingHistoryDateValue1").text().trim()).to.equal("12 Feb 2010");
             chai.expect($("#filingHistoryTypeValue1").text().trim()).to.equal("CH01");
