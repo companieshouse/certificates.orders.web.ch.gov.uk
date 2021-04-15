@@ -1,4 +1,7 @@
 import { DeliveryDetails } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
+import { DISPATCH_DAYS } from "../config/config";
+
+const dispatchDays: string = DISPATCH_DAYS;
 
 export const mapDeliveryDetails = (deliveryDetails: DeliveryDetails | undefined): string => {
     const mappings:string[] = [];
@@ -31,7 +34,7 @@ export const mapDeliveryDetails = (deliveryDetails: DeliveryDetails | undefined)
 
 export const mapDeliveryMethod = (itemOptions: Record<string, any>): string | null => {
     if (itemOptions?.deliveryTimescale === "standard") {
-        return "Standard delivery (aim to dispatch within 4 working days)";
+        return "Standard delivery (aim to dispatch within " + dispatchDays + " working days)";
     }
     if (itemOptions?.deliveryTimescale === "same-day") {
         return "Same Day";
