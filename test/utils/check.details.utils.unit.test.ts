@@ -8,6 +8,7 @@ import { DeliveryDetails } from "@companieshouse/api-sdk-node/dist/services/orde
 import {
     mapDeliveryDetails, mapDeliveryMethod, mapToHtml
 } from "../../src/utils/check.details.utils";
+import { DISPATCH_DAYS } from "../../src/config/config";
 
 const directorDetails: DirectorOrSecretaryDetails = {
     includeAddress: true,
@@ -83,7 +84,7 @@ describe("certificate.check.details.controller.unit", () => {
     describe("mapDeliveryMethod", () => {
         it("should map the standard delivery string when 'standard' is returned from API", () => {
             const returnedString: string | null = mapDeliveryMethod(itemOptions);
-            const expectedString: string = "Standard delivery (aim to dispatch within 10 working days)";
+            const expectedString: string = "Standard delivery (aim to dispatch within " + DISPATCH_DAYS + " working days)";
 
             chai.expect(returnedString).to.equal(expectedString);
         });
