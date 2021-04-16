@@ -3,7 +3,7 @@ import { DISSOLVED_CERTIFICATE_TYPE, CERTIFICATE_TYPE, replaceCompanyNumber } fr
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
 import { getCompanyProfile } from "../../client/api.client";
 import { createLogger } from "ch-structured-logging";
-import { APPLICATION_NAME, API_KEY } from "../../config/config";
+import { APPLICATION_NAME, API_KEY, DISPATCH_DAYS } from "../../config/config";
 import { YOU_CANNOT_USE_THIS_SERVICE } from "../../model/template.paths";
 import createError from "http-errors";
 
@@ -15,6 +15,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const companyProfile: CompanyProfile = await getCompanyProfile(API_KEY, companyNumber);
         const companyStatus = companyProfile.companyStatus;
         const companyType = companyProfile.type;
+        const moreTabUrl = "/company/" + companyNumber + "/more";
         const acceptableCompanyTypes = [
             "limited-partnership",
             "llp",
@@ -41,7 +42,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const allow: boolean = acceptableCompanyTypes.some(type => type === companyType);
 
         if (allow && ["active", "dissolved"].includes(companyStatus)) {
-            res.render("certificates/index", { companyStatus, startNowUrl, companyNumber, SERVICE_URL });
+            res.render("certificates/index", { companyStatus, startNowUrl, companyNumber, SERVICE_URL, DISPATCH_DAYS, moreTabUrl });
         } else {
             const SERVICE_NAME = null;
             res.render(YOU_CANNOT_USE_THIS_SERVICE, { SERVICE_NAME });

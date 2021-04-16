@@ -9,6 +9,7 @@ import { CertifiedCopyItem } from "@companieshouse/api-sdk-node/dist/services/or
 import * as apiClient from "../../../src/client/api.client";
 import { CERTIFIED_COPY_CHECK_DETAILS, replaceCertifiedCopyId } from "../../../src/model/page.urls";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
+import { DISPATCH_DAYS } from "../../../src/config/config";
 
 const CERTIFIED_COPY_ID = "CCD-123456-123456";
 const ITEM_URI = "/orderable/certified-copies/CCD-123456-123456";
@@ -86,7 +87,7 @@ describe("certified-copy.check.details.controller.integration", () => {
             chai.expect(resp.status).to.equal(200);
             chai.expect($("#companyNameValue").text().trim()).to.equal(certifiedCopyItem.companyName);
             chai.expect($("#companyNumberValue").text().trim()).to.equal(certifiedCopyItem.companyNumber);
-            chai.expect($("#deliveryMethodValue").text().trim()).to.equal("Standard delivery (aim to dispatch within 10 working days)");
+            chai.expect($("#deliveryMethodValue").text().trim()).to.equal("Standard delivery (aim to dispatch within " + DISPATCH_DAYS + " working days)");
             chai.expect($("#deliveryDetailsValue").text().trim()).to.equal("bob jones117 kings roadpontcannacantonglamorgancf5 4xbwales");
             chai.expect($("#filingHistoryDateValue1").text().trim()).to.equal("12 Feb 2010");
             chai.expect($("#filingHistoryTypeValue1").text().trim()).to.equal("CH01");
