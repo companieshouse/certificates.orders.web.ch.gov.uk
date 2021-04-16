@@ -29,6 +29,10 @@
           <li>company objects</li>
         </ul>
 
+        <div class="govuk-inset-text">
+          This certificate is different to the incorporation documents that were issued when the company was formed. Copies of these can be ordered through the <a href="{{ moreTabUrl }}" class='govuk-link'>Order a certified document service</a>.
+        </div>
+
         <p class="govuk-body">Ordering a certificate takes around 5 minutes.</p>
 
         {{ govukButton({
@@ -44,7 +48,7 @@
 
         <h2 class="govuk-heading-m">Fee</h2>
 
-        <p class="govuk-body">Certificates cost £15 for standard delivery to a UK or international address. We will aim to dispatch the certificate within 4 working days.</p>
+        <p class="govuk-body">Certificates cost £15 for standard delivery to a UK or international address. We will aim to dispatch the certificate within {{ dispatchDays }} working days.</p>
 
         <p class="govuk-body"> You can pay by debit or credit card. You cannot pay using a Companies House account. </p>
 
@@ -74,7 +78,7 @@
 
         <h2 class="govuk-heading-m">Fee</h2>
 
-        <p class="govuk-body">Certificates cost £15 for standard delivery to a UK or international address. We will aim to dispatch the certificate within 4 working days.</p>
+        <p class="govuk-body">Certificates cost £15 for standard delivery to a UK or international address. We will aim to dispatch the certificate within {{ dispatchDays }} working days.</p>
 
         <p class="govuk-body"> You can pay by debit or credit card. You cannot pay using a Companies House account. </p>
 
