@@ -18,6 +18,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const companyNumber = req.params.companyNumber;
         const companyProfile: CompanyProfile = await getCompanyProfile(API_KEY, companyNumber);
         const companyStatus = companyProfile.companyStatus;
+        logger.debug(`Certificate render function called, company_number=${companyNumber}`);
 
         if (companyStatus === "active") {
             const certificateItemRequest = createCertificateItemRequest(companyNumber, INCORPORATION_WITH_ALL_NAME_CHANGES);

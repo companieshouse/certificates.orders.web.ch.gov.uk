@@ -28,7 +28,7 @@ export const postCertificateItem =
         if (certificateItemResource.httpStatusCode !== 200 && certificateItemResource.httpStatusCode !== 201) {
             throw createError(certificateItemResource.httpStatusCode, certificateItemResource.httpStatusCode.toString());
         }
-        logger.info(`Create certificate, status_code=${certificateItemResource.httpStatusCode}`);
+        logger.info(`Create certificate, status_code=${certificateItemResource.httpStatusCode}, company_number=${certificateItem.companyNumber}`);
         return certificateItemResource.resource as CertificateItem;
     };
 
@@ -40,7 +40,7 @@ export const patchCertificateItem = async (
     if (certificateItemResource.httpStatusCode !== 200) {
         throw createError(certificateItemResource.httpStatusCode, certificateItemResource.httpStatusCode.toString());
     }
-    logger.info(`Patch certificate, id=${certificateId}, status_code=${certificateItemResource.httpStatusCode}`);
+    logger.info(`Patch certificate, id=${certificateId}, status_code=${certificateItemResource.httpStatusCode}, company_number=${certificateItem.companyNumber}`);
     return certificateItemResource.resource as CertificateItem;
 };
 
@@ -59,7 +59,7 @@ export const addItemToBasket = async (oAuth: string, itemUri: ItemUriPostRequest
     if (itemUriResource.httpStatusCode !== 200 && itemUriResource.httpStatusCode !== 201) {
         throw createError(itemUriResource.httpStatusCode, itemUriResource.httpStatusCode.toString());
     }
-    logger.info(`Add item to basket, status_code=${itemUriResource.httpStatusCode}`);
+    logger.info(`Add item to basket, status_code=${itemUriResource.httpStatusCode}, company_number=${itemUriResource.resource?.companyNumber}`);
     return itemUriResource.resource as BasketItem;
 };
 
@@ -89,7 +89,7 @@ export const getCertifiedCopyItem = async (oAuth: string, certifiedCopyId: strin
     if (certifiedCopyItemResource.httpStatusCode !== 200 && certifiedCopyItemResource.httpStatusCode !== 201) {
         throw createError(certifiedCopyItemResource.httpStatusCode, certifiedCopyItemResource.httpStatusCode.toString());
     }
-    logger.info(`Get certified copy item, certified_copy_item_id=${certifiedCopyId}, status_code=${certifiedCopyItemResource.httpStatusCode}`);
+    logger.info(`Get certified copy item, certified_copy_item_id=${certifiedCopyId}, status_code=${certifiedCopyItemResource.httpStatusCode}, company_number=${certifiedCopyItemResource.resource?.companyNumber}`);
     return certifiedCopyItemResource.resource as CertifiedCopyItem;
 };
 
@@ -99,7 +99,7 @@ export const postMissingImageDeliveryItem = async (oAuth: string, missingImageDe
     if (missingImageDeliveryItemResource.httpStatusCode !== 200 && missingImageDeliveryItemResource.httpStatusCode !== 201) {
         throw createError(missingImageDeliveryItemResource.httpStatusCode, missingImageDeliveryItemResource.httpStatusCode.toString());
     }
-    logger.info(`Create Missing Image Delivery, status_code=${missingImageDeliveryItemResource.httpStatusCode}`);
+    logger.info(`Create Missing Image Delivery, status_code=${missingImageDeliveryItemResource.httpStatusCode}, company_number=${missingImageDeliveryItemResource.resource?.companyNumber}`);
     return missingImageDeliveryItemResource.resource as MidItem;
 };
 
@@ -109,6 +109,6 @@ export const getMissingImageDeliveryItem = async (oAuth: string, missingImageDel
     if (midItemResource.httpStatusCode !== 200 && midItemResource.httpStatusCode !== 201) {
         throw createError(midItemResource.httpStatusCode, midItemResource.httpStatusCode.toString());
     }
-    logger.info(`Get missing image delivery item, missing_image_delivery_id=${missingImageDeliveryId}, status_code=${midItemResource.httpStatusCode}`);
+    logger.info(`Get missing image delivery item, missing_image_delivery_id=${missingImageDeliveryId}, status_code=${midItemResource.httpStatusCode}, , company_number=${midItemResource.resource?.companyNumber}`);
     return midItemResource.resource as MidItem;
 };

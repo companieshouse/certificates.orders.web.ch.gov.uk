@@ -35,13 +35,16 @@ export default async (req: Request, res: Response, next: NextFunction) => {
             acceptableCompanyTypes.shift(); // Remove limited-partnership from list
             SERVICE_URL = `/company/${companyNumber}/orderable/dissolved-certificates`;
             startNowUrl = replaceCompanyNumber(DISSOLVED_CERTIFICATE_TYPE, companyNumber);
+            logger.debug(`Certificates Home Controller - Dissolved Company, company_number=${companyNumber}, service_url=${SERVICE_URL}, start_now_url=${startNowUrl}`);
         } else {
             SERVICE_URL = `/company/${companyNumber}/orderable/certificates`;
             startNowUrl = replaceCompanyNumber(CERTIFICATE_TYPE, companyNumber);
+            logger.debug(`Certificates Home Controller - Active Company, company_number=${companyNumber}, service_url=${SERVICE_URL}, start_now_url=${startNowUrl}`);
         }
         const allow: boolean = acceptableCompanyTypes.some(type => type === companyType);
 
         if (allow && ["active", "dissolved"].includes(companyStatus)) {
+            logger.debug(`Rendering certificates/index, company_status=${companyStatus}, start_now_url=${startNowUrl}, company_number=${companyNumber}, service_url=${SERVICE_URL}, dispatch_days=${DISPATCH_DAYS}, more_tab_url=${moreTabUrl}`);
             res.render("certificates/index", { companyStatus, startNowUrl, companyNumber, SERVICE_URL, DISPATCH_DAYS, moreTabUrl });
         } else {
             const SERVICE_NAME = null;
