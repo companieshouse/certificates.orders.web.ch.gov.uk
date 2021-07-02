@@ -1,5 +1,8 @@
 // Certificate section:
 
+import { createLogger } from "ch-structured-logging";
+import { APPLICATION_NAME } from "../config/config";
+
 export const ROOT_CERTIFICATE: string = "/company/:companyNumber/orderable/certificates";
 export const ROOT_CERTIFICATE_ID: string = "/orderable/certificates/:certificateId";
 
@@ -37,22 +40,29 @@ export const ROOT_MISSING_IMAGE_DELIVERY_ID: string = "/orderable/missing-image-
 export const MISSING_IMAGE_DELIVERY_CREATE: string = ROOT_MISSING_IMAGE_DELIVERY + "/create";
 export const MISSING_IMAGE_DELIVERY_CHECK_DETAILS: string = ROOT_MISSING_IMAGE_DELIVERY_ID + "/check-details";
 
+const logger = createLogger(APPLICATION_NAME);
+
 export const replaceCompanyNumber = (uri: string, companyNumber: string) => {
+    logger.debug(`Replacing Company Number, uri=${uri}, company_number=${companyNumber}`);
     return uri.replace(":companyNumber", companyNumber);
 };
 
 export const replaceCertificateId = (uri: string, certificateId: string) => {
+    logger.debug(`Replacing Certificate Id, uri=${uri}, certificate_id=${certificateId}`);
     return uri.replace(":certificateId", certificateId);
 };
 
 export const replaceCertifiedCopyId = (uri: string, certifiedCopyId: string) => {
+    logger.debug(`Replacing Certified Copy Id, uri=${uri}, certified_copy_id=${certifiedCopyId}`);
     return uri.replace(":certifiedCopyId", certifiedCopyId);
 };
 
 export const replaceCompanyNumberAndFilingHistoryId = (uri: string, companyNumber: string, filingHistoryId: string) => {
+    logger.debug(`Replacing Company Number and Filing History Id, uri=${uri}, company_number=${companyNumber}, filing_history_id=${filingHistoryId}`);
     return uri.replace(":companyNumber", companyNumber).replace(":filingHistoryId", filingHistoryId);
 };
 
 export const replaceMissingImageDeliveryId = (uri: string, missingImageDeliveryId: string) => {
+    logger.debug(`Replacing Missing Image Delivery Id, uri=${uri}, missing_image_delivery_id=${missingImageDeliveryId}`);
     return uri.replace(":missingImageDeliveryId", missingImageDeliveryId);
 };
