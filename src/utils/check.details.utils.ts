@@ -1,5 +1,6 @@
 import { DeliveryDetails } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 import { DISPATCH_DAYS } from "../config/config";
+const escape = require("escape-html");
 
 const dispatchDays: string = DISPATCH_DAYS;
 
@@ -46,7 +47,7 @@ export const mapToHtml = (mappings: string[]): string => {
     let htmlString: string = "";
 
     mappings.forEach((element) => {
-        htmlString += element + "<br>";
+        htmlString += escape(element) + "<br>";
     });
     return htmlString;
 };
