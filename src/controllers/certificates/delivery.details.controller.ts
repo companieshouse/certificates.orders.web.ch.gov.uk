@@ -9,7 +9,7 @@ import { createLogger } from "ch-structured-logging";
 import { APPLICATION_NAME } from "../../config/config";
 import { deliveryDetailsValidationRules, validate } from "../../utils/delivery-details-validation";
 import { setServiceUrl } from "../../utils/service.url.utils";
-const escape = require('escape-html');
+const escape = require("escape-html");
 
 const FIRST_NAME_FIELD: string = "firstName";
 const LAST_NAME_FIELD: string = "lastName";

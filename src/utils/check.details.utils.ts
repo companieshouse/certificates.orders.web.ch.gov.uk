@@ -1,6 +1,6 @@
 import { DeliveryDetails } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 import { DISPATCH_DAYS } from "../config/config";
-const escape = require('escape-html');
+const escape = require("escape-html");
 
 const dispatchDays: string = DISPATCH_DAYS;
 
