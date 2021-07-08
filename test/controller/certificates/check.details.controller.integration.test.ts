@@ -153,7 +153,7 @@ describe("certificate.check.details.controller.integration", () => {
             const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect($(".currentCompanyDirectorsNames").text().trim()).to.equal("Including directors':<br>Correspondence addressOccupationDate of birth (month and year)Appointment dateNationalityCountry of residence");
+            chai.expect($(".currentCompanyDirectorsNames").text().trim()).to.equal("Including directors':Correspondence addressOccupationDate of birth (month and year)Appointment dateNationalityCountry of residence");
         });
     });
 
@@ -171,7 +171,7 @@ describe("certificate.check.details.controller.integration", () => {
             const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect($(".currentSecretariesNames").text().trim()).to.equal("Including secretaries':<br>Correspondence addressAppointment date");
+            chai.expect($(".currentSecretariesNames").text().trim()).to.equal("Including secretaries':Correspondence addressAppointment date");
         });
     });
 

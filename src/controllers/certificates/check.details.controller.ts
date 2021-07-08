@@ -132,7 +132,7 @@ export const mapDirectorOptions = (directorOptions: DirectorOrSecretaryDetails):
     }
 
     const mappings:string[] = [];
-    mappings.push("Including directors':<br>");
+    mappings.push("Including directors':");
 
     if (directorOptions.includeAddress) {
         mappings.push("Correspondence address");
@@ -174,7 +174,7 @@ export const mapSecretaryOptions = (secretaryOptions: DirectorOrSecretaryDetails
     }
 
     const secretaryMappings:string[] = [];
-    secretaryMappings.push("Including secretaries':<br>");
+    secretaryMappings.push("Including secretaries':");
 
     if (secretaryOptions.includeAddress) {
         secretaryMappings.push("Correspondence address");
