@@ -62,25 +62,17 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
     const backLink: string = `/company/${companyNumber}/certified-documents`;
     const errors = validationResult(req);
     const errorList = validate(errors);
-    let firstName: string = req.body[FIRST_NAME_FIELD];
-    let lastName: string = req.body[LAST_NAME_FIELD];
-    let addressLineOne: string = req.body[ADDRESS_LINE_ONE_FIELD];
-    let addressLineTwo: string = req.body[ADDRESS_LINE_TWO_FIELD];
-    let addressTown: string = req.body[ADDRESS_TOWN_FIELD];
-    let addressCounty: string = req.body[ADDRESS_COUNTY_FIELD];
-    let addressPostcode: string = req.body[ADDRESS_POSTCODE_FIELD];
-    let addressCountry: string = req.body[ADDRESS_COUNTRY_FIELD];
+    const firstName: string = req.body[FIRST_NAME_FIELD];
+    const lastName: string = req.body[LAST_NAME_FIELD];
+    const addressLineOne: string = req.body[ADDRESS_LINE_ONE_FIELD];
+    const addressLineTwo: string = req.body[ADDRESS_LINE_TWO_FIELD];
+    const addressTown: string = req.body[ADDRESS_TOWN_FIELD];
+    const addressCounty: string = req.body[ADDRESS_COUNTY_FIELD];
+    const addressPostcode: string = req.body[ADDRESS_POSTCODE_FIELD];
+    const addressCountry: string = req.body[ADDRESS_COUNTRY_FIELD];
     const SERVICE_URL = `/company/${companyNumber}/orderable/certified-copies`;
 
     if (!errors.isEmpty()) {
-        firstName = escape(firstName);
-        lastName = escape(lastName);
-        addressLineOne = escape(addressLineOne);
-        addressLineTwo = escape(addressLineTwo);
-        addressTown = escape(addressTown);
-        addressCounty = escape(addressCounty);
-        addressCountry = escape(addressCountry);
-        addressPostcode = escape(addressPostcode);
         return res.render(DELIVERY_DETAILS, {
             ...errorList,
             addressCountry,
