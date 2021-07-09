@@ -82,6 +82,6 @@ describe("missingImageDelivery.home.controller.integration", () => {
             .get(replaceCompanyNumberAndFilingHistoryId(ROOT_MISSING_IMAGE_DELIVERY, "00000000", "mytxjsks"));
 
         chai.expect(resp.status).to.equal(200);
-        chai.expect(resp.text).to.contain("This order will be for company name (00000000)");
+        chai.expect(resp.text).to.contain("This request will be for company name (00000000)");
     });
 });
