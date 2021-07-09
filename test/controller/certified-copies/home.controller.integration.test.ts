@@ -77,6 +77,18 @@ describe("certified-copy.home.controller.integration", () => {
         chai.expect(resp.text).to.contain("Order a certified document");
     });
 
+    it("displays the notification banner with the in context company name and company number", async () => {
+        dummyCompanyProfile.resource.links.filingHistory = "/company/00000000/filing-history";
+        getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
+            .returns(Promise.resolve(dummyCompanyProfile));
+
+        const resp = await chai.request(testApp)
+            .get(replaceCompanyNumber(ROOT_CERTIFIED_COPY, COMPANY_NUMBER));
+
+        chai.expect(resp.status).to.equal(200);
+        chai.expect(resp.text).to.contain("This order will be for company name (00000000)");
+    });
+
     it("does not render the start now page as company has no filing history link", async () => {
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
             .returns(Promise.resolve(dummyCompanyProfile));
