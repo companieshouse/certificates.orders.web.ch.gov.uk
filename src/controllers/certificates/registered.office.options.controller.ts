@@ -24,6 +24,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
     const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
     const itemOptions: ItemOptions = certificateItem.itemOptions;
     const SERVICE_URL = `/company/${certificateItem.companyNumber}/orderable/certificates`;
+    const isFullPage = req.query.layout === "full";
 
     logger.info(`Certificate item retrieved, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
 
@@ -31,9 +32,12 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         companyNumber: certificateItem.companyNumber,
         SERVICE_URL,
         optionFilter: optionFilter,
-        isFullPage: req.query.layout === "full"
+        isFullPage: isFullPage,
+        backLink: generateBackLink(isFullPage)
     });
 };
+
+const generateBackLink = (fullPage: boolean) => fullPage ? "registered-office-options" : "certificate-options";
 
 const route = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -42,11 +46,13 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         const registeredOfficeOption: string = req.body[REGISTERED_OFFICE_OPTION];
 
         if (!errors.isEmpty()) {
+            const isFullPage = req.body.layout === "full";
             return res.render(CERTIFICATE_REGISTERED_OFFICE_OPTIONS, {
                 ...errorList,
                 registeredOfficeOption,
                 optionFilter: optionFilter,
-                isFullPage: req.body.layout === "full"
+                isFullPage: isFullPage,
+                backLink: generateBackLink(isFullPage)
             });
         };
         const regOfficeOption: string = req.body[REGISTERED_OFFICE_OPTION];

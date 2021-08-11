@@ -124,6 +124,8 @@ export const setBackLink = (certificateItem: CertificateItem):string => {
         return "secretary-options";
     } else if (certificateItem.itemOptions?.directorDetails) {
         return "director-options";
+    } else if (certificateItem.itemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType in {"current-previous-and-prior": true, "all": true}) {
+        return "registered-office-options?layout=full";
     } else if (certificateItem.itemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType) {
         return "registered-office-options";
     }

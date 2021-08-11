@@ -111,8 +111,10 @@ export const setDirectorOption = (options: string[]): DirectorOrSecretaryDetails
 export const setBackLink = (certificateItem: CertificateItem) => {
     let backLink;
 
-    if (certificateItem.itemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType) {
-        backLink = "registered-office-options";
+    if (certificateItem.itemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType in {"current-previous-and-prior": true, "all": true}) {
+        return "registered-office-options?layout=full";
+    } else if (certificateItem.itemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType) {
+        return "registered-office-options";
     } else {
         backLink = "certificate-options";
     }
