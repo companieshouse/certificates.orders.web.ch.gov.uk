@@ -1,10 +1,12 @@
-import { NextFunction, Request, Response } from "express";
+import e, { NextFunction, Request, Response } from "express";
 import { getAccessToken, getUserId } from "../../session/helper";
 import { CertificateItem, ItemOptions, DirectorOrSecretaryDetails, DirectorOrSecretaryDetailsRequest, CertificateItemPatchRequest } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { getCertificateItem, patchCertificateItem } from "../../client/api.client";
 import { CERTIFICATE_DIRECTOR_OPTIONS } from "../../model/template.paths";
 import { createLogger } from "ch-structured-logging";
 import { APPLICATION_NAME } from "../../config/config";
+import { Session } from "@companieshouse/node-session-handler/lib/session/model/Session";
+import CertificateSessionData from "../../session/CertificateSessionData";
 
 const logger = createLogger(APPLICATION_NAME);
 const INCLUDE_ADDRESS_FIELD: string = "address";
@@ -27,7 +29,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         itemOptions: certificateItem.itemOptions,
         directorDetails: itemOptions.directorDetails,
         SERVICE_URL,
-        backLink: setBackLink(certificateItem)
+        backLink: setBackLink(certificateItem, req.session)
     });
 };
 
@@ -108,13 +110,11 @@ export const setDirectorOption = (options: string[]): DirectorOrSecretaryDetails
         }, initialDirectorOptions);
 };
 
-export const setBackLink = (certificateItem: CertificateItem) => {
+export const setBackLink = (certificateItem: CertificateItem, session: Session | undefined) => {
     let backLink;
 
-    if (certificateItem.itemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType in {"current-previous-and-prior": true, "all": true}) {
-        return "registered-office-options?layout=full";
-    } else if (certificateItem.itemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType) {
-        return "registered-office-options";
+    if (certificateItem.itemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType) {
+        return (session?.getExtraData("certificates-orders-web-ch-gov-uk") as CertificateSessionData).isFullPage ? "registered-office-options?layout=full" : "registered-office-options";
     } else {
         backLink = "certificate-options";
     }

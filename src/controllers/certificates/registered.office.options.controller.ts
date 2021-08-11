@@ -7,6 +7,7 @@ import { getAccessToken, getUserId } from "../../session/helper";
 import { createLogger } from "ch-structured-logging";
 import { registeredOfficeAddressValidationRules, validate } from "../../validation/certificates/registered.office.options.validation";
 import { APPLICATION_NAME } from "../../config/config";
+import CertificateSessionData from "../../session/CertificateSessionData";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -44,9 +45,9 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         const errors = validationResult(req);
         const errorList = validate(errors);
         const registeredOfficeOption: string = req.body[REGISTERED_OFFICE_OPTION];
+        const isFullPage = req.body.layout === "full";
 
         if (!errors.isEmpty()) {
-            const isFullPage = req.body.layout === "full";
             return res.render(CERTIFICATE_REGISTERED_OFFICE_OPTIONS, {
                 ...errorList,
                 registeredOfficeOption,
@@ -67,6 +68,9 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         const userId = getUserId(req.session);
         const patchResponse = await patchCertificateItem(accessToken, req.params.certificateId, certificateItem);
         logger.info(`Patched certificate item with registered office option, id=${req.params.certificateId}, user_id=${userId}, company_number=${patchResponse.companyNumber}, certificate_options=${JSON.stringify(certificateItem)}`);
+        req.session?.setExtraData("certificates-orders-web-ch-gov-uk", {
+            isFullPage: isFullPage
+        } as CertificateSessionData);
         if (patchResponse.itemOptions.directorDetails) {
             return res.redirect("director-options");
         } else if (patchResponse.itemOptions.secretaryDetails) {

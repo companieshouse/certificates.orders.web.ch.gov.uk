@@ -9,6 +9,8 @@ import { createLogger } from "ch-structured-logging";
 import { APPLICATION_NAME } from "../../config/config";
 import { deliveryDetailsValidationRules, validate } from "../../utils/delivery-details-validation";
 import { setServiceUrl } from "../../utils/service.url.utils";
+import { Session } from "@companieshouse/node-session-handler/lib/session/model/Session";
+import CertificateSessionData from "../../session/CertificateSessionData";
 const escape = require("escape-html");
 
 const FIRST_NAME_FIELD: string = "firstName";
@@ -42,7 +44,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             companyNumber: certificateItem.companyNumber,
             templateName: DELIVERY_DETAILS,
             SERVICE_URL: setServiceUrl(certificateItem),
-            backLink: setBackLink(certificateItem)
+            backLink: setBackLink(certificateItem, req.session)
         });
     } catch (err) {
         logger.error(`${err}`);
@@ -79,7 +81,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
             lastName,
             templateName: (DELIVERY_DETAILS),
             SERVICE_URL: setServiceUrl(certificateItem),
-            backLink: setBackLink(certificateItem)
+            backLink: setBackLink(certificateItem, req.session)
         });
     }
     try {
@@ -115,7 +117,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
-export const setBackLink = (certificateItem: CertificateItem):string => {
+export const setBackLink = (certificateItem: CertificateItem, session: Session | undefined):string => {
     if (certificateItem.itemOptions?.certificateType === "dissolution") {
         return `/company/${certificateItem.companyNumber}/orderable/dissolved-certificates`;
     }
@@ -124,10 +126,8 @@ export const setBackLink = (certificateItem: CertificateItem):string => {
         return "secretary-options";
     } else if (certificateItem.itemOptions?.directorDetails) {
         return "director-options";
-    } else if (certificateItem.itemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType in {"current-previous-and-prior": true, "all": true}) {
-        return "registered-office-options?layout=full";
     } else if (certificateItem.itemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType) {
-        return "registered-office-options";
+        return (session?.getExtraData("certificates-orders-web-ch-gov-uk") as CertificateSessionData).isFullPage ? "registered-office-options?layout=full" : "registered-office-options";
     }
 
     return "certificate-options";
