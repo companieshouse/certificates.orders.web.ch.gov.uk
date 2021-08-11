@@ -1,6 +1,7 @@
 import chai from "chai";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { setBackLink, setDirectorOption } from "../../../src/controllers/certificates/director.options.controller";
+import { dataEmpty, fullPageFalse } from "../../__mocks__/session.mocks";
 
 describe("director.options.controller.unit", () => {
     describe("setBackUrl for no registered address option selected", () => {
@@ -12,7 +13,7 @@ describe("director.options.controller.unit", () => {
                 }
             } as CertificateItem;
 
-            chai.expect(setBackLink(certificateItem)).to.equal("certificate-options");
+            chai.expect(setBackLink(certificateItem, dataEmpty)).to.equal("certificate-options");
         });
     });
 
@@ -26,7 +27,7 @@ describe("director.options.controller.unit", () => {
                 }
             } as CertificateItem;
 
-            chai.expect(setBackLink(certificateItem)).to.equal("registered-office-options");
+            chai.expect(setBackLink(certificateItem, fullPageFalse)).to.equal("registered-office-options");
         });
     });
 

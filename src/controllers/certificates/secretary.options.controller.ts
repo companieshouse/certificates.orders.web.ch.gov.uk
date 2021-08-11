@@ -87,7 +87,7 @@ export const setBackLink = (certificateItem: CertificateItem, session: Session |
     if (certificateItem.itemOptions?.directorDetails?.includeBasicInformation) {
         backLink = "director-options";
     }  else if (certificateItem.itemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType) {
-        return (session?.getExtraData("certificates-orders-web-ch-gov-uk") as CertificateSessionData).isFullPage ? "registered-office-options?layout=full" : "registered-office-options";
+        return (session?.getExtraData("certificates-orders-web-ch-gov-uk") as CertificateSessionData)?.isFullPage ? "registered-office-options?layout=full" : "registered-office-options";
     } else {
         backLink = "certificate-options";
     }

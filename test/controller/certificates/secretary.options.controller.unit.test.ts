@@ -1,6 +1,7 @@
 import chai from "chai";
 import { CertificateItem } from "ch-sdk-node/dist/services/order/certificates/types";
 import { setBackLink, setSecretaryOption } from "../../../src/controllers/certificates/secretary.options.controller";
+import { dataEmpty, fullPageFalse } from "../../__mocks__/session.mocks";
 
 describe("setSecretaryOption function test", () => {
     it("when address has been ticked it should return it as true", () => {
@@ -30,7 +31,7 @@ describe("secretary.options.controller.unit", () => {
                 }
             } as CertificateItem;
 
-            chai.expect(setBackLink(certificateItem)).to.equal("certificate-options");
+            chai.expect(setBackLink(certificateItem, dataEmpty)).to.equal("certificate-options");
         });
     });
 
@@ -44,7 +45,7 @@ describe("secretary.options.controller.unit", () => {
                 }
             } as CertificateItem;
 
-            chai.expect(setBackLink(certificateItem)).to.equal("registered-office-options");
+            chai.expect(setBackLink(certificateItem, fullPageFalse)).to.equal("registered-office-options");
         });
     });
 
@@ -58,7 +59,7 @@ describe("secretary.options.controller.unit", () => {
                 }
             } as CertificateItem;
 
-            chai.expect(setBackLink(certificateItem)).to.equal("director-options");
+            chai.expect(setBackLink(certificateItem, dataEmpty)).to.equal("director-options");
         });
     });
 });

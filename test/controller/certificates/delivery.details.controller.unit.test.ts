@@ -3,6 +3,7 @@ import chai from "chai";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { setBackLink } from "../../../src/controllers/certificates/delivery.details.controller";
 import { mockDissolvedCertificateItem } from "../../__mocks__/certificates.mocks";
+import { dataEmpty, fullPageFalse } from "../../__mocks__/session.mocks";
 
 describe("delivery.details.controller.unit", () => {
     describe("setBackUrl for no option selected", () => {
@@ -13,8 +14,7 @@ describe("delivery.details.controller.unit", () => {
                     surname: "smith"
                 }
             } as CertificateItem;
-
-            chai.expect(setBackLink(certificateItem)).to.equal("certificate-options");
+            chai.expect(setBackLink(certificateItem, dataEmpty)).to.equal("certificate-options");
         });
     });
 
@@ -28,7 +28,7 @@ describe("delivery.details.controller.unit", () => {
                 }
             } as CertificateItem;
 
-            chai.expect(setBackLink(certificateItem)).to.equal("registered-office-options");
+            chai.expect(setBackLink(certificateItem, fullPageFalse)).to.equal("registered-office-options");
         });
     });
 
@@ -42,7 +42,7 @@ describe("delivery.details.controller.unit", () => {
                 }
             } as CertificateItem;
 
-            chai.expect(setBackLink(certificateItem)).to.equal("director-options");
+            chai.expect(setBackLink(certificateItem, dataEmpty)).to.equal("director-options");
         });
     });
 
@@ -56,7 +56,7 @@ describe("delivery.details.controller.unit", () => {
                 }
             } as CertificateItem;
 
-            chai.expect(setBackLink(certificateItem)).to.equal("secretary-options");
+            chai.expect(setBackLink(certificateItem, dataEmpty)).to.equal("secretary-options");
         });
     });
 
@@ -73,7 +73,7 @@ describe("delivery.details.controller.unit", () => {
                 }
             } as CertificateItem;
 
-            chai.expect(setBackLink(certificateItem)).to.equal("director-options");
+            chai.expect(setBackLink(certificateItem, dataEmpty)).to.equal("director-options");
         });
     });
 
@@ -93,7 +93,7 @@ describe("delivery.details.controller.unit", () => {
                 }
             } as CertificateItem;
 
-            chai.expect(setBackLink(certificateItem)).to.equal("secretary-options");
+            chai.expect(setBackLink(certificateItem, dataEmpty)).to.equal("secretary-options");
         });
     });
 
@@ -101,7 +101,7 @@ describe("delivery.details.controller.unit", () => {
         it("the back button link should take the user to the start page for dissolved certificate", () => {
             const certificateItem = mockDissolvedCertificateItem as CertificateItem;
 
-            chai.expect(setBackLink(mockDissolvedCertificateItem)).to.include("/orderable/dissolved-certificates");
+            chai.expect(setBackLink(mockDissolvedCertificateItem, dataEmpty)).to.include("/orderable/dissolved-certificates");
         });
     });
 });
