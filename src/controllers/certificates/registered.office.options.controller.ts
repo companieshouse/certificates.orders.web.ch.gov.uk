@@ -16,6 +16,8 @@ const CURRENT_ADDRESS_AND_THE_ONE_PREVIOUS_FIELD: string = "currentAddressAndThe
 const CURRENT_ADDRESS_AND_THE_TWO_PREVIOUS_FIELD: string = "currentAddressAndTheTwoPrevious";
 const ALL_CURRENT_AND_PREVIOUS_ADDRESSES_FIELD: string = "allCurrentAndPreviousAddresses";
 
+const optionFilter = (items) => items.filter((item) => item.display)
+
 export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const userId = getUserId(req.session);
     const accessToken: string = getAccessToken(req.session);
@@ -27,7 +29,9 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
 
     return res.render(CERTIFICATE_REGISTERED_OFFICE_OPTIONS, {
         companyNumber: certificateItem.companyNumber,
-        SERVICE_URL
+        SERVICE_URL,
+        optionFilter: optionFilter,
+        isFullPage: req.query.layout === "full"
     });
 };
 
@@ -40,7 +44,9 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         if (!errors.isEmpty()) {
             return res.render(CERTIFICATE_REGISTERED_OFFICE_OPTIONS, {
                 ...errorList,
-                registeredOfficeOption
+                registeredOfficeOption,
+                optionFilter: optionFilter,
+                isFullPage: req.body.layout === "full"
             });
         };
         const regOfficeOption: string = req.body[REGISTERED_OFFICE_OPTION];

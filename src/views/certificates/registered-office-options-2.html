@@ -42,41 +42,36 @@
             hint: {
                 text: "No dates will be included on your certificate."
               },
-
-            items: optionFilter([
+            items: [
               {
                 value: "currentAddress",
                 text: "Current address",
                 attributes: {
                   "data-event-id" : "certificate-reg-office-address-current"
-                },
-                display: true
+                }
               },
               {
                 value: "currentAddressAndTheOnePrevious",
                 text: "Current address and the one previous",
                 attributes: {
                   "data-event-id" : "certificate-reg-office-address-current-previous"
-                },
-                display: true
+                }
               },
               {
                 value: "currentAddressAndTheTwoPrevious",
                 text: "Current address and the two previous",
                 attributes: {
                   "data-event-id" : "certificate-reg-office-address-current-two-previous"
-                },
-                display: isFullPage
+                }
               },
               {
                 value: "allCurrentAndPreviousAddresses",
                 text: "All current and previous addresses",
                 attributes: {
                   "data-event-id" : "certificate-reg-office-address-all"
-                },
-                display: isFullPage
+                }
               }
-            ])
+            ]
             }) }}
 
             {{ govukButton({
@@ -86,7 +81,7 @@
                 id: "submit"
                 }
             }) }}
-        {% if isFullPage %} <input name="layout" type="hidden" value="full"/> {% endif %}
+
       </form>
     </div>
   </div>
