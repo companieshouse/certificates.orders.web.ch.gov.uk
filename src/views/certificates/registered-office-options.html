@@ -4,7 +4,11 @@
   {% if errorList.length > 0 %}
     Error:
   {% endif %}
+  {% if isFullPage %}
+    Choose from the full list of registered office addresses
+  {% else %}
     Choose registered office options
+  {% endif %}
 {% endblock %}
 
 {% set mainClasses = "govuk-main-wrapper--l" %}
