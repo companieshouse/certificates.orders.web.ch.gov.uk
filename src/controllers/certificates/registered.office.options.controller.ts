@@ -17,7 +17,7 @@ const CURRENT_ADDRESS_AND_THE_ONE_PREVIOUS_FIELD: string = "currentAddressAndThe
 const CURRENT_ADDRESS_AND_THE_TWO_PREVIOUS_FIELD: string = "currentAddressAndTheTwoPrevious";
 const ALL_CURRENT_AND_PREVIOUS_ADDRESSES_FIELD: string = "allCurrentAndPreviousAddresses";
 
-const optionFilter = (items) => items.filter((item) => item.display)
+export const optionFilter = (items) => items.filter((item) => item.display)
 
 export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const userId = getUserId(req.session);
@@ -38,7 +38,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
     });
 };
 
-const generateBackLink = (fullPage: boolean) => fullPage ? "registered-office-options" : "certificate-options";
+export const generateBackLink = (fullPage: boolean) => fullPage ? "registered-office-options" : "certificate-options";
 
 const route = async (req: Request, res: Response, next: NextFunction) => {
     try {
