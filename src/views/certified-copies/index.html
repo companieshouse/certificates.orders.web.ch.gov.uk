@@ -1,5 +1,14 @@
 {% extends "layout.html" %}
 
+{% set notificationHtml %}
+  <p class="govuk-notification-banner__heading">
+    This order will be for {{ companyName }} ({{ companyNumber }}).
+    <p>If you want to order a certified document for a different company, you will need to
+    <a class="govuk-notification-banner__link" href="https://find-and-update.company-information.service.gov.uk/">search for the company on the register,</a>
+    then use the 'More' tab on the company page to re-enter this service.</p>
+  </p>
+{% endset %}
+
 {% block pageTitle %}
   Order a certified document - GOV.UK
 {% endblock %}
@@ -12,6 +21,10 @@
 {% endblock %}
 
 {% block content %}
+
+  {{ govukNotificationBanner({
+    html: notificationHtml
+  }) }}
 
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
@@ -29,7 +42,7 @@
               <p class="govuk-body">You cannot use this service to order:</p>
               <ul class="govuk-list govuk-list--bullet">
               <li>a copy of the certificate of incorporation that was issued when the company was formed. It can only be ordered by calling Companies House on 0303 1234 500.</li>
-                <li> a certificate that confirms company details and can include a statement of good standing (also known as a certificate of good standing). For this, you'll need to use our <a href="{{ moreTabUrl }}" class="govuk-link">Order a certificate service</a>.</li>
+                <li> a certificate that confirms company details and can include a statement of good standing (also known as a certificate of good standing). For this, you'll need to use our <a href="{{ moreTabUrl }}" class="govuk-link" data-event-id="certificates-from-certified-copies">Order a certificate service</a>.</li>
               </ul>
             <p class="govuk-body">Ordering a certified document takes around 5 minutes.</p>
     

@@ -43,6 +43,17 @@ describe("certificate.home.controller.integration", () => {
         chai.expect(resp.text).to.contain("Order a certificate");
     });
 
+    it("displays the notification banner with the in context company name and company number", async () => {
+        getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
+            .returns(Promise.resolve(dummyCompanyProfileAcceptableCompanyType));
+
+        const resp = await chai.request(testApp)
+            .get(replaceCompanyNumber(ROOT_CERTIFICATE, COMPANY_NUMBER));
+
+        chai.expect(resp.status).to.equal(200);
+        chai.expect(resp.text).to.contain("This order will be for company name (00000000)");
+    });
+
     it("does not render the start page if company type is not allowed to order a certificate", async () => {
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
             .returns(Promise.resolve(dummyCompanyProfileNotAcceptableCompanyType));

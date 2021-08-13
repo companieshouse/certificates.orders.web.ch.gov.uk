@@ -1,5 +1,14 @@
 {% extends "layout.html" %}
 
+{% set notificationHtml %}
+  <p class="govuk-notification-banner__heading">
+    This request will be for {{ companyName }} ({{ companyNumber }}).
+    <p>If you want to request a document for a different company, you will need to
+    <a class="govuk-notification-banner__link" href="https://find-and-update.company-information.service.gov.uk/">search for the company on the register.</a>
+    In the company's filing history, select 'Request document' for the document you require.</p>
+  </p>
+{% endset %}
+
 {% block pageTitle %}
   Request a document - GOV.UK
 {% endblock %}
@@ -12,6 +21,10 @@
 {% endblock %}
 
 {% block content %}
+  {{ govukNotificationBanner({
+    html: notificationHtml
+  }) }}
+  
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-xl">Request a document</h1>

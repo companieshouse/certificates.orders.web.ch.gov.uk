@@ -1,5 +1,14 @@
 {% extends "layout.html" %}
 
+{% set notificationHtml %}
+  <p class="govuk-notification-banner__heading">
+    This order will be for {{ companyName }} ({{ companyNumber }}).
+    <p>If you want to order a certificate for a different company, you will need to
+    <a class="govuk-notification-banner__link" href="https://find-and-update.company-information.service.gov.uk/">search for the company on the register,</a>
+    then use the 'More' tab on the company page to re-enter this service.</p>
+  </p>
+{% endset %}
+
 {% block pageTitle %}
   Order a certificate - GOV.UK
 {% endblock %}
@@ -12,9 +21,15 @@
 {% endblock %}
 
 {% block content %}
+
+  {{ govukNotificationBanner({
+    html: notificationHtml
+  }) }}
+
   {% if companyStatus === "active" %}
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
+      
         <h1 class="govuk-heading-xl">Order a certificate</h1>
 
         <p class="govuk-body-l">Use this service to order a signed certificate of incorporation for a company, including all company name changes. </p>
@@ -30,7 +45,7 @@
         </ul>
 
         <div class="govuk-inset-text">
-          This certificate is different to the incorporation documents that were issued when the company was formed. Copies of these can be ordered through the <a href="{{ moreTabUrl }}" class='govuk-link'>Order a certified document service</a>.
+          This certificate is different to the incorporation documents that were issued when the company was formed. Copies of these can be ordered through the <a href="{{ moreTabUrl }}" class='govuk-link' data-event-id="certified-copies-from-certificates">Order a certified document service</a>.
         </div>
 
         <p class="govuk-body">Ordering a certificate takes around 5 minutes.</p>
