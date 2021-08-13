@@ -18,6 +18,7 @@ const ADDRESS_TOWN_FIELD: string = "addressTown";
 const ADDRESS_COUNTY_FIELD: string = "addressCounty";
 const ADDRESS_POSTCODE_FIELD: string = "addressPostcode";
 const ADDRESS_COUNTRY_FIELD: string = "addressCountry";
+const PAGE_TITLE: string = "Delivery details - Order a certified document - GOV.UK";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -45,7 +46,8 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             backLink,
             SERVICE_URL,
             companyNumber,
-            templateName: DELIVERY_DETAILS
+            templateName: DELIVERY_DETAILS,
+            pageTitleText: PAGE_TITLE
         });
     } catch (err) {
         logger.error(`${err}`);
@@ -84,6 +86,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
             lastName,
             backLink,
             companyNumber,
+            pageTitleText: PAGE_TITLE,
             templateName: (DELIVERY_DETAILS),
             SERVICE_URL
         });

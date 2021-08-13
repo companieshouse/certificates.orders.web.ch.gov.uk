@@ -1,19 +1,19 @@
 {% extends "components/template.njk" %}
 
-{% from "govuk/components/breadcrumbs/macro.njk"      import govukBreadcrumbs %}
-{% from "govuk/components/button/macro.njk"           import govukButton %}
-{% from "govuk/components/back-link/macro.njk"        import govukBackLink %}
-{% from "govuk/components/error-summary/macro.njk"    import govukErrorSummary %}
-{% from "govuk/components/fieldset/macro.njk"         import govukFieldset %}
-{% from "govuk/components/panel/macro.njk"            import govukPanel %}
-{% from "govuk/components/checkboxes/macro.njk"       import govukCheckboxes %}
-{% from "govuk/components/summary-list/macro.njk"     import govukSummaryList %}
-{% from "govuk/components/inset-text/macro.njk"       import govukInsetText %}
-{% from "govuk/components/textarea/macro.njk"         import govukTextarea %}
-{% from "govuk/components/radios/macro.njk"           import govukRadios %}
-{% from "govuk/components/input/macro.njk"            import govukInput %}
-{% from "./components/header/macro.njk"               import chHeader %}
-{% from "./components/footer/macro.njk"               import chFooter %}
+{% from "govuk/components/breadcrumbs/macro.njk"          import govukBreadcrumbs %}
+{% from "govuk/components/button/macro.njk"               import govukButton %}
+{% from "govuk/components/back-link/macro.njk"            import govukBackLink %}
+{% from "govuk/components/error-summary/macro.njk"        import govukErrorSummary %}
+{% from "govuk/components/fieldset/macro.njk"             import govukFieldset %}
+{% from "govuk/components/panel/macro.njk"                import govukPanel %}
+{% from "govuk/components/checkboxes/macro.njk"           import govukCheckboxes %}
+{% from "govuk/components/summary-list/macro.njk"         import govukSummaryList %}
+{% from "govuk/components/inset-text/macro.njk"           import govukInsetText %}
+{% from "govuk/components/textarea/macro.njk"             import govukTextarea %}
+{% from "govuk/components/radios/macro.njk"               import govukRadios %}
+{% from "govuk/components/input/macro.njk"                import govukInput %}
+{% from "govuk/components/header/macro.njk"               import govukHeader %}
+{% from "./components/footer/macro.njk"                   import chFooter %}
 
 {% block head %}
 <meta name="format-detection" content="telephone=no">
@@ -21,8 +21,8 @@
 <link rel="stylesheet" type="text/css" media="all" href="{{ CSS_URL }}" />
 <link rel="stylesheet" type="text/css" media="all" href="{{ FOOTER }}" />
 <!--<![endif]-->
-<link rel="SHORTCUT ICON" href="//{{CDN_URL}}/images/favicon.ico" />
-<link rel="icon" href="//{{CDN_URL}}/images/favicon.ico" type="image/x-icon" />
+<link rel="SHORTCUT ICON" href="//{{CDN_URL}}/images/govuk-frontend/v3.5.0/images/favicon.ico" />
+<link rel="icon" href="//{{CDN_URL}}/images/govuk-frontend/v3.5.0/images/favicon.ico" type="image/x-icon" />
 
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"
           integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
@@ -45,17 +45,15 @@
 
 {% block header %}
   {% include "includes/cookie-banner.html" %}
-    {{ chHeader({
-      homepageUrl: "/",
-      serviceName: SERVICE_NAME,
-      serviceUrl: SERVICE_URL,
-      containerClasses: "govuk-width-container",
-      assetPath: ""
-    }) }}
+  {{ govukHeader({
+    homepageUrl: "http://gov.uk/",
+    serviceName: SERVICE_NAME,
+    serviceUrl: SERVICE_URL
+  }) }}
 {% endblock %}
 
 {% block footer %}
-    {{ chFooter({
+      {{ chFooter({
       classes: "ch",
       meta: {
         items: [
@@ -70,6 +68,10 @@
           {
             href: "https://beta.companieshouse.gov.uk/help/contact-us",
             text: "Contact us"
+          },
+          {
+            href: "/help/accessibility-statement",
+            text: "Accessibility statement"
           },
           {
             href: "https://developer.companieshouse.gov.uk/api/docs/",

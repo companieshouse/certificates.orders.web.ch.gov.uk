@@ -18,6 +18,7 @@ const ADDRESS_TOWN_FIELD: string = "addressTown";
 const ADDRESS_COUNTY_FIELD: string = "addressCounty";
 const ADDRESS_POSTCODE_FIELD: string = "addressPostcode";
 const ADDRESS_COUNTRY_FIELD: string = "addressCountry";
+const PAGE_TITLE: string = "Delivery details - Order a certificate - GOV.UK";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -40,6 +41,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             addressCounty: basket.deliveryDetails?.region,
             companyNumber: certificateItem.companyNumber,
             templateName: DELIVERY_DETAILS,
+            pageTitleText: PAGE_TITLE,
             SERVICE_URL: setServiceUrl(certificateItem),
             backLink: setBackLink(certificateItem)
         });
@@ -76,6 +78,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
             companyNumber: certificateItem.companyNumber,
             firstName,
             lastName,
+            pageTitle: PAGE_TITLE,
             templateName: (DELIVERY_DETAILS),
             SERVICE_URL: setServiceUrl(certificateItem),
             backLink: setBackLink(certificateItem)
