@@ -5,6 +5,8 @@ import { getCertificateItem, patchCertificateItem } from "../../client/api.clien
 import { CERTIFICATE_DIRECTOR_OPTIONS } from "../../model/template.paths";
 import { createLogger } from "ch-structured-logging";
 import { APPLICATION_NAME } from "../../config/config";
+import { Session } from "@companieshouse/node-session-handler/lib/session/model/Session";
+import CertificateSessionData from "../../session/CertificateSessionData";
 
 const logger = createLogger(APPLICATION_NAME);
 const INCLUDE_ADDRESS_FIELD: string = "address";
@@ -27,7 +29,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         itemOptions: certificateItem.itemOptions,
         directorDetails: itemOptions.directorDetails,
         SERVICE_URL,
-        backLink: setBackLink(certificateItem)
+        backLink: setBackLink(certificateItem, req.session)
     });
 };
 
@@ -108,11 +110,11 @@ export const setDirectorOption = (options: string[]): DirectorOrSecretaryDetails
         }, initialDirectorOptions);
 };
 
-export const setBackLink = (certificateItem: CertificateItem) => {
+export const setBackLink = (certificateItem: CertificateItem, session: Session | undefined) => {
     let backLink;
 
     if (certificateItem.itemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType) {
-        backLink = "registered-office-options";
+        return (session?.getExtraData("certificates-orders-web-ch-gov-uk") as CertificateSessionData)?.isFullPage ? "registered-office-options?layout=full" : "registered-office-options";
     } else {
         backLink = "certificate-options";
     }

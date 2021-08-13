@@ -1,6 +1,7 @@
 import chai from "chai";
 import sinon from "sinon";
 import ioredis from "ioredis";
+import cheerio from "cheerio";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import * as apiClient from "../../../src/client/api.client";
@@ -56,9 +57,27 @@ describe("registered.office.options.integration.test", () => {
                 .get(REGISTERED_OFFICE_OPTIONS_URL)
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
 
+            const $ = cheerio.load(resp.text);
+
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("What registered office address information do you need?");
+            chai.expect($('h1').text().trim()).to.equal("What registered office address information do you need?");
+            chai.expect($('title').text().trim()).to.equal("Registered office options - Order a certificate - GOV.UK");
         });
+
+        it("renders the full registered office options page if full layout requested", async () => {
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItem));
+
+            const resp = await chai.request(testApp)
+                .get(REGISTERED_OFFICE_OPTIONS_URL + "?layout=full")
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+            const $ = cheerio.load(resp.text);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect($('h1').text().trim()).to.equal("Choose from the full list of registered office addresses");
+            chai.expect($('title').text().trim()).to.equal("Full list of registered office options - Order a certificate - GOV.UK");
+        })
     });
 
     describe("registered office options post", () => {

@@ -7,6 +7,7 @@ import { getAccessToken, getUserId } from "../../session/helper";
 import { createLogger } from "ch-structured-logging";
 import { registeredOfficeAddressValidationRules, validate } from "../../validation/certificates/registered.office.options.validation";
 import { APPLICATION_NAME } from "../../config/config";
+import CertificateSessionData from "../../session/CertificateSessionData";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -16,31 +17,43 @@ const CURRENT_ADDRESS_AND_THE_ONE_PREVIOUS_FIELD: string = "currentAddressAndThe
 const CURRENT_ADDRESS_AND_THE_TWO_PREVIOUS_FIELD: string = "currentAddressAndTheTwoPrevious";
 const ALL_CURRENT_AND_PREVIOUS_ADDRESSES_FIELD: string = "allCurrentAndPreviousAddresses";
 
+export const optionFilter = (items) => items.filter((item) => item.display)
+
 export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const userId = getUserId(req.session);
     const accessToken: string = getAccessToken(req.session);
     const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
     const itemOptions: ItemOptions = certificateItem.itemOptions;
     const SERVICE_URL = `/company/${certificateItem.companyNumber}/orderable/certificates`;
+    const isFullPage = req.query.layout === "full";
 
     logger.info(`Certificate item retrieved, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
 
     return res.render(CERTIFICATE_REGISTERED_OFFICE_OPTIONS, {
         companyNumber: certificateItem.companyNumber,
-        SERVICE_URL
+        SERVICE_URL,
+        optionFilter: optionFilter,
+        isFullPage: isFullPage,
+        backLink: generateBackLink(isFullPage)
     });
 };
+
+export const generateBackLink = (fullPage: boolean) => fullPage ? "registered-office-options" : "certificate-options";
 
 const route = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const errors = validationResult(req);
         const errorList = validate(errors);
         const registeredOfficeOption: string = req.body[REGISTERED_OFFICE_OPTION];
+        const isFullPage = req.body.layout === "full";
 
         if (!errors.isEmpty()) {
             return res.render(CERTIFICATE_REGISTERED_OFFICE_OPTIONS, {
                 ...errorList,
-                registeredOfficeOption
+                registeredOfficeOption,
+                optionFilter: optionFilter,
+                isFullPage: isFullPage,
+                backLink: generateBackLink(isFullPage)
             });
         };
         const regOfficeOption: string = req.body[REGISTERED_OFFICE_OPTION];
@@ -55,6 +68,9 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         const userId = getUserId(req.session);
         const patchResponse = await patchCertificateItem(accessToken, req.params.certificateId, certificateItem);
         logger.info(`Patched certificate item with registered office option, id=${req.params.certificateId}, user_id=${userId}, company_number=${patchResponse.companyNumber}, certificate_options=${JSON.stringify(certificateItem)}`);
+        req.session?.setExtraData("certificates-orders-web-ch-gov-uk", {
+            isFullPage: isFullPage
+        } as CertificateSessionData);
         if (patchResponse.itemOptions.directorDetails) {
             return res.redirect("director-options");
         } else if (patchResponse.itemOptions.secretaryDetails) {
