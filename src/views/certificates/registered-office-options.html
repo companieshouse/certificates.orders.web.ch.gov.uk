@@ -4,11 +4,7 @@
   {% if errorList.length > 0 %}
     Error:
   {% endif %}
-  {% if isFullPage %}
-    Choose from the full list of registered office addresses
-  {% else %}
-    Choose registered office options
-  {% endif %}
+  {{ "Full list of registered office options - Order a certificate - GOV.UK" if isFullPage else "Registered office options - Order a certificate - GOV.UK" }}
 {% endblock %}
 
 {% set mainClasses = "govuk-main-wrapper--l" %}
@@ -37,7 +33,7 @@
             name: "registeredOffice",
             fieldset: {
               legend: {
-                text: "What registered office address information do you need?",
+                text: "Choose from the full list of registered office addresses" if isFullPage else "What registered office address information do you need?",
                 isPageHeading: true,
                 classes: "govuk-fieldset__legend--xl"
               }
