@@ -10,6 +10,7 @@ Certificate ordering web service integrating with the CH orders service
 - [Compiling the application](#compiling-the-application)
 - [Linting](#linting)
 - [Testing](#testing)
+- [Feature Flags](#feature-flags)
 
 ### Quick start
 
@@ -81,3 +82,14 @@ You can also autofix minor linting errors by running `npm run lint:fix`
 Tests can be found in the directory [src/test](./src/test). The framework used is [Jest](https://jestjs.io) along with [Supertest](https://github.com/visionmedia/supertest) to dispatch handlers that can have assertions made against the responses. Execute the following to run the tests;
 
     npm t
+
+### Feature Flags
+
+Use the following environment variables to enable / disable dynamic certificate ordering features.
+
+|Variable|Description|Value|
+|---|---|---|
+|DYNAMIC_LP_CERTIFICATE_ORDERS_ENABLED|Limited Partnership certificates | true &#x7c; false |
+|DYNAMIC_LLP_CERTIFICATE_ORDERS_ENABLED|Limited Liability Partnership certificates | true &#x7c; false |
+
+

@@ -19,6 +19,16 @@ export const CERTIFICATE_REGISTERED_OFFICE_OPTIONS: string = ROOT_CERTIFICATE_ID
 export const CERTIFICATE_DIRECTOR_OPTIONS: string = ROOT_CERTIFICATE_ID + "/director-options";
 export const CERTIFICATE_SECRETARY_OPTIONS: string = ROOT_CERTIFICATE_ID + "/secretary-options";
 
+export const LP_ROOT_CERTIFICATE: string = "/company/:companyNumber/orderable/lp-certificates";
+export const LP_ROOT_CERTIFICATE_ID: string = "/orderable/lp-certificates/:certificateId";
+export const LP_CERTIFICATE_TYPE: string = LP_ROOT_CERTIFICATE + "/certificate-type";
+export const LP_CERTIFICATE_OPTIONS: string = LP_ROOT_CERTIFICATE_ID + "/certificate-options";
+
+export const LLP_ROOT_CERTIFICATE: string = "/company/:companyNumber/orderable/llp-certificates";
+export const LLP_ROOT_CERTIFICATE_ID: string = "/orderable/llp-certificates/:certificateId";
+export const LLP_CERTIFICATE_OPTIONS: string = LLP_ROOT_CERTIFICATE_ID + "/certificate-options";
+export const LLP_CERTIFICATE_TYPE: string = LLP_ROOT_CERTIFICATE + "/certificate-type";
+
 export const DISSOLVED_CERTIFICATE_OPTIONS: string = ROOT_DISSOLVED_CERTIFICATE_ID + "/certificate-options";
 export const DISSOLVED_CERTIFICATE_DELIVERY_DETAILS: string = ROOT_DISSOLVED_CERTIFICATE_ID + "/delivery-details";
 export const DISSOLVED_CERTIFICATE_CHECK_DETAILS: string = ROOT_DISSOLVED_CERTIFICATE_ID + "/check-details";

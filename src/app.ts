@@ -6,6 +6,8 @@ import Redis from "ioredis";
 import { SessionStore, SessionMiddleware, CookieConfig } from "@companieshouse/node-session-handler";
 
 import certRouter from "./routers/certificates/routers";
+import lpCertRouter from "./routers/certificates/lp-certificates/routers";
+import llpCertRouter from "./routers/certificates/llp-certificates/routers";
 import certCopyRouter from "./routers/certified-copies/routers";
 import missingImageDeliveryRouter from "./routers/missing-image-deliveries/routers";
 
@@ -35,7 +37,7 @@ import {
     CERTIFIED_COPIES_PIWIK_START_GOAL_ID,
     MISSING_IMAGE_DELIVERY_PIWIK_START_GOAL_ID,
     DISSOLVED_CERTIFICATE_PIWIK_START_GOAL_ID,
-    CHS_URL
+    CHS_URL, DYNAMIC_LP_CERTIFICATE_ORDERS_ENABLED, DYNAMIC_LLP_CERTIFICATE_ORDERS_ENABLED
 } from "./config/config";
 
 const app = express();
@@ -67,6 +69,10 @@ const PROTECTED_PATHS = [
     pageUrls.CERTIFICATE_DELIVERY_DETAILS,
     pageUrls.CERTIFICATE_REGISTERED_OFFICE_OPTIONS,
     pageUrls.CERTIFICATE_DIRECTOR_OPTIONS,
+    pageUrls.LP_CERTIFICATE_TYPE,
+    pageUrls.LP_CERTIFICATE_OPTIONS,
+    pageUrls.LLP_CERTIFICATE_OPTIONS,
+    pageUrls.LLP_CERTIFICATE_TYPE,
     pageUrls.DISSOLVED_CERTIFICATE_OPTIONS,
     pageUrls.DISSOLVED_CERTIFICATE_TYPE,
     pageUrls.DISSOLVED_CERTIFICATE_CHECK_DETAILS,
@@ -81,6 +87,14 @@ app.use(PROTECTED_PATHS, createLoggerMiddleware(APPLICATION_NAME));
 app.use([pageUrls.ROOT_CERTIFICATE, pageUrls.ROOT_CERTIFICATE_ID], SessionMiddleware(cookieConfig, sessionStore));
 app.use(pageUrls.ROOT_CERTIFICATE, authMiddleware);
 app.use(pageUrls.ROOT_CERTIFICATE_ID, authCertificateMiddleware);
+
+app.use([pageUrls.LP_ROOT_CERTIFICATE, pageUrls.LP_ROOT_CERTIFICATE_ID], SessionMiddleware(cookieConfig, sessionStore));
+app.use(pageUrls.LP_ROOT_CERTIFICATE, authMiddleware);
+app.use(pageUrls.LP_ROOT_CERTIFICATE_ID, authCertificateMiddleware);
+
+app.use([pageUrls.LLP_ROOT_CERTIFICATE, pageUrls.LLP_ROOT_CERTIFICATE_ID], SessionMiddleware(cookieConfig, sessionStore));
+app.use(pageUrls.LLP_ROOT_CERTIFICATE, authMiddleware);
+app.use(pageUrls.LLP_ROOT_CERTIFICATE_ID, authCertificateMiddleware);
 
 app.use([pageUrls.ROOT_DISSOLVED_CERTIFICATE, pageUrls.ROOT_DISSOLVED_CERTIFICATE_ID], SessionMiddleware(cookieConfig, sessionStore));
 app.use(pageUrls.ROOT_DISSOLVED_CERTIFICATE, authMiddleware);
@@ -141,6 +155,12 @@ if (process.env.NODE_ENV !== "production") {
 
 // apply our default router to /
 app.use("/", certRouter);
+if (DYNAMIC_LP_CERTIFICATE_ORDERS_ENABLED === "true") {
+    app.use("/", lpCertRouter);
+}
+if (DYNAMIC_LLP_CERTIFICATE_ORDERS_ENABLED === "true") {
+    app.use("/", llpCertRouter);
+}
 app.use("/", certCopyRouter);
 app.use("/", missingImageDeliveryRouter);
 

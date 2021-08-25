@@ -1,4 +1,6 @@
 const certRoot = "certificates";
+const lpCertRoot = "certificates/lp-certificates";
+const llpCertRoot = "certificates/llp-certificates";
 const certifiedCopyRoot = "certified-copies";
 const missingImageDeliveryRoot = "missing-image-deliveries";
 const errorRoot = "error-pages";
@@ -16,6 +18,12 @@ export const CERTIFICATE_ORDER_DETAILS: string = `${certRoot}/order-details`;
 export const CERTIFICATE_REGISTERED_OFFICE_OPTIONS: string = `${certRoot}/registered-office-options`;
 export const CERTIFICATE_DIRECTOR_OPTIONS: string = `${certRoot}/director-options`;
 export const CERTIFICATE_SECRETARY_OPTIONS: string = `${certRoot}/secretary-options`;
+
+export const LP_CERTIFICATE_INDEX: string = `${lpCertRoot}/index`;
+export const LP_CERTIFICATE_OPTIONS: string = `${lpCertRoot}/options`;
+
+export const LLP_CERTIFICATE_INDEX: string = `${llpCertRoot}/index`;
+export const LLP_CERTIFICATE_OPTIONS: string = `${llpCertRoot}/options`;
 
 export const CERTIFIED_COPY_INDEX: string = `${certifiedCopyRoot}/index`;
 export const CERTIFIED_COPY_CHECK_DETAILS: string = `${certifiedCopyRoot}/check-details`;
