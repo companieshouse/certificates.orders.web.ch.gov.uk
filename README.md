@@ -87,9 +87,9 @@ Tests can be found in the directory [src/test](./src/test). The framework used i
 
 Use the following environment variables to enable / disable dynamic certificate ordering features.
 
-|Variable|Description|Value|
-|---|---|---|
-|DYNAMIC_LP_CERTIFICATE_ORDERS_ENABLED|Limited Partnership certificates | true &#x7c; false |
-|DYNAMIC_LLP_CERTIFICATE_ORDERS_ENABLED|Limited Liability Partnership certificates | true &#x7c; false |
+|Variable|Description|Value|Default|
+|---|---|---|---|
+|DYNAMIC_LP_CERTIFICATE_ORDERS_ENABLED|Limited Partnership certificates | true &#x7c; false | false |
+|DYNAMIC_LLP_CERTIFICATE_ORDERS_ENABLED|Limited Liability Partnership certificates | true &#x7c; false | false |
 
 
