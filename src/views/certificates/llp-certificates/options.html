@@ -1,0 +1,108 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  {% if errorList.length > 0 %}
+    Error:
+  {% endif %}
+    Certificate options - Order a certificate - GOV.UK
+{% endblock %}
+
+{% set mainClasses = "govuk-main-wrapper--l" %}
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/company/" + companyNumber + "/orderable/certificates"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds-from-desktop">
+      <form method="post">
+
+        <h2 style="color:Tomato;">LIMITED LIABILITY PARTNERSHIP TODO</h2>
+
+        {{ govukCheckboxes({
+            idPrefix: "more-info",
+            name: "moreInfo",
+            fieldset: {
+            legend: {
+            text: "What information would you like to be included on the certificate?",
+            isPageHeading: true,
+            classes: "govuk-fieldset__legend--xl"
+          }
+        },
+        hint: {
+          text: "Select all that apply."
+        },
+        items: [
+          {
+            value: "goodStanding",
+            text: "Statement of good standing",
+            hint: {
+              text: "A statement that the company is in good standing (not added if the company is not in good standing)."
+            },
+            checked: true if itemOptions.includeGoodStandingInformation else false,
+            attributes: {
+              "data-event-id" : "good-standing-option"
+            }
+          },
+          {
+            value: "registeredOffice",
+            text: "Registered office address",
+            hint: {
+              text: "This can include current and previous addresses. No dates are included."
+            },
+            checked: true if itemOptions.registeredOfficeAddressDetails.includeAddressRecordsType else false,
+            attributes: {
+              "data-event-id" : "registered-office-address-option"
+            }
+          },
+          {
+            value: "directors",
+            text: "Directors",
+            hint: {
+             text: "Details of all current directors."
+            },
+            checked: true if itemOptions.directorDetails.includeBasicInformation else false,
+            attributes: {
+              "data-event-id" : "directors-option"
+            }
+          },
+          {
+            value: "secretaries",
+            text: "Secretaries",
+            hint: {
+              text: "Details of all current secretaries."
+            },
+            checked: true if itemOptions.secretaryDetails.includeBasicInformation else false,
+            attributes: {
+              "data-event-id" : "secretaries-option"
+            }
+          },
+          {
+            value: "companyObjects",
+            text: "Company objects",
+            hint: {
+              text: "Summary of company objects."
+            },
+            checked: true if itemOptions.includeCompanyObjectsInformation else false,
+            attributes: {
+              "data-event-id" : "company-objects-option"
+            }
+          }
+        ]
+        }) }}
+        
+        {{ govukButton({
+          text: "Continue",
+          attributes: {
+            "data-event-id": "continue-button",
+            id: "submit"
+            }
+        }) }}
+
+  </form>
+</div>
+</div>
+{% endblock %}
