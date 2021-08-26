@@ -29,7 +29,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const companyType = companyProfile.type;
         const moreTabUrl = "/company/" + companyNumber + "/more";
 
-        let acceptableCompanyTypes = [
+        const acceptableCompanyTypes = [
             "llp",
             "ltd",
             "plc",
@@ -42,7 +42,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         ];
         // Allow limited partnership certificate if company is active
         if (companyStatus === "active") {
-            acceptableCompanyTypes = [...acceptableCompanyTypes, "limited-partnership"];
+            acceptableCompanyTypes.push("limited-partnership")
         }
 
         let startNowUrl;
