@@ -1,7 +1,8 @@
 import chai from "chai";
-import { CertificateItem } from "ch-sdk-node/dist/services/order/certificates/types";
+
 import { setBackLink, setSecretaryOption } from "../../../src/controllers/certificates/secretary.options.controller";
 import { dataEmpty, fullPageFalse, fullPageTrue } from "../../__mocks__/session.mocks";
+import {CertificateItem} from "../../../../../../api-sdk-node/dist/services/order/certificates";
 
 describe("setSecretaryOption function test", () => {
     it("when address has been ticked it should return it as true", () => {

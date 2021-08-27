@@ -1,8 +1,7 @@
-import chai from "chai";
+const chai = require("chai")
 import sinon from "sinon";
 import ioredis from "ioredis";
 import cheerio from "cheerio";
-import sessionHandler from "@companieshouse/node-session-handler";
 import { BasketItem, Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 
