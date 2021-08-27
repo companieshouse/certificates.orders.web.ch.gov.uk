@@ -19,9 +19,6 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds-from-desktop">
       <form method="post">
-
-        <h2 style="color:Tomato;">LIMITED LIABILITY PARTNERSHIP TODO</h2>
-
         {{ govukCheckboxes({
             idPrefix: "more-info",
             name: "moreInfo",
@@ -59,36 +56,25 @@
             }
           },
           {
-            value: "directors",
-            text: "Directors",
+            value: "designatedMembers",
+            text: "Designated Members",
             hint: {
-             text: "Details of all current directors."
+             text: "Details of all current designated members."
             },
-            checked: true if itemOptions.directorDetails.includeBasicInformation else false,
+            checked: true if itemOptions.designatedMemberDetails.includeBasicInformation else false,
             attributes: {
-              "data-event-id" : "directors-option"
+              "data-event-id" : "designated-members-option"
             }
           },
           {
-            value: "secretaries",
-            text: "Secretaries",
+            value: "members",
+            text: "Members",
             hint: {
-              text: "Details of all current secretaries."
+              text: "Details of all current members."
             },
-            checked: true if itemOptions.secretaryDetails.includeBasicInformation else false,
+            checked: true if itemOptions.memberDetails.includeBasicInformation else false,
             attributes: {
-              "data-event-id" : "secretaries-option"
-            }
-          },
-          {
-            value: "companyObjects",
-            text: "Company objects",
-            hint: {
-              text: "Summary of company objects."
-            },
-            checked: true if itemOptions.includeCompanyObjectsInformation else false,
-            attributes: {
-              "data-event-id" : "company-objects-option"
+              "data-event-id" : "members-option"
             }
           }
         ]
