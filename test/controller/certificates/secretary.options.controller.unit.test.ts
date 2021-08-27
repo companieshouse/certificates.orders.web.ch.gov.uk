@@ -1,5 +1,5 @@
 import chai from "chai";
-import { CertificateItem } from "ch-sdk-node/dist/services/order/certificates/types";
+import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { setBackLink, setSecretaryOption } from "../../../src/controllers/certificates/secretary.options.controller";
 import { dataEmpty, fullPageFalse, fullPageTrue } from "../../__mocks__/session.mocks";
 

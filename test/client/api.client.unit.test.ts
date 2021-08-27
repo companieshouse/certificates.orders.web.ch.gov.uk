@@ -62,9 +62,12 @@ const dummyCertificateItemSDKResponse: Resource<CertificateItem> = {
         itemOptions: {
             certificateType: "incorporation",
             collectionLocation: "cardiff",
+            companyType: "limited-by-shares",
             contactNumber: "07596820642",
             deliveryMethod: "collection",
             deliveryTimescale: "standard",
+            designatedMemberDetails: {
+            },
             directorDetails: {
                 includeAddress: true,
                 includeAppointmentDate: false,
@@ -75,9 +78,17 @@ const dummyCertificateItemSDKResponse: Resource<CertificateItem> = {
                 includeOccupation: true
             },
             forename: "John",
+            generalPartnerDetails: {
+            },
             includeCompanyObjectsInformation: true,
             includeEmailCopy: true,
             includeGoodStandingInformation: true,
+            limitedPartnerDetails: {
+            },
+            memberDetails: {
+            },
+            principlePlaceOfBusinessDetails: {
+            },
             registeredOfficeAddressDetails: {
                 includeAddressRecordsType: "yes",
                 includeDates: true
@@ -148,7 +159,8 @@ const dummyCompanyProfileSDKResponse: Resource<CompanyProfile> = {
         },
         confirmationStatement: {
             nextDue: "2020-05-31",
-            overdue: false
+            overdue: false,
+            nextMadeUpTo: "2020-05-31"
         },
         links: {
             filingHistory: "/company/00000000/filing-history"

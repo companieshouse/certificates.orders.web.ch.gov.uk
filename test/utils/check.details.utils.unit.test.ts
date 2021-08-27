@@ -38,6 +38,7 @@ const registeredOfficeAddressDetails: RegisteredOfficeAddressDetails = {
 const itemOptions: ItemOptions = {
     certificateType: "certificateType",
     collectionLocation: "collectionLocation",
+    companyType: "limited-by-shares",
     contactNumber: "contactNumber",
     deliveryMethod: "deliveryMethod",
     deliveryTimescale: "standard",

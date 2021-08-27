@@ -34,6 +34,7 @@ export const dummyCompanyProfileActiveCompany: CompanyProfile = {
     },
     confirmationStatement: {
         nextDue: "2020-05-31",
+        nextMadeUpTo: "2020-05-31",
         overdue: false
     },
     links: {
@@ -74,6 +75,7 @@ export const dummyCompanyProfileDissolvedCompany: CompanyProfile = {
     },
     confirmationStatement: {
         nextDue: "2020-05-31",
+        nextMadeUpTo: "2020-05-31",
         overdue: false
     },
     links: {
@@ -116,6 +118,7 @@ export const dummyCompanyProfileAcceptableCompanyType: Resource<CompanyProfile> 
         },
         confirmationStatement: {
             nextDue: "2020-05-31",
+            nextMadeUpTo: "2020-05-31",
             overdue: false
         },
         links: {
@@ -159,6 +162,7 @@ export const dummyCompanyProfileNotAcceptableCompanyType: Resource<CompanyProfil
         },
         confirmationStatement: {
             nextDue: "2020-05-31",
+            nextMadeUpTo: "2020-05-31",
             overdue: false
         },
         links: {

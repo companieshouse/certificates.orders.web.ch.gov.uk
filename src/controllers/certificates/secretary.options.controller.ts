@@ -5,7 +5,7 @@ import { getCertificateItem, patchCertificateItem } from "../../client/api.clien
 import { CERTIFICATE_SECRETARY_OPTIONS } from "../../model/template.paths";
 import { createLogger } from "ch-structured-logging";
 import { APPLICATION_NAME } from "../../config/config";
-import { DirectorOrSecretaryDetailsRequest, CertificateItemPatchRequest } from "ch-sdk-node/dist/services/order/certificates/types";
+import { DirectorOrSecretaryDetailsRequest, CertificateItemPatchRequest } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { Session } from "@companieshouse/node-session-handler/lib/session/model/Session";
 import CertificateSessionData from "../../session/CertificateSessionData";
 

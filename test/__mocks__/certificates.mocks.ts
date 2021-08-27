@@ -65,6 +65,7 @@ export const mockAcceptableDissolvedCompanyProfile: Resource<CompanyProfile> = {
         },
         confirmationStatement: {
             nextDue: "2020-05-31",
+            nextMadeUpTo: "2020-05-31",
             overdue: false
         },
         links: {
@@ -108,6 +109,7 @@ export const mockAcceptableNonDissolvedCompanyProfile: Resource<CompanyProfile> 
         },
         confirmationStatement: {
             nextDue: "2020-05-31",
+            nextMadeUpTo: "2020-05-31",
             overdue: false
         },
         links: {
@@ -151,6 +153,7 @@ export const mockNotAcceptableDissolvedCompanyLimitedPartnershipProfile: Resourc
         },
         confirmationStatement: {
             nextDue: "2020-05-31",
+            nextMadeUpTo: "2020-05-31",
             overdue: false
         },
         links: {
