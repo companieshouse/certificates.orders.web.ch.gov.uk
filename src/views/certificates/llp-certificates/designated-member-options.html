@@ -1,0 +1,79 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  Designated member options - Order a certificate - GOV.UK
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: backLink
+  }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form method="post">
+
+      {{ govukCheckboxes({
+        idPrefix: "desginated-member-options",
+        name: "designatedMemberOptions",
+        fieldset: {
+          legend: {
+            text: "What designated member information do you need?",
+            isPageHeading: true,
+            classes: "govuk-fieldset__legend--xl"
+          }
+        },
+        hint: {
+          text: "The certificate will include the names of all current designated members, and any of the details you choose below."
+        },
+        items: [
+          {
+            value: "address",
+            text: "Correspondence address",
+            checked: true if designatedMemberDetails.includeAddress else false,
+            attributes: {
+              "data-event-id" : "llp-certificate-designated-member-corr-addr"
+            }
+          },
+          {
+            value: "dob",
+            text: "Date of birth (month and year)",
+            checked: true if designatedMemberDetails.includeDobType else false,
+            attributes: {
+              "data-event-id" : "llp-certificates-designated-member-dob"
+            }
+          },
+          {
+            value: "appointment",
+            text: "Appointment date",
+            checked: true if designatedMemberDetails.includeAppointmentDate else false,
+            attributes: {
+              "data-event-id" : "llp-certificates-designated-member-appt-date"
+            }
+          },
+          {
+            value: "countryOfResidence",
+            text: "Country of residence",
+            checked: true if designatedMemberDetails.includeCountryOfResidence else false,
+            attributes: {
+              "data-event-id" : "llp-certificates-designated-member-country"
+            }
+          }
+        ]
+      }) }}
+
+      {{ govukButton({
+        text: "Continue",
+        attributes: {
+          "data-event-id": "continue-button",
+          id: "submit"
+          }
+      }) }}
+
+      </form>
+  </div>
+</div>  
+{% endblock %}
