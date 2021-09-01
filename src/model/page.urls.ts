@@ -28,6 +28,7 @@ export const LLP_ROOT_CERTIFICATE: string = "/company/:companyNumber/orderable/l
 export const LLP_ROOT_CERTIFICATE_ID: string = "/orderable/llp-certificates/:certificateId";
 export const LLP_CERTIFICATE_OPTIONS: string = LLP_ROOT_CERTIFICATE_ID + "/certificate-options";
 export const LLP_CERTIFICATE_TYPE: string = LLP_ROOT_CERTIFICATE + "/certificate-type";
+export const LLP_CERTIFICATE_DESIGNATED_MEMBER_OPTIONS: string = LLP_ROOT_CERTIFICATE_ID + "/designated-member-options";
 
 export const DISSOLVED_CERTIFICATE_OPTIONS: string = ROOT_DISSOLVED_CERTIFICATE_ID + "/certificate-options";
 export const DISSOLVED_CERTIFICATE_DELIVERY_DETAILS: string = ROOT_DISSOLVED_CERTIFICATE_ID + "/delivery-details";
