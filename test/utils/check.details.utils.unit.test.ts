@@ -48,7 +48,32 @@ const itemOptions: ItemOptions = {
     includeGoodStandingInformation: true,
     registeredOfficeAddressDetails,
     secretaryDetails,
-    surname: "surname"
+    surname: "surname",
+    companyType: "ltd",
+    designatedMemberDetails: {
+        includeAddress: false,
+        includeAppointmentDate: false,
+        includeBasicInformation: false,
+        includeCountryOfResidence: false,
+        includeDobType: "no"
+    },
+    memberDetails: {
+        includeAddress: false,
+        includeAppointmentDate: false,
+        includeBasicInformation: false,
+        includeCountryOfResidence: false,
+        includeDobType: "no"
+    },
+    generalPartnerDetails: {
+        includeBasicInformation: false
+    },
+    limitedPartnerDetails: {
+        includeBasicInformation: false
+    },
+    principlePlaceOfBusinessDetails: {
+        includeDates: false,
+        includeAddressRecordsType: "no"
+    }
 };
 
 const deliveryDetails: DeliveryDetails = {

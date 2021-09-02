@@ -91,7 +91,32 @@ const dummyCertificateItemSDKResponse: Resource<CertificateItem> = {
                 includeNationality: true,
                 includeOccupation: true
             },
-            surname: "Smith"
+            surname: "Smith",
+            companyType: "ltd",
+            designatedMemberDetails: {
+                includeAddress: false,
+                includeAppointmentDate: false,
+                includeBasicInformation: false,
+                includeCountryOfResidence: false,
+                includeDobType: "no"
+            },
+            memberDetails: {
+                includeAddress: false,
+                includeAppointmentDate: false,
+                includeBasicInformation: false,
+                includeCountryOfResidence: false,
+                includeDobType: "no"
+            },
+            generalPartnerDetails: {
+                includeBasicInformation: false
+            },
+            limitedPartnerDetails: {
+                includeBasicInformation: false
+            },
+            principlePlaceOfBusinessDetails: {
+                includeDates: false,
+                includeAddressRecordsType: "no"
+            }
         },
         kind: "item#certificate",
         links: {
@@ -148,7 +173,8 @@ const dummyCompanyProfileSDKResponse: Resource<CompanyProfile> = {
         },
         confirmationStatement: {
             nextDue: "2020-05-31",
-            overdue: false
+            overdue: false,
+            nextMadeUpTo: "next made up to"
         },
         links: {
             filingHistory: "/company/00000000/filing-history"
