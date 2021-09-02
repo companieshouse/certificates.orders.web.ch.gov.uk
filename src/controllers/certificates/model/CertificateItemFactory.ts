@@ -1,6 +1,7 @@
-import {CertificateItemPostRequest} from "../../../../../../../api-sdk-node/dist/services/order/certificates";
+
 import {CertificateType} from "./CertificateType";
 import {CompanyStatus} from "./CompanyStatus";
+import {CertificateItemPostRequest} from "@companieshouse/api-sdk-node/dist/services/order/certificates";
 
 interface _CompanyProfile {
     companyNumber: string;
