@@ -7,12 +7,9 @@ import { createLogger } from "ch-structured-logging";
 import { APPLICATION_NAME } from "../../../config/config";
 import { Session } from "@companieshouse/node-session-handler/lib/session/model/Session";
 import CertificateSessionData from "../../../session/CertificateSessionData";
+import {DesignatedMemberOptionName} from "./DesignatedMemberOptionName";
 
 const logger = createLogger(APPLICATION_NAME);
-const INCLUDE_ADDRESS_FIELD: string = "address";
-const INCLUDE_APPOINTMENT_DATE_FIELD: string = "appointment";
-const INCLUDE_COUNTRY_OF_RESIDENCE_FIELD: string = "countryOfResidence";
-const INCLUDE_DOB_TYPE_FIELD: string = "dob";
 const DESIGNATED_MEMBER_OPTIONS_FIELD: string = "designatedMemberOptions";
 
 export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -73,19 +70,19 @@ export const setDesignatedMemberOption = (options: string[]): DesignatedMemberDe
     return options === undefined ? initialDesignatedMemberOptions
         : options.reduce((designMemberOptionAccum: DesignatedMemberDetailsRequest, option: string) => {
             switch (option) {
-            case INCLUDE_ADDRESS_FIELD: {
+            case DesignatedMemberOptionName.INCLUDE_ADDRESS: {
                 designMemberOptionAccum.includeAddress = true;
                 break;
             }
-            case INCLUDE_APPOINTMENT_DATE_FIELD: {
+            case DesignatedMemberOptionName.INCLUDE_APPOINTMENT_DATE: {
                 designMemberOptionAccum.includeAppointmentDate = true;
                 break;
             }
-            case INCLUDE_COUNTRY_OF_RESIDENCE_FIELD: {
+            case DesignatedMemberOptionName.INCLUDE_COUNTRY_OF_RESIDENCE: {
                 designMemberOptionAccum.includeCountryOfResidence = true;
                 break;
             }
-            case INCLUDE_DOB_TYPE_FIELD: {
+            case DesignatedMemberOptionName.INCLUDE_DOB_TYPE: {
                 designMemberOptionAccum.includeDobType = "partial";
                 break;
             }
