@@ -5,7 +5,6 @@ import {CertificateItemPostRequest} from "@companieshouse/api-sdk-node/dist/serv
 
 interface _CompanyProfile {
     companyNumber: string;
-    type: string;
     companyStatus: string;
 }
 
@@ -24,7 +23,6 @@ export default class CertificateItemFactory {
             companyNumber: this.companyProfile.companyNumber,
             itemOptions: {
                 certificateType: this.certificateType,
-                companyType: this.companyProfile.type,
                 deliveryMethod: "postal",
                 deliveryTimescale: "standard"
             },

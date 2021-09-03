@@ -34,8 +34,8 @@ export const dummyCompanyProfileActiveCompany: CompanyProfile = {
     },
     confirmationStatement: {
         nextDue: "2020-05-31",
-        overdue: false,
-        nextMadeUpTo: "next made up to"
+        nextMadeUpTo: "2020-05-31",
+        overdue: false
     },
     links: {
         filingHistory: "/company/00000000/filing-history"
@@ -75,8 +75,8 @@ export const dummyCompanyProfileDissolvedCompany: CompanyProfile = {
     },
     confirmationStatement: {
         nextDue: "2020-05-31",
-        overdue: false,
-        nextMadeUpTo: "next made up to"
+        nextMadeUpTo: "2020-05-31",
+        overdue: false
     },
     links: {
         filingHistory: "/company/00000000/filing-history"
@@ -118,8 +118,8 @@ export const dummyCompanyProfileAcceptableCompanyType: Resource<CompanyProfile> 
         },
         confirmationStatement: {
             nextDue: "2020-05-31",
-            overdue: false,
-            nextMadeUpTo: "next made up to"
+            nextMadeUpTo: "2020-05-31",
+            overdue: false
         },
         links: {
             filingHistory: "/company/00000000/filing-history"
@@ -162,8 +162,8 @@ export const dummyCompanyProfileNotAcceptableCompanyType: Resource<CompanyProfil
         },
         confirmationStatement: {
             nextDue: "2020-05-31",
-            overdue: false,
-            nextMadeUpTo: "next made up to"
+            nextMadeUpTo: "2020-05-31",
+            overdue: false
         },
         links: {
             filingHistory: "/company/00000000/filing-history"

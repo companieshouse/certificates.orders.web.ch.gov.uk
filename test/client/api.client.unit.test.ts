@@ -116,7 +116,8 @@ const dummyCertificateItemSDKResponse: Resource<CertificateItem> = {
             principlePlaceOfBusinessDetails: {
                 includeDates: false,
                 includeAddressRecordsType: "no"
-            }
+            },
+
         },
         kind: "item#certificate",
         links: {
@@ -174,7 +175,7 @@ const dummyCompanyProfileSDKResponse: Resource<CompanyProfile> = {
         confirmationStatement: {
             nextDue: "2020-05-31",
             overdue: false,
-            nextMadeUpTo: "next made up to"
+            nextMadeUpTo: "2020-05-31"
         },
         links: {
             filingHistory: "/company/00000000/filing-history"

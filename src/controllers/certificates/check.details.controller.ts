@@ -116,7 +116,7 @@ export const mapRegisteredOfficeAddress = (registeredOfficeAddress: string | und
     };
 };
 
-export const mapDirectorOptions = (directorOptions: DirectorOrSecretaryDetails): string => {
+export const mapDirectorOptions = (directorOptions?: DirectorOrSecretaryDetails): string => {
     if (directorOptions === undefined || directorOptions.includeBasicInformation === undefined) {
         return "No";
     }
@@ -162,7 +162,7 @@ export const mapDirectorOptions = (directorOptions: DirectorOrSecretaryDetails):
     return mapToHtml(mappings);
 };
 
-export const mapSecretaryOptions = (secretaryOptions: DirectorOrSecretaryDetails): string => {
+export const mapSecretaryOptions = (secretaryOptions?: DirectorOrSecretaryDetails): string => {
     if (secretaryOptions === undefined || secretaryOptions.includeBasicInformation === undefined) {
         return "No";
     }

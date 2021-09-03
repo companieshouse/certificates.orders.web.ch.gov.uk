@@ -9,15 +9,14 @@
     "build": "NODE_ENV=production tsc && cp -r src/views dist/ && gulp static",
     "lint": "eslint 'src/*.ts' 'src/**/*.ts' 'test/*.ts' 'test/**/*.ts'",
     "lint:fix": "eslint 'src/*.ts' 'src/**/*.ts' 'test/*.ts' 'test/**/*.ts' --fix",
-    "test": "mocha"
+    "test": "DYNAMIC_LP_CERTIFICATE_ORDERS_ENABLED=true DYNAMIC_LLP_CERTIFICATE_ORDERS_ENABLED=true mocha"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@companieshouse/api-sdk-node": "^1.0.17",
+    "@companieshouse/api-sdk-node": "^1.0.54",
     "@companieshouse/node-session-handler": "~4.1.6",
-    "ch-sdk-node": "git+ssh://git@github.com/companieshouse/ch-sdk-node.git#0.2.32",
     "ch-structured-logging": "git+ssh://git@github.com/companieshouse/ch-structured-logging-node.git#15a811238ceb58988ab755229a5c07b9500200f2",
     "cookie-parser": "~1.4.4",
     "escape-html": "^1.0.3",

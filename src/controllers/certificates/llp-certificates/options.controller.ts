@@ -8,17 +8,14 @@ import { APPLICATION_NAME } from "../../../config/config";
 
 const GOOD_STANDING_FIELD: string = "goodStanding";
 const REGISTERED_OFFICE_FIELD: string = "registeredOffice";
-const DIRECTORS_FIELD: string = "directors";
-const SECRETARIES_FIELD: string = "secretaries";
-const COMPANY_OBJECTS_FIELD: string = "companyObjects";
+const DESIGNATED_MEMBERS_FIELD: string = "designatedMembers";
+const MEMBERS_FIELD: string = "members";
 const MORE_INFO_FIELD: string = "moreInfo";
 
 const logger = createLogger(APPLICATION_NAME);
 
 export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-        logger.debug(`LLP Certificate Options render function`);
-
         const userId = getUserId(req.session);
         const accessToken: string = getAccessToken(req.session);
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
@@ -39,27 +36,10 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
 
 export default async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const moreInfo: string[] | string = req.body[MORE_INFO_FIELD];
-        let additionalInfoItemOptions: ItemOptionsRequest;
-        let registeredOfficeOptions: boolean;
-        let directorOptions: boolean;
-        let secretaryOptions: boolean;
-
-        if (typeof moreInfo === "string") {
-            additionalInfoItemOptions = setItemOptions([moreInfo]);
-            registeredOfficeOptions = hasRegisterOfficeAddressOptions([moreInfo]);
-            directorOptions = hasDirectorOption([moreInfo]);
-            secretaryOptions = hasSecretaryOptions([moreInfo]);
-        } else {
-            additionalInfoItemOptions = setItemOptions(moreInfo);
-            registeredOfficeOptions = hasRegisterOfficeAddressOptions(moreInfo);
-            directorOptions = hasDirectorOption(moreInfo);
-            secretaryOptions = hasSecretaryOptions(moreInfo);
-        }
-
+        const moreInfo: string[] = typeof req.body[MORE_INFO_FIELD] === "string" ? [req.body[MORE_INFO_FIELD]] : req.body[MORE_INFO_FIELD];
         const certificateItem: CertificateItemPatchRequest = {
             itemOptions: {
-                ...additionalInfoItemOptions
+                ...setItemOptions(moreInfo)
             },
             quantity: 1
         };
@@ -68,12 +48,12 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const patchResponse = await patchCertificateItem(accessToken, req.params.certificateId, certificateItem);
         logger.info(`Patched certificate item with certificate options, id=${req.params.certificateId}, user_id=${userId}, company_number=${patchResponse.companyNumber}, certificate_options=${JSON.stringify(certificateItem)}`);
 
-        if (registeredOfficeOptions) {
+        if (hasOption(moreInfo, REGISTERED_OFFICE_FIELD)) {
             return res.redirect("registered-office-options");
-        } else if (directorOptions) {
-            return res.redirect("director-options");
-        } else if (secretaryOptions) {
-            return res.redirect("secretary-options");
+        } else if (hasOption(moreInfo, DESIGNATED_MEMBERS_FIELD)) {
+            return res.redirect("designated-member-options");
+        } else if (hasOption(moreInfo, MEMBERS_FIELD)) {
+            return res.redirect("member-options");
         } else {
             return res.redirect("delivery-details");
         }
@@ -85,24 +65,24 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 
 export const setItemOptions = (options: string[]): ItemOptionsRequest => {
     const initialItemOptions: ItemOptionsRequest = {
-        directorDetails: {
-            includeBasicInformation: null,
+        designatedMemberDetails: {
             includeAddress: null,
             includeAppointmentDate: null,
+            includeBasicInformation: null,
             includeCountryOfResidence: null,
-            includeDobType: null,
-            includeNationality: null,
-            includeOccupation: null
+            includeDobType: null
         },
         includeCompanyObjectsInformation: null,
         includeGoodStandingInformation: null,
+        memberDetails: {
+            includeAddress: null,
+            includeAppointmentDate: null,
+            includeBasicInformation: null,
+            includeCountryOfResidence: null,
+            includeDobType: null
+        },
         registeredOfficeAddressDetails: {
             includeAddressRecordsType: null
-        },
-        secretaryDetails: {
-            includeBasicInformation: null,
-            includeAddress: null,
-            includeAppointmentDate: null
         }
     };
     return options === undefined ? initialItemOptions
@@ -116,16 +96,12 @@ export const setItemOptions = (options: string[]): ItemOptionsRequest => {
                 itemOptionsAccum.registeredOfficeAddressDetails = { includeAddressRecordsType: "current" };
                 break;
             }
-            case DIRECTORS_FIELD: {
-                itemOptionsAccum.directorDetails = { includeBasicInformation: true };
+            case DESIGNATED_MEMBERS_FIELD: {
+                itemOptionsAccum.designatedMemberDetails = { includeBasicInformation: true };
                 break;
             }
-            case SECRETARIES_FIELD: {
-                itemOptionsAccum.secretaryDetails = { includeBasicInformation: true };
-                break;
-            }
-            case COMPANY_OBJECTS_FIELD: {
-                itemOptionsAccum.includeCompanyObjectsInformation = true;
+            case MEMBERS_FIELD: {
+                itemOptionsAccum.memberDetails = { includeBasicInformation: true };
                 break;
             }
             default:
@@ -135,36 +111,12 @@ export const setItemOptions = (options: string[]): ItemOptionsRequest => {
         }, initialItemOptions);
 };
 
-export const hasRegisterOfficeAddressOptions = (options: string[]): boolean => {
+export const hasOption = (options: string[], requiredOption: string): boolean => {
     if (options === undefined) {
         return false;
     }
-    for (const option of options) {
-        if (option === REGISTERED_OFFICE_FIELD) {
-            return true;
-        }
-    }
-    return false;
-};
-
-export const hasDirectorOption = (options: string[]): boolean => {
-    if (options === undefined) {
-        return false;
-    }
-    for (const option of options) {
-        if (option === DIRECTORS_FIELD) {
-            return true;
-        }
-    }
-    return false;
-};
-
-export const hasSecretaryOptions = (options: string[]): boolean => {
-    if (options === undefined) {
-        return false;
-    }
-    for (const option of options) {
-        if (option === SECRETARIES_FIELD) {
+    for (const providedOption of options) {
+        if (providedOption === requiredOption) {
             return true;
         }
     }

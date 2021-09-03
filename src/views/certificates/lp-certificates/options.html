@@ -19,9 +19,6 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds-from-desktop">
       <form method="post">
-
-        <h2 style="color:Tomato;">LIMITED PARTNERSHIP TODO</h2>
-
         {{ govukCheckboxes({
             idPrefix: "more-info",
             name: "moreInfo",
@@ -48,47 +45,47 @@
             }
           },
           {
-            value: "registeredOffice",
-            text: "Registered office address",
+            value: "principlePlaceOfBusiness",
+            text: "Principle place of business",
             hint: {
               text: "This can include current and previous addresses. No dates are included."
             },
-            checked: true if itemOptions.registeredOfficeAddressDetails.includeAddressRecordsType else false,
+            checked: true if itemOptions.principlePlaceOfBusinessDetails.includeAddressRecordsType else false,
             attributes: {
-              "data-event-id" : "registered-office-address-option"
+              "data-event-id" : "principle-place-of-business-option"
             }
           },
           {
-            value: "directors",
-            text: "Directors",
+            value: "generalPartners",
+            text: "General Partners",
             hint: {
-             text: "Details of all current directors."
+             text: "Details of all current general partners."
             },
-            checked: true if itemOptions.directorDetails.includeBasicInformation else false,
+            checked: true if itemOptions.generalPartners.includeBasicInformation else false,
             attributes: {
-              "data-event-id" : "directors-option"
+              "data-event-id" : "general-partners-option"
             }
           },
           {
-            value: "secretaries",
-            text: "Secretaries",
+            value: "limitedPartners",
+            text: "Limited Partners",
             hint: {
-              text: "Details of all current secretaries."
+              text: "Details of all current limited partners."
             },
             checked: true if itemOptions.secretaryDetails.includeBasicInformation else false,
             attributes: {
-              "data-event-id" : "secretaries-option"
+              "data-event-id" : "limited-partners-option"
             }
           },
           {
-            value: "companyObjects",
-            text: "Company objects",
+            value: "generalNatureOfBusiness",
+            text: "General nature of business",
             hint: {
-              text: "Summary of company objects."
+              text: "Summary of company's principle nature of business."
             },
             checked: true if itemOptions.includeCompanyObjectsInformation else false,
             attributes: {
-              "data-event-id" : "company-objects-option"
+              "data-event-id" : "general-nature-of-business-option"
             }
           }
         ]
