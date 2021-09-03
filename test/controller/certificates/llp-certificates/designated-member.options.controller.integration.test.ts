@@ -122,10 +122,10 @@ describe("designated-member.options.integration.test", () => {
             const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect($("#designated-member-options").prop("checked")).be.false;
-            chai.expect($("#designated-member-options-2").prop("checked")).be.true;
-            chai.expect($("#designated-member-options-3").prop("checked")).be.false;
-            chai.expect($("#designated-member-options-4").prop("checked")).be.true;
+            chai.expect($("#include-address").prop("checked")).be.false;
+            chai.expect($("#include-dob-type").prop("checked")).be.true;
+            chai.expect($("#include-appointment-date").prop("checked")).be.false;
+            chai.expect($("#include-country-of-residence").prop("checked")).be.true;
         });
     });
 });
