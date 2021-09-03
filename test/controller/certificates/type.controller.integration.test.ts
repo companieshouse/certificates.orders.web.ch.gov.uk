@@ -1,4 +1,4 @@
-import chai from "chai";
+const chai = require("chai")
 import sinon from "sinon";
 import ioredis from "ioredis";
 

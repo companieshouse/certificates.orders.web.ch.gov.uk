@@ -83,11 +83,6 @@ export const setItemOptions = (options: string[]): ItemOptionsRequest => {
         },
         registeredOfficeAddressDetails: {
             includeAddressRecordsType: null
-        },
-        secretaryDetails: {
-            includeBasicInformation: null,
-            includeAddress: null,
-            includeAppointmentDate: null
         }
     };
     return options === undefined ? initialItemOptions
