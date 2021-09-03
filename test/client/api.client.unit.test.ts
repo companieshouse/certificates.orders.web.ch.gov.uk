@@ -62,12 +62,9 @@ const dummyCertificateItemSDKResponse: Resource<CertificateItem> = {
         itemOptions: {
             certificateType: "incorporation",
             collectionLocation: "cardiff",
-            companyType: "limited-by-shares",
             contactNumber: "07596820642",
             deliveryMethod: "collection",
             deliveryTimescale: "standard",
-            designatedMemberDetails: {
-            },
             directorDetails: {
                 includeAddress: true,
                 includeAppointmentDate: false,
@@ -78,17 +75,9 @@ const dummyCertificateItemSDKResponse: Resource<CertificateItem> = {
                 includeOccupation: true
             },
             forename: "John",
-            generalPartnerDetails: {
-            },
             includeCompanyObjectsInformation: true,
             includeEmailCopy: true,
             includeGoodStandingInformation: true,
-            limitedPartnerDetails: {
-            },
-            memberDetails: {
-            },
-            principlePlaceOfBusinessDetails: {
-            },
             registeredOfficeAddressDetails: {
                 includeAddressRecordsType: "yes",
                 includeDates: true
@@ -102,7 +91,33 @@ const dummyCertificateItemSDKResponse: Resource<CertificateItem> = {
                 includeNationality: true,
                 includeOccupation: true
             },
-            surname: "Smith"
+            surname: "Smith",
+            companyType: "ltd",
+            designatedMemberDetails: {
+                includeAddress: false,
+                includeAppointmentDate: false,
+                includeBasicInformation: false,
+                includeCountryOfResidence: false,
+                includeDobType: "no"
+            },
+            memberDetails: {
+                includeAddress: false,
+                includeAppointmentDate: false,
+                includeBasicInformation: false,
+                includeCountryOfResidence: false,
+                includeDobType: "no"
+            },
+            generalPartnerDetails: {
+                includeBasicInformation: false
+            },
+            limitedPartnerDetails: {
+                includeBasicInformation: false
+            },
+            principlePlaceOfBusinessDetails: {
+                includeDates: false,
+                includeAddressRecordsType: "no"
+            },
+
         },
         kind: "item#certificate",
         links: {

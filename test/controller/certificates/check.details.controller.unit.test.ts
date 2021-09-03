@@ -5,7 +5,12 @@ import {
 } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 
 import {
-    mapCertificateType, applyCurrencySymbol, isOptionSelected, mapRegisteredOfficeAddress, mapDirectorOptions, mapSecretaryOptions
+    mapCertificateType,
+    applyCurrencySymbol,
+    isOptionSelected,
+    mapRegisteredOfficeAddress,
+    mapDirectorOptions,
+    mapSecretaryOptions
 } from "../../../src/controllers/certificates/check.details.controller";
 
 const directorDetails: DirectorOrSecretaryDetails = {
@@ -36,7 +41,6 @@ const registeredOfficeAddressDetails: RegisteredOfficeAddressDetails = {
 const itemOptions: ItemOptions = {
     certificateType: "certificateType",
     collectionLocation: "collectionLocation",
-    companyType: "limited-by-shares",
     contactNumber: "contactNumber",
     deliveryMethod: "deliveryMethod",
     deliveryTimescale: "standard",
@@ -47,7 +51,32 @@ const itemOptions: ItemOptions = {
     includeGoodStandingInformation: true,
     registeredOfficeAddressDetails,
     secretaryDetails,
-    surname: "surname"
+    surname: "surname",
+    companyType: "ltd",
+    designatedMemberDetails: {
+        includeAddress: false,
+        includeAppointmentDate: false,
+        includeBasicInformation: false,
+        includeCountryOfResidence: false,
+        includeDobType: "no"
+    },
+    memberDetails: {
+        includeAddress: false,
+        includeAppointmentDate: false,
+        includeBasicInformation: false,
+        includeCountryOfResidence: false,
+        includeDobType: "no"
+    },
+    generalPartnerDetails: {
+        includeBasicInformation: false
+    },
+    limitedPartnerDetails: {
+        includeBasicInformation: false
+    },
+    principlePlaceOfBusinessDetails: {
+        includeDates: false,
+        includeAddressRecordsType: "no"
+    }
 };
 
 describe("certificate.check.details.controller.unit", () => {
