@@ -117,7 +117,7 @@ const dummyCertificateItemSDKResponse: Resource<CertificateItem> = {
                 includeDates: false,
                 includeAddressRecordsType: "no"
             },
-
+            includeGeneralNatureOfBusinessInformation: false
         },
         kind: "item#certificate",
         links: {

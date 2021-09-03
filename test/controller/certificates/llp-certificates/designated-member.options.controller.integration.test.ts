@@ -9,7 +9,7 @@ import { LLP_CERTIFICATE_DESIGNATED_MEMBER_OPTIONS, replaceCertificateId } from 
 
 const CERTIFICATE_ID = "CRT-000000-000000";
 const DESIGNATED_MEMBER_OPTIONS_NOT_SELECTED =
-    "The certificate will include the names of all current company designated members, and any of the details you choose below.";
+    "The certificate will include the names of all current designated members, and any of the details you choose below.";
 const DESIGNATED_MEMBER_OPTIONS_URL =
     replaceCertificateId(LLP_CERTIFICATE_DESIGNATED_MEMBER_OPTIONS, CERTIFICATE_ID);
 const sandbox = sinon.createSandbox();
@@ -42,9 +42,9 @@ describe("designated-member.options.integration.test", () => {
         itemOptions: {
             designatedMemberDetails: {
                 includeAddress: false,
-                includeAppointmentDate: true,
+                includeAppointmentDate: false,
                 includeBasicInformation: true,
-                includeCountryOfResidence: false,
+                includeCountryOfResidence: true,
                 includeDobType: "partial"
             }
         }
@@ -66,7 +66,6 @@ describe("designated-member.options.integration.test", () => {
 
     describe("designated member options patch", () => {
         it("redirects the user to the delivery details page", async () => {
-            const certificateDetails = {} as CertificateItem;
             const emptyCertificateItem = {} as CertificateItem;
 
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
@@ -86,10 +85,10 @@ describe("designated-member.options.integration.test", () => {
             chai.expect(resp.text).to.contain("Found. Redirecting to delivery-details");
         });
 
-        it("redirects the user to the secretary options page when the secretary option is selected", async () => {
+        it("redirects the user to the member options page when the member option is selected", async () => {
             const certificateDetails = {
                 itemOptions: {
-                    secretaryDetails: {
+                    memberDetails: {
                         includeBasicInformation: true
                     }
                 }
@@ -107,7 +106,7 @@ describe("designated-member.options.integration.test", () => {
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
 
             chai.expect(resp.status).to.equal(302);
-            chai.expect(resp.text).to.contain("Found. Redirecting to secretary-options");
+            chai.expect(resp.text).to.contain("Found. Redirecting to member-options");
         });
     });
 
@@ -124,8 +123,8 @@ describe("designated-member.options.integration.test", () => {
 
             chai.expect(resp.status).to.equal(200);
             chai.expect($("#designated-member-options").prop("checked")).be.false;
-            chai.expect($("#designated-member-options-2").prop("checked")).be.false;
-            chai.expect($("#designated-member-options-3").prop("checked")).be.true;
+            chai.expect($("#designated-member-options-2").prop("checked")).be.true;
+            chai.expect($("#designated-member-options-3").prop("checked")).be.false;
             chai.expect($("#designated-member-options-4").prop("checked")).be.true;
         });
     });

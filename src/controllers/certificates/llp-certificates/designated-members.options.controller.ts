@@ -23,8 +23,6 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
     const SERVICE_URL = `/company/${certificateItem.companyNumber}/orderable/certificates`;
     logger.info(`Certificate item retrieved, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
     return res.render(LLP_CERTIFICATE_DESIGNATED_MEMBERS_OPTIONS, {
-        companyNumber: certificateItem.companyNumber,
-        itemOptions: certificateItem.itemOptions,
         designatedMemberDetails: itemOptions.designatedMemberDetails,
         SERVICE_URL,
         backLink: setBackLink(certificateItem, req.session)
