@@ -76,7 +76,8 @@ const itemOptions: ItemOptions = {
     principlePlaceOfBusinessDetails: {
         includeDates: false,
         includeAddressRecordsType: "no"
-    }
+    },
+    includeGeneralNatureOfBusinessInformation: false
 };
 
 describe("certificate.check.details.controller.unit", () => {

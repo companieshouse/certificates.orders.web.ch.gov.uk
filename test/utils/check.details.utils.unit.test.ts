@@ -73,7 +73,8 @@ const itemOptions: ItemOptions = {
     principlePlaceOfBusinessDetails: {
         includeDates: false,
         includeAddressRecordsType: "no"
-    }
+    },
+    includeGeneralNatureOfBusinessInformation: false
 };
 
 const deliveryDetails: DeliveryDetails = {

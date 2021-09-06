@@ -1,21 +1,18 @@
 import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 import { LP_CERTIFICATE_PRINCIPLE_PLACE_OPTIONS } from "../../../model/template.paths";
-import { CertificateItem, CertificateItemPatchRequest, ItemOptions, PrinciplePlaceOfBusinessDetailsRequest, PrinciplePlaceOfBusinessDetailsResource } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
+import { CertificateItem, CertificateItemPatchRequest, ItemOptions, PrinciplePlaceOfBusinessDetailsRequest } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { getCertificateItem, patchCertificateItem } from "../../../client/api.client";
 import { getAccessToken, getUserId } from "../../../session/helper";
 import { createLogger } from "ch-structured-logging";
 import { principlePlaceOfBusinessValidationRules, validate } from "../../../validation/certificates/principle.place.options.validation";
 import { APPLICATION_NAME } from "../../../config/config";
 import CertificateSessionData from "../../../session/CertificateSessionData";
+import { PrinciplePlaceOfBusinessOptionName } from "./PrinciplePlaceOfBusinessOptionName";
 
 const logger = createLogger(APPLICATION_NAME);
 
 const PRINCIPLE_PLACE_OPTION: string = "principlePlace";
-const CURRENT_ADDRESS_FIELD: string = "currentAddress";
-const CURRENT_ADDRESS_AND_THE_ONE_PREVIOUS_FIELD: string = "currentAddressAndTheOnePrevious";
-const CURRENT_ADDRESS_AND_THE_TWO_PREVIOUS_FIELD: string = "currentAddressAndTheTwoPrevious";
-const ALL_CURRENT_AND_PREVIOUS_ADDRESSES_FIELD: string = "allCurrentAndPreviousAddresses";
 
 export const optionFilter = (items) => items.filter((item) => item.display)
 
@@ -38,7 +35,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
     });
 };
 
-export const generateBackLink = (fullPage: boolean) => fullPage ? "principle-place-of-business-options" : "lp-certificate-options";
+export const generateBackLink = (fullPage: boolean) => fullPage ? "principle-place-of-business-options" : "certificate-options";
 
 const route = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -71,13 +68,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         req.session?.setExtraData("certificates-orders-web-ch-gov-uk", {
             isFullPage: isFullPage
         } as CertificateSessionData);
-        if (patchResponse.itemOptions.directorDetails) {
-            return res.redirect("director-options");
-        } else if (patchResponse.itemOptions.secretaryDetails) {
-            return res.redirect("secretary-options");
-        } else {
-            return res.redirect("delivery-details");
-        }
+        return res.redirect("delivery-details");
     } catch (err) {
         logger.error(`${err}`);
         return next(err);
@@ -91,28 +82,28 @@ export const setPrinciplePlaceOption = (option: string): PrinciplePlaceOfBusines
     };
 
     switch (option) {
-    case CURRENT_ADDRESS_FIELD: {
+    case PrinciplePlaceOfBusinessOptionName.CURRENT_ADDRESS : {
         initialPrinciplePlaceOption = {
             includeAddressRecordsType: "current",
             includeDates: false
         };
         break;
     }
-    case CURRENT_ADDRESS_AND_THE_ONE_PREVIOUS_FIELD: {
+    case PrinciplePlaceOfBusinessOptionName.CURRENT_ADDRESS_AND_THE_ONE_PREVIOUS: {
         initialPrinciplePlaceOption = {
             includeAddressRecordsType: "current-and-previous",
             includeDates: false
         };
         break;
     }
-    case CURRENT_ADDRESS_AND_THE_TWO_PREVIOUS_FIELD: {
+    case PrinciplePlaceOfBusinessOptionName.CURRENT_ADDRESS_AND_THE_TWO_PREVIOUS: {
         initialPrinciplePlaceOption = {
             includeAddressRecordsType: "current-previous-and-prior",
             includeDates: false
         };
         break;
     }
-    case ALL_CURRENT_AND_PREVIOUS_ADDRESSES_FIELD: {
+    case PrinciplePlaceOfBusinessOptionName.ALL_CURRENT_AND_PREVIOUS_ADDRESSES: {
         initialPrinciplePlaceOption = {
             includeAddressRecordsType: "all",
             includeDates: false
