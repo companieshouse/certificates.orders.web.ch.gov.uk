@@ -5,13 +5,13 @@ import cheerio from "cheerio";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../../__mocks__/redis.mocks";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import * as apiClient from "../../../../src/client/api.client";
-import { LLP_CERTIFICATE_DESIGNATED_MEMBER_OPTIONS, replaceCertificateId } from "../../../../src/model/page.urls";
+import { LLP_CERTIFICATE_DESIGNATED_MEMBERS_OPTIONS, replaceCertificateId } from "../../../../src/model/page.urls";
 
 const CERTIFICATE_ID = "CRT-000000-000000";
 const DESIGNATED_MEMBER_OPTIONS_NOT_SELECTED =
     "The certificate will include the names of all current designated members, and any of the details you choose below.";
 const DESIGNATED_MEMBER_OPTIONS_URL =
-    replaceCertificateId(LLP_CERTIFICATE_DESIGNATED_MEMBER_OPTIONS, CERTIFICATE_ID);
+    replaceCertificateId(LLP_CERTIFICATE_DESIGNATED_MEMBERS_OPTIONS, CERTIFICATE_ID);
 const sandbox = sinon.createSandbox();
 let testApp = null;
 let getCertificateItemStub;

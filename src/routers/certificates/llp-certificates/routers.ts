@@ -1,7 +1,7 @@
 import { Router } from "express";
 
 import {
-    LLP_ROOT_CERTIFICATE, LLP_CERTIFICATE_TYPE, LLP_CERTIFICATE_OPTIONS, LLP_CERTIFICATE_DESIGNATED_MEMBER_OPTIONS
+    LLP_ROOT_CERTIFICATE, LLP_CERTIFICATE_TYPE, LLP_CERTIFICATE_OPTIONS, LLP_CERTIFICATE_DESIGNATED_MEMBERS_OPTIONS
 } from "../../../model/page.urls";
 
 import homeController from "../../../controllers/certificates/home.controller";
@@ -15,7 +15,7 @@ router.get(LLP_ROOT_CERTIFICATE, homeController);
 router.get(LLP_CERTIFICATE_TYPE, renderCertificateType);
 router.get(LLP_CERTIFICATE_OPTIONS, renderCertificateOptions);
 router.post(LLP_CERTIFICATE_OPTIONS, collectionOptionsController);
-router.get(LLP_CERTIFICATE_DESIGNATED_MEMBER_OPTIONS, renderDesignatedMemberOptions);
-router.post(LLP_CERTIFICATE_DESIGNATED_MEMBER_OPTIONS, designatedMembersOptionsController);
+router.get(LLP_CERTIFICATE_DESIGNATED_MEMBERS_OPTIONS, renderDesignatedMemberOptions);
+router.post(LLP_CERTIFICATE_DESIGNATED_MEMBERS_OPTIONS, designatedMembersOptionsController);
 
 export default router;
