@@ -20,4 +20,12 @@ routes:
   15: /company/(.*)/orderable/dissolved-certificates
   16: /company/(.*)/orderable/dissolved-certificates/.*
   17: /orderable/dissolved-certificates
-  18: /orderable/dissolved-certificates/.*
+  18: /orderable/dissolved-certificates/.*  
+  19: /company/(.*)/orderable/llp-certificates
+  20: /company/(.*)/orderable/llp-certificates/.*
+  21: /orderable/llp-certificates
+  22: /orderable/llp-certificates/.*
+  23: /company/(.*)/orderable/lp-certificates
+  24: /company/(.*)/orderable/lp-certificates/.*
+  25: /orderable/lp-certificates
+  26: /orderable/lp-certificates/.*
