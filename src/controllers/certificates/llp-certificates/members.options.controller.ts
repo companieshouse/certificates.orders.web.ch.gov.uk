@@ -12,8 +12,9 @@ import {APPLICATION_NAME} from "../../../config/config";
 import {Session} from "@companieshouse/node-session-handler/lib/session/model/Session";
 import CertificateSessionData from "../../../session/CertificateSessionData";
 
-import {replaceCompanyNumber, LLP_ROOT_CERTIFICATE, LLP_CERTIFICATE_MEMBERS_OPTIONS} from "../../../model/page.urls";
+import {replaceCompanyNumber, LLP_ROOT_CERTIFICATE } from "../../../model/page.urls";
 import {MembersOptionName} from "./MembersOptionName";
+import { LLP_CERTIFICATE_MEMBERS_OPTIONS } from "../../../model/template.paths";
 
 const logger = createLogger(APPLICATION_NAME);
 const MEMBERS_OPTIONS_FIELD: string = "membersOptions";
@@ -25,7 +26,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
     const itemOptions: ItemOptions = certificateItem.itemOptions;
     const SERVICE_URL = replaceCompanyNumber(LLP_ROOT_CERTIFICATE, certificateItem.companyNumber)
     logger.info(`Certificate item retrieved, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
-    return res.render(LLP_xCERTIFICATE_MEMBERS_OPTIONS, {
+    return res.render(LLP_CERTIFICATE_MEMBERS_OPTIONS, {
         memberDetails: itemOptions.memberDetails,
         SERVICE_URL,
         backLink: setBackLink(certificateItem, req.session)
@@ -95,7 +96,7 @@ export const setMembersOption = (options: string[]): OrdinaryMemberDetailsReques
         }, initialMembersOptions);
 };
 
-export const setBackLink = (certificateItem: CertificateItem, session: Session | undefined) => {
+export const setBackLink = (certificateItem: CertificateItem, session: Session | undefined = undefined) => {
     let backLink;
     if (certificateItem.itemOptions?.designatedMemberDetails?.includeBasicInformation) {
         backLink = "llp-designated-member-options";

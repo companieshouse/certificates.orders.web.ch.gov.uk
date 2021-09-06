@@ -52,9 +52,9 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         if (hasOption(moreInfo, REGISTERED_OFFICE_FIELD)) {
             return res.redirect("registered-office-options");
         } else if (hasOption(moreInfo, DESIGNATED_MEMBERS_FIELD)) {
-            return res.redirect("designated-member-options");
+            return res.redirect("designated-members-options");
         } else if (hasOption(moreInfo, MEMBERS_FIELD)) {
-            return res.redirect("member-options");
+            return res.redirect("members-options");
         } else {
             return res.redirect("delivery-details");
         }
