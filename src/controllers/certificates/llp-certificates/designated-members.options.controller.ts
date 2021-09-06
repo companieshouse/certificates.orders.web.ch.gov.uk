@@ -100,7 +100,7 @@ export const setBackLink = (certificateItem: CertificateItem, session: Session |
     if (certificateItem.itemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType) {
         backLink = (session?.getExtraData("certificates-orders-web-ch-gov-uk") as CertificateSessionData)?.isFullPage ? "registered-office-options?layout=full" : "registered-office-options";
     } else {
-        backLink = "llp-certificate-options";
+        backLink = "certificate-options";
     }
     return backLink;
 };

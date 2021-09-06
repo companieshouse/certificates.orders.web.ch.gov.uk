@@ -106,7 +106,7 @@ describe("designated-member.options.integration.test", () => {
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
 
             chai.expect(resp.status).to.equal(302);
-            chai.expect(resp.text).to.contain("Found. Redirecting to member-options");
+            chai.expect(resp.text).to.contain("Found. Redirecting to members-options");
         });
     });
 

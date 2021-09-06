@@ -18,7 +18,7 @@ describe("designated-member.options.controller.unit", () => {
                 }
             } as CertificateItem;
 
-            chai.expect(setBackLink(certificateItem, dataEmpty)).to.equal("llp-certificate-options");
+            chai.expect(setBackLink(certificateItem, dataEmpty)).to.equal("certificate-options");
         });
     });
 

@@ -99,11 +99,11 @@ export const setMembersOption = (options: string[]): OrdinaryMemberDetailsReques
 export const setBackLink = (certificateItem: CertificateItem, session: Session | undefined = undefined) => {
     let backLink;
     if (certificateItem.itemOptions?.designatedMemberDetails?.includeBasicInformation) {
-        backLink = "llp-designated-member-options";
+        backLink = "designated-members-options";
     } else if (certificateItem.itemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType) {
         backLink = (session?.getExtraData("certificates-orders-web-ch-gov-uk") as CertificateSessionData)?.isFullPage ? "registered-office-options?layout=full" : "registered-office-options";
     } else {
-        backLink = "llp-certificate-options";
+        backLink = "certificate-options";
     }
     return backLink;
 };
