@@ -3,7 +3,12 @@ import { CertificateItem, ItemOptions, DesignatedMemberDetails, MemberDetails } 
 import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 import { createLogger } from "ch-structured-logging";
 
-import { CERTIFICATE_OPTIONS, replaceCertificateId } from "../../../model/page.urls";
+import {
+    CERTIFICATE_OPTIONS, DISSOLVED_CERTIFICATE_DELIVERY_DETAILS, LLP_CERTIFICATE_DELIVERY_DETAILS,
+    LLP_CERTIFICATE_OPTIONS, LLP_ROOT_CERTIFICATE, LLP_ROOT_CERTIFICATE_ID, LP_CERTIFICATE_DELIVERY_DETAILS,
+    replaceCertificateId,
+    replaceCompanyNumber, ROOT_DISSOLVED_CERTIFICATE
+} from "../../../model/page.urls";
 import { mapDeliveryDetails, mapToHtml, mapDeliveryMethod } from "../../../utils/check.details.utils";
 import { LLP_CERTIFICATE_CHECK_DETAILS } from "../../../model/template.paths";
 import { addItemToBasket, getCertificateItem, getBasket } from "../../../client/api.client";
@@ -23,8 +28,13 @@ export const isOptionSelected = (itemOption: Boolean | undefined) : string => {
 
 const setChangeDeliveryDetails = (certificateItem: CertificateItem) => {
     return (certificateItem.itemOptions?.certificateType !== "dissolution")
-        ? `/orderable/llp-certificates/${certificateItem.id}/delivery-details` : `/orderable/dissolved-certificates/${certificateItem.id}/delivery-details`;
+        ? replaceCertificateId(LLP_CERTIFICATE_DELIVERY_DETAILS, certificateItem.id) : replaceCertificateId(DISSOLVED_CERTIFICATE_DELIVERY_DETAILS, certificateItem.id);
 };
+
+const setServiceUrl = (certificateItem: CertificateItem) => {
+    return (certificateItem.itemOptions?.certificateType !== "dissolution")
+        ? replaceCompanyNumber(LLP_ROOT_CERTIFICATE, certificateItem.companyNumber) : replaceCompanyNumber(ROOT_DISSOLVED_CERTIFICATE, certificateItem.companyNumber);
+}
 
 export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
@@ -41,7 +51,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             certificateType: mapCertificateType(itemOptions.certificateType),
             deliveryMethod: mapDeliveryMethod(itemOptions),
             fee: applyCurrencySymbol(certificateItem.itemCosts[0].itemCost),
-            changeIncludedOn: replaceCertificateId(CERTIFICATE_OPTIONS, req.params.certificateId),
+            changeIncludedOn: replaceCertificateId(LLP_CERTIFICATE_OPTIONS, req.params.certificateId),
             changeDeliveryDetails: setChangeDeliveryDetails(certificateItem),
             deliveryDetails: mapDeliveryDetails(basket.deliveryDetails),
             SERVICE_URL: setServiceUrl(certificateItem),
