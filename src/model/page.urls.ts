@@ -24,6 +24,8 @@ export const LP_ROOT_CERTIFICATE_ID: string = "/orderable/lp-certificates/:certi
 export const LP_CERTIFICATE_TYPE: string = LP_ROOT_CERTIFICATE + "/certificate-type";
 export const LP_CERTIFICATE_OPTIONS: string = LP_ROOT_CERTIFICATE_ID + "/certificate-options";
 export const LP_CERTIFICATE_PRINCIPLE_PLACE_OPTIONS: string = LP_ROOT_CERTIFICATE_ID + "/principle-place-of-business-options";
+export const LP_CERTIFICATE_DELIVERY_DETAILS: string = LP_ROOT_CERTIFICATE_ID + "/delivery-details";
+export const LP_CERTIFICATE_CHECK_DETAILS: string = LP_ROOT_CERTIFICATE_ID + "/check-details";
 
 export const LLP_ROOT_CERTIFICATE: string = "/company/:companyNumber/orderable/llp-certificates";
 export const LLP_ROOT_CERTIFICATE_ID: string = "/orderable/llp-certificates/:certificateId";
@@ -31,6 +33,8 @@ export const LLP_CERTIFICATE_OPTIONS: string = LLP_ROOT_CERTIFICATE_ID + "/certi
 export const LLP_CERTIFICATE_TYPE: string = LLP_ROOT_CERTIFICATE + "/certificate-type";
 export const LLP_CERTIFICATE_DESIGNATED_MEMBERS_OPTIONS: string = LLP_ROOT_CERTIFICATE_ID + "/designated-members-options";
 export const LLP_CERTIFICATE_MEMBERS_OPTIONS: string = LLP_ROOT_CERTIFICATE_ID + "/members-options";
+export const LLP_CERTIFICATE_DELIVERY_DETAILS: string = LLP_ROOT_CERTIFICATE_ID + "/delivery-details";
+export const LLP_CERTIFICATE_CHECK_DETAILS: string = LLP_ROOT_CERTIFICATE_ID + "/check-details";
 
 export const DISSOLVED_CERTIFICATE_OPTIONS: string = ROOT_DISSOLVED_CERTIFICATE_ID + "/certificate-options";
 export const DISSOLVED_CERTIFICATE_DELIVERY_DETAILS: string = ROOT_DISSOLVED_CERTIFICATE_ID + "/delivery-details";
