@@ -9,6 +9,7 @@ import { principlePlaceOfBusinessValidationRules, validate } from "../../../vali
 import { APPLICATION_NAME } from "../../../config/config";
 import CertificateSessionData from "../../../session/CertificateSessionData";
 import { PrinciplePlaceOfBusinessOptionName } from "./PrinciplePlaceOfBusinessOptionName";
+import { LP_ROOT_CERTIFICATE, replaceCompanyNumber } from "../../../model/page.urls";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -21,7 +22,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
     const accessToken: string = getAccessToken(req.session);
     const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
     const itemOptions: ItemOptions = certificateItem.itemOptions;
-    const SERVICE_URL = `/company/${certificateItem.companyNumber}/orderable/certificates`;
+    const SERVICE_URL = replaceCompanyNumber(LP_ROOT_CERTIFICATE, certificateItem.companyNumber);
     const isFullPage = req.query.layout === "full";
 
     logger.info(`Certificate item retrieved, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
