@@ -5,7 +5,7 @@ import { CertificateItem, CertificateItemPatchRequest, ItemOptions, PrinciplePla
 import { getCertificateItem, patchCertificateItem } from "../../../client/api.client";
 import { getAccessToken, getUserId } from "../../../session/helper";
 import { createLogger } from "ch-structured-logging";
-import { principlePlaceOfBusinessValidationRules, validate } from "../../../validation/certificates/principle.place.options.validation";
+import { principlePlaceOfBusinessValidationRules, validate } from "../../../validation/lp-certificates/principle.place.options.validation";
 import { APPLICATION_NAME } from "../../../config/config";
 import CertificateSessionData from "../../../session/CertificateSessionData";
 import { PrinciplePlaceOfBusinessOptionName } from "./PrinciplePlaceOfBusinessOptionName";

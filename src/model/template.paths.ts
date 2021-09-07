@@ -21,7 +21,7 @@ export const CERTIFICATE_SECRETARY_OPTIONS: string = `${certRoot}/secretary-opti
 
 export const LP_CERTIFICATE_INDEX: string = `${lpCertRoot}/index`;
 export const LP_CERTIFICATE_OPTIONS: string = `${lpCertRoot}/options`;
-export const LP_CERTIFICATE_PRINCIPLE_PLACE_OPTIONS: string = `${certRoot}/principle-place-of-business-options`;
+export const LP_CERTIFICATE_PRINCIPLE_PLACE_OPTIONS: string = `${lpCertRoot}/principle-place-of-business-options`;
 
 export const LLP_CERTIFICATE_INDEX: string = `${llpCertRoot}/index`;
 export const LLP_CERTIFICATE_OPTIONS: string = `${llpCertRoot}/options`;
