@@ -119,12 +119,8 @@ export const setBackLink = (certificateItem: CertificateItem, session: Session |
     let path: string;
     if (certificateItem.itemOptions?.certificateType === "dissolution") {
         path = `/company/${certificateItem.companyNumber}/orderable/dissolved-certificates`;
-    } else if (certificateItem.itemOptions?.memberDetails?.includeBasicInformation) {
-        path = "members-options";
-    } else if (certificateItem.itemOptions?.designatedMemberDetails?.includeBasicInformation) {
-        path = "designated-members-options";
-    } else if (certificateItem.itemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType) {
-        path = (session?.getExtraData("certificates-orders-web-ch-gov-uk") as CertificateSessionData)?.isFullPage ? "registered-office-options?layout=full" : "registered-office-options";
+    } else if (certificateItem.itemOptions?.principlePlaceOfBusinessDetails?.includeAddressRecordsType) {
+        path = (session?.getExtraData("certificates-orders-web-ch-gov-uk") as CertificateSessionData)?.isFullPage ? "principle-place-of-business-options?layout=full" : "principle-place-of-business-options";
     } else {
         path = "certificate-options";
     }
