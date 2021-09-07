@@ -2,13 +2,13 @@ import chai from "chai";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import {
     setBackLink,
-    setDesignatedMemberOption
-} from "../../../../src/controllers/certificates/llp-certificates/designated-members.options.controller";
+    setMembersOption
+} from "../../../../src/controllers/certificates/llp-certificates/members.options.controller";
 import {dataEmpty, fullPageFalse, fullPageTrue} from "../../../__mocks__/session.mocks";
-import {DesignatedMemberOptionName} from "../../../../src/controllers/certificates/llp-certificates/DesignatedMemberOptionName";
+import {MembersOptionName} from "../../../../src/controllers/certificates/llp-certificates/MembersOptionName";
 
 
-describe("designated-member.options.controller.unit", () => {
+describe("members.options.controller.unit", () => {
     describe("setBackUrl for no registered address option selected", () => {
         it("the back button link should take the user to the certificate options page", () => {
             const certificateItem = {
@@ -53,21 +53,35 @@ describe("designated-member.options.controller.unit", () => {
     describe("Set includeAddress to true", () => {
         it("when address has been ticked it should return it as true", () => {
             const option: string [] = ["address"];
-            const designatedMemberOption = setDesignatedMemberOption(option);
+            const membersOption = setMembersOption(option);
 
-            chai.expect(designatedMemberOption.includeAddress).to.equal(true);
+            chai.expect(membersOption.includeAddress).to.equal(true);
         });
     });
 
+    describe("setBackUrl for designated members details selected", () => {
+        it("should link to designated members details option page", () => {
+            const certificateItem = {
+                itemOptions: {
+                    designatedMemberDetails: {
+                        includeBasicInformation: true
+                    }
+                }
+            } as CertificateItem;
+
+            chai.expect(setBackLink(certificateItem)).to.equal("designated-members-options");
+        })
+    })
+
     describe("It should set correspondence address, date of birth type and appointment date to true when selected and everything else to false", () => {
         it("When correspondence address, date of birth type and appointment date have been selected, they should be set to true with everything else set to false", () => {
-            const option: string [] = [DesignatedMemberOptionName.INCLUDE_ADDRESS, DesignatedMemberOptionName.INCLUDE_DOB_TYPE, DesignatedMemberOptionName.INCLUDE_APPOINTMENT_DATE];
-            const returnedDesignatedMemberOption = setDesignatedMemberOption(option);
+            const option: string [] = [MembersOptionName.INCLUDE_ADDRESS, MembersOptionName.INCLUDE_DOB_TYPE, MembersOptionName.INCLUDE_APPOINTMENT_DATE];
+            const returnedMembersOption = setMembersOption(option);
 
-            chai.expect(returnedDesignatedMemberOption.includeAddress).to.equal(true);
-            chai.expect(returnedDesignatedMemberOption.includeDobType).to.equal("partial");
-            chai.expect(returnedDesignatedMemberOption.includeAppointmentDate).to.equal(true);
-            chai.expect(returnedDesignatedMemberOption.includeCountryOfResidence).to.equal(false);
+            chai.expect(returnedMembersOption.includeAddress).to.equal(true);
+            chai.expect(returnedMembersOption.includeDobType).to.equal("partial");
+            chai.expect(returnedMembersOption.includeAppointmentDate).to.equal(true);
+            chai.expect(returnedMembersOption.includeCountryOfResidence).to.equal(false);
         });
     });
 });

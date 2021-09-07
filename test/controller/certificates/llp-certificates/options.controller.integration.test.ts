@@ -121,7 +121,7 @@ describe("llp.certificate.options.controller.integration", () => {
                 });
 
             chai.expect(resp.status).to.equal(302);
-            chai.expect(resp.text).to.include("Found. Redirecting to designated-member-options");
+            chai.expect(resp.text).to.include("Found. Redirecting to designated-members-options");
         });
 
         it("redirects the user to the member-options page", async () => {
@@ -141,7 +141,7 @@ describe("llp.certificate.options.controller.integration", () => {
                 });
 
             chai.expect(resp.status).to.equal(302);
-            chai.expect(resp.text).to.include("Found. Redirecting to member-options");
+            chai.expect(resp.text).to.include("Found. Redirecting to members-options");
         });
     });
 });

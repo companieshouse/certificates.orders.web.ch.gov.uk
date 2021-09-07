@@ -50,7 +50,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const patchResponse = await patchCertificateItem(accessToken, req.params.certificateId, certificateItem);
         logger.info(`Patched certificate item with designated member options, id=${req.params.certificateId}, user_id=${userId}, company_number=${patchResponse.companyNumber}, certificate_options=${JSON.stringify(certificateItem)}`);
         if (patchResponse.itemOptions.memberDetails) {
-            return res.redirect("member-options");
+            return res.redirect("members-options");
         } else {
             return res.redirect("delivery-details");
         }
@@ -98,9 +98,9 @@ export const setBackLink = (certificateItem: CertificateItem, session: Session |
     let backLink;
 
     if (certificateItem.itemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType) {
-        return (session?.getExtraData("certificates-orders-web-ch-gov-uk") as CertificateSessionData)?.isFullPage ? "registered-office-options?layout=full" : "registered-office-options";
+        backLink = (session?.getExtraData("certificates-orders-web-ch-gov-uk") as CertificateSessionData)?.isFullPage ? "registered-office-options?layout=full" : "registered-office-options";
     } else {
-        backLink = "llp-certificate-options";
+        backLink = "certificate-options";
     }
     return backLink;
 };
