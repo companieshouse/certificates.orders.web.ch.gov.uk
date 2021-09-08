@@ -1,10 +1,12 @@
 import chai from "chai";
 import sinon from "sinon";
 import { Request, Response } from "express";
+import CompanyProfileService from "@companieshouse/api-sdk-node/dist/services/company-profile/service";
 import SessionHandler from "@companieshouse/node-session-handler";
 import { Session } from "@companieshouse/node-session-handler/lib/session/model/Session";
 
 import authMiddleware from "../../src/middleware/auth.middleware";
+import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
 
 const sandbox = sinon.createSandbox();
 
@@ -53,6 +55,16 @@ describe("auth.middleware.unit", () => {
                 }
             }
         );
+        sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
+        .returns(Promise.resolve(
+            {
+                httpStatusCode: 200,
+                resource: {
+                    type: "ltd"
+                } as CompanyProfile   
+            }       
+        ));
+
         authMiddleware(req, res, nextFunctionSpy);
         chai.expect(redirectSpy)
             .to.have.been.calledWith("/signin?return_to=/company/0001/orderable/certificates/certificate-type");
@@ -64,6 +76,17 @@ describe("auth.middleware.unit", () => {
         } as Request;
         req.params = { companyNumber: "0001" };
         req.session = undefined;
+
+        sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
+        .returns(Promise.resolve(
+            {
+                httpStatusCode: 401,
+                resource: {
+                    type: "ltd"
+                } as CompanyProfile   
+            }       
+        ));
+
         authMiddleware(req, res, nextFunctionSpy);
         chai.expect(redirectSpy)
             .to.have.been.calledWith("/signin?return_to=/company/0001/orderable/certificates/certificate-type");
