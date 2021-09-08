@@ -1,14 +1,16 @@
 import { NextFunction, Request, Response } from "express";
 import { SessionKey } from "@companieshouse/node-session-handler/lib/session/keys/SessionKey";
 import { SignInInfoKeys } from "@companieshouse/node-session-handler/lib/session/keys/SignInInfoKeys";
-import { CERTIFICATE_TYPE, replaceCompanyNumber } from "./../model/page.urls";
+import {CERTIFICATE_TYPE, LLP_CERTIFICATE_TYPE, LP_CERTIFICATE_TYPE, replaceCompanyNumber} from "./../model/page.urls";
 import { createLogger } from "ch-structured-logging";
-import { APPLICATION_NAME } from "../config/config";
+import {API_KEY, APPLICATION_NAME} from "../config/config";
 import { getUserId } from "../session/helper";
+import {CompanyProfile} from "@companieshouse/api-sdk-node/dist/services/company-profile";
+import {getCompanyProfile} from "../client/api.client";
 
 const logger = createLogger(APPLICATION_NAME);
 
-export default (req: Request, res: Response, next: NextFunction) => {
+export default async (req: Request, res: Response, next: NextFunction) => {
     try {
         if (req.path !== "/") {
             if (!req.session) {
@@ -18,7 +20,16 @@ export default (req: Request, res: Response, next: NextFunction) => {
 
             if (!signedIn) {
                 const companyNumber = req.params.companyNumber;
-                const returnToUrl = replaceCompanyNumber(CERTIFICATE_TYPE, companyNumber);
+                const companyProfile: CompanyProfile = await getCompanyProfile(API_KEY, companyNumber);
+                const companyType: string = companyProfile.type;
+                let returnToUrl: string;
+                if ('limited-partnership' === companyType) {
+                    returnToUrl = replaceCompanyNumber(LP_CERTIFICATE_TYPE, companyNumber);
+                } else if ('llp' === companyType) {
+                    returnToUrl = replaceCompanyNumber(LLP_CERTIFICATE_TYPE, companyNumber);
+                } else {
+                    returnToUrl = replaceCompanyNumber(CERTIFICATE_TYPE, companyNumber);
+                }
                 logger.info(`User unauthorized, status_code=401, redirecting to sign in page`);
                 return res.redirect(`/signin?return_to=${returnToUrl}`);
             } else {
