@@ -31,6 +31,7 @@ export const LLP_CERTIFICATE_OPTIONS: string = LLP_ROOT_CERTIFICATE_ID + "/certi
 export const LLP_CERTIFICATE_TYPE: string = LLP_ROOT_CERTIFICATE + "/certificate-type";
 export const LLP_CERTIFICATE_DESIGNATED_MEMBERS_OPTIONS: string = LLP_ROOT_CERTIFICATE_ID + "/designated-members-options";
 export const LLP_CERTIFICATE_MEMBERS_OPTIONS: string = LLP_ROOT_CERTIFICATE_ID + "/members-options";
+export const LLP_CERTIFICATE_REGISTERED_OFFICE_OPTIONS: string = LLP_ROOT_CERTIFICATE_ID + "/registered-office-options";
 
 export const DISSOLVED_CERTIFICATE_OPTIONS: string = ROOT_DISSOLVED_CERTIFICATE_ID + "/certificate-options";
 export const DISSOLVED_CERTIFICATE_DELIVERY_DETAILS: string = ROOT_DISSOLVED_CERTIFICATE_ID + "/delivery-details";
