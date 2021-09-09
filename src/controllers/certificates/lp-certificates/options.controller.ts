@@ -11,7 +11,7 @@ const GOOD_STANDING_FIELD: string = "goodStanding";
 const PRINCIPLE_PLACE_OF_BUSINESS_FIELD: string = "principlePlaceOfBusiness";
 const GENERAL_PARTNERS_FIELD: string = "generalPartners";
 const LIMITED_PARTNERS_FIELD: string = "limitedPartners";
-const GENERAL_NATURE_OF_BUSINESS_FIELD: string = "generalNatureOfBusinessField";
+const GENERAL_NATURE_OF_BUSINESS_FIELD: string = "generalNatureOfBusiness";
 const MORE_INFO_FIELD: string = "moreInfo";
 
 const logger = createLogger(APPLICATION_NAME);
@@ -73,7 +73,8 @@ export const setItemOptions = (options: string[]): ItemOptionsRequest => {
         },
         principlePlaceOfBusinessDetails: {
             includeAddressRecordsType: null
-        }
+        },
+        includeGeneralNatureOfBusinessInformation: null
     };
     return options === undefined ? initialItemOptions
         : options.reduce((itemOptionsAccum: ItemOptionsRequest, option: string) => {
@@ -95,7 +96,7 @@ export const setItemOptions = (options: string[]): ItemOptionsRequest => {
                 break;
             }
             case GENERAL_NATURE_OF_BUSINESS_FIELD: {
-                logger.debug("General nature of business field not handled");
+                itemOptionsAccum.includeGeneralNatureOfBusinessInformation = true;
                 break;
             }
             default:
