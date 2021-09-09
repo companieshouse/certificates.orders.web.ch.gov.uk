@@ -14,7 +14,9 @@ import {
     MISSING_IMAGE_DELIVERY_CREATE,
     replaceCertificateId,
     replaceCertifiedCopyId,
-    replaceCompanyNumberAndFilingHistoryId
+    replaceCompanyNumberAndFilingHistoryId,
+    LP_CERTIFICATE_OPTIONS,
+    LLP_CERTIFICATE_OPTIONS
 } from "../../src/model/page.urls";
 
 const PROTECTED_PAGED_CERTIFICATES = [
@@ -23,6 +25,17 @@ const PROTECTED_PAGED_CERTIFICATES = [
     CERTIFICATE_CHECK_DETAILS
 ];
 
+const PROTECTED_PAGED_LP_CERTIFICATES = [
+    LP_CERTIFICATE_OPTIONS,
+    // LP_CERTIFICATE_DELIVERY_DETAILS, TODO
+    // LP_CERTIFICATE_CHECK_DETAILS TODO
+];
+
+const PROTECTED_PAGED_LLP_CERTIFICATES = [
+    LLP_CERTIFICATE_OPTIONS,
+    // LLP_CERTIFICATE_DELIVERY_DETAILS, TODO
+    // LLP_CERTIFICATE_CHECK_DETAILS TODO
+];
 const PROTECTED_PAGED_CERTIFIED_COPIES = [
     CERTIFIED_COPY_DELIVERY_DETAILS,
     CERTIFIED_COPY_CHECK_DETAILS
@@ -56,6 +69,26 @@ describe("auth.middleware.integration", () => {
     });
 
     PROTECTED_PAGED_CERTIFICATES.forEach((page) => {
+        it("should redirect " + page + " to signin if user is not logged in", async () => {
+            const resp = await chai.request(testApp)
+                .get(replaceCertificateId(page, CERTIFICATE_ID))
+                .set("Cookie", [`__SID=${SIGNED_OUT_COOKIE}`]);
+
+            chai.expect(resp.redirects[0]).to.include("/signin");
+        });
+    });
+
+    PROTECTED_PAGED_LP_CERTIFICATES.forEach((page) => {
+        it("should redirect " + page + " to signin if user is not logged in", async () => {
+            const resp = await chai.request(testApp)
+                .get(replaceCertificateId(page, CERTIFICATE_ID))
+                .set("Cookie", [`__SID=${SIGNED_OUT_COOKIE}`]);
+
+            chai.expect(resp.redirects[0]).to.include("/signin");
+        });
+    });
+
+    PROTECTED_PAGED_LP_CERTIFICATES.forEach((page) => {
         it("should redirect " + page + " to signin if user is not logged in", async () => {
             const resp = await chai.request(testApp)
                 .get(replaceCertificateId(page, CERTIFICATE_ID))

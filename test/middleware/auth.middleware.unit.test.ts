@@ -7,6 +7,7 @@ import {Session} from "@companieshouse/node-session-handler/lib/session/model/Se
 
 import authMiddleware from "../../src/middleware/auth.middleware";
 import {CompanyProfile} from "@companieshouse/api-sdk-node/dist/services/company-profile";
+import {CompanyType} from "../../src/model/CompanyType";
 
 const sandbox = sinon.createSandbox();
 
@@ -44,7 +45,7 @@ describe("auth.middleware.unit", () => {
         });
     });
 
-    it("should call res.redirect if path is not root and user is not signed in", () => {
+    it("should call res.redirect correctly for LTD company when is not root and user is not signed in", () => {
         const req = {
             path: "/certificate-options"
         } as Request;
@@ -61,7 +62,7 @@ describe("auth.middleware.unit", () => {
                 {
                     httpStatusCode: 200,
                     resource: {
-                        type: "ltd"
+                        type: CompanyType.LIMITED_COMPANY
                     } as CompanyProfile
                 }
             ));
@@ -72,7 +73,7 @@ describe("auth.middleware.unit", () => {
         })
     });
 
-    it("should call res.redirect if path is not root and no session", () => {
+    it("should call res.redirect correctly for LTD company when path is not root and no session", () => {
         const req = {
             path: "/certificate-options"
         } as Request;
@@ -84,7 +85,7 @@ describe("auth.middleware.unit", () => {
                 {
                     httpStatusCode: 200,
                     resource: {
-                        type: "ltd"
+                        type: CompanyType.LIMITED_COMPANY
                     } as CompanyProfile
                 }
             ));
@@ -92,6 +93,108 @@ describe("auth.middleware.unit", () => {
         authMiddleware(req, res, nextFunctionSpy).finally(() => {
             chai.expect(redirectSpy)
                 .to.have.been.calledWith("/signin?return_to=/company/0001/orderable/certificates/certificate-type");
+        });
+    });
+
+        it("should call res.redirect correctly for LP company when is not root and user is not signed in", () => {
+        const req = {
+            path: "/certificate-options"
+        } as Request;
+        req.params = {companyNumber: "0001"};
+        req.session = new Session(
+            {
+                signin_info: {
+                    signed_in: 0
+                }
+            }
+        );
+        sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
+            .returns(Promise.resolve(
+                {
+                    httpStatusCode: 200,
+                    resource: {
+                        type: CompanyType.LIMITED_PARTNERSHIP
+                    } as CompanyProfile
+                }
+            ));
+
+        authMiddleware(req, res, nextFunctionSpy).finally(() => {
+            chai.expect(redirectSpy)
+                .to.have.been.calledWith("/signin?return_to=/company/0001/orderable/lp-certificates/certificate-type");
+        })
+    });
+
+    it("should call res.redirect correctly for LP company when path is not root and no session", () => {
+        const req = {
+            path: "/certificate-options"
+        } as Request;
+        req.params = {companyNumber: "0001"};
+        req.session = undefined;
+
+        sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
+            .returns(Promise.resolve(
+                {
+                    httpStatusCode: 200,
+                    resource: {
+                        type: CompanyType.LIMITED_PARTNERSHIP
+                    } as CompanyProfile
+                }
+            ));
+
+        authMiddleware(req, res, nextFunctionSpy).finally(() => {
+            chai.expect(redirectSpy)
+                .to.have.been.calledWith("/signin?return_to=/company/0001/orderable/lp-certificates/certificate-type");
+        });
+    });
+
+           it("should call res.redirect correctly for LLP company when is not root and user is not signed in", () => {
+        const req = {
+            path: "/certificate-options"
+        } as Request;
+        req.params = {companyNumber: "0001"};
+        req.session = new Session(
+            {
+                signin_info: {
+                    signed_in: 0
+                }
+            }
+        );
+        sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
+            .returns(Promise.resolve(
+                {
+                    httpStatusCode: 200,
+                    resource: {
+                        type: CompanyType.LIMITED_LIABILITY_PARTNERSHIP
+                    } as CompanyProfile
+                }
+            ));
+
+        authMiddleware(req, res, nextFunctionSpy).finally(() => {
+            chai.expect(redirectSpy)
+                .to.have.been.calledWith("/signin?return_to=/company/0001/orderable/llp-certificates/certificate-type");
+        })
+    });
+
+    it("should call res.redirect correctly for LLP company when path is not root and no session", () => {
+        const req = {
+            path: "/certificate-options"
+        } as Request;
+        req.params = {companyNumber: "0001"};
+        req.session = undefined;
+
+        sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
+            .returns(Promise.resolve(
+                {
+                    httpStatusCode: 200,
+                    resource: {
+                        type: CompanyType.LIMITED_LIABILITY_PARTNERSHIP
+                    } as CompanyProfile
+                }
+            ));
+
+        authMiddleware(req, res, nextFunctionSpy).finally(() => {
+            chai.expect(redirectSpy)
+                .to.have.been.calledWith("/signin?return_to=/company/0001/orderable/llp-certificates/certificate-type");
         });
     });
 });
