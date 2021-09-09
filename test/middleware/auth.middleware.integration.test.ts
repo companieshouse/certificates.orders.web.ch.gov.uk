@@ -88,7 +88,7 @@ describe("auth.middleware.integration", () => {
         });
     });
 
-    PROTECTED_PAGED_LP_CERTIFICATES.forEach((page) => {
+    PROTECTED_PAGED_LLP_CERTIFICATES.forEach((page) => {
         it("should redirect " + page + " to signin if user is not logged in", async () => {
             const resp = await chai.request(testApp)
                 .get(replaceCertificateId(page, CERTIFICATE_ID))
