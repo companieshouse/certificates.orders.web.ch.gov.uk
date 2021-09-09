@@ -46,6 +46,7 @@ endif
 	cp ./api-enumerations/*.yml $(tmpdir)/api-enumerations
 	cp -r ./package.json $(tmpdir)
 	cp -r ./package-lock.json $(tmpdir)
+	cp ./.nvmrc $(tmpdir)
 	cp ./start.sh $(tmpdir)
 	cp ./routes.yaml $(tmpdir)
 	cd $(tmpdir) && npm i --production
