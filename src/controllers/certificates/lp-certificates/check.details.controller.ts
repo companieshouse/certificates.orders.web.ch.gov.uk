@@ -2,7 +2,7 @@ import {NextFunction, Request, Response} from "express";
 import {
     CertificateItem,
     ItemOptions,
-    DirectorOrSecretaryDetails
+    DirectorOrSecretaryDetails, GeneralPartnerDetails, LimitedPartnerDetails
 } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import {Basket} from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 import {createLogger} from "ch-structured-logging";

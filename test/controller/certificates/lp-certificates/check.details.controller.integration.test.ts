@@ -98,7 +98,14 @@ describe("LP certificate.check.details.controller.integration", () => {
                ...templateCertificateItem,
                itemOptions: {
                    ...templateItemOptions,
-                    includeGoodStandingInformation: true
+                    includeGoodStandingInformation: true,
+                   generalPartnerDetails: {
+                       includeBasicInformation: true,
+                   },
+                   limitedPartnerDetails: {
+                       includeBasicInformation: true,
+                   },
+                   includeGeneralNatureOfBusinessInformation: true
                 }
             } as CertificateItem;
 
@@ -115,6 +122,9 @@ describe("LP certificate.check.details.controller.integration", () => {
 
             chai.expect(resp.status).to.equal(200);
             chai.expect($(".statementOfGoodStanding").text().trim()).to.equal("Yes");
+            chai.expect($(".generalPartners").text().trim()).to.equal("Yes");
+            chai.expect($(".limitedPartners").text().trim()).to.equal("Yes");
+            chai.expect($(".generalNatureOfBusiness").text().trim()).to.equal("Yes");
         });
     });
 
@@ -145,6 +155,7 @@ describe("LP certificate.check.details.controller.integration", () => {
             chai.expect($(".principlePlaceOfBusiness").text().trim()).to.equal("All current and previous addresses");
         });
     });
+
 
     describe("check details for dissolved company", () => {
         it("renders the check details get screen", async () => {
