@@ -4,9 +4,8 @@ import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket/
 import { createLogger } from "ch-structured-logging";
 
 import {
-    CERTIFICATE_OPTIONS, DISSOLVED_CERTIFICATE_DELIVERY_DETAILS, LLP_CERTIFICATE_DELIVERY_DETAILS,
-    LLP_CERTIFICATE_OPTIONS, LLP_ROOT_CERTIFICATE, LLP_ROOT_CERTIFICATE_ID, LP_CERTIFICATE_DELIVERY_DETAILS,
-    replaceCertificateId,
+    DISSOLVED_CERTIFICATE_DELIVERY_DETAILS, LLP_CERTIFICATE_DELIVERY_DETAILS,
+    LLP_CERTIFICATE_OPTIONS, LLP_ROOT_CERTIFICATE, replaceCertificateId,
     replaceCompanyNumber, ROOT_DISSOLVED_CERTIFICATE
 } from "../../../model/page.urls";
 import { mapDeliveryDetails, mapToHtml, mapDeliveryMethod } from "../../../utils/check.details.utils";
@@ -14,7 +13,7 @@ import { LLP_CERTIFICATE_CHECK_DETAILS } from "../../../model/template.paths";
 import { addItemToBasket, getCertificateItem, getBasket } from "../../../client/api.client";
 import { CHS_URL, APPLICATION_NAME } from "../../../config/config";
 import { getAccessToken, getUserId } from "../../../session/helper";
-import { setServiceUrl } from "../../../utils/service.url.utils";
+import {DobType} from "../../../model/DobType";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -146,8 +145,8 @@ export const mapDesignatedMembersOptions = (designatedMembersOptions?: Designate
         designatedMembersMappings.push("Country of residence");
     }
 
-    if (designatedMembersOptions.includeDobType === "partial" ||
-    designatedMembersOptions.includeDobType === "full") {
+    if (designatedMembersOptions.includeDobType === DobType.PARTIAL ||
+    designatedMembersOptions.includeDobType === DobType.FULL) {
         designatedMembersMappings.push("Date of birth (month and year)");
     }
 

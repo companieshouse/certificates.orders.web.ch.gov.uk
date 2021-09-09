@@ -20,6 +20,7 @@ import {LP_CERTIFICATE_CHECK_DETAILS} from "../../../model/template.paths";
 import {addItemToBasket, getCertificateItem, getBasket} from "../../../client/api.client";
 import {CHS_URL, APPLICATION_NAME} from "../../../config/config";
 import {getAccessToken, getUserId} from "../../../session/helper";
+import {AddressRecordsType} from "../../../model/AddressRecordsType";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -105,13 +106,13 @@ export const applyCurrencySymbol = (fee: string): string => {
 
 export const mapPlaceOfBusinessAddress = (placeOfBusinessAddress: string | undefined): string => {
     switch (placeOfBusinessAddress) {
-        case "current":
+        case AddressRecordsType.CURRENT:
             return "Current address";
-        case "current-and-previous":
+        case AddressRecordsType.CURRENT_AND_PREVIOUS:
             return "Current address and the one previous";
-        case "current-previous-and-prior":
+        case AddressRecordsType.CURRENT_PREVIOUS_AND_PRIOR:
             return "Current address and the two previous";
-        case "all":
+        case AddressRecordsType.ALL:
             return "All current and previous addresses";
         default:
             return "No";
