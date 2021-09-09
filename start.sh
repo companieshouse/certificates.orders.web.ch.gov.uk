@@ -30,5 +30,5 @@ else
     source "${APP_DIR}/global_env"
     source "${APP_DIR}/app_env"
 
-    NODE_ENV=production node ${APP_DIR}/bin/www.js -- $PORT
+    bash -i -c "NODE_ENV=production nvm run ${APP_DIR}/bin/www.js -- $PORT"
 fi
