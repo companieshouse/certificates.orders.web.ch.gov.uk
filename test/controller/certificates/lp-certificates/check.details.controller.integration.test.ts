@@ -6,7 +6,7 @@ import { BasketItem, Basket } from "@companieshouse/api-sdk-node/dist/services/o
 import {CertificateItem, ItemOptions} from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 
 import * as apiClient from "../../../../src/client/api.client";
-import { LLP_CERTIFICATE_CHECK_DETAILS, replaceCertificateId } from "../../../../src/model/page.urls";
+import { LP_CERTIFICATE_CHECK_DETAILS, replaceCertificateId } from "../../../../src/model/page.urls";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../../__mocks__/redis.mocks";
 import {
     mockBasketDetails,
@@ -16,7 +16,7 @@ import {DobType} from "../../../../src/model/DobType";
 
 const CERTIFICATE_ID = "CHS00000000000000001";
 const ITEM_URI = "/orderable/llp-certificates/CHS00000000000000052";
-const CHECK_DETAILS_URL = replaceCertificateId(LLP_CERTIFICATE_CHECK_DETAILS, CERTIFICATE_ID);
+const CHECK_DETAILS_URL = replaceCertificateId(LP_CERTIFICATE_CHECK_DETAILS, CERTIFICATE_ID);
 
 const basketDetails = {
     deliveryDetails: {
@@ -52,7 +52,7 @@ let addItemToBasketStub;
 let getCertificateItemStub;
 let getBasketStub;
 
-describe("LLP certificate.check.details.controller.integration", () => {
+describe("LP certificate.check.details.controller.integration", () => {
     beforeEach((done) => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
         sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
@@ -66,7 +66,7 @@ describe("LLP certificate.check.details.controller.integration", () => {
         sandbox.restore();
     });
 
-    describe("LLP check details get", () => {
+    describe("LP check details get", () => {
         it("renders the check details screen", async () => {
            const certificateItem = {
                ...templateCertificateItem,
@@ -118,46 +118,14 @@ describe("LLP certificate.check.details.controller.integration", () => {
         });
     });
 
-    describe("check correct value is shown for registered office address field", () => {
-        it("returns the mapped value for registered office address", async () => {
+    describe("check correct value is shown for principle place of business field", () => {
+        it("returns the mapped value for principle place of business", async () => {
             const certificateItem = {
                 ...templateCertificateItem,
                 itemOptions: {
                     ...templateItemOptions,
-                    registeredOfficeAddressDetails: {
+                    principlePlaceOfBusinessDetails: {
                         includeAddressRecordsType: "all"
-                    },
-                }
-            } as CertificateItem;
-
-            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
-                .returns(Promise.resolve(certificateItem));
-            getBasketStub = sandbox.stub(apiClient, "getBasket")
-                .returns(Promise.resolve(basketDetails));
-
-            const resp = await chai.request(testApp)
-                .get(CHECK_DETAILS_URL)
-                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
-
-            const $ = cheerio.load(resp.text);
-
-            chai.expect(resp.status).to.equal(200);
-            chai.expect($(".registeredOfficeAddress").text().trim()).to.equal("All current and previous addresses");
-        });
-    });
-
-    describe("check correct value is shown for all designated members options selected", () => {
-        it("returns the mapped value for designated members options", async () => {
-            const certificateItem = {
-                ...templateCertificateItem,
-                itemOptions: {
-                    ...templateItemOptions,
-                    designatedMemberDetails: {
-                        includeAddress: true,
-                        includeAppointmentDate: true,
-                        includeBasicInformation: true,
-                        includeCountryOfResidence: true,
-                        includeDobType: DobType.PARTIAL
                     }
                 }
             } as CertificateItem;
@@ -174,39 +142,7 @@ describe("LLP certificate.check.details.controller.integration", () => {
             const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect($(".currentDesignatedMembersNames").text().trim()).to.equal("Including designated members':Correspondence addressAppointment dateCountry of residenceDate of birth (month and year)");
-        });
-    });
-
-    describe("check correct value is shown for all members options selected", () => {
-        it("returns the mapped value for members options", async () => {
-            const certificateItem = {
-                ...templateCertificateItem,
-                itemOptions: {
-                    ...templateItemOptions,
-                    memberDetails: {
-                        includeAddress: true,
-                        includeAppointmentDate: true,
-                        includeBasicInformation: true,
-                        includeCountryOfResidence: true,
-                        includeDobType: DobType.PARTIAL
-                    }
-                }
-            } as CertificateItem;
-
-            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
-                .returns(Promise.resolve(certificateItem));
-            getBasketStub = sandbox.stub(apiClient, "getBasket")
-                .returns(Promise.resolve(basketDetails));
-
-            const resp = await chai.request(testApp)
-                .get(CHECK_DETAILS_URL)
-                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
-
-            const $ = cheerio.load(resp.text);
-
-            chai.expect(resp.status).to.equal(200);
-            chai.expect($(".currentMembersNames").text().trim()).to.equal("Including members':Correspondence addressAppointment dateCountry of residenceDate of birth (month and year)");
+            chai.expect($(".principlePlaceOfBusiness").text().trim()).to.equal("All current and previous addresses");
         });
     });
 

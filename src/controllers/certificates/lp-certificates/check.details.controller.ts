@@ -78,7 +78,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         const userId = getUserId(req.session);
         const resp = await addItemToBasket(
             accessToken,
-            {itemUri: `/orderable/lp-certificates/${certificateId}`});
+            {itemUri: `/orderable/certificates/${certificateId}`});
         logger.info(`item added to basket certificate_id=${certificateId}, user_id=${userId}, company_number=${resp.companyNumber}, redirecting to basket`);
         res.redirect(`${CHS_URL}/basket`);
     } catch (error) {

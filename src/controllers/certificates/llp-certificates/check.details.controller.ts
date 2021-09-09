@@ -14,6 +14,7 @@ import { addItemToBasket, getCertificateItem, getBasket } from "../../../client/
 import { CHS_URL, APPLICATION_NAME } from "../../../config/config";
 import { getAccessToken, getUserId } from "../../../session/helper";
 import {DobType} from "../../../model/DobType";
+import {AddressRecordsType} from "../../../model/AddressRecordsType";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -76,7 +77,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         const userId = getUserId(req.session);
         const resp = await addItemToBasket(
             accessToken,
-            { itemUri: `/orderable/llp-certificates/${certificateId}` });
+            { itemUri: `/orderable/certificates/${certificateId}` });
         logger.info(`item added to basket certificate_id=${certificateId}, user_id=${userId}, company_number=${resp.companyNumber}, redirecting to basket`);
         res.redirect(`${CHS_URL}/basket`);
     } catch (error) {
@@ -104,13 +105,13 @@ export const applyCurrencySymbol = (fee: string): string => {
 
 export const mapRegisteredOfficeAddress = (registeredOfficeAddress: string | undefined): string => {
     switch (registeredOfficeAddress) {
-    case "current":
+    case AddressRecordsType.CURRENT:
         return "Current address";
-    case "current-and-previous":
+    case AddressRecordsType.CURRENT_AND_PREVIOUS:
         return "Current address and the one previous";
-    case "current-previous-and-prior":
+    case AddressRecordsType.CURRENT_PREVIOUS_AND_PRIOR:
         return "Current address and the two previous";
-    case "all":
+    case AddressRecordsType.ALL:
         return "All current and previous addresses";
     default:
         return "No";
