@@ -2,12 +2,12 @@ const chai = require("chai")
 import sinon from "sinon";
 import ioredis from "ioredis";
 import cheerio from "cheerio";
-import { BasketItem, Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
+import {BasketItem, Basket} from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 import {CertificateItem, ItemOptions} from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 
 import * as apiClient from "../../../../src/client/api.client";
-import { LLP_CERTIFICATE_CHECK_DETAILS, replaceCertificateId } from "../../../../src/model/page.urls";
-import { SIGNED_IN_COOKIE, signedInSession } from "../../../__mocks__/redis.mocks";
+import {LLP_CERTIFICATE_CHECK_DETAILS, replaceCertificateId} from "../../../../src/model/page.urls";
+import {SIGNED_IN_COOKIE, signedInSession} from "../../../__mocks__/redis.mocks";
 import {
     mockBasketDetails,
     mockDissolvedCertificateItem
@@ -28,23 +28,6 @@ const basketDetails = {
         region: "glamorgan"
     }
 } as Basket;
-
-const templateCertificateItem = {
-    companyName: "test company",
-    companyNumber: "00000000",
-    itemCosts: [
-        {
-            itemCost: "15"
-        }
-    ]
-} as CertificateItem;
-
-const templateItemOptions = {
-    certificateType: "cert type",
-    forename: "john",
-    includeGoodStandingInformation: true,
-    surname: "smith",
-} as ItemOptions;
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
@@ -68,10 +51,16 @@ describe("LLP certificate.check.details.controller.integration", () => {
 
     describe("LLP check details get", () => {
         it("renders the check details screen", async () => {
-           const certificateItem = {
-               ...templateCertificateItem,
-               itemOptions: {
-                   ...templateItemOptions,
+            const certificateItem = {
+                companyName: "test company",
+                companyNumber: "00000000",
+                itemCosts: [{
+                    itemCost: "15"
+                }],
+                itemOptions: {
+                    certificateType: "cert type",
+                    forename: "john",
+                    surname: "smith"
                 }
             } as CertificateItem;
 
@@ -94,11 +83,17 @@ describe("LLP certificate.check.details.controller.integration", () => {
 
     describe("check value returns yes or no for certificate item options", () => {
         it("returns a yes or no value if selected on certificate item options", async () => {
-           const certificateItem = {
-               ...templateCertificateItem,
-               itemOptions: {
-                   ...templateItemOptions,
-                    includeGoodStandingInformation: true
+            const certificateItem = {
+                companyName: "test company",
+                companyNumber: "00000000",
+                itemCosts: [{
+                    itemCost: "15"
+                }],
+                itemOptions: {
+                    certificateType: "cert type",
+                    forename: "john",
+                    surname: "smith",
+                    includeGoodStandingInformation: true,
                 }
             } as CertificateItem;
 
@@ -121,9 +116,15 @@ describe("LLP certificate.check.details.controller.integration", () => {
     describe("check correct value is shown for registered office address field", () => {
         it("returns the mapped value for registered office address", async () => {
             const certificateItem = {
-                ...templateCertificateItem,
+                companyName: "test company",
+                companyNumber: "00000000",
+                itemCosts: [{
+                    itemCost: "15"
+                }],
                 itemOptions: {
-                    ...templateItemOptions,
+                    certificateType: "cert type",
+                    forename: "john",
+                    surname: "smith",
                     registeredOfficeAddressDetails: {
                         includeAddressRecordsType: "all"
                     },
@@ -149,9 +150,15 @@ describe("LLP certificate.check.details.controller.integration", () => {
     describe("check correct value is shown for all designated members options selected", () => {
         it("returns the mapped value for designated members options", async () => {
             const certificateItem = {
-                ...templateCertificateItem,
+                companyName: "test company",
+                companyNumber: "00000000",
+                itemCosts: [{
+                    itemCost: "15"
+                }],
                 itemOptions: {
-                    ...templateItemOptions,
+                    certificateType: "cert type",
+                    forename: "john",
+                    surname: "smith",
                     designatedMemberDetails: {
                         includeAddress: true,
                         includeAppointmentDate: true,
@@ -181,9 +188,15 @@ describe("LLP certificate.check.details.controller.integration", () => {
     describe("check correct value is shown for all members options selected", () => {
         it("returns the mapped value for members options", async () => {
             const certificateItem = {
-                ...templateCertificateItem,
+                companyName: "test company",
+                companyNumber: "00000000",
+                itemCosts: [{
+                    itemCost: "15"
+                }],
                 itemOptions: {
-                    ...templateItemOptions,
+                    certificateType: "cert type",
+                    forename: "john",
+                    surname: "smith",
                     memberDetails: {
                         includeAddress: true,
                         includeAppointmentDate: true,
@@ -230,7 +243,7 @@ describe("LLP certificate.check.details.controller.integration", () => {
 
     describe("check details post", () => {
         it("redirects the user to orders url", async () => {
-            const itemUri = { itemUri: ITEM_URI } as BasketItem;
+            const itemUri = {itemUri: ITEM_URI} as BasketItem;
             const certificateItem = {} as CertificateItem;
 
             addItemToBasketStub = sandbox.stub(apiClient, "addItemToBasket")
