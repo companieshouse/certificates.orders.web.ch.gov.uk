@@ -17,6 +17,7 @@ import {
 } from "../../config/config";
 import {YOU_CANNOT_USE_THIS_SERVICE} from "../../model/template.paths";
 import createError from "http-errors";
+import {CompanyType} from "../../model/CompanyType";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -30,19 +31,19 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const moreTabUrl = "/company/" + companyNumber + "/more";
 
         const acceptableCompanyTypes = [
-            "llp",
-            "ltd",
-            "plc",
-            "old-public-company",
-            "private-limited-guarant-nsc",
-            "private-limited-guarant-nsc-limited-exemption",
-            "private-limited-shares-section-30-exemption",
-            "private-unlimited",
-            "private-unlimited-nsc"
+            CompanyType.LIMITED_LIABILITY_PARTNERSHIP,
+            CompanyType.LIMITED_COMPANY,
+            CompanyType.PUBLIC_LIMITED_COMPANY,
+            CompanyType.OLD_PUBLIC_COMPANY,
+            CompanyType.PRIVATE_LIMITED_GUARANT_NSC,
+            CompanyType.PRIVATE_LIMITED_GUARANT_NSC_LIMITED_EXEMPTION,
+            CompanyType.PRIVATE_LIMITED_SHARES_SECTION_30_EXEMPTION,
+            CompanyType.PRIVATE_UNLIMITED,
+            CompanyType.PRIVATE_UNLIMITED_NSC
         ];
         // Allow limited partnership certificate if company is active
         if (companyStatus === "active") {
-            acceptableCompanyTypes.push("limited-partnership")
+            acceptableCompanyTypes.push(CompanyType.LIMITED_PARTNERSHIP)
         }
 
         let startNowUrl;

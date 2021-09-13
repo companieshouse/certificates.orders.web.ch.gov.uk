@@ -35,6 +35,14 @@ export const SERVICE_NAME_CERTIFICATES = "Order a certificate";
 
 export const PIWIK_SERVICE_NAME_CERTIFICATES = "order-a-certificate";
 
+export const SERVICE_NAME_LP_CERTIFICATES = "Order a LP certificate";
+export const PIWIK_SERVICE_NAME_LP_CERTIFICATES = "order-a-lp-certificate";
+export const LP_CERTIFICATE_PIWIK_START_GOAL_ID = getEnvironmentValue("LP_CERTIFICATE_PIWIK_START_GOAL_ID");
+
+export const SERVICE_NAME_LLP_CERTIFICATES = "Order a LLP certificate";
+export const PIWIK_SERVICE_NAME_LLP_CERTIFICATES = "order-a-llp-certificate";
+export const LLP_CERTIFICATE_PIWIK_START_GOAL_ID = getEnvironmentValue("LLP_CERTIFICATE_PIWIK_START_GOAL_ID");
+
 export const SERVICE_NAME_MISSING_IMAGE_DELIVERY = "Request a document";
 
 export const PIWIK_SERVICE_NAME_MISSING_IMAGE_DELIVERY = "request-a-document";

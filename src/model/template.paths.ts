@@ -26,6 +26,7 @@ export const LP_CERTIFICATE_CHECK_DETAILS: string = `${lpCertRoot}/check-details
 
 export const LLP_CERTIFICATE_INDEX: string = `${llpCertRoot}/index`;
 export const LLP_CERTIFICATE_OPTIONS: string = `${llpCertRoot}/options`;
+export const LLP_CERTIFICATE_REGISTERED_OFFICE_OPTIONS: string = `${llpCertRoot}/registered-office-options`;
 export const LLP_CERTIFICATE_DESIGNATED_MEMBERS_OPTIONS: string = `${llpCertRoot}/designated-members-options`
 export const LLP_CERTIFICATE_MEMBERS_OPTIONS: string = `${llpCertRoot}/members-options`
 export const LLP_CERTIFICATE_CHECK_DETAILS: string = `${llpCertRoot}/check-details`;
