@@ -10,6 +10,7 @@ import { APPLICATION_NAME } from "../../../config/config";
 import CertificateSessionData from "../../../session/CertificateSessionData";
 import { PrinciplePlaceOfBusinessOptionName } from "./PrinciplePlaceOfBusinessOptionName";
 import { LP_ROOT_CERTIFICATE, replaceCompanyNumber } from "../../../model/page.urls";
+import {AddressRecordsType} from "../../../model/AddressRecordsType";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -85,28 +86,28 @@ export const setPrinciplePlaceOption = (option: string): PrinciplePlaceOfBusines
     switch (option) {
     case PrinciplePlaceOfBusinessOptionName.CURRENT_ADDRESS : {
         initialPrinciplePlaceOption = {
-            includeAddressRecordsType: "current",
+            includeAddressRecordsType: AddressRecordsType.CURRENT,
             includeDates: false
         };
         break;
     }
     case PrinciplePlaceOfBusinessOptionName.CURRENT_ADDRESS_AND_THE_ONE_PREVIOUS: {
         initialPrinciplePlaceOption = {
-            includeAddressRecordsType: "current-and-previous",
+            includeAddressRecordsType: AddressRecordsType.CURRENT_AND_PREVIOUS,
             includeDates: false
         };
         break;
     }
     case PrinciplePlaceOfBusinessOptionName.CURRENT_ADDRESS_AND_THE_TWO_PREVIOUS: {
         initialPrinciplePlaceOption = {
-            includeAddressRecordsType: "current-previous-and-prior",
+            includeAddressRecordsType: AddressRecordsType.CURRENT_PREVIOUS_AND_PRIOR,
             includeDates: false
         };
         break;
     }
     case PrinciplePlaceOfBusinessOptionName.ALL_CURRENT_AND_PREVIOUS_ADDRESSES: {
         initialPrinciplePlaceOption = {
-            includeAddressRecordsType: "all",
+            includeAddressRecordsType: AddressRecordsType.ALL,
             includeDates: false
         };
         break;
