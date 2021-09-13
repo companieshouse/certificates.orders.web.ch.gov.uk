@@ -3,7 +3,7 @@ import { CompanyProfile, CompanyProfileResource } from "@companieshouse/api-sdk-
 import { BasketItem, ItemUriPostRequest, Basket, BasketPatchRequest } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 import { CertificateItemPostRequest, CertificateItemPatchRequest, CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { CertifiedCopyItem, CertifiedCopyItemResource } from "@companieshouse/api-sdk-node/dist/services/order/certified-copies/types";
-import { API_KEY, API_URL, APPLICATION_NAME } from "../config/config";
+import { API_URL, APPLICATION_NAME } from "../config/config";
 import { createLogger } from "ch-structured-logging";
 import Resource from "@companieshouse/api-sdk-node/dist/services/resource";
 import createError from "http-errors";

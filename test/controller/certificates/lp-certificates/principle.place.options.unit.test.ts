@@ -1,6 +1,7 @@
 import chai from "chai";
 import { generateBackLink, optionFilter, setPrinciplePlaceOption } from "../../../../src/controllers/certificates/lp-certificates/principle.place.options.controller";
 import { PrinciplePlaceOfBusinessOptionName } from "../../../../src/controllers/certificates/lp-certificates/PrinciplePlaceOfBusinessOptionName";
+import {AddressRecordsType} from "../../../../src/model/AddressRecordsType";
 
 describe("principle.place.options.controller.unit", () => {
     describe("setPrinciplePlaceOption", () => {
@@ -8,28 +9,28 @@ describe("principle.place.options.controller.unit", () => {
             const option = PrinciplePlaceOfBusinessOptionName.CURRENT_ADDRESS;
             const returnedPrinciplePlaceOption = setPrinciplePlaceOption(option);
 
-            chai.expect(returnedPrinciplePlaceOption?.includeAddressRecordsType).to.equal("current");
+            chai.expect(returnedPrinciplePlaceOption?.includeAddressRecordsType).to.equal(AddressRecordsType.CURRENT);
         });
 
         it("should set office option to current-and-previous", () => {
             const option = PrinciplePlaceOfBusinessOptionName.CURRENT_ADDRESS_AND_THE_ONE_PREVIOUS;
             const returnedPrinciplePlaceOption = setPrinciplePlaceOption(option);
 
-            chai.expect(returnedPrinciplePlaceOption?.includeAddressRecordsType).to.equal("current-and-previous");
+            chai.expect(returnedPrinciplePlaceOption?.includeAddressRecordsType).to.equal(AddressRecordsType.CURRENT_AND_PREVIOUS);
         });
 
         it("should set office option to current-previous-and-prior", () => {
             const option = PrinciplePlaceOfBusinessOptionName.CURRENT_ADDRESS_AND_THE_TWO_PREVIOUS;
             const returnedPrinciplePlaceOption = setPrinciplePlaceOption(option);
 
-            chai.expect(returnedPrinciplePlaceOption?.includeAddressRecordsType).to.equal("current-previous-and-prior");
+            chai.expect(returnedPrinciplePlaceOption?.includeAddressRecordsType).to.equal(AddressRecordsType.CURRENT_PREVIOUS_AND_PRIOR);
         });
 
         it("should set office option to all", () => {
             const option = PrinciplePlaceOfBusinessOptionName.ALL_CURRENT_AND_PREVIOUS_ADDRESSES;
             const returnedPrinciplePlaceOption = setPrinciplePlaceOption(option);
 
-            chai.expect(returnedPrinciplePlaceOption?.includeAddressRecordsType).to.equal("all");
+            chai.expect(returnedPrinciplePlaceOption?.includeAddressRecordsType).to.equal(AddressRecordsType.ALL);
         });
     });
 
