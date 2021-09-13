@@ -1,0 +1,94 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  {% if errorList.length > 0 %}
+    Error:
+  {% endif %}
+  {{ "Full list of registered office options - Order a certificate - GOV.UK" if isFullPage else "Registered office options - Order a certificate - GOV.UK" }}
+{% endblock %}
+
+{% set mainClasses = "govuk-main-wrapper--l" %}
+{% block beforeContent %}
+  {{ govukBackLink ({
+    text: "Back",
+    href: backLink
+  }) 
+}}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds-from-desktop">
+      <form method="post">
+
+        {% if errorList.length > 0 %}
+          {{ govukErrorSummary({
+            titleText: ERROR_SUMMARY_TITLE,
+            errorList: errorList
+          }) }}
+        {% endif %}
+
+        {{ govukRadios({
+            idPrefix: "registered-office",
+            name: "registeredOffice",
+            fieldset: {
+              legend: {
+                text: "Choose from the full list of registered office addresses" if isFullPage else "What registered office address information do you need?",
+                isPageHeading: true,
+                classes: "govuk-fieldset__legend--xl"
+              }
+            },
+            errorMessage: registeredOfficeOptionError,
+            hint: {
+                text: "No dates will be included on your certificate."
+              },
+
+            items: optionFilter([
+              {
+                value: "currentAddress",
+                text: "Current address",
+                attributes: {
+                  "data-event-id" : "certificate-reg-office-address-current"
+                },
+                display: true
+              },
+              {
+                value: "currentAddressAndTheOnePrevious",
+                text: "Current address and the one previous",
+                attributes: {
+                  "data-event-id" : "certificate-reg-office-address-current-previous"
+                },
+                display: true
+              },
+              {
+                value: "currentAddressAndTheTwoPrevious",
+                text: "Current address and the two previous",
+                attributes: {
+                  "data-event-id" : "certificate-reg-office-address-current-two-previous"
+                },
+                display: isFullPage
+              },
+              {
+                value: "allCurrentAndPreviousAddresses",
+                text: "All current and previous addresses",
+                attributes: {
+                  "data-event-id" : "certificate-reg-office-address-all"
+                },
+                display: isFullPage
+              }
+            ])
+            }) }}
+
+            {{ govukButton({
+              text: "Continue",
+              attributes: {
+                "data-event-id": "continue-button",
+                id: "submit"
+                }
+            }) }}
+        {% if isFullPage %} <input name="layout" type="hidden" value="full"/> {% endif %}
+      </form>
+      {% if not isFullPage %} <a class="govuk-link govuk-body" href="registered-office-options?layout=full">I need additional address information</a> {% endif %}
+    </div>
+  </div>
+{% endblock %}
