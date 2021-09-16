@@ -8,7 +8,7 @@ import { APPLICATION_NAME } from "../../../config/config";
 import { replaceCompanyNumber, LP_ROOT_CERTIFICATE } from "../../../model/page.urls";
 
 const GOOD_STANDING_FIELD: string = "goodStanding";
-const PRINCIPLE_PLACE_OF_BUSINESS_FIELD: string = "principlePlaceOfBusiness";
+const PRINCIPAL_PLACE_OF_BUSINESS_FIELD: string = "principalPlaceOfBusiness";
 const GENERAL_PARTNERS_FIELD: string = "generalPartners";
 const LIMITED_PARTNERS_FIELD: string = "limitedPartners";
 const GENERAL_NATURE_OF_BUSINESS_FIELD: string = "generalNatureOfBusiness";
@@ -50,8 +50,8 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const patchResponse = await patchCertificateItem(accessToken, req.params.certificateId, certificateItem);
         logger.info(`Patched certificate item with certificate options, id=${req.params.certificateId}, user_id=${userId}, company_number=${patchResponse.companyNumber}, certificate_options=${JSON.stringify(certificateItem)}`);
 
-        if (hasOption(moreInfo, PRINCIPLE_PLACE_OF_BUSINESS_FIELD)) {
-            return res.redirect("principle-place-of-business-options");
+        if (hasOption(moreInfo, PRINCIPAL_PLACE_OF_BUSINESS_FIELD)) {
+            return res.redirect("principal-place-of-business-options");
         } else {
             return res.redirect("delivery-details");
         }
@@ -71,7 +71,7 @@ export const setItemOptions = (options: string[]): ItemOptionsRequest => {
         limitedPartnerDetails: {
             includeBasicInformation: null
         },
-        principlePlaceOfBusinessDetails: {
+        principalPlaceOfBusinessDetails: {
             includeAddressRecordsType: null
         },
         includeGeneralNatureOfBusinessInformation: null
@@ -83,8 +83,8 @@ export const setItemOptions = (options: string[]): ItemOptionsRequest => {
                 itemOptionsAccum.includeGoodStandingInformation = true;
                 break;
             }
-            case PRINCIPLE_PLACE_OF_BUSINESS_FIELD: {
-                itemOptionsAccum.principlePlaceOfBusinessDetails = { includeAddressRecordsType: "current" };
+            case PRINCIPAL_PLACE_OF_BUSINESS_FIELD: {
+                itemOptionsAccum.principalPlaceOfBusinessDetails = { includeAddressRecordsType: "current" };
                 break;
             }
             case GENERAL_PARTNERS_FIELD: {

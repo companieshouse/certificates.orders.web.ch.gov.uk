@@ -113,7 +113,7 @@ const dummyCertificateItemSDKResponse: Resource<CertificateItem> = {
             limitedPartnerDetails: {
                 includeBasicInformation: false
             },
-            principlePlaceOfBusinessDetails: {
+            principalPlaceOfBusinessDetails: {
                 includeDates: false,
                 includeAddressRecordsType: "no"
             },

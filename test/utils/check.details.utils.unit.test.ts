@@ -70,7 +70,7 @@ const itemOptions: ItemOptions = {
     limitedPartnerDetails: {
         includeBasicInformation: false
     },
-    principlePlaceOfBusinessDetails: {
+    principalPlaceOfBusinessDetails: {
         includeDates: false,
         includeAddressRecordsType: "no"
     },

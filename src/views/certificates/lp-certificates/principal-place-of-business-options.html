@@ -4,7 +4,7 @@
   {% if errorList.length > 0 %}
     Error:
   {% endif %}
-  {{ "Full list of principle place of business options - Order a certificate - GOV.UK" if isFullPage else "Principle place of business options - Order a certificate - GOV.UK" }}
+  {{ "Full list of principal place of business options - Order a certificate - GOV.UK" if isFullPage else "Principal place of business options - Order a certificate - GOV.UK" }}
 {% endblock %}
 
 {% set mainClasses = "govuk-main-wrapper--l" %}
@@ -29,16 +29,16 @@
         {% endif %}
 
         {{ govukRadios({
-            idPrefix: "principle-place-of-business",
-            name: "principlePlace",
+            idPrefix: "principal-place-of-business",
+            name: "principalPlace",
             fieldset: {
               legend: {
-                text: "Choose from the full list of principle places of business" if isFullPage else "What principle place of business information do you need?",
+                text: "Choose from the full list of principal places of business" if isFullPage else "What principal place of business information do you need?",
                 isPageHeading: true,
                 classes: "govuk-fieldset__legend--xl"
               }
             },
-            errorMessage: principlePlaceOptionError,
+            errorMessage: principalPlaceOptionError,
             hint: {
                 text: "No dates will be included on your certificate."
               },
@@ -48,7 +48,7 @@
                 value: "currentAddress",
                 text: "Current address",
                 attributes: {
-                  "data-event-id" : "certificate-principle-place-of-business-current"
+                  "data-event-id" : "certificate-principal-place-of-business-current"
                 },
                 display: true
               },
@@ -56,7 +56,7 @@
                 value: "currentAddressAndTheOnePrevious",
                 text: "Current address and the one previous",
                 attributes: {
-                  "data-event-id" : "certificate-principle-place-of-business-current-previous"
+                  "data-event-id" : "certificate-principal-place-of-business-current-previous"
                 },
                 display: true
               },
@@ -64,7 +64,7 @@
                 value: "currentAddressAndTheTwoPrevious",
                 text: "Current address and the two previous",
                 attributes: {
-                  "data-event-id" : "certificate-principle-place-of-business-current-two-previous"
+                  "data-event-id" : "certificate-principal-place-of-business-current-two-previous"
                 },
                 display: isFullPage
               },
@@ -72,7 +72,7 @@
                 value: "allCurrentAndPreviousAddresses",
                 text: "All current and previous addresses",
                 attributes: {
-                  "data-event-id" : "certificate-principle-place-of-business-all"
+                  "data-event-id" : "certificate-principal-place-of-business-all"
                 },
                 display: isFullPage
               }
@@ -88,7 +88,7 @@
             }) }}
         {% if isFullPage %} <input name="layout" type="hidden" value="full"/> {% endif %}
       </form>
-      {% if not isFullPage %} <a class="govuk-link govuk-body" href="principle-place-of-business-options?layout=full">I need additional address information</a> {% endif %}
+      {% if not isFullPage %} <a class="govuk-link govuk-body" href="principal-place-of-business-options?layout=full">I need additional address information</a> {% endif %}
     </div>
   </div>
 {% endblock %}

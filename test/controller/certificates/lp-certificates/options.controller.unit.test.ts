@@ -12,11 +12,11 @@ describe("lp.certificate.options.controller.unit", () => {
             chai.expect(returnedItemOptions?.includeGoodStandingInformation).to.be.true;
         });
 
-        it("should set includeAddressRecordsType to current, when option is principle place of business", () => {
-            const options = ["principlePlaceOfBusiness"];
+        it("should set includeAddressRecordsType to current, when option is principal place of business", () => {
+            const options = ["principalPlaceOfBusiness"];
             const returnedItemOptions = setItemOptions(options);
 
-            chai.expect(returnedItemOptions?.principlePlaceOfBusinessDetails?.includeAddressRecordsType).to.equal("current");
+            chai.expect(returnedItemOptions?.principalPlaceOfBusinessDetails?.includeAddressRecordsType).to.equal("current");
         });
 
         it("should set includeBasicInformation on GeneralPartnerDetails to true, when the option is general partners", () => {
@@ -34,11 +34,11 @@ describe("lp.certificate.options.controller.unit", () => {
         });            
 
         it("should set multiple itemOptions, when multiple options are set", () => {
-            const options = ["limitedPartners", "goodStanding", "principlePlaceOfBusiness"];
+            const options = ["limitedPartners", "goodStanding", "principalPlaceOfBusiness"];
             const returnedItemOptions = setItemOptions(options);
 
             chai.expect(returnedItemOptions?.includeGoodStandingInformation).to.be.true;
-            chai.expect(returnedItemOptions?.principlePlaceOfBusinessDetails?.includeAddressRecordsType).to.equal("current");
+            chai.expect(returnedItemOptions?.principalPlaceOfBusinessDetails?.includeAddressRecordsType).to.equal("current");
             chai.expect(returnedItemOptions?.generalPartnerDetails?.includeBasicInformation).to.be.null;
             chai.expect(returnedItemOptions?.limitedPartnerDetails?.includeBasicInformation).to.be.true;
         });
@@ -48,7 +48,7 @@ describe("lp.certificate.options.controller.unit", () => {
             const returnedItemOptions = setItemOptions(options);
 
             chai.expect(returnedItemOptions?.includeGoodStandingInformation).to.be.null;
-            chai.expect(returnedItemOptions?.principlePlaceOfBusinessDetails?.includeAddressRecordsType).to.be.null;
+            chai.expect(returnedItemOptions?.principalPlaceOfBusinessDetails?.includeAddressRecordsType).to.be.null;
             chai.expect(returnedItemOptions?.generalPartnerDetails?.includeBasicInformation).to.be.null;
             chai.expect(returnedItemOptions?.limitedPartnerDetails?.includeBasicInformation).to.be.null;
         });
@@ -57,7 +57,7 @@ describe("lp.certificate.options.controller.unit", () => {
             const returnedItemOptions = setItemOptions(undefined as unknown as string[]);
 
             chai.expect(returnedItemOptions?.includeGoodStandingInformation).to.be.null;
-            chai.expect(returnedItemOptions?.principlePlaceOfBusinessDetails?.includeAddressRecordsType).to.be.null;
+            chai.expect(returnedItemOptions?.principalPlaceOfBusinessDetails?.includeAddressRecordsType).to.be.null;
             chai.expect(returnedItemOptions?.generalPartnerDetails?.includeBasicInformation).to.be.null;
             chai.expect(returnedItemOptions?.limitedPartnerDetails?.includeBasicInformation).to.be.null;
         });
