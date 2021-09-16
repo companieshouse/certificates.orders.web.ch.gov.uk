@@ -43,7 +43,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const itemOptions: ItemOptions = certificateItem.itemOptions;
         const basket: Basket = await getBasket(accessToken);
         const isNotDissolutionCertificateType: Boolean = itemOptions.certificateType !== "dissolution";
-        const includeAddressRecordsType: string | undefined = itemOptions.principlePlaceOfBusinessDetails?.includeAddressRecordsType;
+        const includeAddressRecordsType: string | undefined = itemOptions.principalPlaceOfBusinessDetails?.includeAddressRecordsType;
 
         return res.render(LP_CERTIFICATE_CHECK_DETAILS, {
             companyName: certificateItem.companyName,
@@ -58,7 +58,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             isNotDissolutionCertificateType,
             templateName: LP_CERTIFICATE_CHECK_DETAILS,
             statementOfGoodStanding: isOptionSelected(itemOptions.includeGoodStandingInformation),
-            principlePlaceOfBusiness: mapPlaceOfBusinessAddress(includeAddressRecordsType),
+            principalPlaceOfBusiness: mapPlaceOfBusinessAddress(includeAddressRecordsType),
             generalPartners: isOptionSelected(itemOptions.generalPartnerDetails?.includeBasicInformation),
             limitedPartners: isOptionSelected(itemOptions.limitedPartnerDetails?.includeBasicInformation),
             generalNatureOfBusiness: isOptionSelected(itemOptions.includeGeneralNatureOfBusinessInformation)

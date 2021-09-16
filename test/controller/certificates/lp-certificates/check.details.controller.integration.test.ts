@@ -123,8 +123,8 @@ describe("LP certificate.check.details.controller.integration", () => {
         });
     });
 
-    describe("check correct value is shown for principle place of business field", () => {
-        it("returns the mapped value for principle place of business", async () => {
+    describe("check correct value is shown for principal place of business field", () => {
+        it("returns the mapped value for principal place of business", async () => {
             const certificateItem = {
                 companyName: "test company",
                 companyNumber: "00000000",
@@ -135,7 +135,7 @@ describe("LP certificate.check.details.controller.integration", () => {
                     certificateType: "cert type",
                     forename: "john",
                     surname: "smith",
-                    principlePlaceOfBusinessDetails: {
+                    principalPlaceOfBusinessDetails: {
                         includeAddressRecordsType: "all"
                     }
                 }
@@ -153,7 +153,7 @@ describe("LP certificate.check.details.controller.integration", () => {
             const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect($(".principlePlaceOfBusiness").text().trim()).to.equal("All current and previous addresses");
+            chai.expect($(".principalPlaceOfBusiness").text().trim()).to.equal("All current and previous addresses");
         });
     });
 

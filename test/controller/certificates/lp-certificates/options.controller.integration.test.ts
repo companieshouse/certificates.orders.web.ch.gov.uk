@@ -84,7 +84,7 @@ describe("lp.certificate.options.controller.integration", () => {
             chai.expect(resp.text).to.include("Found. Redirecting to delivery-details");
         });
 
-        it("redirects the user to the principle-place-of-business-options page", async () => {
+        it("redirects the user to the principal-place-of-business-options page", async () => {
             const certificateDetails = {} as CertificateItem;
 
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
@@ -97,11 +97,11 @@ describe("lp.certificate.options.controller.integration", () => {
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
                 .redirects(0)
                 .send({
-                    moreInfo: ["goodStanding", "principlePlaceOfBusiness"]
+                    moreInfo: ["goodStanding", "principalPlaceOfBusiness"]
                 });
 
             chai.expect(resp.status).to.equal(302);
-            chai.expect(resp.text).to.include("Found. Redirecting to principle-place-of-business-options");
+            chai.expect(resp.text).to.include("Found. Redirecting to principal-place-of-business-options");
         });
     });
 });

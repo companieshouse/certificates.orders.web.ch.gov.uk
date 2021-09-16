@@ -245,7 +245,7 @@ describe("certificate.delivery.details.controller", () => {
             const basketDetails = {} as Basket;
             const certificateItem = {
                 itemOptions: {
-                    principlePlaceOfBusinessDetails: {
+                    principalPlaceOfBusinessDetails: {
                         includeAddressRecordsType: "current"
                     }
                 }
@@ -262,7 +262,7 @@ describe("certificate.delivery.details.controller", () => {
             const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect($(".govuk-back-link").attr("href")).to.include("principle-place-of-business-options");
+            chai.expect($(".govuk-back-link").attr("href")).to.include("principal-place-of-business-options");
         });
     });
 });

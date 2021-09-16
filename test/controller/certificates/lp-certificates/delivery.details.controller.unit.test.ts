@@ -22,13 +22,13 @@ describe("delivery.details.controller.unit", () => {
         it("should link to the abbreviated place of business option page", () => {
             const certificateItem = {
                 itemOptions: {
-                    principlePlaceOfBusinessDetails: {
+                    principalPlaceOfBusinessDetails: {
                         includeAddressRecordsType: "current"
                     }
                 }
             } as CertificateItem;
 
-            chai.expect(setBackLink(certificateItem, fullPageFalse)).to.equal("principle-place-of-business-options");
+            chai.expect(setBackLink(certificateItem, fullPageFalse)).to.equal("principal-place-of-business-options");
         });
     });
 
@@ -36,13 +36,13 @@ describe("delivery.details.controller.unit", () => {
         it("should link to the full place of business option page", () => {
             const certificateItem = {
                 itemOptions: {
-                    principlePlaceOfBusinessDetails: {
+                    principalPlaceOfBusinessDetails: {
                         includeAddressRecordsType: "all"
                     }
                 }
             } as CertificateItem;
 
-            chai.expect(setBackLink(certificateItem, fullPageTrue)).to.equal("principle-place-of-business-options?layout=full");
+            chai.expect(setBackLink(certificateItem, fullPageTrue)).to.equal("principal-place-of-business-options?layout=full");
         });
 
     });

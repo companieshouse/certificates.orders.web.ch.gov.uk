@@ -2,28 +2,28 @@ import { check } from "express-validator";
 import * as errorMessages from "../../model/error.messages";
 import { createGovUkErrorData, GovUkErrorData } from "../../model/govuk.error.data";
 
-const PRINCIPLE_PLACE_OPTION: string = "principlePlace";
+const PRINCIPAL_PLACE_OPTION: string = "principalPlace";
 
-export const principlePlaceOfBusinessValidationRules =
+export const principalPlaceOfBusinessValidationRules =
     [
-        check(PRINCIPLE_PLACE_OPTION)
-            .not().isEmpty().withMessage(errorMessages.PRINCIPLE_PLACE_OPTION_NOT_SELECTED)
+        check(PRINCIPAL_PLACE_OPTION)
+            .not().isEmpty().withMessage(errorMessages.PRINCIPAL_PLACE_OPTION_NOT_SELECTED)
     ];
 
 export const validate = (validationErrors) => {
-    let principlePlaceOptionError;
+    let principalPlaceOptionError;
 
     const validationErrorList = validationErrors.array({ onlyFirstError: true }).map((error) => {
         const govUkErrorData: GovUkErrorData = createGovUkErrorData(error.msg, "#" + error.param, true, "");
 
-        if (error.param === PRINCIPLE_PLACE_OPTION) {
-            principlePlaceOptionError = govUkErrorData;
+        if (error.param === PRINCIPAL_PLACE_OPTION) {
+            principalPlaceOptionError = govUkErrorData;
         }
         return govUkErrorData;
     });
 
     return {
         errorList: validationErrorList,
-        principlePlaceOptionError
+        principalPlaceOptionError: principalPlaceOptionError
     };
 };
