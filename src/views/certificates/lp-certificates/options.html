@@ -61,7 +61,7 @@
             hint: {
              text: "Details of all current general partners."
             },
-            checked: true if itemOptions.generalPartners.includeBasicInformation else false,
+            checked: true if itemOptions.generalPartnerDetails.includeBasicInformation else false,
             attributes: {
               "data-event-id" : "general-partners-option"
             }
@@ -72,7 +72,7 @@
             hint: {
               text: "Details of all current limited partners."
             },
-            checked: true if itemOptions.secretaryDetails.includeBasicInformation else false,
+            checked: true if itemOptions.limitedPartnerDetails.includeBasicInformation else false,
             attributes: {
               "data-event-id" : "limited-partners-option"
             }
@@ -83,7 +83,7 @@
             hint: {
               text: "Summary of company's principal nature of business."
             },
-            checked: true if itemOptions.includeCompanyObjectsInformation else false,
+            checked: true if itemOptions.includeGeneralNatureOfBusinessInformation else false,
             attributes: {
               "data-event-id" : "general-nature-of-business-option"
             }
