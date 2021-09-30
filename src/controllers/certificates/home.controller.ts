@@ -12,12 +12,10 @@ import {
     APPLICATION_NAME,
     API_KEY,
     DISPATCH_DAYS,
-    DYNAMIC_LP_CERTIFICATE_ORDERS_ENABLED,
-    DYNAMIC_LLP_CERTIFICATE_ORDERS_ENABLED
 } from "../../config/config";
 import {YOU_CANNOT_USE_THIS_SERVICE} from "../../model/template.paths";
-import createError from "http-errors";
 import {CompanyType} from "../../model/CompanyType";
+import {FEATURE_FLAGS} from "../../config/FeatureFlags";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -60,12 +58,12 @@ export default async (req: Request, res: Response, next: NextFunction) => {
                 startNowUrl = replaceCompanyNumber(DISSOLVED_CERTIFICATE_TYPE, companyNumber);
                 logger.debug(`Certificates Home Controller - Dissolved Company, company_number=${companyNumber}, service_url=${SERVICE_URL}, start_now_url=${startNowUrl}`);
             } else {
-                if (DYNAMIC_LP_CERTIFICATE_ORDERS_ENABLED === "true" && companyType === "limited-partnership") {
+                if (FEATURE_FLAGS.lpCertificateOrdersEnabled && companyType === "limited-partnership") {
                     landingPage = "certificates/lp-certificates/index";
                     SERVICE_URL = `/company/${companyNumber}/orderable/lp-certificates`;
                     startNowUrl = replaceCompanyNumber(LP_CERTIFICATE_TYPE, companyNumber);
                     logger.debug(`Certificates Home Controller - Active Limited Partnership Company, company_number=${companyNumber}, service_url=${SERVICE_URL}, start_now_url=${startNowUrl}`);
-                } else if (DYNAMIC_LLP_CERTIFICATE_ORDERS_ENABLED === "true" && companyType === "llp") {
+                } else if (FEATURE_FLAGS.llpCertificateOrdersEnabled && companyType === "llp") {
                     landingPage = "certificates/llp-certificates/index";
                     SERVICE_URL = `/company/${companyNumber}/orderable/llp-certificates`;
                     startNowUrl = replaceCompanyNumber(LLP_CERTIFICATE_TYPE, companyNumber);

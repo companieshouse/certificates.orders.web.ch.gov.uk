@@ -8,10 +8,11 @@ import { getUserId } from "../session/helper";
 import {CompanyProfile} from "@companieshouse/api-sdk-node/dist/services/company-profile";
 import {getCompanyProfile} from "../client/api.client";
 import { CompanyType } from "model/CompanyType";
+import {FEATURE_FLAGS, FeatureFlags} from "../config/FeatureFlags";
 
 const logger = createLogger(APPLICATION_NAME);
 
-export default async (req: Request, res: Response, next: NextFunction) => {
+export default async (req: Request, res: Response, next: NextFunction, featureFlags: FeatureFlags = FEATURE_FLAGS) => {
     try {
         if (req.path !== "/") {
             if (!req.session) {
@@ -24,9 +25,9 @@ export default async (req: Request, res: Response, next: NextFunction) => {
                 const companyProfile: CompanyProfile = await getCompanyProfile(API_KEY, companyNumber);
                 const companyType: string = companyProfile.type;
                 let returnToUrl: string;
-                if (DYNAMIC_LP_CERTIFICATE_ORDERS_ENABLED === "true" && CompanyType.LIMITED_PARTNERSHIP === companyType) {
+                if (featureFlags.lpCertificateOrdersEnabled && CompanyType.LIMITED_PARTNERSHIP === companyType) {
                     returnToUrl = replaceCompanyNumber(LP_CERTIFICATE_TYPE, companyNumber);
-                } else if (DYNAMIC_LLP_CERTIFICATE_ORDERS_ENABLED === "true" && CompanyType.LIMITED_LIABILITY_PARTNERSHIP === companyType) {
+                } else if (featureFlags.llpCertificateOrdersEnabled && CompanyType.LIMITED_LIABILITY_PARTNERSHIP === companyType) {
                     returnToUrl = replaceCompanyNumber(LLP_CERTIFICATE_TYPE, companyNumber);
                 } else {
                     returnToUrl = replaceCompanyNumber(CERTIFICATE_TYPE, companyNumber);
