@@ -21,29 +21,42 @@ type LandingPage = { landingPage: string, startNowUrl: string, serviceUrl: strin
 type CompanyDetail = { companyNumber: string, type: string };
 
 const logger = createLogger(APPLICATION_NAME);
+
+const lpLandingPage = (companyNumber: string) => {
+    return {
+        landingPage: "certificates/lp-certificates/index",
+        startNowUrl: replaceCompanyNumber(LP_CERTIFICATE_TYPE, companyNumber),
+        serviceUrl: `/company/${companyNumber}/orderable/lp-certificates`
+    };
+}
+
+const llpLandingPage = (companyNumber: string) => {
+    return {
+        landingPage: "certificates/llp-certificates/index",
+        startNowUrl: replaceCompanyNumber(LLP_CERTIFICATE_TYPE, companyNumber),
+        serviceUrl: `/company/${companyNumber}/orderable/llp-certificates`
+    };
+}
+
+const otherLandingPage = (companyNumber: string) => {
+    return {
+        landingPage: "certificates/index",
+        startNowUrl: replaceCompanyNumber(CERTIFICATE_TYPE, companyNumber),
+        serviceUrl: `/company/${companyNumber}/orderable/certificates`
+    };
+}
+
 const featureFlagsOnStrategy = ({companyNumber, type}: CompanyDetail): LandingPage => {
     let landingPage: LandingPage;
 
     if (CompanyType.LIMITED_PARTNERSHIP === type) {
-        landingPage = {
-            landingPage: "certificates/lp-certificates/index",
-            startNowUrl: replaceCompanyNumber(LP_CERTIFICATE_TYPE, companyNumber),
-            serviceUrl: `/company/${companyNumber}/orderable/lp-certificates`
-        };
+        landingPage = lpLandingPage(companyNumber);
         logger.debug(`Certificates Home Controller - Active Limited Partnership Company, company_number=${companyNumber}, service_url=${landingPage.serviceUrl}, start_now_url=${landingPage.startNowUrl}`);
     } else if (CompanyType.LIMITED_LIABILITY_PARTNERSHIP === type) {
-        landingPage = {
-            landingPage: "certificates/llp-certificates/index",
-            startNowUrl: replaceCompanyNumber(LLP_CERTIFICATE_TYPE, companyNumber),
-            serviceUrl: `/company/${companyNumber}/orderable/llp-certificates`
-        };
+        landingPage = llpLandingPage(companyNumber);
         logger.debug(`Certificates Home Controller - Active Limited Liability Partnership Company, company_number=${companyNumber}, service_url=${landingPage.serviceUrl}, start_now_url=${landingPage.startNowUrl}`);
     } else {
-        landingPage = {
-            landingPage: "certificates/index",
-            startNowUrl: replaceCompanyNumber(CERTIFICATE_TYPE, companyNumber),
-            serviceUrl: `/company/${companyNumber}/orderable/certificates`
-        };
+        landingPage = otherLandingPage(companyNumber);
         logger.debug(`Certificates Home Controller - Active Company, company_number=${companyNumber}, service_url=${landingPage.serviceUrl}, start_now_url=${landingPage.startNowUrl}`);
     }
     return landingPage;
@@ -53,18 +66,10 @@ const lpFeatureFlagOnStrategy = ({companyNumber, type}: CompanyDetail): LandingP
     let landingPage: LandingPage;
 
     if (CompanyType.LIMITED_PARTNERSHIP === type) {
-        landingPage = {
-            landingPage: "certificates/lp-certificates/index",
-            startNowUrl: replaceCompanyNumber(LP_CERTIFICATE_TYPE, companyNumber),
-            serviceUrl: `/company/${companyNumber}/orderable/lp-certificates`
-        };
+        landingPage = lpLandingPage(companyNumber);
         logger.debug(`Certificates Home Controller - Active Limited Partnership Company, company_number=${companyNumber}, service_url=${landingPage.serviceUrl}, start_now_url=${landingPage.startNowUrl}`);
     } else {
-        landingPage = {
-            landingPage: "certificates/index",
-            startNowUrl: replaceCompanyNumber(CERTIFICATE_TYPE, companyNumber),
-            serviceUrl: `/company/${companyNumber}/orderable/certificates`
-        };
+        landingPage = otherLandingPage(companyNumber);
         logger.debug(`Certificates Home Controller - Active Company, company_number=${companyNumber}, service_url=${landingPage.serviceUrl}, start_now_url=${landingPage.startNowUrl}`);
     }
     return landingPage;
@@ -74,29 +79,17 @@ const llpFeatureFlagOnStrategy = ({companyNumber, type}: CompanyDetail): Landing
     let landingPage: LandingPage;
 
     if (CompanyType.LIMITED_LIABILITY_PARTNERSHIP === type) {
-        landingPage = {
-            landingPage: "certificates/llp-certificates/index",
-            startNowUrl: replaceCompanyNumber(LLP_CERTIFICATE_TYPE, companyNumber),
-            serviceUrl: `/company/${companyNumber}/orderable/llp-certificates`
-        };
+        landingPage = llpLandingPage(companyNumber);
         logger.debug(`Certificates Home Controller - Active Limited Liability Partnership Company, company_number=${companyNumber}, service_url=${landingPage.serviceUrl}, start_now_url=${landingPage.startNowUrl}`);
     } else {
-        landingPage = {
-            landingPage: "certificates/index",
-            startNowUrl: replaceCompanyNumber(CERTIFICATE_TYPE, companyNumber),
-            serviceUrl: `/company/${companyNumber}/orderable/certificates`
-        };
+        landingPage = otherLandingPage(companyNumber);
         logger.debug(`Certificates Home Controller - Active Company, company_number=${companyNumber}, service_url=${landingPage.serviceUrl}, start_now_url=${landingPage.startNowUrl}`);
     }
     return landingPage;
 }
 
 const featureFlagsOffStrategy = ({companyNumber}: CompanyDetail): LandingPage => {
-    const landingPage: LandingPage = {
-        landingPage: "certificates/index",
-        startNowUrl: replaceCompanyNumber(CERTIFICATE_TYPE, companyNumber),
-        serviceUrl: `/company/${companyNumber}/orderable/certificates`
-    }
+    const landingPage: LandingPage = otherLandingPage(companyNumber);
     logger.debug(`Certificates Home Controller - Active Company, company_number=${companyNumber}, service_url=${landingPage.serviceUrl}, start_now_url=${landingPage.startNowUrl}`);
 
     return landingPage;
