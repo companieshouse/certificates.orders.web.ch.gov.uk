@@ -38,10 +38,9 @@ import {
     MISSING_IMAGE_DELIVERY_PIWIK_START_GOAL_ID,
     DISSOLVED_CERTIFICATE_PIWIK_START_GOAL_ID,
     CHS_URL,
-    DYNAMIC_LP_CERTIFICATE_ORDERS_ENABLED,
-    DYNAMIC_LLP_CERTIFICATE_ORDERS_ENABLED,
     LP_CERTIFICATE_PIWIK_START_GOAL_ID, LLP_CERTIFICATE_PIWIK_START_GOAL_ID
 } from "./config/config";
+import {FEATURE_FLAGS} from "./config/FeatureFlags";
 
 const app = express();
 
@@ -174,10 +173,10 @@ if (process.env.NODE_ENV !== "production") {
 
 // apply our default router to /
 app.use("/", certRouter);
-if (DYNAMIC_LP_CERTIFICATE_ORDERS_ENABLED === "true") {
+if (FEATURE_FLAGS.lpCertificateOrdersEnabled) {
     app.use("/", lpCertRouter);
 }
-if (DYNAMIC_LLP_CERTIFICATE_ORDERS_ENABLED === "true") {
+if (FEATURE_FLAGS.llpCertificateOrdersEnabled) {
     app.use("/", llpCertRouter);
 }
 app.use("/", certCopyRouter);

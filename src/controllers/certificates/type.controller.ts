@@ -21,13 +21,13 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         logger.debug(`Certificate render function called, company_number=${companyNumber}`);
 
         if (companyStatus === "active") {
-            const certificateItemRequest = createCertificateItemRequest(companyNumber, INCORPORATION_WITH_ALL_NAME_CHANGES);
+            const certificateItemRequest = createCertificateItemRequest(companyNumber, INCORPORATION_WITH_ALL_NAME_CHANGES, companyProfile.type);
             const userId = getUserId(req.session);
             const certificateItem: CertificateItem = await postCertificateItem(accessToken, certificateItemRequest);
             logger.info(`Certificate Item created, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
             res.redirect(replaceCertificateId(CERTIFICATE_OPTIONS, certificateItem.id));
         } else {
-            const dissolvedCertificateItemRequest = createCertificateItemRequest(companyNumber, DISSOLUTION);
+            const dissolvedCertificateItemRequest = createCertificateItemRequest(companyNumber, DISSOLUTION, companyProfile.type);
             const userId = getUserId(req.session);
             const certificateItem: CertificateItem = await postCertificateItem(accessToken, dissolvedCertificateItemRequest);
             logger.info(`Dissolved certificate Item created, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
@@ -39,10 +39,11 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
     }
 };
 
-const createCertificateItemRequest = (companyNumber, certificateType: string):CertificateItemPostRequest => {
+const createCertificateItemRequest = (companyNumber, certificateType: string, companyType: string):CertificateItemPostRequest => {
     return {
         companyNumber,
         itemOptions: {
+            companyType: companyType,
             certificateType,
             deliveryMethod: "postal",
             deliveryTimescale: "standard"

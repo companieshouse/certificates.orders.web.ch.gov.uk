@@ -8,7 +8,8 @@ describe("Certificate item factory tests", () => {
         // Given
         const factory = new CertificateItemRequestFactory({
             companyNumber: "12345678",
-            companyStatus: CompanyStatus.ACTIVE
+            companyStatus: CompanyStatus.ACTIVE,
+            type: "ltd"
         });
 
         // When
@@ -20,7 +21,8 @@ describe("Certificate item factory tests", () => {
             itemOptions: {
                 certificateType: CertificateType.INCORPORATION,
                 deliveryMethod: "postal",
-                deliveryTimescale: "standard"
+                deliveryTimescale: "standard",
+                companyType: "ltd"
             },
             quantity: 1
         });
@@ -30,7 +32,8 @@ describe("Certificate item factory tests", () => {
         // Given
         const certificateItemFactory = new CertificateItemRequestFactory({
             companyNumber: "12345678",
-            companyStatus: CompanyStatus.DISSOLVED
+            companyStatus: CompanyStatus.DISSOLVED,
+            type: "ltd"
         });
 
         // When
@@ -42,7 +45,8 @@ describe("Certificate item factory tests", () => {
             itemOptions: {
                 certificateType: CertificateType.DISSOLUTION,
                 deliveryMethod: "postal",
-                deliveryTimescale: "standard"
+                deliveryTimescale: "standard",
+                companyType: "ltd"
             },
             quantity: 1
         });
