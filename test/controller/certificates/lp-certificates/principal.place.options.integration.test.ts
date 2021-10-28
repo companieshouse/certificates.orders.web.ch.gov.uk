@@ -108,7 +108,7 @@ describe("place.of.business.options.integration.test", () => {
                 .returns(Promise.resolve(certificateItemWithCurrent));
 
             const resp = await chai.request(testApp)
-                .get(LP_CERTIFICATE_PRINCIPAL_PLACE_OPTIONS)
+                .get(PRINCIPAL_PLACE_OF_BUSINESS_OPTIONS_URL)
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
 
             const $ = cheerio.load(resp.text);
@@ -124,7 +124,7 @@ describe("place.of.business.options.integration.test", () => {
                 .returns(Promise.resolve(certificateItemWithCurrentAndOnePrevious));
 
             const resp = await chai.request(testApp)
-                .get(LP_CERTIFICATE_PRINCIPAL_PLACE_OPTIONS)
+                .get(PRINCIPAL_PLACE_OF_BUSINESS_OPTIONS_URL)
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
 
             const $ = cheerio.load(resp.text);
@@ -140,7 +140,7 @@ describe("place.of.business.options.integration.test", () => {
                 .returns(Promise.resolve(certificateItemWithCurrent));
 
             const resp = await chai.request(testApp)
-                .get(LP_CERTIFICATE_PRINCIPAL_PLACE_OPTIONS + "?layout=full")
+                .get(PRINCIPAL_PLACE_OF_BUSINESS_OPTIONS_URL + "?layout=full")
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
 
             const $ = cheerio.load(resp.text);
@@ -156,7 +156,7 @@ describe("place.of.business.options.integration.test", () => {
                 .returns(Promise.resolve(certificateItemWithCurrentAndOnePrevious));
 
             const resp = await chai.request(testApp)
-                .get(LP_CERTIFICATE_PRINCIPAL_PLACE_OPTIONS + "?layout=full")
+                .get(PRINCIPAL_PLACE_OF_BUSINESS_OPTIONS_URL + "?layout=full")
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
 
             const $ = cheerio.load(resp.text);
@@ -172,7 +172,7 @@ describe("place.of.business.options.integration.test", () => {
                 .returns(Promise.resolve(certificateItemWithCurrentPreviousAndPrior));
 
             const resp = await chai.request(testApp)
-                .get(LP_CERTIFICATE_PRINCIPAL_PLACE_OPTIONS + "?layout=full")
+                .get(PRINCIPAL_PLACE_OF_BUSINESS_OPTIONS_URL + "?layout=full")
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
 
             const $ = cheerio.load(resp.text);
@@ -188,7 +188,7 @@ describe("place.of.business.options.integration.test", () => {
                 .returns(Promise.resolve(certificateItemWithAll));
 
             const resp = await chai.request(testApp)
-                .get(LP_CERTIFICATE_PRINCIPAL_PLACE_OPTIONS + "?layout=full")
+                .get(PRINCIPAL_PLACE_OF_BUSINESS_OPTIONS_URL + "?layout=full")
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
 
             const $ = cheerio.load(resp.text);
