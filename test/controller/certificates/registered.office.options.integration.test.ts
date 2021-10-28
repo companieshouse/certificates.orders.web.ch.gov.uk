@@ -144,7 +144,7 @@ describe("registered.office.options.integration.test", () => {
             chai.expect($('#registered-office-2').attr('checked')).to.equal('checked');
         });
 
-        it("renders the registered office options page with current address selected", async () => {
+        it("renders the full registered office options page with current address selected", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItemWithCurrent));
 
@@ -160,7 +160,7 @@ describe("registered.office.options.integration.test", () => {
             chai.expect($('#registered-office').attr('checked')).to.equal('checked');
         });
 
-        it("renders the registered office options page with current address and one previous selected", async () => {
+        it("renders the full registered office options page with current address and one previous selected", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItemWithCurrentAndOnePrevious));
 
@@ -176,7 +176,7 @@ describe("registered.office.options.integration.test", () => {
             chai.expect($('#registered-office-2').attr('checked')).to.equal('checked');
         });
 
-        it("renders the registered office options page with current address selected", async () => {
+        it("renders the full registered office options page with current address and two previous selected", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItemWithCurrentPreviousAndPrior));
 
@@ -192,7 +192,7 @@ describe("registered.office.options.integration.test", () => {
             chai.expect($('#registered-office-3').attr('checked')).to.equal('checked');
         });
 
-        it("renders the registered office options page with current address and one previous selected", async () => {
+        it("renders the full registered office options page with all selected", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItemWithAll));
 
