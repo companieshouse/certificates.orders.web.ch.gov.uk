@@ -26,7 +26,7 @@ describe("certificate.options.controller.unit", () => {
             chai.expect(returnedItemOptions?.includeGoodStandingInformation).to.be.true;
         });
 
-        it("should set includeAddressRecordsType to null, when option is registeredOffice", () => {
+        it("should not overwrite includeAddressRecordsType, when option is registeredOffice", () => {
             const options = ["registeredOffice"];
             const returnedItemOptions = setItemOptions(options);
 
