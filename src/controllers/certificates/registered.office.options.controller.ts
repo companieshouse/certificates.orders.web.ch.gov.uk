@@ -34,7 +34,8 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         SERVICE_URL,
         optionFilter: optionFilter,
         isFullPage: isFullPage,
-        backLink: generateBackLink(isFullPage)
+        backLink: generateBackLink(isFullPage),
+        roaSelection: certificateItem.itemOptions.registeredOfficeAddressDetails?.includeAddressRecordsType
     });
 };
 
