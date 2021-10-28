@@ -8,6 +8,7 @@ import * as apiClient from "../../../../src/client/api.client";
 import { LLP_CERTIFICATE_REGISTERED_OFFICE_OPTIONS, replaceCertificateId } from "../../../../src/model/page.urls";
 import { RegisteredOfficeAddressOptionName } from "../../../../src/controllers/certificates/llp-certificates/RegisteredOfficeAddressOptionName"
 import { REGISTERED_OFFICE_OPTION_NOT_SELECTED } from "../../../../src/model/error.messages";
+import { AddressRecordsType } from "../../../../src/model/AddressRecordsType";
 
 const CERTIFICATE_ID = "CRT-000000-000000";
 
@@ -36,6 +37,38 @@ describe("registered.office.options.integration.test", () => {
         itemOptions: {
             forename: "john",
             surname: "smith"
+        }
+    } as CertificateItem;
+    
+    const certificateItemWithCurrent = {
+        itemOptions: {
+            registeredOfficeAddressDetails: {
+                includeAddressRecordsType: AddressRecordsType.CURRENT
+            }
+        }
+    } as CertificateItem;
+
+    const certificateItemWithCurrentAndOnePrevious = {
+        itemOptions: {
+            registeredOfficeAddressDetails: {
+                includeAddressRecordsType: AddressRecordsType.CURRENT_AND_PREVIOUS
+            }
+        }
+    } as CertificateItem;
+
+    const certificateItemWithCurrentPreviousAndPrior = {
+        itemOptions: {
+            registeredOfficeAddressDetails: {
+                includeAddressRecordsType: AddressRecordsType.CURRENT_PREVIOUS_AND_PRIOR
+            }
+        }
+    } as CertificateItem;
+
+    const certificateItemWithAll = {
+        itemOptions: {
+            registeredOfficeAddressDetails: {
+                includeAddressRecordsType: AddressRecordsType.ALL
+            }
         }
     } as CertificateItem;
 
@@ -79,6 +112,102 @@ describe("registered.office.options.integration.test", () => {
             chai.expect($('h1').text().trim()).to.equal("Choose from the full list of registered office addresses");
             chai.expect($('title').text().trim()).to.equal("Full list of registered office options - Order a certificate - GOV.UK");
         })
+
+        it("renders the registered office options page with current address selected", async () => {
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItemWithCurrent));
+
+            const resp = await chai.request(testApp)
+                .get(REGISTERED_OFFICE_OPTIONS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+            const $ = cheerio.load(resp.text);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect($('h1').text().trim()).to.equal("What registered office address information do you need?");
+            chai.expect($('title').text().trim()).to.equal("Registered office options - Order a certificate - GOV.UK");
+            chai.expect($('#registered-office').attr('checked')).to.equal('checked');
+        });
+
+        it("renders the registered office options page with current address and one previous selected", async () => {
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItemWithCurrentAndOnePrevious));
+
+            const resp = await chai.request(testApp)
+                .get(REGISTERED_OFFICE_OPTIONS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+            const $ = cheerio.load(resp.text);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect($('h1').text().trim()).to.equal("What registered office address information do you need?");
+            chai.expect($('title').text().trim()).to.equal("Registered office options - Order a certificate - GOV.UK");
+            chai.expect($('#registered-office-2').attr('checked')).to.equal('checked');
+        });
+
+        it("renders the full registered office options page with current address selected", async () => {
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItemWithCurrent));
+
+            const resp = await chai.request(testApp)
+                .get(REGISTERED_OFFICE_OPTIONS_URL + "?layout=full")
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+            const $ = cheerio.load(resp.text);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect($('h1').text().trim()).to.equal("Choose from the full list of registered office addresses");
+            chai.expect($('title').text().trim()).to.equal("Full list of registered office options - Order a certificate - GOV.UK");
+            chai.expect($('#registered-office').attr('checked')).to.equal('checked');
+        });
+
+        it("renders the full registered office options page with current address and one previous selected", async () => {
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItemWithCurrentAndOnePrevious));
+
+            const resp = await chai.request(testApp)
+                .get(REGISTERED_OFFICE_OPTIONS_URL + "?layout=full")
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+            const $ = cheerio.load(resp.text);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect($('h1').text().trim()).to.equal("Choose from the full list of registered office addresses");
+            chai.expect($('title').text().trim()).to.equal("Full list of registered office options - Order a certificate - GOV.UK");
+            chai.expect($('#registered-office-2').attr('checked')).to.equal('checked');
+        });
+
+        it("renders the full registered office options page with current address and two previous selected", async () => {
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItemWithCurrentPreviousAndPrior));
+
+            const resp = await chai.request(testApp)
+                .get(REGISTERED_OFFICE_OPTIONS_URL + "?layout=full")
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+            const $ = cheerio.load(resp.text);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect($('h1').text().trim()).to.equal("Choose from the full list of registered office addresses");
+            chai.expect($('title').text().trim()).to.equal("Full list of registered office options - Order a certificate - GOV.UK");
+            chai.expect($('#registered-office-3').attr('checked')).to.equal('checked');
+        });
+
+        it("renders the full registered office options page with all selected", async () => {
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItemWithAll));
+
+            const resp = await chai.request(testApp)
+                .get(REGISTERED_OFFICE_OPTIONS_URL + "?layout=full")
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+            const $ = cheerio.load(resp.text);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect($('h1').text().trim()).to.equal("Choose from the full list of registered office addresses");
+            chai.expect($('title').text().trim()).to.equal("Full list of registered office options - Order a certificate - GOV.UK");
+            chai.expect($('#registered-office-4').attr('checked')).to.equal('checked');
+        });
     });
 
     describe("registered office options post", () => {
