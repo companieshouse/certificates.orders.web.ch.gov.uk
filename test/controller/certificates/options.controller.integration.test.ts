@@ -25,7 +25,6 @@ describe("certificate.options.controller.integration", () => {
             includeCompanyObjectsInformation: true,
             includeGoodStandingInformation: true,
             registeredOfficeAddressDetails: {
-                includeAddressRecordsType: "current"
             },
             secretaryDetails: {
                 includeBasicInformation: true

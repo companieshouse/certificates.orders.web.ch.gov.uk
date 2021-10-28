@@ -26,11 +26,12 @@ describe("certificate.options.controller.unit", () => {
             chai.expect(returnedItemOptions?.includeGoodStandingInformation).to.be.true;
         });
 
-        it("should set includeAddressRecordsType to current, when option is registeredOffice", () => {
+        it("should set includeAddressRecordsType to null, when option is registeredOffice", () => {
             const options = ["registeredOffice"];
             const returnedItemOptions = setItemOptions(options);
 
-            chai.expect(returnedItemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType).to.equal("current");
+            chai.expect(returnedItemOptions?.registeredOfficeAddressDetails).to.not.be.null;
+            chai.expect(returnedItemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType).to.be.undefined;
         });
 
         it("should set includeBasicInformation on secretaryDetails to true, when the option is secretaries", () => {
