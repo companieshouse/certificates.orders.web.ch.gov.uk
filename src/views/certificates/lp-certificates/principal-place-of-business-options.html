@@ -50,7 +50,8 @@
                 attributes: {
                   "data-event-id" : "certificate-principal-place-of-business-current"
                 },
-                display: true
+                display: true,
+                checked: true if principlePlaceOfBusinessSelection == 'current'
               },
               {
                 value: "currentAddressAndTheOnePrevious",
@@ -58,7 +59,8 @@
                 attributes: {
                   "data-event-id" : "certificate-principal-place-of-business-current-previous"
                 },
-                display: true
+                display: true,
+                checked: true if principlePlaceOfBusinessSelection == 'current-and-previous'
               },
               {
                 value: "currentAddressAndTheTwoPrevious",
@@ -66,7 +68,8 @@
                 attributes: {
                   "data-event-id" : "certificate-principal-place-of-business-current-two-previous"
                 },
-                display: isFullPage
+                display: isFullPage,
+                checked: true if principlePlaceOfBusinessSelection == 'current-previous-and-prior'
               },
               {
                 value: "allCurrentAndPreviousAddresses",
@@ -74,7 +77,8 @@
                 attributes: {
                   "data-event-id" : "certificate-principal-place-of-business-all"
                 },
-                display: isFullPage
+                display: isFullPage,
+                checked: true if principlePlaceOfBusinessSelection == 'all'
               }
             ])
             }) }}

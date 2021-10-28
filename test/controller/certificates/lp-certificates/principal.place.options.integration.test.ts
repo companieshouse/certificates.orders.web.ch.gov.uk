@@ -8,6 +8,7 @@ import * as apiClient from "../../../../src/client/api.client";
 import {LP_CERTIFICATE_PRINCIPAL_PLACE_OPTIONS, replaceCertificateId} from "../../../../src/model/page.urls";
 import {PrincipalPlaceOfBusinessOptionName} from "../../../../src/controllers/certificates/lp-certificates/PrincipalPlaceOfBusinessOptionName";
 import {PRINCIPAL_PLACE_OPTION_NOT_SELECTED} from "../../../../src/model/error.messages";
+import { AddressRecordsType } from "../../../../src/model/AddressRecordsType";
 
 const CERTIFICATE_ID = "CRT-000000-000000";
 
@@ -36,6 +37,38 @@ describe("place.of.business.options.integration.test", () => {
         itemOptions: {
             forename: "john",
             surname: "smith"
+        }
+    } as CertificateItem;
+
+    const certificateItemWithCurrent = {
+        itemOptions: {
+            principalPlaceOfBusinessDetails: {
+                includeAddressRecordsType: AddressRecordsType.CURRENT
+            }
+        }
+    } as CertificateItem;
+
+    const certificateItemWithCurrentAndOnePrevious = {
+        itemOptions: {
+            principalPlaceOfBusinessDetails: {
+                includeAddressRecordsType: AddressRecordsType.CURRENT_AND_PREVIOUS
+            }
+        }
+    } as CertificateItem;
+
+    const certificateItemWithCurrentPreviousAndPrior = {
+        itemOptions: {
+            principalPlaceOfBusinessDetails: {
+                includeAddressRecordsType: AddressRecordsType.CURRENT_PREVIOUS_AND_PRIOR
+            }
+        }
+    } as CertificateItem;
+
+    const certificateItemWithAll = {
+        itemOptions: {
+            principalPlaceOfBusinessDetails: {
+                includeAddressRecordsType: AddressRecordsType.ALL
+            }
         }
     } as CertificateItem;
 
@@ -68,7 +101,103 @@ describe("place.of.business.options.integration.test", () => {
             chai.expect(resp.status).to.equal(200);
             chai.expect($('h1').text().trim()).to.equal("Choose from the full list of principal places of business");
             chai.expect($('title').text().trim()).to.equal("Full list of principal place of business options - Order a certificate - GOV.UK");
-        })
+        });
+
+        it("renders the place of business options page with current address selected", async () => {
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItemWithCurrent));
+
+            const resp = await chai.request(testApp)
+                .get(LP_CERTIFICATE_PRINCIPAL_PLACE_OPTIONS)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+            const $ = cheerio.load(resp.text);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect($('h1').text().trim()).to.equal("What principal place of business information do you need?");
+            chai.expect($('title').text().trim()).to.equal("Principal place of business options - Order a certificate - GOV.UK");
+            chai.expect($('#principal-place-of-business').attr('checked')).to.equal('checked');
+        });
+
+        it("renders the place of business options page with current address and one previous selected", async () => {
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItemWithCurrentAndOnePrevious));
+
+            const resp = await chai.request(testApp)
+                .get(LP_CERTIFICATE_PRINCIPAL_PLACE_OPTIONS)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+            const $ = cheerio.load(resp.text);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect($('h1').text().trim()).to.equal("What principal place of business information do you need?");
+            chai.expect($('title').text().trim()).to.equal("Principal place of business options - Order a certificate - GOV.UK");
+            chai.expect($('#principal-place-of-business-2').attr('checked')).to.equal('checked');
+        });
+
+        it("renders the full place of business options page with current address selected", async () => {
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItemWithCurrent));
+
+            const resp = await chai.request(testApp)
+                .get(LP_CERTIFICATE_PRINCIPAL_PLACE_OPTIONS + "?layout=full")
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+            const $ = cheerio.load(resp.text);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect($('h1').text().trim()).to.equal("Choose from the full list of principal places of business");
+            chai.expect($('title').text().trim()).to.equal("Full list of principal place of business options - Order a certificate - GOV.UK");
+            chai.expect($('#principal-place-of-business').attr('checked')).to.equal('checked');
+        });
+
+        it("renders the full place of business options page with current address and one previous selected", async () => {
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItemWithCurrentAndOnePrevious));
+
+            const resp = await chai.request(testApp)
+                .get(LP_CERTIFICATE_PRINCIPAL_PLACE_OPTIONS + "?layout=full")
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+            const $ = cheerio.load(resp.text);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect($('h1').text().trim()).to.equal("Choose from the full list of principal places of business");
+            chai.expect($('title').text().trim()).to.equal("Full list of principal place of business options - Order a certificate - GOV.UK");
+            chai.expect($('#principal-place-of-business-2').attr('checked')).to.equal('checked');
+        });
+
+        it("renders the full place of business options page with current address and two previous selected", async () => {
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItemWithCurrentPreviousAndPrior));
+
+            const resp = await chai.request(testApp)
+                .get(LP_CERTIFICATE_PRINCIPAL_PLACE_OPTIONS + "?layout=full")
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+            const $ = cheerio.load(resp.text);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect($('h1').text().trim()).to.equal("Choose from the full list of principal places of business");
+            chai.expect($('title').text().trim()).to.equal("Full list of principal place of business options - Order a certificate - GOV.UK");
+            chai.expect($('#principal-place-of-business-3').attr('checked')).to.equal('checked');
+        });
+
+        it("renders the full place of business options page with all selected", async () => {
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItemWithAll));
+
+            const resp = await chai.request(testApp)
+                .get(LP_CERTIFICATE_PRINCIPAL_PLACE_OPTIONS + "?layout=full")
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+            const $ = cheerio.load(resp.text);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect($('h1').text().trim()).to.equal("Choose from the full list of principal places of business");
+            chai.expect($('title').text().trim()).to.equal("Full list of principal place of business options - Order a certificate - GOV.UK");
+            chai.expect($('#principal-place-of-business-4').attr('checked')).to.equal('checked');
+        });
     });
 
     describe("place of business options post", () => {
