@@ -84,7 +84,7 @@ export const setItemOptions = (options: string[]): ItemOptionsRequest => {
                 break;
             }
             case PRINCIPAL_PLACE_OF_BUSINESS_FIELD: {
-                itemOptionsAccum.principalPlaceOfBusinessDetails = { includeAddressRecordsType: "current" };
+                itemOptionsAccum.principalPlaceOfBusinessDetails = {};
                 break;
             }
             case GENERAL_PARTNERS_FIELD: {

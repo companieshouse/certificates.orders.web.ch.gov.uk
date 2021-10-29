@@ -12,11 +12,12 @@ describe("lp.certificate.options.controller.unit", () => {
             chai.expect(returnedItemOptions?.includeGoodStandingInformation).to.be.true;
         });
 
-        it("should set includeAddressRecordsType to current, when option is principal place of business", () => {
+        it("should not overwrite includeAddressRecordsType, when option is principal place of business", () => {
             const options = ["principalPlaceOfBusiness"];
             const returnedItemOptions = setItemOptions(options);
 
-            chai.expect(returnedItemOptions?.principalPlaceOfBusinessDetails?.includeAddressRecordsType).to.equal("current");
+            chai.expect(returnedItemOptions?.principalPlaceOfBusinessDetails).to.not.be.null;
+            chai.expect(returnedItemOptions?.principalPlaceOfBusinessDetails?.includeAddressRecordsType).to.be.undefined;
         });
 
         it("should set includeBasicInformation on GeneralPartnerDetails to true, when the option is general partners", () => {
@@ -38,7 +39,8 @@ describe("lp.certificate.options.controller.unit", () => {
             const returnedItemOptions = setItemOptions(options);
 
             chai.expect(returnedItemOptions?.includeGoodStandingInformation).to.be.true;
-            chai.expect(returnedItemOptions?.principalPlaceOfBusinessDetails?.includeAddressRecordsType).to.equal("current");
+            chai.expect(returnedItemOptions?.principalPlaceOfBusinessDetails).to.not.be.null;
+            chai.expect(returnedItemOptions?.principalPlaceOfBusinessDetails?.includeAddressRecordsType).to.be.undefined;
             chai.expect(returnedItemOptions?.generalPartnerDetails?.includeBasicInformation).to.be.null;
             chai.expect(returnedItemOptions?.limitedPartnerDetails?.includeBasicInformation).to.be.true;
         });
