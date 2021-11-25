@@ -74,46 +74,50 @@ export const mockAcceptableDissolvedCompanyProfile: Resource<CompanyProfile> = {
     }
 };
 
-export const mockAcceptableNonDissolvedCompanyProfile: Resource<CompanyProfile> = {
-    httpStatusCode: 200,
-    resource: {
-        companyName: "company name",
-        companyNumber: "00000000",
-        companyStatus: "active",
-        companyStatusDetail: "company status detail",
-        dateOfCreation: "date of creation",
-        jurisdiction: "jurisdiction",
-        sicCodes: ["85100", "85200"],
-        hasBeenLiquidated: false,
-        type: "ltd",
-        hasCharges: false,
-        hasInsolvencyHistory: false,
-        registeredOfficeAddress: {
-            addressLineOne: "line1",
-            addressLineTwo: "line2",
-            careOf: "careOf",
-            country: "uk",
-            locality: "locality",
-            poBox: "123",
-            postalCode: "post code",
-            premises: "premises",
-            region: "region"
-        },
-        accounts: {
-            nextAccounts: {
-                periodEndOn: "2019-10-10",
-                periodStartOn: "2019-01-01"
+export const getMockCompanyProfile = (
+    companyDetails: { companyType: string, companyStatus: string } = 
+    { companyType: "limited", companyStatus: "active"} ): Resource<CompanyProfile> => {
+    return {
+        httpStatusCode: 200,
+        resource: {
+            companyName: "company name",
+            companyNumber: "00000000",
+            companyStatus: companyDetails.companyStatus,
+            companyStatusDetail: "company status detail",
+            dateOfCreation: "date of creation",
+            jurisdiction: "jurisdiction",
+            sicCodes: ["85100", "85200"],
+            hasBeenLiquidated: false,
+            type: companyDetails.companyType,
+            hasCharges: false,
+            hasInsolvencyHistory: false,
+            registeredOfficeAddress: {
+                addressLineOne: "line1",
+                addressLineTwo: "line2",
+                careOf: "careOf",
+                country: "uk",
+                locality: "locality",
+                poBox: "123",
+                postalCode: "post code",
+                premises: "premises",
+                region: "region"
             },
-            nextDue: "2020-05-31",
-            overdue: false
-        },
-        confirmationStatement: {
-            nextDue: "2020-05-31",
-            nextMadeUpTo: "2020-05-31",
-            overdue: false
-        },
-        links: {
-            filingHistory: "/company/00000000/filing-history"
+            accounts: {
+                nextAccounts: {
+                    periodEndOn: "2019-10-10",
+                    periodStartOn: "2019-01-01"
+                },
+                nextDue: "2020-05-31",
+                overdue: false
+            },
+            confirmationStatement: {
+                nextDue: "2020-05-31",
+                nextMadeUpTo: "2020-05-31",
+                overdue: false
+            },
+            links: {
+                filingHistory: "/company/00000000/filing-history"
+            }
         }
     }
 };
