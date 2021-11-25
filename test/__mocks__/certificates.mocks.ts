@@ -76,7 +76,7 @@ export const mockAcceptableDissolvedCompanyProfile: Resource<CompanyProfile> = {
 
 export const getMockCompanyProfile = (
     companyDetails: { companyType: string, companyStatus: string } = 
-    { companyType: "limited", companyStatus: "active"} ): Resource<CompanyProfile> => {
+    { companyType: "ltd", companyStatus: "active"} ): Resource<CompanyProfile> => {
     return {
         httpStatusCode: 200,
         resource: {

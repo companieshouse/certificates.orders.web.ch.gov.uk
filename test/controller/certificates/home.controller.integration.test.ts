@@ -9,7 +9,7 @@ import { dummyCompanyProfileAcceptableCompanyType, dummyCompanyProfileNotAccepta
 
 import {
     mockNotAcceptableDissolvedCompanyLimitedPartnershipProfile,
-    mockAcceptableNonDissolvedCompanyProfile,
+    getMockCompanyProfile,
     mockAcceptableDissolvedCompanyProfile,
     mockCompanyProfileConfiguration
 } from "../../__mocks__/certificates.mocks";
@@ -84,50 +84,8 @@ describe("certificate.home.controller.integration", () => {
     });
 
     it("renders the start page for allowed active company to order a certificate", async () => {
-        let mockCompanyProfile = {
-            ...mockAcceptableNonDissolvedCompanyProfile,
-            resource: { 
-                ...mockAcceptableNonDissolvedCompanyProfile.resource,
-                companyStatus: "liquidation" 
-            }
-        } as Resource<CompanyProfile>
-        
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
-            .returns(Promise.resolve(mockCompanyProfile));
-
-        const resp = await chai.request(testApp)
-            .get(replaceCompanyNumber(ROOT_CERTIFICATE, mockCompanyProfileConfiguration.companyNumber));
-
-        chai.expect(resp.status).to.equal(200);
-        chai.expect(resp.text).to.contain("Use this service to order a signed certificate of incorporation for a company, including all company name changes.");
-        chai.expect(resp.text).to.contain("registered office address");
-        chai.expect(resp.text).to.contain("directors");
-        chai.expect(resp.text).to.contain("secretaries");
-        chai.expect(resp.text).to.contain("company objects");
-        chai.expect(resp.text).to.contain("details of liquidators");
-    });
-
-    it("renders the start page for llp company type that is allowed to order a certificate", async () => {
-        getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
-            .returns(Promise.resolve(mockAcceptableDissolvedCompanyProfile));
-
-        const resp = await chai.request(testApp)
-            .get(replaceCompanyNumber(ROOT_CERTIFICATE, mockCompanyProfileConfiguration.companyNumber));
-
-        chai.expect(resp.status).to.equal(200);
-        chai.expect(resp.text).to.contain("Use this service to order a signed certificate of dissolution for a company, including all company name changes.");
-        chai.expect(resp.text).not.to.contain("statement of good standing");
-        chai.expect(resp.text).not.to.contain("registered office address");
-        chai.expect(resp.text).not.to.contain("directors");
-        chai.expect(resp.text).not.to.contain("secretaries");
-        chai.expect(resp.text).not.to.contain("company objects");
-    });
-
-
-
-    it("renders the start page for limited company in liqudation to order a certificate", async () => {
-        getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
-            .returns(Promise.resolve(mockAcceptableNonDissolvedCompanyProfile));
+            .returns(Promise.resolve(getMockCompanyProfile()));
 
         const resp = await chai.request(testApp)
             .get(replaceCompanyNumber(ROOT_CERTIFICATE, mockCompanyProfileConfiguration.companyNumber));
@@ -139,9 +97,57 @@ describe("certificate.home.controller.integration", () => {
         chai.expect(resp.text).to.contain("directors");
         chai.expect(resp.text).to.contain("secretaries");
         chai.expect(resp.text).to.contain("company objects");
+        chai.expect(resp.text).to.not.contain("details of liquidators");
     });
 
+    it("renders the start page for active llp company to order a certificate", async () => {
+        getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
+            .returns(Promise.resolve(getMockCompanyProfile({companyType: "llp", companyStatus: "active"})));
 
+        const resp = await chai.request(testApp)
+            .get(replaceCompanyNumber(ROOT_CERTIFICATE, mockCompanyProfileConfiguration.companyNumber));
+
+        chai.expect(resp.status).to.equal(200);
+        chai.expect(resp.text).to.contain("Use this service to order a signed certificate of incorporation for a company, including all company name changes.");
+        chai.expect(resp.text).to.contain("statement of good standing");
+        chai.expect(resp.text).to.contain("registered office address");
+        chai.expect(resp.text).to.contain("designated members");
+        chai.expect(resp.text).to.contain("members");
+        chai.expect(resp.text).to.not.contain("details of liquidators");
+    });
+
+    it("renders the start page for limited company in liquidation to order a certificate", async () => {
+        getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
+            .returns(Promise.resolve(getMockCompanyProfile({companyType: "ltd", companyStatus: "liquidation"})));
+
+        const resp = await chai.request(testApp)
+            .get(replaceCompanyNumber(ROOT_CERTIFICATE, mockCompanyProfileConfiguration.companyNumber));
+
+        chai.expect(resp.status).to.equal(200);
+        chai.expect(resp.text).to.contain("Use this service to order a signed certificate of incorporation for a company, including all company name changes.");
+        chai.expect(resp.text).to.not.contain("statement of good standing");
+        chai.expect(resp.text).to.contain("registered office address");
+        chai.expect(resp.text).to.contain("directors");
+        chai.expect(resp.text).to.contain("secretaries");
+        chai.expect(resp.text).to.contain("company objects");
+        chai.expect(resp.text).to.contain("details of liquidators");
+    });
+
+    it("renders the start page for an llp company in liquidation to order a certificate", async () => {
+        getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
+            .returns(Promise.resolve(getMockCompanyProfile({companyType: "llp", companyStatus: "liquidation"})));
+
+        const resp = await chai.request(testApp)
+            .get(replaceCompanyNumber(ROOT_CERTIFICATE, mockCompanyProfileConfiguration.companyNumber));
+
+        chai.expect(resp.status).to.equal(200);
+        chai.expect(resp.text).to.contain("Use this service to order a signed certificate of incorporation for a company, including all company name changes.");
+        chai.expect(resp.text).to.not.contain("statement of good standing");
+        chai.expect(resp.text).to.contain("registered office address");
+        chai.expect(resp.text).to.contain("designated members");
+        chai.expect(resp.text).to.contain("members");
+        chai.expect(resp.text).to.contain("details of liquidators");
+    });
 
     it("does not render the start page for dissolved company type that is not allowed to order a certificate", async () => {
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
