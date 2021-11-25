@@ -1,17 +1,19 @@
 import { Request, Response, NextFunction } from "express";
 import { CertificateItemPatchRequest, ItemOptionsRequest, CertificateItem, ItemOptions } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
-import { patchCertificateItem, getCertificateItem } from "../../../client/api.client";
+import { patchCertificateItem, getCertificateItem, getCompanyProfile } from "../../../client/api.client";
 import { createLogger } from "ch-structured-logging";
 import { LLP_CERTIFICATE_OPTIONS } from "../../../model/template.paths";
 import { getAccessToken, getUserId } from "../../../session/helper";
-import { APPLICATION_NAME } from "../../../config/config";
+import { APPLICATION_NAME, API_KEY } from "../../../config/config";
 import { replaceCompanyNumber, LLP_ROOT_CERTIFICATE } from "../../../model/page.urls";
+import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
 
 const GOOD_STANDING_FIELD: string = "goodStanding";
 const REGISTERED_OFFICE_FIELD: string = "registeredOffice";
 const DESIGNATED_MEMBERS_FIELD: string = "designatedMembers";
 const MEMBERS_FIELD: string = "members";
 const MORE_INFO_FIELD: string = "moreInfo";
+const LIQUIDATORS_FIELD: string = "liquidators";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -20,6 +22,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const userId = getUserId(req.session);
         const accessToken: string = getAccessToken(req.session);
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
+        const companyProfile: CompanyProfile = await getCompanyProfile(API_KEY, certificateItem.companyNumber);
         const itemOptions: ItemOptions = certificateItem.itemOptions;
         const SERVICE_URL = replaceCompanyNumber(LLP_ROOT_CERTIFICATE, certificateItem.companyNumber)
         logger.info(`Certificate item retrieved, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
@@ -27,7 +30,12 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             companyNumber: certificateItem.companyNumber,
             itemOptions: certificateItem.itemOptions,
             templateName: LLP_CERTIFICATE_OPTIONS,
-            SERVICE_URL
+            SERVICE_URL,
+            filterMappings: {
+                goodStanding: companyProfile.companyStatus != 'liquidation',
+                liquidators: companyProfile.companyStatus == 'liquidation'
+            },
+            optionFilter: optionFilter
         });
     } catch (err) {
         logger.error(`Error retrieving certificate item, ${err}`);
@@ -105,6 +113,12 @@ export const setItemOptions = (options: string[]): ItemOptionsRequest => {
                 itemOptionsAccum.memberDetails = { includeBasicInformation: true };
                 break;
             }
+            case LIQUIDATORS_FIELD: {
+                //if(FEATURE_FLAGS.liquidatedCompanyCertificatesEnabled()){
+                    itemOptionsAccum.liquidatorsDetails = { includeBasicInformation: true };
+                //}
+                break;
+            }
             default:
                 break;
             }
@@ -123,3 +137,6 @@ export const hasOption = (options: string[], requiredOption: string): boolean =>
     }
     return false;
 };
+
+export const optionFilter = (options: {value: string}[], filter: {[key: string]: boolean}): {value: string}[] =>
+        options.filter(option => !(option.value in filter) || filter[option.value]);

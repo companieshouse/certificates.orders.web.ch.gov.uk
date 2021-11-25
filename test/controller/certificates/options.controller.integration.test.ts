@@ -7,6 +7,7 @@ import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/orde
 import * as apiClient from "../../../src/client/api.client";
 import { CERTIFICATE_OPTIONS, replaceCertificateId } from "../../../src/model/page.urls";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
+import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
 
 const CERTIFICATE_ID = "CHS00000000000000001";
 const CERTIFICATE_OPTIONS_URL = replaceCertificateId(CERTIFICATE_OPTIONS, CERTIFICATE_ID);
@@ -15,9 +16,15 @@ const sandbox = sinon.createSandbox();
 let testApp = null;
 let getCertificateItemStub;
 let patchCertificateItemStub;
+let getCompanyProfileStub;
 
 describe("certificate.options.controller.integration", () => {
+    const companyProfile = {
+        companyStatus: 'active'
+    } as CompanyProfile;
+
     const certificateItem = {
+        companyNumber: "12345678",
         itemOptions: {
             directorDetails: {
                 includeBasicInformation: true
@@ -49,6 +56,8 @@ describe("certificate.options.controller.integration", () => {
         it("renders the certificate options page", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItem));
+            getCompanyProfileStub = sandbox.stub(apiClient, "getCompanyProfile")
+                .returns(Promise.resolve(companyProfile));
 
             const resp = await chai.request(testApp)
                 .get(CERTIFICATE_OPTIONS_URL)
