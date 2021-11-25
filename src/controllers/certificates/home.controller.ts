@@ -156,7 +156,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
                 DISPATCH_DAYS,
                 moreTabUrl,
                 companyName,
-                displayOptions: getCertificateDisplayOptions(companyProfile.companyStatus)
+                displayOptions: getCertificateDisplayOptions(companyStatus, companyType)
             });
         } else {
             const SERVICE_NAME = null;
@@ -168,7 +168,15 @@ export default async (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
-const getCertificateDisplayOptions = (companyStatus: string): string[] => {
+const getCertificateDisplayOptions = (companyStatus: string, companyType: string): string[] => {
+    if (CompanyType.LIMITED_LIABILITY_PARTNERSHIP === companyType) {
+        return getLlpCertificateDisplayOptions(companyStatus);
+    } else {
+        return getOtherCertificateDisplayOptions(companyStatus);
+    }
+}
+
+const getOtherCertificateDisplayOptions = (companyStatus: string): string[] => {
     let displayOptions: string[] = [];
     if (CompanyStatus.LIQUIDATION !== companyStatus) {
         displayOptions.push("statement of good standing");
@@ -177,6 +185,20 @@ const getCertificateDisplayOptions = (companyStatus: string): string[] => {
     displayOptions.push("directors");
     displayOptions.push("secretaries");
     displayOptions.push("company objects");
+    if (CompanyStatus.LIQUIDATION === companyStatus) {
+        displayOptions.push("details of liquidators");
+    }
+    return displayOptions;
+}
+
+const getLlpCertificateDisplayOptions = (companyStatus: string): string[] => {
+    let displayOptions: string[] = [];
+    if (CompanyStatus.LIQUIDATION !== companyStatus) {
+        displayOptions.push("statement of good standing");
+    }
+    displayOptions.push("registered office address");
+    displayOptions.push("designated members");
+    displayOptions.push("members");
     if (CompanyStatus.LIQUIDATION === companyStatus) {
         displayOptions.push("details of liquidators");
     }

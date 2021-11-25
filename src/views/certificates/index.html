@@ -26,7 +26,7 @@
     html: notificationHtml
   }) }}
 
-  {% if companyStatus === "active" %}
+  {% if companyStatus === "active" or companyStatus === "liquidation" %}
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
       
@@ -37,11 +37,9 @@
         <p class="govuk-body-m">You can add certain information to the certificate, including:</p>
 
         <ul class="govuk-list govuk-list--bullet">
-          <li>statement of good standing</li>
-          <li>registered office address</li>
-          <li>directors</li>
-          <li>secretaries</li>
-          <li>company objects</li>
+          {% for displayOption in displayOptions %}
+            <li>{{ displayOption }}</li>
+          {% endfor %}
         </ul>
 
         <div class="govuk-inset-text">
