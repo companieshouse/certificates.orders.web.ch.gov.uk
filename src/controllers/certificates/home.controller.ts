@@ -1,21 +1,19 @@
-import {Request, Response, NextFunction} from "express";
+import {NextFunction, Request, Response} from "express";
 import {
-    DISSOLVED_CERTIFICATE_TYPE,
     CERTIFICATE_TYPE,
-    replaceCompanyNumber,
-    LLP_CERTIFICATE_TYPE, LP_CERTIFICATE_TYPE
+    DISSOLVED_CERTIFICATE_TYPE,
+    LLP_CERTIFICATE_TYPE,
+    LP_CERTIFICATE_TYPE,
+    replaceCompanyNumber
 } from "../../model/page.urls";
 import {CompanyProfile} from "@companieshouse/api-sdk-node/dist/services/company-profile";
 import {getCompanyProfile} from "../../client/api.client";
 import {createLogger} from "ch-structured-logging";
-import {
-    APPLICATION_NAME,
-    API_KEY,
-    DISPATCH_DAYS,
-} from "../../config/config";
+import {API_KEY, APPLICATION_NAME, DISPATCH_DAYS,} from "../../config/config";
 import {YOU_CANNOT_USE_THIS_SERVICE} from "../../model/template.paths";
 import {CompanyType} from "../../model/CompanyType";
 import {FEATURE_FLAGS} from "../../config/FeatureFlags";
+import {optionFilter} from "./OptionFilter";
 
 type LandingPage = { landingPage: string, startNowUrl: string, serviceUrl: string }
 type CompanyDetail = { companyNumber: string, type: string };
@@ -133,7 +131,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         }
 
         const allow: boolean = acceptableCompanyTypes.some(type => type === companyType);
-        if (allow && ["active", "dissolved"].includes(companyStatus)) {
+        if (allow && ["active", "dissolved", "liquidation"].includes(companyStatus)) {
 
             let landingPage: LandingPage;
 
@@ -157,7 +155,12 @@ export default async (req: Request, res: Response, next: NextFunction) => {
                 SERVICE_URL: landingPage.serviceUrl,
                 DISPATCH_DAYS,
                 moreTabUrl,
-                companyName
+                companyName,
+                filterMappings: {
+                    goodStanding: companyProfile.companyStatus != 'liquidation',
+                    liquidators: companyProfile.companyStatus == 'liquidation'
+                },
+                optionFilter
             });
         } else {
             const SERVICE_NAME = null;
