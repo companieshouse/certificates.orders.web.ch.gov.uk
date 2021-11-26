@@ -9,6 +9,7 @@ import { APPLICATION_NAME, API_KEY } from "../../config/config";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
 import { FEATURE_FLAGS } from "../../config/FeatureFlags";
 import { CompanyStatus } from "./model/CompanyStatus";
+import {YOU_CANNOT_USE_THIS_SERVICE} from "../../model/template.paths";
 
 const logger = createLogger(APPLICATION_NAME);
 const INCORPORATION_WITH_ALL_NAME_CHANGES: string = "incorporation-with-all-name-changes";
@@ -35,8 +36,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             logger.info(`Dissolved certificate Item created, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
             res.redirect(replaceCertificateId(DISSOLVED_CERTIFICATE_DELIVERY_DETAILS, certificateItem.id));
         } else {
-            res.status(400);
-            throw new Error(`Could not create certificate item for company status:${companyStatus}`);
+            res.status(400).render(YOU_CANNOT_USE_THIS_SERVICE, {});
         }
     } catch (err) {
         logger.error(`${err}`);

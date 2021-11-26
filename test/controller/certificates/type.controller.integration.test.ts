@@ -97,6 +97,7 @@ describe("type.controller.integration", () => {
                 .redirects(0);
 
             chai.expect(resp.status).to.equal(400);
+            chai.expect(resp.text).to.include("You cannot use this service");
         })
     });
 
