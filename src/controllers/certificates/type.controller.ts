@@ -7,10 +7,12 @@ import { CERTIFICATE_OPTIONS, replaceCertificateId, DISSOLVED_CERTIFICATE_DELIVE
 import { createLogger } from "ch-structured-logging";
 import { APPLICATION_NAME, API_KEY } from "../../config/config";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
+import { FEATURE_FLAGS } from "../../config/FeatureFlags";
+import { CompanyStatus } from "./model/CompanyStatus";
 
 const logger = createLogger(APPLICATION_NAME);
 const INCORPORATION_WITH_ALL_NAME_CHANGES: string = "incorporation-with-all-name-changes";
-const DISSOLUTION: string = "dissolution";
+const DISSOLUTION_CERTIFICATE_TYPE: string = "dissolution";
 
 export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
@@ -20,18 +22,21 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const companyStatus = companyProfile.companyStatus;
         logger.debug(`Certificate render function called, company_number=${companyNumber}`);
 
-        if (companyStatus === "active") {
+        if (companyStatus === CompanyStatus.ACTIVE || (companyStatus === CompanyStatus.LIQUIDATION && FEATURE_FLAGS.liquidatedCompanyCertficiateEnabled)) {
             const certificateItemRequest = createCertificateItemRequest(companyNumber, INCORPORATION_WITH_ALL_NAME_CHANGES, companyProfile.type);
             const userId = getUserId(req.session);
             const certificateItem: CertificateItem = await postCertificateItem(accessToken, certificateItemRequest);
             logger.info(`Certificate Item created, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
             res.redirect(replaceCertificateId(CERTIFICATE_OPTIONS, certificateItem.id));
-        } else {
-            const dissolvedCertificateItemRequest = createCertificateItemRequest(companyNumber, DISSOLUTION, companyProfile.type);
+        } else if (companyStatus === CompanyStatus.DISSOLVED) {
+            const dissolvedCertificateItemRequest = createCertificateItemRequest(companyNumber, DISSOLUTION_CERTIFICATE_TYPE, companyProfile.type);
             const userId = getUserId(req.session);
             const certificateItem: CertificateItem = await postCertificateItem(accessToken, dissolvedCertificateItemRequest);
             logger.info(`Dissolved certificate Item created, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
             res.redirect(replaceCertificateId(DISSOLVED_CERTIFICATE_DELIVERY_DETAILS, certificateItem.id));
+        } else {
+            res.status(400);
+            throw new Error(`Could not create certificate item for company status:${companyStatus}`);
         }
     } catch (err) {
         logger.error(`${err}`);
