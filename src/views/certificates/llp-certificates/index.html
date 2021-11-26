@@ -26,7 +26,7 @@
     html: notificationHtml
   }) }}
 
-  {% if companyStatus === "active" %}
+  {% if companyStatus === "active" or companyStatus === "liquidation" %}
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
       
@@ -37,10 +37,15 @@
         <p class="govuk-body-m">You can add certain information to the certificate, including:</p>
 
         <ul class="govuk-list govuk-list--bullet">
-          <li>statement of good standing</li>
-          <li>registered office address</li>
-          <li>designated members</li>
-          <li>members</li>
+          {% set options = optionFilter([
+            { value: "goodStanding", text: "statement of good standing" },
+            { value: "registeredOffice", text: "registered office address" },
+            { value: "designatedMembers", text: "designated members" },
+            { value: "members", text: "members" },
+            { value: "liquidators", text: "details of liquidators" }], filterMappings) %}
+          {% for option in options %}
+            <li>{{ option.text }}</li>
+          {% endfor %}
         </ul>
 
         <div class="govuk-inset-text">
