@@ -7,6 +7,7 @@ import { getAccessToken, getUserId } from "../../../session/helper";
 import { APPLICATION_NAME, API_KEY } from "../../../config/config";
 import { replaceCompanyNumber, LLP_ROOT_CERTIFICATE } from "../../../model/page.urls";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
+import { optionFilter } from "../OptionFilter";
 
 const GOOD_STANDING_FIELD: string = "goodStanding";
 const REGISTERED_OFFICE_FIELD: string = "registeredOffice";
@@ -143,6 +144,3 @@ export const hasOption = (options: string[], requiredOption: string): boolean =>
     }
     return false;
 };
-
-export const optionFilter = (options: {value: string}[], filter: {[key: string]: boolean}): {value: string}[] =>
-        options.filter(option => !(option.value in filter) || filter[option.value]);
