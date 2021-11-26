@@ -77,6 +77,8 @@ describe("llp.certificate.options.controller.integration", () => {
 
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateDetails));
+            getCompanyProfileStub = sandbox.stub(apiClient, "getCompanyProfile")
+                .returns(Promise.resolve(companyProfile));
             patchCertificateItemStub = sandbox.stub(apiClient, "patchCertificateItem")
                 .returns(Promise.resolve(certificateDetails));
 
@@ -97,6 +99,8 @@ describe("llp.certificate.options.controller.integration", () => {
 
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateDetails));
+            getCompanyProfileStub = sandbox.stub(apiClient, "getCompanyProfile")
+                .returns(Promise.resolve(companyProfile));
             patchCertificateItemStub = sandbox.stub(apiClient, "patchCertificateItem")
                 .returns(Promise.resolve(certificateDetails));
 
@@ -117,6 +121,8 @@ describe("llp.certificate.options.controller.integration", () => {
 
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateDetails));
+            getCompanyProfileStub = sandbox.stub(apiClient, "getCompanyProfile")
+                .returns(Promise.resolve(companyProfile));
             patchCertificateItemStub = sandbox.stub(apiClient, "patchCertificateItem")
                 .returns(Promise.resolve(certificateDetails));
 
@@ -137,6 +143,8 @@ describe("llp.certificate.options.controller.integration", () => {
 
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateDetails));
+            getCompanyProfileStub = sandbox.stub(apiClient, "getCompanyProfile")
+                .returns(Promise.resolve(companyProfile));
             patchCertificateItemStub = sandbox.stub(apiClient, "patchCertificateItem")
                 .returns(Promise.resolve(certificateDetails));
 

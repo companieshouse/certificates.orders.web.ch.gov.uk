@@ -46,13 +46,15 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
 export default async (req: Request, res: Response, next: NextFunction) => {
     try {
         const moreInfo: string[] = typeof req.body[MORE_INFO_FIELD] === "string" ? [req.body[MORE_INFO_FIELD]] : req.body[MORE_INFO_FIELD];
+        const accessToken: string = getAccessToken(req.session);
+        const certificate: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
+        const companyProfile: CompanyProfile = await getCompanyProfile(API_KEY, certificate.companyNumber);
         const certificateItem: CertificateItemPatchRequest = {
             itemOptions: {
-                ...setItemOptions(moreInfo)
+                ...setItemOptions(companyProfile.companyStatus, moreInfo)
             },
             quantity: 1
         };
-        const accessToken: string = getAccessToken(req.session);
         const userId = getUserId(req.session);
         const patchResponse = await patchCertificateItem(accessToken, req.params.certificateId, certificateItem);
         logger.info(`Patched certificate item with certificate options, id=${req.params.certificateId}, user_id=${userId}, company_number=${patchResponse.companyNumber}, certificate_options=${JSON.stringify(certificateItem)}`);
@@ -72,7 +74,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
-export const setItemOptions = (options: string[]): ItemOptionsRequest => {
+export const setItemOptions = (companyStatus: string, options?: string[]): ItemOptionsRequest => {
     const initialItemOptions: ItemOptionsRequest = {
         designatedMemberDetails: {
             includeAddress: null,
@@ -94,6 +96,9 @@ export const setItemOptions = (options: string[]): ItemOptionsRequest => {
             includeAddressRecordsType: null
         }
     };
+    if(companyStatus === "liquidation") {
+        initialItemOptions.liquidatorsDetails = { includeBasicInformation: null };
+    }
     return options === undefined ? initialItemOptions
         : options.reduce((itemOptionsAccum: ItemOptionsRequest, option: string) => {
             switch (option) {
@@ -114,9 +119,10 @@ export const setItemOptions = (options: string[]): ItemOptionsRequest => {
                 break;
             }
             case LIQUIDATORS_FIELD: {
-                //if(FEATURE_FLAGS.liquidatedCompanyCertificatesEnabled()){
+                //if(companyStatus === "liquidation" && FEATURE_FLAGS.liquidatedCompanyCertificatesEnabled()){
+                if(companyStatus === "liquidation"){
                     itemOptionsAccum.liquidatorsDetails = { includeBasicInformation: true };
-                //}
+                }
                 break;
             }
             default:

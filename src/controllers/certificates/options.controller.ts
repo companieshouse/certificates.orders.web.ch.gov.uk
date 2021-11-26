@@ -50,14 +50,17 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         let registeredOfficeOptions: boolean;
         let directorOptions: boolean;
         let secretaryOptions: boolean;
+        const accessToken: string = getAccessToken(req.session);
+        const certificate: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
+        const companyProfile: CompanyProfile = await getCompanyProfile(API_KEY, certificate.companyNumber);
 
         if (typeof moreInfo === "string") {
-            additionalInfoItemOptions = setItemOptions([moreInfo]);
+            additionalInfoItemOptions = setItemOptions(companyProfile.companyStatus, [moreInfo]);
             registeredOfficeOptions = hasRegisterOfficeAddressOptions([moreInfo]);
             directorOptions = hasDirectorOption([moreInfo]);
             secretaryOptions = hasSecretaryOptions([moreInfo]);
         } else {
-            additionalInfoItemOptions = setItemOptions(moreInfo);
+            additionalInfoItemOptions = setItemOptions(companyProfile.companyStatus, moreInfo);
             registeredOfficeOptions = hasRegisterOfficeAddressOptions(moreInfo);
             directorOptions = hasDirectorOption(moreInfo);
             secretaryOptions = hasSecretaryOptions(moreInfo);
@@ -69,7 +72,6 @@ export default async (req: Request, res: Response, next: NextFunction) => {
             },
             quantity: 1
         };
-        const accessToken: string = getAccessToken(req.session);
         const userId = getUserId(req.session);
         const patchResponse = await patchCertificateItem(accessToken, req.params.certificateId, certificateItem);
         logger.info(`Patched certificate item with certificate options, id=${req.params.certificateId}, user_id=${userId}, company_number=${patchResponse.companyNumber}, certificate_options=${JSON.stringify(certificateItem)}`);
@@ -89,7 +91,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
-export const setItemOptions = (options: string[]): ItemOptionsRequest => {
+export const setItemOptions = (companyStatus: string, options?: string[]): ItemOptionsRequest => {
     const initialItemOptions: ItemOptionsRequest = {
         directorDetails: {
             includeBasicInformation: null,
@@ -111,6 +113,9 @@ export const setItemOptions = (options: string[]): ItemOptionsRequest => {
             includeAppointmentDate: null
         },
     };
+    if(companyStatus === "liquidation") {
+        initialItemOptions.liquidatorsDetails = { includeBasicInformation: null };
+    }
     return options === undefined ? initialItemOptions
         : options.reduce((itemOptionsAccum: ItemOptionsRequest, option: string) => {
             switch (option) {
@@ -135,9 +140,10 @@ export const setItemOptions = (options: string[]): ItemOptionsRequest => {
                 break;
             }
             case LIQUIDATORS_FIELD: {
-                //if(FEATURE_FLAGS.liquidatedCompanyCertificatesEnabled()){
+                //if(companyStatus === "liquidation" && FEATURE_FLAGS.liquidatedCompanyCertificatesEnabled()){
+                if(companyStatus === "liquidation"){
                     itemOptionsAccum.liquidatorsDetails = { includeBasicInformation: true };
-                //}
+                }
                 break;
             }
             default:
