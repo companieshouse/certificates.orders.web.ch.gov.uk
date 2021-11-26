@@ -13,7 +13,7 @@ import {API_KEY, APPLICATION_NAME, DISPATCH_DAYS,} from "../../config/config";
 import {YOU_CANNOT_USE_THIS_SERVICE} from "../../model/template.paths";
 import {CompanyType} from "../../model/CompanyType";
 import {FEATURE_FLAGS} from "../../config/FeatureFlags";
-import {CompanyStatus} from "./model/CompanyStatus";
+import {optionFilter} from "./OptionFilter";
 
 type LandingPage = { landingPage: string, startNowUrl: string, serviceUrl: string }
 type CompanyDetail = { companyNumber: string, type: string };
@@ -156,7 +156,11 @@ export default async (req: Request, res: Response, next: NextFunction) => {
                 DISPATCH_DAYS,
                 moreTabUrl,
                 companyName,
-                displayOptions: getCertificateDisplayOptions(companyStatus, companyType)
+                filterMappings: {
+                    goodStanding: companyProfile.companyStatus != 'liquidation',
+                    liquidators: companyProfile.companyStatus == 'liquidation'
+                },
+                optionFilter
             });
         } else {
             const SERVICE_NAME = null;
@@ -167,40 +171,3 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         next(err);
     }
 };
-
-const getCertificateDisplayOptions = (companyStatus: string, companyType: string): string[] => {
-    if (CompanyType.LIMITED_LIABILITY_PARTNERSHIP === companyType) {
-        return getLlpCertificateDisplayOptions(companyStatus);
-    } else {
-        return getOtherCertificateDisplayOptions(companyStatus);
-    }
-}
-
-const getOtherCertificateDisplayOptions = (companyStatus: string): string[] => {
-    let displayOptions: string[] = [];
-    if (CompanyStatus.LIQUIDATION !== companyStatus) {
-        displayOptions.push("statement of good standing");
-    }
-    displayOptions.push("registered office address");
-    displayOptions.push("directors");
-    displayOptions.push("secretaries");
-    displayOptions.push("company objects");
-    if (CompanyStatus.LIQUIDATION === companyStatus) {
-        displayOptions.push("details of liquidators");
-    }
-    return displayOptions;
-}
-
-const getLlpCertificateDisplayOptions = (companyStatus: string): string[] => {
-    let displayOptions: string[] = [];
-    if (CompanyStatus.LIQUIDATION !== companyStatus) {
-        displayOptions.push("statement of good standing");
-    }
-    displayOptions.push("registered office address");
-    displayOptions.push("designated members");
-    displayOptions.push("members");
-    if (CompanyStatus.LIQUIDATION === companyStatus) {
-        displayOptions.push("details of liquidators");
-    }
-    return displayOptions;
-}

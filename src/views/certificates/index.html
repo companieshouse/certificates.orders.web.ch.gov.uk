@@ -37,8 +37,15 @@
         <p class="govuk-body-m">You can add certain information to the certificate, including:</p>
 
         <ul class="govuk-list govuk-list--bullet">
-          {% for displayOption in displayOptions %}
-            <li>{{ displayOption }}</li>
+          {% set options = optionFilter([
+            { value: "goodStanding", text: "statement of good standing" },
+            { value: "registeredOffice", text: "registered office address" },
+            { value: "directors", text: "directors" },
+            { value: "secretaries", text: "secretaries" },
+            { value: "companyObjects", text: "company objects" },
+            { value: "liquidators", text: "details of liquidators" }], filterMappings) %}
+          {% for option in options %}
+            <li>{{ option.text }}</li>
           {% endfor %}
         </ul>
 
