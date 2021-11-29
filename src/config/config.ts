@@ -58,3 +58,5 @@ export const DISPATCH_DAYS = getEnvironmentValue("DISPATCH_DAYS");
 export const DYNAMIC_LP_CERTIFICATE_ORDERS_ENABLED = getEnvironmentValue("DYNAMIC_LP_CERTIFICATE_ORDERS_ENABLED", "false") === "true";
 
 export const DYNAMIC_LLP_CERTIFICATE_ORDERS_ENABLED = getEnvironmentValue("DYNAMIC_LLP_CERTIFICATE_ORDERS_ENABLED", "false") === "true";
+
+export const LIQUIDATED_COMPANY_CERTIFICATES_ENABLED = getEnvironmentValue("LIQUIDATED_COMPANY_CERTIFICATES_ENABLED", "false") === "true";

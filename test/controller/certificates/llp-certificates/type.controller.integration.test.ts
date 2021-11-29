@@ -2,27 +2,27 @@ const chai = require("chai")
 import sinon from "sinon";
 import ioredis from "ioredis";
 
-import * as apiClient from "../../../src/client/api.client";
-import { CERTIFICATE_TYPE, replaceCertificateId } from "../../../src/model/page.urls";
-import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
+import * as apiClient from "../../../../src/client/api.client";
+import { LLP_CERTIFICATE_TYPE, replaceCertificateId } from "../../../../src/model/page.urls";
+import { SIGNED_IN_COOKIE, signedInSession } from "../../../__mocks__/redis.mocks";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
-import { dummyCompanyProfileByTypeAndStatus, dummyCompanyProfileDissolvedCompany } from "../../__mocks__/company.profile.mocks";
-import { FEATURE_FLAGS } from "../../../src/config/FeatureFlags";
+import { dummyCompanyProfileByTypeAndStatus, dummyCompanyProfileDissolvedCompany } from "../../../__mocks__/company.profile.mocks";
+import { FEATURE_FLAGS } from "../../../../src/config/FeatureFlags";
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
 let postCertificateItemStub;
 let postDissolvedCertificateItemStub;
 let getCompanyProfileStub;
-const COMPANY_NUMBER = "00006500";
-const CERTIFICATE_TYPE_URL = replaceCertificateId(CERTIFICATE_TYPE, COMPANY_NUMBER);
+const COMPANY_NUMBER = "OC006500";
+const CERTIFICATE_TYPE_URL = replaceCertificateId(LLP_CERTIFICATE_TYPE, COMPANY_NUMBER);
 
 describe("type.controller.integration", () => {
     beforeEach((done) => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
         sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
 
-        testApp = require("../../../src/app").default;
+        testApp = require("../../../../src/app").default;
         done();
     });
 
@@ -32,7 +32,7 @@ describe("type.controller.integration", () => {
     });
 
     describe("certificate item", () => {
-        it("redirects the user to the certificate options page for standard certificate", async () => {
+        it("redirects the user to the certificate options page for LLP certificate", async () => {
             const certificateDetails = {
                 id: "CRT-951616-000712",
                 itemOptions: {
@@ -51,7 +51,7 @@ describe("type.controller.integration", () => {
                 .redirects(0);
 
             chai.expect(resp.status).to.equal(302);
-            chai.expect(resp.text).to.include("Found. Redirecting to /orderable/certificates/CRT-951616-000712/certificate-options");
+            chai.expect(resp.text).to.include("Found. Redirecting to /orderable/llp-certificates/CRT-951616-000712/certificate-options");
         });
 
         it("redirects user to options page when company status is liquidation and flag enabled", async () => {
@@ -66,7 +66,7 @@ describe("type.controller.integration", () => {
             postCertificateItemStub = sandbox.stub(apiClient, "postCertificateItem")
                 .returns(Promise.resolve(certificateDetails));
             getCompanyProfileStub = sandbox.stub(apiClient, "getCompanyProfile")
-                .returns(Promise.resolve(dummyCompanyProfileByTypeAndStatus({companyType: "ltd", companyStatus: "liquidation"})));
+                .returns(Promise.resolve(dummyCompanyProfileByTypeAndStatus({companyType: "llp", companyStatus: "liquidation"})));
 
             const resp = await chai.request(testApp)
                 .get(CERTIFICATE_TYPE_URL)
@@ -74,7 +74,7 @@ describe("type.controller.integration", () => {
                 .redirects(0);
 
             chai.expect(resp.status).to.equal(302);
-            chai.expect(resp.text).to.include("Found. Redirecting to /orderable/certificates/CRT-951616-000712/certificate-options");
+            chai.expect(resp.text).to.include("Found. Redirecting to /orderable/llp-certificates/CRT-951616-000712/certificate-options");
         })
 
         it("redirects user to options page when company status is liquidation and flag disabled", async () => {
@@ -89,7 +89,7 @@ describe("type.controller.integration", () => {
             postCertificateItemStub = sandbox.stub(apiClient, "postCertificateItem")
                 .returns(Promise.resolve(certificateDetails));
             getCompanyProfileStub = sandbox.stub(apiClient, "getCompanyProfile")
-                .returns(Promise.resolve(dummyCompanyProfileByTypeAndStatus({companyType: "ltd", companyStatus: "liquidation"})));
+                .returns(Promise.resolve(dummyCompanyProfileByTypeAndStatus({companyType: "llp", companyStatus: "liquidation"})));
 
             const resp = await chai.request(testApp)
                 .get(CERTIFICATE_TYPE_URL)

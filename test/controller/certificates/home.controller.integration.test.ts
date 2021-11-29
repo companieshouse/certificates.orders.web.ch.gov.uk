@@ -13,6 +13,7 @@ import {
     mockCompanyProfileConfiguration
 } from "../../__mocks__/certificates.mocks";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
+import { FEATURE_FLAGS } from "../../../src/config/FeatureFlags";
 
 const COMPANY_NUMBER = "00000000";
 
@@ -115,7 +116,8 @@ describe("certificate.home.controller.integration", () => {
         chai.expect(resp.text).to.not.contain("details of liquidators");
     });
 
-    it("renders the start page for limited company in liquidation to order a certificate", async () => {
+    it("renders the start page for limited company in liquidation to order a certificate if feature flag enabled", async () => {
+        FEATURE_FLAGS.liquidatedCompanyCertficiateEnabled = true;
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
             .returns(Promise.resolve(getMockCompanyProfile({companyType: "ltd", companyStatus: "liquidation"})));
 
@@ -132,7 +134,8 @@ describe("certificate.home.controller.integration", () => {
         chai.expect(resp.text).to.contain("details of liquidators");
     });
 
-    it("renders the start page for an llp company in liquidation to order a certificate", async () => {
+    it("renders the start page for an llp company in liquidation to order a certificate if feature flag enabled", async () => {
+        FEATURE_FLAGS.liquidatedCompanyCertficiateEnabled = true;
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
             .returns(Promise.resolve(getMockCompanyProfile({companyType: "llp", companyStatus: "liquidation"})));
 
@@ -146,6 +149,18 @@ describe("certificate.home.controller.integration", () => {
         chai.expect(resp.text).to.contain("designated members");
         chai.expect(resp.text).to.contain("members");
         chai.expect(resp.text).to.contain("details of liquidators");
+    });
+
+    it("does not render the start page for company in liquidation if feature flag disabled", async () => {
+        FEATURE_FLAGS.liquidatedCompanyCertficiateEnabled = false;
+        getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
+            .returns(Promise.resolve(getMockCompanyProfile({companyType: "ltd", companyStatus: "liquidation"})));
+
+        const resp = await chai.request(testApp)
+            .get(replaceCompanyNumber(ROOT_CERTIFICATE, mockCompanyProfileConfiguration.companyNumber));
+
+        chai.expect(resp.status).to.equal(200);
+        chai.expect(resp.text).to.contain("You cannot order a certificate or certified document for this company. ");
     });
 
     it("does not render the start page for dissolved company type that is not allowed to order a certificate", async () => {

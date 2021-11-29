@@ -18,7 +18,6 @@ const redirectSpy = sandbox.spy();
 res.redirect = redirectSpy;
 
 describe("auth.middleware.unit", () => {
-    let env;
     beforeEach(() => {
         FEATURE_FLAGS.lpCertificateOrdersEnabled = true;
         FEATURE_FLAGS.llpCertificateOrdersEnabled = true;
