@@ -141,7 +141,6 @@ export const setItemOptions = (companyStatus: string, options?: string[]): ItemO
                 break;
             }
             case LIQUIDATORS_FIELD: {
-                //if(companyStatus === "liquidation" && FEATURE_FLAGS.liquidatedCompanyCertificatesEnabled()){
                 if(companyStatus === "liquidation"){
                     itemOptionsAccum.liquidatorsDetails = { includeBasicInformation: true };
                 }
