@@ -33,7 +33,7 @@
         hint: {
           text: "Select all that apply."
         },
-        items: [
+        items: optionFilter([
           {
             value: "goodStanding",
             text: "Statement of good standing",
@@ -88,8 +88,19 @@
             attributes: {
               "data-event-id" : "company-objects-option"
             }
+          },
+          {
+            value: "liquidators",
+            text: "Liquidators",
+            hint: {
+              text: "Details of appointed liquidators."
+            },
+            checked: true if itemOptions.liquidatorsDetails.includeBasicInformation else false,
+            attributes: {
+              "data-event-id" : "liquidators-option"
+            }
           }
-        ]
+        ], filterMappings)
         }) }}
         
         {{ govukButton({

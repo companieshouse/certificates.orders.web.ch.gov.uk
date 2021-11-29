@@ -74,6 +74,9 @@ const itemOptions: ItemOptions = {
         includeDates: false,
         includeAddressRecordsType: "no"
     },
+    liquidatorsDetails: {
+        includeBasicInformation: false
+    },
     includeGeneralNatureOfBusinessInformation: false
 };
 

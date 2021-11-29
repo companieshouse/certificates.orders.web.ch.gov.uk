@@ -1,10 +1,13 @@
 import { Request, Response, NextFunction } from "express";
 import { CertificateItemPatchRequest, ItemOptionsRequest, CertificateItem, ItemOptions } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
-import { patchCertificateItem, getCertificateItem } from "../../client/api.client";
+import { patchCertificateItem, getCertificateItem, getCompanyProfile } from "../../client/api.client";
 import { createLogger } from "ch-structured-logging";
 import { CERTIFICATE_OPTIONS } from "../../model/template.paths";
 import { getAccessToken, getUserId } from "../../session/helper";
-import { APPLICATION_NAME } from "../../config/config";
+import { APPLICATION_NAME, API_KEY } from "../../config/config";
+import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
+import { optionFilter } from "./OptionFilter";
+import {CompanyStatus} from "./model/CompanyStatus";
 
 const GOOD_STANDING_FIELD: string = "goodStanding";
 const REGISTERED_OFFICE_FIELD: string = "registeredOffice";
@@ -12,6 +15,7 @@ const DIRECTORS_FIELD: string = "directors";
 const SECRETARIES_FIELD: string = "secretaries";
 const COMPANY_OBJECTS_FIELD: string = "companyObjects";
 const MORE_INFO_FIELD: string = "moreInfo";
+const LIQUIDATORS_FIELD: string = "liquidators";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -20,6 +24,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const userId = getUserId(req.session);
         const accessToken: string = getAccessToken(req.session);
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
+        const companyProfile: CompanyProfile = await getCompanyProfile(API_KEY, certificateItem.companyNumber);
         const itemOptions: ItemOptions = certificateItem.itemOptions;
         const SERVICE_URL = `/company/${certificateItem.companyNumber}/orderable/certificates`;
         logger.info(`Certificate item retrieved, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
@@ -27,7 +32,12 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             companyNumber: certificateItem.companyNumber,
             itemOptions: certificateItem.itemOptions,
             templateName: CERTIFICATE_OPTIONS,
-            SERVICE_URL
+            SERVICE_URL,
+            filterMappings: {
+                goodStanding: companyProfile.companyStatus != CompanyStatus.LIQUIDATION,
+                liquidators: companyProfile.companyStatus == CompanyStatus.LIQUIDATION
+            },
+            optionFilter: optionFilter
         });
     } catch (err) {
         logger.error(`Error retrieving certificate item, ${err}`);
@@ -42,14 +52,17 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         let registeredOfficeOptions: boolean;
         let directorOptions: boolean;
         let secretaryOptions: boolean;
+        const accessToken: string = getAccessToken(req.session);
+        const certificate: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
+        const companyProfile: CompanyProfile = await getCompanyProfile(API_KEY, certificate.companyNumber);
 
         if (typeof moreInfo === "string") {
-            additionalInfoItemOptions = setItemOptions([moreInfo]);
+            additionalInfoItemOptions = setItemOptions(companyProfile.companyStatus, [moreInfo]);
             registeredOfficeOptions = hasRegisterOfficeAddressOptions([moreInfo]);
             directorOptions = hasDirectorOption([moreInfo]);
             secretaryOptions = hasSecretaryOptions([moreInfo]);
         } else {
-            additionalInfoItemOptions = setItemOptions(moreInfo);
+            additionalInfoItemOptions = setItemOptions(companyProfile.companyStatus, moreInfo);
             registeredOfficeOptions = hasRegisterOfficeAddressOptions(moreInfo);
             directorOptions = hasDirectorOption(moreInfo);
             secretaryOptions = hasSecretaryOptions(moreInfo);
@@ -61,7 +74,6 @@ export default async (req: Request, res: Response, next: NextFunction) => {
             },
             quantity: 1
         };
-        const accessToken: string = getAccessToken(req.session);
         const userId = getUserId(req.session);
         const patchResponse = await patchCertificateItem(accessToken, req.params.certificateId, certificateItem);
         logger.info(`Patched certificate item with certificate options, id=${req.params.certificateId}, user_id=${userId}, company_number=${patchResponse.companyNumber}, certificate_options=${JSON.stringify(certificateItem)}`);
@@ -81,7 +93,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
-export const setItemOptions = (options: string[]): ItemOptionsRequest => {
+export const setItemOptions = (companyStatus: string, options?: string[]): ItemOptionsRequest => {
     const initialItemOptions: ItemOptionsRequest = {
         directorDetails: {
             includeBasicInformation: null,
@@ -101,8 +113,11 @@ export const setItemOptions = (options: string[]): ItemOptionsRequest => {
             includeBasicInformation: null,
             includeAddress: null,
             includeAppointmentDate: null
-        }
+        },
     };
+    if(companyStatus === CompanyStatus.LIQUIDATION) {
+        initialItemOptions.liquidatorsDetails = { includeBasicInformation: null };
+    }
     return options === undefined ? initialItemOptions
         : options.reduce((itemOptionsAccum: ItemOptionsRequest, option: string) => {
             switch (option) {
@@ -124,6 +139,12 @@ export const setItemOptions = (options: string[]): ItemOptionsRequest => {
             }
             case COMPANY_OBJECTS_FIELD: {
                 itemOptionsAccum.includeCompanyObjectsInformation = true;
+                break;
+            }
+            case LIQUIDATORS_FIELD: {
+                if(companyStatus === CompanyStatus.LIQUIDATION) {
+                    itemOptionsAccum.liquidatorsDetails = { includeBasicInformation: true };
+                }
                 break;
             }
             default:
