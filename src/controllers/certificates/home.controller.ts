@@ -131,7 +131,13 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         }
 
         const allow: boolean = acceptableCompanyTypes.some(type => type === companyType);
-        if (allow && ["active", "dissolved", "liquidation"].includes(companyStatus)) {
+
+        const acceptableCompanyStatuses = ["active", "dissolved"];
+        if(FEATURE_FLAGS.liquidatedCompanyCertficiateEnabled) {
+            acceptableCompanyStatuses.push("liquidation");
+        }
+
+        if (allow && acceptableCompanyStatuses.includes(companyStatus)) {
 
             let landingPage: LandingPage;
 
