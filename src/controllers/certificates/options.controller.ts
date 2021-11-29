@@ -7,6 +7,7 @@ import { getAccessToken, getUserId } from "../../session/helper";
 import { APPLICATION_NAME, API_KEY } from "../../config/config";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
 import { optionFilter } from "./OptionFilter";
+import {CompanyStatus} from "./model/CompanyStatus";
 
 const GOOD_STANDING_FIELD: string = "goodStanding";
 const REGISTERED_OFFICE_FIELD: string = "registeredOffice";
@@ -33,8 +34,8 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             templateName: CERTIFICATE_OPTIONS,
             SERVICE_URL,
             filterMappings: {
-                goodStanding: companyProfile.companyStatus != 'liquidation',
-                liquidators: companyProfile.companyStatus == 'liquidation'
+                goodStanding: companyProfile.companyStatus != CompanyStatus.LIQUIDATION,
+                liquidators: companyProfile.companyStatus == CompanyStatus.LIQUIDATION
             },
             optionFilter: optionFilter
         });
@@ -114,7 +115,7 @@ export const setItemOptions = (companyStatus: string, options?: string[]): ItemO
             includeAppointmentDate: null
         },
     };
-    if(companyStatus === "liquidation") {
+    if(companyStatus === CompanyStatus.LIQUIDATION) {
         initialItemOptions.liquidatorsDetails = { includeBasicInformation: null };
     }
     return options === undefined ? initialItemOptions
@@ -141,7 +142,7 @@ export const setItemOptions = (companyStatus: string, options?: string[]): ItemO
                 break;
             }
             case LIQUIDATORS_FIELD: {
-                if(companyStatus === "liquidation"){
+                if(companyStatus === CompanyStatus.LIQUIDATION) {
                     itemOptionsAccum.liquidatorsDetails = { includeBasicInformation: true };
                 }
                 break;

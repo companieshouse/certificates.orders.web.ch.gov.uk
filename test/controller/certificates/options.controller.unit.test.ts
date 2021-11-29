@@ -2,12 +2,13 @@ import chai from "chai";
 import sessionHandler from "@companieshouse/node-session-handler"; // need this to allow certificate.options.controller to compile
 
 import { hasRegisterOfficeAddressOptions, setItemOptions, hasDirectorOption } from "../../../src/controllers/certificates/options.controller";
+import {CompanyStatus} from "../../../src/controllers/certificates/model/CompanyStatus";
 
 describe("certificate.options.controller.unit", () => {
     describe("setItemOptions", () => {
         it("should set includeBasicInformation on DirectorDetails to true, when the option is directors", () => {
             const options = ["directors"];
-            const returnedItemOptions = setItemOptions("active", options);
+            const returnedItemOptions = setItemOptions(CompanyStatus.ACTIVE, options);
 
             chai.expect(returnedItemOptions?.directorDetails?.includeBasicInformation).to.be.true;
             chai.expect(returnedItemOptions).to.not.have.property("liquidatorsDetails");
@@ -15,7 +16,7 @@ describe("certificate.options.controller.unit", () => {
 
         it("should set includeCompanyObjectsInformation to true, when the option is companyObjects", () => {
             const options = ["companyObjects"];
-            const returnedItemOptions = setItemOptions("active", options);
+            const returnedItemOptions = setItemOptions(CompanyStatus.ACTIVE, options);
 
             chai.expect(returnedItemOptions?.includeCompanyObjectsInformation).to.be.true;
             chai.expect(returnedItemOptions).to.not.have.property("liquidatorsDetails");
@@ -23,7 +24,7 @@ describe("certificate.options.controller.unit", () => {
 
         it("should set includeGoodStandingInformation to true, when the option is goodStanding", () => {
             const options = ["goodStanding"];
-            const returnedItemOptions = setItemOptions("active", options);
+            const returnedItemOptions = setItemOptions(CompanyStatus.ACTIVE, options);
 
             chai.expect(returnedItemOptions?.includeGoodStandingInformation).to.be.true;
             chai.expect(returnedItemOptions).to.not.have.property("liquidatorsDetails");
@@ -31,7 +32,7 @@ describe("certificate.options.controller.unit", () => {
 
         it("should not overwrite includeAddressRecordsType, when option is registeredOffice", () => {
             const options = ["registeredOffice"];
-            const returnedItemOptions = setItemOptions("active", options);
+            const returnedItemOptions = setItemOptions(CompanyStatus.ACTIVE, options);
 
             chai.expect(returnedItemOptions?.registeredOfficeAddressDetails).to.not.be.null;
             chai.expect(returnedItemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType).to.be.undefined;
@@ -40,7 +41,7 @@ describe("certificate.options.controller.unit", () => {
 
         it("should set includeBasicInformation on secretaryDetails to true, when the option is secretaries", () => {
             const options = ["secretaries"];
-            const returnedItemOptions = setItemOptions("active", options);
+            const returnedItemOptions = setItemOptions(CompanyStatus.ACTIVE, options);
 
             chai.expect(returnedItemOptions?.secretaryDetails?.includeBasicInformation).to.be.true;
             chai.expect(returnedItemOptions).to.not.have.property("liquidatorsDetails");
@@ -48,21 +49,21 @@ describe("certificate.options.controller.unit", () => {
 
         it("should set includeBasicInformation on liquidatorsDetails to true, when the option is liquidators and company is in liquidation", () => {
             const options = ["liquidators"];
-            const returnedItemOptions = setItemOptions("liquidation", options);
+            const returnedItemOptions = setItemOptions(CompanyStatus.LIQUIDATION, options);
 
             chai.expect(returnedItemOptions?.liquidatorsDetails?.includeBasicInformation).to.be.true;
         });
 
         it("should not set liquidatorsDetails, when the option is liquidators and company is not in liquidation", () => {
             const options = ["liquidators"];
-            const returnedItemOptions = setItemOptions("active", options);
+            const returnedItemOptions = setItemOptions(CompanyStatus.ACTIVE, options);
 
             chai.expect(returnedItemOptions).to.not.have.property("liquidatorsDetails");
         });
 
         it("should set multiple itemOptions, when multiple options are set", () => {
             const options = ["secretaries", "goodStanding", "companyObjects"];
-            const returnedItemOptions = setItemOptions("active", options);
+            const returnedItemOptions = setItemOptions(CompanyStatus.ACTIVE, options);
 
             chai.expect(returnedItemOptions?.secretaryDetails?.includeBasicInformation).to.be.true;
             chai.expect(returnedItemOptions?.includeGoodStandingInformation).to.be.true;
@@ -72,9 +73,9 @@ describe("certificate.options.controller.unit", () => {
             chai.expect(returnedItemOptions).to.not.have.property("liquidatorsDetails");
         });
 
-        it("should leave multiple itemOptions to null, when there are no options", () => {
+        it("should set multiple itemOptions to null, when there are no options", () => {
             const options = [];
-            const returnedItemOptions = setItemOptions("active", options);
+            const returnedItemOptions = setItemOptions(CompanyStatus.ACTIVE, options);
 
             chai.expect(returnedItemOptions?.secretaryDetails?.includeBasicInformation).to.be.null;
             chai.expect(returnedItemOptions?.includeGoodStandingInformation).to.be.null;
@@ -84,8 +85,8 @@ describe("certificate.options.controller.unit", () => {
             chai.expect(returnedItemOptions).to.not.have.property("liquidatorsDetails");
         });
 
-        it("should leave multiple itemOptions to null if company is active and options are undefined", () => {
-            const returnedItemOptions = setItemOptions("active");
+        it("should set multiple itemOptions to null if company is active and options are undefined", () => {
+            const returnedItemOptions = setItemOptions(CompanyStatus.ACTIVE);
 
             chai.expect(returnedItemOptions?.secretaryDetails?.includeBasicInformation).to.be.null;
             chai.expect(returnedItemOptions?.includeGoodStandingInformation).to.be.null;
@@ -96,7 +97,7 @@ describe("certificate.options.controller.unit", () => {
         });
 
         it("should set liquidatorsDetails to null if company is in liquidation and options are undefined", () => {
-            const returnedItemOptions = setItemOptions("liquidation");
+            const returnedItemOptions = setItemOptions(CompanyStatus.LIQUIDATION);
 
             chai.expect(returnedItemOptions?.secretaryDetails?.includeBasicInformation).to.be.null;
             chai.expect(returnedItemOptions?.includeGoodStandingInformation).to.be.null;
