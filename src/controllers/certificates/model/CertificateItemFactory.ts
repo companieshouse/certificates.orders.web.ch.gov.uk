@@ -1,7 +1,5 @@
-
-import {CertificateType} from "./CertificateType";
-import {CompanyStatus} from "./CompanyStatus";
 import {CertificateItemPostRequest} from "@companieshouse/api-sdk-node/dist/services/order/certificates";
+import {CompanyStatusHelper} from "../llp-certificates/CompanyStatusHelper";
 
 interface _CompanyProfile {
     companyNumber: string;
@@ -10,21 +8,21 @@ interface _CompanyProfile {
 }
 
 export default class CertificateItemFactory {
-    private readonly companyProfile: _CompanyProfile;
-    private readonly certificateType: string;
-
-    constructor(companyProfile: _CompanyProfile) {
-        this.companyProfile = companyProfile;
-        this.certificateType = this.companyProfile.companyStatus === CompanyStatus.ACTIVE ? CertificateType.INCORPORATION : CertificateType.DISSOLUTION;
+    constructor(private companyProfile: _CompanyProfile, private companyStatusHelper: CompanyStatusHelper = new CompanyStatusHelper()) {
     }
 
     createInitialRequest = (): CertificateItemPostRequest => {
+
+        const certificateType = this.companyStatusHelper.certificateTypeByCompanyStatus(this.companyProfile.companyStatus);
+        if (!certificateType) {
+            throw Error(`No certificate type for company status: ${this.companyProfile.companyStatus}`);
+        }
 
         return {
             companyNumber: this.companyProfile.companyNumber,
             itemOptions: {
                 companyType: this.companyProfile.type,
-                certificateType: this.certificateType,
+                certificateType: certificateType,
                 deliveryMethod: "postal",
                 deliveryTimescale: "standard"
             },
