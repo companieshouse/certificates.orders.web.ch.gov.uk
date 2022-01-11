@@ -80,7 +80,8 @@ const itemOptions: ItemOptions = {
     liquidatorsDetails: {
         includeBasicInformation: false
     },
-    includeGeneralNatureOfBusinessInformation: false
+    includeGeneralNatureOfBusinessInformation: false,
+    companyStatus: "active"
 };
 
 describe("certificate.check.details.controller.unit", () => {

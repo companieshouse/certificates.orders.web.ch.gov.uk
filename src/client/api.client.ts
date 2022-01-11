@@ -1,8 +1,8 @@
 import { createApiClient } from "@companieshouse/api-sdk-node";
-import { CompanyProfile, CompanyProfileResource } from "@companieshouse/api-sdk-node/dist/services/company-profile";
+import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
 import { BasketItem, ItemUriPostRequest, Basket, BasketPatchRequest } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
-import { CertificateItemPostRequest, CertificateItemPatchRequest, CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
-import { CertifiedCopyItem, CertifiedCopyItemResource } from "@companieshouse/api-sdk-node/dist/services/order/certified-copies/types";
+import { CertificateItemInitialRequest, CertificateItemPostRequest, CertificateItemPatchRequest, CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
+import { CertifiedCopyItem } from "@companieshouse/api-sdk-node/dist/services/order/certified-copies/types";
 import { API_URL, APPLICATION_NAME } from "../config/config";
 import { createLogger } from "ch-structured-logging";
 import Resource from "@companieshouse/api-sdk-node/dist/services/resource";
@@ -20,6 +20,17 @@ export const getCompanyProfile = async (apiKey: string, companyNumber: string): 
     logger.info(`Get company profile, company_number=${companyNumber}, status_code=${companyProfileResource.httpStatusCode}`);
     return companyProfileResource.resource as CompanyProfile;
 };
+
+export const postCertificateItemInitial =
+    async (oAuth: string, certificateItem: CertificateItemInitialRequest): Promise<CertificateItem> => {
+        const api = createApiClient(undefined, oAuth, API_URL);
+        const certificateItemResource: Resource<CertificateItem> = await api.certificate.postCertificateInitialRequest(certificateItem);
+        if (certificateItemResource.httpStatusCode !== 200 && certificateItemResource.httpStatusCode !== 201) {
+            throw createError(certificateItemResource.httpStatusCode, certificateItemResource.httpStatusCode.toString());
+        }
+        logger.info(`Create certificate, status_code=${certificateItemResource.httpStatusCode}, company_number=${certificateItem.companyNumber}`);
+        return certificateItemResource.resource as CertificateItem;
+    };
 
 export const postCertificateItem =
     async (oAuth: string, certificateItem: CertificateItemPostRequest): Promise<CertificateItem> => {
@@ -40,7 +51,7 @@ export const patchCertificateItem = async (
     if (certificateItemResource.httpStatusCode !== 200) {
         throw createError(certificateItemResource.httpStatusCode, certificateItemResource.httpStatusCode.toString());
     }
-    logger.info(`Patch certificate, id=${certificateId}, status_code=${certificateItemResource.httpStatusCode}, company_number=${certificateItem.companyNumber}`);
+    logger.info(`Patch certificate, id=${certificateId}, status_code=${certificateItemResource.httpStatusCode}`);
     return certificateItemResource.resource as CertificateItem;
 };
 

@@ -1,4 +1,7 @@
-import {CertificateItemPostRequest} from "@companieshouse/api-sdk-node/dist/services/order/certificates";
+import {
+    CertificateItemInitialRequest,
+    CertificateItemPostRequest
+} from "@companieshouse/api-sdk-node/dist/services/order/certificates";
 import {CompanyStatusHelper} from "../llp-certificates/CompanyStatusHelper";
 
 interface _CompanyProfile {
@@ -11,7 +14,7 @@ export default class CertificateItemFactory {
     constructor(private companyProfile: _CompanyProfile, private companyStatusHelper: CompanyStatusHelper = new CompanyStatusHelper()) {
     }
 
-    createInitialRequest = (): CertificateItemPostRequest => {
+    createInitialRequest = (): CertificateItemInitialRequest => {
 
         const certificateType = this.companyStatusHelper.certificateTypeByCompanyStatus(this.companyProfile.companyStatus);
         if (!certificateType) {
@@ -20,13 +23,6 @@ export default class CertificateItemFactory {
 
         return {
             companyNumber: this.companyProfile.companyNumber,
-            itemOptions: {
-                companyType: this.companyProfile.type,
-                certificateType: certificateType,
-                deliveryMethod: "postal",
-                deliveryTimescale: "standard"
-            },
-            quantity: 1
         }
     }
 }

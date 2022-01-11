@@ -5,7 +5,7 @@ import CertificateItemService from "@companieshouse/api-sdk-node/dist/services/o
 import BasketService from "@companieshouse/api-sdk-node/dist/services/order/basket/service";
 import CertifiedCopyItemService from "@companieshouse/api-sdk-node/dist/services/order/certified-copies/service";
 import { CertificateItemPostRequest, CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
-import { CertifiedCopyItem, CertifiedCopyItemResource } from "@companieshouse/api-sdk-node/dist/services/order/certified-copies/types";
+import { CertifiedCopyItem } from "@companieshouse/api-sdk-node/dist/services/order/certified-copies/types";
 import { Basket, BasketPatchRequest } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 
 import { postCertificateItem, patchBasket, getBasket, getCompanyProfile, getCertifiedCopyItem, postMissingImageDeliveryItem, getMissingImageDeliveryItem } from "../../src/client/api.client";
@@ -120,7 +120,8 @@ const dummyCertificateItemSDKResponse: Resource<CertificateItem> = {
             includeGeneralNatureOfBusinessInformation: false,
             liquidatorsDetails: {
                 includeBasicInformation: false
-            }
+            },
+            companyStatus: "active"
         },
         kind: "item#certificate",
         links: {

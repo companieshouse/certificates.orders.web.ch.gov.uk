@@ -77,7 +77,8 @@ const itemOptions: ItemOptions = {
     liquidatorsDetails: {
         includeBasicInformation: false
     },
-    includeGeneralNatureOfBusinessInformation: false
+    includeGeneralNatureOfBusinessInformation: false,
+    companyStatus: "active"
 };
 
 const deliveryDetails: DeliveryDetails = {

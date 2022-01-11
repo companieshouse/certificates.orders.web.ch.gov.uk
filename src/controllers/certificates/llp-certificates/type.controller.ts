@@ -2,10 +2,9 @@ import {NextFunction, Request, Response} from "express";
 
 import {getAccessToken, getUserId} from "../../../session/helper";
 import {
-    CertificateItem,
-    CertificateItemPostRequest
+    CertificateItem, CertificateItemInitialRequest
 } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
-import {getCompanyProfile, postCertificateItem} from "../../../client/api.client";
+import {getCompanyProfile, postCertificateItemInitial} from "../../../client/api.client";
 import {
     DISSOLVED_CERTIFICATE_DELIVERY_DETAILS,
     LLP_CERTIFICATE_OPTIONS,
@@ -41,8 +40,8 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             return;
         }
 
-        const certificateItemRequest: CertificateItemPostRequest = new CertificateItemFactory(companyProfile).createInitialRequest();
-        const certificateItem: CertificateItem = await postCertificateItem(accessToken, certificateItemRequest);
+        const certificateItemRequest: CertificateItemInitialRequest = new CertificateItemFactory(companyProfile).createInitialRequest();
+        const certificateItem: CertificateItem = await postCertificateItemInitial(accessToken, certificateItemRequest);
         logger.info(`Certificate Item created, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
 
         res.redirect(replaceCertificateId(companyStatusHelper.redirectPathByCompanyStatus(companyProfile.companyStatus), certificateItem.id));
