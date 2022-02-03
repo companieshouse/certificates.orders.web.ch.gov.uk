@@ -2,49 +2,47 @@ import { Request, Response, NextFunction } from "express";
 
 import { getAccessToken, getUserId } from "../../session/helper";
 import { CertificateItemPostRequest, CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
-import { postCertificateItem, getCompanyProfile } from "../../client/api.client";
-import { CERTIFICATE_OPTIONS, replaceCertificateId, DISSOLVED_CERTIFICATE_DELIVERY_DETAILS } from "./../../model/page.urls";
+import { postInitialCertificateItem } from "../../client/api.client";
+import { CERTIFICATE_OPTIONS, replaceCertificateId, DISSOLVED_CERTIFICATE_DELIVERY_DETAILS } from "../../model/page.urls";
 import { createLogger } from "ch-structured-logging";
-import { APPLICATION_NAME, API_KEY } from "../../config/config";
-import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
+import { APPLICATION_NAME } from "../../config/config";
 import { FEATURE_FLAGS } from "../../config/FeatureFlags";
 import { CompanyStatus } from "./model/CompanyStatus";
-import {YOU_CANNOT_USE_THIS_SERVICE} from "../../model/template.paths";
+import { YOU_CANNOT_USE_THIS_SERVICE } from "../../model/template.paths";
+import { BadRequest } from "http-errors";
 
 const logger = createLogger(APPLICATION_NAME);
-const INCORPORATION_WITH_ALL_NAME_CHANGES: string = "incorporation-with-all-name-changes";
-const DISSOLUTION_CERTIFICATE_TYPE: string = "dissolution";
 
 export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const accessToken: string = getAccessToken(req.session);
         const companyNumber = req.params.companyNumber;
-        const companyProfile: CompanyProfile = await getCompanyProfile(API_KEY, companyNumber);
-        const companyStatus = companyProfile.companyStatus;
         logger.debug(`Certificate render function called, company_number=${companyNumber}`);
+        const userId = getUserId(req.session);
+        const certificateItemRequest = createCertificateItemRequest(companyNumber);
+        const certificateItem: CertificateItem = await postInitialCertificateItem(accessToken, certificateItemRequest);
+        const companyStatus = certificateItem.itemOptions.companyStatus;
 
         if (companyStatus === CompanyStatus.ACTIVE || (companyStatus === CompanyStatus.LIQUIDATION && FEATURE_FLAGS.liquidatedCompanyCertficiateEnabled)) {
-            const certificateItemRequest = createCertificateItemRequest(companyNumber, INCORPORATION_WITH_ALL_NAME_CHANGES, companyProfile.type);
-            const userId = getUserId(req.session);
-            const certificateItem: CertificateItem = await postCertificateItem(accessToken, certificateItemRequest);
             logger.info(`Certificate Item created, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
             res.redirect(replaceCertificateId(CERTIFICATE_OPTIONS, certificateItem.id));
         } else if (companyStatus === CompanyStatus.DISSOLVED) {
-            const dissolvedCertificateItemRequest = createCertificateItemRequest(companyNumber, DISSOLUTION_CERTIFICATE_TYPE, companyProfile.type);
-            const userId = getUserId(req.session);
-            const certificateItem: CertificateItem = await postCertificateItem(accessToken, dissolvedCertificateItemRequest);
             logger.info(`Dissolved certificate Item created, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
             res.redirect(replaceCertificateId(DISSOLVED_CERTIFICATE_DELIVERY_DETAILS, certificateItem.id));
         } else {
             res.status(400).render(YOU_CANNOT_USE_THIS_SERVICE, {});
         }
     } catch (err) {
-        logger.error(`${err}`);
-        next(err);
+        if (err === BadRequest) {
+            res.status(400).render(YOU_CANNOT_USE_THIS_SERVICE, {});
+        } else {
+            logger.error(`${err}`);
+            next(err);
+        }
     }
 };
 
-const createCertificateItemRequest = (companyNumber, certificateType: string, companyType: string):CertificateItemPostRequest => {
+const createCertificateItemRequest = (companyNumber: string): CertificateItemPostRequest => {
     return {
         companyNumber,
         itemOptions: {

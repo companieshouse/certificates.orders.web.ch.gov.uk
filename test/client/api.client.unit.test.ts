@@ -46,7 +46,7 @@ const basketPatchRequest: BasketPatchRequest = {
 };
 
 const dummyCertificateItemSDKResponse: Resource<CertificateItem> = {
-    httpStatusCode: 200,
+    httpStatusCode: 201,
     resource: {
         companyName: "Company Name",
         companyNumber: "00000000",
@@ -145,7 +145,7 @@ const certificateItemRequest: CertificateItemPostRequest = {
 
 const certificateItemInitialRequest: CertificateItemInitialRequest = {
     companyNumber: "12345678"
-}
+};
 
 const dummyCompanyProfileSDKResponse: Resource<CompanyProfile> = {
     httpStatusCode: 200,
@@ -284,6 +284,11 @@ describe("api.client", () => {
 
             const certificateItem = await postInitialCertificateItem("oauth", certificateItemInitialRequest);
             chai.expect(certificateItem).to.equal(dummyCertificateItemSDKResponse.resource);
+        });
+        it("postInitialCertificateItem_throw", async () => {
+            sandbox.stub(CertificateItemService.prototype, "postInitialCertificate")
+                .returns(Promise.resolve({ httpStatusCode: 500 }));
+            await chai.expect(postInitialCertificateItem("oauth", certificateItemInitialRequest)).to.be.rejectedWith("500");
         });
     });
 
