@@ -4,11 +4,11 @@ import Resource from "@companieshouse/api-sdk-node/dist/services/resource";
 import CertificateItemService from "@companieshouse/api-sdk-node/dist/services/order/certificates/service";
 import BasketService from "@companieshouse/api-sdk-node/dist/services/order/basket/service";
 import CertifiedCopyItemService from "@companieshouse/api-sdk-node/dist/services/order/certified-copies/service";
-import { CertificateItemPostRequest, CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
+import { CertificateItemPostRequest, CertificateItem, CertificateItemInitialRequest } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { CertifiedCopyItem, CertifiedCopyItemResource } from "@companieshouse/api-sdk-node/dist/services/order/certified-copies/types";
 import { Basket, BasketPatchRequest } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 
-import { postCertificateItem, patchBasket, getBasket, getCompanyProfile, getCertifiedCopyItem, postMissingImageDeliveryItem, getMissingImageDeliveryItem } from "../../src/client/api.client";
+import { postCertificateItem, postInitialCertificateItem, patchBasket, getBasket, getCompanyProfile, getCertifiedCopyItem, postMissingImageDeliveryItem, getMissingImageDeliveryItem } from "../../src/client/api.client";
 import CompanyProfileService from "@companieshouse/api-sdk-node/dist/services/company-profile/service";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
 import { MidService } from "@companieshouse/api-sdk-node/dist/services/order";
@@ -62,6 +62,7 @@ const dummyCertificateItemSDKResponse: Resource<CertificateItem> = {
         itemOptions: {
             certificateType: "incorporation",
             collectionLocation: "cardiff",
+            companyStatus: "active",
             contactNumber: "07596820642",
             deliveryMethod: "collection",
             deliveryTimescale: "standard",
@@ -141,6 +142,10 @@ const certificateItemRequest: CertificateItemPostRequest = {
     },
     quantity: 1
 };
+
+const certificateItemInitialRequest: CertificateItemInitialRequest = {
+    companyNumber: "12345678"
+}
 
 const dummyCompanyProfileSDKResponse: Resource<CompanyProfile> = {
     httpStatusCode: 200,
@@ -269,6 +274,16 @@ describe("api.client", () => {
 
             const companyProfile = await getCompanyProfile("api key", "00000000");
             chai.expect(companyProfile).to.equal(dummyCompanyProfileSDKResponse.resource);
+        });
+    });
+
+    describe("postInitialCertificateItem", () => {
+        it("returns a Certificate Item object", async () => {
+            sandbox.stub(CertificateItemService.prototype, "postInitialCertificate")
+                .returns(Promise.resolve(dummyCertificateItemSDKResponse));
+
+            const certificateItem = await postInitialCertificateItem("oauth", certificateItemInitialRequest);
+            chai.expect(certificateItem).to.equal(dummyCertificateItemSDKResponse.resource);
         });
     });
 

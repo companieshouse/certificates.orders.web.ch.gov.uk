@@ -21,8 +21,6 @@ export default class CertificateItemFactory {
         return {
             companyNumber: this.companyProfile.companyNumber,
             itemOptions: {
-                companyType: this.companyProfile.type,
-                certificateType: certificateType,
                 deliveryMethod: "postal",
                 deliveryTimescale: "standard"
             },

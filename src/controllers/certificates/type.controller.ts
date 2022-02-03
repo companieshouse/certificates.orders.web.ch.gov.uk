@@ -48,8 +48,6 @@ const createCertificateItemRequest = (companyNumber, certificateType: string, co
     return {
         companyNumber,
         itemOptions: {
-            companyType: companyType,
-            certificateType,
             deliveryMethod: "postal",
             deliveryTimescale: "standard"
         },

@@ -19,10 +19,8 @@ describe("Certificate item factory tests", () => {
         chai.expect(requestItem).to.deep.equal({
             companyNumber: "12345678",
             itemOptions: {
-                certificateType: CertificateType.INCORPORATION,
                 deliveryMethod: "postal",
                 deliveryTimescale: "standard",
-                companyType: "ltd"
             },
             quantity: 1
         });
@@ -43,10 +41,8 @@ describe("Certificate item factory tests", () => {
         chai.expect(certificateItem).to.deep.equal({
             companyNumber: "12345678",
             itemOptions: {
-                certificateType: CertificateType.DISSOLUTION,
                 deliveryMethod: "postal",
                 deliveryTimescale: "standard",
-                companyType: "ltd"
             },
             quantity: 1
         });
