@@ -4,7 +4,7 @@ import { getAccessToken, getUserId } from "../../../session/helper";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { postInitialCertificateItem } from "../../../client/api.client";
 import {
-    DISSOLVED_CERTIFICATE_DELIVERY_DETAILS, LLP_CERTIFICATE_OPTIONS,
+    DISSOLVED_CERTIFICATE_DELIVERY_DETAILS,
     LP_CERTIFICATE_OPTIONS,
     replaceCertificateId
 } from "../../../model/page.urls";

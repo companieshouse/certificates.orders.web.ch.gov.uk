@@ -1,13 +1,12 @@
-import { Request, Response, NextFunction } from "express";
+import { NextFunction, Request, Response } from "express";
 
 import { getAccessToken, getUserId } from "../../session/helper";
-import { CertificateItemPostRequest, CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
+import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { postInitialCertificateItem } from "../../client/api.client";
 import {
     CERTIFICATE_OPTIONS,
-    replaceCertificateId,
     DISSOLVED_CERTIFICATE_DELIVERY_DETAILS,
-    LLP_CERTIFICATE_OPTIONS
+    replaceCertificateId
 } from "../../model/page.urls";
 import { createLogger } from "ch-structured-logging";
 import { APPLICATION_NAME } from "../../config/config";
