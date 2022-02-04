@@ -5,8 +5,9 @@ import * as apiClient from "../../../src/client/api.client";
 import { CERTIFICATE_TYPE, replaceCertificateId } from "../../../src/model/page.urls";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
-import { FEATURE_FLAGS } from "../../../src/config/FeatureFlags";
-import { BadGateway, BadRequest } from "http-errors";
+import { BadGateway } from "http-errors";
+import { ApiErrorResponse, ApiResponse, ApiResult } from "../../../../api-sdk-node/dist/services/resource";
+import { failure, success } from "../../../../api-sdk-node/dist/services/result";
 
 const chai = require("chai");
 
@@ -40,9 +41,13 @@ describe("default.type.controller.integration", () => {
                     certificateType: "incorporation-with-all-name-changes"
                 }
             } as CertificateItem;
+            const response: ApiResult<ApiResponse<CertificateItem>> = success({
+                httpStatusCode: 201,
+                resource: certificateDetails
+            });
 
             postCertificateItemStub = sandbox.stub(apiClient, "postInitialCertificateItem")
-                .returns(Promise.resolve(certificateDetails));
+                .returns(Promise.resolve(response));
 
             const resp = await chai.request(testApp)
                 .get(CERTIFICATE_TYPE_URL)
@@ -54,7 +59,6 @@ describe("default.type.controller.integration", () => {
         });
 
         it("redirects user to options page when company status is liquidation and flag enabled", async () => {
-            FEATURE_FLAGS.liquidatedCompanyCertficiateEnabled = true;
             const certificateDetails = {
                 id: "CRT-951616-000712",
                 itemOptions: {
@@ -62,9 +66,13 @@ describe("default.type.controller.integration", () => {
                     certificateType: "incorporation-with-all-name-changes"
                 }
             } as CertificateItem;
+            const response: ApiResult<ApiResponse<CertificateItem>> = success({
+                httpStatusCode: 201,
+                resource: certificateDetails
+            });
 
             postCertificateItemStub = sandbox.stub(apiClient, "postInitialCertificateItem")
-                .returns(Promise.resolve(certificateDetails));
+                .returns(Promise.resolve(response));
 
             const resp = await chai.request(testApp)
                 .get(CERTIFICATE_TYPE_URL)
@@ -75,9 +83,17 @@ describe("default.type.controller.integration", () => {
             chai.expect(resp.text).to.include("Found. Redirecting to /orderable/certificates/CRT-951616-000712/certificate-options");
         });
 
-        it("raises error when client error returned", async () => {
+        it("raises error when company status error returned by API", async () => {
+            const response: ApiResult<ApiResponse<CertificateItem>> = failure({
+                httpStatusCode: 400,
+                errors: [{
+                    errorValues: {
+                        ERR_COMPANY_STATUS_INVALID: "The company status is invalid"
+                    }
+                }]
+            } as ApiErrorResponse);
             postCertificateItemStub = sandbox.stub(apiClient, "postInitialCertificateItem")
-                .returns(Promise.reject(BadRequest));
+                .returns(Promise.resolve(response));
 
             const resp = await chai.request(testApp)
                 .get(CERTIFICATE_TYPE_URL)
@@ -88,9 +104,89 @@ describe("default.type.controller.integration", () => {
             chai.expect(resp.text).to.include("You cannot use this service");
         });
 
-        it("raises error when server error returned", async () => {
+        it("raises client error when company type error returned by API", async () => {
+            const response: ApiResult<ApiResponse<CertificateItem>> = failure({
+                httpStatusCode: 400,
+                errors: [{
+                    errorValues: {
+                        ERR_COMPANY_TYPE_INVALID: "The company type is invalid"
+                    }
+                }]
+            } as ApiErrorResponse);
             postCertificateItemStub = sandbox.stub(apiClient, "postInitialCertificateItem")
-                .returns(Promise.reject(BadGateway));
+                .returns(Promise.resolve(response));
+
+            const resp = await chai.request(testApp)
+                .get(CERTIFICATE_TYPE_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
+                .redirects(0);
+
+            chai.expect(resp.status).to.equal(400);
+            chai.expect(resp.text).to.include("You cannot use this service");
+        });
+
+        it("raises client error when company type error returned by API", async () => {
+            const response: ApiResult<ApiResponse<CertificateItem>> = failure({
+                httpStatusCode: 400,
+                errors: [{
+                    errorValues: {
+                        ERR_COMPANY_TYPE_INVALID: "The company type is invalid"
+                    }
+                }]
+            } as ApiErrorResponse);
+            postCertificateItemStub = sandbox.stub(apiClient, "postInitialCertificateItem")
+                .returns(Promise.resolve(response));
+
+            const resp = await chai.request(testApp)
+                .get(CERTIFICATE_TYPE_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
+                .redirects(0);
+
+            chai.expect(resp.status).to.equal(400);
+            chai.expect(resp.text).to.include("You cannot use this service");
+        });
+
+        it("raises server error when undocumented client error returned by API", async () => {
+            const response: ApiResult<ApiResponse<CertificateItem>> = failure({
+                httpStatusCode: 400,
+                errors: [{
+                    errorValues: {
+                        ERR_OTHER: "Something went wrong"
+                    }
+                }]
+            } as ApiErrorResponse);
+            postCertificateItemStub = sandbox.stub(apiClient, "postInitialCertificateItem")
+                .returns(Promise.resolve(response));
+
+            const resp = await chai.request(testApp)
+                .get(CERTIFICATE_TYPE_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
+                .redirects(0);
+
+            chai.expect(resp.status).to.equal(500);
+        });
+
+        it("raises internal server error when server error returned", async () => {
+            const result: ApiResult<ApiResponse<CertificateItem>> = failure({
+                httpStatusCode: 500
+            });
+            postCertificateItemStub = sandbox.stub(apiClient, "postInitialCertificateItem")
+                .returns(Promise.resolve(result));
+
+            const resp = await chai.request(testApp)
+                .get(CERTIFICATE_TYPE_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
+                .redirects(0);
+
+            chai.expect(resp.status).to.equal(500);
+        });
+
+        it("raises internal server error when no resource returned", async () => {
+            const result: ApiResult<ApiResponse<CertificateItem>> = success({
+                httpStatusCode: 201
+            });
+            postCertificateItemStub = sandbox.stub(apiClient, "postInitialCertificateItem")
+                .returns(Promise.resolve(result));
 
             const resp = await chai.request(testApp)
                 .get(CERTIFICATE_TYPE_URL)
@@ -101,14 +197,20 @@ describe("default.type.controller.integration", () => {
         });
 
         it("raises error when invalid company status returned", async () => {
+            const certificateDetails = {
+                id: "CRT-951616-000712",
+                itemOptions: {
+                    companyStatus: "invalid",
+                    certificateType: "incorporation-with-all-name-changes"
+                }
+            } as CertificateItem;
+            const response: ApiResult<ApiResponse<CertificateItem>> = success({
+                httpStatusCode: 201,
+                resource: certificateDetails
+            });
+
             postCertificateItemStub = sandbox.stub(apiClient, "postInitialCertificateItem")
-                .returns(Promise.resolve({
-                    id: "CRT-951616-000712",
-                    itemOptions: {
-                        companyStatus: "invalid",
-                        certificateType: "incorporation-with-all-name-changes"
-                    }
-                } as CertificateItem));
+                .returns(Promise.resolve(response));
 
             const resp = await chai.request(testApp)
                 .get(CERTIFICATE_TYPE_URL)
@@ -129,9 +231,13 @@ describe("default.type.controller.integration", () => {
                     certificateType: "dissolution"
                 }
             } as CertificateItem;
+            const response: ApiResult<ApiResponse<CertificateItem>> = success({
+                httpStatusCode: 201,
+                resource: dissolvedCertificateDetails
+            });
 
             postDissolvedCertificateItemStub = sandbox.stub(apiClient, "postInitialCertificateItem")
-                .returns(Promise.resolve(dissolvedCertificateDetails));
+                .returns(Promise.resolve(response));
 
             const resp = await chai.request(testApp)
                 .get(CERTIFICATE_TYPE_URL)
