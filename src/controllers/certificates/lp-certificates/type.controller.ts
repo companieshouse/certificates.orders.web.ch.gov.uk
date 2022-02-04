@@ -16,6 +16,7 @@ import { YOU_CANNOT_USE_THIS_SERVICE } from "../../../model/template.paths";
 
 const logger = createLogger(APPLICATION_NAME);
 
+// TODO: confirm whether user journey for active companies is valid for other statuses
 const statusRedirectMappings = new Map<string, string>([
     [CompanyStatus.ACTIVE, LP_CERTIFICATE_OPTIONS],
     [CompanyStatus.DISSOLVED, DISSOLVED_CERTIFICATE_DELIVERY_DETAILS]
