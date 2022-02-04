@@ -1,29 +1,36 @@
 import { Router } from "express";
 
 import {
-    LLP_ROOT_CERTIFICATE,
-    LLP_CERTIFICATE_TYPE,
-    LLP_CERTIFICATE_OPTIONS,
+    DISSOLVED_CERTIFICATE_DELIVERY_DETAILS,
+    LLP_CERTIFICATE_CHECK_DETAILS,
+    LLP_CERTIFICATE_DELIVERY_DETAILS,
     LLP_CERTIFICATE_DESIGNATED_MEMBERS_OPTIONS,
     LLP_CERTIFICATE_MEMBERS_OPTIONS,
-    LLP_CERTIFICATE_DELIVERY_DETAILS,
-    LLP_CERTIFICATE_CHECK_DETAILS,
-    LLP_CERTIFICATE_REGISTERED_OFFICE_OPTIONS
+    LLP_CERTIFICATE_OPTIONS,
+    LLP_CERTIFICATE_REGISTERED_OFFICE_OPTIONS,
+    LLP_CERTIFICATE_TYPE,
+    LLP_ROOT_CERTIFICATE
 } from "../../../model/page.urls";
 
 import homeController from "../../../controllers/certificates/home.controller";
-import { render as renderCertificateType } from "../../../controllers/certificates/llp-certificates/type.controller";
 import collectionOptionsController, { render as renderCertificateOptions } from "../../../controllers/certificates/llp-certificates/options.controller";
 import designatedMembersOptionsController, { render as renderDesignatedMemberOptions } from "../../../controllers/certificates/llp-certificates/designated-members.options.controller";
 import membersOptionsController, { render as renderMembersOptions } from "../../../controllers/certificates/llp-certificates/members.options.controller";
-import deliveryDetailsController , { render as renderDeliveryDetails } from "../../../controllers/certificates/llp-certificates/delivery.details.controller";
-import checkDetailsController, { render as renderCheckDetails} from "../../../controllers/certificates/llp-certificates/check.details.controller";
+import deliveryDetailsController, { render as renderDeliveryDetails } from "../../../controllers/certificates/llp-certificates/delivery.details.controller";
+import checkDetailsController, { render as renderCheckDetails } from "../../../controllers/certificates/llp-certificates/check.details.controller";
 import registeredOfficeOptionsController, { render as renderRegisteredOfficeOptions } from "../../../controllers/certificates/llp-certificates/registered.office.options.controller";
+import { TypeController } from "../../../controllers/certificates/type.controller";
+import { CompanyStatus } from "../../../controllers/certificates/model/CompanyStatus";
 
 const router: Router = Router();
 
 router.get(LLP_ROOT_CERTIFICATE, homeController);
-router.get(LLP_CERTIFICATE_TYPE, renderCertificateType);
+const typeController = new TypeController(new Map<string, string>([
+    [CompanyStatus.ACTIVE, LLP_CERTIFICATE_OPTIONS],
+    [CompanyStatus.LIQUIDATION, LLP_CERTIFICATE_OPTIONS],
+    [CompanyStatus.DISSOLVED, DISSOLVED_CERTIFICATE_DELIVERY_DETAILS]
+]));
+router.get(LLP_CERTIFICATE_TYPE, typeController.render.bind(typeController));
 router.get(LLP_CERTIFICATE_OPTIONS, renderCertificateOptions);
 router.post(LLP_CERTIFICATE_OPTIONS, collectionOptionsController);
 router.get(LLP_CERTIFICATE_REGISTERED_OFFICE_OPTIONS, renderRegisteredOfficeOptions);
