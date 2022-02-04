@@ -24,18 +24,24 @@ const statusRedirectMappings = new Map<string, string>([
 
 export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-        logger.debug(`LLP Certificate render - company_number=${req?.params?.companyNumber}`);
+        logger.debug(`LLP Certificate render - company_number=${req.params.companyNumber}`);
 
         const userId = getUserId(req.session);
         const accessToken: string = getAccessToken(req.session);
 
+        // TODO: handle missing company number?
         const certificateItem: CertificateItem = await postInitialCertificateItem(accessToken, {
-            companyNumber: req?.params?.companyNumber
+            companyNumber: req.params.companyNumber
         });
 
         logger.info(`Certificate Item created, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
 
-        res.redirect(replaceCertificateId(statusRedirectMappings.get(certificateItem.itemOptions.companyStatus) || "", certificateItem.id));
+        const redirect = statusRedirectMappings.get(certificateItem.itemOptions.companyStatus) || "";
+        if (!redirect) {
+            res.status(400).render(YOU_CANNOT_USE_THIS_SERVICE);
+        } else {
+            res.redirect(replaceCertificateId(redirect, certificateItem.id));
+        }
     } catch (err) {
         if (err === BadRequest) {
             res.status(400).render(YOU_CANNOT_USE_THIS_SERVICE);

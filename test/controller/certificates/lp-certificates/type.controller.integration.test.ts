@@ -16,7 +16,7 @@ let postDissolvedCertificateItemStub;
 const COMPANY_NUMBER = "OC006500";
 const CERTIFICATE_TYPE_URL = replaceCertificateId(LP_CERTIFICATE_TYPE, COMPANY_NUMBER);
 
-describe("type.controller.integration", () => {
+describe("lp.type.controller.integration", () => {
     beforeEach((done) => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
         sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
@@ -75,6 +75,26 @@ describe("type.controller.integration", () => {
                 .redirects(0);
 
             chai.expect(resp.status).to.equal(500);
+        });
+
+        it("raises error when invalid company status returned", async () => {
+            postCertificateItemStub = sandbox.stub(apiClient, "postInitialCertificateItem")
+                .returns(Promise.resolve({
+                    id: "CRT-951616-000712",
+                    itemOptions: {
+                        companyStatus: "invalid",
+                        certificateType: "incorporation-with-all-name-changes",
+                        companyType: "limited-partnership"
+                    }
+                } as CertificateItem));
+
+            const resp = await chai.request(testApp)
+                .get(CERTIFICATE_TYPE_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
+                .redirects(0);
+
+            chai.expect(resp.status).to.equal(400);
+            chai.expect(resp.text).to.include("You cannot use this service");
         });
     });
 
