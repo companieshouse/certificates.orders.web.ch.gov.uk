@@ -7,8 +7,8 @@ import { createLogger } from "ch-structured-logging";
 import { APPLICATION_NAME } from "../../config/config";
 import { YOU_CANNOT_USE_THIS_SERVICE } from "../../model/template.paths";
 import { CertificateItem } from "../../../../api-sdk-node/dist/services/order/certificates";
-import { ApiErrorResponse, ApiResponse, ApiResult } from "../../../../api-sdk-node/dist/services/resource";
-import { Failure, Success } from "../../../../api-sdk-node/dist/services/result";
+import { ApiErrorResponse, ApiResponse } from "../../../../api-sdk-node/dist/services/resource";
+import { Failure } from "../../../../api-sdk-node/dist/services/result";
 import { InternalServerError } from "http-errors";
 
 const logger = createLogger(APPLICATION_NAME);
@@ -23,32 +23,24 @@ export class TypeController {
             const accessToken: string = getAccessToken(req.session);
             const companyNumber = req.params.companyNumber;
             logger.debug(`Certificate render function called, company_number=${companyNumber}`);
-            const userId = getUserId(req.session);
             // TODO: handle missing company number?
             const response = await postInitialCertificateItem(accessToken, {
                 companyNumber
             });
-            this.handleResponse(response, userId, res, next);
+            if (response.isSuccess()) {
+                this.handleSuccessfulResponse(response.value.resource, getUserId(req.session), res);
+            } else {
+                this.handleErrorResponse(response, res);
+            }
         } catch (err) {
             logger.error(`${err}`);
             next(err);
         }
     }
 
-    private handleResponse (response: ApiResult<ApiResponse<CertificateItem>>, userId: string, res: Response, next: NextFunction) {
-        if (response.isSuccess()) {
-            this.handleSuccessfulResponse(response, next, userId, res);
-        } else {
-            this.handleErrorResponse(response, res, next);
-        }
-    }
-
-    private handleSuccessfulResponse (response: Success<ApiResponse<CertificateItem>, ApiErrorResponse>, next: NextFunction, userId: string, res: Response) {
-        const certificateItem = response.value.resource;
+    private handleSuccessfulResponse (certificateItem: CertificateItem | undefined, userId: string, res: Response) {
         if (!certificateItem) {
-            logger.error("Failed to retrieve certificate item");
-            next(InternalServerError);
-            return;
+            throw new InternalServerError("Failed to retrieve certificate item");
         }
         logger.info(`Certificate Item created, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
         const redirect = this.statusRedirectMappings.get(certificateItem.itemOptions.companyStatus) || "";
@@ -59,13 +51,13 @@ export class TypeController {
         }
     }
 
-    private handleErrorResponse (response: Failure<ApiResponse<CertificateItem>, ApiErrorResponse>, res: Response, next: NextFunction) {
+    private handleErrorResponse (apiResponse: Failure<ApiResponse<CertificateItem>, ApiErrorResponse>, res: Response) {
         const validErrors = [
             "ERR_COMPANY_TYPE_INVALID",
             "ERR_COMPANY_STATUS_INVALID"
         ];
-        if (response.value.httpStatusCode === 400 && response.value.errors) {
-            for (const err of response.value.errors) {
+        if (apiResponse.value.httpStatusCode === 400 && apiResponse.value.errors) {
+            for (const err of apiResponse.value.errors) {
                 for (const key of validErrors) {
                     if (err.errorValues && err.errorValues[key]) {
                         res.status(400).render(YOU_CANNOT_USE_THIS_SERVICE, {});
@@ -74,7 +66,6 @@ export class TypeController {
                 }
             }
         }
-        logger.error("Failed to retrieve certificate item");
-        next(InternalServerError);
+        throw new InternalServerError("Failed to retrieve certificate item");
     }
 }

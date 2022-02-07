@@ -5,7 +5,6 @@ import * as apiClient from "../../../src/client/api.client";
 import { CERTIFICATE_TYPE, replaceCertificateId } from "../../../src/model/page.urls";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
-import { BadGateway } from "http-errors";
 import { ApiErrorResponse, ApiResponse, ApiResult } from "../../../../api-sdk-node/dist/services/resource";
 import { failure, success } from "../../../../api-sdk-node/dist/services/result";
 
