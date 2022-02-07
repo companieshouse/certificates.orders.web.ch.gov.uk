@@ -52,7 +52,7 @@ export const patchCertificateItem = async (
     if (certificateItemResource.httpStatusCode !== 200) {
         throw createError(certificateItemResource.httpStatusCode, certificateItemResource.httpStatusCode.toString());
     }
-    //logger.info(`Patch certificate, id=${certificateId}, status_code=${certificateItemResource.httpStatusCode}, company_number=${certificateItem.companyNumber}`);
+    logger.info(`Patch certificate, id=${certificateId}, status_code=${certificateItemResource.httpStatusCode}, company_number=${certificateItemResource.resource?.companyNumber}`);
     return certificateItemResource.resource as CertificateItem;
 };
 
