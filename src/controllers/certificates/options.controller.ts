@@ -5,7 +5,6 @@ import { createLogger } from "ch-structured-logging";
 import { CERTIFICATE_OPTIONS } from "../../model/template.paths";
 import { getAccessToken, getUserId } from "../../session/helper";
 import { APPLICATION_NAME, API_KEY } from "../../config/config";
-import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
 import { optionFilter } from "./OptionFilter";
 import {CompanyStatus} from "./model/CompanyStatus";
 
@@ -24,8 +23,6 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const userId = getUserId(req.session);
         const accessToken: string = getAccessToken(req.session);
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
-        const companyProfile: CompanyProfile = await getCompanyProfile(API_KEY, certificateItem.companyNumber);
-        const itemOptions: ItemOptions = certificateItem.itemOptions;
         const SERVICE_URL = `/company/${certificateItem.companyNumber}/orderable/certificates`;
         logger.info(`Certificate item retrieved, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
         return res.render(CERTIFICATE_OPTIONS, {
@@ -34,8 +31,8 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             templateName: CERTIFICATE_OPTIONS,
             SERVICE_URL,
             filterMappings: {
-                goodStanding: companyProfile.companyStatus != CompanyStatus.LIQUIDATION,
-                liquidators: companyProfile.companyStatus == CompanyStatus.LIQUIDATION
+                goodStanding: certificateItem.itemOptions.companyStatus != CompanyStatus.LIQUIDATION,
+                liquidators: certificateItem.itemOptions.companyStatus == CompanyStatus.LIQUIDATION
             },
             optionFilter: optionFilter
         });
@@ -54,15 +51,14 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         let secretaryOptions: boolean;
         const accessToken: string = getAccessToken(req.session);
         const certificate: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
-        const companyProfile: CompanyProfile = await getCompanyProfile(API_KEY, certificate.companyNumber);
 
         if (typeof moreInfo === "string") {
-            additionalInfoItemOptions = setItemOptions(companyProfile.companyStatus, [moreInfo]);
+            additionalInfoItemOptions = setItemOptions(certificate.itemOptions.companyStatus, [moreInfo]);
             registeredOfficeOptions = hasRegisterOfficeAddressOptions([moreInfo]);
             directorOptions = hasDirectorOption([moreInfo]);
             secretaryOptions = hasSecretaryOptions([moreInfo]);
         } else {
-            additionalInfoItemOptions = setItemOptions(companyProfile.companyStatus, moreInfo);
+            additionalInfoItemOptions = setItemOptions(certificate.itemOptions.companyStatus, moreInfo);
             registeredOfficeOptions = hasRegisterOfficeAddressOptions(moreInfo);
             directorOptions = hasDirectorOption(moreInfo);
             secretaryOptions = hasSecretaryOptions(moreInfo);
