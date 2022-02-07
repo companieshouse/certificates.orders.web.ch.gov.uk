@@ -87,6 +87,8 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         const accessToken: string = getAccessToken(req.session);
         const certificateItem: CertificateItemPatchRequest = {
             itemOptions: {
+                deliveryMethod: "postal",
+                deliveryTimescale: "standard",
                 forename: firstName,
                 surname: lastName
             }
