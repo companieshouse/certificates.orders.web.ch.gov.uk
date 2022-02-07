@@ -6,10 +6,10 @@ import { replaceCertificateId } from "../../model/page.urls";
 import { createLogger } from "ch-structured-logging";
 import { APPLICATION_NAME } from "../../config/config";
 import { YOU_CANNOT_USE_THIS_SERVICE } from "../../model/template.paths";
-import { CertificateItem } from "../../../../api-sdk-node/dist/services/order/certificates";
-import { ApiErrorResponse, ApiResponse } from "../../../../api-sdk-node/dist/services/resource";
-import { Failure } from "../../../../api-sdk-node/dist/services/result";
-import { InternalServerError } from "http-errors";
+import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates";
+import { ApiErrorResponse, ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
+import { Failure } from "@companieshouse/api-sdk-node/dist/services/result";
+import { BadRequest, InternalServerError } from "http-errors";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -23,7 +23,6 @@ export class TypeController {
             const accessToken: string = getAccessToken(req.session);
             const companyNumber = req.params.companyNumber;
             logger.debug(`Certificate render function called, company_number=${companyNumber}`);
-            // TODO: handle missing company number?
             const response = await postInitialCertificateItem(accessToken, {
                 companyNumber
             });
@@ -52,19 +51,14 @@ export class TypeController {
     }
 
     private handleErrorResponse (apiResponse: Failure<ApiResponse<CertificateItem>, ApiErrorResponse>, res: Response) {
-        const validErrors = [
-            "ERR_COMPANY_TYPE_INVALID",
-            "ERR_COMPANY_STATUS_INVALID"
-        ];
         if (apiResponse.value.httpStatusCode === 400 && apiResponse.value.errors) {
             for (const err of apiResponse.value.errors) {
-                for (const key of validErrors) {
-                    if (err.errorValues && err.errorValues[key]) {
-                        res.status(400).render(YOU_CANNOT_USE_THIS_SERVICE, {});
-                        return;
-                    }
+                if (err.error === "company-status-invalid") {
+                    res.status(400).render(YOU_CANNOT_USE_THIS_SERVICE, {});
+                    return;
                 }
             }
+            throw new BadRequest("Unhandled client error");
         }
         throw new InternalServerError("Failed to retrieve certificate item");
     }

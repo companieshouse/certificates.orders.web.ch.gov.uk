@@ -30,7 +30,7 @@ import CompanyProfileService from "@companieshouse/api-sdk-node/dist/services/co
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
 import { MidService } from "@companieshouse/api-sdk-node/dist/services/order";
 import { MidItem, MidItemPostRequest } from "@companieshouse/api-sdk-node/dist/services/order/mid/types";
-import { failure, success, Success } from "../../../api-sdk-node/dist/services/result";
+import { failure, success, Success } from "@companieshouse/api-sdk-node/dist/services/result";
 
 const dummyBasketSDKResponse: Resource<Basket> = {
     httpStatusCode: 200,
