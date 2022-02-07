@@ -24,8 +24,9 @@
           {% if isNotDissolutionCertificateType %}
             {{ govukSummaryList({
               classes: 'govuk-!-margin-bottom-9',
-              rows: [
+              rows: optionFilter([
                 {
+                  id: "companyName",
                   key: {
                     text: "Company name",
                     classes: 'govuk-!-width-one-half'
@@ -42,6 +43,7 @@
                   }
                 },
                 {
+                  id: "companyNumber",
                   key: {
                     text: "Company number"
                   },
@@ -57,6 +59,7 @@
                   }
                 },
                 {
+                  id: "certificateType",
                   key: {
                     text: "Certificate type"
                   },
@@ -72,6 +75,7 @@
                   }
                 },
                 {
+                  id: "statementOfGoodStanding",
                   key: {
                     text: "Statement of good standing"
                   },
@@ -88,6 +92,7 @@
                   }
                 },
                 {
+                  id: "registeredOfficeAddress",
                   key: {
                     text: "Registered office address"
                   },
@@ -104,6 +109,7 @@
                   }
                 },
                 {
+                  id: "directors",
                   key: {
                     text: "The names of all current company directors"
                   },
@@ -120,6 +126,7 @@
                   }
                 },
                 {
+                  id: "secretaries",
                   key: {
                     text: "The names of all current secretaries"
                   },
@@ -136,6 +143,7 @@
                   }
                 },
                 {
+                  id: "companyObjects",
                   key: {
                     text: "Company objects"
                   },
@@ -150,8 +158,25 @@
                       }
                     ]
                   }
+                },
+                {
+                  id: "liquidators",
+                  key: {
+                    text: "Liquidators' details"
+                  },
+                  value: {
+                    classes: "liquidators",
+                    text: liquidatorsDetails
+                  },
+                  actions: {
+                    items: [
+                      {
+                        visuallyHiddenText: "liquidators' details"
+                      }
+                    ]
+                  }
                 }
-              ]
+              ], filterMappings)
             }) }}
 
             <p class="govuk-body"> To change your certificate options, you'll need to <a href="{{ changeIncludedOn }}" class="govuk-link">start the order again</a>.</p>

@@ -1,24 +1,35 @@
 import { NextFunction, Request, Response } from "express";
-import { CertificateItem, ItemOptions, DesignatedMemberDetails, MemberDetails } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
+import {
+    CertificateItem,
+    DesignatedMemberDetails,
+    ItemOptions,
+    MemberDetails
+} from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 import { createLogger } from "ch-structured-logging";
 
 import {
-    DISSOLVED_CERTIFICATE_DELIVERY_DETAILS, LLP_CERTIFICATE_DELIVERY_DETAILS,
-    LLP_CERTIFICATE_OPTIONS, LLP_ROOT_CERTIFICATE, replaceCertificateId,
-    replaceCompanyNumber, ROOT_DISSOLVED_CERTIFICATE
+    DISSOLVED_CERTIFICATE_DELIVERY_DETAILS,
+    LLP_CERTIFICATE_DELIVERY_DETAILS,
+    LLP_CERTIFICATE_OPTIONS,
+    LLP_ROOT_CERTIFICATE,
+    replaceCertificateId,
+    replaceCompanyNumber,
+    ROOT_DISSOLVED_CERTIFICATE
 } from "../../../model/page.urls";
-import { mapDeliveryDetails, mapToHtml, mapDeliveryMethod } from "../../../utils/check.details.utils";
+import { mapDeliveryDetails, mapDeliveryMethod, mapToHtml } from "../../../utils/check.details.utils";
 import { LLP_CERTIFICATE_CHECK_DETAILS } from "../../../model/template.paths";
-import { addItemToBasket, getCertificateItem, getBasket } from "../../../client/api.client";
-import { CHS_URL, APPLICATION_NAME } from "../../../config/config";
+import { addItemToBasket, getBasket, getCertificateItem } from "../../../client/api.client";
+import { APPLICATION_NAME, CHS_URL } from "../../../config/config";
 import { getAccessToken, getUserId } from "../../../session/helper";
-import {DobType} from "../../../model/DobType";
-import {AddressRecordsType} from "../../../model/AddressRecordsType";
+import { DobType } from "../../../model/DobType";
+import { AddressRecordsType } from "../../../model/AddressRecordsType";
+import { optionFilter } from "../check.details.controller";
+import { CompanyStatus } from "../model/CompanyStatus";
 
 const logger = createLogger(APPLICATION_NAME);
 
-export const isOptionSelected = (itemOption: Boolean | undefined) : string => {
+export const isOptionSelected = (itemOption: Boolean | undefined): string => {
     if (itemOption === undefined) {
         return "No";
     } else {
@@ -34,7 +45,7 @@ const setChangeDeliveryDetails = (certificateItem: CertificateItem) => {
 const setServiceUrl = (certificateItem: CertificateItem) => {
     return (certificateItem.itemOptions?.certificateType !== "dissolution")
         ? replaceCompanyNumber(LLP_ROOT_CERTIFICATE, certificateItem.companyNumber) : replaceCompanyNumber(ROOT_DISSOLVED_CERTIFICATE, certificateItem.companyNumber);
-}
+};
 
 export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
@@ -60,7 +71,13 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             statementOfGoodStanding: isOptionSelected(itemOptions.includeGoodStandingInformation),
             currentDesignatedMembersNames: mapDesignatedMembersOptions(itemOptions.designatedMemberDetails),
             currentMembersNames: mapMembersOptions(itemOptions.memberDetails),
-            registeredOfficeAddress: mapRegisteredOfficeAddress(includeAddressRecordsType)
+            registeredOfficeAddress: mapRegisteredOfficeAddress(includeAddressRecordsType),
+            liquidatorsDetails: isOptionSelected(itemOptions.liquidatorsDetails?.includeBasicInformation),
+            filterMappings: {
+                statementOfGoodStanding: certificateItem.itemOptions.companyStatus !== CompanyStatus.LIQUIDATION,
+                liquidators: certificateItem.itemOptions.companyStatus === CompanyStatus.LIQUIDATION
+            },
+            optionFilter: optionFilter
         });
     } catch (err) {
         logger.error(`${err}`);
@@ -94,7 +111,7 @@ export const mapCertificateType = (certificateType: string): string => {
     }
 
     const typeCapitalised = certificateType.charAt(0).toUpperCase() +
-    certificateType.slice(1);
+        certificateType.slice(1);
 
     return typeCapitalised.replace(/-/g, " ");
 };
@@ -115,7 +132,7 @@ export const mapRegisteredOfficeAddress = (registeredOfficeAddress: string | und
         return "All current and previous addresses";
     default:
         return "No";
-    };
+    }
 };
 
 export const mapDesignatedMembersOptions = (designatedMembersOptions?: DesignatedMemberDetails): string => {
@@ -131,7 +148,7 @@ export const mapDesignatedMembersOptions = (designatedMembersOptions?: Designate
         return "Yes";
     }
 
-    const designatedMembersMappings:string[] = [];
+    const designatedMembersMappings: string[] = [];
     designatedMembersMappings.push("Including designated members':");
 
     if (designatedMembersOptions.includeAddress) {
@@ -147,7 +164,7 @@ export const mapDesignatedMembersOptions = (designatedMembersOptions?: Designate
     }
 
     if (designatedMembersOptions.includeDobType === DobType.PARTIAL ||
-    designatedMembersOptions.includeDobType === DobType.FULL) {
+        designatedMembersOptions.includeDobType === DobType.FULL) {
         designatedMembersMappings.push("Date of birth (month and year)");
     }
 
@@ -167,7 +184,7 @@ export const mapMembersOptions = (memberOptions?: MemberDetails): string => {
         return "Yes";
     }
 
-    const membersMappings:string[] = [];
+    const membersMappings: string[] = [];
     membersMappings.push("Including members':");
 
     if (memberOptions.includeAddress) {
@@ -183,7 +200,7 @@ export const mapMembersOptions = (memberOptions?: MemberDetails): string => {
     }
 
     if (memberOptions.includeDobType === "partial" ||
-    memberOptions.includeDobType === "full") {
+        memberOptions.includeDobType === "full") {
         membersMappings.push("Date of birth (month and year)");
     }
 
