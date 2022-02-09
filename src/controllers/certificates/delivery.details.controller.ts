@@ -92,6 +92,8 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         const accessToken: string = getAccessToken(req.session);
         const certificateItem: CertificateItemPatchRequest = {
             itemOptions: {
+                deliveryMethod: "postal",
+                deliveryTimescale: "standard",
                 forename: firstName,
                 surname: lastName
             }
@@ -125,9 +127,9 @@ export const setBackLink = (certificateItem: CertificateItem, session: Session |
         return `/company/${certificateItem.companyNumber}/orderable/dissolved-certificates`;
     }
 
-    if (certificateItem.itemOptions?.secretaryDetails) {
+    if (certificateItem.itemOptions?.secretaryDetails?.includeBasicInformation) {
         return "secretary-options";
-    } else if (certificateItem.itemOptions?.directorDetails) {
+    } else if (certificateItem.itemOptions?.directorDetails?.includeBasicInformation) {
         return "director-options";
     } else if (certificateItem.itemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType) {
         return (session?.getExtraData("certificates-orders-web-ch-gov-uk") as CertificateSessionData)?.isFullPage ? "registered-office-options?layout=full" : "registered-office-options";
