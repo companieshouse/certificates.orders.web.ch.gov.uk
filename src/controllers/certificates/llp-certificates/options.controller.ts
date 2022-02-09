@@ -6,7 +6,6 @@ import { LLP_CERTIFICATE_OPTIONS } from "../../../model/template.paths";
 import { getAccessToken, getUserId } from "../../../session/helper";
 import { APPLICATION_NAME, API_KEY } from "../../../config/config";
 import { replaceCompanyNumber, LLP_ROOT_CERTIFICATE } from "../../../model/page.urls";
-import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
 import { optionFilter } from "../OptionFilter";
 import {CompanyStatus} from "../model/CompanyStatus";
 
@@ -24,8 +23,6 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const userId = getUserId(req.session);
         const accessToken: string = getAccessToken(req.session);
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
-        const companyProfile: CompanyProfile = await getCompanyProfile(API_KEY, certificateItem.companyNumber);
-        const itemOptions: ItemOptions = certificateItem.itemOptions;
         const SERVICE_URL = replaceCompanyNumber(LLP_ROOT_CERTIFICATE, certificateItem.companyNumber)
         logger.info(`Certificate item retrieved, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
         return res.render(LLP_CERTIFICATE_OPTIONS, {
@@ -34,8 +31,8 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             templateName: LLP_CERTIFICATE_OPTIONS,
             SERVICE_URL,
             filterMappings: {
-                goodStanding: companyProfile.companyStatus != CompanyStatus.LIQUIDATION,
-                liquidators: companyProfile.companyStatus == CompanyStatus.LIQUIDATION
+                goodStanding: certificateItem.itemOptions.companyStatus != CompanyStatus.LIQUIDATION,
+                liquidators: certificateItem.itemOptions.companyStatus == CompanyStatus.LIQUIDATION
             },
             optionFilter: optionFilter
         });
@@ -50,10 +47,9 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const moreInfo: string[] = typeof req.body[MORE_INFO_FIELD] === "string" ? [req.body[MORE_INFO_FIELD]] : req.body[MORE_INFO_FIELD];
         const accessToken: string = getAccessToken(req.session);
         const certificate: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
-        const companyProfile: CompanyProfile = await getCompanyProfile(API_KEY, certificate.companyNumber);
         const certificateItem: CertificateItemPatchRequest = {
             itemOptions: {
-                ...setItemOptions(companyProfile.companyStatus, moreInfo)
+                ...setItemOptions(certificate.itemOptions.companyStatus, moreInfo)
             },
             quantity: 1
         };
