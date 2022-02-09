@@ -1,18 +1,15 @@
-const chai = require("chai")
 import sinon from "sinon";
 import ioredis from "ioredis";
 import cheerio from "cheerio";
-import {BasketItem, Basket} from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
-import {CertificateItem, ItemOptions} from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
+import { Basket, BasketItem } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
+import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 
 import * as apiClient from "../../../../src/client/api.client";
-import {LLP_CERTIFICATE_CHECK_DETAILS, replaceCertificateId} from "../../../../src/model/page.urls";
-import {SIGNED_IN_COOKIE, signedInSession} from "../../../__mocks__/redis.mocks";
-import {
-    mockBasketDetails,
-    mockDissolvedCertificateItem
-} from "../../../__mocks__/certificates.mocks";
-import {DobType} from "../../../../src/model/DobType";
+import { LLP_CERTIFICATE_CHECK_DETAILS, replaceCertificateId } from "../../../../src/model/page.urls";
+import { SIGNED_IN_COOKIE, signedInSession } from "../../../__mocks__/redis.mocks";
+import { mockBasketDetails, mockDissolvedCertificateItem } from "../../../__mocks__/certificates.mocks";
+import { DobType } from "../../../../src/model/DobType";
+const chai = require("chai");
 
 const CERTIFICATE_ID = "CHS00000000000000001";
 const ITEM_URI = "/orderable/llp-certificates/CHS00000000000000052";
@@ -78,6 +75,43 @@ describe("LLP certificate.check.details.controller.integration", () => {
             chai.expect(resp.status).to.equal(200);
             chai.expect($(".govuk-heading-xl").text()).to.equal("Check your order details");
             chai.expect($("#orderDetails").text()).to.equal("Order details");
+            chai.expect($(".govuk-summary-list__row:nth-of-type(4)").find(".govuk-summary-list__key").text().trim()).to.equal("Statement of good standing");
+        });
+
+        it("renders the check details screen for an LLP in liquidation", async () => {
+            const certificateItem = {
+                companyName: "test company",
+                companyNumber: "00000000",
+                itemCosts: [{
+                    itemCost: "15"
+                }],
+                itemOptions: {
+                    companyStatus: "liquidation",
+                    certificateType: "cert type",
+                    forename: "john",
+                    surname: "smith",
+                    liquidatorsDetails: {
+                        includeBasicInformation: true
+                    }
+                }
+            } as CertificateItem;
+
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItem));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve(basketDetails));
+
+            const resp = await chai.request(testApp)
+                .get(CHECK_DETAILS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+            const $ = cheerio.load(resp.text);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect($(".govuk-heading-xl").text()).to.equal("Check your order details");
+            chai.expect($("#orderDetails").text()).to.equal("Order details");
+            chai.expect($(".govuk-summary-list__row:nth-of-type(7)").find(".govuk-summary-list__key").text().trim()).to.equal("Liquidators' details");
+            chai.expect($(".liquidators").text().trim()).to.equal("Yes");
         });
     });
 
@@ -93,7 +127,7 @@ describe("LLP certificate.check.details.controller.integration", () => {
                     certificateType: "cert type",
                     forename: "john",
                     surname: "smith",
-                    includeGoodStandingInformation: true,
+                    includeGoodStandingInformation: true
                 }
             } as CertificateItem;
 
@@ -127,7 +161,7 @@ describe("LLP certificate.check.details.controller.integration", () => {
                     surname: "smith",
                     registeredOfficeAddressDetails: {
                         includeAddressRecordsType: "all"
-                    },
+                    }
                 }
             } as CertificateItem;
 
@@ -243,7 +277,7 @@ describe("LLP certificate.check.details.controller.integration", () => {
 
     describe("check details post", () => {
         it("redirects the user to orders url", async () => {
-            const itemUri = {itemUri: ITEM_URI} as BasketItem;
+            const itemUri = { itemUri: ITEM_URI } as BasketItem;
             const certificateItem = {} as CertificateItem;
 
             addItemToBasketStub = sandbox.stub(apiClient, "addItemToBasket")
