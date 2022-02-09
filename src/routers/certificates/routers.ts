@@ -7,21 +7,27 @@ import {
     CERTIFICATE_DIRECTOR_OPTIONS, CERTIFICATE_SECRETARY_OPTIONS
 } from "../../model/page.urls";
 import homeController from "../../controllers/certificates/home.controller";
-import { render as renderCertificateType } from "../../controllers/certificates/type.controller";
+import { TypeController } from "../../controllers/certificates/type.controller";
 import checkDetailsController, { render as renderCheckDetails } from "../../controllers/certificates/check.details.controller";
 import collectionOptionsController, { render as renderCertificateOptions } from "../../controllers/certificates/options.controller";
 import deliveryDetailsController, { render as renderDeliveryDetails } from "../../controllers/certificates/delivery.details.controller";
 import registeredOfficeOptionsController, { render as renderRegisteredOfficeOptions } from "../../controllers/certificates/registered.office.options.controller";
 import directorOptionsController, { render as renderDirectorOptions } from "../../controllers/certificates/director.options.controller";
 import secretaryOptionsController, { render as renderSecretaryOptions } from "../../controllers/certificates/secretary.options.controller";
+import { CompanyStatus } from "../../controllers/certificates/model/CompanyStatus";
 
 const router: Router = Router();
 
 router.get(ROOT_CERTIFICATE, homeController);
 router.get(ROOT_DISSOLVED_CERTIFICATE, homeController);
 
-router.get(CERTIFICATE_TYPE, renderCertificateType);
-router.get(DISSOLVED_CERTIFICATE_TYPE, renderCertificateType);
+const typeController = new TypeController(new Map<string, string>([
+    [CompanyStatus.ACTIVE, CERTIFICATE_OPTIONS],
+    [CompanyStatus.LIQUIDATION, CERTIFICATE_OPTIONS],
+    [CompanyStatus.DISSOLVED, DISSOLVED_CERTIFICATE_DELIVERY_DETAILS]
+]));
+router.get(CERTIFICATE_TYPE, typeController.render.bind(typeController));
+router.get(DISSOLVED_CERTIFICATE_TYPE, typeController.render.bind(typeController));
 
 router.get(CERTIFICATE_OPTIONS, renderCertificateOptions);
 router.post(CERTIFICATE_OPTIONS, collectionOptionsController);

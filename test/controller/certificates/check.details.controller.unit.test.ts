@@ -39,6 +39,7 @@ const registeredOfficeAddressDetails: RegisteredOfficeAddressDetails = {
 };
 
 const itemOptions: ItemOptions = {
+    companyStatus: "active",
     certificateType: "certificateType",
     collectionLocation: "collectionLocation",
     contactNumber: "contactNumber",

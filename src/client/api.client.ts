@@ -1,11 +1,15 @@
 import { createApiClient } from "@companieshouse/api-sdk-node";
 import { CompanyProfile, CompanyProfileResource } from "@companieshouse/api-sdk-node/dist/services/company-profile";
 import { BasketItem, ItemUriPostRequest, Basket, BasketPatchRequest } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
-import { CertificateItemPostRequest, CertificateItemPatchRequest, CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
+import { CertificateItemPostRequest, CertificateItemPatchRequest, CertificateItem, CertificateItemInitialRequest } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { CertifiedCopyItem, CertifiedCopyItemResource } from "@companieshouse/api-sdk-node/dist/services/order/certified-copies/types";
 import { API_URL, APPLICATION_NAME } from "../config/config";
 import { createLogger } from "ch-structured-logging";
-import Resource from "@companieshouse/api-sdk-node/dist/services/resource";
+import Resource, {
+    ApiErrorResponse,
+    ApiResponse,
+    ApiResult
+} from "@companieshouse/api-sdk-node/dist/services/resource";
 import createError from "http-errors";
 import { MidItemPostRequest, MidItem } from "@companieshouse/api-sdk-node/dist/services/order/mid/types";
 
@@ -32,6 +36,14 @@ export const postCertificateItem =
         return certificateItemResource.resource as CertificateItem;
     };
 
+export const postInitialCertificateItem =
+    async (oAuth: string, certificateItem: CertificateItemInitialRequest): Promise<ApiResult<ApiResponse<CertificateItem>>> => {
+        const api = createApiClient(undefined, oAuth, API_URL);
+        const certificateItemResource = await api.certificate.postInitialCertificate(certificateItem);
+        logger.info(`Create certificate, status_code=${certificateItemResource.value.httpStatusCode}, company_number=${certificateItem.companyNumber}`);
+        return certificateItemResource;
+    };
+
 export const patchCertificateItem = async (
     oAuth: string, certificateId: string, certificateItem: CertificateItemPatchRequest): Promise<CertificateItem> => {
     const api = createApiClient(undefined, oAuth, API_URL);
@@ -40,7 +52,7 @@ export const patchCertificateItem = async (
     if (certificateItemResource.httpStatusCode !== 200) {
         throw createError(certificateItemResource.httpStatusCode, certificateItemResource.httpStatusCode.toString());
     }
-    logger.info(`Patch certificate, id=${certificateId}, status_code=${certificateItemResource.httpStatusCode}, company_number=${certificateItem.companyNumber}`);
+    logger.info(`Patch certificate, id=${certificateId}, status_code=${certificateItemResource.httpStatusCode}, company_number=${certificateItemResource.resource?.companyNumber}`);
     return certificateItemResource.resource as CertificateItem;
 };
 
