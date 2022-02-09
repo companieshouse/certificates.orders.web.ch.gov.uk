@@ -1,4 +1,3 @@
-const chai = require("chai")
 import sinon from "sinon";
 import ioredis from "ioredis";
 
@@ -8,6 +7,7 @@ import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { dummyCompanyProfileByTypeAndStatus, dummyCompanyProfileDissolvedCompany } from "../../__mocks__/company.profile.mocks";
 import { FEATURE_FLAGS } from "../../../src/config/FeatureFlags";
+const chai = require("chai");
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
@@ -66,7 +66,7 @@ describe("type.controller.integration", () => {
             postCertificateItemStub = sandbox.stub(apiClient, "postCertificateItem")
                 .returns(Promise.resolve(certificateDetails));
             getCompanyProfileStub = sandbox.stub(apiClient, "getCompanyProfile")
-                .returns(Promise.resolve(dummyCompanyProfileByTypeAndStatus({companyType: "ltd", companyStatus: "liquidation"})));
+                .returns(Promise.resolve(dummyCompanyProfileByTypeAndStatus({ companyType: "ltd", companyStatus: "liquidation" })));
 
             const resp = await chai.request(testApp)
                 .get(CERTIFICATE_TYPE_URL)
@@ -75,7 +75,7 @@ describe("type.controller.integration", () => {
 
             chai.expect(resp.status).to.equal(302);
             chai.expect(resp.text).to.include("Found. Redirecting to /orderable/certificates/CRT-951616-000712/certificate-options");
-        })
+        });
 
         it("redirects user to options page when company status is liquidation and flag disabled", async () => {
             FEATURE_FLAGS.liquidatedCompanyCertficiateEnabled = false;
@@ -89,7 +89,7 @@ describe("type.controller.integration", () => {
             postCertificateItemStub = sandbox.stub(apiClient, "postCertificateItem")
                 .returns(Promise.resolve(certificateDetails));
             getCompanyProfileStub = sandbox.stub(apiClient, "getCompanyProfile")
-                .returns(Promise.resolve(dummyCompanyProfileByTypeAndStatus({companyType: "ltd", companyStatus: "liquidation"})));
+                .returns(Promise.resolve(dummyCompanyProfileByTypeAndStatus({ companyType: "ltd", companyStatus: "liquidation" })));
 
             const resp = await chai.request(testApp)
                 .get(CERTIFICATE_TYPE_URL)
@@ -98,7 +98,7 @@ describe("type.controller.integration", () => {
 
             chai.expect(resp.status).to.equal(400);
             chai.expect(resp.text).to.include("You cannot use this service");
-        })
+        });
     });
 
     describe("dissolved certificate item", () => {
