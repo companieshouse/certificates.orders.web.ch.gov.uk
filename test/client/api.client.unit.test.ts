@@ -1,18 +1,36 @@
 import sinon from "sinon";
 import chai from "chai";
-import Resource from "@companieshouse/api-sdk-node/dist/services/resource";
+import Resource, {
+    ApiErrorResponse,
+    ApiResponse,
+    ApiResult
+} from "@companieshouse/api-sdk-node/dist/services/resource";
 import CertificateItemService from "@companieshouse/api-sdk-node/dist/services/order/certificates/service";
 import BasketService from "@companieshouse/api-sdk-node/dist/services/order/basket/service";
 import CertifiedCopyItemService from "@companieshouse/api-sdk-node/dist/services/order/certified-copies/service";
-import { CertificateItemPostRequest, CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
-import { CertifiedCopyItem, CertifiedCopyItemResource } from "@companieshouse/api-sdk-node/dist/services/order/certified-copies/types";
+import {
+    CertificateItem,
+    CertificateItemInitialRequest,
+    CertificateItemPostRequest
+} from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
+import { CertifiedCopyItem } from "@companieshouse/api-sdk-node/dist/services/order/certified-copies/types";
 import { Basket, BasketPatchRequest } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 
-import { postCertificateItem, patchBasket, getBasket, getCompanyProfile, getCertifiedCopyItem, postMissingImageDeliveryItem, getMissingImageDeliveryItem } from "../../src/client/api.client";
+import {
+    getBasket,
+    getCertifiedCopyItem,
+    getCompanyProfile,
+    getMissingImageDeliveryItem,
+    patchBasket,
+    postCertificateItem,
+    postInitialCertificateItem,
+    postMissingImageDeliveryItem
+} from "../../src/client/api.client";
 import CompanyProfileService from "@companieshouse/api-sdk-node/dist/services/company-profile/service";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
 import { MidService } from "@companieshouse/api-sdk-node/dist/services/order";
 import { MidItem, MidItemPostRequest } from "@companieshouse/api-sdk-node/dist/services/order/mid/types";
+import { failure, success, Success } from "@companieshouse/api-sdk-node/dist/services/result";
 
 const dummyBasketSDKResponse: Resource<Basket> = {
     httpStatusCode: 200,
@@ -46,7 +64,7 @@ const basketPatchRequest: BasketPatchRequest = {
 };
 
 const dummyCertificateItemSDKResponse: Resource<CertificateItem> = {
-    httpStatusCode: 200,
+    httpStatusCode: 201,
     resource: {
         companyName: "Company Name",
         companyNumber: "00000000",
@@ -62,6 +80,7 @@ const dummyCertificateItemSDKResponse: Resource<CertificateItem> = {
         itemOptions: {
             certificateType: "incorporation",
             collectionLocation: "cardiff",
+            companyStatus: "active",
             contactNumber: "07596820642",
             deliveryMethod: "collection",
             deliveryTimescale: "standard",
@@ -140,6 +159,10 @@ const certificateItemRequest: CertificateItemPostRequest = {
         surname: "Smith"
     },
     quantity: 1
+};
+
+const certificateItemInitialRequest: CertificateItemInitialRequest = {
+    companyNumber: "12345678"
 };
 
 const dummyCompanyProfileSDKResponse: Resource<CompanyProfile> = {
@@ -269,6 +292,34 @@ describe("api.client", () => {
 
             const companyProfile = await getCompanyProfile("api key", "00000000");
             chai.expect(companyProfile).to.equal(dummyCompanyProfileSDKResponse.resource);
+        });
+    });
+
+    describe("postInitialCertificateItem", () => {
+        it("returns a Certificate Item object", async () => {
+            const result: ApiResult<ApiResponse<CertificateItem>> = success({
+                resource: dummyCertificateItemSDKResponse.resource,
+                httpStatusCode: 201
+            } as ApiResponse<CertificateItem>);
+            sandbox.stub(CertificateItemService.prototype, "postInitialCertificate")
+                .returns(Promise.resolve(result));
+
+            const certificateItem = await postInitialCertificateItem("oauth", certificateItemInitialRequest);
+            chai.expect(certificateItem.isSuccess()).to.equal(true);
+            chai.expect(certificateItem.isFailure()).to.equal(false);
+            chai.expect((certificateItem as Success<ApiResponse<CertificateItem>, ApiErrorResponse>).value.httpStatusCode).to.equal(201);
+            chai.expect((certificateItem as Success<ApiResponse<CertificateItem>, ApiErrorResponse>).value.resource).to.equal(dummyCertificateItemSDKResponse.resource);
+        });
+        it("postInitialCertificateItem_error", async () => {
+            const result: ApiResult<ApiErrorResponse> = failure({
+                httpStatusCode: 500
+            } as ApiErrorResponse);
+            sandbox.stub(CertificateItemService.prototype, "postInitialCertificate")
+                .returns(Promise.resolve(result));
+            const certificateItem = await postInitialCertificateItem("oauth", certificateItemInitialRequest);
+            chai.expect(certificateItem.isSuccess()).to.equal(false);
+            chai.expect(certificateItem.isFailure()).to.equal(true);
+            chai.expect(certificateItem.value.httpStatusCode).to.equal(500);
         });
     });
 

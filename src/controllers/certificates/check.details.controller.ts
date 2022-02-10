@@ -1,25 +1,24 @@
 import { NextFunction, Request, Response } from "express";
-import { CertificateItem, ItemOptions, DirectorOrSecretaryDetails } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
-import { Basket, DeliveryDetails } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
+import {
+    CertificateItem,
+    DirectorOrSecretaryDetails,
+    ItemOptions
+} from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
+import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 import { createLogger } from "ch-structured-logging";
 
-import { CERTIFICATE_OPTIONS, CERTIFICATE_DELIVERY_DETAILS, replaceCertificateId } from "../../model/page.urls";
-import { mapDeliveryDetails, mapToHtml, mapDeliveryMethod } from "../../utils/check.details.utils";
+import { CERTIFICATE_OPTIONS, replaceCertificateId } from "../../model/page.urls";
+import { mapDeliveryDetails, mapDeliveryMethod, mapToHtml } from "../../utils/check.details.utils";
 import { CERTIFICATE_CHECK_DETAILS } from "../../model/template.paths";
-import { addItemToBasket, getCertificateItem, getBasket } from "../../client/api.client";
-import { CHS_URL, APPLICATION_NAME } from "../../config/config";
+import { addItemToBasket, getBasket, getCertificateItem } from "../../client/api.client";
+import { APPLICATION_NAME, CHS_URL } from "../../config/config";
 import { getAccessToken, getUserId } from "../../session/helper";
 import { setServiceUrl } from "../../utils/service.url.utils";
-
-const GOOD_STANDING = "Statement of good standing";
-const REGISTERED_OFFICE_ADDRESS = "Registered office address";
-const DIRECTORS = "Directors";
-const SECRETARIES = "Secretaries";
-const COMPANY_OBJECTS = "Company objects";
+import { CompanyStatus } from "./model/CompanyStatus";
 
 const logger = createLogger(APPLICATION_NAME);
 
-export const isOptionSelected = (itemOption: Boolean | undefined) : string => {
+export const isOptionSelected = (itemOption: Boolean | undefined): string => {
     if (itemOption === undefined) {
         return "No";
     } else {
@@ -57,7 +56,13 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             currentCompanyDirectorsNames: mapDirectorOptions(itemOptions.directorDetails),
             currentSecretariesNames: mapSecretaryOptions(itemOptions.secretaryDetails),
             companyObjects: isOptionSelected(itemOptions.includeCompanyObjectsInformation),
-            registeredOfficeAddress: mapRegisteredOfficeAddress(includeAddressRecordsType)
+            registeredOfficeAddress: mapRegisteredOfficeAddress(includeAddressRecordsType),
+            liquidatorsDetails: isOptionSelected(itemOptions.liquidatorsDetails?.includeBasicInformation),
+            filterMappings: {
+                statementOfGoodStanding: certificateItem.itemOptions.companyStatus !== CompanyStatus.LIQUIDATION,
+                liquidators: certificateItem.itemOptions.companyStatus === CompanyStatus.LIQUIDATION
+            },
+            optionFilter: optionFilter
         });
     } catch (err) {
         logger.error(`${err}`);
@@ -70,7 +75,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
     // then redirect
     try {
         const accessToken: string = getAccessToken(req.session);
-        const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
+        await getCertificateItem(accessToken, req.params.certificateId);
         const certificateId: string = req.params.certificateId;
         const userId = getUserId(req.session);
         const resp = await addItemToBasket(
@@ -92,7 +97,7 @@ export const mapCertificateType = (certificateType: string): string => {
     }
 
     const typeCapitalised = certificateType.charAt(0).toUpperCase() +
-    certificateType.slice(1);
+        certificateType.slice(1);
 
     return typeCapitalised.replace(/-/g, " ");
 };
@@ -113,7 +118,7 @@ export const mapRegisteredOfficeAddress = (registeredOfficeAddress: string | und
         return "All current and previous addresses";
     default:
         return "No";
-    };
+    }
 };
 
 export const mapDirectorOptions = (directorOptions?: DirectorOrSecretaryDetails): string => {
@@ -131,7 +136,7 @@ export const mapDirectorOptions = (directorOptions?: DirectorOrSecretaryDetails)
         return "Yes";
     }
 
-    const mappings:string[] = [];
+    const mappings: string[] = [];
     mappings.push("Including directors':");
 
     if (directorOptions.includeAddress) {
@@ -173,7 +178,7 @@ export const mapSecretaryOptions = (secretaryOptions?: DirectorOrSecretaryDetail
         return "Yes";
     }
 
-    const secretaryMappings:string[] = [];
+    const secretaryMappings: string[] = [];
     secretaryMappings.push("Including secretaries':");
 
     if (secretaryOptions.includeAddress) {
@@ -185,6 +190,10 @@ export const mapSecretaryOptions = (secretaryOptions?: DirectorOrSecretaryDetail
     }
 
     return mapToHtml(secretaryMappings);
+};
+
+export const optionFilter = (options: { id: string }[], filter: { [key: string]: boolean }): { id: string }[] => {
+    return options.filter(option => !(option.id in filter) || filter[option.id]);
 };
 
 export default [route];
