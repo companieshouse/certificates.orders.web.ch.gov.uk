@@ -17,9 +17,9 @@
 
         <form method="post">
 
-            <h1 class="govuk-heading-xl">Check your order details</h1>
+            <h1 id="pageHeading" class="govuk-heading-xl">Check your order details</h1>
 
-            <h2 class="govuk-heading-m" id = "orderDetails">Order details</h2>
+            <h2 id="orderDetails" class="govuk-heading-m">Order details</h2>
 
           {% if isNotDissolutionCertificateType %}
             {{ govukSummaryList({
@@ -179,9 +179,9 @@
               ], filterMappings)
             }) }}
 
-            <p class="govuk-body"> To change your certificate options, you'll need to <a href="{{ changeIncludedOn }}" class="govuk-link">start the order again</a>.</p>
+            <p class="govuk-body"> To change your certificate options, you'll need to <a id="restartOrder" class="govuk-link" href="{{ changeIncludedOn }}">start the order again</a>.</p>
 
-            <h2 class="govuk-heading-m" id = "deliveryDetails">Delivery details</h2>
+            <h2 id="deliveryDetails" class="govuk-heading-m">Delivery details</h2>
 
             {{govukSummaryList({
               classes: 'govuk-!-margin-bottom-9',
@@ -339,7 +339,9 @@
 
         {{ govukButton({
           text: "Continue to payment",
-          id: "submit"
+          attributes: {
+            id: "submit"
+          }
         }) }}
 
       </form>
