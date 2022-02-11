@@ -65,7 +65,7 @@ describe("certificate.check.details.controller.unit", () => {
             };
 
             chai.expect(mapDesignatedMembersOptions(designatedMemberOptions))
-                .to.equal("Including designated members&#39;:<br>Correspondence address<br>Appointment date<br>Country of residence<br>Date of birth (month and year)<br>");
+                .to.equal("Including designated members&#39;:<br><br>Correspondence address<br>Appointment date<br>Country of residence<br>Date of birth (month and year)<br>");
         });
 
         it("maps correctly when only one additional option selected", () => {
@@ -75,7 +75,7 @@ describe("certificate.check.details.controller.unit", () => {
             };
 
             chai.expect(mapDesignatedMembersOptions(designatedMemberOptions))
-                .to.equal("Including designated members&#39;:<br>Country of residence<br>");
+                .to.equal("Including designated members&#39;:<br><br>Country of residence<br>");
         });
 
         it("maps correctly when only basic information present", () => {
@@ -110,7 +110,7 @@ describe("certificate.check.details.controller.unit", () => {
             };
 
             chai.expect(mapMembersOptions(memberOptions))
-                .to.equal("Including members&#39;:<br>Correspondence address<br>Appointment date<br>Country of residence<br>Date of birth (month and year)<br>");
+                .to.equal("Including members&#39;:<br><br>Correspondence address<br>Appointment date<br>Country of residence<br>Date of birth (month and year)<br>");
         });
 
         it("maps correctly when only one additional option selected", () => {
@@ -120,7 +120,7 @@ describe("certificate.check.details.controller.unit", () => {
             };
 
             chai.expect(mapMembersOptions(memberOptions))
-                .to.equal("Including members&#39;:<br>Country of residence<br>");
+                .to.equal("Including members&#39;:<br><br>Country of residence<br>");
         });
 
         it("maps correctly when only basic information present", () => {

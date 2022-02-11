@@ -150,6 +150,7 @@ export const mapDesignatedMembersOptions = (designatedMembersOptions?: Designate
 
     const designatedMembersMappings: string[] = [];
     designatedMembersMappings.push("Including designated members':");
+    designatedMembersMappings.push("");
 
     if (designatedMembersOptions.includeAddress) {
         designatedMembersMappings.push("Correspondence address");
@@ -186,6 +187,7 @@ export const mapMembersOptions = (memberOptions?: MemberDetails): string => {
 
     const membersMappings: string[] = [];
     membersMappings.push("Including members':");
+    membersMappings.push("");
 
     if (memberOptions.includeAddress) {
         membersMappings.push("Correspondence address");
