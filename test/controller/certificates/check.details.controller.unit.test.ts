@@ -140,7 +140,7 @@ describe("certificate.check.details.controller.unit", () => {
             };
 
             chai.expect(mapDirectorOptions(directorOptions))
-                .to.equal("Including directors&#39;:<br>Correspondence address<br>Occupation<br>Date of birth (month and year)<br>Appointment date<br>Nationality<br>Country of residence<br>");
+                .to.equal("Including directors&#39;:<br><br>Correspondence address<br>Occupation<br>Date of birth (month and year)<br>Appointment date<br>Nationality<br>Country of residence<br>");
         });
 
         it("maps correctly when only one additional option selected", () => {
@@ -150,7 +150,7 @@ describe("certificate.check.details.controller.unit", () => {
             };
 
             chai.expect(mapDirectorOptions(directorOptions))
-                .to.equal("Including directors&#39;:<br>Nationality<br>");
+                .to.equal("Including directors&#39;:<br><br>Nationality<br>");
         });
 
         it("maps correctly when only basic information present", () => {
@@ -184,7 +184,7 @@ describe("certificate.check.details.controller.unit", () => {
             };
 
             chai.expect(mapSecretaryOptions(secretaryOptions))
-                .to.equal("Including secretaries&#39;:<br>Correspondence address<br>Appointment date<br>");
+                .to.equal("Including secretaries&#39;:<br><br>Correspondence address<br>Appointment date<br>");
         });
 
         it("maps correctly when only one additional option selected", () => {
@@ -194,7 +194,7 @@ describe("certificate.check.details.controller.unit", () => {
             };
 
             chai.expect(mapSecretaryOptions(secretaryOptions))
-                .to.equal("Including secretaries&#39;:<br>Appointment date<br>");
+                .to.equal("Including secretaries&#39;:<br><br>Appointment date<br>");
         });
 
         it("maps correctly when only basic information present", () => {
