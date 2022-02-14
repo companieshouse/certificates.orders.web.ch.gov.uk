@@ -55,7 +55,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const userId = getUserId(req.session);
         const patchResponse = await patchCertificateItem(accessToken, req.params.certificateId, certificateItem);
         logger.info(`Patched certificate item with director options, id=${req.params.certificateId}, user_id=${userId}, company_number=${patchResponse.companyNumber}, certificate_options=${JSON.stringify(certificateItem)}`);
-        if (patchResponse.itemOptions.secretaryDetails) {
+        if (patchResponse.itemOptions.secretaryDetails?.includeBasicInformation) {
             return res.redirect("secretary-options");
         } else {
             return res.redirect("delivery-details");
