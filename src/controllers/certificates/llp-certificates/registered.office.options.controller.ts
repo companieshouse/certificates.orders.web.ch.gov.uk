@@ -69,9 +69,9 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         req.session?.setExtraData("certificates-orders-web-ch-gov-uk", {
             isFullPage: isFullPage
         } as CertificateSessionData);
-        if (patchResponse.itemOptions.designatedMemberDetails) {
+        if (patchResponse.itemOptions.designatedMemberDetails?.includeBasicInformation) {
             return res.redirect("designated-members-options");
-        } else if (patchResponse.itemOptions.memberDetails) {
+        } else if (patchResponse.itemOptions.memberDetails?.includeBasicInformation) {
             return res.redirect("members-options");
         } else {
             return res.redirect("delivery-details");
