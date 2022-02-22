@@ -139,6 +139,9 @@ const dummyCertificateItemSDKResponse: Resource<CertificateItem> = {
             includeGeneralNatureOfBusinessInformation: false,
             liquidatorsDetails: {
                 includeBasicInformation: false
+            },
+            administratorsDetails: {
+                includeBasicInformation: false
             }
         },
         kind: "item#certificate",
@@ -325,11 +328,30 @@ describe("api.client", () => {
 
     describe("postCertificateItem", () => {
         it("returns a Certificate Item object", async () => {
+            const result: ApiResult<ApiResponse<CertificateItem>> = success({
+                resource: dummyCertificateItemSDKResponse.resource,
+                httpStatusCode: 201
+            } as ApiResponse<CertificateItem>);
             sandbox.stub(CertificateItemService.prototype, "postCertificate")
-                .returns(Promise.resolve(dummyCertificateItemSDKResponse));
+                .returns(Promise.resolve(result));
 
             const certificateItem = await postCertificateItem("oauth", certificateItemRequest);
-            chai.expect(certificateItem).to.equal(dummyCertificateItemSDKResponse.resource);
+            chai.expect(certificateItem.isSuccess()).to.equal(true);
+            chai.expect(certificateItem.isFailure()).to.equal(false);
+            chai.expect((certificateItem as Success<ApiResponse<CertificateItem>, ApiErrorResponse>).value.httpStatusCode).to.equal(201);
+            chai.expect((certificateItem as Success<ApiResponse<CertificateItem>, ApiErrorResponse>).value.resource).to.equal(dummyCertificateItemSDKResponse.resource);
+        });
+
+        it("postCertificateItem_error", async () => {
+            const result: ApiResult<ApiErrorResponse> = failure({
+                httpStatusCode: 500
+            } as ApiErrorResponse);
+            sandbox.stub(CertificateItemService.prototype, "postCertificate")
+                .returns(Promise.resolve(result));
+            const certificateItem = await postCertificateItem("oauth", certificateItemRequest);
+            chai.expect(certificateItem.isSuccess()).to.equal(false);
+            chai.expect(certificateItem.isFailure()).to.equal(true);
+            chai.expect(certificateItem.value.httpStatusCode).to.equal(500);
         });
     });
 

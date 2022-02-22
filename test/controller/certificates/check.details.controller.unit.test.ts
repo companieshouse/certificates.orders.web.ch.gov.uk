@@ -81,6 +81,9 @@ const itemOptions: ItemOptions = {
     liquidatorsDetails: {
         includeBasicInformation: false
     },
+    administratorsDetails: {
+        includeBasicInformation: false
+    },
     includeGeneralNatureOfBusinessInformation: false
 };
 
