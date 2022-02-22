@@ -26,21 +26,18 @@ export const getCompanyProfile = async (apiKey: string, companyNumber: string): 
 };
 
 export const postCertificateItem =
-    async (oAuth: string, certificateItem: CertificateItemPostRequest): Promise<CertificateItem> => {
+    async (oAuth: string, certificateItem: CertificateItemPostRequest): Promise<ApiResult<ApiResponse<CertificateItem>>> => {
         const api = createApiClient(undefined, oAuth, API_URL);
-        const certificateItemResource: Resource<CertificateItem> = await api.certificate.postCertificate(certificateItem);
-        if (certificateItemResource.httpStatusCode !== 200 && certificateItemResource.httpStatusCode !== 201) {
-            throw createError(certificateItemResource.httpStatusCode, certificateItemResource.httpStatusCode.toString());
-        }
-        logger.info(`Create certificate, status_code=${certificateItemResource.httpStatusCode}, company_number=${certificateItem.companyNumber}`);
-        return certificateItemResource.resource as CertificateItem;
+        const certificateItemResource = await api.certificate.postCertificate(certificateItem);
+        logger.info(`Create certificate, status_code=${certificateItemResource.value.httpStatusCode}, company_number=${certificateItem.companyNumber}`);
+        return certificateItemResource;
     };
 
 export const postInitialCertificateItem =
     async (oAuth: string, certificateItem: CertificateItemInitialRequest): Promise<ApiResult<ApiResponse<CertificateItem>>> => {
         const api = createApiClient(undefined, oAuth, API_URL);
         const certificateItemResource = await api.certificate.postInitialCertificate(certificateItem);
-        logger.info(`Create certificate, status_code=${certificateItemResource.value.httpStatusCode}, company_number=${certificateItem.companyNumber}`);
+        logger.info(`Create initial certificate, status_code=${certificateItemResource.value.httpStatusCode}, company_number=${certificateItem.companyNumber}`);
         return certificateItemResource;
     };
 
