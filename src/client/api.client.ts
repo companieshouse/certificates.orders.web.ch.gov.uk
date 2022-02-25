@@ -1,17 +1,23 @@
 import { createApiClient } from "@companieshouse/api-sdk-node";
-import { CompanyProfile, CompanyProfileResource } from "@companieshouse/api-sdk-node/dist/services/company-profile";
-import { BasketItem, ItemUriPostRequest, Basket, BasketPatchRequest } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
-import { CertificateItemPostRequest, CertificateItemPatchRequest, CertificateItem, CertificateItemInitialRequest } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
-import { CertifiedCopyItem, CertifiedCopyItemResource } from "@companieshouse/api-sdk-node/dist/services/order/certified-copies/types";
+import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
+import {
+    Basket,
+    BasketItem,
+    BasketPatchRequest,
+    ItemUriPostRequest
+} from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
+import {
+    CertificateItem,
+    CertificateItemInitialRequest,
+    CertificateItemPatchRequest,
+    CertificateItemPostRequest
+} from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
+import { CertifiedCopyItem } from "@companieshouse/api-sdk-node/dist/services/order/certified-copies/types";
 import { API_URL, APPLICATION_NAME } from "../config/config";
 import { createLogger } from "ch-structured-logging";
-import Resource, {
-    ApiErrorResponse,
-    ApiResponse,
-    ApiResult
-} from "@companieshouse/api-sdk-node/dist/services/resource";
+import Resource, { ApiResponse, ApiResult } from "@companieshouse/api-sdk-node/dist/services/resource";
 import createError from "http-errors";
-import { MidItemPostRequest, MidItem } from "@companieshouse/api-sdk-node/dist/services/order/mid/types";
+import { MidItem, MidItemPostRequest } from "@companieshouse/api-sdk-node/dist/services/order/mid/types";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -44,22 +50,23 @@ export const postInitialCertificateItem =
 export const patchCertificateItem = async (
     oAuth: string, certificateId: string, certificateItem: CertificateItemPatchRequest): Promise<CertificateItem> => {
     const api = createApiClient(undefined, oAuth, API_URL);
-    const certificateItemResource: Resource<CertificateItem> =
-        await api.certificate.patchCertificate(certificateItem, certificateId);
-    if (certificateItemResource.httpStatusCode !== 200) {
-        throw createError(certificateItemResource.httpStatusCode, certificateItemResource.httpStatusCode.toString());
+    const certificateItemResource = await api.certificate.patchCertificate(certificateItem, certificateId);
+    if (certificateItemResource.isFailure()) {
+        const status = certificateItemResource.value.httpStatusCode || 500;
+        throw createError(status, status.toString());
     }
-    logger.info(`Patch certificate, id=${certificateId}, status_code=${certificateItemResource.httpStatusCode}, company_number=${certificateItemResource.resource?.companyNumber}`);
-    return certificateItemResource.resource as CertificateItem;
+    logger.info(`Patch certificate, id=${certificateId}, status_code=${certificateItemResource.value.httpStatusCode}, company_number=${certificateItemResource.value.resource?.companyNumber}`);
+    return certificateItemResource.value.resource as CertificateItem;
 };
 
 export const getCertificateItem = async (oAuth: string, certificateId: string): Promise<CertificateItem> => {
     const api = createApiClient(undefined, oAuth, API_URL);
-    const certificateItemResource: Resource<CertificateItem> = await api.certificate.getCertificate(certificateId);
-    if (certificateItemResource.httpStatusCode !== 200) {
-        throw createError(certificateItemResource.httpStatusCode, certificateItemResource.httpStatusCode.toString() || "Unable to retrieve certificate");
+    const certificateItemResource = await api.certificate.getCertificate(certificateId);
+    if (certificateItemResource.isFailure()) {
+        const status = certificateItemResource.value.httpStatusCode || 500;
+        throw createError(status, status.toString());
     }
-    return certificateItemResource.resource as CertificateItem;
+    return certificateItemResource.value.resource as CertificateItem;
 };
 
 export const addItemToBasket = async (oAuth: string, itemUri: ItemUriPostRequest): Promise<BasketItem> => {
@@ -92,7 +99,7 @@ export const patchBasket = async (oAuth: string, basketPatchRequest: BasketPatch
     return basketResource.resource as Basket;
 };
 
-export const getCertifiedCopyItem = async (oAuth: string, certifiedCopyId: string) : Promise<CertifiedCopyItem> => {
+export const getCertifiedCopyItem = async (oAuth: string, certifiedCopyId: string): Promise<CertifiedCopyItem> => {
     const api = createApiClient(undefined, oAuth, API_URL);
     const certifiedCopyItemResource: Resource<CertifiedCopyItem> = await api.certifiedCopies.getCertifiedCopy(certifiedCopyId);
     if (certifiedCopyItemResource.httpStatusCode !== 200 && certifiedCopyItemResource.httpStatusCode !== 201) {
