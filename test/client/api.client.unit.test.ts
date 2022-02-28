@@ -18,10 +18,12 @@ import { Basket, BasketPatchRequest } from "@companieshouse/api-sdk-node/dist/se
 
 import {
     getBasket,
+    getCertificateItem,
     getCertifiedCopyItem,
     getCompanyProfile,
     getMissingImageDeliveryItem,
     patchBasket,
+    patchCertificateItem,
     postCertificateItem,
     postInitialCertificateItem,
     postMissingImageDeliveryItem
@@ -295,6 +297,57 @@ describe("api.client", () => {
 
             const companyProfile = await getCompanyProfile("api key", "00000000");
             chai.expect(companyProfile).to.equal(dummyCompanyProfileSDKResponse.resource);
+        });
+    });
+
+    describe("getCertificateItem", () => {
+        it("throws an exception if error returned", async () => {
+            const result = failure({
+                httpStatusCode: 401,
+                errors: [{
+                    error: "Something went wrong"
+                }]
+            } as ApiErrorResponse) as ApiResult<ApiResponse<CertificateItem>>;
+            sandbox.stub(CertificateItemService.prototype, "getCertificate")
+                .returns(Promise.resolve(result));
+            chai.expect(getCertificateItem("oauth", "CRT-123123-123123")).to.be.rejectedWith("401");
+        });
+        it("returns a certificate item", async () => {
+            const result: ApiResult<ApiResponse<CertificateItem>> = success({
+                resource: dummyCertificateItemSDKResponse.resource,
+                httpStatusCode: 200
+            } as ApiResponse<CertificateItem>);
+            sandbox.stub(CertificateItemService.prototype, "getCertificate")
+                .returns(Promise.resolve(result));
+
+            const certificateItem = await getCertificateItem("oauth", "CRT-123123-123123");
+            chai.expect(certificateItem).to.equal(dummyCertificateItemSDKResponse.resource);
+        });
+    });
+
+    describe("patchCertificateItem", () => {
+        it("throws an exception if error returned", async () => {
+            const result = failure({
+                httpStatusCode: 401,
+                errors: [{
+                    error: "Something went wrong"
+                }]
+            } as ApiErrorResponse) as ApiResult<ApiResponse<CertificateItem>>;
+            sandbox.stub(CertificateItemService.prototype, "patchCertificate")
+                .returns(Promise.resolve(result));
+            chai.expect(patchCertificateItem("oauth", "CRT-123123-123123",
+                { itemOptions: { includeGoodStandingInformation: true } })).to.be.rejectedWith("401");
+        });
+        it("patches a certificate item", async () => {
+            const result: ApiResult<ApiResponse<CertificateItem>> = success({
+                resource: dummyCertificateItemSDKResponse.resource,
+                httpStatusCode: 200
+            } as ApiResponse<CertificateItem>);
+            sandbox.stub(CertificateItemService.prototype, "patchCertificate")
+                .returns(Promise.resolve(result));
+            const certificateItem = await patchCertificateItem("oauth", "CRT-123123-123123",
+                { itemOptions: { includeGoodStandingInformation: true } });
+            chai.expect(certificateItem).to.equal(dummyCertificateItemSDKResponse.resource);
         });
     });
 
