@@ -173,4 +173,51 @@ describe("certificate.home.controller.integration", () => {
         chai.expect(resp.status).to.equal(200);
         chai.expect(resp.text).to.contain("You cannot order a certificate or certified document for this company. ");
     });
+
+    it("renders the start page for limited company in administration to order a certificate if feature flag enabled", async () => {
+        FEATURE_FLAGS.administrationCompanyCertificateEnabled = true;
+        getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
+            .returns(Promise.resolve(getMockCompanyProfile({companyType: "ltd", companyStatus: "administration"})));
+
+        const resp = await chai.request(testApp)
+            .get(replaceCompanyNumber(ROOT_CERTIFICATE, mockCompanyProfileConfiguration.companyNumber));
+
+        chai.expect(resp.status).to.equal(200);
+        chai.expect(resp.text).to.contain("Use this service to order a signed certificate of incorporation for a company, including all company name changes.");
+        chai.expect(resp.text).to.not.contain("statement of good standing");
+        chai.expect(resp.text).to.contain("registered office address");
+        chai.expect(resp.text).to.contain("directors");
+        chai.expect(resp.text).to.contain("secretaries");
+        chai.expect(resp.text).to.contain("company objects");
+        chai.expect(resp.text).to.contain("details of administrators");
+    });
+
+    it("renders the start page for an llp company in administration to order a certificate if feature flag enabled", async () => {
+        FEATURE_FLAGS.administrationCompanyCertificateEnabled = true;
+        getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
+            .returns(Promise.resolve(getMockCompanyProfile({companyType: "llp", companyStatus: "administration"})));
+
+        const resp = await chai.request(testApp)
+            .get(replaceCompanyNumber(ROOT_CERTIFICATE, mockCompanyProfileConfiguration.companyNumber));
+
+        chai.expect(resp.status).to.equal(200);
+        chai.expect(resp.text).to.contain("Use this service to order a signed certificate of incorporation for a company, including all company name changes.");
+        chai.expect(resp.text).to.not.contain("statement of good standing");
+        chai.expect(resp.text).to.contain("registered office address");
+        chai.expect(resp.text).to.contain("designated members");
+        chai.expect(resp.text).to.contain("members");
+        chai.expect(resp.text).to.contain("details of administrators");
+    });
+
+    it("does not render the start page for company in liquidation if feature flag disabled", async () => {
+        FEATURE_FLAGS.administrationCompanyCertificateEnabled = false;
+        getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
+            .returns(Promise.resolve(getMockCompanyProfile({companyType: "ltd", companyStatus: "administration"})));
+
+        const resp = await chai.request(testApp)
+            .get(replaceCompanyNumber(ROOT_CERTIFICATE, mockCompanyProfileConfiguration.companyNumber));
+
+        chai.expect(resp.status).to.equal(200);
+        chai.expect(resp.text).to.contain("You cannot order a certificate or certified document for this company. ");
+    });
 });

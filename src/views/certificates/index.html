@@ -26,10 +26,38 @@
     html: notificationHtml
   }) }}
 
-  {% if companyStatus === "active" or companyStatus === "liquidation" %}
+  {% if companyStatus === "dissolved" %}
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
-      
+        <h1 class="govuk-heading-xl">Order a certificate</h1>
+
+        <p class="govuk-body-l">Use this service to order a signed certificate of dissolution for a company, including all company name changes. </p>
+
+        <p class="govuk-body">Ordering a certificate takes around 5 minutes.</p>
+
+        {{ govukButton({
+        text: "Start now",
+        href: startNowUrl,
+        classes: "govuk-!-margin-top-2 govuk-!-margin-bottom-8",
+        isStartButton: true,
+        attributes: {
+        "data-event-id": "start-now-button",
+        onclick: "_paq.push(['trackGoal'," + DISSOLVED_CERTIFICATE_PIWIK_START_GOAL_ID + "]);"
+        }
+        }) }}
+
+        <h2 class="govuk-heading-m">Fee</h2>
+
+        <p class="govuk-body">Certificates cost £15 for standard delivery to a UK or international address. We will aim to dispatch the certificate within {{ DISPATCH_DAYS }} working days.</p>
+
+        <p class="govuk-body"> You can pay by debit or credit card. You cannot pay using a Companies House account. </p>
+
+      </div>
+    </div>
+  {% else %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+
         <h1 class="govuk-heading-xl">Order a certificate</h1>
 
         <p class="govuk-body-l">Use this service to order a signed certificate of incorporation for a company, including all company name changes. </p>
@@ -43,7 +71,8 @@
             { value: "directors", text: "directors" },
             { value: "secretaries", text: "secretaries" },
             { value: "companyObjects", text: "company objects" },
-            { value: "liquidators", text: "details of liquidators" }], filterMappings) %}
+            { value: "liquidators", text: "details of liquidators" },
+            { value: "administrators", text: "details of administrators" }], filterMappings) %}
           {% for option in options %}
             <li>{{ option.text }}</li>
           {% endfor %}
@@ -63,36 +92,6 @@
           attributes: {
             "data-event-id": "start-now-button",
             onclick: "_paq.push(['trackGoal'," + CERTIFICATE_PIWIK_START_GOAL_ID + "]);"
-          }
-        }) }}
-
-        <h2 class="govuk-heading-m">Fee</h2>
-
-        <p class="govuk-body">Certificates cost £15 for standard delivery to a UK or international address. We will aim to dispatch the certificate within {{ DISPATCH_DAYS }} working days.</p>
-
-        <p class="govuk-body"> You can pay by debit or credit card. You cannot pay using a Companies House account. </p>
-
-      </div>
-    </div>
-  {% endif %}
-
-  {% if companyStatus === "dissolved" %}
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-two-thirds">
-        <h1 class="govuk-heading-xl">Order a certificate</h1>
-
-        <p class="govuk-body-l">Use this service to order a signed certificate of dissolution for a company, including all company name changes. </p>
-
-        <p class="govuk-body">Ordering a certificate takes around 5 minutes.</p>
-
-        {{ govukButton({
-          text: "Start now",
-          href: startNowUrl,
-          classes: "govuk-!-margin-top-2 govuk-!-margin-bottom-8",
-          isStartButton: true,
-          attributes: {
-            "data-event-id": "start-now-button",
-            onclick: "_paq.push(['trackGoal'," + DISSOLVED_CERTIFICATE_PIWIK_START_GOAL_ID + "]);"
           }
         }) }}
 
