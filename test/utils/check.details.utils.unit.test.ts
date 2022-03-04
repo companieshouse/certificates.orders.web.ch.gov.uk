@@ -1,5 +1,5 @@
 import chai from "chai";
-import sessionHandler from "@companieshouse/node-session-handler";
+import sessionHandler from "@companieshouse/node-session-handler"; // needed for side-effects
 import {
     ItemOptions, RegisteredOfficeAddressDetails, DirectorOrSecretaryDetails
 } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";

@@ -17,10 +17,13 @@ import collectionOptionsController, { render as renderCertificateOptions } from 
 import designatedMembersOptionsController, { render as renderDesignatedMemberOptions } from "../../../controllers/certificates/llp-certificates/designated-members.options.controller";
 import membersOptionsController, { render as renderMembersOptions } from "../../../controllers/certificates/llp-certificates/members.options.controller";
 import deliveryDetailsController, { render as renderDeliveryDetails } from "../../../controllers/certificates/llp-certificates/delivery.details.controller";
-import checkDetailsController, { render as renderCheckDetails } from "../../../controllers/certificates/llp-certificates/check.details.controller";
 import registeredOfficeOptionsController, { render as renderRegisteredOfficeOptions } from "../../../controllers/certificates/llp-certificates/registered.office.options.controller";
 import { TypeController } from "../../../controllers/certificates/type.controller";
 import { CompanyStatus } from "../../../controllers/certificates/model/CompanyStatus";
+import { CheckDetailsController } from "../../../controllers/certificates/check-details/CheckDetailsController";
+import { CertificateTextMapper } from "../../../controllers/certificates/check-details/CertificateTextMapper";
+import { DISPATCH_DAYS } from "../../../config/config";
+import { LLPCheckDetailsFactory } from "../../../controllers/certificates/check-details/LLPCheckDetailsFactory";
 
 const router: Router = Router();
 
@@ -41,7 +44,8 @@ router.get(LLP_CERTIFICATE_MEMBERS_OPTIONS, renderMembersOptions);
 router.post(LLP_CERTIFICATE_MEMBERS_OPTIONS, membersOptionsController);
 router.get(LLP_CERTIFICATE_DELIVERY_DETAILS, renderDeliveryDetails);
 router.post(LLP_CERTIFICATE_DELIVERY_DETAILS, deliveryDetailsController);
-router.get(LLP_CERTIFICATE_CHECK_DETAILS, renderCheckDetails);
-router.post(LLP_CERTIFICATE_CHECK_DETAILS, checkDetailsController);
+const checkDetailsController = new CheckDetailsController(new LLPCheckDetailsFactory(new CertificateTextMapper(DISPATCH_DAYS)));
+router.get(LLP_CERTIFICATE_CHECK_DETAILS, checkDetailsController.handleGet.bind(checkDetailsController));
+router.post(LLP_CERTIFICATE_CHECK_DETAILS, checkDetailsController.handlePost.bind(checkDetailsController));
 
 export default router;
