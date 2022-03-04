@@ -24,6 +24,7 @@ router.get(ROOT_DISSOLVED_CERTIFICATE, homeController);
 const typeController = new TypeController(new Map<string, string>([
     [CompanyStatus.ACTIVE, CERTIFICATE_OPTIONS],
     [CompanyStatus.LIQUIDATION, CERTIFICATE_OPTIONS],
+    [CompanyStatus.ADMINISTRATION, CERTIFICATE_OPTIONS],
     [CompanyStatus.DISSOLVED, DISSOLVED_CERTIFICATE_DELIVERY_DETAILS]
 ]));
 router.get(CERTIFICATE_TYPE, typeController.render.bind(typeController));
