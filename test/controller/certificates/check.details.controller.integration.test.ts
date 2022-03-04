@@ -74,7 +74,20 @@ const liquidationCertificateItem = {
         companyStatus: "liquidation",
         liquidatorsDetails: {
             includeBasicInformation: true
-        }
+        },
+        includeGoodStandingInformation: false
+    }
+};
+
+const administrationCertificateItem = {
+    ...certificateItem,
+    itemOptions: {
+        ...certificateItem.itemOptions,
+        companyStatus: "administration",
+        administratorsDetails: {
+            includeBasicInformation: true
+        },
+        includeGoodStandingInformation: true
     }
 };
 
@@ -134,6 +147,25 @@ describe("certificate.check.details.controller.integration", () => {
             chai.expect($("#orderDetails").text()).to.equal("Order details");
             chai.expect($(".govuk-summary-list__row:nth-of-type(8)").find(".govuk-summary-list__key").text().trim()).to.equal("Liquidators' details");
             chai.expect($(".liquidators").text().trim()).to.equal("Yes");
+        });
+
+        it("renders the check details screen for a company in administration", async () => {
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(administrationCertificateItem));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve(basketDetails));
+
+            const resp = await chai.request(testApp)
+                .get(CHECK_DETAILS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+            const $ = cheerio.load(resp.text);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect($(".govuk-heading-xl").text()).to.equal("Check your order details");
+            chai.expect($("#orderDetails").text()).to.equal("Order details");
+            chai.expect($(".govuk-summary-list__row:nth-of-type(8)").find(".govuk-summary-list__key").text().trim()).to.equal("Administrators' details");
+            chai.expect($(".administrators").text().trim()).to.equal("Yes");
         });
     });
 

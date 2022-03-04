@@ -22,6 +22,7 @@ const CERTIFICATE_MODEL: CertificateItem = {
         itemCost: "10"
     }],
     itemOptions: {
+        companyStatus: "active",
         certificateType: "incorporation-with-all-name-changes"
     } as ItemOptions
 } as CertificateItem;
@@ -43,9 +44,11 @@ const EXPECTED_RESULT = {
     currentMembersNames: MAPPED_MEMBER_OPTIONS,
     registeredOfficeAddress: MAPPED_ADDRESS_OPTION,
     liquidatorsDetails: MAPPED_OPTION_VALUE,
+    administratorsDetails: MAPPED_OPTION_VALUE,
     filterMappings: {
         statementOfGoodStanding: true,
-        liquidators: false
+        liquidators: false,
+        administrators: false
     }
 };
 
@@ -72,6 +75,54 @@ describe("LLPCheckDetailsFactory", () => {
                 isNotDissolutionCertificateType: false,
                 SERVICE_URL: "/company/12345678/orderable/dissolved-certificates",
                 changeDeliveryDetails: "/orderable/dissolved-certificates/F00DFACE/delivery-details"
+            });
+        });
+
+        it("Maps certificate item for liquidated company and basket details to view model", () => {
+            // given
+            const certificateItem = {
+                ...CERTIFICATE_MODEL,
+                itemOptions: {
+                    ...CERTIFICATE_MODEL.itemOptions,
+                    companyStatus: "liquidation"
+                }
+            };
+
+            // when
+            const actual = checkDetailsFactory.createViewModel(certificateItem, {});
+
+            // then
+            chai.expect(actual).to.deep.equal({
+                ...EXPECTED_RESULT,
+                filterMappings: {
+                    statementOfGoodStanding: false,
+                    liquidators: true,
+                    administrators: false
+                }
+            });
+        });
+
+        it("Maps certificate item for administrated company and basket details to view model", () => {
+            // given
+            const certificateItem = {
+                ...CERTIFICATE_MODEL,
+                itemOptions: {
+                    ...CERTIFICATE_MODEL.itemOptions,
+                    companyStatus: "administration"
+                }
+            };
+
+            // when
+            const actual = checkDetailsFactory.createViewModel(certificateItem, {});
+
+            // then
+            chai.expect(actual).to.deep.equal({
+                ...EXPECTED_RESULT,
+                filterMappings: {
+                    statementOfGoodStanding: false,
+                    liquidators: false,
+                    administrators: true
+                }
             });
         });
     });

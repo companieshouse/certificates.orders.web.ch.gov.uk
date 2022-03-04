@@ -158,8 +158,25 @@
                       }
                     ]
                   }
-                }
-              ], filterMappings)
+                },
+                {
+                  id: "administrators",
+                  key: {
+                    text: "Administrators' details"
+                  },
+                  value: {
+                    classes: "administrators",
+                    text: administratorsDetails
+                  },
+                  actions: {
+                    items: [
+                      {
+                        visuallyHiddenText: "administrators' details"
+                      }
+                    ]
+                  }
+               }
+            ], filterMappings)
             }) }}
 
             <p class="govuk-body"> To change your certificate options, you'll need to <a id="restartOrder" href="{{ changeIncludedOn }}" class="govuk-link">start the order again</a>.</p>
