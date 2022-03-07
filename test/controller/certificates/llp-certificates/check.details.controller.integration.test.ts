@@ -55,6 +55,7 @@ describe("LLP certificate.check.details.controller.integration", () => {
                     itemCost: "15"
                 }],
                 itemOptions: {
+                    companyStatus: "active",
                     certificateType: "cert type",
                     forename: "john",
                     surname: "smith"
@@ -113,6 +114,42 @@ describe("LLP certificate.check.details.controller.integration", () => {
             chai.expect($(".govuk-summary-list__row:nth-of-type(7)").find(".govuk-summary-list__key").text().trim()).to.equal("Liquidators' details");
             chai.expect($(".liquidators").text().trim()).to.equal("Yes");
         });
+
+        it("renders the check details screen for an LLP in administration", async () => {
+            const certificateItem = {
+                companyName: "test company",
+                companyNumber: "00000000",
+                itemCosts: [{
+                    itemCost: "15"
+                }],
+                itemOptions: {
+                    companyStatus: "administration",
+                    certificateType: "cert type",
+                    forename: "john",
+                    surname: "smith",
+                    administratorsDetails: {
+                        includeBasicInformation: true
+                    }
+                }
+            } as CertificateItem;
+
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItem));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve(basketDetails));
+
+            const resp = await chai.request(testApp)
+                .get(CHECK_DETAILS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+            const $ = cheerio.load(resp.text);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect($(".govuk-heading-xl").text()).to.equal("Check your order details");
+            chai.expect($("#orderDetails").text()).to.equal("Order details");
+            chai.expect($(".govuk-summary-list__row:nth-of-type(7)").find(".govuk-summary-list__key").text().trim()).to.equal("Administrators' details");
+            chai.expect($(".administrators").text().trim()).to.equal("Yes");
+        });
     });
 
     describe("check value returns yes or no for certificate item options", () => {
@@ -124,6 +161,7 @@ describe("LLP certificate.check.details.controller.integration", () => {
                     itemCost: "15"
                 }],
                 itemOptions: {
+                    companyStatus: "active",
                     certificateType: "cert type",
                     forename: "john",
                     surname: "smith",

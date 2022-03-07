@@ -1,18 +1,14 @@
-const chai = require("chai")
 import sinon from "sinon";
 import ioredis from "ioredis";
 import cheerio from "cheerio";
-import {BasketItem, Basket} from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
-import {CertificateItem, ItemOptions} from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
+import { Basket, BasketItem } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
+import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 
 import * as apiClient from "../../../../src/client/api.client";
-import {LP_CERTIFICATE_CHECK_DETAILS, replaceCertificateId} from "../../../../src/model/page.urls";
-import {SIGNED_IN_COOKIE, signedInSession} from "../../../__mocks__/redis.mocks";
-import {
-    mockBasketDetails,
-    mockDissolvedCertificateItem
-} from "../../../__mocks__/certificates.mocks";
-import {DobType} from "../../../../src/model/DobType";
+import { LP_CERTIFICATE_CHECK_DETAILS, replaceCertificateId } from "../../../../src/model/page.urls";
+import { SIGNED_IN_COOKIE, signedInSession } from "../../../__mocks__/redis.mocks";
+import { mockBasketDetails, mockDissolvedCertificateItem } from "../../../__mocks__/certificates.mocks";
+const chai = require("chai");
 
 const CERTIFICATE_ID = "CHS00000000000000001";
 const ITEM_URI = "/orderable/llp-certificates/CHS00000000000000052";
@@ -95,10 +91,10 @@ describe("LP certificate.check.details.controller.integration", () => {
                     surname: "smith",
                     includeGoodStandingInformation: true,
                     generalPartnerDetails: {
-                        includeBasicInformation: true,
+                        includeBasicInformation: true
                     },
                     limitedPartnerDetails: {
-                        includeBasicInformation: true,
+                        includeBasicInformation: true
                     },
                     includeGeneralNatureOfBusinessInformation: true
                 }
@@ -157,7 +153,6 @@ describe("LP certificate.check.details.controller.integration", () => {
         });
     });
 
-
     describe("check details for dissolved company", () => {
         it("renders the check details get screen", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
@@ -178,7 +173,7 @@ describe("LP certificate.check.details.controller.integration", () => {
 
     describe("check details post", () => {
         it("redirects the user to orders url", async () => {
-            const itemUri = {itemUri: ITEM_URI} as BasketItem;
+            const itemUri = { itemUri: ITEM_URI } as BasketItem;
             const certificateItem = {} as CertificateItem;
 
             addItemToBasketStub = sandbox.stub(apiClient, "addItemToBasket")

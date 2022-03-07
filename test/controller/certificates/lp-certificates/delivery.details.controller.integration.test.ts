@@ -1,4 +1,3 @@
-import chai from "chai";
 import sinon from "sinon";
 import ioredis from "ioredis";
 import cheerio from "cheerio";
@@ -9,6 +8,7 @@ import * as apiClient from "../../../../src/client/api.client";
 import { LP_CERTIFICATE_DELIVERY_DETAILS, replaceCertificateId } from "../../../../src/model/page.urls";
 import * as errorMessages from "../../../../src/model/error.messages";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../../__mocks__/redis.mocks";
+const chai = require("chai");
 
 const ENTER_YOUR_FIRST_NAME_NOT_INPUT = "Enter your first name";
 const ENTER_YOUR_LAST_NAME_NOT_INPUT = "Enter your last name";
