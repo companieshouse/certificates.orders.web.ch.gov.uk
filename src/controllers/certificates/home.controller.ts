@@ -145,7 +145,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const allow: boolean = acceptableCompanyTypes.some(type => type === companyType);
 
         const acceptableCompanyStatuses = ["active", "dissolved"];
-        if (FEATURE_FLAGS.liquidatedCompanyCertficiateEnabled) {
+        if (FEATURE_FLAGS.liquidatedCompanyCertificateEnabled) {
             acceptableCompanyStatuses.push("liquidation");
         }
         if (FEATURE_FLAGS.administrationCompanyCertificateEnabled) {

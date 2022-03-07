@@ -7,7 +7,7 @@ import {
 
 export class FeatureFlags {
     constructor (private _lpCertificateOrdersEnabled: boolean, private _llpCertificateOrdersEnabled: boolean,
-        private _liquidatedCompanyCertficiateEnabled: boolean, private _administrationCompanyCertificateEnabled: boolean) {
+        private _liquidatedCompanyCertificateEnabled: boolean, private _administrationCompanyCertificateEnabled: boolean) {
     }
 
     get lpCertificateOrdersEnabled (): boolean {
@@ -26,12 +26,12 @@ export class FeatureFlags {
         this._llpCertificateOrdersEnabled = value;
     }
 
-    get liquidatedCompanyCertficiateEnabled (): boolean {
-        return this._liquidatedCompanyCertficiateEnabled;
+    get liquidatedCompanyCertificateEnabled (): boolean {
+        return this._liquidatedCompanyCertificateEnabled;
     }
 
-    set liquidatedCompanyCertficiateEnabled (value: boolean) {
-        this._liquidatedCompanyCertficiateEnabled = value;
+    set liquidatedCompanyCertificateEnabled (value: boolean) {
+        this._liquidatedCompanyCertificateEnabled = value;
     }
 
     get administrationCompanyCertificateEnabled (): boolean {

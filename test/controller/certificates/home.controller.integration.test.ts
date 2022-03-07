@@ -98,6 +98,7 @@ describe("certificate.home.controller.integration", () => {
         chai.expect(resp.text).to.contain("secretaries");
         chai.expect(resp.text).to.contain("company objects");
         chai.expect(resp.text).to.not.contain("details of liquidators");
+        chai.expect(resp.text).to.not.contain("details of administrators");
     });
 
     it("renders the start page for active llp company to order a certificate", async () => {
@@ -114,10 +115,11 @@ describe("certificate.home.controller.integration", () => {
         chai.expect(resp.text).to.contain("designated members");
         chai.expect(resp.text).to.contain("members");
         chai.expect(resp.text).to.not.contain("details of liquidators");
+        chai.expect(resp.text).to.not.contain("details of administrators");
     });
 
     it("renders the start page for limited company in liquidation to order a certificate if feature flag enabled", async () => {
-        FEATURE_FLAGS.liquidatedCompanyCertficiateEnabled = true;
+        FEATURE_FLAGS.liquidatedCompanyCertificateEnabled = true;
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
             .returns(Promise.resolve(getMockCompanyProfile({companyType: "ltd", companyStatus: "liquidation"})));
 
@@ -132,10 +134,11 @@ describe("certificate.home.controller.integration", () => {
         chai.expect(resp.text).to.contain("secretaries");
         chai.expect(resp.text).to.contain("company objects");
         chai.expect(resp.text).to.contain("details of liquidators");
+        chai.expect(resp.text).to.not.contain("details of administrators");
     });
 
     it("renders the start page for an llp company in liquidation to order a certificate if feature flag enabled", async () => {
-        FEATURE_FLAGS.liquidatedCompanyCertficiateEnabled = true;
+        FEATURE_FLAGS.liquidatedCompanyCertificateEnabled = true;
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
             .returns(Promise.resolve(getMockCompanyProfile({companyType: "llp", companyStatus: "liquidation"})));
 
@@ -149,10 +152,11 @@ describe("certificate.home.controller.integration", () => {
         chai.expect(resp.text).to.contain("designated members");
         chai.expect(resp.text).to.contain("members");
         chai.expect(resp.text).to.contain("details of liquidators");
+        chai.expect(resp.text).to.not.contain("details of administrators");
     });
 
     it("does not render the start page for company in liquidation if feature flag disabled", async () => {
-        FEATURE_FLAGS.liquidatedCompanyCertficiateEnabled = false;
+        FEATURE_FLAGS.liquidatedCompanyCertificateEnabled = false;
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
             .returns(Promise.resolve(getMockCompanyProfile({companyType: "ltd", companyStatus: "liquidation"})));
 
@@ -189,6 +193,7 @@ describe("certificate.home.controller.integration", () => {
         chai.expect(resp.text).to.contain("directors");
         chai.expect(resp.text).to.contain("secretaries");
         chai.expect(resp.text).to.contain("company objects");
+        chai.expect(resp.text).to.not.contain("details of liquidators");
         chai.expect(resp.text).to.contain("details of administrators");
     });
 
@@ -206,10 +211,11 @@ describe("certificate.home.controller.integration", () => {
         chai.expect(resp.text).to.contain("registered office address");
         chai.expect(resp.text).to.contain("designated members");
         chai.expect(resp.text).to.contain("members");
+        chai.expect(resp.text).to.not.contain("details of liquidators");
         chai.expect(resp.text).to.contain("details of administrators");
     });
 
-    it("does not render the start page for company in liquidation if feature flag disabled", async () => {
+    it("does not render the start page for company in administration if feature flag disabled", async () => {
         FEATURE_FLAGS.administrationCompanyCertificateEnabled = false;
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
             .returns(Promise.resolve(getMockCompanyProfile({companyType: "ltd", companyStatus: "administration"})));
