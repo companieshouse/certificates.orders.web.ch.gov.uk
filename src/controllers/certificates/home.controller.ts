@@ -1,4 +1,4 @@
-import {NextFunction, Request, Response} from "express";
+import { NextFunction, Request, Response } from "express";
 import {
     CERTIFICATE_TYPE,
     DISSOLVED_CERTIFICATE_TYPE,
@@ -6,14 +6,14 @@ import {
     LP_CERTIFICATE_TYPE,
     replaceCompanyNumber
 } from "../../model/page.urls";
-import {CompanyProfile} from "@companieshouse/api-sdk-node/dist/services/company-profile";
-import {getCompanyProfile} from "../../client/api.client";
-import {createLogger} from "ch-structured-logging";
-import {API_KEY, APPLICATION_NAME, DISPATCH_DAYS,} from "../../config/config";
-import {YOU_CANNOT_USE_THIS_SERVICE} from "../../model/template.paths";
-import {CompanyType} from "../../model/CompanyType";
-import {FEATURE_FLAGS} from "../../config/FeatureFlags";
-import {optionFilter} from "./OptionFilter";
+import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
+import { getCompanyProfile } from "../../client/api.client";
+import { createLogger } from "ch-structured-logging";
+import { API_KEY, APPLICATION_NAME, DISPATCH_DAYS } from "../../config/config";
+import { YOU_CANNOT_USE_THIS_SERVICE } from "../../model/template.paths";
+import { CompanyType } from "../../model/CompanyType";
+import { FEATURE_FLAGS } from "../../config/FeatureFlags";
+import { optionFilter } from "./OptionFilter";
 
 type LandingPage = { landingPage: string, startNowUrl: string, serviceUrl: string }
 type CompanyDetail = { companyNumber: string, type: string };
@@ -26,7 +26,7 @@ const lpLandingPage = (companyNumber: string) => {
         startNowUrl: replaceCompanyNumber(LP_CERTIFICATE_TYPE, companyNumber),
         serviceUrl: `/company/${companyNumber}/orderable/lp-certificates`
     };
-}
+};
 
 const llpLandingPage = (companyNumber: string) => {
     return {
@@ -34,7 +34,7 @@ const llpLandingPage = (companyNumber: string) => {
         startNowUrl: replaceCompanyNumber(LLP_CERTIFICATE_TYPE, companyNumber),
         serviceUrl: `/company/${companyNumber}/orderable/llp-certificates`
     };
-}
+};
 
 const otherLandingPage = (companyNumber: string) => {
     return {
@@ -42,9 +42,12 @@ const otherLandingPage = (companyNumber: string) => {
         startNowUrl: replaceCompanyNumber(CERTIFICATE_TYPE, companyNumber),
         serviceUrl: `/company/${companyNumber}/orderable/certificates`
     };
-}
+};
 
-const featureFlagsOnStrategy = ({companyNumber, type}: CompanyDetail): LandingPage => {
+const featureFlagsOnStrategy = ({
+    companyNumber,
+    type
+}: CompanyDetail): LandingPage => {
     let landingPage: LandingPage;
 
     if (CompanyType.LIMITED_PARTNERSHIP === type) {
@@ -58,9 +61,12 @@ const featureFlagsOnStrategy = ({companyNumber, type}: CompanyDetail): LandingPa
         logger.debug(`Certificates Home Controller - Active Company, company_number=${companyNumber}, service_url=${landingPage.serviceUrl}, start_now_url=${landingPage.startNowUrl}`);
     }
     return landingPage;
-}
+};
 
-const lpFeatureFlagOnStrategy = ({companyNumber, type}: CompanyDetail): LandingPage => {
+const lpFeatureFlagOnStrategy = ({
+    companyNumber,
+    type
+}: CompanyDetail): LandingPage => {
     let landingPage: LandingPage;
 
     if (CompanyType.LIMITED_PARTNERSHIP === type) {
@@ -71,9 +77,12 @@ const lpFeatureFlagOnStrategy = ({companyNumber, type}: CompanyDetail): LandingP
         logger.debug(`Certificates Home Controller - Active Company, company_number=${companyNumber}, service_url=${landingPage.serviceUrl}, start_now_url=${landingPage.startNowUrl}`);
     }
     return landingPage;
-}
+};
 
-const llpFeatureFlagOnStrategy = ({companyNumber, type}: CompanyDetail): LandingPage => {
+const llpFeatureFlagOnStrategy = ({
+    companyNumber,
+    type
+}: CompanyDetail): LandingPage => {
     let landingPage: LandingPage;
 
     if (CompanyType.LIMITED_LIABILITY_PARTNERSHIP === type) {
@@ -84,16 +93,19 @@ const llpFeatureFlagOnStrategy = ({companyNumber, type}: CompanyDetail): Landing
         logger.debug(`Certificates Home Controller - Active Company, company_number=${companyNumber}, service_url=${landingPage.serviceUrl}, start_now_url=${landingPage.startNowUrl}`);
     }
     return landingPage;
-}
+};
 
-const featureFlagsOffStrategy = ({companyNumber}: CompanyDetail): LandingPage => {
+const featureFlagsOffStrategy = ({ companyNumber }: CompanyDetail): LandingPage => {
     const landingPage: LandingPage = otherLandingPage(companyNumber);
     logger.debug(`Certificates Home Controller - Active Company, company_number=${companyNumber}, service_url=${landingPage.serviceUrl}, start_now_url=${landingPage.startNowUrl}`);
 
     return landingPage;
-}
+};
 
-let strategy: ({companyNumber, type}: CompanyDetail) => LandingPage;
+let strategy: ({
+    companyNumber,
+    type
+}: CompanyDetail) => LandingPage;
 
 if (FEATURE_FLAGS.lpCertificateOrdersEnabled && FEATURE_FLAGS.llpCertificateOrdersEnabled) {
     strategy = featureFlagsOnStrategy;
@@ -127,18 +139,20 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         ];
         // Allow limited partnership certificate if company is active
         if (companyStatus === "active") {
-            acceptableCompanyTypes.push(CompanyType.LIMITED_PARTNERSHIP)
+            acceptableCompanyTypes.push(CompanyType.LIMITED_PARTNERSHIP);
         }
 
         const allow: boolean = acceptableCompanyTypes.some(type => type === companyType);
 
         const acceptableCompanyStatuses = ["active", "dissolved"];
-        if(FEATURE_FLAGS.liquidatedCompanyCertficiateEnabled) {
+        if (FEATURE_FLAGS.liquidatedCompanyCertificateEnabled) {
             acceptableCompanyStatuses.push("liquidation");
+        }
+        if (FEATURE_FLAGS.administrationCompanyCertificateEnabled) {
+            acceptableCompanyStatuses.push("administration");
         }
 
         if (allow && acceptableCompanyStatuses.includes(companyStatus)) {
-
             let landingPage: LandingPage;
 
             if (companyStatus === "dissolved") {
@@ -146,7 +160,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
                     landingPage: "certificates/index",
                     startNowUrl: replaceCompanyNumber(DISSOLVED_CERTIFICATE_TYPE, companyNumber),
                     serviceUrl: `/company/${companyNumber}/orderable/dissolved-certificates`
-                }
+                };
 
                 logger.debug(`Certificates Home Controller - Dissolved Company, company_number=${companyNumber}, service_url=${landingPage.serviceUrl}, start_now_url=${landingPage.startNowUrl}`);
             } else {
@@ -163,14 +177,15 @@ export default async (req: Request, res: Response, next: NextFunction) => {
                 moreTabUrl,
                 companyName,
                 filterMappings: {
-                    goodStanding: companyProfile.companyStatus != 'liquidation',
-                    liquidators: companyProfile.companyStatus == 'liquidation'
+                    goodStanding: companyProfile.companyStatus === "active",
+                    liquidators: companyProfile.companyStatus === "liquidation",
+                    administrators: companyProfile.companyStatus === "administration"
                 },
                 optionFilter
             });
         } else {
             const SERVICE_NAME = null;
-            res.render(YOU_CANNOT_USE_THIS_SERVICE, {SERVICE_NAME});
+            res.render(YOU_CANNOT_USE_THIS_SERVICE, { SERVICE_NAME });
         }
     } catch (err) {
         logger.error(`${err}`);

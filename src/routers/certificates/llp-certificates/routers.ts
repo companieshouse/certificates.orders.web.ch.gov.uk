@@ -28,6 +28,7 @@ router.get(LLP_ROOT_CERTIFICATE, homeController);
 const typeController = new TypeController(new Map<string, string>([
     [CompanyStatus.ACTIVE, LLP_CERTIFICATE_OPTIONS],
     [CompanyStatus.LIQUIDATION, LLP_CERTIFICATE_OPTIONS],
+    [CompanyStatus.ADMINISTRATION, LLP_CERTIFICATE_OPTIONS],
     [CompanyStatus.DISSOLVED, DISSOLVED_CERTIFICATE_DELIVERY_DETAILS]
 ]));
 router.get(LLP_CERTIFICATE_TYPE, typeController.render.bind(typeController));
