@@ -11,7 +11,6 @@ import {
 } from "../../../model/page.urls";
 
 import homeController from "../../../controllers/certificates/home.controller";
-import collectionOptionsController, { render as renderCertificateOptions } from "../../../controllers/certificates/lp-certificates/options.controller";
 import placeOfBusinessOptionsController, { render as renderPlaceOfBusinessOptions } from "../../../controllers/certificates/lp-certificates/principal.place.options.controller";
 import deliveryDetailsController, { render as renderDeliveryDetails } from "../../../controllers/certificates/lp-certificates/delivery.details.controller";
 import { TypeController } from "../../../controllers/certificates/type.controller";
@@ -20,6 +19,7 @@ import { CheckDetailsController } from "../../../controllers/certificates/check-
 import { LPCheckDetailsFactory } from "../../../controllers/certificates/check-details/LPCompanyCheckDetailsFactory";
 import { CertificateTextMapper } from "../../../controllers/certificates/check-details/CertificateTextMapper";
 import { DISPATCH_DAYS } from "../../../config/config";
+import { OptionsControllerConfiguration } from "../../../controllers/certificates/options/OptionsControllerConfiguration";
 
 const router: Router = Router();
 
@@ -29,8 +29,11 @@ const typeController = new TypeController(new Map<string, string>([
     [CompanyStatus.DISSOLVED, DISSOLVED_CERTIFICATE_DELIVERY_DETAILS]
 ]));
 router.get(LP_CERTIFICATE_TYPE, typeController.render.bind(typeController));
-router.get(LP_CERTIFICATE_OPTIONS, renderCertificateOptions);
-router.post(LP_CERTIFICATE_OPTIONS, collectionOptionsController);
+
+const optionsController = OptionsControllerConfiguration.optionsControllerInstance();
+router.get(LP_CERTIFICATE_OPTIONS, optionsController.handleGet.bind(optionsController));
+router.post(LP_CERTIFICATE_OPTIONS, optionsController.handlePost.bind(optionsController));
+
 router.get(LP_CERTIFICATE_PRINCIPAL_PLACE_OPTIONS, renderPlaceOfBusinessOptions);
 router.post(LP_CERTIFICATE_PRINCIPAL_PLACE_OPTIONS, placeOfBusinessOptionsController);
 router.get(LP_CERTIFICATE_DELIVERY_DETAILS, renderDeliveryDetails);

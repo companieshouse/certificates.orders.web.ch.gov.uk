@@ -21,6 +21,7 @@ describe("certificate.options.controller.integration", () => {
         companyNumber: "12345678",
         itemOptions: {
             companyStatus: "active",
+            companyType: "ltd",
             directorDetails: {
                 includeBasicInformation: true
             },

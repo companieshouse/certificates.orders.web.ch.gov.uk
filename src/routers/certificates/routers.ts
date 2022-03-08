@@ -16,7 +16,6 @@ import {
 } from "../../model/page.urls";
 import homeController from "../../controllers/certificates/home.controller";
 import { TypeController } from "../../controllers/certificates/type.controller";
-import collectionOptionsController, { render as renderCertificateOptions } from "../../controllers/certificates/options.controller";
 import deliveryDetailsController, { render as renderDeliveryDetails } from "../../controllers/certificates/delivery.details.controller";
 import registeredOfficeOptionsController, { render as renderRegisteredOfficeOptions } from "../../controllers/certificates/registered.office.options.controller";
 import directorOptionsController, { render as renderDirectorOptions } from "../../controllers/certificates/director.options.controller";
@@ -26,6 +25,7 @@ import { CheckDetailsController } from "../../controllers/certificates/check-det
 import { CertificateTextMapper } from "../../controllers/certificates/check-details/CertificateTextMapper";
 import { DISPATCH_DAYS } from "../../config/config";
 import { DefaultCompanyCheckDetailsFactory } from "../../controllers/certificates/check-details/DefaultCompanyCheckDetailsFactory";
+import { OptionsControllerConfiguration } from "../../controllers/certificates/options/OptionsControllerConfiguration";
 
 const router: Router = Router();
 
@@ -41,8 +41,9 @@ const typeController = new TypeController(new Map<string, string>([
 router.get(CERTIFICATE_TYPE, typeController.render.bind(typeController));
 router.get(DISSOLVED_CERTIFICATE_TYPE, typeController.render.bind(typeController));
 
-router.get(CERTIFICATE_OPTIONS, renderCertificateOptions);
-router.post(CERTIFICATE_OPTIONS, collectionOptionsController);
+const optionsController = OptionsControllerConfiguration.optionsControllerInstance();
+router.get(CERTIFICATE_OPTIONS, optionsController.handleGet.bind(optionsController));
+router.post(CERTIFICATE_OPTIONS, optionsController.handlePost.bind(optionsController));
 
 router.get(CERTIFICATE_REGISTERED_OFFICE_OPTIONS, renderRegisteredOfficeOptions);
 router.post(CERTIFICATE_REGISTERED_OFFICE_OPTIONS, registeredOfficeOptionsController);

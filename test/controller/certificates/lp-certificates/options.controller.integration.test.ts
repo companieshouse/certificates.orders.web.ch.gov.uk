@@ -20,6 +20,8 @@ let patchCertificateItemStub;
 describe("lp.certificate.options.controller.integration", () => {
     const certificateItem = {
         itemOptions: {
+            companyStatus: "active",
+            companyType: "limited-partnership",
             directorDetails: {
                 includeBasicInformation: true
             },
@@ -65,7 +67,11 @@ describe("lp.certificate.options.controller.integration", () => {
 
     describe("certificate options patch", () => {
         it("redirects the user to the delivery-details page", async () => {
-            const certificateDetails = {} as CertificateItem;
+            const certificateDetails = {
+                itemOptions: {
+                    companyType: "limited-partnership"
+                }
+            } as CertificateItem;
 
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateDetails));
@@ -85,7 +91,11 @@ describe("lp.certificate.options.controller.integration", () => {
         });
 
         it("redirects the user to the principal-place-of-business-options page", async () => {
-            const certificateDetails = {} as CertificateItem;
+            const certificateDetails = {
+                itemOptions: {
+                    companyType: "limited-partnership"
+                }
+            } as CertificateItem;
 
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateDetails));
