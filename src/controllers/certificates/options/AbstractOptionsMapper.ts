@@ -22,7 +22,7 @@ export abstract class AbstractOptionsMapper {
     abstract mapItemToOptions (item: CertificateItem): OptionsViewModel;
 
     mapOptionsToUpdate (companyStatus: string, selectedOptions: SelectedOptions): CertificateItemPatchRequest {
-        const initialItemOptions: ItemOptionsRequest = this.createInitialItemOptions();
+        const initialItemOptions: ItemOptionsRequest = this.createInitialItemOptions(companyStatus);
         const result: CertificateItemPatchRequest = {
             itemOptions: initialItemOptions,
             quantity: 1
@@ -33,7 +33,7 @@ export abstract class AbstractOptionsMapper {
         return result;
     }
 
-    createInitialItemOptions (): ItemOptionsRequest {
+    createInitialItemOptions (companyStatus: string): ItemOptionsRequest {
         return {};
     }
 

@@ -18,7 +18,7 @@ export class LPOptionsMapper extends AbstractOptionsMapper {
         });
     }
 
-    createInitialItemOptions (): ItemOptionsRequest {
+    createInitialItemOptions (companyStatus: string): ItemOptionsRequest {
         return {
             generalPartnerDetails: {
                 includeBasicInformation: null

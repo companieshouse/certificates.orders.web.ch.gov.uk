@@ -18,15 +18,16 @@ export class LLPOptionsMapper extends AbstractOptionsMapper {
             templateName: LLP_CERTIFICATE_OPTIONS,
             SERVICE_URL: replaceCompanyNumber(LLP_ROOT_CERTIFICATE, item.companyNumber),
             filterMappings: {
-                goodStanding: item.itemOptions.companyStatus !== CompanyStatus.LIQUIDATION,
-                liquidators: item.itemOptions.companyStatus === CompanyStatus.LIQUIDATION
+                goodStanding: item.itemOptions.companyStatus === CompanyStatus.ACTIVE,
+                liquidators: item.itemOptions.companyStatus === CompanyStatus.LIQUIDATION,
+                administrators: item.itemOptions.companyStatus === CompanyStatus.ADMINISTRATION
             },
             optionFilter: optionFilter
         });
     }
 
-    createInitialItemOptions (): ItemOptionsRequest {
-        return {
+    createInitialItemOptions (companyStatus: string): ItemOptionsRequest {
+        const result: ItemOptionsRequest = {
             designatedMemberDetails: {
                 includeAddress: null,
                 includeAppointmentDate: null,
@@ -47,6 +48,12 @@ export class LLPOptionsMapper extends AbstractOptionsMapper {
                 includeAddressRecordsType: null
             }
         };
+        if (companyStatus === CompanyStatus.LIQUIDATION) {
+            result.liquidatorsDetails = { includeBasicInformation: null };
+        } else if (companyStatus === CompanyStatus.ADMINISTRATION) {
+            result.administratorsDetails = { includeBasicInformation: null };
+        }
+        return result;
     }
 
     filterItemOptions (itemOptionsAccum: ItemOptionsRequest, option: string): ItemOptionsRequest {
@@ -69,6 +76,10 @@ export class LLPOptionsMapper extends AbstractOptionsMapper {
         }
         case OptionSelection.LIQUIDATORS_DETAILS: {
             itemOptionsAccum.liquidatorsDetails = { includeBasicInformation: true };
+            break;
+        }
+        case OptionSelection.ADMINISTRATORS_DETAILS: {
+            itemOptionsAccum.administratorsDetails = { includeBasicInformation: true };
             break;
         }
         default:

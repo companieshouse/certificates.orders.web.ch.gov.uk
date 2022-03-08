@@ -88,9 +88,20 @@
               "data-event-id" : "liquidators-option"
             }
           }
+          {
+            value: "administrators",
+            text: "Administrators",
+            hint: {
+              text: "Details of appointed administrators."
+            },
+            checked: true if itemOptions.administratorsDetails.includeBasicInformation else false,
+            attributes: {
+              "data-event-id" : "administrators-option"
+            }
+          }
         ], filterMappings)
         }) }}
-        
+
         {{ govukButton({
           text: "Continue",
           attributes: {

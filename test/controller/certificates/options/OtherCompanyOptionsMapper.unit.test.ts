@@ -6,7 +6,8 @@ import { CERTIFICATE_OPTIONS } from "../../../../src/model/template.paths";
 import { OptionsPageRedirect } from "../../../../src/controllers/certificates/options/OptionsPageRedirect";
 import { OptionSelection } from "../../../../src/controllers/certificates/options/OptionSelection";
 import { OtherCompanyOptionsMapper } from "../../../../src/controllers/certificates/options/OtherCompanyOptionsMapper";
-import sessionHandler from "@companieshouse/node-session-handler"; // needed for side-effects
+import sessionHandler from "@companieshouse/node-session-handler";
+import { CompanyStatus } from "../../../../src/controllers/certificates/model/CompanyStatus"; // needed for side-effects
 
 const chai = require("chai");
 
@@ -42,7 +43,8 @@ describe("OtherCompanyOptionMapper", () => {
                 SERVICE_URL: "/company/12345678/orderable/certificates",
                 filterMappings: {
                     goodStanding: true,
-                    liquidators: false
+                    liquidators: false,
+                    administrators: false
                 }
             });
         });
@@ -71,7 +73,38 @@ describe("OtherCompanyOptionMapper", () => {
                 SERVICE_URL: "/company/12345678/orderable/certificates",
                 filterMappings: {
                     goodStanding: false,
-                    liquidators: true
+                    liquidators: true,
+                    administrators: false
+                }
+            });
+        });
+
+        it("Creates an OptionsViewModel instance for an administrated company", () => {
+            // given
+            const certificate = {
+                companyNumber: "12345678",
+                itemOptions: {
+                    companyStatus: "administration"
+                }
+            } as CertificateItem;
+
+            // when
+            const result = mapper.mapItemToOptions(certificate);
+            delete result.data.optionFilter; // functions cannot be compared for equality
+
+            // then
+            chai.expect(result.template).to.equal(CERTIFICATE_OPTIONS);
+            chai.expect(result.data).to.deep.equal({
+                companyNumber: "12345678",
+                itemOptions: {
+                    companyStatus: "administration"
+                },
+                templateName: CERTIFICATE_OPTIONS,
+                SERVICE_URL: "/company/12345678/orderable/certificates",
+                filterMappings: {
+                    goodStanding: false,
+                    liquidators: false,
+                    administrators: true
                 }
             });
         });
@@ -86,11 +119,12 @@ describe("OtherCompanyOptionMapper", () => {
                 OptionSelection.DIRECTORS,
                 OptionSelection.SECRETARIES,
                 OptionSelection.COMPANY_OBJECTS,
-                OptionSelection.LIQUIDATORS_DETAILS
+                OptionSelection.LIQUIDATORS_DETAILS,
+                OptionSelection.ADMINISTRATORS_DETAILS
             ];
 
             // when
-            const result = mapper.mapOptionsToUpdate("status", options);
+            const result = mapper.mapOptionsToUpdate(CompanyStatus.ACTIVE, options);
 
             // then
             chai.expect(result).to.deep.equal({
@@ -106,6 +140,9 @@ describe("OtherCompanyOptionMapper", () => {
                     includeCompanyObjectsInformation: true,
                     liquidatorsDetails: {
                         includeBasicInformation: true
+                    },
+                    administratorsDetails: {
+                        includeBasicInformation: true
                     }
                 },
                 quantity: 1
@@ -117,12 +154,12 @@ describe("OtherCompanyOptionMapper", () => {
             const option = OptionSelection.STATEMENT_OF_GOOD_STANDING;
 
             // when
-            const result = mapper.mapOptionsToUpdate("status", option);
+            const result = mapper.mapOptionsToUpdate(CompanyStatus.ACTIVE, option);
 
             // then
             chai.expect(result).to.deep.equal({
                 itemOptions: {
-                    ...mapper.createInitialItemOptions(),
+                    ...mapper.createInitialItemOptions(CompanyStatus.ACTIVE),
                     includeGoodStandingInformation: true
                 },
                 quantity: 1
@@ -131,12 +168,12 @@ describe("OtherCompanyOptionMapper", () => {
 
         it("Maps undefined to an initial item", () => {
             // when
-            const result = mapper.mapOptionsToUpdate("status", undefined);
+            const result = mapper.mapOptionsToUpdate(CompanyStatus.ACTIVE, undefined);
 
             // then
             chai.expect(result).to.deep.equal({
                 itemOptions: {
-                    ...mapper.createInitialItemOptions()
+                    ...mapper.createInitialItemOptions(CompanyStatus.ACTIVE)
                 },
                 quantity: 1
             } as CertificateItemPatchRequest);
@@ -144,9 +181,9 @@ describe("OtherCompanyOptionMapper", () => {
     });
 
     describe("Create a template ItemOptionsRequest object", () => {
-        it("Returns an ItemOptionsRequest object with appointment fields present", () => {
+        it("Returns an ItemOptionsRequest object for an active company", () => {
             // when
-            const result = mapper.createInitialItemOptions();
+            const result = mapper.createInitialItemOptions(CompanyStatus.ACTIVE);
 
             // then
             chai.expect(result).to.deep.equal({
@@ -170,6 +207,68 @@ describe("OtherCompanyOptionMapper", () => {
                     includeAppointmentDate: null
                 }
             });
+        });
+
+        it("Returns an ItemOptionsRequest object for a liquidated company", () => {
+            // when
+            const result = mapper.createInitialItemOptions(CompanyStatus.LIQUIDATION);
+
+            // then
+            chai.expect(result).to.deep.equal({
+                directorDetails: {
+                    includeBasicInformation: null,
+                    includeAddress: null,
+                    includeAppointmentDate: null,
+                    includeCountryOfResidence: null,
+                    includeDobType: null,
+                    includeNationality: null,
+                    includeOccupation: null
+                },
+                includeCompanyObjectsInformation: null,
+                includeGoodStandingInformation: null,
+                registeredOfficeAddressDetails: {
+                    includeAddressRecordsType: null
+                },
+                secretaryDetails: {
+                    includeBasicInformation: null,
+                    includeAddress: null,
+                    includeAppointmentDate: null
+                },
+                liquidatorsDetails: {
+                    includeBasicInformation: null
+                }
+            } as ItemOptionsRequest);
+        });
+
+        it("Returns an ItemOptionsRequest object for an administrated company", () => {
+            // when
+            const result = mapper.createInitialItemOptions(CompanyStatus.ADMINISTRATION);
+
+            // then
+            chai.expect(result).to.deep.equal({
+                directorDetails: {
+                    includeBasicInformation: null,
+                    includeAddress: null,
+                    includeAppointmentDate: null,
+                    includeCountryOfResidence: null,
+                    includeDobType: null,
+                    includeNationality: null,
+                    includeOccupation: null
+                },
+                includeCompanyObjectsInformation: null,
+                includeGoodStandingInformation: null,
+                registeredOfficeAddressDetails: {
+                    includeAddressRecordsType: null
+                },
+                secretaryDetails: {
+                    includeBasicInformation: null,
+                    includeAddress: null,
+                    includeAppointmentDate: null
+                },
+                administratorsDetails: {
+                    includeBasicInformation: null
+                }
+            } as ItemOptionsRequest);
         });
     });
 
@@ -247,6 +346,18 @@ describe("OtherCompanyOptionMapper", () => {
             chai.expect(actual.liquidatorsDetails?.includeBasicInformation).to.be.true;
         });
 
+        it("Maps administrators details", () => {
+            // given
+            const itemOptions = {} as ItemOptionsRequest;
+            const option = OptionSelection.ADMINISTRATORS_DETAILS;
+
+            // when
+            const actual = mapper.filterItemOptions(itemOptions, option);
+
+            // then
+            chai.expect(actual.administratorsDetails?.includeBasicInformation).to.be.true;
+        });
+
         it("Maps nothing if option not recognised", () => {
             // given
             const itemOptions = {} as ItemOptionsRequest;
@@ -268,7 +379,8 @@ describe("OtherCompanyOptionMapper", () => {
                 OptionSelection.REGISTERED_OFFICE_ADDRESS,
                 OptionSelection.SECRETARIES,
                 OptionSelection.COMPANY_OBJECTS,
-                OptionSelection.LIQUIDATORS_DETAILS
+                OptionSelection.LIQUIDATORS_DETAILS,
+                OptionSelection.ADMINISTRATORS_DETAILS
             ];
             mapper.addRedirectForOption(OptionSelection.REGISTERED_OFFICE_ADDRESS, new OptionsPageRedirect("reg", 1));
             mapper.addRedirectForOption(OptionSelection.DIRECTORS, new OptionsPageRedirect("dir", 2));

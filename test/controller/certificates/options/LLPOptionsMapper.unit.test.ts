@@ -6,7 +6,8 @@ import {
 import { LLP_CERTIFICATE_OPTIONS } from "../../../../src/model/template.paths";
 import { OptionsPageRedirect } from "../../../../src/controllers/certificates/options/OptionsPageRedirect";
 import { OptionSelection } from "../../../../src/controllers/certificates/options/OptionSelection";
-import sessionHandler from "@companieshouse/node-session-handler"; // needed for side-effects
+import sessionHandler from "@companieshouse/node-session-handler";
+import { CompanyStatus } from "../../../../src/controllers/certificates/model/CompanyStatus"; // needed for side-effects
 
 const chai = require("chai");
 
@@ -37,7 +38,8 @@ describe("LLPOptionMapper", () => {
                 SERVICE_URL: "/company/12345678/orderable/llp-certificates",
                 filterMappings: {
                     goodStanding: true,
-                    liquidators: false
+                    liquidators: false,
+                    administrators: false
                 }
             });
         });
@@ -66,16 +68,46 @@ describe("LLPOptionMapper", () => {
                 SERVICE_URL: "/company/12345678/orderable/llp-certificates",
                 filterMappings: {
                     goodStanding: false,
-                    liquidators: true
+                    liquidators: true,
+                    administrators: false
+                }
+            });
+        });
+        it("Creates an OptionsViewModel instance for an administrated company", () => {
+            // given
+            const certificate = {
+                companyNumber: "12345678",
+                itemOptions: {
+                    companyStatus: "administration"
+                }
+            } as CertificateItem;
+
+            // when
+            const result = mapper.mapItemToOptions(certificate);
+            delete result.data.optionFilter; // functions cannot be compared for equality
+
+            // then
+            chai.expect(result.template).to.equal(LLP_CERTIFICATE_OPTIONS);
+            chai.expect(result.data).to.deep.equal({
+                companyNumber: "12345678",
+                itemOptions: {
+                    companyStatus: "administration"
+                },
+                templateName: LLP_CERTIFICATE_OPTIONS,
+                SERVICE_URL: "/company/12345678/orderable/llp-certificates",
+                filterMappings: {
+                    goodStanding: false,
+                    liquidators: false,
+                    administrators: true
                 }
             });
         });
     });
 
     describe("Create a template ItemOptionsRequest object", () => {
-        it("Returns an ItemOptionsRequest object with [designated] member details fields present", () => {
+        it("Returns an ItemOptionsRequest object for an active company", () => {
             // when
-            const result = mapper.createInitialItemOptions();
+            const result = mapper.createInitialItemOptions(CompanyStatus.ACTIVE);
 
             // then
             chai.expect(result).to.deep.equal({
@@ -99,6 +131,68 @@ describe("LLPOptionMapper", () => {
                     includeAddressRecordsType: null
                 }
             });
+        });
+
+        it("Returns an ItemOptionsRequest object for a liquidated company", () => {
+            // when
+            const result = mapper.createInitialItemOptions(CompanyStatus.LIQUIDATION);
+
+            // then
+            chai.expect(result).to.deep.equal({
+                designatedMemberDetails: {
+                    includeAddress: null,
+                    includeAppointmentDate: null,
+                    includeBasicInformation: null,
+                    includeCountryOfResidence: null,
+                    includeDobType: null
+                },
+                includeCompanyObjectsInformation: null,
+                includeGoodStandingInformation: null,
+                memberDetails: {
+                    includeAddress: null,
+                    includeAppointmentDate: null,
+                    includeBasicInformation: null,
+                    includeCountryOfResidence: null,
+                    includeDobType: null
+                },
+                registeredOfficeAddressDetails: {
+                    includeAddressRecordsType: null
+                },
+                liquidatorsDetails: {
+                    includeBasicInformation: null
+                }
+            } as ItemOptionsRequest);
+        });
+
+        it("Returns an ItemOptionsRequest object for an administrated company", () => {
+            // when
+            const result = mapper.createInitialItemOptions(CompanyStatus.ADMINISTRATION);
+
+            // then
+            chai.expect(result).to.deep.equal({
+                designatedMemberDetails: {
+                    includeAddress: null,
+                    includeAppointmentDate: null,
+                    includeBasicInformation: null,
+                    includeCountryOfResidence: null,
+                    includeDobType: null
+                },
+                includeCompanyObjectsInformation: null,
+                includeGoodStandingInformation: null,
+                memberDetails: {
+                    includeAddress: null,
+                    includeAppointmentDate: null,
+                    includeBasicInformation: null,
+                    includeCountryOfResidence: null,
+                    includeDobType: null
+                },
+                registeredOfficeAddressDetails: {
+                    includeAddressRecordsType: null
+                },
+                administratorsDetails: {
+                    includeBasicInformation: null
+                }
+            } as ItemOptionsRequest);
         });
     });
 
@@ -162,6 +256,18 @@ describe("LLPOptionMapper", () => {
 
             // then
             chai.expect(actual.liquidatorsDetails?.includeBasicInformation).to.be.true;
+        });
+
+        it("Maps administrators details", () => {
+            // given
+            const itemOptions = {} as ItemOptionsRequest;
+            const option = OptionSelection.ADMINISTRATORS_DETAILS;
+
+            // when
+            const actual = mapper.filterItemOptions(itemOptions, option);
+
+            // then
+            chai.expect(actual.administratorsDetails?.includeBasicInformation).to.be.true;
         });
 
         it("Maps nothing if option not recognised", () => {

@@ -2,11 +2,12 @@ import {
     CertificateItem,
     ItemOptionsRequest
 } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
-import { LLP_CERTIFICATE_OPTIONS, LP_CERTIFICATE_OPTIONS } from "../../../../src/model/template.paths";
+import { LP_CERTIFICATE_OPTIONS } from "../../../../src/model/template.paths";
 import { OptionsPageRedirect } from "../../../../src/controllers/certificates/options/OptionsPageRedirect";
 import { OptionSelection } from "../../../../src/controllers/certificates/options/OptionSelection";
 import { LPOptionsMapper } from "../../../../src/controllers/certificates/options/LPOptionsMapper";
-import sessionHandler from "@companieshouse/node-session-handler"; // needed for side-effects
+import sessionHandler from "@companieshouse/node-session-handler";
+import { CompanyStatus } from "../../../../src/controllers/certificates/model/CompanyStatus"; // needed for side-effects
 
 const chai = require("chai");
 
@@ -42,7 +43,7 @@ describe("LPOptionMapper", () => {
     describe("Create a template ItemOptionsRequest object", () => {
         it("Returns an ItemOptionsRequest object with limited partnership fields present", () => {
             // when
-            const result = mapper.createInitialItemOptions();
+            const result = mapper.createInitialItemOptions(CompanyStatus.ACTIVE);
 
             // then
             chai.expect(result).to.deep.equal({

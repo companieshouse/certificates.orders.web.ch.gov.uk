@@ -17,15 +17,16 @@ export class OtherCompanyOptionsMapper extends AbstractOptionsMapper {
             templateName: CERTIFICATE_OPTIONS,
             SERVICE_URL: `/company/${item.companyNumber}/orderable/certificates`,
             filterMappings: {
-                goodStanding: item.itemOptions.companyStatus !== CompanyStatus.LIQUIDATION,
-                liquidators: item.itemOptions.companyStatus === CompanyStatus.LIQUIDATION
+                goodStanding: item.itemOptions.companyStatus === CompanyStatus.ACTIVE,
+                liquidators: item.itemOptions.companyStatus === CompanyStatus.LIQUIDATION,
+                administrators: item.itemOptions.companyStatus === CompanyStatus.ADMINISTRATION
             },
             optionFilter: optionFilter
         });
     }
 
-    createInitialItemOptions (): ItemOptionsRequest {
-        return {
+    createInitialItemOptions (companyStatus: string): ItemOptionsRequest {
+        const result: ItemOptionsRequest = {
             directorDetails: {
                 includeBasicInformation: null,
                 includeAddress: null,
@@ -45,7 +46,13 @@ export class OtherCompanyOptionsMapper extends AbstractOptionsMapper {
                 includeAddress: null,
                 includeAppointmentDate: null
             }
-        } as ItemOptionsRequest;
+        };
+        if (companyStatus === CompanyStatus.LIQUIDATION) {
+            result.liquidatorsDetails = { includeBasicInformation: null };
+        } else if (companyStatus === CompanyStatus.ADMINISTRATION) {
+            result.administratorsDetails = { includeBasicInformation: null };
+        }
+        return result;
     }
 
     filterItemOptions (itemOptionsAccum: ItemOptionsRequest, option: string): ItemOptionsRequest {
@@ -72,6 +79,10 @@ export class OtherCompanyOptionsMapper extends AbstractOptionsMapper {
         }
         case OptionSelection.LIQUIDATORS_DETAILS: {
             itemOptionsAccum.liquidatorsDetails = { includeBasicInformation: true };
+            break;
+        }
+        case OptionSelection.ADMINISTRATORS_DETAILS: {
+            itemOptionsAccum.administratorsDetails = { includeBasicInformation: true };
             break;
         }
         default:

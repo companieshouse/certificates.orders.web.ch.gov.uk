@@ -10,5 +10,6 @@ export const enum OptionSelection {
     LIMITED_PARTNERS = "limitedPartners",
     GENERAL_NATURE_OF_BUSINESS = "generalNatureOfBusiness",
     COMPANY_OBJECTS = "companyObjects",
-    LIQUIDATORS_DETAILS = "liquidators"
+    LIQUIDATORS_DETAILS = "liquidators",
+    ADMINISTRATORS_DETAILS = "administrators"
 }
