@@ -33,13 +33,9 @@ export abstract class AbstractOptionsMapper {
         return result;
     }
 
-    createInitialItemOptions (companyStatus: string): ItemOptionsRequest {
-        return {};
-    }
+    abstract createInitialItemOptions (companyStatus: string): ItemOptionsRequest;
 
-    filterItemOptions (itemOptionsAccum: ItemOptionsRequest, option: string): ItemOptionsRequest {
-        return {};
-    }
+    abstract filterItemOptions (itemOptionsAccum: ItemOptionsRequest, option: string): ItemOptionsRequest;
 
     mapOptionsToRedirect (selectedOptions: SelectedOptions): OptionsPageRedirect {
         const options = this.mapSelectedOptionsToArray(selectedOptions);
