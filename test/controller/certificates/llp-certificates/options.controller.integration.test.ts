@@ -20,6 +20,7 @@ describe("llp.certificate.options.controller.integration", () => {
     const certificateItem = {
         itemOptions: {
             companyStatus: "active",
+            companyType: "llp",
             designatedMemberDetails: {
                 includeBasicInformation: true
             },
@@ -36,6 +37,7 @@ describe("llp.certificate.options.controller.integration", () => {
     const certificateItemLiquidated = {
         itemOptions: {
             companyStatus: "liquidation",
+            companyType: "llp",
             designatedMemberDetails: {
                 includeBasicInformation: true
             },
@@ -53,6 +55,7 @@ describe("llp.certificate.options.controller.integration", () => {
 
     const certificateDetails = {
         itemOptions: {
+            companyType: "llp",
             companyStatus: "active"
         }
     } as CertificateItem;

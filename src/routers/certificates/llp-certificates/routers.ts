@@ -13,7 +13,6 @@ import {
 } from "../../../model/page.urls";
 
 import homeController from "../../../controllers/certificates/home.controller";
-import collectionOptionsController, { render as renderCertificateOptions } from "../../../controllers/certificates/llp-certificates/options.controller";
 import designatedMembersOptionsController, { render as renderDesignatedMemberOptions } from "../../../controllers/certificates/llp-certificates/designated-members.options.controller";
 import membersOptionsController, { render as renderMembersOptions } from "../../../controllers/certificates/llp-certificates/members.options.controller";
 import deliveryDetailsController, { render as renderDeliveryDetails } from "../../../controllers/certificates/llp-certificates/delivery.details.controller";
@@ -24,6 +23,7 @@ import { CheckDetailsController } from "../../../controllers/certificates/check-
 import { CertificateTextMapper } from "../../../controllers/certificates/check-details/CertificateTextMapper";
 import { DISPATCH_DAYS } from "../../../config/config";
 import { LLPCheckDetailsFactory } from "../../../controllers/certificates/check-details/LLPCheckDetailsFactory";
+import { OptionsControllerConfiguration } from "../../../controllers/certificates/options/OptionsControllerConfiguration";
 
 const router: Router = Router();
 
@@ -35,8 +35,11 @@ const typeController = new TypeController(new Map<string, string>([
     [CompanyStatus.DISSOLVED, DISSOLVED_CERTIFICATE_DELIVERY_DETAILS]
 ]));
 router.get(LLP_CERTIFICATE_TYPE, typeController.render.bind(typeController));
-router.get(LLP_CERTIFICATE_OPTIONS, renderCertificateOptions);
-router.post(LLP_CERTIFICATE_OPTIONS, collectionOptionsController);
+
+const optionsController = OptionsControllerConfiguration.optionsControllerInstance();
+router.get(LLP_CERTIFICATE_OPTIONS, optionsController.handleGet.bind(optionsController));
+router.post(LLP_CERTIFICATE_OPTIONS, optionsController.handlePost.bind(optionsController));
+
 router.get(LLP_CERTIFICATE_REGISTERED_OFFICE_OPTIONS, renderRegisteredOfficeOptions);
 router.post(LLP_CERTIFICATE_REGISTERED_OFFICE_OPTIONS, registeredOfficeOptionsController);
 router.get(LLP_CERTIFICATE_DESIGNATED_MEMBERS_OPTIONS, renderDesignatedMemberOptions);
