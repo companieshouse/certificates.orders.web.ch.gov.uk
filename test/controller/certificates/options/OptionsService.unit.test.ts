@@ -26,7 +26,7 @@ describe("OptionsService", () => {
     beforeEach(() => {
         mapperHandled = sandbox.createStubInstance(OtherCompanyOptionsMapper);
         mapperUnhandled = sandbox.createStubInstance(OtherCompanyOptionsMapper);
-        service = new OptionsService(new Map<string, AbstractOptionsMapper>([["handled", mapperHandled as any]]), mapperUnhandled as any);
+        service = new OptionsService(new Map<string, AbstractOptionsMapper<any>>([["handled", mapperHandled as any]]), mapperUnhandled as any);
     });
 
     afterEach(() => {
@@ -69,7 +69,7 @@ describe("OptionsService", () => {
     it("Updates a certificate item for a handled company type using provided options", async () => {
         // given
         mapperHandled.mapOptionsToUpdate.returns({} as CertificateItemPatchRequest);
-        mapperHandled.mapOptionsToRedirect.returns(new OptionsPageRedirect("redirect", 1));
+        mapperHandled.getRedirect.returns(new OptionsPageRedirect("redirect"));
         sandbox.stub(apiClient, "getCertificateItem").returns(Promise.resolve({
             itemOptions: {
                 companyType: "handled"
@@ -81,13 +81,13 @@ describe("OptionsService", () => {
         const actual = await service.updateCertificate("F00DFACE", "CAFE", ["option"]);
 
         // then
-        chai.expect(actual).to.deep.equal(new OptionsPageRedirect("redirect", 1));
+        chai.expect(actual).to.deep.equal(new OptionsPageRedirect("redirect"));
     });
 
     it("Updates a certificate item for an unhandled company type using provided options", async () => {
         // given
         mapperUnhandled.mapOptionsToUpdate.returns({} as CertificateItemPatchRequest);
-        mapperUnhandled.mapOptionsToRedirect.returns(new OptionsPageRedirect("redirect", 1));
+        mapperUnhandled.getRedirect.returns(new OptionsPageRedirect("redirect"));
         sandbox.stub(apiClient, "getCertificateItem").returns(Promise.resolve({
             itemOptions: {
                 companyType: "unhandled"
@@ -99,6 +99,6 @@ describe("OptionsService", () => {
         const actual = await service.updateCertificate("F00DFACE", "CAFE", ["option"]);
 
         // then
-        chai.expect(actual).to.deep.equal(new OptionsPageRedirect("redirect", 1));
+        chai.expect(actual).to.deep.equal(new OptionsPageRedirect("redirect"));
     });
 });

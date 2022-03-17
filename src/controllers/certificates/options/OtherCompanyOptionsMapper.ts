@@ -8,8 +8,10 @@ import { CompanyStatus } from "../model/CompanyStatus";
 import { AbstractOptionsMapper } from "./AbstractOptionsMapper";
 import { optionFilter } from "../OptionFilter";
 import { OptionSelection } from "./OptionSelection";
+import { ResourceState } from "./OptionsService";
+import { OtherCompanyRedirectStateMachine } from "./OtherCompanyRedirectStateMachine";
 
-export class OtherCompanyOptionsMapper extends AbstractOptionsMapper {
+export class OtherCompanyOptionsMapper extends AbstractOptionsMapper<OtherCompanyRedirectStateMachine> {
     mapItemToOptions (item: CertificateItem): OptionsViewModel {
         return new OptionsViewModel(CERTIFICATE_OPTIONS, {
             companyNumber: item.companyNumber,
@@ -62,7 +64,7 @@ export class OtherCompanyOptionsMapper extends AbstractOptionsMapper {
             break;
         }
         case OptionSelection.REGISTERED_OFFICE_ADDRESS: {
-            itemOptionsAccum.registeredOfficeAddressDetails = {};
+            itemOptionsAccum.registeredOfficeAddressDetails = { includeAddressRecordsType: "current" };
             break;
         }
         case OptionSelection.DIRECTORS: {
@@ -89,5 +91,19 @@ export class OtherCompanyOptionsMapper extends AbstractOptionsMapper {
             break;
         }
         return itemOptionsAccum;
+    }
+
+    handleOption (option: string, redirectStateMachine: OtherCompanyRedirectStateMachine) {
+        if (option === OptionSelection.REGISTERED_OFFICE_ADDRESS) {
+            redirectStateMachine.redirectAddressDetails();
+        } else if (option === OptionSelection.DIRECTORS) {
+            redirectStateMachine.redirectDirectorDetails();
+        } else if (option === OptionSelection.SECRETARIES) {
+            redirectStateMachine.redirectSecretaryDetails();
+        }
+    }
+
+    getStateMachine (resourceState: ResourceState): OtherCompanyRedirectStateMachine {
+        return new OtherCompanyRedirectStateMachine(resourceState);
     }
 }

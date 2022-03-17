@@ -7,8 +7,10 @@ import { LP_CERTIFICATE_OPTIONS } from "../../../model/template.paths";
 import { AbstractOptionsMapper } from "./AbstractOptionsMapper";
 import { LP_ROOT_CERTIFICATE, replaceCompanyNumber } from "../../../model/page.urls";
 import { OptionSelection } from "./OptionSelection";
+import { LPRedirectStateMachine } from "./LPRedirectStateMachine";
+import { ResourceState } from "./OptionsService";
 
-export class LPOptionsMapper extends AbstractOptionsMapper {
+export class LPOptionsMapper extends AbstractOptionsMapper<LPRedirectStateMachine> {
     mapItemToOptions (item: CertificateItem): OptionsViewModel {
         return new OptionsViewModel(LP_CERTIFICATE_OPTIONS, {
             companyNumber: item.companyNumber,
@@ -42,7 +44,7 @@ export class LPOptionsMapper extends AbstractOptionsMapper {
             break;
         }
         case OptionSelection.PRINCIPAL_PLACE_OF_BUSINESS: {
-            itemOptionsAccum.principalPlaceOfBusinessDetails = {};
+            itemOptionsAccum.principalPlaceOfBusinessDetails = { includeAddressRecordsType: "current" };
             break;
         }
         case OptionSelection.GENERAL_PARTNERS: {
@@ -61,5 +63,15 @@ export class LPOptionsMapper extends AbstractOptionsMapper {
             break;
         }
         return itemOptionsAccum;
+    }
+
+    handleOption (option: string, redirectStateMachine: LPRedirectStateMachine): void {
+        if (option === OptionSelection.PRINCIPAL_PLACE_OF_BUSINESS) {
+            redirectStateMachine.redirectAddressDetails();
+        }
+    }
+
+    getStateMachine (resourceState: ResourceState): LPRedirectStateMachine {
+        return new LPRedirectStateMachine(resourceState);
     }
 }

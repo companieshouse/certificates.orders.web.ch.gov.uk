@@ -6,13 +6,12 @@ import {
 import { LLP_CERTIFICATE_OPTIONS } from "../../../../src/model/template.paths";
 import { OptionsPageRedirect } from "../../../../src/controllers/certificates/options/OptionsPageRedirect";
 import { OptionSelection } from "../../../../src/controllers/certificates/options/OptionSelection";
-import sessionHandler from "@companieshouse/node-session-handler";
 import { CompanyStatus } from "../../../../src/controllers/certificates/model/CompanyStatus"; // needed for side-effects
 
 const chai = require("chai");
 
 describe("LLPOptionMapper", () => {
-    const mapper = new LLPOptionsMapper(new OptionsPageRedirect("default"));
+    const mapper = new LLPOptionsMapper();
     describe("Map item to options", () => {
         it("Creates an OptionsViewModel instance for an active company", () => {
             // given
@@ -218,7 +217,7 @@ describe("LLPOptionMapper", () => {
             const actual = mapper.filterItemOptions(itemOptions, option);
 
             // then
-            chai.expect(actual.registeredOfficeAddressDetails?.includeAddressRecordsType).to.be.undefined;
+            chai.expect(actual.registeredOfficeAddressDetails?.includeAddressRecordsType).to.equal("current");
             chai.expect(actual.registeredOfficeAddressDetails?.includeDates).to.be.undefined;
         });
 
@@ -280,6 +279,72 @@ describe("LLPOptionMapper", () => {
 
             // then
             chai.expect(actual).to.deep.equal({});
+        });
+    });
+    describe("Map selected options to a redirect model instance", () => {
+        it("Returns registered office address if all options selected in any order", () => {
+            // given
+            const options = [
+                OptionSelection.STATEMENT_OF_GOOD_STANDING,
+                OptionSelection.MEMBERS,
+                OptionSelection.REGISTERED_OFFICE_ADDRESS,
+                OptionSelection.DESIGNATED_MEMBERS,
+                OptionSelection.LIQUIDATORS_DETAILS,
+                OptionSelection.ADMINISTRATORS_DETAILS
+            ];
+
+            // when
+            const actual = mapper.getRedirect(options, { certificateItem: { itemOptions: {} } as CertificateItem });
+
+            // then
+            chai.expect(actual).to.deep.equal(new OptionsPageRedirect("registered-office-options"));
+        });
+
+        it("Returns designated members options redirect if registered office details unselected", () => {
+            // given
+            const options = [
+                OptionSelection.MEMBERS,
+                OptionSelection.DESIGNATED_MEMBERS,
+                OptionSelection.LIQUIDATORS_DETAILS,
+                OptionSelection.ADMINISTRATORS_DETAILS
+            ];
+
+            // when
+            const actual = mapper.getRedirect(options, { certificateItem: {} as CertificateItem });
+
+            // then
+            chai.expect(actual).to.deep.equal(new OptionsPageRedirect("designated-members-options"));
+        });
+
+        it("Returns members options redirect if registered office, designated members details unselected", () => {
+            // given
+            const options = [
+                OptionSelection.STATEMENT_OF_GOOD_STANDING,
+                OptionSelection.LIQUIDATORS_DETAILS,
+                OptionSelection.MEMBERS,
+                OptionSelection.ADMINISTRATORS_DETAILS
+            ];
+
+            // when
+            const actual = mapper.getRedirect(options, { certificateItem: {} as CertificateItem });
+
+            // then
+            chai.expect(actual).to.deep.equal(new OptionsPageRedirect("members-options"));
+        });
+
+        it("Returns delivery details redirect if registered office, designated members, members details unselected", () => {
+            // given
+            const options = [
+                OptionSelection.LIQUIDATORS_DETAILS,
+                OptionSelection.STATEMENT_OF_GOOD_STANDING,
+                OptionSelection.ADMINISTRATORS_DETAILS
+            ];
+
+            // when
+            const actual = mapper.getRedirect(options, { certificateItem: {} as CertificateItem });
+
+            // then
+            chai.expect(actual).to.deep.equal(new OptionsPageRedirect("delivery-details"));
         });
     });
 });

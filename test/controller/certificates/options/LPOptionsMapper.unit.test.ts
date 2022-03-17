@@ -12,7 +12,7 @@ import { CompanyStatus } from "../../../../src/controllers/certificates/model/Co
 const chai = require("chai");
 
 describe("LPOptionMapper", () => {
-    const mapper = new LPOptionsMapper(new OptionsPageRedirect("default"));
+    const mapper = new LPOptionsMapper();
     describe("Map item to options", () => {
         it("Creates an OptionsViewModel instance for an active company", () => {
             // given
@@ -85,7 +85,7 @@ describe("LPOptionMapper", () => {
             const actual = mapper.filterItemOptions(itemOptions, option);
 
             // then
-            chai.expect(actual.principalPlaceOfBusinessDetails?.includeAddressRecordsType).to.be.undefined;
+            chai.expect(actual.principalPlaceOfBusinessDetails?.includeAddressRecordsType).to.equal("current");
             chai.expect(actual.principalPlaceOfBusinessDetails?.includeDates).to.be.undefined;
         });
 
@@ -123,6 +123,35 @@ describe("LPOptionMapper", () => {
 
             // then
             chai.expect(actual).to.deep.equal({});
+        });
+    });
+    describe("Map selected options to a redirect model instance", () => {
+        it("Returns principal place of business details redirect if selected", () => {
+            // given
+            const options = [
+                OptionSelection.PRINCIPAL_PLACE_OF_BUSINESS,
+                OptionSelection.LIQUIDATORS_DETAILS,
+                OptionSelection.GENERAL_PARTNERS,
+                OptionSelection.LIMITED_PARTNERS,
+                OptionSelection.GENERAL_NATURE_OF_BUSINESS
+            ];
+
+            // when
+            const actual = mapper.getRedirect(options, { certificateItem: {} as CertificateItem });
+
+            // then
+            chai.expect(actual).to.deep.equal(new OptionsPageRedirect("principal-place-of-business-options"));
+        });
+
+        it("Returns delivery details redirect if no options selected", () => {
+            // given
+            const options = [];
+
+            // when
+            const actual = mapper.getRedirect(options, { certificateItem: {} as CertificateItem });
+
+            // then
+            chai.expect(actual).to.deep.equal(new OptionsPageRedirect("delivery-details"));
         });
     });
 });
