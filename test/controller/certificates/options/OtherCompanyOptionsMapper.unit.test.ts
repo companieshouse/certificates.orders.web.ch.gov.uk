@@ -15,7 +15,7 @@ describe("OtherCompanyOptionMapper", () => {
     let mapper: OtherCompanyOptionsMapper;
 
     beforeEach(() => {
-        mapper = new OtherCompanyOptionsMapper(new OptionsPageRedirect("default"));
+        mapper = new OtherCompanyOptionsMapper();
     });
 
     describe("Map item to options", () => {
@@ -130,7 +130,9 @@ describe("OtherCompanyOptionMapper", () => {
             chai.expect(result).to.deep.equal({
                 itemOptions: {
                     includeGoodStandingInformation: true,
-                    registeredOfficeAddressDetails: {},
+                    registeredOfficeAddressDetails: {
+                        includeAddressRecordsType: "current"
+                    },
                     directorDetails: {
                         includeBasicInformation: true
                     },
@@ -294,7 +296,7 @@ describe("OtherCompanyOptionMapper", () => {
             const actual = mapper.filterItemOptions(itemOptions, option);
 
             // then
-            chai.expect(actual.registeredOfficeAddressDetails?.includeAddressRecordsType).to.be.undefined;
+            chai.expect(actual.registeredOfficeAddressDetails?.includeAddressRecordsType).to.equal("current");
             chai.expect(actual.registeredOfficeAddressDetails?.includeDates).to.be.undefined;
         });
 
@@ -371,37 +373,74 @@ describe("OtherCompanyOptionMapper", () => {
         });
     });
     describe("Map selected options to a redirect model instance", () => {
-        it("Returns the highest priority redirect if associated option selected", () => {
+        it("Returns registered office address if all options selected in any order", () => {
             // given
             const options = [
-                OptionSelection.DIRECTORS,
                 OptionSelection.STATEMENT_OF_GOOD_STANDING,
-                OptionSelection.REGISTERED_OFFICE_ADDRESS,
                 OptionSelection.SECRETARIES,
+                OptionSelection.DIRECTORS,
+                OptionSelection.COMPANY_OBJECTS,
+                OptionSelection.LIQUIDATORS_DETAILS,
+                OptionSelection.ADMINISTRATORS_DETAILS,
+                OptionSelection.REGISTERED_OFFICE_ADDRESS
+            ];
+
+            // when
+            const actual = mapper.getRedirect(options, { certificateItem: { itemOptions: { registeredOfficeAddressDetails: {} } } as CertificateItem });
+
+            // then
+            chai.expect(actual).to.deep.equal(new OptionsPageRedirect("registered-office-options"));
+        });
+
+        it("Returns director options redirect if registered office details unselected", () => {
+            // given
+            const options = [
+                OptionSelection.STATEMENT_OF_GOOD_STANDING,
+                OptionSelection.SECRETARIES,
+                OptionSelection.DIRECTORS,
                 OptionSelection.COMPANY_OBJECTS,
                 OptionSelection.LIQUIDATORS_DETAILS,
                 OptionSelection.ADMINISTRATORS_DETAILS
             ];
-            mapper.addRedirectForOption(OptionSelection.REGISTERED_OFFICE_ADDRESS, new OptionsPageRedirect("reg", 1));
-            mapper.addRedirectForOption(OptionSelection.DIRECTORS, new OptionsPageRedirect("dir", 2));
-            mapper.addRedirectForOption(OptionSelection.SECRETARIES, new OptionsPageRedirect("sec", 3));
 
             // when
-            const actual = mapper.mapOptionsToRedirect(options);
+            const actual = mapper.getRedirect(options, { certificateItem: {} as CertificateItem });
 
             // then
-            chai.expect(actual).to.deep.equal(new OptionsPageRedirect("reg", 1));
+            chai.expect(actual).to.deep.equal(new OptionsPageRedirect("director-options"));
         });
 
-        it("Returns the default redirect if no associated options selected", () => {
+        it("Returns secretary options redirect if registered office, director details unselected", () => {
             // given
-            const options = [];
+            const options = [
+                OptionSelection.SECRETARIES,
+                OptionSelection.STATEMENT_OF_GOOD_STANDING,
+                OptionSelection.COMPANY_OBJECTS,
+                OptionSelection.LIQUIDATORS_DETAILS,
+                OptionSelection.ADMINISTRATORS_DETAILS
+            ];
 
             // when
-            const actual = mapper.mapOptionsToRedirect(options);
+            const actual = mapper.getRedirect(options, { certificateItem: {} as CertificateItem });
 
             // then
-            chai.expect(actual).to.deep.equal(new OptionsPageRedirect("default"));
+            chai.expect(actual).to.deep.equal(new OptionsPageRedirect("secretary-options"));
+        });
+
+        it("Returns delivery details redirect if registered office, director, secretary details unselected", () => {
+            // given
+            const options = [
+                OptionSelection.COMPANY_OBJECTS,
+                OptionSelection.LIQUIDATORS_DETAILS,
+                OptionSelection.STATEMENT_OF_GOOD_STANDING,
+                OptionSelection.ADMINISTRATORS_DETAILS
+            ];
+
+            // when
+            const actual = mapper.getRedirect(options, { certificateItem: {} as CertificateItem });
+
+            // then
+            chai.expect(actual).to.deep.equal(new OptionsPageRedirect("delivery-details"));
         });
     });
 });

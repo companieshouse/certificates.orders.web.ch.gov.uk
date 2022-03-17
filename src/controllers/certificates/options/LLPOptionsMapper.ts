@@ -9,8 +9,10 @@ import { optionFilter } from "../OptionFilter";
 import { LLP_ROOT_CERTIFICATE, replaceCompanyNumber } from "../../../model/page.urls";
 import { AbstractOptionsMapper } from "./AbstractOptionsMapper";
 import { OptionSelection } from "./OptionSelection";
+import { LLPRedirectStateMachine } from "./LLPRedirectStateMachine";
+import { ResourceState } from "./OptionsService";
 
-export class LLPOptionsMapper extends AbstractOptionsMapper {
+export class LLPOptionsMapper extends AbstractOptionsMapper<LLPRedirectStateMachine> {
     mapItemToOptions (item: CertificateItem): OptionsViewModel {
         return new OptionsViewModel(LLP_CERTIFICATE_OPTIONS, {
             companyNumber: item.companyNumber,
@@ -63,7 +65,7 @@ export class LLPOptionsMapper extends AbstractOptionsMapper {
             break;
         }
         case OptionSelection.REGISTERED_OFFICE_ADDRESS: {
-            itemOptionsAccum.registeredOfficeAddressDetails = {};
+            itemOptionsAccum.registeredOfficeAddressDetails = { includeAddressRecordsType: "current" };
             break;
         }
         case OptionSelection.DESIGNATED_MEMBERS: {
@@ -86,5 +88,19 @@ export class LLPOptionsMapper extends AbstractOptionsMapper {
             break;
         }
         return itemOptionsAccum;
+    }
+
+    handleOption (option: string, redirectStateMachine: LLPRedirectStateMachine): void {
+        if (option === OptionSelection.REGISTERED_OFFICE_ADDRESS) {
+            redirectStateMachine.redirectAddressDetails();
+        } else if (option === OptionSelection.DESIGNATED_MEMBERS) {
+            redirectStateMachine.redirectDesignatedMemberDetails();
+        } else if (option === OptionSelection.MEMBERS) {
+            redirectStateMachine.redirectMemberDetails();
+        }
+    }
+
+    getStateMachine (resourceState: ResourceState): LLPRedirectStateMachine {
+        return new LLPRedirectStateMachine(resourceState);
     }
 }
