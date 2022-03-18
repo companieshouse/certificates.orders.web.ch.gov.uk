@@ -12,7 +12,7 @@
   {{ govukBackLink ({
     text: "Back",
     href: backLink
-  }) 
+  })
 }}
 {% endblock %}
 
@@ -51,7 +51,7 @@
                   "data-event-id" : "certificate-principal-place-of-business-current"
                 },
                 display: true,
-                checked: true if principlePlaceOfBusinessSelection == 'current'
+                checked: true if principlePlaceOfBusinessSelection == 'current' or (not isFullPage and (principlePlaceOfBusinessSelection == 'current-previous-and-prior' or principlePlaceOfBusinessSelection == 'all'))
               },
               {
                 value: "currentAddressAndTheOnePrevious",

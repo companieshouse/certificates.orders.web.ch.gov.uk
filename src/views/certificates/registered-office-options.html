@@ -12,7 +12,7 @@
   {{ govukBackLink ({
     text: "Back",
     href: backLink
-  }) 
+  })
 }}
 {% endblock %}
 
@@ -51,7 +51,7 @@
                   "data-event-id" : "certificate-reg-office-address-current"
                 },
                 display: true,
-                checked: true if roaSelection == 'current'
+                checked: true if roaSelection == 'current' or (not isFullPage and (roaSelection == 'current-previous-and-prior' or roaSelection == 'all'))
               },
               {
                 value: "currentAddressAndTheOnePrevious",
