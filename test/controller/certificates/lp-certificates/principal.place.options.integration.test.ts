@@ -119,6 +119,22 @@ describe("place.of.business.options.integration.test", () => {
             chai.expect($('#principal-place-of-business').attr('checked')).to.equal('checked');
         });
 
+        it("renders the place of business options page with current address selected if option on full page selected", async () => {
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItemWithAll));
+
+            const resp = await chai.request(testApp)
+                .get(PRINCIPAL_PLACE_OF_BUSINESS_OPTIONS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+            const $ = cheerio.load(resp.text);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect($('h1').text().trim()).to.equal("What principal place of business information do you need?");
+            chai.expect($('title').text().trim()).to.equal("Principal place of business options - Order a certificate - GOV.UK");
+            chai.expect($('#principal-place-of-business').attr('checked')).to.equal('checked');
+        });
+
         it("renders the place of business options page with current address and one previous selected", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItemWithCurrentAndOnePrevious));

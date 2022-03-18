@@ -39,7 +39,7 @@ describe("registered.office.options.integration.test", () => {
             surname: "smith"
         }
     } as CertificateItem;
-    
+
     const certificateItemWithCurrent = {
         itemOptions: {
             registeredOfficeAddressDetails: {
@@ -116,6 +116,22 @@ describe("registered.office.options.integration.test", () => {
         it("renders the registered office options page with current address selected", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItemWithCurrent));
+
+            const resp = await chai.request(testApp)
+                .get(REGISTERED_OFFICE_OPTIONS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+            const $ = cheerio.load(resp.text);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect($('h1').text().trim()).to.equal("What registered office address information do you need?");
+            chai.expect($('title').text().trim()).to.equal("Registered office options - Order a certificate - GOV.UK");
+            chai.expect($('#registered-office').attr('checked')).to.equal('checked');
+        });
+
+        it("renders the registered office options page with current address selected if option on full page selected", async () => {
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItemWithAll));
 
             const resp = await chai.request(testApp)
                 .get(REGISTERED_OFFICE_OPTIONS_URL)
