@@ -9,6 +9,7 @@ import authMiddleware from "../../src/middleware/auth.middleware";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
 import { CompanyType } from "../../src/model/CompanyType";
 import { FEATURE_FLAGS } from "../../src/config/FeatureFlags";
+import { isValidReturnToUrl } from "../../src/middleware/certificates/auth.middleware";
 
 const sandbox = sinon.createSandbox();
 
@@ -239,5 +240,30 @@ describe("auth.middleware.unit", () => {
         await authMiddleware(req, res, nextFunctionSpy);
         chai.expect(redirectSpy)
             .to.have.been.calledWith("/signin?return_to=/company/0001/orderable/certificates/certificate-type");
+    });
+
+    it.only("should check that the url is valid when starting with /orderable/certificates/", () => {
+        const isValid = isValidReturnToUrl("/orderable/certificates/");
+        chai.expect(isValid).to.be.true;
+    });
+
+    it.only("should check that the url is valid when starting with /orderable/dissolved-certificates", () => {
+        const isValid = isValidReturnToUrl("/orderable/dissolved-certificates");
+        chai.expect(isValid).to.be.true;
+    });
+
+    it.only("should check that the url is valid when starting with /orderable/lp-certificates/", () => {
+        const isValid = isValidReturnToUrl("/orderable/lp-certificates/");
+        chai.expect(isValid).to.be.true;
+    });
+
+    it.only("should check that the url is valid when starting with /orderable/certificates/", () => {
+        const isValid = isValidReturnToUrl("/orderable/llp-certificates/");
+        chai.expect(isValid).to.be.true;
+    });
+
+    it.only("should check that the url is invalid when given a invalid url", () => {
+        const isValid = isValidReturnToUrl("/invalid/url");
+        chai.expect(isValid).to.be.false;
     });
 });

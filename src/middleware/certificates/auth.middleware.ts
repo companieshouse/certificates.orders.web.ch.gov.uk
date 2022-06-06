@@ -38,7 +38,9 @@ export default async (req: Request, res: Response, next: NextFunction) => {
                 returnToUrl = replaceCertificateId(CERTIFICATE_OPTIONS, certificateId);
             }
             logger.info(`User unauthorized, status_code=401, redirecting to sign in page`);
-            return res.redirect(`/signin?return_to=${returnToUrl}`);
+            if (isValidReturnToUrl(returnToUrl)) {
+                return res.redirect(`/signin?return_to=${returnToUrl}`);
+            }
         } else {
             const accessToken: string = getAccessToken(req.session);
             await getCertificateItem(accessToken, req.params.certificateId);
@@ -48,4 +50,12 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         logger.error(`Certificate auth middleware retrieve certificate item, ${err}`);
         next(err);
     }
+};
+
+export const isValidReturnToUrl = (returnToUrl: string) => {
+    logger.debug(`Checking if return to URL is valid, return_to url=${returnToUrl}`);
+    return returnToUrl.startsWith("/orderable/certificates/") ||
+        returnToUrl.startsWith("/orderable/dissolved-certificates") ||
+        returnToUrl.startsWith("/orderable/lp-certificates/") ||
+        returnToUrl.startsWith("/orderable/llp-certificates/");
 };
