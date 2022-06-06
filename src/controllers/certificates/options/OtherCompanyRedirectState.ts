@@ -8,7 +8,7 @@ export interface OtherCompanyRedirectState extends RedirectState {
 
 export class NoOptionsPresentState implements OtherCompanyRedirectState {
     private stateMachine: OtherCompanyRedirectStateMachine;
-    readonly redirect = "delivery-details";
+    readonly redirect = "delivery-options";
 
     constructor (stateMachine: OtherCompanyRedirectStateMachine) {
         this.stateMachine = stateMachine;

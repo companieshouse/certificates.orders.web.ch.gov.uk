@@ -427,7 +427,7 @@ describe("OtherCompanyOptionMapper", () => {
             chai.expect(actual).to.deep.equal(new OptionsPageRedirect("secretary-options"));
         });
 
-        it("Returns delivery details redirect if registered office, director, secretary details unselected", () => {
+        it("Returns delivery options redirect if registered office, director, secretary details unselected", () => {
             // given
             const options = [
                 OptionSelection.COMPANY_OBJECTS,
@@ -440,7 +440,7 @@ describe("OtherCompanyOptionMapper", () => {
             const actual = mapper.getRedirect(options, { certificateItem: {} as CertificateItem });
 
             // then
-            chai.expect(actual).to.deep.equal(new OptionsPageRedirect("delivery-details"));
+            chai.expect(actual).to.deep.equal(new OptionsPageRedirect("delivery-options"));
         });
     });
 });

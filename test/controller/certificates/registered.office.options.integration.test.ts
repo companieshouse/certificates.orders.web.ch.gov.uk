@@ -226,7 +226,7 @@ describe("registered.office.options.integration.test", () => {
     });
 
     describe("registered office options post", () => {
-        it("redirects the user to the delivery-details page", async () => {
+        it("redirects the user to the delivery-options page", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItem));
             patchCertificateItemStub = sandbox.stub(apiClient, "patchCertificateItem")
@@ -241,7 +241,7 @@ describe("registered.office.options.integration.test", () => {
                 });
 
             chai.expect(resp.status).to.equal(302);
-            chai.expect(resp.text).to.include("Found. Redirecting to delivery-details");
+            chai.expect(resp.text).to.include("Found. Redirecting to delivery-options");
         });
 
         it("redirects the user to the director-options page", async () => {
