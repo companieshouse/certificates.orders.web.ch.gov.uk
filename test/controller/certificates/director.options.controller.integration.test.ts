@@ -67,7 +67,7 @@ describe("director.options.integration.test", () => {
     });
 
     describe("director options patch", () => {
-        it("redirects the user to the delivery details page", async () => {
+        it("redirects the user to the delivery options page", async () => {
             const certificateDetails = {} as CertificateItem;
             const emptyCertificateItem = {} as CertificateItem;
 
@@ -85,7 +85,7 @@ describe("director.options.integration.test", () => {
                 });
 
             chai.expect(resp.status).to.equal(302);
-            chai.expect(resp.text).to.contain("Found. Redirecting to delivery-details");
+            chai.expect(resp.text).to.contain("Found. Redirecting to delivery-options");
         });
 
         it("redirects the user to the secretary options page when the secretary option is selected", async () => {

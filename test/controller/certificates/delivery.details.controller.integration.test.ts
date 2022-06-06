@@ -6,7 +6,7 @@ import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/orde
 import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 
 import * as apiClient from "../../../src/client/api.client";
-import { CERTIFICATE_DELIVERY_DETAILS, replaceCertificateId } from "../../../src/model/page.urls";
+import { CERTIFICATE_DELIVERY_DETAILS, CERTIFICATE_DELIVERY_OPTIONS, replaceCertificateId } from "../../../src/model/page.urls";
 import * as errorMessages from "../../../src/model/error.messages";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
 
@@ -27,6 +27,7 @@ const POSTCODE: string = "CX14 1BX";
 const COUNTY: string = "county";
 const CERTIFICATE_ID = "CHS00000000000000001";
 const DELIVERY_DETAILS_URL = replaceCertificateId(CERTIFICATE_DELIVERY_DETAILS, CERTIFICATE_ID);
+const DELIVERY_OPTIONS_URL = replaceCertificateId(CERTIFICATE_DELIVERY_OPTIONS, CERTIFICATE_ID);
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
@@ -223,7 +224,7 @@ describe("certificate.delivery.details.controller", () => {
     });
 
     describe("delivery details back button", () => {
-        it("back button takes the user to the check details page if they have not selected any options", async () => {
+        it("back button takes the user to the certificate options page if they have not selected any options", async () => {
             const basketDetails = {} as Basket;
             const certificateItem = {} as CertificateItem;
 
@@ -232,7 +233,7 @@ describe("certificate.delivery.details.controller", () => {
             getBasketStub = sandbox.stub(apiClient, "getBasket").returns(Promise.resolve(basketDetails));
 
             const resp = await chai.request(testApp)
-                .get(DELIVERY_DETAILS_URL)
+                .get(DELIVERY_OPTIONS_URL)
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
 
             const $ = cheerio.load(resp.text);
@@ -256,7 +257,7 @@ describe("certificate.delivery.details.controller", () => {
             getBasketStub = sandbox.stub(apiClient, "getBasket").returns(Promise.resolve(basketDetails));
 
             const resp = await chai.request(testApp)
-                .get(DELIVERY_DETAILS_URL)
+                .get(DELIVERY_OPTIONS_URL)
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
 
             const $ = cheerio.load(resp.text);
@@ -280,7 +281,7 @@ describe("certificate.delivery.details.controller", () => {
             getBasketStub = sandbox.stub(apiClient, "getBasket").returns(Promise.resolve(basketDetails));
 
             const resp = await chai.request(testApp)
-                .get(DELIVERY_DETAILS_URL)
+                .get(DELIVERY_OPTIONS_URL)
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
 
             const $ = cheerio.load(resp.text);
@@ -304,7 +305,7 @@ describe("certificate.delivery.details.controller", () => {
             getBasketStub = sandbox.stub(apiClient, "getBasket").returns(Promise.resolve(basketDetails));
 
             const resp = await chai.request(testApp)
-                .get(DELIVERY_DETAILS_URL)
+                .get(DELIVERY_OPTIONS_URL)
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
 
             const $ = cheerio.load(resp.text);
@@ -331,7 +332,7 @@ describe("certificate.delivery.details.controller", () => {
             getBasketStub = sandbox.stub(apiClient, "getBasket").returns(Promise.resolve(basketDetails));
 
             const resp = await chai.request(testApp)
-                .get(DELIVERY_DETAILS_URL)
+                .get(DELIVERY_OPTIONS_URL)
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
 
             const $ = cheerio.load(resp.text);
@@ -361,7 +362,7 @@ describe("certificate.delivery.details.controller", () => {
             getBasketStub = sandbox.stub(apiClient, "getBasket").returns(Promise.resolve(basketDetails));
 
             const resp = await chai.request(testApp)
-                .get(DELIVERY_DETAILS_URL)
+                .get(DELIVERY_OPTIONS_URL)
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
 
             const $ = cheerio.load(resp.text);

@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  {% if errorList.length > 0 %}
+    Error:
+  {% endif %}
+    Delivery options - Order a certificate - GOV.UK
+{% endblock %}
+
+{% set mainClasses = "govuk-main-wrapper--l" %}
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: backLink
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds-from-desktop">
+      <form method="post">
+
+        {{ govukRadios({
+            idPrefix: "delivery-options",
+            name: "deliveryOptions",
+            fieldset: {
+            legend: {
+            text: "What delivery option would you like to select?",
+            isPageHeading: true,
+            classes: "govuk-fieldset__legend--xl"
+          }
+        },
+        items:[
+          {
+            value: "express",
+            text: "Express (£50)",
+            hint: {
+              text: "Orders before 11am dispatched same day. Orders after 11am dispatched the next working day."
+            },
+            attributes: {
+              "data-event-id" : "express-delivery"
+            }
+          },
+          {
+            value: "standard",
+            text: "Standard (£15)",
+            hint: {
+              text: "Aim to dispatch within " + DISPATCH_DAYS + " working days"
+            },
+            attributes: {
+              "data-event-id" : "standard-delivery"
+            }
+          }
+        ]
+        }) }}
+
+        {{ govukButton({
+          text: "Continue",
+          attributes: {
+            "data-event-id": "continue-button",
+            id: "submit"
+            }
+        }) }}
+
+  </form>
+</div>
+</div>
+{% endblock %}

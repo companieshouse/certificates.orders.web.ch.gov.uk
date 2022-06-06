@@ -58,7 +58,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         if (patchResponse.itemOptions.secretaryDetails?.includeBasicInformation) {
             return res.redirect("secretary-options");
         } else {
-            return res.redirect("delivery-details");
+            return res.redirect("delivery-options");
         }
     } catch (err) {
         logger.error(`{$err}`);

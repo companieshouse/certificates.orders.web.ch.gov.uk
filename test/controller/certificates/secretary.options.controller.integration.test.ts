@@ -62,7 +62,7 @@ describe("secretary.options.integration.test", () => {
         });
     });
     describe("registered office options patch", () => {
-        it("redirects the user to the delivery-details page", async () => {
+        it("redirects the user to the delivery-options page", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItem));
             patchCertificateItemStub = sandbox.stub(apiClient, "patchCertificateItem")
@@ -79,7 +79,7 @@ describe("secretary.options.integration.test", () => {
                 });
 
             chai.expect(resp.status).to.equal(302);
-            chai.expect(resp.text).to.include("Found. Redirecting to delivery-details");
+            chai.expect(resp.text).to.include("Found. Redirecting to delivery-options");
         });
     });
     describe("Check the secretary page renders and retains checked boxes", () => {
