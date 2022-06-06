@@ -84,7 +84,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
             pageTitle: PAGE_TITLE,
             templateName: (DELIVERY_DETAILS),
             SERVICE_URL: setServiceUrl(certificateItem),
-            backLink: DELIVERY_OPTIONS
+            backLink: setBackLink(certificateItem, req.session)
         });
     }
     try {
