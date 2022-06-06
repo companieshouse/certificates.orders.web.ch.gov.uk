@@ -52,7 +52,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
-const isValidReturnToUrl = (returnToUrl: string) => {
+export const isValidReturnToUrl = (returnToUrl: string) => {
     logger.debug(`Checking if return to URL is valid, return_to url=${returnToUrl}`);
     return returnToUrl.startsWith("/orderable/certificates/") ||
         returnToUrl.startsWith("/orderable/dissolved-certificates") ||
