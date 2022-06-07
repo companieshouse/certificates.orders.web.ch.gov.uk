@@ -9,6 +9,7 @@ export const GOOD_STANDING: string = "good-standing";
 export const COLLECTION: string = "collection";
 export const DELIVERY_DETAILS: string = "delivery-details";
 export const DELIVERY_OPTIONS: string = "delivery-options";
+export const EMAIL_OPTIONS: string = "email-options";
 
 export const YOU_CANNOT_USE_THIS_SERVICE: string = `${errorRoot}/you-cannot-use-this-service`;
 

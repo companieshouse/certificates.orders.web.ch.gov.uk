@@ -4,7 +4,7 @@ import { CertificateItem, CertificateItemPatchRequest } from "@companieshouse/ap
 import { Basket, BasketPatchRequest } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 import { getAccessToken, getUserId } from "../../session/helper";
 import { getCertificateItem, patchCertificateItem, getBasket, patchBasket } from "../../client/api.client";
-import { DELIVERY_DETAILS, CERTIFICATE_CHECK_DETAILS, DELIVERY_OPTIONS } from "../../model/template.paths";
+import { DELIVERY_DETAILS, CERTIFICATE_CHECK_DETAILS, DELIVERY_OPTIONS, EMAIL_OPTIONS } from "../../model/template.paths";
 import { createLogger } from "ch-structured-logging";
 import { APPLICATION_NAME } from "../../config/config";
 import { deliveryDetailsValidationRules, validate } from "../../utils/delivery-details-validation";
@@ -126,7 +126,7 @@ export const setBackLink = (certificateItem: CertificateItem, session: Session |
     if (certificateItem.itemOptions?.certificateType === "dissolution") {
         return `/company/${certificateItem.companyNumber}/orderable/dissolved-certificates`;
     }
-    return DELIVERY_OPTIONS;
+    return EMAIL_OPTIONS;
 };
 
 export default [...deliveryDetailsValidationRules, route];

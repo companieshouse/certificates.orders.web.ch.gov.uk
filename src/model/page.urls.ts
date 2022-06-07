@@ -15,6 +15,7 @@ export const DISSOLVED_CERTIFICATE_TYPE: string = ROOT_DISSOLVED_CERTIFICATE + "
 export const CERTIFICATE_OPTIONS: string = ROOT_CERTIFICATE_ID + "/certificate-options";
 export const CERTIFICATE_DELIVERY_DETAILS: string = ROOT_CERTIFICATE_ID + "/delivery-details";
 export const CERTIFICATE_DELIVERY_OPTIONS: string = ROOT_CERTIFICATE_ID + "/delivery-options";
+export const CERTIFICATE_EMAIL_OPTIONS: string = ROOT_CERTIFICATE_ID + "/email-options";
 export const CERTIFICATE_CHECK_DETAILS: string = ROOT_CERTIFICATE_ID + "/check-details";
 export const CERTIFICATE_REGISTERED_OFFICE_OPTIONS: string = ROOT_CERTIFICATE_ID + "/registered-office-options";
 export const CERTIFICATE_DIRECTOR_OPTIONS: string = ROOT_CERTIFICATE_ID + "/director-options";

@@ -5,6 +5,7 @@ import {
     CERTIFICATE_DELIVERY_DETAILS,
     CERTIFICATE_DELIVERY_OPTIONS,
     CERTIFICATE_DIRECTOR_OPTIONS,
+    CERTIFICATE_EMAIL_OPTIONS,
     CERTIFICATE_OPTIONS,
     CERTIFICATE_REGISTERED_OFFICE_OPTIONS,
     CERTIFICATE_SECRETARY_OPTIONS,
@@ -19,6 +20,7 @@ import homeController from "../../controllers/certificates/home.controller";
 import { TypeController } from "../../controllers/certificates/type.controller";
 import deliveryDetailsController, { render as renderDeliveryDetails } from "../../controllers/certificates/delivery.details.controller";
 import deliveryOptionsController, { render as renderDeliveryOptions } from "../../controllers/certificates/delivery.options.controller";
+import emailOptionsController, { render as renderEmailOptions } from "../../controllers/certificates/email.options.controller";
 import registeredOfficeOptionsController, { render as renderRegisteredOfficeOptions } from "../../controllers/certificates/registered.office.options.controller";
 import directorOptionsController, { render as renderDirectorOptions } from "../../controllers/certificates/director.options.controller";
 import secretaryOptionsController, { render as renderSecretaryOptions } from "../../controllers/certificates/secretary.options.controller";
@@ -63,6 +65,9 @@ router.post(DISSOLVED_CERTIFICATE_DELIVERY_DETAILS, deliveryDetailsController);
 
 router.get(CERTIFICATE_DELIVERY_OPTIONS, renderDeliveryOptions);
 router.post(CERTIFICATE_DELIVERY_OPTIONS, deliveryOptionsController);
+
+router.get(CERTIFICATE_EMAIL_OPTIONS, renderEmailOptions);
+router.post(CERTIFICATE_EMAIL_OPTIONS, emailOptionsController);
 
 const checkDetailsController = new CheckDetailsController(new DefaultCompanyCheckDetailsFactory(new CertificateTextMapper(DISPATCH_DAYS)));
 router.get(CERTIFICATE_CHECK_DETAILS, checkDetailsController.handleGet.bind(checkDetailsController));
