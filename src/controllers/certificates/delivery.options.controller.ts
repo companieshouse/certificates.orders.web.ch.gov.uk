@@ -44,7 +44,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         const errors = validationResult(req);
         const userId = getUserId(req.session);
         const accessToken: string = getAccessToken(req.session);
-        const deliveryOption: string =req.body[DELIVERY_OPTION_FIELD];
+        const deliveryOption: string = req.body[DELIVERY_OPTION_FIELD];
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
         logger.info(`Get certificate item, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
         if (!errors.isEmpty()) {
