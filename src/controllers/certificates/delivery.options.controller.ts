@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { check, validationResult } from "express-validator";
-import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
+import { CertificateItem, CertificateItemPatchRequest } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { getAccessToken, getUserId } from "../../session/helper";
-import { getCertificateItem } from "../../client/api.client";
+import { getCertificateItem, patchCertificateItem } from "../../client/api.client";
 import { DELIVERY_DETAILS, DELIVERY_OPTIONS } from "../../model/template.paths";
 import { createLogger } from "ch-structured-logging";
 import { APPLICATION_NAME, DISPATCH_DAYS } from "../../config/config";
@@ -12,6 +12,7 @@ import CertificateSessionData from "session/CertificateSessionData";
 import { DELIVERY_OPTION_SELECTION } from "../../model/error.messages";
 import { createGovUkErrorData } from "../../model/govuk.error.data";
 
+const DELIVERY_OPTION_FIELD: string = "deliveryOptions";
 const PAGE_TITLE: string = "Delivery options - Order a certificate - GOV.UK";
 const logger = createLogger(APPLICATION_NAME);
 
@@ -43,6 +44,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         const errors = validationResult(req);
         const userId = getUserId(req.session);
         const accessToken: string = getAccessToken(req.session);
+        const deliveryOption: string =req.body[DELIVERY_OPTION_FIELD];
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
         logger.info(`Get certificate item, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
         if (!errors.isEmpty()) {
@@ -57,6 +59,13 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
                 errorList: [deliveryOptionsErrorData]
             });
         } else {
+            const certificateItem: CertificateItemPatchRequest = {
+                itemOptions: {
+                    deliveryTimescale: deliveryOption
+                }
+            };
+            const certificatePatchResponse = await patchCertificateItem( accessToken, req.params.certificateId, certificateItem);
+            logger.info(`Patched certificate item with delivery option, id=${req.params.certificateId}, user_id=${userId}, company_number=${certificatePatchResponse.companyNumber}`);
             return res.redirect(DELIVERY_DETAILS);
         }      
     } catch (err) {
