@@ -20,8 +20,22 @@
     <div class="govuk-grid-column-two-thirds-from-desktop">
       <form method="post">
 
+        {% if errorList.length > 0 %}
+          {{ govukErrorSummary({
+            titleText: ERROR_SUMMARY_TITLE,
+            errorList: errorList
+          }) }}
+        {% endif %}
+
+        {% if collectionErr.flag %}
+          {% set collectionErrorMessage = {
+            text: collectionErr.text
+          } %}
+        {% endif %}
+
         {{ govukRadios({
-            idPrefix: "delivery-options",
+            idPrefix: "deliveryOptions",
+            id:"deliveryOptions",
             name: "deliveryOptions",
             fieldset: {
             legend: {
@@ -30,9 +44,10 @@
             classes: "govuk-fieldset__legend--xl"
           }
         },
+        errorMessage: deliveryOptionsErrorData,
         items:[
           {
-            value: "express",
+            value: "same-day",
             text: "Express (£50)",
             hint: {
               text: "Orders before 11am dispatched same day. Orders after 11am dispatched the next working day."
@@ -45,7 +60,7 @@
             value: "standard",
             text: "Standard (£15)",
             hint: {
-              text: "Aim to dispatch within " + DISPATCH_DAYS + " working days"
+              text: "Aim to dispatch within " + DISPATCH_DAYS + " working days."
             },
             attributes: {
               "data-event-id" : "standard-delivery"

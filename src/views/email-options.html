@@ -20,8 +20,22 @@ href: backLink
   <div class="govuk-grid-column-two-thirds-from-desktop">
     <form method="post">
 
+      {% if errorList.length > 0 %}
+          {{ govukErrorSummary({
+            titleText: ERROR_SUMMARY_TITLE,
+            errorList: errorList
+          }) }}
+        {% endif %}
+
+        {% if collectionErr.flag %}
+          {% set collectionErrorMessage = {
+            text: collectionErr.text
+          } %}
+        {% endif %}
+
       {{ govukRadios({
-      idPrefix: "email-options",
+        idPrefix: "emailOptions",
+        id:"emailOptions",
       name: "emailOptions",
       fieldset: {
       legend: {
@@ -30,6 +44,7 @@ href: backLink
       classes: "govuk-fieldset__legend--xl"
       }
       },
+      errorMessage: emailOptionsErrorData,
       items:[
       {
       value: "yes",

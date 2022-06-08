@@ -31,3 +31,5 @@ export const ADDRESS_COUNTRY_INVALID_CHARACTERS: string = "Country cannot includ
 export const ADDRESS_COUNTRY_MAX_LENGTH: string = "Country must be 50 characters or fewer";
 export const ADDRESS_COUNTY_AND_POSTCODE_EMPTY: string = "Enter a county or postcode";
 export const ADDRESS_COUNTRY_EMPTY: string = "Enter a country";
+export const DELIVERY_OPTION_SELECTION: string = "Select a delivery option";
+export const EMAIL_OPTION_SELECTION: string = "Select an option";
