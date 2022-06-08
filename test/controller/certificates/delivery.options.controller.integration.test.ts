@@ -14,6 +14,7 @@ const DELIVERY_OPTIONS_URL =
 const sandbox = sinon.createSandbox();
 let testApp = null;
 let getCertificateItemStub;
+let patchCertificateItemStub;
 
 describe("delivery.options.integration.test", () => {
     beforeEach((done) => {
@@ -50,7 +51,9 @@ describe("delivery.options.integration.test", () => {
             chai.expect(resp.status).to.equal(200);
             chai.expect($('h1').text().trim()).to.equal("What delivery option would you like to select?");
         });
+    });
 
+    describe("delivery options validation", () => {
         it("throws a validation error when no option selected", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItem));
@@ -63,6 +66,32 @@ describe("delivery.options.integration.test", () => {
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain(DELIVERY_OPTION_NOT_SELECTED);
+        });
+    });
+
+    describe("delivery options patch", () => {
+        it("redirects the user to the delivery-details page", async () => {
+            const certificateDetails = {
+                itemOptions: {
+                    deliveryTimescale: "standard"
+                }
+            } as CertificateItem;
+
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateDetails));
+            patchCertificateItemStub = sandbox.stub(apiClient, "patchCertificateItem")
+                .returns(Promise.resolve(certificateDetails));
+
+            const resp = await chai.request(testApp)
+                .post(DELIVERY_OPTIONS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
+                .redirects(0)
+                .send({
+                    deliveryOptions: "standard"
+                });
+
+            chai.expect(resp.status).to.equal(302);
+            chai.expect(resp.text).to.include("Found. Redirecting to delivery-details");
         });
     });
 });
