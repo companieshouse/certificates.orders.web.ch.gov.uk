@@ -20,8 +20,22 @@
     <div class="govuk-grid-column-two-thirds-from-desktop">
       <form method="post">
 
+        {% if errorList.length > 0 %}
+          {{ govukErrorSummary({
+            titleText: ERROR_SUMMARY_TITLE,
+            errorList: errorList
+          }) }}
+        {% endif %}
+
+        {% if collectionErr.flag %}
+          {% set collectionErrorMessage = {
+            text: collectionErr.text
+          } %}
+        {% endif %}
+
         {{ govukRadios({
-            idPrefix: "delivery-options",
+            idPrefix: "deliveryOptions",
+            id:"deliveryOptions",
             name: "deliveryOptions",
             fieldset: {
             legend: {
@@ -30,6 +44,7 @@
             classes: "govuk-fieldset__legend--xl"
           }
         },
+        errorMessage: deliveryOptionsErrorData,
         items:[
           {
             value: "express",
