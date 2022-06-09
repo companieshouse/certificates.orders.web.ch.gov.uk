@@ -53,9 +53,9 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const isValidReturnToUrl = (returnToUrl: string) => {
-    logger.debug(`Checking if return to URL is valid, return_to url=${returnToUrl}`);
-    return returnToUrl.startsWith("/orderable/certificates/") ||
-        returnToUrl.startsWith("/orderable/dissolved-certificates") ||
-        returnToUrl.startsWith("/orderable/lp-certificates/") ||
-        returnToUrl.startsWith("/orderable/llp-certificates/");
+    logger.debug(`Checking if return to URL is valid, return_to url=${returnToUrl}, using hardwired domain.`);
+    return returnToUrl.startsWith("https://find-and-update.company-information.service.gov.uk/orderable/certificates/") ||
+        returnToUrl.startsWith("https://find-and-update.company-information.service.gov.uk/orderable/dissolved-certificates") ||
+        returnToUrl.startsWith("https://find-and-update.company-information.service.gov.uk/orderable/lp-certificates/") ||
+        returnToUrl.startsWith("https://find-and-update.company-information.service.gov.uk/orderable/llp-certificates/");
 };
