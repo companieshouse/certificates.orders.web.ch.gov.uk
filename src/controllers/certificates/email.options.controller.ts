@@ -8,16 +8,16 @@ import { createLogger } from "ch-structured-logging";
 import { APPLICATION_NAME } from "../../config/config";
 import { setServiceUrl } from "../../utils/service.url.utils";
 import { Session } from "@companieshouse/node-session-handler";
+import CertificateSessionData from "session/CertificateSessionData";
 import { EMAIL_OPTION_SELECTION } from "../../model/error.messages";
 import { createGovUkErrorData } from "../../model/govuk.error.data";
-
 
 const EMAIL_OPTION_FIELD: string = "emailOptions";
 const PAGE_TITLE: string = "Email options - Order a certificate - GOV.UK";
 const logger = createLogger(APPLICATION_NAME);
 
 const validators = [
-    check("deliveryOptions").not().isEmpty().withMessage(EMAIL_OPTION_SELECTION)
+    check("emailOptions").not().isEmpty().withMessage(EMAIL_OPTION_SELECTION)
 ];
 
 export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -27,7 +27,6 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
         logger.info(`Get certificate item, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
         return res.render(EMAIL_OPTIONS, {
-            templateName: DELIVERY_DETAILS,
             pageTitleText: PAGE_TITLE,
             SERVICE_URL: setServiceUrl(certificateItem),
             backLink: setBackLink(certificateItem, req.session)
@@ -43,7 +42,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         const errors = validationResult(req);
         const userId = getUserId(req.session);
         const accessToken: string = getAccessToken(req.session);
-        const emailOption: string = req.body[EMAIL_OPTION_FIELD];
+        const emailOption: boolean = req.body[EMAIL_OPTION_FIELD];
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
         logger.info(`Get certificate item, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
         if (!errors.isEmpty()) {
@@ -58,16 +57,6 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
                 errorList: [emailOptionsErrorData]
             });
         } else {
-            const certificateItem: CertificateItemPatchRequest = {
-                itemOptions: {
-                    deliveryTimescale: emailOption
-                }
-            };
-            const certificatePatchResponse = await patchCertificateItem( accessToken, req.params.certificateId, certificateItem);
-            logger.info(`Patched certificate item with delivery option, id=${req.params.certificateId}, user_id=${userId}, company_number=${certificatePatchResponse.companyNumber}`);
-            if (certificateItem.itemOptions?.deliveryTimescale === "same-day") {
-                return res.redirect(EMAIL_OPTIONS);
-            }
             return res.redirect(DELIVERY_DETAILS);
         }      
     } catch (err) {
@@ -77,6 +66,9 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const setBackLink = (certificateItem: CertificateItem, session: Session | undefined):string => {
+    if (certificateItem.itemOptions?.certificateType === "dissolution") {
+        return `/company/${certificateItem.companyNumber}/orderable/dissolved-certificates`;
+    }
     return DELIVERY_OPTIONS;
 };
 
