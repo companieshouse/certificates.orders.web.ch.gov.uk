@@ -1,0 +1,78 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+{% if errorList.length > 0 %}
+Error:
+{% endif %}
+Email options - Order a certificate - GOV.UK
+{% endblock %}
+
+{% set mainClasses = "govuk-main-wrapper--l" %}
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: backLink
+}) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds-from-desktop">
+    <form method="post">
+
+      {% if errorList.length > 0 %}
+          {{ govukErrorSummary({
+            titleText: ERROR_SUMMARY_TITLE,
+            errorList: errorList
+          }) }}
+        {% endif %}
+
+        {% if collectionErr.flag %}
+          {% set collectionErrorMessage = {
+            text: collectionErr.text
+          } %}
+        {% endif %}
+
+      {{ govukRadios({
+        idPrefix: "emailOptions",
+        id:"emailOptions",
+      name: "emailOptions",
+      fieldset: {
+      legend: {
+      text: "Would you like an email copy of the certificate?",
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--xl"
+      }
+      },
+      errorMessage: emailOptionsErrorData,
+      items:[
+      {
+      value: "true",
+      text: "Yes",
+
+      attributes: {
+      "data-event-id" : "email-option-yes"
+      }
+      },
+      {
+      value: "false",
+      text: "No",
+      attributes: {
+      "data-event-id" : "email-option-no"
+      }
+      }
+      ]
+      }) }}
+
+      {{ govukButton({
+      text: "Continue",
+      attributes: {
+      "data-event-id": "continue-button",
+      id: "submit"
+      }
+      }) }}
+
+    </form>
+  </div>
+</div>
+{% endblock %}

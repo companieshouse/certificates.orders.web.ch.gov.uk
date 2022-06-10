@@ -17,6 +17,14 @@ describe("delivery.details.controller.unit", () => {
             } as CertificateItem;
             chai.expect(setBackLink(certificateItem, dataEmpty)).to.equal("delivery-options");
         });
+        it("the back button link should take the user to the email options page", () => {
+            const certificateItem = {
+                itemOptions: {
+                    deliveryTimescale: "same-day"
+                }
+            } as CertificateItem;
+            chai.expect(setBackLink(certificateItem, dataEmpty)).to.equal("email-options");
+        });
     });
 
     describe("setBackUrl for dissolved certificate", () => {

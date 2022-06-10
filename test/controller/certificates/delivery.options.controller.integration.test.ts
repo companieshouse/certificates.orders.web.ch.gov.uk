@@ -5,12 +5,14 @@ import cheerio from "cheerio";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import * as apiClient from "../../../src/client/api.client";
-import { CERTIFICATE_DELIVERY_OPTIONS, replaceCertificateId } from "../../../src/model/page.urls";
+import { CERTIFICATE_DELIVERY_OPTIONS, replaceCertificateId , CERTIFICATE_EMAIL_OPTIONS} from "../../../src/model/page.urls";
 
 const CERTIFICATE_ID = "CRT-000000-000000";
 const DELIVERY_OPTION_NOT_SELECTED = "Select a delivery option";
 const DELIVERY_OPTIONS_URL =
     replaceCertificateId(CERTIFICATE_DELIVERY_OPTIONS, CERTIFICATE_ID);
+const EMAIL_OPTIONS_URL =
+    replaceCertificateId(CERTIFICATE_EMAIL_OPTIONS, CERTIFICATE_ID);
 const sandbox = sinon.createSandbox();
 let testApp = null;
 let getCertificateItemStub;
@@ -92,6 +94,29 @@ describe("delivery.options.integration.test", () => {
 
             chai.expect(resp.status).to.equal(302);
             chai.expect(resp.text).to.include("Found. Redirecting to delivery-details");
+        });
+        it("redirects the user to the email-options page", async () => {
+            const certificateDetails = {
+                itemOptions: {
+                    deliveryTimescale: "same-day"
+                }
+            } as CertificateItem;
+
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateDetails));
+            patchCertificateItemStub = sandbox.stub(apiClient, "patchCertificateItem")
+                .returns(Promise.resolve(certificateDetails));
+
+            const resp = await chai.request(testApp)
+                .post(DELIVERY_OPTIONS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
+                .redirects(0)
+                .send({
+                    deliveryOptions: "same-day"
+                });
+
+            chai.expect(resp.status).to.equal(302);
+            chai.expect(resp.text).to.include("Found. Redirecting to email-options");
         });
     });
 
