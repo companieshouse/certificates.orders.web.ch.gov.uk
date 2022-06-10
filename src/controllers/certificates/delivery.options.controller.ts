@@ -28,6 +28,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         logger.info(`Get certificate item, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
         return res.render(DELIVERY_OPTIONS, {
             DISPATCH_DAYS,
+            deliveryOption: certificateItem.itemOptions.deliveryTimescale,
             templateName: DELIVERY_DETAILS,
             pageTitleText: PAGE_TITLE,
             SERVICE_URL: setServiceUrl(certificateItem),

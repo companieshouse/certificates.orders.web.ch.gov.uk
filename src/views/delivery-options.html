@@ -54,7 +54,8 @@
             },
             attributes: {
               "data-event-id" : "express-delivery"
-            }
+            },
+            checked: true if deliveryOption == 'same-day'
           },
           {
             value: "standard",
@@ -64,7 +65,8 @@
             },
             attributes: {
               "data-event-id" : "standard-delivery"
-            }
+            },
+            checked: true if deliveryOption == 'standard'
           }
         ]
         }) }}
