@@ -266,7 +266,7 @@ describe("certificate.delivery.details.controller", () => {
             chai.expect($(".govuk-back-link").attr("href")).to.include("email-options");
         });
 
-        it("back button takes the user to the email options page if they selected standard delivery", async () => {
+        it("back button takes the user to the delivery options page if they selected standard delivery", async () => {
             const basketDetails = {} as Basket;
             const certificateItem = {
                 itemOptions: {
