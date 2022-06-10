@@ -54,7 +54,6 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 
 export const isValidReturnToUrl = (returnToUrl: string) => {
     logger.debug(`Checking if return to URL is valid, return_to url=${returnToUrl}`);
-    // TODO GCI-2122 Remove this comment
     return returnToUrl.startsWith("/orderable/certificates/") ||
         returnToUrl.startsWith("/orderable/dissolved-certificates") ||
         returnToUrl.startsWith("/orderable/lp-certificates/") ||
