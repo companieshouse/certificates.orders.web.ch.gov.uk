@@ -30,7 +30,6 @@ const COUNTY: string = "county";
 const CERTIFICATE_ID = "CHS00000000000000001";
 const DELIVERY_DETAILS_URL = replaceCertificateId(CERTIFICATE_DELIVERY_DETAILS, CERTIFICATE_ID);
 const DELIVERY_OPTIONS_URL = replaceCertificateId(CERTIFICATE_DELIVERY_OPTIONS, CERTIFICATE_ID);
-const EMAIL_OPTIONS_URL = replaceCertificateId(CERTIFICATE_EMAIL_OPTIONS, CERTIFICATE_ID);
 
 const sandbox = sinon.createSandbox();
 let testApp = null;

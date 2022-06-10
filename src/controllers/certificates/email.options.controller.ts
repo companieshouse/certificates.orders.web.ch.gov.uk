@@ -66,7 +66,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
             const certificatePatchResponse = await patchCertificateItem( accessToken, req.params.certificateId, certificateItem);
             logger.info(`Patched certificate item with email option, id=${req.params.certificateId}, user_id=${userId}, company_number=${certificatePatchResponse.companyNumber}`);
             return res.redirect(DELIVERY_DETAILS);
-        }      
+        }
     } catch (err) {
         logger.error(`${err}`);
         next(err);
