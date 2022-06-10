@@ -67,4 +67,30 @@ describe("email.options.integration.test", () => {
             chai.expect(resp.text).to.contain(EMAIL_OPTION_NOT_SELECTED);
         });
     });
+
+    describe("email options patch", () => {
+        it("redirects the user to the delivery-details page", async () => {
+            const certificateDetails = {
+                itemOptions: {
+                    includeEmailCopy: false
+                }
+            } as CertificateItem;
+
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateDetails));
+            patchCertificateItemStub = sandbox.stub(apiClient, "patchCertificateItem")
+                .returns(Promise.resolve(certificateDetails));
+
+            const resp = await chai.request(testApp)
+                .post(EMAIL_OPTIONS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
+                .redirects(0)
+                .send({
+                    emailOptions: false
+                });
+
+            chai.expect(resp.status).to.equal(302);
+            chai.expect(resp.text).to.include("Found. Redirecting to delivery-details");
+        });
+    });
 });

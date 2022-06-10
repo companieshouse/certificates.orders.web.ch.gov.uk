@@ -27,6 +27,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
         logger.info(`Get certificate item, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
         return res.render(EMAIL_OPTIONS, {
+            templateName: EMAIL_OPTIONS,
             pageTitleText: PAGE_TITLE,
             SERVICE_URL: setServiceUrl(certificateItem),
             backLink: setBackLink(certificateItem, req.session)
@@ -42,7 +43,6 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         const errors = validationResult(req);
         const userId = getUserId(req.session);
         const accessToken: string = getAccessToken(req.session);
-        const emailOption: boolean = req.body[EMAIL_OPTION_FIELD];
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
         logger.info(`Get certificate item, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
         if (!errors.isEmpty()) {
@@ -57,6 +57,13 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
                 errorList: [emailOptionsErrorData]
             });
         } else {
+            const certificateItem: CertificateItemPatchRequest = {
+                itemOptions: {
+                    includeEmailCopy: false
+                }
+            };
+            const certificatePatchResponse = await patchCertificateItem( accessToken, req.params.certificateId, certificateItem);
+            logger.info(`Patched certificate item with email option, id=${req.params.certificateId}, user_id=${userId}, company_number=${certificatePatchResponse.companyNumber}`);
             return res.redirect(DELIVERY_DETAILS);
         }      
     } catch (err) {
