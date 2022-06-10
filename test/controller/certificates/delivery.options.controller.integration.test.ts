@@ -98,7 +98,7 @@ describe("delivery.options.integration.test", () => {
         it("redirects the user to the email-options page", async () => {
             const certificateDetails = {
                 itemOptions: {
-                    includeEmailCopy: false
+                    deliveryTimescale: "same-day"
                 }
             } as CertificateItem;
 
@@ -108,15 +108,15 @@ describe("delivery.options.integration.test", () => {
                 .returns(Promise.resolve(certificateDetails));
 
             const resp = await chai.request(testApp)
-                .post(EMAIL_OPTIONS_URL)
+                .post(DELIVERY_OPTIONS_URL)
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
                 .redirects(0)
                 .send({
-                    emailOptions: false
+                    deliveryOptions: "same-day"
                 });
 
             chai.expect(resp.status).to.equal(302);
-            chai.expect(resp.text).to.include("Found. Redirecting to delivery-details");
+            chai.expect(resp.text).to.include("Found. Redirecting to email-options");
         });
     });
 
