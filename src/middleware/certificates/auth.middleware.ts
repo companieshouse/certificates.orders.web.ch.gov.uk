@@ -53,10 +53,10 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const isValidReturnToUrl = (returnToUrl: string) => {
-    logger.debug(`Checking if return to URL is valid, return_to url=${returnToUrl}, using hardwired domain.`);
+    logger.debug(`Checking if return to URL is valid, return_to url=${returnToUrl}`);
     // TODO GCI-2122 Remove this comment
-    return returnToUrl.startsWith("https://find-and-update.company-information.service.gov.uk/orderable/certificates/") ||
-        returnToUrl.startsWith("https://find-and-update.company-information.service.gov.uk/orderable/dissolved-certificates") ||
-        returnToUrl.startsWith("https://find-and-update.company-information.service.gov.uk/orderable/lp-certificates/") ||
-        returnToUrl.startsWith("https://find-and-update.company-information.service.gov.uk/orderable/llp-certificates/");
+    return returnToUrl.startsWith("/orderable/certificates/") ||
+        returnToUrl.startsWith("/orderable/dissolved-certificates") ||
+        returnToUrl.startsWith("/orderable/lp-certificates/") ||
+        returnToUrl.startsWith("/orderable/llp-certificates/");
 };

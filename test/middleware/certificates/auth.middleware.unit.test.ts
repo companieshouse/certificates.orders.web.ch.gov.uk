@@ -61,64 +61,63 @@ describe("certificate.auth.middleware.unit", () => {
         chai.expect(nextFunctionSpy).to.have.been.calledWith("Error");
     });
 
-    // TODO GCI-2122: Restore tests.
-    // it("should call res.redirect if user is not signed in for standard certificate", async () => {
-    //     const req = {
-    //         path: "/delivery-details",
-    //         originalUrl: "/orderable/certificates/0001/delivery-details"
-    //     } as Request;
-    //     req.params = { certificateId: "0001" };
-    //     req.session = new Session(
-    //         {
-    //             signin_info: {
-    //                 signed_in: 0
-    //             }
-    //         }
-    //     );
-    //     await certificateAuthMiddleware(req, res, nextFunctionSpy);
-    //     chai.expect(redirectSpy)
-    //         .to.have.been.calledWith("/signin?return_to=/orderable/certificates/0001/certificate-options");
-    // });
-    //
-    // it("should call res.redirect if there is no session for standard certificate", async () => {
-    //     const req = {
-    //         path: "/delivery-details",
-    //         originalUrl: "/orderable/certificates/0001/delivery-details"
-    //     } as Request;
-    //     req.params = { certificateId: "0001" };
-    //     req.session = undefined;
-    //     await certificateAuthMiddleware(req, res, nextFunctionSpy);
-    //     chai.expect(redirectSpy)
-    //         .to.have.been.calledWith("/signin?return_to=/orderable/certificates/0001/certificate-options");
-    // });
-    //
-    // it("should call res.redirect if user is not signed in for dissolved certificate", async () => {
-    //     const req = {
-    //         path: "/check-details",
-    //         originalUrl: "/orderable/dissolved-certificates/0001/check-details"
-    //     } as Request;
-    //     req.params = { certificateId: "0001" };
-    //     req.session = new Session(
-    //         {
-    //             signin_info: {
-    //                 signed_in: 0
-    //             }
-    //         }
-    //     );
-    //     await certificateAuthMiddleware(req, res, nextFunctionSpy);
-    //     chai.expect(redirectSpy)
-    //         .to.have.been.calledWith("/signin?return_to=/orderable/dissolved-certificates/0001/delivery-details");
-    // });
-    //
-    // it("should call res.redirect if there is no session for dissolved certificate", async () => {
-    //     const req = {
-    //         path: "/check-details",
-    //         originalUrl: "/orderable/dissolved-certificates/0001/check-details"
-    //     } as Request;
-    //     req.params = { certificateId: "0001" };
-    //     req.session = undefined;
-    //     await certificateAuthMiddleware(req, res, nextFunctionSpy);
-    //     chai.expect(redirectSpy)
-    //         .to.have.been.calledWith("/signin?return_to=/orderable/dissolved-certificates/0001/delivery-details");
-    // });
+    it("should call res.redirect if user is not signed in for standard certificate", async () => {
+        const req = {
+            path: "/delivery-details",
+            originalUrl: "/orderable/certificates/0001/delivery-details"
+        } as Request;
+        req.params = { certificateId: "0001" };
+        req.session = new Session(
+            {
+                signin_info: {
+                    signed_in: 0
+                }
+            }
+        );
+        await certificateAuthMiddleware(req, res, nextFunctionSpy);
+        chai.expect(redirectSpy)
+            .to.have.been.calledWith("/signin?return_to=/orderable/certificates/0001/certificate-options");
+    });
+
+    it("should call res.redirect if there is no session for standard certificate", async () => {
+        const req = {
+            path: "/delivery-details",
+            originalUrl: "/orderable/certificates/0001/delivery-details"
+        } as Request;
+        req.params = { certificateId: "0001" };
+        req.session = undefined;
+        await certificateAuthMiddleware(req, res, nextFunctionSpy);
+        chai.expect(redirectSpy)
+            .to.have.been.calledWith("/signin?return_to=/orderable/certificates/0001/certificate-options");
+    });
+
+    it("should call res.redirect if user is not signed in for dissolved certificate", async () => {
+        const req = {
+            path: "/check-details",
+            originalUrl: "/orderable/dissolved-certificates/0001/check-details"
+        } as Request;
+        req.params = { certificateId: "0001" };
+        req.session = new Session(
+            {
+                signin_info: {
+                    signed_in: 0
+                }
+            }
+        );
+        await certificateAuthMiddleware(req, res, nextFunctionSpy);
+        chai.expect(redirectSpy)
+            .to.have.been.calledWith("/signin?return_to=/orderable/dissolved-certificates/0001/delivery-details");
+    });
+
+    it("should call res.redirect if there is no session for dissolved certificate", async () => {
+        const req = {
+            path: "/check-details",
+            originalUrl: "/orderable/dissolved-certificates/0001/check-details"
+        } as Request;
+        req.params = { certificateId: "0001" };
+        req.session = undefined;
+        await certificateAuthMiddleware(req, res, nextFunctionSpy);
+        chai.expect(redirectSpy)
+            .to.have.been.calledWith("/signin?return_to=/orderable/dissolved-certificates/0001/delivery-details");
+    });
 });
