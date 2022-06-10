@@ -38,7 +38,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
                 returnToUrl = replaceCertificateId(CERTIFICATE_OPTIONS, certificateId);
             }
             logger.info(`User unauthorized, status_code=401, redirecting to sign in page`);
-            if (isValidReturnToUrl(returnToUrl) || isValidReturnToUrl2(returnToUrl)) {
+            if (isValidReturnToUrl(returnToUrl) && isValidReturnToUrl2(returnToUrl)) {
                 return res.redirect(`/signin?return_to=${returnToUrl}`);
             }
         } else {
@@ -62,8 +62,8 @@ export const isValidReturnToUrl = (returnToUrl: string) => {
 
 export const isValidReturnToUrl2 = (returnToUrl: string) => {
     logger.debug(`Checking if return to URL is valid, return_to url=${returnToUrl}`);
-    return returnToUrl.startsWith("/orderablex/certificates/") ||
-        returnToUrl.startsWith("/orderablex/dissolved-certificates") ||
-        returnToUrl.startsWith("/orderablex/lp-certificates/") ||
-        returnToUrl.startsWith("/orderablex/llp-certificates/");
+    return returnToUrl.startsWith("/orderable/certificates/") ||
+        returnToUrl.startsWith("/orderable/dissolved-certificates") ||
+        returnToUrl.startsWith("/orderable/lp-certificates/") ||
+        returnToUrl.startsWith("/orderable/llp-certificates/");
 };
