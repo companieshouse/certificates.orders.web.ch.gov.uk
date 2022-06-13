@@ -34,7 +34,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
                 returnToUrl = replaceCertificateId(LP_CERTIFICATE_OPTIONS, certificateId);
             } else if (originatingUrl.includes("/llp-certificates")) {
                 returnToUrl = replaceCertificateId(LLP_CERTIFICATE_OPTIONS, certificateId);
-            } else {
+            } else if (originatingUrl.includes("/certificates")) {
                 returnToUrl = replaceCertificateId(CERTIFICATE_OPTIONS, certificateId);
             }
             logger.info(`User unauthorized, status_code=401, redirecting to sign in page`);
