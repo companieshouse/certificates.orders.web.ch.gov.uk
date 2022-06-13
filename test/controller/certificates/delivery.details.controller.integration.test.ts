@@ -4,11 +4,8 @@ import ioredis from "ioredis";
 import cheerio from "cheerio";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
-
 import * as apiClient from "../../../src/client/api.client";
-
-import { CERTIFICATE_DELIVERY_DETAILS, CERTIFICATE_DELIVERY_OPTIONS, CERTIFICATE_EMAIL_OPTIONS, replaceCertificateId } from "../../../src/model/page.urls";
-
+import { CERTIFICATE_DELIVERY_DETAILS, CERTIFICATE_DELIVERY_OPTIONS, replaceCertificateId } from "../../../src/model/page.urls";
 import * as errorMessages from "../../../src/model/error.messages";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
 
@@ -29,7 +26,6 @@ const POSTCODE: string = "CX14 1BX";
 const COUNTY: string = "county";
 const CERTIFICATE_ID = "CHS00000000000000001";
 const DELIVERY_DETAILS_URL = replaceCertificateId(CERTIFICATE_DELIVERY_DETAILS, CERTIFICATE_ID);
-const DELIVERY_OPTIONS_URL = replaceCertificateId(CERTIFICATE_DELIVERY_OPTIONS, CERTIFICATE_ID);
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
@@ -226,24 +222,6 @@ describe("certificate.delivery.details.controller", () => {
     });
 
     describe("delivery details back button", () => {
-        it("back button takes the user to the delivery options page", async () => {
-            const basketDetails = {} as Basket;
-            const certificateItem = {} as CertificateItem;
-
-            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
-                .returns(Promise.resolve(certificateItem));
-            getBasketStub = sandbox.stub(apiClient, "getBasket").returns(Promise.resolve(basketDetails));
-
-            const resp = await chai.request(testApp)
-                .get(DELIVERY_DETAILS_URL)
-                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
-
-            const $ = cheerio.load(resp.text);
-
-            chai.expect(resp.status).to.equal(200);
-            chai.expect($(".govuk-back-link").attr("href")).to.include("delivery-options");
-        });
-
         it("back button takes the user to the email options page if they selected same-day delivery", async () => {
             const basketDetails = {} as Basket;
             const certificateItem = {

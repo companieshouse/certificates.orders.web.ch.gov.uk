@@ -8,7 +8,6 @@ import { createLogger } from "ch-structured-logging";
 import { APPLICATION_NAME } from "../../config/config";
 import { setServiceUrl } from "../../utils/service.url.utils";
 import { Session } from "@companieshouse/node-session-handler";
-import CertificateSessionData from "session/CertificateSessionData";
 import { EMAIL_OPTION_SELECTION } from "../../model/error.messages";
 import { createGovUkErrorData } from "../../model/govuk.error.data";
 
@@ -27,6 +26,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
         logger.info(`Get certificate item, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
         return res.render(EMAIL_OPTIONS, {
+            emailOption: certificateItem.itemOptions.includeEmailCopy,
             templateName: EMAIL_OPTIONS,
             pageTitleText: PAGE_TITLE,
             SERVICE_URL: setServiceUrl(certificateItem),
