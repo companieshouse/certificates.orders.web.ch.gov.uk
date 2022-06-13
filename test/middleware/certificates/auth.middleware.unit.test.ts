@@ -6,6 +6,7 @@ import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/orde
 
 import certificateAuthMiddleware from "../../../src/middleware/certificates/auth.middleware";
 import * as apiClient from "../../../src/client/api.client";
+import { CHS_URL } from "../../../src/config/config";
 
 const sandbox = sinon.createSandbox();
 
@@ -76,7 +77,7 @@ describe("certificate.auth.middleware.unit", () => {
         );
         await certificateAuthMiddleware(req, res, nextFunctionSpy);
         chai.expect(redirectSpy)
-            .to.have.been.calledWith("/signin?return_to=http://chs.local/orderable/certificates/0001/certificate-options");
+            .to.have.been.calledWith(`/signin?return_to=${CHS_URL}/orderable/certificates/0001/certificate-options`);
     });
 
     it("should call res.redirect if there is no session for standard certificate", async () => {
@@ -88,7 +89,7 @@ describe("certificate.auth.middleware.unit", () => {
         req.session = undefined;
         await certificateAuthMiddleware(req, res, nextFunctionSpy);
         chai.expect(redirectSpy)
-            .to.have.been.calledWith("/signin?return_to=http://chs.local/orderable/certificates/0001/certificate-options");
+            .to.have.been.calledWith(`/signin?return_to=${CHS_URL}/orderable/certificates/0001/certificate-options`);
     });
 
     it("should call res.redirect if user is not signed in for dissolved certificate", async () => {
@@ -106,7 +107,7 @@ describe("certificate.auth.middleware.unit", () => {
         );
         await certificateAuthMiddleware(req, res, nextFunctionSpy);
         chai.expect(redirectSpy)
-            .to.have.been.calledWith("/signin?return_to=http://chs.local/orderable/dissolved-certificates/0001/delivery-details");
+            .to.have.been.calledWith(`/signin?return_to=${CHS_URL}/orderable/dissolved-certificates/0001/delivery-details`);
     });
 
     it("should call res.redirect if there is no session for dissolved certificate", async () => {
@@ -118,6 +119,6 @@ describe("certificate.auth.middleware.unit", () => {
         req.session = undefined;
         await certificateAuthMiddleware(req, res, nextFunctionSpy);
         chai.expect(redirectSpy)
-            .to.have.been.calledWith("/signin?return_to=http://chs.local/orderable/dissolved-certificates/0001/delivery-details");
+            .to.have.been.calledWith(`/signin?return_to=${CHS_URL}/orderable/dissolved-certificates/0001/delivery-details`);
     });
 });
