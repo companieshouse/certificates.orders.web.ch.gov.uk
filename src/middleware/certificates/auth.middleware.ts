@@ -23,6 +23,10 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         }
         const signedIn = req.session?.data?.[SessionKey.SignInInfo]?.[SignInInfoKeys.SignedIn] === 1;
 
+        // TODO GCI-2122 Do we need to log these?
+        logger.info(`req.hostname = ${req.hostname}`);
+        logger.info(`signedIn = ${signedIn}`);
+
         if (!signedIn) {
             const certificateId = req.params.certificateId;
             const originatingUrl = req.originalUrl;
@@ -39,7 +43,9 @@ export default async (req: Request, res: Response, next: NextFunction) => {
             }
             logger.info(`User unauthorized, status_code=401, redirecting to sign in page`);
             if (isValidReturnToUrl(returnToUrl)) {
-                return res.redirect(`/signin?return_to=${returnToUrl}`);
+                // TODO GCI-2122 Do we need to log this?
+                logger.info("Redirecting to " + `/signin?return_to=http://chs.local${returnToUrl}`);
+                return res.redirect(`/signin?return_to=http://chs.local${returnToUrl}`);
             }
         } else {
             const accessToken: string = getAccessToken(req.session);
