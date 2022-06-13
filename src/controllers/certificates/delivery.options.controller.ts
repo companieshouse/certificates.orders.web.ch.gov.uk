@@ -60,11 +60,21 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
                 errorList: [deliveryOptionsErrorData]
             });
         } else {
-            const certificateItem: CertificateItemPatchRequest = {
-                itemOptions: {
-                    deliveryTimescale: deliveryOption
-                }
-            };
+            let certificateItem: CertificateItemPatchRequest;
+            if (deliveryOption === "standard") {
+                certificateItem = {
+                    itemOptions: {
+                        deliveryTimescale: deliveryOption,
+                        includeEmailCopy: false
+                    }
+                };
+            } else {
+                certificateItem  = {
+                    itemOptions: {
+                        deliveryTimescale: deliveryOption,
+                    }
+                };
+            }
             const certificatePatchResponse = await patchCertificateItem( accessToken, req.params.certificateId, certificateItem);
             logger.info(`Patched certificate item with delivery option, id=${req.params.certificateId}, user_id=${userId}, company_number=${certificatePatchResponse.companyNumber}`);
             if (certificateItem.itemOptions?.deliveryTimescale === "same-day") {
