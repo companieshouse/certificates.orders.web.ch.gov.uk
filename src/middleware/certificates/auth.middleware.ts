@@ -12,7 +12,7 @@ import {
 import { getAccessToken } from "../../session/helper";
 import { createLogger } from "ch-structured-logging";
 
-import {APPLICATION_NAME} from "../../config/config";
+import { APPLICATION_NAME, CHS_URL } from "../../config/config";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -39,7 +39,8 @@ export default async (req: Request, res: Response, next: NextFunction) => {
             }
             logger.info(`User unauthorized, status_code=401, redirecting to sign in page`);
             if (isValidReturnToUrl(returnToUrl)) {
-                return res.redirect(`/signin?return_to=${returnToUrl}`);
+                logger.info("Redirecting to " + `/signin?return_to=${CHS_URL}${returnToUrl}`);
+                return res.redirect(`/signin?return_to=${CHS_URL}${returnToUrl}`);
             }
         } else {
             const accessToken: string = getAccessToken(req.session);
