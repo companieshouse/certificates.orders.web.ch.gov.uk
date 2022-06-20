@@ -199,7 +199,7 @@ export class CertificateTextMapper implements DefaultCompanyMappable, LLPCompany
             return "Standard delivery (aim to dispatch within " + this.dispatchDays + " working days)";
         }
         if (itemOptions?.deliveryTimescale === "same-day") {
-            return "Same Day";
+            return "Express (Orders received before 11am will be dispatched the same day. Orders received after 11am will be dispatched the next working day)";
         }
         return null;
     }
@@ -211,5 +211,17 @@ export class CertificateTextMapper implements DefaultCompanyMappable, LLPCompany
             htmlString += escape(element) + "<br>";
         });
         return htmlString;
+    }
+
+    public mapEmailCopyRequired (itemOptions: Record<string, any>): string {
+        if(itemOptions?.deliveryTimescale === "same-day") {
+            if (itemOptions?.includeEmailCopy === true) {
+                return "Yes"
+            } else {
+                return "No"
+            }
+        } else {
+            return "Email only available for express delivery method"
+        }
     }
 }
