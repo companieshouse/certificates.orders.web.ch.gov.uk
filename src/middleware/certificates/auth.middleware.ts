@@ -8,11 +8,12 @@ import {
     replaceCertificateId,
     DISSOLVED_CERTIFICATE_DELIVERY_DETAILS,
     LP_CERTIFICATE_OPTIONS, LLP_CERTIFICATE_OPTIONS
-} from "./../../model/page.urls";
+} from "../../model/page.urls";
 import { getAccessToken } from "../../session/helper";
 import { createLogger } from "ch-structured-logging";
 
 import {APPLICATION_NAME} from "../../config/config";
+import { getWhitelistedReturnToURL } from "../../utils/request.util";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -39,7 +40,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
             }
             logger.info(`User unauthorized, status_code=401, redirecting to sign in page`);
             if (isValidReturnToUrl(returnToUrl)) {
-                return res.redirect(`/signin?return_to=${returnToUrl}`);
+                return res.redirect(`/signin?return_to=${getWhitelistedReturnToURL(returnToUrl)}`);
             }
         } else {
             const accessToken: string = getAccessToken(req.session);

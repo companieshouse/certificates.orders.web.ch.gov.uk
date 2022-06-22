@@ -3,10 +3,15 @@ import { APPLICATION_NAME } from "../config/config";
 
 const logger = createLogger(APPLICATION_NAME);
 
-export const ORDER_CONFIRMATION_RE = /\/orders\/ORD-\d{6}-\d{6}\/confirmation\?ref=orderable_item_ORD-\d{6}-\d{6}&state=[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}&status=[a-z]*/;
-export const ORDERS_RE = /\/orders/;
-export const BASKET_RE = /\/basket/;
-const REDIRECTS_WHITELIST: RegExp[] = [ORDER_CONFIRMATION_RE, ORDERS_RE, BASKET_RE];
+export const CERTIFICATE_OPTIONS_RE = /\/orderable\/certificates\/CRT-\d{6}-\d{6}\/certificate-options/;
+export const LP_CERTIFICATE_OPTIONS_RE = /\/orderable\/lp-certificates\/CRT-\d{6}-\d{6}\/certificate-options/;
+export const LLP_CERTIFICATE_OPTIONS_RE = /\/orderable\/llp-certificates\/CRT-\d{6}-\d{6}\/certificate-options/;
+export const DISSOLVED_CERTIFICATE_DELIVERY_DETAILS_RE = /\/orderable\/dissolved-certificates\/CRT-\d{6}-\d{6}\/delivery-details/;
+const REDIRECTS_WHITELIST: RegExp[] = [
+    CERTIFICATE_OPTIONS_RE,
+    LP_CERTIFICATE_OPTIONS_RE,
+    LLP_CERTIFICATE_OPTIONS_RE,
+    DISSOLVED_CERTIFICATE_DELIVERY_DETAILS_RE];
 
 // getWhitelistedReturnToURL performs checks on the return to URL to be used in a redirect, as it is obtained from the
 // inbound request, and therefore potentially subject to forging attacks.
