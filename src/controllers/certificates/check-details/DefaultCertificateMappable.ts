@@ -7,4 +7,5 @@ export interface DefaultCertificateMappable {
     mapAddressOption (addressOption: string | undefined): string
     mapDeliveryDetails (deliveryDetails: DeliveryDetails | undefined): string
     mapDeliveryMethod (itemOptions: Record<string, any>): string | null
+    mapEmailCopyRequired (itemOptions: Record<string, any>): string
 }

@@ -127,7 +127,7 @@ describe("certificate.check.details.controller.integration", () => {
             chai.expect(resp.status).to.equal(200);
             chai.expect($(".govuk-heading-xl").text()).to.equal("Check your order details");
             chai.expect($("#orderDetails").text()).to.equal("Order details");
-            chai.expect($(".govuk-summary-list__row:nth-of-type(4)").find(".govuk-summary-list__key").text().trim()).to.equal("Statement of good standing");
+            chai.expect($(".govuk-summary-list__row:nth-of-type(4)").find(".govuk-summary-list__key").text().trim()).to.include("Statement of good standing");
         });
 
         it("renders the check details screen for a company in liquidation", async () => {

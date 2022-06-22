@@ -15,6 +15,7 @@ export const MAPPED_FEE = "Mapped fee";
 export const MAPPED_DIRECTOR_OPTIONS = "Director options";
 export const MAPPED_SECRETARY_OPTIONS = "Secretary options";
 export const MAPPED_MEMBER_OPTIONS = "Member options";
+export const MAPPED_EMAIL_COPY_REQUIRED = "Yes";
 
 export class StubDefaultCompanyMappable implements DefaultCompanyMappable, LLPCompanyMappable {
     isOptionSelected (itemOption: Boolean | undefined): string {
@@ -51,5 +52,9 @@ export class StubDefaultCompanyMappable implements DefaultCompanyMappable, LLPCo
 
     mapMembersOptions (heading: string, memberOptions?: MemberDetails): string {
         return MAPPED_MEMBER_OPTIONS;
+    }
+
+    mapEmailCopyRequired (itemOptions: Record<string, any>): string {
+        return MAPPED_EMAIL_COPY_REQUIRED;
     }
 }
