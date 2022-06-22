@@ -12,7 +12,7 @@ import {
 import { getAccessToken } from "../../session/helper";
 import { createLogger } from "ch-structured-logging";
 
-import { APPLICATION_NAME, CHS_URL } from "../../config/config";
+import {APPLICATION_NAME} from "../../config/config";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -22,6 +22,10 @@ export default async (req: Request, res: Response, next: NextFunction) => {
             logger.info(`${req.url}: Session object is missing!`);
         }
         const signedIn = req.session?.data?.[SessionKey.SignInInfo]?.[SignInInfoKeys.SignedIn] === 1;
+
+        // TODO GCI-2122 Do we need to log these?
+        logger.info(`req.hostname = ${req.hostname}`);
+        logger.info(`signedIn = ${signedIn}`);
 
         if (!signedIn) {
             const certificateId = req.params.certificateId;
@@ -39,8 +43,9 @@ export default async (req: Request, res: Response, next: NextFunction) => {
             }
             logger.info(`User unauthorized, status_code=401, redirecting to sign in page`);
             if (isValidReturnToUrl(returnToUrl)) {
-                logger.info("Redirecting to " + `/signin?return_to=${CHS_URL}${returnToUrl}`);
-                return res.redirect(`/signin?return_to=${CHS_URL}${returnToUrl}`);
+                // TODO GCI-2122 Do we need to log this?
+                logger.info("Redirecting to " + `/signin?return_to=http://chs.local${returnToUrl}`);
+                return res.redirect(`/signin?return_to=http://chs.local${returnToUrl}`);
             }
         } else {
             const accessToken: string = getAccessToken(req.session);
