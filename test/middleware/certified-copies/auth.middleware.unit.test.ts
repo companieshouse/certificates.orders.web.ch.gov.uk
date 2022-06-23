@@ -23,7 +23,7 @@ describe("certified-copy.auth.middleware.unit", () => {
         const req = {
             path: "/delivery-details"
         } as Request;
-        req.params = { certifiedCopyId: "0001" };
+        req.params = { certifiedCopyId: "CCD-228916-028323" };
         req.session = new Session(
             {
                 signin_info: {
@@ -33,25 +33,25 @@ describe("certified-copy.auth.middleware.unit", () => {
         );
         await certifiedCopyAuthMiddleware(req, res, nextFunctionSpy);
         chai.expect(redirectSpy)
-            .to.have.been.calledWith("/signin?return_to=/orderable/certified-copies/0001/delivery-details");
+            .to.have.been.calledWith("/signin?return_to=/orderable/certified-copies/CCD-228916-028323/delivery-details");
     });
 
     it("should call res.redirect if there an attempt to access the delivery details page with no session", async () => {
         const req = {
             path: "/delivery-details"
         } as Request;
-        req.params = { certifiedCopyId: "0001" };
+        req.params = { certifiedCopyId: "CCD-228916-028323" };
         req.session = undefined;
         await certifiedCopyAuthMiddleware(req, res, nextFunctionSpy);
         chai.expect(redirectSpy)
-            .to.have.been.calledWith("/signin?return_to=/orderable/certified-copies/0001/delivery-details");
+            .to.have.been.calledWith("/signin?return_to=/orderable/certified-copies/CCD-228916-028323/delivery-details");
     });
 
     it("should call res.redirect if user is not signed in and trying to access the check details page", async () => {
         const req = {
             path: "/check-details"
         } as Request;
-        req.params = { certifiedCopyId: "0001" };
+        req.params = { certifiedCopyId: "CCD-228916-028323" };
         req.session = new Session(
             {
                 signin_info: {
@@ -61,17 +61,17 @@ describe("certified-copy.auth.middleware.unit", () => {
         );
         await certifiedCopyAuthMiddleware(req, res, nextFunctionSpy);
         chai.expect(redirectSpy)
-            .to.have.been.calledWith("/signin?return_to=/orderable/certified-copies/0001/delivery-details");
+            .to.have.been.calledWith("/signin?return_to=/orderable/certified-copies/CCD-228916-028323/delivery-details");
     });
 
     it("should call res.redirect if there an attempt to access the check details page with no session", async () => {
         const req = {
             path: "/check-details"
         } as Request;
-        req.params = { certifiedCopyId: "0001" };
+        req.params = { certifiedCopyId: "CCD-228916-028323" };
         req.session = undefined;
         await certifiedCopyAuthMiddleware(req, res, nextFunctionSpy);
         chai.expect(redirectSpy)
-            .to.have.been.calledWith("/signin?return_to=/orderable/certified-copies/0001/delivery-details");
+            .to.have.been.calledWith("/signin?return_to=/orderable/certified-copies/CCD-228916-028323/delivery-details");
     });
 });

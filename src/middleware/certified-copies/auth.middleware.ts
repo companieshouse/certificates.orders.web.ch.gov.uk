@@ -8,6 +8,7 @@ import { createLogger } from "ch-structured-logging";
 
 import { APPLICATION_NAME } from "../../config/config";
 import { getCertifiedCopyItem } from "client/api.client";
+import { getWhitelistedReturnToURL } from "../../utils/request.util";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -22,7 +23,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
             const certifiedCopyId = req.params.certifiedCopyId;
             const returnToUrl = replaceCertifiedCopyId(CERTIFIED_COPY_DELIVERY_DETAILS, certifiedCopyId);
             logger.info(`User unauthorized, status_code=401, redirecting to sign in page`);
-            return res.redirect(`/signin?return_to=${returnToUrl}`);
+            return res.redirect(`/signin?return_to=${getWhitelistedReturnToURL(returnToUrl)}`);
         } else {
             const userId = getUserId(req.session);
             logger.info(`User is signed in, user_id=${userId}`);
