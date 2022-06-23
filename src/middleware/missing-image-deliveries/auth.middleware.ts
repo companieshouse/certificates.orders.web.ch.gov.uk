@@ -24,9 +24,6 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         if (!signedIn) {
             const companyNumber = req.params.companyNumber;
             const filingHistoryId = req.params.filingHistoryId;
-            // TODO GI-2122: remove this.
-            logger.info(`companyNumber = ${companyNumber}, filingHistoryId = ${filingHistoryId}, ` +
-                `req.url = ${req.url}, req.originalUrl = ${req.originalUrl}`);
             const returnToUrl = replaceCompanyNumberAndFilingHistoryId(MISSING_IMAGE_DELIVERY_CREATE, companyNumber, filingHistoryId);
             logger.info(`User unauthorized, status_code=401, redirecting to sign in page`);
             return res.redirect(`/signin?return_to=${getWhitelistedReturnToURL(returnToUrl)}`);
@@ -50,8 +47,6 @@ export const authMissingImageDeliveryCheckDetailsMiddleware = async (req: Reques
 
         if (!signedIn) {
             const missingImageDeliveryId = req.params.missingImageDeliveryId;
-            // TODO GI-2122: remove this.
-            logger.info(`missingImageDeliveryId = ${missingImageDeliveryId}, req.url = ${req.url}, req.originalUrl = ${req.originalUrl}`);
             const returnToUrl = replaceMissingImageDeliveryId(MISSING_IMAGE_DELIVERY_CHECK_DETAILS, missingImageDeliveryId);
             logger.info(`User unauthorized, status_code=401, redirecting to sign in page`);
             return res.redirect(`/signin?return_to=${getWhitelistedReturnToURL(returnToUrl)}`);
