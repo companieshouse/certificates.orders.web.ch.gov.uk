@@ -12,6 +12,7 @@ import {
     MAPPED_FEE,
     MAPPED_OPTION_VALUE,
     MAPPED_SECRETARY_OPTIONS,
+    MAPPED_EMAIL_COPY_REQUIRED,
     StubDefaultCompanyMappable
 } from "./StubDefaultCompanyMappable";
 import sessionHandler from "@companieshouse/node-session-handler"; // needed for side-effects
@@ -38,6 +39,7 @@ const EXPECTED_RESULT = {
     changeIncludedOn: "/orderable/certificates/F00DFACE/certificate-options",
     changeDeliveryDetails: "/orderable/certificates/F00DFACE/delivery-details",
     deliveryDetails: MAPPED_DELIVERY_DETAILS,
+    emailCopyRequired: MAPPED_EMAIL_COPY_REQUIRED,
     SERVICE_URL: "/company/12345678/orderable/certificates",
     isNotDissolutionCertificateType: true,
     templateName: CERTIFICATE_CHECK_DETAILS,
