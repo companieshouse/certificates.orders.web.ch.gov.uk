@@ -5,7 +5,7 @@ import {
     CERTIFICATE_OPTIONS_RE,
     LP_CERTIFICATE_OPTIONS_RE,
     LLP_CERTIFICATE_OPTIONS_RE,
-    DISSOLVED_CERTIFICATE_DELIVERY_DETAILS_RE, CERTIFIED_COPIES_DELIVERY_DETAILS_RE
+    DISSOLVED_CERTIFICATE_DELIVERY_DETAILS_RE, CERTIFIED_COPIES_DELIVERY_DETAILS_RE, MISSING_IMAGE_DELIVERY_CREATE_RE
 } from "../../src/utils/request.util";
 import { expect } from "chai";
 import {
@@ -13,7 +13,7 @@ import {
     CERTIFIED_COPY_DELIVERY_OPTIONS_PAGE,
     DISSOLVED_CERTIFICATE_DELIVERY_OPTIONS_PAGE,
     LLP_CERTIFICATE_OPTIONS_PAGE,
-    LP_CERTIFICATE_OPTIONS_PAGE
+    LP_CERTIFICATE_OPTIONS_PAGE, MISSING_IMAGE_DELIVERY_CREATE_PAGE
 } from "./constants";
 
 const UNKNOWN_URL = "/unknown";
@@ -48,6 +48,12 @@ describe("request.util.unit",
                 const returnToUrl = extractValueFromRequestField(DISSOLVED_CERTIFICATE_DELIVERY_OPTIONS_PAGE,
                     DISSOLVED_CERTIFICATE_DELIVERY_DETAILS_RE);
                 expect(returnToUrl).to.equal(DISSOLVED_CERTIFICATE_DELIVERY_OPTIONS_PAGE);
+            });
+
+            it("gets correct return to URL for missing image delivery create page", () => {
+                const returnToUrl = extractValueFromRequestField(MISSING_IMAGE_DELIVERY_CREATE_PAGE,
+                    MISSING_IMAGE_DELIVERY_CREATE_RE);
+                expect(returnToUrl).to.equal(MISSING_IMAGE_DELIVERY_CREATE_PAGE);
             });
 
             it("errors if asked to look up an unknown page URL", () => {
@@ -88,6 +94,12 @@ describe("request.util.unit",
                 expect(returnToUrl).to.equal(DISSOLVED_CERTIFICATE_DELIVERY_OPTIONS_PAGE);
             });
 
+            it("gets correct return to URL for missing image delivery create page", () => {
+                const returnToUrl = extractValueIfPresentFromRequestField(MISSING_IMAGE_DELIVERY_CREATE_PAGE,
+                    MISSING_IMAGE_DELIVERY_CREATE_RE);
+                expect(returnToUrl).to.equal(MISSING_IMAGE_DELIVERY_CREATE_PAGE);
+            });
+
             it("returns null if asked to look up an unknown page URL", () => {
                 const returnToUrl = extractValueIfPresentFromRequestField(UNKNOWN_URL, CERTIFICATE_OPTIONS_RE);
                 expect(returnToUrl).to.equal(null);
@@ -120,6 +132,11 @@ describe("request.util.unit",
                 expect(returnToUrl).to.equal(DISSOLVED_CERTIFICATE_DELIVERY_OPTIONS_PAGE);
             });
 
+            it("gets correct return to URL for missing image delivery create page", () => {
+                const returnToUrl = getWhitelistedReturnToURL(MISSING_IMAGE_DELIVERY_CREATE_PAGE);
+                expect(returnToUrl).to.equal(MISSING_IMAGE_DELIVERY_CREATE_PAGE);
+            });
+
             it("errors if asked to look up an unknown page URL", () => {
                 const execution = () => getWhitelistedReturnToURL(UNKNOWN_URL);
                 expect(execution).to.throw("Return to URL /unknown not found in trusted URLs whitelist " +
@@ -127,7 +144,8 @@ describe("request.util.unit",
                     "/\\/orderable\\/lp-certificates\\/CRT-\\d{6}-\\d{6}\\/certificate-options/," +
                     "/\\/orderable\\/llp-certificates\\/CRT-\\d{6}-\\d{6}\\/certificate-options/," +
                     "/\\/orderable\\/certified-copies\\/CCD-\\d{6}-\\d{6}\\/delivery-details/," +
-                    "/\\/orderable\\/dissolved-certificates\\/CRT-\\d{6}-\\d{6}\\/delivery-details/.");
+                    "/\\/orderable\\/dissolved-certificates\\/CRT-\\d{6}-\\d{6}\\/delivery-details/," +
+                    "/\\/company\\/[A-Z0-9]{8}\\/orderable\\/missing-image-deliveries\\/[a-zA-Z0-9]{8,}\\/create/.");
             });
         });
     });

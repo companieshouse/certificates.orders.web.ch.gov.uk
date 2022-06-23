@@ -20,7 +20,8 @@ export default async (req: Request, res: Response, next: NextFunction) => {
             const companyNumber = req.params.companyNumber;
             const filingHistoryId = req.params.filingHistoryId;
             // TODO GI-2122: remove this.
-            logger.info(`companyNumber = ${companyNumber}, filingHistoryId = ${filingHistoryId}, req.url = ${req.url}, req.originalUrl = ${req.originalUrl}`);
+            logger.info(`companyNumber = ${companyNumber}, filingHistoryId = ${filingHistoryId}, ` +
+                `missingImageDeliveryId = ${req.params.missingImageDeliveryId}, req.url = ${req.url}, req.originalUrl = ${req.originalUrl}`);
             const returnToUrl = replaceCompanyNumberAndFilingHistoryId(MISSING_IMAGE_DELIVERY_CREATE, companyNumber, filingHistoryId);
             logger.info(`User unauthorized, status_code=401, redirecting to sign in page`);
             return res.redirect(`/signin?return_to=${getWhitelistedReturnToURL(returnToUrl)}`);
