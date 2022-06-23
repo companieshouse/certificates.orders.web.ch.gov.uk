@@ -3,19 +3,21 @@ import { APPLICATION_NAME } from "../config/config";
 
 const logger = createLogger(APPLICATION_NAME);
 
-export const CERTIFICATE_OPTIONS_RE = /\/orderable\/certificates\/CRT-\d{6}-\d{6}\/certificate-options/;
-export const LP_CERTIFICATE_OPTIONS_RE = /\/orderable\/lp-certificates\/CRT-\d{6}-\d{6}\/certificate-options/;
-export const LLP_CERTIFICATE_OPTIONS_RE = /\/orderable\/llp-certificates\/CRT-\d{6}-\d{6}\/certificate-options/;
-export const CERTIFIED_COPIES_DELIVERY_DETAILS_RE = /\/orderable\/certified-copies\/CCD-\d{6}-\d{6}\/delivery-details/;
-export const DISSOLVED_CERTIFICATE_DELIVERY_DETAILS_RE = /\/orderable\/dissolved-certificates\/CRT-\d{6}-\d{6}\/delivery-details/;
-export const MISSING_IMAGE_DELIVERY_CREATE_RE = /\/company\/[A-Z0-9]{8}\/orderable\/missing-image-deliveries\/[a-zA-Z0-9]{8,}\/create/;
+export const CERTIFICATE_OPTIONS_RE = /\/orderable\/certificates\/CRT-\d{6}-\d{6}\/certificate-options/
+export const LP_CERTIFICATE_OPTIONS_RE = /\/orderable\/lp-certificates\/CRT-\d{6}-\d{6}\/certificate-options/
+export const LLP_CERTIFICATE_OPTIONS_RE = /\/orderable\/llp-certificates\/CRT-\d{6}-\d{6}\/certificate-options/
+export const CERTIFIED_COPIES_DELIVERY_DETAILS_RE = /\/orderable\/certified-copies\/CCD-\d{6}-\d{6}\/delivery-details/
+export const DISSOLVED_CERTIFICATE_DELIVERY_DETAILS_RE = /\/orderable\/dissolved-certificates\/CRT-\d{6}-\d{6}\/delivery-details/
+export const MISSING_IMAGE_DELIVERY_CREATE_RE = /\/company\/[A-Z0-9]{8}\/orderable\/missing-image-deliveries\/[a-zA-Z0-9]{8,}\/create/
+export const MISSING_IMAGE_DELIVERY_CHECK_DETAILS_RE = /\/orderable\/missing-image-deliveries\/MID-\d{6}-\d{6}\/check-details/
 const REDIRECTS_WHITELIST: RegExp[] = [
     CERTIFICATE_OPTIONS_RE,
     LP_CERTIFICATE_OPTIONS_RE,
     LLP_CERTIFICATE_OPTIONS_RE,
     CERTIFIED_COPIES_DELIVERY_DETAILS_RE,
     DISSOLVED_CERTIFICATE_DELIVERY_DETAILS_RE,
-    MISSING_IMAGE_DELIVERY_CREATE_RE];
+    MISSING_IMAGE_DELIVERY_CREATE_RE,
+    MISSING_IMAGE_DELIVERY_CHECK_DETAILS_RE];
 
 // getWhitelistedReturnToURL performs checks on the return to URL to be used in a redirect, as it is obtained from the
 // inbound request, and therefore potentially subject to forging attacks.
