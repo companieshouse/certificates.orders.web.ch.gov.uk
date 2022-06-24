@@ -6,7 +6,6 @@ import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/orde
 
 import certificateAuthMiddleware from "../../../src/middleware/certificates/auth.middleware";
 import * as apiClient from "../../../src/client/api.client";
-import { CHS_URL } from "../../../src/config/config";
 
 const sandbox = sinon.createSandbox();
 
@@ -65,9 +64,9 @@ describe("certificate.auth.middleware.unit", () => {
     it("should call res.redirect if user is not signed in for standard certificate", async () => {
         const req = {
             path: "/delivery-details",
-            originalUrl: "/orderable/certificates/0001/delivery-details"
+            originalUrl: "/orderable/certificates/CRT-837816-028323/delivery-details"
         } as Request;
-        req.params = { certificateId: "0001" };
+        req.params = { certificateId: "CRT-837816-028323" };
         req.session = new Session(
             {
                 signin_info: {
@@ -77,7 +76,7 @@ describe("certificate.auth.middleware.unit", () => {
         );
         await certificateAuthMiddleware(req, res, nextFunctionSpy);
         chai.expect(redirectSpy)
-            .to.have.been.calledWith(`/signin?return_to=${CHS_URL}/orderable/certificates/0001/certificate-options`);
+            .to.have.been.calledWith("/signin?return_to=/orderable/certificates/CRT-837816-028323/certificate-options");
     });
 
     it("should call res.redirect if there is no session for standard certificate", async () => {
@@ -85,19 +84,19 @@ describe("certificate.auth.middleware.unit", () => {
             path: "/delivery-details",
             originalUrl: "/orderable/certificates/0001/delivery-details"
         } as Request;
-        req.params = { certificateId: "0001" };
+        req.params = { certificateId: "CRT-837816-028323" };
         req.session = undefined;
         await certificateAuthMiddleware(req, res, nextFunctionSpy);
         chai.expect(redirectSpy)
-            .to.have.been.calledWith(`/signin?return_to=${CHS_URL}/orderable/certificates/0001/certificate-options`);
+            .to.have.been.calledWith("/signin?return_to=/orderable/certificates/CRT-837816-028323/certificate-options");
     });
 
     it("should call res.redirect if user is not signed in for dissolved certificate", async () => {
         const req = {
             path: "/check-details",
-            originalUrl: "/orderable/dissolved-certificates/0001/check-details"
+            originalUrl: "/orderable/dissolved-certificates/CRT-837816-028323/check-details"
         } as Request;
-        req.params = { certificateId: "0001" };
+        req.params = { certificateId: "CRT-837816-028323" };
         req.session = new Session(
             {
                 signin_info: {
@@ -107,18 +106,18 @@ describe("certificate.auth.middleware.unit", () => {
         );
         await certificateAuthMiddleware(req, res, nextFunctionSpy);
         chai.expect(redirectSpy)
-            .to.have.been.calledWith(`/signin?return_to=${CHS_URL}/orderable/dissolved-certificates/0001/delivery-details`);
+            .to.have.been.calledWith("/signin?return_to=/orderable/dissolved-certificates/CRT-837816-028323/delivery-details");
     });
 
     it("should call res.redirect if there is no session for dissolved certificate", async () => {
         const req = {
             path: "/check-details",
-            originalUrl: "/orderable/dissolved-certificates/0001/check-details"
+            originalUrl: "/orderable/dissolved-certificates/CRT-837816-028323/check-details"
         } as Request;
-        req.params = { certificateId: "0001" };
+        req.params = { certificateId: "CRT-837816-028323" };
         req.session = undefined;
         await certificateAuthMiddleware(req, res, nextFunctionSpy);
         chai.expect(redirectSpy)
-            .to.have.been.calledWith(`/signin?return_to=${CHS_URL}/orderable/dissolved-certificates/0001/delivery-details`);
+            .to.have.been.calledWith("/signin?return_to=/orderable/dissolved-certificates/CRT-837816-028323/delivery-details");
     });
 });

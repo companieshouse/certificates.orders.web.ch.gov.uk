@@ -23,7 +23,7 @@ describe("missingImageDeliveryAuthMiddleware.auth.middleware.unit", () => {
         const req = {
             path: "/create"
         } as Request;
-        req.params = { companyNumber: "00006500", filingHistoryId: "0001" };
+        req.params = { companyNumber: "00006500", filingHistoryId: "MzAwOTM2MDg5OWFkaXF6a2N5" };
         req.session = new Session(
             {
                 signin_info: {
@@ -33,25 +33,25 @@ describe("missingImageDeliveryAuthMiddleware.auth.middleware.unit", () => {
         );
         await missingImageDeliveryAuthMiddleware(req, res, nextFunctionSpy);
         chai.expect(redirectSpy)
-            .to.have.been.calledWith("/signin?return_to=/company/00006500/orderable/missing-image-deliveries/0001/create");
+            .to.have.been.calledWith("/signin?return_to=/company/00006500/orderable/missing-image-deliveries/MzAwOTM2MDg5OWFkaXF6a2N5/create");
     });
 
     it("should call res.redirect if there an attempt to access the create page with no session", async () => {
         const req = {
             path: "/create"
         } as Request;
-        req.params = { companyNumber: "00006500", filingHistoryId: "0001" };
+        req.params = { companyNumber: "00006500", filingHistoryId: "MzAwOTM2MDg5OWFkaXF6a2N5" };
         req.session = undefined;
         await missingImageDeliveryAuthMiddleware(req, res, nextFunctionSpy);
         chai.expect(redirectSpy)
-            .to.have.been.calledWith("/signin?return_to=/company/00006500/orderable/missing-image-deliveries/0001/create");
+            .to.have.been.calledWith("/signin?return_to=/company/00006500/orderable/missing-image-deliveries/MzAwOTM2MDg5OWFkaXF6a2N5/create");
     });
 
     it("should call res.redirect if user is not signed in and trying to access the check details page", async () => {
         const req = {
             path: "/check-details"
         } as Request;
-        req.params = { companyNumber: "00006500", filingHistoryId: "0001" };
+        req.params = { companyNumber: "00006500", filingHistoryId: "MzAwOTM2MDg5OWFkaXF6a2N5" };
         req.session = new Session(
             {
                 signin_info: {
@@ -61,17 +61,17 @@ describe("missingImageDeliveryAuthMiddleware.auth.middleware.unit", () => {
         );
         await missingImageDeliveryAuthMiddleware(req, res, nextFunctionSpy);
         chai.expect(redirectSpy)
-            .to.have.been.calledWith("/signin?return_to=/company/00006500/orderable/missing-image-deliveries/0001/create");
+            .to.have.been.calledWith("/signin?return_to=/company/00006500/orderable/missing-image-deliveries/MzAwOTM2MDg5OWFkaXF6a2N5/create");
     });
 
     it("should call res.redirect if there an attempt to access the check details page with no session", async () => {
         const req = {
             path: "/check-details"
         } as Request;
-        req.params = { companyNumber: "00006500", filingHistoryId: "0001" };
+        req.params = { companyNumber: "00006500", filingHistoryId: "MzAwOTM2MDg5OWFkaXF6a2N5" };
         req.session = undefined;
         await missingImageDeliveryAuthMiddleware(req, res, nextFunctionSpy);
         chai.expect(redirectSpy)
-            .to.have.been.calledWith("/signin?return_to=/company/00006500/orderable/missing-image-deliveries/0001/create");
+            .to.have.been.calledWith("/signin?return_to=/company/00006500/orderable/missing-image-deliveries/MzAwOTM2MDg5OWFkaXF6a2N5/create");
     });
 });

@@ -17,7 +17,9 @@ import { createLoggerMiddleware } from "ch-structured-logging";
 import authMiddleware from "./middleware/auth.middleware";
 import authCertificateMiddleware from "./middleware/certificates/auth.middleware";
 import authCertifiedCopyMiddleware from "./middleware/certified-copies/auth.middleware";
-import authMissingImageDeliveryMiddleware from "./middleware/missing-image-deliveries/auth.middleware";
+import authMissingImageDeliveryCreateMiddleware, {
+    authMissingImageDeliveryCheckDetailsMiddleware
+} from "./middleware/missing-image-deliveries/auth.middleware";
 
 import {
     PIWIK_SITE_ID,
@@ -114,7 +116,8 @@ app.use([pageUrls.ROOT_CERTIFIED_COPY, pageUrls.ROOT_CERTIFIED_COPY_ID], Session
 app.use(pageUrls.ROOT_CERTIFIED_COPY_ID, authCertifiedCopyMiddleware);
 
 app.use([pageUrls.ROOT_MISSING_IMAGE_DELIVERY, pageUrls.ROOT_MISSING_IMAGE_DELIVERY_ID], SessionMiddleware(cookieConfig, sessionStore));
-app.use([pageUrls.MISSING_IMAGE_DELIVERY_CREATE, pageUrls.ROOT_MISSING_IMAGE_DELIVERY_ID], authMissingImageDeliveryMiddleware);
+app.use(pageUrls.MISSING_IMAGE_DELIVERY_CREATE, authMissingImageDeliveryCreateMiddleware);
+app.use(pageUrls.ROOT_MISSING_IMAGE_DELIVERY_ID, authMissingImageDeliveryCheckDetailsMiddleware);
 
 app.use((req, res, next) => {
     if (req.path.includes("/certificates")) {
