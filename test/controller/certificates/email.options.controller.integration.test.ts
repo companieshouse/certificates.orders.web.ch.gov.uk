@@ -8,7 +8,7 @@ import * as apiClient from "../../../src/client/api.client";
 import { CERTIFICATE_EMAIL_OPTIONS, replaceCertificateId } from "../../../src/model/page.urls";
 
 const CERTIFICATE_ID = "CRT-000000-000000";
-const EMAIL_OPTION_NOT_SELECTED = "Select an option";
+const EMAIL_OPTION_NOT_SELECTED = "Select ‘yes’ if you would like an email copy of the certificate";
 const EMAIL_OPTIONS_URL =
     replaceCertificateId(CERTIFICATE_EMAIL_OPTIONS, CERTIFICATE_ID);
 const sandbox = sinon.createSandbox();
