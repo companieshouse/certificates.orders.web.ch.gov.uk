@@ -12,8 +12,8 @@ import {
     mockAcceptableDissolvedCompanyProfile,
     mockCompanyProfileConfiguration
 } from "../../__mocks__/certificates.mocks";
-import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
 import { FEATURE_FLAGS } from "../../../src/config/FeatureFlags";
+import cheerio from "cheerio";
 
 const COMPANY_NUMBER = "00000000";
 
@@ -225,5 +225,32 @@ describe("certificate.home.controller.integration", () => {
 
         chai.expect(resp.status).to.equal(200);
         chai.expect(resp.text).to.contain("You cannot order a certificate or certified document for this company. ");
+    });
+
+    it("renders the correct start now button URL for an active company", async () => {
+        getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
+            .returns(Promise.resolve(dummyCompanyProfileAcceptableCompanyType));
+
+        const resp = await chai.request(testApp)
+            .get(replaceCompanyNumber(ROOT_CERTIFICATE, COMPANY_NUMBER));
+
+        chai.expect(resp.status).to.equal(200);
+
+        const $ = cheerio.load(resp.text);
+        chai.expect($(".govuk-button--start").attr("href")).to.equal("/company/00000000/orderable/certificates/certificate-type");
+    });
+
+    it("renders the correct start now button URL for a dissolved company", async () => {
+        getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
+            .returns(Promise.resolve(mockAcceptableDissolvedCompanyProfile));
+
+        const resp = await chai.request(testApp)
+            .get(replaceCompanyNumber(ROOT_CERTIFICATE, mockCompanyProfileConfiguration.companyNumber));
+
+        chai.expect(resp.status).to.equal(200);
+
+        const $ = cheerio.load(resp.text);
+        // TODO BI-11211 Is this the URL we should expect?
+        chai.expect($(".govuk-button--start").attr("href")).to.equal("/company/00000000/orderable/dissolved-certificates/delivery-options");
     });
 });
