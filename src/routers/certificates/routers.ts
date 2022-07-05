@@ -11,7 +11,7 @@ import {
     CERTIFICATE_SECRETARY_OPTIONS,
     CERTIFICATE_TYPE,
     DISSOLVED_CERTIFICATE_CHECK_DETAILS,
-    DISSOLVED_CERTIFICATE_DELIVERY_DETAILS,
+    DISSOLVED_CERTIFICATE_DELIVERY_DETAILS, DISSOLVED_CERTIFICATE_DELIVERY_OPTIONS,
     DISSOLVED_CERTIFICATE_TYPE,
     ROOT_CERTIFICATE,
     ROOT_DISSOLVED_CERTIFICATE
@@ -40,7 +40,7 @@ const typeController = new TypeController(new Map<string, string>([
     [CompanyStatus.ACTIVE, CERTIFICATE_OPTIONS],
     [CompanyStatus.LIQUIDATION, CERTIFICATE_OPTIONS],
     [CompanyStatus.ADMINISTRATION, CERTIFICATE_OPTIONS],
-    [CompanyStatus.DISSOLVED, DISSOLVED_CERTIFICATE_DELIVERY_DETAILS]
+    [CompanyStatus.DISSOLVED, DISSOLVED_CERTIFICATE_DELIVERY_OPTIONS]
 ]));
 router.get(CERTIFICATE_TYPE, typeController.render.bind(typeController));
 router.get(DISSOLVED_CERTIFICATE_TYPE, typeController.render.bind(typeController));
@@ -65,6 +65,8 @@ router.post(DISSOLVED_CERTIFICATE_DELIVERY_DETAILS, deliveryDetailsController);
 
 router.get(CERTIFICATE_DELIVERY_OPTIONS, renderDeliveryOptions);
 router.post(CERTIFICATE_DELIVERY_OPTIONS, deliveryOptionsController);
+router.get(DISSOLVED_CERTIFICATE_DELIVERY_OPTIONS, renderDeliveryOptions);
+router.post(DISSOLVED_CERTIFICATE_DELIVERY_OPTIONS, deliveryOptionsController);
 
 router.get(CERTIFICATE_EMAIL_OPTIONS, renderEmailOptions);
 router.post(CERTIFICATE_EMAIL_OPTIONS, emailOptionsController);

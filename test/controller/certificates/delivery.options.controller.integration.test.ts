@@ -5,12 +5,19 @@ import cheerio from "cheerio";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import * as apiClient from "../../../src/client/api.client";
-import { CERTIFICATE_DELIVERY_OPTIONS, replaceCertificateId , CERTIFICATE_EMAIL_OPTIONS} from "../../../src/model/page.urls";
+import {
+    CERTIFICATE_DELIVERY_OPTIONS,
+    replaceCertificateId,
+    CERTIFICATE_EMAIL_OPTIONS,
+    DISSOLVED_CERTIFICATE_DELIVERY_OPTIONS
+} from "../../../src/model/page.urls";
 
 const CERTIFICATE_ID = "CRT-000000-000000";
 const DELIVERY_OPTION_NOT_SELECTED = "Select a delivery option";
 const DELIVERY_OPTIONS_URL =
     replaceCertificateId(CERTIFICATE_DELIVERY_OPTIONS, CERTIFICATE_ID);
+const DISSOLVED_DELIVERY_OPTIONS_URL =
+    replaceCertificateId(DISSOLVED_CERTIFICATE_DELIVERY_OPTIONS, CERTIFICATE_ID);
 const EMAIL_OPTIONS_URL =
     replaceCertificateId(CERTIFICATE_EMAIL_OPTIONS, CERTIFICATE_ID);
 const sandbox = sinon.createSandbox();
@@ -51,6 +58,21 @@ describe("delivery.options.integration.test", () => {
             const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
+            chai.expect($('h1').text().trim()).to.equal("What delivery option would you like to select?");
+        });
+
+        it("renders the delivery options page for a dissolved company", async () => {
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItem));
+
+            const resp = await chai.request(testApp)
+                .get(DISSOLVED_DELIVERY_OPTIONS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+            const $ = cheerio.load(resp.text);
+
+            chai.expect(resp.status).to.equal(200);
+            // TODO BI-11213 Consider more page content assertions.
             chai.expect($('h1').text().trim()).to.equal("What delivery option would you like to select?");
         });
     });

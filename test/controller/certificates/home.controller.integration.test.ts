@@ -250,7 +250,6 @@ describe("certificate.home.controller.integration", () => {
         chai.expect(resp.status).to.equal(200);
 
         const $ = cheerio.load(resp.text);
-        // TODO BI-11211 Is this the URL we should expect?
-        chai.expect($(".govuk-button--start").attr("href")).to.equal("/company/00000000/orderable/dissolved-certificates/delivery-options");
+        chai.expect($(".govuk-button--start").attr("href")).to.equal("/company/00000000/orderable/dissolved-certificates/certificate-type");
     });
 });
