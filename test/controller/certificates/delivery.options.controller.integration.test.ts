@@ -18,8 +18,7 @@ const DELIVERY_OPTIONS_URL =
     replaceCertificateId(CERTIFICATE_DELIVERY_OPTIONS, CERTIFICATE_ID);
 const DISSOLVED_DELIVERY_OPTIONS_URL =
     replaceCertificateId(DISSOLVED_CERTIFICATE_DELIVERY_OPTIONS, CERTIFICATE_ID);
-const EMAIL_OPTIONS_URL =
-    replaceCertificateId(CERTIFICATE_EMAIL_OPTIONS, CERTIFICATE_ID);
+replaceCertificateId(CERTIFICATE_EMAIL_OPTIONS, CERTIFICATE_ID);
 const sandbox = sinon.createSandbox();
 let testApp = null;
 let getCertificateItemStub;
@@ -72,7 +71,6 @@ describe("delivery.options.integration.test", () => {
             const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
-            // TODO BI-11213 Consider more page content assertions.
             chai.expect($('h1').text().trim()).to.equal("What delivery option would you like to select?");
         });
     });
