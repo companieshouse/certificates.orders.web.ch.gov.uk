@@ -10,6 +10,9 @@ import {
     DISSOLVED_CERTIFICATE_EMAIL_OPTIONS,
     replaceCertificateId
 } from "../../../src/model/page.urls";
+import {setBackLink} from "../../../src/controllers/certificates/email.options.controller";
+import {dataEmpty} from "../../__mocks__/session.mocks";
+import {mockDissolvedCertificateItem} from "../../__mocks__/certificates.mocks";
 
 const CERTIFICATE_ID = "CRT-000000-000000";
 const EMAIL_OPTION_NOT_SELECTED = "Select an option";
@@ -112,6 +115,25 @@ describe("email.options.integration.test", () => {
 
             chai.expect(resp.status).to.equal(302);
             chai.expect(resp.text).to.include("Found. Redirecting to delivery-details");
+        });
+    });
+
+    describe("setBackUrl for certificate", () => {
+        it("the back button link should take the user to the delivery options page", () => {
+            const certificateItem = {
+                itemOptions: {
+                    forename: "john",
+                    surname: "smith"
+                }
+            } as CertificateItem;
+            chai.expect(setBackLink(certificateItem, dataEmpty)).to.equal("delivery-options");
+        });
+    });
+
+    describe("setBackUrl for dissolved certificate", () => {
+        it("the back button link should take the user to the delivery options page", () => {
+            const certificateItem = mockDissolvedCertificateItem as CertificateItem;
+            chai.expect(setBackLink(certificateItem, dataEmpty)).to.equal("delivery-options");
         });
     });
 });
