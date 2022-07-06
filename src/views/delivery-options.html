@@ -39,7 +39,7 @@
             name: "deliveryOptions",
             fieldset: {
             legend: {
-            text: "What delivery option would you like to select?",
+            text: "Choose a delivery option",
             isPageHeading: true,
             classes: "govuk-fieldset__legend--xl"
           }
@@ -50,7 +50,7 @@
             value: "same-day",
             text: "Express (£50)",
             hint: {
-              text: "Orders before 11am dispatched same day. Orders after 11am dispatched the next working day."
+              text: "Orders received before 11am are dispatched the same day. Orders received after 11am will be dispatched the next working day."
             },
             attributes: {
               "data-event-id" : "express-delivery"
@@ -61,7 +61,7 @@
             value: "standard",
             text: "Standard (£15)",
             hint: {
-              text: "Aim to dispatch within " + DISPATCH_DAYS + " working days."
+              text: "We will aim to dispatch the order within " + DISPATCH_DAYS + " working days."
             },
             attributes: {
               "data-event-id" : "standard-delivery"

@@ -51,7 +51,7 @@ describe("delivery.options.integration.test", () => {
             const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect($('h1').text().trim()).to.equal("What delivery option would you like to select?");
+            chai.expect($('h1').text().trim()).to.equal("Choose a delivery option");
         });
     });
 
