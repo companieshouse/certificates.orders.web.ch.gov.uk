@@ -5,12 +5,18 @@ import cheerio from "cheerio";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import * as apiClient from "../../../src/client/api.client";
-import { CERTIFICATE_EMAIL_OPTIONS, replaceCertificateId } from "../../../src/model/page.urls";
+import {
+    CERTIFICATE_EMAIL_OPTIONS,
+    DISSOLVED_CERTIFICATE_EMAIL_OPTIONS,
+    replaceCertificateId
+} from "../../../src/model/page.urls";
 
 const CERTIFICATE_ID = "CRT-000000-000000";
 const EMAIL_OPTION_NOT_SELECTED = "Select an option";
 const EMAIL_OPTIONS_URL =
     replaceCertificateId(CERTIFICATE_EMAIL_OPTIONS, CERTIFICATE_ID);
+const DISSOLVED_EMAIL_OPTIONS_URL =
+    replaceCertificateId(DISSOLVED_CERTIFICATE_EMAIL_OPTIONS, CERTIFICATE_ID);
 const sandbox = sinon.createSandbox();
 let testApp = null;
 let getCertificateItemStub;
@@ -50,6 +56,21 @@ describe("email.options.integration.test", () => {
             chai.expect(resp.status).to.equal(200);
             chai.expect($('h1').text().trim()).to.equal("Would you like an email copy of the certificate?");
         });
+
+        it("renders the email options page for a dissolved company", async () => {
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItem));
+
+            const resp = await chai.request(testApp)
+                .get(DISSOLVED_EMAIL_OPTIONS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+            const $ = cheerio.load(resp.text);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect($('h1').text().trim()).to.equal("Would you like an email copy of the certificate?");
+        });
+
     });
 
     describe("email options validation", () => {
