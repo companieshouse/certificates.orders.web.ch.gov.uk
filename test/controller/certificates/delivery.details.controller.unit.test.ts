@@ -28,10 +28,9 @@ describe("delivery.details.controller.unit", () => {
     });
 
     describe("setBackUrl for dissolved certificate", () => {
-        it("the back button link should take the user to the start page for dissolved certificate", () => {
+        it("the back button link should take the user to the delivery options page", () => {
             const certificateItem = mockDissolvedCertificateItem as CertificateItem;
-
-            chai.expect(setBackLink(mockDissolvedCertificateItem, dataEmpty)).to.include("/orderable/dissolved-certificates");
+            chai.expect(setBackLink(certificateItem, dataEmpty)).to.equal("delivery-options");
         });
     });
 });
