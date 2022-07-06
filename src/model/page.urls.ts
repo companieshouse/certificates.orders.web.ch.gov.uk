@@ -22,6 +22,7 @@ export const CERTIFICATE_DIRECTOR_OPTIONS: string = ROOT_CERTIFICATE_ID + "/dire
 export const CERTIFICATE_SECRETARY_OPTIONS: string = ROOT_CERTIFICATE_ID + "/secretary-options";
 
 export const DISSOLVED_CERTIFICATE_DELIVERY_OPTIONS: string = ROOT_DISSOLVED_CERTIFICATE_ID + "/delivery-options";
+export const DISSOLVED_CERTIFICATE_EMAIL_OPTIONS = ROOT_DISSOLVED_CERTIFICATE_ID + "/email-options";
 
 export const LP_ROOT_CERTIFICATE: string = "/company/:companyNumber/orderable/lp-certificates";
 export const LP_ROOT_CERTIFICATE_ID: string = "/orderable/lp-certificates/:certificateId";
