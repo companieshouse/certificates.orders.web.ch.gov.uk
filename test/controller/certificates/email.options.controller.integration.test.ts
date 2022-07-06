@@ -15,7 +15,7 @@ import {dataEmpty} from "../../__mocks__/session.mocks";
 import {mockDissolvedCertificateItem} from "../../__mocks__/certificates.mocks";
 
 const CERTIFICATE_ID = "CRT-000000-000000";
-const EMAIL_OPTION_NOT_SELECTED = "Select an option";
+const EMAIL_OPTION_NOT_SELECTED = "Select ‘yes’ if you would like an email copy of the certificate";
 const EMAIL_OPTIONS_URL =
     replaceCertificateId(CERTIFICATE_EMAIL_OPTIONS, CERTIFICATE_ID);
 const DISSOLVED_EMAIL_OPTIONS_URL =
