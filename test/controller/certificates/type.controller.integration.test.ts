@@ -173,7 +173,7 @@ describe("default.type.controller.integration", () => {
                 .redirects(0);
 
             chai.expect(resp.status).to.equal(302);
-            chai.expect(resp.text).to.include("Found. Redirecting to /orderable/dissolved-certificates/CRT-951616-000712/delivery-details");
+            chai.expect(resp.text).to.include("Found. Redirecting to /orderable/dissolved-certificates/CRT-951616-000712/delivery-options");
         });
     });
 });

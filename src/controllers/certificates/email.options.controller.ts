@@ -73,10 +73,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
-export const setBackLink = (certificateItem: CertificateItem, session: Session | undefined):string => {
-    if (certificateItem.itemOptions?.certificateType === "dissolution") {
-        return `/company/${certificateItem.companyNumber}/orderable/dissolved-certificates`;
-    }
+export const setBackLink = (_certificateItem: CertificateItem, _session: Session | undefined):string => {
     return DELIVERY_OPTIONS;
 };
 

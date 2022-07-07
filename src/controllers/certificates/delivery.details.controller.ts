@@ -136,9 +136,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const setBackLink = (certificateItem: CertificateItem, session: Session | undefined):string => {
-    if (certificateItem.itemOptions?.certificateType === "dissolution") {
-        return `/company/${certificateItem.companyNumber}/orderable/dissolved-certificates`;
-    } else if (certificateItem.itemOptions?.deliveryTimescale === "same-day") {
+    if (certificateItem.itemOptions?.deliveryTimescale === "same-day") {
         return EMAIL_OPTIONS;
     }
     return DELIVERY_OPTIONS;
