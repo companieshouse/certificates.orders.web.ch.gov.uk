@@ -91,26 +91,14 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         const userId = getUserId(req.session);
         const accessToken: string = getAccessToken(req.session);
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
-        let certificateItemPatch: CertificateItemPatchRequest; 
-        // temporary standard delivery timescale for a dissolved certificate upcoming work to allow same-day
-        if (certificateItem.itemOptions?.certificateType !== "dissolution") {
-            certificateItemPatch = {
-                itemOptions: {
-                    deliveryMethod: "postal",
-                    forename: firstName,
-                    surname: lastName
-                }
-            };
-        } else {
-            certificateItemPatch = {
-                itemOptions: {
-                    deliveryMethod: "postal",
-                    deliveryTimescale : "standard",
-                    forename: firstName,
-                    surname: lastName
-                }
-            };
-        }
+        const certificateItemPatch: CertificateItemPatchRequest = {
+            itemOptions: {
+                deliveryMethod: "postal",
+                forename: firstName,
+                surname: lastName
+            }
+        };
+
         const basketDeliveryDetails: BasketPatchRequest = {
             deliveryDetails: {
                 addressLine1: addressLineOne,
