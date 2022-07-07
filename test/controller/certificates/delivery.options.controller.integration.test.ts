@@ -18,7 +18,6 @@ const DELIVERY_OPTIONS_URL =
     replaceCertificateId(CERTIFICATE_DELIVERY_OPTIONS, CERTIFICATE_ID);
 const DISSOLVED_DELIVERY_OPTIONS_URL =
     replaceCertificateId(DISSOLVED_CERTIFICATE_DELIVERY_OPTIONS, CERTIFICATE_ID);
-replaceCertificateId(CERTIFICATE_EMAIL_OPTIONS, CERTIFICATE_ID);
 const sandbox = sinon.createSandbox();
 let testApp = null;
 let getCertificateItemStub;
