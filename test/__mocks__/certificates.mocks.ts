@@ -26,7 +26,9 @@ export const mockDissolvedCertificateItem = {
         }
     ],
     itemOptions: {
-        certificateType: "dissolution"
+        certificateType: "dissolution",
+        includeEmailCopy: true,
+        deliveryTimescale: "same-day"
     }
 } as CertificateItem;
 
