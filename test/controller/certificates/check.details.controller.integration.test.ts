@@ -257,6 +257,8 @@ describe("certificate.check.details.controller.integration", () => {
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).not.to.contain("Included on certificate");
             chai.expect(resp.text).to.contain("Dissolution with all company name changes");
+            chai.expect(resp.text).to.contain("Email copy required\n        </dt>\n        <dd class=\"govuk-summary-list__value\">\n          Yes\n");
+            chai.expect(resp.text).to.contain("Delivery method\n        </dt>\n        <dd class=\"govuk-summary-list__value\">\n          Express (Orders received before 11am will be dispatched the same day. Orders received after 11am will be dispatched the next working day)\n");
         });
     });
 

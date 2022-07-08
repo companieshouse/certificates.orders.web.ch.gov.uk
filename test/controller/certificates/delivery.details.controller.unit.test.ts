@@ -28,8 +28,16 @@ describe("delivery.details.controller.unit", () => {
     });
 
     describe("setBackUrl for dissolved certificate", () => {
-        it("the back button link should take the user to the delivery options page", () => {
-            const certificateItem = mockDissolvedCertificateItem as CertificateItem;
+        const certificateItem = mockDissolvedCertificateItem as CertificateItem;
+
+        it("the back button link should take the user to the email options page for same-day delivery option", () => {
+            chai.expect(setBackLink(certificateItem, dataEmpty)).to.equal("email-options");
+        });
+
+        it("the back button link should take the user to the delivery options page for standard delivery option", () => {
+            mockDissolvedCertificateItem.itemOptions.deliveryTimescale = "standard";
+            mockDissolvedCertificateItem.itemOptions.includeEmailCopy = false;
+
             chai.expect(setBackLink(certificateItem, dataEmpty)).to.equal("delivery-options");
         });
     });
