@@ -223,31 +223,11 @@ describe("certificate.delivery.details.controller", () => {
     });
 
     describe("delivery details back button", () => {
-        it("back button takes the user to the certificate options page if they have not selected any options", async () => {
-            const basketDetails = {} as Basket;
-            const certificateItem = {} as CertificateItem;
-
-            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
-                .returns(Promise.resolve(certificateItem));
-            getBasketStub = sandbox.stub(apiClient, "getBasket").returns(Promise.resolve(basketDetails));
-
-            const resp = await chai.request(testApp)
-                .get(DELIVERY_DETAILS_URL)
-                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
-
-            const $ = cheerio.load(resp.text);
-
-            chai.expect(resp.status).to.equal(200);
-            chai.expect($(".govuk-back-link").attr("href")).to.include("certificate-options");
-        });
-
-        it("back button takes the user to the registered office options page if they selected only the registered office option", async () => {
+        it("back button takes the user to the delivery options page if they have selected standard delivery", async () => {
             const basketDetails = {} as Basket;
             const certificateItem = {
                 itemOptions: {
-                    registeredOfficeAddressDetails: {
-                        includeAddressRecordsType: "current"
-                    }
+                    deliveryTimescale: "standard",
                 }
             } as CertificateItem;
 
@@ -262,16 +242,14 @@ describe("certificate.delivery.details.controller", () => {
             const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect($(".govuk-back-link").attr("href")).to.include("registered-office-options");
+            chai.expect($(".govuk-back-link").attr("href")).to.include("delivery-options");
         });
 
-        it("back button takes the user to the designated members options page if they selected only the designated members options", async () => {
+        it("back button takes the user to the email options page if they have selected same day delivery", async () => {
             const basketDetails = {} as Basket;
             const certificateItem = {
                 itemOptions: {
-                    designatedMemberDetails: {
-                        includeBasicInformation: true
-                    }
+                    deliveryTimescale: "same-day",
                 }
             } as CertificateItem;
 
@@ -286,88 +264,7 @@ describe("certificate.delivery.details.controller", () => {
             const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect($(".govuk-back-link").attr("href")).to.include("designated-members-options");
-        });
-
-        it("back button takes the user to the members options page if they selected only the members options", async () => {
-            const basketDetails = {} as Basket;
-            const certificateItem = {
-                itemOptions: {
-                    memberDetails: {
-                        includeBasicInformation: true
-                    }
-                }
-            } as CertificateItem;
-
-            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
-                .returns(Promise.resolve(certificateItem));
-            getBasketStub = sandbox.stub(apiClient, "getBasket").returns(Promise.resolve(basketDetails));
-
-            const resp = await chai.request(testApp)
-                .get(DELIVERY_DETAILS_URL)
-                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
-
-            const $ = cheerio.load(resp.text);
-
-            chai.expect(resp.status).to.equal(200);
-            chai.expect($(".govuk-back-link").attr("href")).to.include("members-options");
-        });
-
-        it("back button takes the user to the designated members options page if they selected both the designated members options and registered office options", async () => {
-            const basketDetails = {} as Basket;
-            const certificateItem = {
-                itemOptions: {
-                    registeredOfficeAddressDetails: {
-                        includeAddressRecordsType: "current"
-                    },
-                    designatedMemberDetails: {
-                        includeBasicInformation: true
-                    }
-                }
-            } as CertificateItem;
-
-            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
-                .returns(Promise.resolve(certificateItem));
-            getBasketStub = sandbox.stub(apiClient, "getBasket").returns(Promise.resolve(basketDetails));
-
-            const resp = await chai.request(testApp)
-                .get(DELIVERY_DETAILS_URL)
-                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
-
-            const $ = cheerio.load(resp.text);
-
-            chai.expect(resp.status).to.equal(200);
-            chai.expect($(".govuk-back-link").attr("href")).to.include("designated-members-options");
-        });
-
-        it("back button takes the user to the members options page if they selected the designated members, members and registered office options", async () => {
-            const basketDetails = {} as Basket;
-            const certificateItem = {
-                itemOptions: {
-                    registeredOfficeAddressDetails: {
-                        includeAddressRecordsType: "current"
-                    },
-                    designatedMemberDetails: {
-                        includeBasicInformation: true
-                    },
-                    memberDetails: {
-                        includeBasicInformation: true
-                    }
-                }
-            } as CertificateItem;
-
-            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
-                .returns(Promise.resolve(certificateItem));
-            getBasketStub = sandbox.stub(apiClient, "getBasket").returns(Promise.resolve(basketDetails));
-
-            const resp = await chai.request(testApp)
-                .get(DELIVERY_DETAILS_URL)
-                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
-
-            const $ = cheerio.load(resp.text);
-
-            chai.expect(resp.status).to.equal(200);
-            chai.expect($(".govuk-back-link").attr("href")).to.include("members-options");
+            chai.expect($(".govuk-back-link").attr("href")).to.include("email-options");
         });
     });
 });

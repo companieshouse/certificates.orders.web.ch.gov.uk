@@ -242,7 +242,7 @@ describe("registered.office.options.integration.test", () => {
                 });
 
             chai.expect(resp.status).to.equal(302);
-            chai.expect(resp.text).to.include("Found. Redirecting to delivery-details");
+            chai.expect(resp.text).to.include("Found. Redirecting to delivery-options");
         });
 
         it("redirects the user to the designated-members-options page", async () => {

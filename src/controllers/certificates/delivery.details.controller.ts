@@ -10,7 +10,6 @@ import { APPLICATION_NAME } from "../../config/config";
 import { deliveryDetailsValidationRules, validate } from "../../utils/delivery-details-validation";
 import { setServiceUrl } from "../../utils/service.url.utils";
 import { Session } from "@companieshouse/node-session-handler/lib/session/model/Session";
-import CertificateSessionData from "../../session/CertificateSessionData";
 const escape = require("escape-html");
 
 const FIRST_NAME_FIELD: string = "firstName";

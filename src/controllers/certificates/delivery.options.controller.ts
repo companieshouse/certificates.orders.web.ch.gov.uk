@@ -96,6 +96,10 @@ export const setBackLink = (certificateItem: CertificateItem, session: Session |
         return "secretary-options";
     } else if (certificateItem.itemOptions?.directorDetails?.includeBasicInformation) {
         return "director-options";
+    } else if (certificateItem.itemOptions?.memberDetails?.includeBasicInformation) {
+        return "members-options";
+    } else if (certificateItem.itemOptions?.designatedMemberDetails?.includeBasicInformation) {
+        return "designated-members-options";
     } else if (certificateItem.itemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType) {
         return (session?.getExtraData("certificates-orders-web-ch-gov-uk") as CertificateSessionData)?.isFullPage ? "registered-office-options?layout=full" : "registered-office-options";
     }

@@ -7,7 +7,7 @@ import {
 import {Basket, BasketPatchRequest} from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 import {getAccessToken, getUserId} from "../../../session/helper";
 import {getCertificateItem, patchCertificateItem, getBasket, patchBasket} from "../../../client/api.client";
-import {DELIVERY_DETAILS} from "../../../model/template.paths";
+import {DELIVERY_DETAILS, DELIVERY_OPTIONS, EMAIL_OPTIONS} from "../../../model/template.paths";
 import {createLogger} from "ch-structured-logging";
 import {APPLICATION_NAME} from "../../../config/config";
 import {deliveryDetailsValidationRules, validate} from "../../../utils/delivery-details-validation";
@@ -41,7 +41,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             templateName: DELIVERY_DETAILS,
             pageTitleText: PAGE_TITLE,
             SERVICE_URL: setServiceUrl(certificateItem),
-            backLink: setBackLink(certificateItem, req.session)
+            backLink: setBackLink(certificateItem)
         });
     } catch (err) {
         logger.error(`${err}`);
@@ -79,7 +79,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
             pageTitle: PAGE_TITLE,
             templateName: (DELIVERY_DETAILS),
             SERVICE_URL: setServiceUrl(certificateItem),
-            backLink: setBackLink(certificateItem, req.session)
+            backLink: setBackLink(certificateItem)
         });
     }
     try {
@@ -88,7 +88,6 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         const certificateItem: CertificateItemPatchRequest = {
             itemOptions: {
                 deliveryMethod: "postal",
-                deliveryTimescale: "standard",
                 forename: firstName,
                 surname: lastName
             }
@@ -117,21 +116,11 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
-export const setBackLink = (certificateItem: CertificateItem, session: Session | undefined): string => {
-    let path: string;
-    if (certificateItem.itemOptions?.certificateType === "dissolution") {
-        path = `/company/${certificateItem.companyNumber}/orderable/dissolved-certificates`;
-    } else if (certificateItem.itemOptions?.memberDetails?.includeBasicInformation) {
-        path = "members-options";
-    } else if (certificateItem.itemOptions?.designatedMemberDetails?.includeBasicInformation) {
-        path = "designated-members-options";
-    } else if (certificateItem.itemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType) {
-        path = (session?.getExtraData("certificates-orders-web-ch-gov-uk") as CertificateSessionData)?.isFullPage ? "registered-office-options?layout=full" : "registered-office-options";
-    } else {
-        path = "certificate-options";
+export const setBackLink = (certificateItem: CertificateItem):string => {
+    if (certificateItem.itemOptions?.deliveryTimescale === "same-day") {
+        return EMAIL_OPTIONS;
     }
-
-    return path;
+    return DELIVERY_OPTIONS;
 };
 
 export default [...deliveryDetailsValidationRules, route];
