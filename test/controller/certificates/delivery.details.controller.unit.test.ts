@@ -6,7 +6,6 @@ import { mockDissolvedCertificateItem } from "../../__mocks__/certificates.mocks
 import { dataEmpty, fullPageFalse, fullPageTrue } from "../../__mocks__/session.mocks";
 
 describe("delivery.details.controller.unit", () => {
-
     describe("setBackUrl for certificate", () => {
         it("the back button link should take the user to the delivery options page", () => {
             const certificateItem = {

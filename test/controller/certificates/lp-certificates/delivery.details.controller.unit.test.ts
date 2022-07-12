@@ -44,7 +44,6 @@ describe("lp.delivery.details.controller.unit", () => {
 
             chai.expect(setBackLink(certificateItem, fullPageTrue)).to.equal("principal-place-of-business-options?layout=full");
         });
-
     });
 
     describe("setBackUrl for dissolved certificate", () => {

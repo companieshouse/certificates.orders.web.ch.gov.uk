@@ -1,11 +1,10 @@
-const chai = require("chai")
 import sinon from "sinon";
 import ioredis from "ioredis";
 import { ROOT_CERTIFIED_COPY, replaceCompanyNumber } from "../../../src/model/page.urls";
 import CompanyProfileService from "@companieshouse/api-sdk-node/dist/services/company-profile/service";
 
+const chai = require("chai");
 const COMPANY_NUMBER = "00000000";
-
 const sandbox = sinon.createSandbox();
 let testApp = null;
 let getCompanyProfileStub;

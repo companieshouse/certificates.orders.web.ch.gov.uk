@@ -187,27 +187,26 @@ describe("CertificateTextMapper", () => {
     describe("maps email required return correctly", () => {
         it("it returns output stating email copy is only available for express delivery option when standard delivery is selected", () => {
             const itemOptions = {
-                deliveryTimescale : "standard",
-                emailCopyRequired : false
-            }
+                deliveryTimescale: "standard",
+                emailCopyRequired: false
+            };
             chai.expect(textMapper.mapEmailCopyRequired(itemOptions)).to.equal("Email only available for express delivery method");
         });
 
         it("it returns Yes for express delivery option with email required selected true", () => {
             const itemOptions = {
-                deliveryTimescale : "same-day",
-                includeEmailCopy : true
-            }
+                deliveryTimescale: "same-day",
+                includeEmailCopy: true
+            };
 
-            console.log(JSON.stringify(itemOptions))
             chai.expect(textMapper.mapEmailCopyRequired(itemOptions)).to.equal("Yes");
         });
 
         it("it returns No for express delivery option with email required selected false", () => {
             const itemOptions = {
-                deliveryTimescale : "same-day",
-                includeEmailCopy : false
-            }
+                deliveryTimescale: "same-day",
+                includeEmailCopy: false
+            };
             chai.expect(textMapper.mapEmailCopyRequired(itemOptions)).to.equal("No");
         });
     });

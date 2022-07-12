@@ -214,14 +214,14 @@ export class CertificateTextMapper implements DefaultCompanyMappable, LLPCompany
     }
 
     public mapEmailCopyRequired (itemOptions: Record<string, any>): string {
-        if(itemOptions?.deliveryTimescale === "same-day") {
+        if (itemOptions?.deliveryTimescale === "same-day") {
             if (itemOptions?.includeEmailCopy === true) {
-                return "Yes"
+                return "Yes";
             } else {
-                return "No"
+                return "No";
             }
         } else {
-            return "Email only available for express delivery method"
+            return "Email only available for express delivery method";
         }
-    }
-}
+    };
+};

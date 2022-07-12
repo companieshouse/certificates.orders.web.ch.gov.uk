@@ -63,7 +63,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
                     includeEmailCopy: emailOption
                 }
             };
-            const certificatePatchResponse = await patchCertificateItem( accessToken, req.params.certificateId, certificateItem);
+            const certificatePatchResponse = await patchCertificateItem(accessToken, req.params.certificateId, certificateItem);
             logger.info(`Patched certificate item with email option, id=${req.params.certificateId}, user_id=${userId}, company_number=${certificatePatchResponse.companyNumber}`);
             return res.redirect(DELIVERY_DETAILS);
         }
@@ -77,4 +77,4 @@ export const setBackLink = (_certificateItem: CertificateItem, _session: Session
     return DELIVERY_OPTIONS;
 };
 
-export default  [...validators, route];
+export default [...validators, route];

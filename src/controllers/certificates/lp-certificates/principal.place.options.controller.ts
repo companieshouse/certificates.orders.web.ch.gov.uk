@@ -10,13 +10,13 @@ import { APPLICATION_NAME } from "../../../config/config";
 import CertificateSessionData from "../../../session/CertificateSessionData";
 import { PrincipalPlaceOfBusinessOptionName } from "./PrincipalPlaceOfBusinessOptionName";
 import { LP_ROOT_CERTIFICATE, replaceCompanyNumber } from "../../../model/page.urls";
-import {AddressRecordsType} from "../../../model/AddressRecordsType";
+import { AddressRecordsType } from "../../../model/AddressRecordsType";
 
 const logger = createLogger(APPLICATION_NAME);
 
 const PRINCIPAL_PLACE_OPTION: string = "principalPlace";
 
-export const optionFilter = (items) => items.filter((item) => item.display)
+export const optionFilter = (items) => items.filter((item) => item.display);
 
 export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const userId = getUserId(req.session);

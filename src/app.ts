@@ -42,7 +42,7 @@ import {
     CHS_URL,
     LP_CERTIFICATE_PIWIK_START_GOAL_ID, LLP_CERTIFICATE_PIWIK_START_GOAL_ID
 } from "./config/config";
-import {FEATURE_FLAGS} from "./config/FeatureFlags";
+import { FEATURE_FLAGS } from "./config/FeatureFlags";
 
 const app = express();
 

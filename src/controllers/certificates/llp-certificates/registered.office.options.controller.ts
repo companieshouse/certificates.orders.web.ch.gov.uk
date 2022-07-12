@@ -8,14 +8,14 @@ import { createLogger } from "ch-structured-logging";
 import { registeredOfficeAddressValidationRules, validate } from "../../../validation/certificates/registered.office.options.validation";
 import { APPLICATION_NAME } from "../../../config/config";
 import CertificateSessionData from "../../../session/CertificateSessionData";
-import { RegisteredOfficeAddressOptionName } from "./RegisteredOfficeAddressOptionName"
-import {AddressRecordsType} from "../../../model/AddressRecordsType";
+import { RegisteredOfficeAddressOptionName } from "./RegisteredOfficeAddressOptionName";
+import { AddressRecordsType } from "../../../model/AddressRecordsType";
 
 const logger = createLogger(APPLICATION_NAME);
 
 const REGISTERED_OFFICE_OPTION: string = "registeredOffice";
 
-export const optionFilter = (items) => items.filter((item) => item.display)
+export const optionFilter = (items) => items.filter((item) => item.display);
 
 export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const userId = getUserId(req.session);

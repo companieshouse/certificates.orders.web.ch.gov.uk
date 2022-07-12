@@ -77,8 +77,8 @@ export const mockAcceptableDissolvedCompanyProfile: Resource<CompanyProfile> = {
 };
 
 export const getMockCompanyProfile = (
-    companyDetails: { companyType: string, companyStatus: string } = 
-    { companyType: "ltd", companyStatus: "active"} ): Resource<CompanyProfile> => {
+    companyDetails: { companyType: string, companyStatus: string } =
+    { companyType: "ltd", companyStatus: "active" }): Resource<CompanyProfile> => {
     return {
         httpStatusCode: 200,
         resource: {
@@ -121,7 +121,7 @@ export const getMockCompanyProfile = (
                 filingHistory: "/company/00000000/filing-history"
             }
         }
-    }
+    };
 };
 
 export const mockNotAcceptableDissolvedCompanyLimitedPartnershipProfile: Resource<CompanyProfile> = {

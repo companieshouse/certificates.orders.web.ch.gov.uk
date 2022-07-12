@@ -229,17 +229,17 @@ describe("certificate.delivery.details.controller", () => {
                     deliveryTimescale: "same-day"
                 }
             } as CertificateItem;
-    
+
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItem));
             getBasketStub = sandbox.stub(apiClient, "getBasket").returns(Promise.resolve(basketDetails));
-    
+
             const resp = await chai.request(testApp)
                 .get(DELIVERY_DETAILS_URL)
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
-    
+
             const $ = cheerio.load(resp.text);
-    
+
             chai.expect(resp.status).to.equal(200);
             chai.expect($(".govuk-back-link").attr("href")).to.include("email-options");
         });
@@ -251,17 +251,17 @@ describe("certificate.delivery.details.controller", () => {
                     deliveryTimescale: "standard"
                 }
             } as CertificateItem;
-    
+
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItem));
             getBasketStub = sandbox.stub(apiClient, "getBasket").returns(Promise.resolve(basketDetails));
-    
+
             const resp = await chai.request(testApp)
                 .get(DELIVERY_DETAILS_URL)
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
-    
+
             const $ = cheerio.load(resp.text);
-    
+
             chai.expect(resp.status).to.equal(200);
             chai.expect($(".govuk-back-link").attr("href")).to.include("delivery-options");
         });

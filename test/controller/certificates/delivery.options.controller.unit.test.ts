@@ -43,7 +43,6 @@ describe("delivery.options.controller.unit", () => {
 
             chai.expect(setBackLink(certificateItem, fullPageTrue)).to.equal("registered-office-options?layout=full");
         });
-
     });
 
     describe("setBackUrl for only director options selected", () => {

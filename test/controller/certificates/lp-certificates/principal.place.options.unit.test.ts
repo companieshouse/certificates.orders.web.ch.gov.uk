@@ -1,7 +1,7 @@
 import chai from "chai";
 import { generateBackLink, optionFilter, setPrincipalPlaceOption } from "../../../../src/controllers/certificates/lp-certificates/principal.place.options.controller";
 import { PrincipalPlaceOfBusinessOptionName } from "../../../../src/controllers/certificates/lp-certificates/PrincipalPlaceOfBusinessOptionName";
-import {AddressRecordsType} from "../../../../src/model/AddressRecordsType";
+import { AddressRecordsType } from "../../../../src/model/AddressRecordsType";
 
 describe("principal.place.options.controller.unit", () => {
     describe("setPrincipalPlaceOption", () => {
@@ -36,18 +36,18 @@ describe("principal.place.options.controller.unit", () => {
 
     describe("optionFilter", () => {
         it("should filter an object from an array if the display field is false", () => {
-            const options = [{display: false}, {display: true}]
-            chai.expect(optionFilter(options)).to.have.lengthOf(1)
-        })
+            const options = [{ display: false }, { display: true }];
+            chai.expect(optionFilter(options)).to.have.lengthOf(1);
+        });
     });
 
     describe("generateBackLink", () => {
         it("should link to certificate options page if abbreviated page requested", () => {
-            chai.expect(generateBackLink(false)).to.equal("certificate-options")
-        })
+            chai.expect(generateBackLink(false)).to.equal("certificate-options");
+        });
 
         it("should link to principal place options page if full page requested", () => {
-            chai.expect(generateBackLink(true)).to.equal("principal-place-of-business-options")
-        })
-    })
+            chai.expect(generateBackLink(true)).to.equal("principal-place-of-business-options");
+        });
+    });
 });
