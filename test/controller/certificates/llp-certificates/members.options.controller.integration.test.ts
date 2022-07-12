@@ -82,7 +82,7 @@ describe("members.options.integration.test", () => {
                 });
 
             chai.expect(resp.status).to.equal(302);
-            chai.expect(resp.text).to.contain("Found. Redirecting to delivery-details");
+            chai.expect(resp.text).to.contain("Found. Redirecting to delivery-options");
         });
     });
 

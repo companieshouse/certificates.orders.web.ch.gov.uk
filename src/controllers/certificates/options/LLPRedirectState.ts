@@ -8,7 +8,7 @@ export interface LLPRedirectState extends RedirectState {
 
 export class NoOptionsPresentState implements LLPRedirectState {
     private stateMachine: LLPRedirectStateMachine;
-    readonly redirect = "delivery-details";
+    readonly redirect = "delivery-options";
 
     constructor (stateMachine: LLPRedirectStateMachine) {
         this.stateMachine = stateMachine;
