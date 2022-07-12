@@ -1,20 +1,20 @@
-import {NextFunction, Request, Response} from "express";
-import {validationResult} from "express-validator";
+import { NextFunction, Request, Response } from "express";
+import { validationResult } from "express-validator";
 import {
     CertificateItem,
     CertificateItemPatchRequest
 } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
-import {Basket, BasketPatchRequest} from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
-import {getAccessToken, getUserId} from "../../../session/helper";
-import {getCertificateItem, patchCertificateItem, getBasket, patchBasket} from "../../../client/api.client";
-import {DELIVERY_DETAILS} from "../../../model/template.paths";
-import {createLogger} from "ch-structured-logging";
-import {APPLICATION_NAME} from "../../../config/config";
-import {deliveryDetailsValidationRules, validate} from "../../../utils/delivery-details-validation";
-import {setServiceUrl} from "../../../utils/service.url.utils";
-import {Session} from "@companieshouse/node-session-handler/lib/session/model/Session";
+import { Basket, BasketPatchRequest } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
+import { getAccessToken, getUserId } from "../../../session/helper";
+import { getCertificateItem, patchCertificateItem, getBasket, patchBasket } from "../../../client/api.client";
+import { DELIVERY_DETAILS } from "../../../model/template.paths";
+import { createLogger } from "ch-structured-logging";
+import { APPLICATION_NAME } from "../../../config/config";
+import { deliveryDetailsValidationRules, validate } from "../../../utils/delivery-details-validation";
+import { setServiceUrl } from "../../../utils/service.url.utils";
+import { Session } from "@companieshouse/node-session-handler/lib/session/model/Session";
 import CertificateSessionData from "../../../session/CertificateSessionData";
-import {DeliveryDetailsPropertyName} from "../model/DeliveryDetailsPropertyName";
+import { DeliveryDetailsPropertyName } from "../model/DeliveryDetailsPropertyName";
 
 const PAGE_TITLE: string = "Delivery details - Order a certificate - GOV.UK";
 

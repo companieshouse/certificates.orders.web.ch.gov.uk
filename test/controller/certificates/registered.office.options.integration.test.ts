@@ -93,8 +93,8 @@ describe("registered.office.options.integration.test", () => {
             const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect($('h1').text().trim()).to.equal("What registered office address information do you need?");
-            chai.expect($('title').text().trim()).to.equal("Registered office options - Order a certificate - GOV.UK");
+            chai.expect($("h1").text().trim()).to.equal("What registered office address information do you need?");
+            chai.expect($("title").text().trim()).to.equal("Registered office options - Order a certificate - GOV.UK");
         });
 
         it("renders the full registered office options page if full layout requested", async () => {
@@ -108,9 +108,9 @@ describe("registered.office.options.integration.test", () => {
             const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect($('h1').text().trim()).to.equal("Choose from the full list of registered office addresses");
-            chai.expect($('title').text().trim()).to.equal("Full list of registered office options - Order a certificate - GOV.UK");
-        })
+            chai.expect($("h1").text().trim()).to.equal("Choose from the full list of registered office addresses");
+            chai.expect($("title").text().trim()).to.equal("Full list of registered office options - Order a certificate - GOV.UK");
+        });
 
         it("renders the registered office options page with current address selected", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
@@ -123,9 +123,9 @@ describe("registered.office.options.integration.test", () => {
             const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect($('h1').text().trim()).to.equal("What registered office address information do you need?");
-            chai.expect($('title').text().trim()).to.equal("Registered office options - Order a certificate - GOV.UK");
-            chai.expect($('#registered-office').attr('checked')).to.equal('checked');
+            chai.expect($("h1").text().trim()).to.equal("What registered office address information do you need?");
+            chai.expect($("title").text().trim()).to.equal("Registered office options - Order a certificate - GOV.UK");
+            chai.expect($("#registered-office").attr("checked")).to.equal("checked");
         });
 
         it("renders the registered office options page with current address selected if option on full page selected", async () => {
@@ -139,9 +139,9 @@ describe("registered.office.options.integration.test", () => {
             const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect($('h1').text().trim()).to.equal("What registered office address information do you need?");
-            chai.expect($('title').text().trim()).to.equal("Registered office options - Order a certificate - GOV.UK");
-            chai.expect($('#registered-office').attr('checked')).to.equal('checked');
+            chai.expect($("h1").text().trim()).to.equal("What registered office address information do you need?");
+            chai.expect($("title").text().trim()).to.equal("Registered office options - Order a certificate - GOV.UK");
+            chai.expect($("#registered-office").attr("checked")).to.equal("checked");
         });
 
         it("renders the registered office options page with current address and one previous selected", async () => {
@@ -155,9 +155,9 @@ describe("registered.office.options.integration.test", () => {
             const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect($('h1').text().trim()).to.equal("What registered office address information do you need?");
-            chai.expect($('title').text().trim()).to.equal("Registered office options - Order a certificate - GOV.UK");
-            chai.expect($('#registered-office-2').attr('checked')).to.equal('checked');
+            chai.expect($("h1").text().trim()).to.equal("What registered office address information do you need?");
+            chai.expect($("title").text().trim()).to.equal("Registered office options - Order a certificate - GOV.UK");
+            chai.expect($("#registered-office-2").attr("checked")).to.equal("checked");
         });
 
         it("renders the full registered office options page with current address selected", async () => {
@@ -171,9 +171,9 @@ describe("registered.office.options.integration.test", () => {
             const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect($('h1').text().trim()).to.equal("Choose from the full list of registered office addresses");
-            chai.expect($('title').text().trim()).to.equal("Full list of registered office options - Order a certificate - GOV.UK");
-            chai.expect($('#registered-office').attr('checked')).to.equal('checked');
+            chai.expect($("h1").text().trim()).to.equal("Choose from the full list of registered office addresses");
+            chai.expect($("title").text().trim()).to.equal("Full list of registered office options - Order a certificate - GOV.UK");
+            chai.expect($("#registered-office").attr("checked")).to.equal("checked");
         });
 
         it("renders the full registered office options page with current address and one previous selected", async () => {
@@ -187,9 +187,9 @@ describe("registered.office.options.integration.test", () => {
             const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect($('h1').text().trim()).to.equal("Choose from the full list of registered office addresses");
-            chai.expect($('title').text().trim()).to.equal("Full list of registered office options - Order a certificate - GOV.UK");
-            chai.expect($('#registered-office-2').attr('checked')).to.equal('checked');
+            chai.expect($("h1").text().trim()).to.equal("Choose from the full list of registered office addresses");
+            chai.expect($("title").text().trim()).to.equal("Full list of registered office options - Order a certificate - GOV.UK");
+            chai.expect($("#registered-office-2").attr("checked")).to.equal("checked");
         });
 
         it("renders the full registered office options page with current address and two previous selected", async () => {
@@ -203,9 +203,9 @@ describe("registered.office.options.integration.test", () => {
             const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect($('h1').text().trim()).to.equal("Choose from the full list of registered office addresses");
-            chai.expect($('title').text().trim()).to.equal("Full list of registered office options - Order a certificate - GOV.UK");
-            chai.expect($('#registered-office-3').attr('checked')).to.equal('checked');
+            chai.expect($("h1").text().trim()).to.equal("Choose from the full list of registered office addresses");
+            chai.expect($("title").text().trim()).to.equal("Full list of registered office options - Order a certificate - GOV.UK");
+            chai.expect($("#registered-office-3").attr("checked")).to.equal("checked");
         });
 
         it("renders the full registered office options page with all selected", async () => {
@@ -219,9 +219,9 @@ describe("registered.office.options.integration.test", () => {
             const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect($('h1').text().trim()).to.equal("Choose from the full list of registered office addresses");
-            chai.expect($('title').text().trim()).to.equal("Full list of registered office options - Order a certificate - GOV.UK");
-            chai.expect($('#registered-office-4').attr('checked')).to.equal('checked');
+            chai.expect($("h1").text().trim()).to.equal("Choose from the full list of registered office addresses");
+            chai.expect($("title").text().trim()).to.equal("Full list of registered office options - Order a certificate - GOV.UK");
+            chai.expect($("#registered-office-4").attr("checked")).to.equal("checked");
         });
     });
 

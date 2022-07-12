@@ -1,11 +1,10 @@
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
 import Resource from "@companieshouse/api-sdk-node/dist/services/resource";
 
-export const dummyCompanyProfileByTypeAndStatus = (companyDetails: {companyType: string, companyStatus: string} = 
-    {companyType: "ltd", companyStatus: "active"}): CompanyProfile => {
-    
-        return {    
-    companyName: "company name",
+export const dummyCompanyProfileByTypeAndStatus = (companyDetails: {companyType: string, companyStatus: string} =
+{ companyType: "ltd", companyStatus: "active" }): CompanyProfile => {
+    return {
+        companyName: "company name",
         companyNumber: "00000000",
         companyStatus: companyDetails.companyStatus,
         companyStatusDetail: "company status detail",
@@ -43,7 +42,7 @@ export const dummyCompanyProfileByTypeAndStatus = (companyDetails: {companyType:
         links: {
             filingHistory: "/company/00000000/filing-history"
         }
-    }
+    };
 };
 
 export const dummyCompanyProfileDissolvedCompany: CompanyProfile = {

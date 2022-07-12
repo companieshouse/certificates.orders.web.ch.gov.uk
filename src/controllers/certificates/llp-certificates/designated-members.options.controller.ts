@@ -7,7 +7,7 @@ import { createLogger } from "ch-structured-logging";
 import { APPLICATION_NAME } from "../../../config/config";
 import { Session } from "@companieshouse/node-session-handler/lib/session/model/Session";
 import CertificateSessionData from "../../../session/CertificateSessionData";
-import {DesignatedMemberOptionName} from "./DesignatedMemberOptionName";
+import { DesignatedMemberOptionName } from "./DesignatedMemberOptionName";
 import { replaceCompanyNumber, LLP_ROOT_CERTIFICATE } from "../../../model/page.urls";
 
 const logger = createLogger(APPLICATION_NAME);
@@ -18,7 +18,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
     const accessToken: string = getAccessToken(req.session);
     const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
     const itemOptions: ItemOptions = certificateItem.itemOptions;
-    const SERVICE_URL = replaceCompanyNumber(LLP_ROOT_CERTIFICATE, certificateItem.companyNumber)
+    const SERVICE_URL = replaceCompanyNumber(LLP_ROOT_CERTIFICATE, certificateItem.companyNumber);
     logger.info(`Certificate item retrieved, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
     return res.render(LLP_CERTIFICATE_DESIGNATED_MEMBERS_OPTIONS, {
         designatedMemberDetails: itemOptions.designatedMemberDetails,

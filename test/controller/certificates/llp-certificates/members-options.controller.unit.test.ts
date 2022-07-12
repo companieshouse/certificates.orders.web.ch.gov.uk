@@ -4,9 +4,8 @@ import {
     setBackLink,
     setMembersOption
 } from "../../../../src/controllers/certificates/llp-certificates/members.options.controller";
-import {dataEmpty, fullPageFalse, fullPageTrue} from "../../../__mocks__/session.mocks";
-import {MembersOptionName} from "../../../../src/controllers/certificates/llp-certificates/MembersOptionName";
-
+import { dataEmpty, fullPageFalse, fullPageTrue } from "../../../__mocks__/session.mocks";
+import { MembersOptionName } from "../../../../src/controllers/certificates/llp-certificates/MembersOptionName";
 
 describe("members.options.controller.unit", () => {
     describe("setBackUrl for no registered address option selected", () => {
@@ -70,8 +69,8 @@ describe("members.options.controller.unit", () => {
             } as CertificateItem;
 
             chai.expect(setBackLink(certificateItem)).to.equal("designated-members-options");
-        })
-    })
+        });
+    });
 
     describe("It should set correspondence address, date of birth type and appointment date to true when selected and everything else to false", () => {
         it("When correspondence address, date of birth type and appointment date have been selected, they should be set to true with everything else set to false", () => {

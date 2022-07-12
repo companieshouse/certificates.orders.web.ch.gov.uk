@@ -7,4 +7,4 @@ export const enum DeliveryDetailsPropertyName {
     ADDRESS_COUNTY = "addressCounty",
     ADDRESS_POSTCODE = "addressPostcode",
     ADDRESS_COUNTRY = "addressCountry"
-}
+};

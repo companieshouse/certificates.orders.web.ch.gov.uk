@@ -55,7 +55,7 @@ router.post(LLP_CERTIFICATE_DELIVERY_DETAILS, deliveryDetailsController);
 router.get(LLP_CERTIFICATE_DELIVERY_OPTIONS, renderDeliveryOptions);
 router.post(LLP_CERTIFICATE_DELIVERY_OPTIONS, deliveryOptionsController);
 router.get(LLP_CERTIFICATE_DELIVERY_EMAIL_OPTIONS, renderEmailOptions);
-router.post(LLP_CERTIFICATE_DELIVERY_EMAIL_OPTIONS, emailOptionsController)
+router.post(LLP_CERTIFICATE_DELIVERY_EMAIL_OPTIONS, emailOptionsController);
 const checkDetailsController = new CheckDetailsController(new LLPCheckDetailsFactory(new CertificateTextMapper(DISPATCH_DAYS)));
 router.get(LLP_CERTIFICATE_CHECK_DETAILS, checkDetailsController.handleGet.bind(checkDetailsController));
 router.post(LLP_CERTIFICATE_CHECK_DETAILS, checkDetailsController.handlePost.bind(checkDetailsController));

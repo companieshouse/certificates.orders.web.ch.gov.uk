@@ -227,7 +227,7 @@ describe("certificate.delivery.details.controller", () => {
             const basketDetails = {} as Basket;
             const certificateItem = {
                 itemOptions: {
-                    deliveryTimescale: "standard",
+                    deliveryTimescale: "standard"
                 }
             } as CertificateItem;
 
@@ -249,7 +249,7 @@ describe("certificate.delivery.details.controller", () => {
             const basketDetails = {} as Basket;
             const certificateItem = {
                 itemOptions: {
-                    deliveryTimescale: "same-day",
+                    deliveryTimescale: "same-day"
                 }
             } as CertificateItem;
 

@@ -2,7 +2,7 @@ import { NextFunction, Request, RequestHandler, Response } from "express";
 import { SessionKey } from "@companieshouse/node-session-handler/lib/session/keys/SessionKey";
 import { SignInInfoKeys } from "@companieshouse/node-session-handler/lib/session/keys/SignInInfoKeys";
 
-import {getCertificateItem} from "../../client/api.client";
+import { getCertificateItem } from "../../client/api.client";
 import {
     CERTIFICATE_OPTIONS,
     replaceCertificateId,
@@ -12,7 +12,7 @@ import {
 import { getAccessToken } from "../../session/helper";
 import { createLogger } from "ch-structured-logging";
 
-import {APPLICATION_NAME} from "../../config/config";
+import { APPLICATION_NAME } from "../../config/config";
 import { getWhitelistedReturnToURL } from "../../utils/request.util";
 
 const logger = createLogger(APPLICATION_NAME);

@@ -103,7 +103,7 @@ describe("certificate.home.controller.integration", () => {
 
     it("renders the start page for active llp company to order a certificate", async () => {
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
-            .returns(Promise.resolve(getMockCompanyProfile({companyType: "llp", companyStatus: "active"})));
+            .returns(Promise.resolve(getMockCompanyProfile({ companyType: "llp", companyStatus: "active" })));
 
         const resp = await chai.request(testApp)
             .get(replaceCompanyNumber(ROOT_CERTIFICATE, mockCompanyProfileConfiguration.companyNumber));
@@ -121,7 +121,7 @@ describe("certificate.home.controller.integration", () => {
     it("renders the start page for limited company in liquidation to order a certificate if feature flag enabled", async () => {
         FEATURE_FLAGS.liquidatedCompanyCertificateEnabled = true;
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
-            .returns(Promise.resolve(getMockCompanyProfile({companyType: "ltd", companyStatus: "liquidation"})));
+            .returns(Promise.resolve(getMockCompanyProfile({ companyType: "ltd", companyStatus: "liquidation" })));
 
         const resp = await chai.request(testApp)
             .get(replaceCompanyNumber(ROOT_CERTIFICATE, mockCompanyProfileConfiguration.companyNumber));
@@ -140,7 +140,7 @@ describe("certificate.home.controller.integration", () => {
     it("renders the start page for an llp company in liquidation to order a certificate if feature flag enabled", async () => {
         FEATURE_FLAGS.liquidatedCompanyCertificateEnabled = true;
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
-            .returns(Promise.resolve(getMockCompanyProfile({companyType: "llp", companyStatus: "liquidation"})));
+            .returns(Promise.resolve(getMockCompanyProfile({ companyType: "llp", companyStatus: "liquidation" })));
 
         const resp = await chai.request(testApp)
             .get(replaceCompanyNumber(ROOT_CERTIFICATE, mockCompanyProfileConfiguration.companyNumber));
@@ -158,7 +158,7 @@ describe("certificate.home.controller.integration", () => {
     it("does not render the start page for company in liquidation if feature flag disabled", async () => {
         FEATURE_FLAGS.liquidatedCompanyCertificateEnabled = false;
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
-            .returns(Promise.resolve(getMockCompanyProfile({companyType: "ltd", companyStatus: "liquidation"})));
+            .returns(Promise.resolve(getMockCompanyProfile({ companyType: "ltd", companyStatus: "liquidation" })));
 
         const resp = await chai.request(testApp)
             .get(replaceCompanyNumber(ROOT_CERTIFICATE, mockCompanyProfileConfiguration.companyNumber));
@@ -181,7 +181,7 @@ describe("certificate.home.controller.integration", () => {
     it("renders the start page for limited company in administration to order a certificate if feature flag enabled", async () => {
         FEATURE_FLAGS.administrationCompanyCertificateEnabled = true;
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
-            .returns(Promise.resolve(getMockCompanyProfile({companyType: "ltd", companyStatus: "administration"})));
+            .returns(Promise.resolve(getMockCompanyProfile({ companyType: "ltd", companyStatus: "administration" })));
 
         const resp = await chai.request(testApp)
             .get(replaceCompanyNumber(ROOT_CERTIFICATE, mockCompanyProfileConfiguration.companyNumber));
@@ -200,7 +200,7 @@ describe("certificate.home.controller.integration", () => {
     it("renders the start page for an llp company in administration to order a certificate if feature flag enabled", async () => {
         FEATURE_FLAGS.administrationCompanyCertificateEnabled = true;
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
-            .returns(Promise.resolve(getMockCompanyProfile({companyType: "llp", companyStatus: "administration"})));
+            .returns(Promise.resolve(getMockCompanyProfile({ companyType: "llp", companyStatus: "administration" })));
 
         const resp = await chai.request(testApp)
             .get(replaceCompanyNumber(ROOT_CERTIFICATE, mockCompanyProfileConfiguration.companyNumber));
@@ -218,7 +218,7 @@ describe("certificate.home.controller.integration", () => {
     it("does not render the start page for company in administration if feature flag disabled", async () => {
         FEATURE_FLAGS.administrationCompanyCertificateEnabled = false;
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
-            .returns(Promise.resolve(getMockCompanyProfile({companyType: "ltd", companyStatus: "administration"})));
+            .returns(Promise.resolve(getMockCompanyProfile({ companyType: "ltd", companyStatus: "administration" })));
 
         const resp = await chai.request(testApp)
             .get(replaceCompanyNumber(ROOT_CERTIFICATE, mockCompanyProfileConfiguration.companyNumber));

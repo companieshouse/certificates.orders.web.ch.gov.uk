@@ -3,7 +3,7 @@ import { check, validationResult } from "express-validator";
 import { CertificateItem, CertificateItemPatchRequest } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { getAccessToken, getUserId } from "../../session/helper";
 import { getCertificateItem, patchCertificateItem } from "../../client/api.client";
-import { DELIVERY_DETAILS, DELIVERY_OPTIONS , EMAIL_OPTIONS} from "../../model/template.paths";
+import { DELIVERY_DETAILS, DELIVERY_OPTIONS, EMAIL_OPTIONS } from "../../model/template.paths";
 import { createLogger } from "ch-structured-logging";
 import { APPLICATION_NAME, DISPATCH_DAYS } from "../../config/config";
 import { setServiceUrl } from "../../utils/service.url.utils";
@@ -69,19 +69,19 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
                     }
                 };
             } else {
-                certificateItem  = {
+                certificateItem = {
                     itemOptions: {
-                        deliveryTimescale: deliveryOption,
+                        deliveryTimescale: deliveryOption
                     }
                 };
             }
-            const certificatePatchResponse = await patchCertificateItem( accessToken, req.params.certificateId, certificateItem);
+            const certificatePatchResponse = await patchCertificateItem(accessToken, req.params.certificateId, certificateItem);
             logger.info(`Patched certificate item with delivery option, id=${req.params.certificateId}, user_id=${userId}, company_number=${certificatePatchResponse.companyNumber}`);
             if (certificateItem.itemOptions?.deliveryTimescale === "same-day") {
                 return res.redirect(EMAIL_OPTIONS);
             }
             return res.redirect(DELIVERY_DETAILS);
-        }      
+        }
     } catch (err) {
         logger.error(`${err}`);
         next(err);
@@ -106,4 +106,4 @@ export const setBackLink = (certificateItem: CertificateItem, session: Session |
     return "certificate-options";
 };
 
-export default  [...validators, route];
+export default [...validators, route];

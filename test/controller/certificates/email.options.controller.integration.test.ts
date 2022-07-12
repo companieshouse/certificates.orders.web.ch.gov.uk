@@ -10,9 +10,9 @@ import {
     DISSOLVED_CERTIFICATE_EMAIL_OPTIONS,
     replaceCertificateId
 } from "../../../src/model/page.urls";
-import {setBackLink} from "../../../src/controllers/certificates/email.options.controller";
-import {dataEmpty} from "../../__mocks__/session.mocks";
-import {mockDissolvedCertificateItem} from "../../__mocks__/certificates.mocks";
+import { setBackLink } from "../../../src/controllers/certificates/email.options.controller";
+import { dataEmpty } from "../../__mocks__/session.mocks";
+import { mockDissolvedCertificateItem } from "../../__mocks__/certificates.mocks";
 
 const CERTIFICATE_ID = "CRT-000000-000000";
 const EMAIL_OPTION_NOT_SELECTED = "Select ‘yes’ if you would like an email copy of the certificate";
@@ -57,7 +57,7 @@ describe("email.options.integration.test", () => {
             const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect($('h1').text().trim()).to.equal("Would you like an email copy of the certificate?");
+            chai.expect($("h1").text().trim()).to.equal("Would you like an email copy of the certificate?");
         });
 
         it("renders the email options page for a dissolved company", async () => {
@@ -71,9 +71,8 @@ describe("email.options.integration.test", () => {
             const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect($('h1').text().trim()).to.equal("Would you like an email copy of the certificate?");
+            chai.expect($("h1").text().trim()).to.equal("Would you like an email copy of the certificate?");
         });
-
     });
 
     describe("email options validation", () => {

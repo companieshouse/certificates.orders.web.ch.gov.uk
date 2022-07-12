@@ -4,9 +4,8 @@ import {
     setBackLink,
     setDesignatedMemberOption
 } from "../../../../src/controllers/certificates/llp-certificates/designated-members.options.controller";
-import {dataEmpty, fullPageFalse, fullPageTrue} from "../../../__mocks__/session.mocks";
-import {DesignatedMemberOptionName} from "../../../../src/controllers/certificates/llp-certificates/DesignatedMemberOptionName";
-
+import { dataEmpty, fullPageFalse, fullPageTrue } from "../../../__mocks__/session.mocks";
+import { DesignatedMemberOptionName } from "../../../../src/controllers/certificates/llp-certificates/DesignatedMemberOptionName";
 
 describe("designated-member.options.controller.unit", () => {
     describe("setBackUrl for no registered address option selected", () => {

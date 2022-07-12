@@ -145,7 +145,7 @@ describe("request.util.unit",
             });
 
             it("gets correct return to URL for dissolved certificate delivery options page", () => {
-                const returnToUrl = getWhitelistedReturnToURL(DISSOLVED_CERTIFICATE_DELIVERY_OPTIONS_PAGE)
+                const returnToUrl = getWhitelistedReturnToURL(DISSOLVED_CERTIFICATE_DELIVERY_OPTIONS_PAGE);
                 expect(returnToUrl).to.equal(DISSOLVED_CERTIFICATE_DELIVERY_OPTIONS_PAGE);
             });
 

@@ -9,7 +9,7 @@ import {
     replaceMissingImageDeliveryId
 } from "../../model/page.urls";
 import { createLogger } from "ch-structured-logging";
-import {  APPLICATION_NAME} from "../../config/config";
+import { APPLICATION_NAME } from "../../config/config";
 import { getWhitelistedReturnToURL } from "../../utils/request.util";
 
 const logger = createLogger(APPLICATION_NAME);
@@ -59,5 +59,4 @@ export const authMissingImageDeliveryCheckDetailsMiddleware = async (req: Reques
         logger.error(`Missing Image Delivery authentication middleware: ${err}`);
         next(err);
     }
-
 };
