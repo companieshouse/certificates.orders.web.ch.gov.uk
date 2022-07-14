@@ -2,7 +2,6 @@ import { createApiClient } from "@companieshouse/api-sdk-node";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
 import {
     Basket,
-    BasketItem,
     BasketPatchRequest,
     ItemUriPostRequest
 } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
@@ -12,6 +11,7 @@ import {
     CertificateItemPatchRequest,
     CertificateItemPostRequest
 } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
+import { Item as BasketItem } from "@companieshouse/api-sdk-node/dist/services/order/order/types";
 import { CertifiedCopyItem } from "@companieshouse/api-sdk-node/dist/services/order/certified-copies/types";
 import { API_URL, APPLICATION_NAME } from "../config/config";
 import { createLogger } from "ch-structured-logging";

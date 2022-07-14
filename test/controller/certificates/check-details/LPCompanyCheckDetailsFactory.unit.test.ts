@@ -51,7 +51,7 @@ describe("LPCheckDetailsFactory", () => {
     describe("Create view model", () => {
         it("Maps certificate item and basket details to view model", () => {
             // when
-            const actual = checkDetailsFactory.createViewModel(CERTIFICATE_MODEL, {});
+            const actual = checkDetailsFactory.createViewModel(CERTIFICATE_MODEL, { enrolled: false });
 
             // then
             chai.expect(actual).to.deep.equal(EXPECTED_RESULT);
@@ -60,7 +60,7 @@ describe("LPCheckDetailsFactory", () => {
         it("Maps dissolved certificate item and basket details to view model", () => {
             // when
             const actual = checkDetailsFactory.createViewModel(
-                { ...CERTIFICATE_MODEL, itemOptions: { ...CERTIFICATE_MODEL.itemOptions, certificateType: "dissolution" } }, {});
+                { ...CERTIFICATE_MODEL, itemOptions: { ...CERTIFICATE_MODEL.itemOptions, certificateType: "dissolution" } }, { enrolled: false });
 
             // then
             chai.expect(actual).to.deep.equal({

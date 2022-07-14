@@ -47,7 +47,8 @@ const dummyBasketSDKResponse: Resource<Basket> = {
             postalCode: "CF5 3NB",
             region: "Glamorgan",
             surname: "Smith"
-        }
+        },
+        enrolled: false
     }
 };
 
@@ -153,7 +154,8 @@ const dummyCertificateItemSDKResponse: Resource<CertificateItem> = {
         postageCost: "0",
         postalDelivery: false,
         quantity: 1,
-        totalItemCost: "50"
+        totalItemCost: "50",
+        userId: "user id"
     }
 };
 
@@ -219,8 +221,23 @@ const dummyCertifiedCopyItemSDKResponse: Resource<CertifiedCopyItem> = {
     resource: {
         companyName: "test company",
         companyNumber: "00000000",
-        totalItemCost: "15",
+        customerReference: "reference",
+        description: "description",
+        descriptionIdentifier: "description identifier",
+        descriptionValues: {
+            key: "value"
+        },
+        etag: "etag",
+        id: "CCD-123456-123456",
+        itemCosts: [{
+            itemCost: "10",
+            productType: "type",
+            discountApplied: "0",
+            calculatedCost: "10"
+        }],
         itemOptions: {
+            collectionLocation: "cardiff",
+            contactNumber: "0123456789",
             deliveryMethod: "postal",
             deliveryTimescale: "same-day",
             filingHistoryDocuments: [{
@@ -233,8 +250,18 @@ const dummyCertifiedCopyItemSDKResponse: Resource<CertifiedCopyItem> = {
                 filingHistoryId: "MzAwOTM2MDg5OWFkaXF6a2N4",
                 filingHistoryType: "CH01",
                 filingHistoryCost: "15"
-            }]
-        }
+            }],
+            forename: "forename",
+            surname: "surname"
+        },
+        links: {
+            self: "/path/to/certified-copy"
+        },
+        kind: "item#certified-copy",
+        postalDelivery: true,
+        postageCost: "0",
+        quantity: 1,
+        totalItemCost: "15"
     }
 };
 
@@ -253,6 +280,9 @@ const dummyMissingImageDeliveryItemSDKResponse: Resource<MidItem> = {
         id: "MID00000000000000004",
         itemCosts: [],
         itemOptions: {
+            filingHistoryBarcode: "barcode",
+            filingHistoryCategory: "category",
+            filingHistoryCost: "cost",
             filingHistoryDate: "2010-02-12",
             filingHistoryDescription: "change-person-director-company-with-change-date",
             filingHistoryDescriptionValues: {
