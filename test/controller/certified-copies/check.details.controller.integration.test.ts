@@ -3,7 +3,8 @@ import sinon from "sinon";
 import ioredis from "ioredis";
 import cheerio from "cheerio";
 import sessionHandler from "@companieshouse/node-session-handler";
-import { Basket, BasketItem } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
+import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
+import { Item as BasketItem } from "@companieshouse/api-sdk-node/dist/services/order/order/types";
 import { CertifiedCopyItem } from "@companieshouse/api-sdk-node/dist/services/order/certified-copies/types";
 
 import * as apiClient from "../../../src/client/api.client";
@@ -39,8 +40,23 @@ describe("certified-copy.check.details.controller.integration", () => {
             const certifiedCopyItem = {
                 companyName: "test company",
                 companyNumber: "00000000",
-                totalItemCost: "15",
+                customerReference: "reference",
+                description: "description",
+                descriptionIdentifier: "description identifier",
+                descriptionValues: {
+                    key: "value"
+                },
+                etag: "etag",
+                id: "CCD-123456-123456",
+                itemCosts: [{
+                    itemCost: "10",
+                    productType: "type",
+                    discountApplied: "0",
+                    calculatedCost: "10"
+                }],
                 itemOptions: {
+                    collectionLocation: "cardiff",
+                    contactNumber: "0123456789",
                     deliveryMethod: "postal",
                     deliveryTimescale: "standard",
                     filingHistoryDocuments: [{
@@ -53,8 +69,18 @@ describe("certified-copy.check.details.controller.integration", () => {
                         filingHistoryId: "MzAwOTM2MDg5OWFkaXF6a2N4",
                         filingHistoryType: "CH01",
                         filingHistoryCost: "15"
-                    }]
-                }
+                    }],
+                    forename: "forename",
+                    surname: "surname"
+                },
+                links: {
+                    self: "/path/to/certified-copy"
+                },
+                kind: "item#certified-copy",
+                postalDelivery: true,
+                postageCost: "0",
+                quantity: 1,
+                totalItemCost: "15"
             } as CertifiedCopyItem;
 
             const basketDetails = {

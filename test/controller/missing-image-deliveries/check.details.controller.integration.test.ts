@@ -3,7 +3,7 @@ import sinon from "sinon";
 import ioredis from "ioredis";
 import cheerio from "cheerio";
 import { MidItem } from "@companieshouse/api-sdk-node/dist/services/order/mid/types";
-import { Basket, BasketItem } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
+import { Item as BasketItem } from "@companieshouse/api-sdk-node/dist/services/order/order/types";
 
 import { MISSING_IMAGE_DELIVERY_CHECK_DETAILS, replaceMissingImageDeliveryId } from "../../../src/model/page.urls";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
@@ -42,7 +42,7 @@ describe("mid.check.details.controller.integration", () => {
                 description: "description",
                 descriptionIdentifier: "description identifier",
                 descriptionValues: {
-                    descriptionValues: "description values"
+                    key: "value"
                 },
                 etag: "etag",
                 id: "id",
@@ -56,6 +56,9 @@ describe("mid.check.details.controller.integration", () => {
                 ],
                 totalItemCost: "3",
                 itemOptions: {
+                    filingHistoryBarcode: "barcode",
+                    filingHistoryCategory: "category",
+                    filingHistoryCost: "cost",
                     filingHistoryDate: "2010-02-12",
                     filingHistoryDescription: "change-person-director-company-with-change-date",
                     filingHistoryDescriptionValues: {
