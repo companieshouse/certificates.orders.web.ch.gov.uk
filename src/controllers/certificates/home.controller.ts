@@ -151,7 +151,6 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         if (FEATURE_FLAGS.administrationCompanyCertificateEnabled) {
             acceptableCompanyStatuses.push("administration");
         }
-
         if (allow && acceptableCompanyStatuses.includes(companyStatus)) {
             let landingPage: LandingPage;
 
@@ -167,7 +166,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
                 landingPage = strategy(companyProfile);
             }
 
-            logger.debug(`Rendering ${landingPage}, company_status=${companyStatus}, start_now_url=${landingPage.startNowUrl}, company_number=${companyNumber}, service_url=${landingPage.serviceUrl}, dispatch_days=${DISPATCH_DAYS}, more_tab_url=${moreTabUrl}`);
+            logger.debug(`Rendering ${landingPage.landingPage}, company_status=${companyStatus}, start_now_url=${landingPage.startNowUrl}, company_number=${companyNumber}, service_url=${landingPage.serviceUrl}, dispatch_days=${DISPATCH_DAYS}, more_tab_url=${moreTabUrl}`);
             res.render(landingPage.landingPage, {
                 companyStatus,
                 startNowUrl: landingPage.startNowUrl,
