@@ -58,7 +58,9 @@ describe("LLP certificate.check.details.controller.integration", () => {
                     companyStatus: "active",
                     certificateType: "cert type",
                     forename: "john",
-                    surname: "smith"
+                    surname: "smith",
+                    deliveryTimescale: "standard",
+                    includeEmailCopy: false
                 }
             } as CertificateItem;
 
@@ -76,7 +78,9 @@ describe("LLP certificate.check.details.controller.integration", () => {
             chai.expect(resp.status).to.equal(200);
             chai.expect($(".govuk-heading-xl").text()).to.equal("Check your order details");
             chai.expect($("#orderDetails").text()).to.equal("Order details");
-            chai.expect($(".govuk-summary-list__row:nth-of-type(4)").find(".govuk-summary-list__key").text().trim()).to.equal("Statement of good standing");
+            chai.expect($(".govuk-summary-list__row:nth-of-type(4)").find(".govuk-summary-list__key").text().trim()).to.include("Statement of good standing");
+            chai.expect($(".govuk-summary-list__row:nth-of-type(2)").find(".govuk-summary-list__key").text().trim()).to.include("Email copy required");
+            chai.expect($(".govuk-summary-list__row:nth-of-type(2)").find(".govuk-summary-list__value").text().trim()).to.include("Email only available for express delivery method");
         });
 
         it("renders the check details screen for an LLP in liquidation", async () => {
@@ -91,6 +95,8 @@ describe("LLP certificate.check.details.controller.integration", () => {
                     certificateType: "cert type",
                     forename: "john",
                     surname: "smith",
+                    deliveryTimescale: "standard",
+                    includeEmailCopy: false,
                     liquidatorsDetails: {
                         includeBasicInformation: true
                     }
@@ -113,6 +119,8 @@ describe("LLP certificate.check.details.controller.integration", () => {
             chai.expect($("#orderDetails").text()).to.equal("Order details");
             chai.expect($(".govuk-summary-list__row:nth-of-type(7)").find(".govuk-summary-list__key").text().trim()).to.equal("Liquidators' details");
             chai.expect($(".liquidators").text().trim()).to.equal("Yes");
+            chai.expect($(".govuk-summary-list__row:nth-of-type(2)").find(".govuk-summary-list__key").text().trim()).to.include("Email copy required");
+            chai.expect($(".govuk-summary-list__row:nth-of-type(2)").find(".govuk-summary-list__value").text().trim()).to.include("Email only available for express delivery method");
         });
 
         it("renders the check details screen for an LLP in administration", async () => {
@@ -127,6 +135,8 @@ describe("LLP certificate.check.details.controller.integration", () => {
                     certificateType: "cert type",
                     forename: "john",
                     surname: "smith",
+                    deliveryTimescale: "standard",
+                    includeEmailCopy: false,
                     administratorsDetails: {
                         includeBasicInformation: true
                     }
@@ -149,6 +159,8 @@ describe("LLP certificate.check.details.controller.integration", () => {
             chai.expect($("#orderDetails").text()).to.equal("Order details");
             chai.expect($(".govuk-summary-list__row:nth-of-type(7)").find(".govuk-summary-list__key").text().trim()).to.equal("Administrators' details");
             chai.expect($(".administrators").text().trim()).to.equal("Yes");
+            chai.expect($(".govuk-summary-list__row:nth-of-type(2)").find(".govuk-summary-list__key").text().trim()).to.include("Email copy required");
+            chai.expect($(".govuk-summary-list__row:nth-of-type(2)").find(".govuk-summary-list__value").text().trim()).to.include("Email only available for express delivery method");
         });
     });
 
@@ -310,6 +322,7 @@ describe("LLP certificate.check.details.controller.integration", () => {
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).not.to.contain("Included on certificate");
             chai.expect(resp.text).to.contain("Dissolution with all company name changes");
+            chai.expect(resp.text).to.contain("Email copy required");
         });
     });
 
