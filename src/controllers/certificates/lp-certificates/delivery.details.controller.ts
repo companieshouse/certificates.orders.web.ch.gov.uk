@@ -7,13 +7,11 @@ import {
 import { Basket, BasketPatchRequest } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 import { getAccessToken, getUserId } from "../../../session/helper";
 import { getCertificateItem, patchCertificateItem, getBasket, patchBasket } from "../../../client/api.client";
-import { DELIVERY_DETAILS } from "../../../model/template.paths";
+import { DELIVERY_DETAILS, DELIVERY_OPTIONS, EMAIL_OPTIONS } from "../../../model/template.paths";
 import { createLogger } from "ch-structured-logging";
 import { APPLICATION_NAME } from "../../../config/config";
 import { deliveryDetailsValidationRules, validate } from "../../../utils/delivery-details-validation";
-import { setServiceUrl } from "../../../utils/service.url.utils";
-import { Session } from "@companieshouse/node-session-handler/lib/session/model/Session";
-import CertificateSessionData from "../../../session/CertificateSessionData";
+import { setServiceUrl } from "../../../utils/service.url.utils";import { Session } from "@companieshouse/node-session-handler/lib/session/model/Session";import CertificateSessionData from "../../../session/CertificateSessionData";
 import { DeliveryDetailsPropertyName } from "../model/DeliveryDetailsPropertyName";
 
 const PAGE_TITLE: string = "Delivery details - Order a certificate - GOV.UK";
@@ -41,7 +39,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             templateName: DELIVERY_DETAILS,
             pageTitleText: PAGE_TITLE,
             SERVICE_URL: setServiceUrl(certificateItem),
-            backLink: setBackLink(certificateItem, req.session)
+            backLink: setBackLink(certificateItem)
         });
     } catch (err) {
         logger.error(`${err}`);
@@ -79,7 +77,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
             pageTitle: PAGE_TITLE,
             templateName: (DELIVERY_DETAILS),
             SERVICE_URL: setServiceUrl(certificateItem),
-            backLink: setBackLink(certificateItem, req.session)
+            backLink: setBackLink(certificateItem)
         });
     }
     try {
@@ -88,7 +86,6 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         const certificateItem: CertificateItemPatchRequest = {
             itemOptions: {
                 deliveryMethod: "postal",
-                deliveryTimescale: "standard",
                 forename: firstName,
                 surname: lastName
             }
@@ -117,17 +114,12 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
-export const setBackLink = (certificateItem: CertificateItem, session: Session | undefined): string => {
-    let path: string;
-    if (certificateItem.itemOptions?.certificateType === "dissolution") {
-        path = `/company/${certificateItem.companyNumber}/orderable/dissolved-certificates`;
-    } else if (certificateItem.itemOptions?.principalPlaceOfBusinessDetails?.includeAddressRecordsType) {
-        path = (session?.getExtraData("certificates-orders-web-ch-gov-uk") as CertificateSessionData)?.isFullPage ? "principal-place-of-business-options?layout=full" : "principal-place-of-business-options";
-    } else {
-        path = "certificate-options";
+        export const setBackLink = (certificateItem: CertificateItem):string => {
+            if (certificateItem.itemOptions?.deliveryTimescale === "same-day") {
+                return EMAIL_OPTIONS;
     }
 
-    return path;
+    return DELIVERY_OPTIONS;
 };
 
 export default [...deliveryDetailsValidationRules, route];
