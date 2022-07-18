@@ -30,6 +30,7 @@ export class LPCheckDetailsFactory implements ViewModelCreatable {
             companyNumber: certificateItem.companyNumber,
             certificateType: this.textMapper.mapCertificateType(itemOptions.certificateType),
             deliveryMethod: this.textMapper.mapDeliveryMethod(itemOptions),
+            emailCopyRequired: this.textMapper.mapEmailCopyRequired(itemOptions),
             fee: this.textMapper.prependCurrencySymbol(certificateItem.itemCosts[0].itemCost),
             changeIncludedOn: replaceCertificateId(LP_CERTIFICATE_OPTIONS, certificateItem.id),
             changeDeliveryDetails: changeLink,

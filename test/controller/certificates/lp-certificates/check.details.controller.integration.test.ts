@@ -57,7 +57,9 @@ describe("LP certificate.check.details.controller.integration", () => {
                 itemOptions: {
                     certificateType: "cert type",
                     forename: "john",
-                    surname: "smith"
+                    surname: "smith",
+                    deliveryTimescale: "standard",
+                    includeEmailCopy: false
                 }
             } as CertificateItem;
 
@@ -75,6 +77,8 @@ describe("LP certificate.check.details.controller.integration", () => {
             chai.expect(resp.status).to.equal(200);
             chai.expect($(".govuk-heading-xl").text()).to.equal("Check your order details");
             chai.expect($("#orderDetails").text()).to.equal("Order details");
+            chai.expect($(".govuk-summary-list__row:nth-of-type(2)").find(".govuk-summary-list__key").text().trim()).to.include("Email copy required");
+            chai.expect($(".govuk-summary-list__row:nth-of-type(2)").find(".govuk-summary-list__value").text().trim()).to.include("Email only available for express delivery method");
         });
     });
 
