@@ -7,6 +7,7 @@ import {
     MAPPED_CERTIFICATE_TYPE,
     MAPPED_DELIVERY_DETAILS,
     MAPPED_DELIVERY_METHOD,
+    MAPPED_EMAIL_COPY_REQUIRED,
     MAPPED_FEE, MAPPED_MEMBER_OPTIONS,
     MAPPED_OPTION_VALUE,
     StubDefaultCompanyMappable
@@ -31,6 +32,7 @@ const EXPECTED_RESULT = {
     companyNumber: "12345678",
     certificateType: MAPPED_CERTIFICATE_TYPE,
     deliveryMethod: MAPPED_DELIVERY_METHOD,
+    emailCopyRequired: MAPPED_EMAIL_COPY_REQUIRED,
     fee: MAPPED_FEE,
     changeIncludedOn: "/orderable/lp-certificates/F00DFACE/certificate-options",
     changeDeliveryDetails: "/orderable/lp-certificates/F00DFACE/delivery-details",
