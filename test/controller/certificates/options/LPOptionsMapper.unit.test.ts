@@ -151,7 +151,7 @@ describe("LPOptionMapper", () => {
             const actual = mapper.getRedirect(options, { certificateItem: {} as CertificateItem });
 
             // then
-            chai.expect(actual).to.deep.equal(new OptionsPageRedirect("delivery-details"));
+            chai.expect(actual).to.deep.equal(new OptionsPageRedirect("delivery-options"));
         });
     });
 });
