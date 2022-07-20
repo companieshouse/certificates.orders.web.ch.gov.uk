@@ -6,51 +6,26 @@ import { mockDissolvedCertificateItem } from "../../../__mocks__/certificates.mo
 import { dataEmpty, fullPageFalse, fullPageTrue } from "../../../__mocks__/session.mocks";
 
 describe("lp.delivery.details.controller.unit", () => {
-    describe("setBackUrl for no option selected", () => {
-        it("the back button link should take the user to the certificate options page", () => {
+    describe("setBackUrl for  delivery timescale option selected", () => {
+        it("the back button link should take the user to the delivery options page when standard delivery is selected", () => {
             const certificateItem = {
                 itemOptions: {
                     forename: "john",
-                    surname: "smith"
+                    surname: "smith",
+                    deliveryTimescale: "standard"
                 }
             } as CertificateItem;
-            chai.expect(setBackLink(certificateItem, dataEmpty)).to.equal("certificate-options");
+            chai.expect(setBackLink(certificateItem)).to.equal("delivery-options");
         });
-    });
-
-    describe("setBackUrl for only place of business option selected", () => {
-        it("should link to the abbreviated place of business option page", () => {
+        it("the back button link should take the user to the email options page when express delivery is selected", () => {
             const certificateItem = {
                 itemOptions: {
-                    principalPlaceOfBusinessDetails: {
-                        includeAddressRecordsType: "current"
-                    }
+                    forename: "john",
+                    surname: "smith",
+                    deliveryTimescale: "same-day"
                 }
             } as CertificateItem;
-
-            chai.expect(setBackLink(certificateItem, fullPageFalse)).to.equal("principal-place-of-business-options");
-        });
-    });
-
-    describe("setBackUrl for only place of business option selected via full page", () => {
-        it("should link to the full place of business option page", () => {
-            const certificateItem = {
-                itemOptions: {
-                    principalPlaceOfBusinessDetails: {
-                        includeAddressRecordsType: "all"
-                    }
-                }
-            } as CertificateItem;
-
-            chai.expect(setBackLink(certificateItem, fullPageTrue)).to.equal("principal-place-of-business-options?layout=full");
-        });
-    });
-
-    describe("setBackUrl for dissolved certificate", () => {
-        it("the back button link should take the user to the start page for dissolved certificate", () => {
-            const certificateItem = mockDissolvedCertificateItem as CertificateItem;
-
-            chai.expect(setBackLink(mockDissolvedCertificateItem, dataEmpty)).to.include("/orderable/dissolved-certificates");
+            chai.expect(setBackLink(certificateItem)).to.equal("email-options");
         });
     });
 });

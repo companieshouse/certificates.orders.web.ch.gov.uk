@@ -403,6 +403,31 @@ describe("delivery.options.integration.test", () => {
             chai.expect(resp.status).to.equal(200);
             chai.expect($(".govuk-back-link").attr("href")).to.include("members-options");
         });
+    
+        it("back button takes the user to the place of business options page if they selected only the place of business option", async () => {
+            const basketDetails = {} as Basket;
+            const certificateItem = {
+                itemOptions: {
+                    principalPlaceOfBusinessDetails: {
+                        includeAddressRecordsType: "current"
+                    }
+                }
+            } as CertificateItem;
+    
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItem));
+            getBasketStub = sandbox.stub(apiClient, "getBasket").returns(Promise.resolve(basketDetails));
+    
+            const resp = await chai.request(testApp)
+                .get(DELIVERY_OPTIONS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+    
+            const $ = cheerio.load(resp.text);
+    
+            chai.expect(resp.status).to.equal(200);
+            chai.expect($(".govuk-back-link").attr("href")).to.include("principal-place-of-business-options");
+        });
+        
     });
 
     describe("delivery option checked", () => {
@@ -424,4 +449,4 @@ describe("delivery.options.integration.test", () => {
             chai.expect(resp.text).to.include(`<input class="govuk-radios__input" id="deliveryOptions" name="deliveryOptions" type="radio" value="same-day" checked aria-describedby="deliveryOptions-item-hint" data-event-id="express-delivery">`);
         });
     });
-});
+});    

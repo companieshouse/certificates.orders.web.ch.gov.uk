@@ -223,31 +223,11 @@ describe("certificate.delivery.details.controller", () => {
     });
 
     describe("delivery details back button", () => {
-        it("back button takes the user to the certificate options page if they have not selected any options", async () => {
-            const basketDetails = {} as Basket;
-            const certificateItem = {} as CertificateItem;
-
-            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
-                .returns(Promise.resolve(certificateItem));
-            getBasketStub = sandbox.stub(apiClient, "getBasket").returns(Promise.resolve(basketDetails));
-
-            const resp = await chai.request(testApp)
-                .get(DELIVERY_DETAILS_URL)
-                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
-
-            const $ = cheerio.load(resp.text);
-
-            chai.expect(resp.status).to.equal(200);
-            chai.expect($(".govuk-back-link").attr("href")).to.include("certificate-options");
-        });
-
-        it("back button takes the user to the place of business options page if they selected only the place of business option", async () => {
+        it("back button takes the user to the delivery options page if they have selected standard delivery", async () => {
             const basketDetails = {} as Basket;
             const certificateItem = {
                 itemOptions: {
-                    principalPlaceOfBusinessDetails: {
-                        includeAddressRecordsType: "current"
-                    }
+                    deliveryTimescale: "standard"
                 }
             } as CertificateItem;
 
@@ -262,7 +242,29 @@ describe("certificate.delivery.details.controller", () => {
             const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect($(".govuk-back-link").attr("href")).to.include("principal-place-of-business-options");
+            chai.expect($(".govuk-back-link").attr("href")).to.include("delivery-options");
+        });
+
+        it("back button takes the user to the email options page if they have selected same day delivery", async () => {
+            const basketDetails = {} as Basket;
+            const certificateItem = {
+                itemOptions: {
+                    deliveryTimescale: "same-day"
+                }
+            } as CertificateItem;
+
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItem));
+            getBasketStub = sandbox.stub(apiClient, "getBasket").returns(Promise.resolve(basketDetails));
+
+            const resp = await chai.request(testApp)
+                .get(DELIVERY_DETAILS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+            const $ = cheerio.load(resp.text);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect($(".govuk-back-link").attr("href")).to.include("email-options");
         });
     });
 });

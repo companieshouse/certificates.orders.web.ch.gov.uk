@@ -71,7 +71,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         req.session?.setExtraData("certificates-orders-web-ch-gov-uk", {
             isFullPage: isFullPage
         } as CertificateSessionData);
-        return res.redirect("delivery-details");
+        return res.redirect("delivery-options");
     } catch (err) {
         logger.error(`${err}`);
         return next(err);
