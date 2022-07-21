@@ -37,13 +37,18 @@ export class CheckDetailsController {
     public async handlePost (req: Request, res: Response, next: NextFunction) {
         try {
             const accessToken: string = getAccessToken(req.session);
-            await getCertificateItem(accessToken, req.params.certificateId);
             const certificateId: string = req.params.certificateId;
             const userId = getUserId(req.session);
-            const resp = await addItemToBasket(
-                accessToken,
-                { itemUri: `/orderable/certificates/${certificateId}` });
-            this.logger.info(`item added to basket certificate_id=${certificateId}, user_id=${userId}, company_number=${resp.companyNumber}, redirecting to basket`);
+            const basket = await getBasket(accessToken);
+            if (basket.enrolled) {
+                this.logger.debug(`User [${userId}] enrolled; not adding item to basket`);
+            } else {
+                this.logger.debug(`User [${userId}] not enrolled; adding item to basket`);
+                const resp = await addItemToBasket(
+                    accessToken,
+                    { itemUri: `/orderable/certificates/${certificateId}` });
+                this.logger.info(`item added to basket certificate_id=${certificateId}, user_id=${userId}, company_number=${resp.companyNumber}, redirecting to basket`);
+            }
             res.redirect(`${CHS_URL}/basket`);
         } catch (error) {
             this.logger.error(`error=${error}`);

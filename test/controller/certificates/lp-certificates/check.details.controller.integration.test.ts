@@ -212,12 +212,31 @@ describe("LP certificate.check.details.controller.integration", () => {
     });
 
     describe("check details post", () => {
-        it("redirects the user to orders url", async () => {
+        it("adds item to basket and redirects the user to orders url if user disenrolled", async () => {
             const itemUri = { itemUri: ITEM_URI } as BasketItem;
             const certificateItem = {} as CertificateItem;
 
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: false }));
             addItemToBasketStub = sandbox.stub(apiClient, "addItemToBasket")
                 .returns(Promise.resolve(itemUri));
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItem));
+
+            const resp = await chai.request(testApp)
+                .post(CHECK_DETAILS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
+                .redirects(0);
+
+            chai.expect(resp.status).to.equal(302);
+            chai.expect(resp.text).to.contain("/basket");
+        });
+
+        it("redirects the user to orders url if user enrolled", async () => {
+            const certificateItem = {} as CertificateItem;
+
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItem));
 
