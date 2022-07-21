@@ -2,7 +2,11 @@ import chai from "chai";
 
 import { DefaultCompanyCheckDetailsFactory } from "../../../../src/controllers/certificates/check-details/DefaultCompanyCheckDetailsFactory";
 import { CertificateItem, ItemOptions } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
-import { CERTIFICATE_CHECK_DETAILS, CERTIFICATE_CHECK_DETAILS_ALTERNATE } from "../../../../src/model/template.paths";
+import {
+    CERTIFICATE_CHECK_DETAILS,
+    CERTIFICATE_CHECK_DETAILS_ALTERNATE,
+    LLP_CERTIFICATE_CHECK_DETAILS_ALTERNATE
+} from "../../../../src/model/template.paths";
 import {
     MAPPED_ADDRESS_OPTION,
     MAPPED_CERTIFICATE_TYPE,
@@ -68,6 +72,14 @@ describe("DefaultCompanyCheckDetailsFactory", () => {
 
             // then
             chai.expect(actual).to.deep.equal(EXPECTED_RESULT);
+        });
+
+        it("Maps certificate item and basket details to alternate view model if user enrolled", () => {
+            // when
+            const actual = checkDetailsFactory.createViewModel(CERTIFICATE_MODEL, { enrolled: true });
+
+            // then
+            chai.expect(actual).to.deep.equal({ ...EXPECTED_RESULT, templateName: CERTIFICATE_CHECK_DETAILS_ALTERNATE });
         });
 
         it("Maps dissolved certificate item and basket details to view model", () => {

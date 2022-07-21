@@ -62,6 +62,14 @@ describe("LPCheckDetailsFactory", () => {
             chai.expect(actual).to.deep.equal(EXPECTED_RESULT);
         });
 
+        it("Maps certificate item and basket details to alternate view model if user enrolled", () => {
+            // when
+            const actual = checkDetailsFactory.createViewModel(CERTIFICATE_MODEL, { enrolled: true });
+
+            // then
+            chai.expect(actual).to.deep.equal({ ...EXPECTED_RESULT, templateName: LP_CERTIFICATE_CHECK_DETAILS_ALTERNATE });
+        });
+
         it("Maps dissolved certificate item and basket details to view model", () => {
             // when
             const actual = checkDetailsFactory.createViewModel(

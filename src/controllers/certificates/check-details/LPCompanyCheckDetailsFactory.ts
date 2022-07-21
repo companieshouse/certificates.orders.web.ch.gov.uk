@@ -14,6 +14,7 @@ import {
 } from "../../../model/page.urls";
 import { DefaultCertificateMappable } from "./DefaultCertificateMappable";
 import { ViewModelVisitor } from "../ViewModelVisitor";
+import { VisitableViewModel } from "../VisitableViewModel";
 
 export class LPCheckDetailsFactory implements ViewModelCreatable {
     private textMapper: DefaultCertificateMappable;
@@ -30,7 +31,7 @@ export class LPCheckDetailsFactory implements ViewModelCreatable {
         const serviceUrl = (certificateItem.itemOptions?.certificateType !== "dissolution")
             ? replaceCompanyNumber(LP_ROOT_CERTIFICATE, certificateItem.companyNumber)
             : replaceCompanyNumber(ROOT_DISSOLVED_CERTIFICATE, certificateItem.companyNumber);
-        return {
+        const viewModel = {
             companyName: certificateItem.companyName,
             companyNumber: certificateItem.companyNumber,
             certificateType: this.textMapper.mapCertificateType(itemOptions.certificateType),
@@ -49,6 +50,9 @@ export class LPCheckDetailsFactory implements ViewModelCreatable {
             limitedPartners: this.textMapper.isOptionSelected(itemOptions.limitedPartnerDetails?.includeBasicInformation),
             generalNatureOfBusiness: this.textMapper.isOptionSelected(itemOptions.includeGeneralNatureOfBusinessInformation)
         };
+        const decoratedViewModel = new VisitableViewModel(viewModel, basket);
+        decoratedViewModel.accept(this.newViewModelVisitor());
+        return viewModel;
     };
 
     public newViewModelVisitor (): ViewModelVisitor {
