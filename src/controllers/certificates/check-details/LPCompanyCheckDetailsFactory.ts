@@ -1,5 +1,9 @@
 import { ViewModelCreatable } from "../ViewModelCreatable";
-import { LP_CERTIFICATE_CHECK_DETAILS } from "../../../model/template.paths";
+import {
+    LLP_CERTIFICATE_CHECK_DETAILS,
+    LLP_CERTIFICATE_CHECK_DETAILS_ALTERNATE,
+    LP_CERTIFICATE_CHECK_DETAILS, LP_CERTIFICATE_CHECK_DETAILS_ALTERNATE
+} from "../../../model/template.paths";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 import {
@@ -9,6 +13,7 @@ import {
     replaceCertificateId, replaceCompanyNumber, ROOT_DISSOLVED_CERTIFICATE
 } from "../../../model/page.urls";
 import { DefaultCertificateMappable } from "./DefaultCertificateMappable";
+import { ViewModelVisitor } from "../ViewModelVisitor";
 
 export class LPCheckDetailsFactory implements ViewModelCreatable {
     private textMapper: DefaultCertificateMappable;
@@ -17,7 +22,7 @@ export class LPCheckDetailsFactory implements ViewModelCreatable {
         this.textMapper = textMapper;
     }
 
-    public createViewModel (certificateItem: CertificateItem, basket: Basket): { [key: string]: any } {
+    public createViewModel (certificateItem: CertificateItem, basket: Basket): { templateName: string, [key: string]: any } {
         const itemOptions = certificateItem.itemOptions;
         const changeLink = (certificateItem.itemOptions?.certificateType !== "dissolution")
             ? replaceCertificateId(LP_CERTIFICATE_DELIVERY_DETAILS, certificateItem.id)
@@ -46,7 +51,7 @@ export class LPCheckDetailsFactory implements ViewModelCreatable {
         };
     };
 
-    public getTemplate (): string {
-        return LP_CERTIFICATE_CHECK_DETAILS;
+    public newViewModelVisitor (): ViewModelVisitor {
+        return new ViewModelVisitor(LP_CERTIFICATE_CHECK_DETAILS, LP_CERTIFICATE_CHECK_DETAILS_ALTERNATE);
     }
 }

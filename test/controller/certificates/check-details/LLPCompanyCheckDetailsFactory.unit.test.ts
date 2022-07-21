@@ -1,19 +1,24 @@
 import chai from "chai";
 
 import { CertificateItem, ItemOptions } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
-import { LLP_CERTIFICATE_CHECK_DETAILS } from "../../../../src/model/template.paths";
+import {
+    LLP_CERTIFICATE_CHECK_DETAILS,
+    LLP_CERTIFICATE_CHECK_DETAILS_ALTERNATE
+} from "../../../../src/model/template.paths";
 import {
     MAPPED_ADDRESS_OPTION,
     MAPPED_CERTIFICATE_TYPE,
     MAPPED_DELIVERY_DETAILS,
     MAPPED_DELIVERY_METHOD,
     MAPPED_EMAIL_COPY_REQUIRED,
-    MAPPED_FEE, MAPPED_MEMBER_OPTIONS,
+    MAPPED_FEE,
+    MAPPED_MEMBER_OPTIONS,
     MAPPED_OPTION_VALUE,
     StubDefaultCompanyMappable
 } from "./StubDefaultCompanyMappable";
 import { LLPCheckDetailsFactory } from "../../../../src/controllers/certificates/check-details/LLPCheckDetailsFactory";
-import sessionHandler from "@companieshouse/node-session-handler"; // needed for side-effects
+import sessionHandler from "@companieshouse/node-session-handler";
+import { ViewModelVisitor } from "../../../../src/controllers/certificates/ViewModelVisitor"; // needed for side-effects
 
 const CERTIFICATE_MODEL: CertificateItem = {
     id: "F00DFACE",
@@ -69,7 +74,13 @@ describe("LLPCheckDetailsFactory", () => {
         it("Maps dissolved certificate item and basket details to view model", () => {
             // when
             const actual = checkDetailsFactory.createViewModel(
-                { ...CERTIFICATE_MODEL, itemOptions: { ...CERTIFICATE_MODEL.itemOptions, certificateType: "dissolution" } }, { enrolled: false });
+                {
+                    ...CERTIFICATE_MODEL,
+                    itemOptions: {
+                        ...CERTIFICATE_MODEL.itemOptions,
+                        certificateType: "dissolution"
+                    }
+                }, { enrolled: false });
 
             // then
             chai.expect(actual).to.deep.equal({
@@ -129,13 +140,13 @@ describe("LLPCheckDetailsFactory", () => {
         });
     });
 
-    describe("Return template name", () => {
-        it("Returns the name of the template to be rendered", () => {
+    describe("newViewModelVisitor", () => {
+        it("Creates a visitor object used to decorate returned view model", () => {
             // when
-            const actual = checkDetailsFactory.getTemplate();
+            const actual = checkDetailsFactory.newViewModelVisitor();
 
             // then
-            chai.expect(actual).to.equal(LLP_CERTIFICATE_CHECK_DETAILS);
+            chai.expect(actual).to.deep.equal(new ViewModelVisitor(LLP_CERTIFICATE_CHECK_DETAILS, LLP_CERTIFICATE_CHECK_DETAILS_ALTERNATE));
         });
     });
 });

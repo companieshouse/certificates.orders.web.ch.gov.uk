@@ -1,11 +1,14 @@
 import { ViewModelCreatable } from "../ViewModelCreatable";
-import { CERTIFICATE_CHECK_DETAILS } from "../../../model/template.paths";
+import {
+    CERTIFICATE_CHECK_DETAILS, CERTIFICATE_CHECK_DETAILS_ALTERNATE,
+} from "../../../model/template.paths";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 import { CERTIFICATE_OPTIONS, replaceCertificateId } from "../../../model/page.urls";
 import { setServiceUrl } from "../../../utils/service.url.utils";
 import { CompanyStatus } from "../model/CompanyStatus";
 import { DefaultCompanyMappable } from "./DefaultCompanyMappable";
+import { ViewModelVisitor } from "../ViewModelVisitor";
 
 export class DefaultCompanyCheckDetailsFactory implements ViewModelCreatable {
     private textMapper: DefaultCompanyMappable;
@@ -14,7 +17,7 @@ export class DefaultCompanyCheckDetailsFactory implements ViewModelCreatable {
         this.textMapper = textMapper;
     }
 
-    public createViewModel (certificateItem: CertificateItem, basket: Basket): { [key: string]: any } {
+    public createViewModel (certificateItem: CertificateItem, basket: Basket): { templateName: string, [key: string]: any } {
         const itemOptions = certificateItem.itemOptions;
         const changeLink = (itemOptions.certificateType !== "dissolution")
             ? `/orderable/certificates/${certificateItem.id}/delivery-details`
@@ -47,7 +50,7 @@ export class DefaultCompanyCheckDetailsFactory implements ViewModelCreatable {
         };
     }
 
-    public getTemplate (): string {
-        return CERTIFICATE_CHECK_DETAILS;
+    public newViewModelVisitor (): ViewModelVisitor {
+        return new ViewModelVisitor(CERTIFICATE_CHECK_DETAILS, CERTIFICATE_CHECK_DETAILS_ALTERNATE);
     }
 }

@@ -2,7 +2,7 @@ import chai from "chai";
 
 import { DefaultCompanyCheckDetailsFactory } from "../../../../src/controllers/certificates/check-details/DefaultCompanyCheckDetailsFactory";
 import { CertificateItem, ItemOptions } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
-import { CERTIFICATE_CHECK_DETAILS } from "../../../../src/model/template.paths";
+import { CERTIFICATE_CHECK_DETAILS, CERTIFICATE_CHECK_DETAILS_ALTERNATE } from "../../../../src/model/template.paths";
 import {
     MAPPED_ADDRESS_OPTION,
     MAPPED_CERTIFICATE_TYPE,
@@ -15,7 +15,8 @@ import {
     MAPPED_EMAIL_COPY_REQUIRED,
     StubDefaultCompanyMappable
 } from "./StubDefaultCompanyMappable";
-import sessionHandler from "@companieshouse/node-session-handler"; // needed for side-effects
+import sessionHandler from "@companieshouse/node-session-handler";
+import { ViewModelVisitor } from "../../../../src/controllers/certificates/ViewModelVisitor"; // needed for side-effects
 
 const CERTIFICATE_MODEL: CertificateItem = {
     id: "F00DFACE",
@@ -132,13 +133,13 @@ describe("DefaultCompanyCheckDetailsFactory", () => {
         });
     });
 
-    describe("Return template name", () => {
-        it("Returns the name of the template to be rendered", () => {
+    describe("newViewModelVisitor", () => {
+        it("Creates a visitor object used to decorate returned view model", () => {
             // when
-            const actual = checkDetailsFactory.getTemplate();
+            const actual = checkDetailsFactory.newViewModelVisitor();
 
             // then
-            chai.expect(actual).to.equal(CERTIFICATE_CHECK_DETAILS);
+            chai.expect(actual).to.deep.equal(new ViewModelVisitor(CERTIFICATE_CHECK_DETAILS, CERTIFICATE_CHECK_DETAILS_ALTERNATE));
         });
     });
 });
