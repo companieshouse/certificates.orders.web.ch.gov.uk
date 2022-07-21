@@ -8,7 +8,6 @@ import {
     LLP_CERTIFICATE_OPTIONS, LLP_ROOT_CERTIFICATE,
     replaceCertificateId, replaceCompanyNumber, ROOT_DISSOLVED_CERTIFICATE
 } from "../../../model/page.urls";
-import { setServiceUrl } from "../../../utils/service.url.utils";
 import { CompanyStatus } from "../model/CompanyStatus";
 import { LLPCompanyMappable } from "./LLPCompanyMappable";
 import { ViewModelVisitor } from "../ViewModelVisitor";
@@ -41,7 +40,7 @@ export class LLPCheckDetailsFactory implements ViewModelCreatable {
             deliveryDetails: this.textMapper.mapDeliveryDetails(basket.deliveryDetails),
             SERVICE_URL: serviceUrl,
             isNotDissolutionCertificateType: itemOptions.certificateType !== "dissolution",
-            templateName: "",
+            templateName: LLP_CERTIFICATE_CHECK_DETAILS,
             statementOfGoodStanding: this.textMapper.isOptionSelected(itemOptions.includeGoodStandingInformation),
             currentDesignatedMembersNames: this.textMapper.mapMembersOptions("Including designated members':", itemOptions.designatedMemberDetails),
             currentMembersNames: this.textMapper.mapMembersOptions("Including members':", itemOptions.memberDetails),
@@ -51,7 +50,8 @@ export class LLPCheckDetailsFactory implements ViewModelCreatable {
             filterMappings: {
                 statementOfGoodStanding: certificateItem.itemOptions.companyStatus === CompanyStatus.ACTIVE,
                 liquidators: certificateItem.itemOptions.companyStatus === CompanyStatus.LIQUIDATION,
-                administrators: certificateItem.itemOptions.companyStatus === CompanyStatus.ADMINISTRATION
+                administrators: certificateItem.itemOptions.companyStatus === CompanyStatus.ADMINISTRATION,
+                emailCopy: certificateItem.itemOptions.deliveryTimescale === "same-day"
             }
         };
         const decoratedViewModel = new VisitableViewModel(viewModel, basket);

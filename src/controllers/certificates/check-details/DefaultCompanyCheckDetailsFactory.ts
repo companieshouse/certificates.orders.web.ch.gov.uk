@@ -32,7 +32,7 @@ export class DefaultCompanyCheckDetailsFactory implements ViewModelCreatable {
             changeDeliveryDetails: changeLink,
             deliveryDetails: this.textMapper.mapDeliveryDetails(basket.deliveryDetails),
             SERVICE_URL: setServiceUrl(certificateItem),
-            templateName: "",
+            templateName: CERTIFICATE_CHECK_DETAILS,
             isNotDissolutionCertificateType: itemOptions.certificateType !== "dissolution",
             statementOfGoodStanding: this.textMapper.isOptionSelected(itemOptions.includeGoodStandingInformation),
             currentCompanyDirectorsNames: this.textMapper.mapDirectorOptions(itemOptions.directorDetails),
@@ -44,7 +44,8 @@ export class DefaultCompanyCheckDetailsFactory implements ViewModelCreatable {
             filterMappings: {
                 statementOfGoodStanding: certificateItem.itemOptions.companyStatus === CompanyStatus.ACTIVE,
                 liquidators: certificateItem.itemOptions.companyStatus === CompanyStatus.LIQUIDATION,
-                administrators: certificateItem.itemOptions.companyStatus === CompanyStatus.ADMINISTRATION
+                administrators: certificateItem.itemOptions.companyStatus === CompanyStatus.ADMINISTRATION,
+                emailCopy: certificateItem.itemOptions.deliveryTimescale === "same-day"
             }
         };
         const decoratedViewModel = new VisitableViewModel(viewModel, basket);

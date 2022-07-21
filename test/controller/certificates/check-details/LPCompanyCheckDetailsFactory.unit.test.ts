@@ -2,6 +2,7 @@ import chai from "chai";
 
 import { CertificateItem, ItemOptions } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import {
+    CERTIFICATE_CHECK_DETAILS_ALTERNATE,
     LP_CERTIFICATE_CHECK_DETAILS, LP_CERTIFICATE_CHECK_DETAILS_ALTERNATE
 } from "../../../../src/model/template.paths";
 import {
@@ -47,7 +48,10 @@ const EXPECTED_RESULT = {
     principalPlaceOfBusiness: MAPPED_ADDRESS_OPTION,
     generalPartners: MAPPED_OPTION_VALUE,
     limitedPartners: MAPPED_OPTION_VALUE,
-    generalNatureOfBusiness: MAPPED_OPTION_VALUE
+    generalNatureOfBusiness: MAPPED_OPTION_VALUE,
+    filterMappings: {
+        emailCopy: false
+    }
 };
 
 describe("LPCheckDetailsFactory", () => {
@@ -68,6 +72,14 @@ describe("LPCheckDetailsFactory", () => {
 
             // then
             chai.expect(actual).to.deep.equal({ ...EXPECTED_RESULT, templateName: LP_CERTIFICATE_CHECK_DETAILS_ALTERNATE });
+        });
+
+        it("Display email copy in alternate view model if user enrolled and same-day delivery requested", () => {
+            // when
+            const actual = checkDetailsFactory.createViewModel({ ...CERTIFICATE_MODEL, itemOptions: { ...CERTIFICATE_MODEL.itemOptions, deliveryTimescale: "same-day" } }, { enrolled: true });
+
+            // then
+            chai.expect(actual).to.deep.equal({ ...EXPECTED_RESULT, filterMappings: { ...EXPECTED_RESULT.filterMappings, emailCopy: true }, templateName: LP_CERTIFICATE_CHECK_DETAILS_ALTERNATE });
         });
 
         it("Maps dissolved certificate item and basket details to view model", () => {

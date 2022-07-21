@@ -58,7 +58,8 @@ const EXPECTED_RESULT = {
     filterMappings: {
         statementOfGoodStanding: true,
         liquidators: false,
-        administrators: false
+        administrators: false,
+        emailCopy: false
     }
 };
 
@@ -80,6 +81,14 @@ describe("DefaultCompanyCheckDetailsFactory", () => {
 
             // then
             chai.expect(actual).to.deep.equal({ ...EXPECTED_RESULT, templateName: CERTIFICATE_CHECK_DETAILS_ALTERNATE });
+        });
+
+        it("Display email copy in alternate view model if user enrolled and same-day delivery requested", () => {
+            // when
+            const actual = checkDetailsFactory.createViewModel({ ...CERTIFICATE_MODEL, itemOptions: { ...CERTIFICATE_MODEL.itemOptions, deliveryTimescale: "same-day" } }, { enrolled: true });
+
+            // then
+            chai.expect(actual).to.deep.equal({ ...EXPECTED_RESULT, filterMappings: { ...EXPECTED_RESULT.filterMappings, emailCopy: true }, templateName: CERTIFICATE_CHECK_DETAILS_ALTERNATE });
         });
 
         it("Maps dissolved certificate item and basket details to view model", () => {
@@ -115,7 +124,8 @@ describe("DefaultCompanyCheckDetailsFactory", () => {
                 filterMappings: {
                     statementOfGoodStanding: false,
                     liquidators: true,
-                    administrators: false
+                    administrators: false,
+                    emailCopy: false
                 }
             });
         });
@@ -139,7 +149,8 @@ describe("DefaultCompanyCheckDetailsFactory", () => {
                 filterMappings: {
                     statementOfGoodStanding: false,
                     liquidators: false,
-                    administrators: true
+                    administrators: true,
+                    emailCopy: false
                 }
             });
         });

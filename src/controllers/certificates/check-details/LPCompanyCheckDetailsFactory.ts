@@ -1,7 +1,5 @@
 import { ViewModelCreatable } from "../ViewModelCreatable";
 import {
-    LLP_CERTIFICATE_CHECK_DETAILS,
-    LLP_CERTIFICATE_CHECK_DETAILS_ALTERNATE,
     LP_CERTIFICATE_CHECK_DETAILS, LP_CERTIFICATE_CHECK_DETAILS_ALTERNATE
 } from "../../../model/template.paths";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
@@ -48,7 +46,10 @@ export class LPCheckDetailsFactory implements ViewModelCreatable {
             principalPlaceOfBusiness: this.textMapper.mapAddressOption(itemOptions.principalPlaceOfBusinessDetails?.includeAddressRecordsType),
             generalPartners: this.textMapper.isOptionSelected(itemOptions.generalPartnerDetails?.includeBasicInformation),
             limitedPartners: this.textMapper.isOptionSelected(itemOptions.limitedPartnerDetails?.includeBasicInformation),
-            generalNatureOfBusiness: this.textMapper.isOptionSelected(itemOptions.includeGeneralNatureOfBusinessInformation)
+            generalNatureOfBusiness: this.textMapper.isOptionSelected(itemOptions.includeGeneralNatureOfBusinessInformation),
+            filterMappings: {
+                emailCopy: certificateItem.itemOptions.deliveryTimescale === "same-day"
+            }
         };
         const decoratedViewModel = new VisitableViewModel(viewModel, basket);
         decoratedViewModel.accept(this.newViewModelVisitor());
