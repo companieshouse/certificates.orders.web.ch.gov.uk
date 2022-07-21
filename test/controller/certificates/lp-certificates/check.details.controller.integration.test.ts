@@ -86,7 +86,7 @@ describe("LP certificate.check.details.controller.integration", () => {
             chai.expect($(".govuk-summary-list__row:nth-of-type(2)").find(".govuk-summary-list__value").text().trim()).to.include("Email only available for express delivery method");
         });
 
-        it("Renders alternate check details template if user is enrolled", async () => {
+        it("renders the view/change certificate options page", async () => {
             const certificateItem = {
                 companyName: "test company",
                 companyNumber: "00000000",
@@ -121,7 +121,7 @@ describe("LP certificate.check.details.controller.integration", () => {
         });
     });
 
-    it("Renders email copy option in alternate check details template if user enrolled and same-day delivery requested", async () => {
+    it("renders the view/change certificate options page with same-day delivery requested", async () => {
         const certificateItem = {
             companyName: "test company",
             companyNumber: "00000000",
@@ -251,7 +251,7 @@ describe("LP certificate.check.details.controller.integration", () => {
     });
 
     describe("check details post", () => {
-        it("adds item to basket and redirects the user to orders url if user disenrolled", async () => {
+        it("redirects the user to orders url", async () => {
             const itemUri = { itemUri: ITEM_URI } as BasketItem;
             const certificateItem = {} as CertificateItem;
 

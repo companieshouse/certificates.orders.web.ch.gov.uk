@@ -89,7 +89,7 @@ describe("LLP certificate.check.details.controller.integration", () => {
             chai.expect($(".govuk-summary-list__row:nth-of-type(2)").find(".govuk-summary-list__value").text().trim()).to.include("Email only available for express delivery method");
         });
 
-        it("Renders alternate check details template if user is enrolled", async () => {
+        it("renders the view/change certificate options page", async () => {
             const certificateItem = {
                 companyName: "test company",
                 companyNumber: "00000000",
@@ -123,7 +123,7 @@ describe("LLP certificate.check.details.controller.integration", () => {
             chai.expect($(".govuk-summary-list__row:nth-of-type(8)").find(".govuk-summary-list__key").text().trim()).to.include("Delivery method");
         });
 
-        it("Renders email copy option in alternate check details template if user enrolled and same-day delivery requested", async () => {
+        it("renders the view/change certificate options page with same-day delivery requested", async () => {
             const certificateItem = {
                 companyName: "test company",
                 companyNumber: "00000000",
@@ -407,7 +407,7 @@ describe("LLP certificate.check.details.controller.integration", () => {
             const certificateItem = {} as CertificateItem;
 
             getBasketStub = sandbox.stub(apiClient, "getBasket")
-                .returns(Promise.resolve({ enrolled: false }));
+                .returns(Promise.resolve({ enrolled: true }));
             addItemToBasketStub = sandbox.stub(apiClient, "addItemToBasket")
                 .returns(Promise.resolve(itemUri));
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")

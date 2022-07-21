@@ -136,7 +136,7 @@ describe("certificate.check.details.controller.integration", () => {
             chai.expect($(".govuk-summary-list__row:nth-of-type(4)").find(".govuk-summary-list__key").text().trim()).to.include("Statement of good standing");
         });
 
-        it("Renders alternate check details template if user is enrolled", async () => {
+        it("renders the view/change certificate options page", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItem));
             getBasketStub = sandbox.stub(apiClient, "getBasket")
@@ -155,7 +155,7 @@ describe("certificate.check.details.controller.integration", () => {
             chai.expect($(".govuk-summary-list__row:nth-of-type(9)").find(".govuk-summary-list__key").text().trim()).to.include("Delivery method");
         });
 
-        it("Renders email copy option in alternate check details template if user enrolled and same-day delivery requested", async () => {
+        it("renders the view/change certificate options page with same-day delivery requested", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve({ ...certificateItem, itemOptions: { ...certificateItem.itemOptions, deliveryTimescale: "same-day" } }));
             getBasketStub = sandbox.stub(apiClient, "getBasket")
@@ -313,7 +313,7 @@ describe("certificate.check.details.controller.integration", () => {
             const certificateItem = {} as CertificateItem;
 
             getBasketStub = sandbox.stub(apiClient, "getBasket")
-                .returns(Promise.resolve({ enrolled: false }));
+                .returns(Promise.resolve({ enrolled: true }));
             addItemToBasketStub = sandbox.stub(apiClient, "addItemToBasket")
                 .returns(Promise.resolve(itemUri));
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
