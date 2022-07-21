@@ -1,11 +1,7 @@
 import chai from "chai";
 
 import { CertificateItem, ItemOptions } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
-import {
-    CERTIFICATE_CHECK_DETAILS_ALTERNATE,
-    LLP_CERTIFICATE_CHECK_DETAILS,
-    LLP_CERTIFICATE_CHECK_DETAILS_ALTERNATE
-} from "../../../../src/model/template.paths";
+import { LLP_CERTIFICATE_CHECK_DETAILS } from "../../../../src/model/template.paths";
 import {
     MAPPED_ADDRESS_OPTION,
     MAPPED_CERTIFICATE_TYPE,
@@ -18,8 +14,6 @@ import {
     StubDefaultCompanyMappable
 } from "./StubDefaultCompanyMappable";
 import { LLPCheckDetailsFactory } from "../../../../src/controllers/certificates/check-details/LLPCheckDetailsFactory";
-import sessionHandler from "@companieshouse/node-session-handler";
-import { ViewModelVisitor } from "../../../../src/controllers/certificates/ViewModelVisitor"; // needed for side-effects
 
 const CERTIFICATE_MODEL: CertificateItem = {
     id: "F00DFACE",
@@ -62,7 +56,7 @@ const EXPECTED_RESULT = {
 };
 
 describe("LLPCheckDetailsFactory", () => {
-    const checkDetailsFactory = new LLPCheckDetailsFactory(new StubDefaultCompanyMappable());
+    const checkDetailsFactory = new LLPCheckDetailsFactory(new StubDefaultCompanyMappable(), LLP_CERTIFICATE_CHECK_DETAILS);
 
     describe("Create view model", () => {
         it("Maps certificate item and basket details to view model", () => {
@@ -71,22 +65,6 @@ describe("LLPCheckDetailsFactory", () => {
 
             // then
             chai.expect(actual).to.deep.equal(EXPECTED_RESULT);
-        });
-
-        it("Maps certificate item and basket details to alternate view model if user enrolled", () => {
-            // when
-            const actual = checkDetailsFactory.createViewModel(CERTIFICATE_MODEL, { enrolled: true });
-
-            // then
-            chai.expect(actual).to.deep.equal({ ...EXPECTED_RESULT, templateName: LLP_CERTIFICATE_CHECK_DETAILS_ALTERNATE });
-        });
-
-        it("Display email copy in alternate view model if user enrolled and same-day delivery requested", () => {
-            // when
-            const actual = checkDetailsFactory.createViewModel({ ...CERTIFICATE_MODEL, itemOptions: { ...CERTIFICATE_MODEL.itemOptions, deliveryTimescale: "same-day" } }, { enrolled: true });
-
-            // then
-            chai.expect(actual).to.deep.equal({ ...EXPECTED_RESULT, filterMappings: { ...EXPECTED_RESULT.filterMappings, emailCopy: true }, templateName: LLP_CERTIFICATE_CHECK_DETAILS_ALTERNATE });
         });
 
         it("Maps dissolved certificate item and basket details to view model", () => {
@@ -158,15 +136,35 @@ describe("LLPCheckDetailsFactory", () => {
                 }
             });
         });
-    });
 
-    describe("newViewModelVisitor", () => {
-        it("Creates a visitor object used to decorate returned view model", () => {
+        it("Maps certificate item with same-day delivery requested", () => {
             // when
-            const actual = checkDetailsFactory.newViewModelVisitor();
+            const actual = checkDetailsFactory.createViewModel({
+                ...CERTIFICATE_MODEL,
+                itemOptions: {
+                    ...CERTIFICATE_MODEL.itemOptions,
+                    deliveryTimescale: "same-day"
+                }
+            }, { enrolled: true });
 
             // then
-            chai.expect(actual).to.deep.equal(new ViewModelVisitor(LLP_CERTIFICATE_CHECK_DETAILS, LLP_CERTIFICATE_CHECK_DETAILS_ALTERNATE));
+            chai.expect(actual).to.deep.equal({
+                ...EXPECTED_RESULT,
+                filterMappings: {
+                    ...EXPECTED_RESULT.filterMappings,
+                    emailCopy: true
+                }
+            });
+        });
+    });
+
+    describe("getTemplate", () => {
+        it("Returns the template assigned to the factory", () => {
+            // when
+            const actual = checkDetailsFactory.getTemplate();
+
+            // then
+            chai.expect(actual).to.equal(LLP_CERTIFICATE_CHECK_DETAILS);
         });
     });
 });

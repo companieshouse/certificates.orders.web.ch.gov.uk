@@ -6,7 +6,11 @@ import { Item as BasketItem } from "@companieshouse/api-sdk-node/dist/services/o
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 
 import * as apiClient from "../../../../src/client/api.client";
-import { LLP_CERTIFICATE_CHECK_DETAILS, replaceCertificateId } from "../../../../src/model/page.urls";
+import {
+    LLP_CERTIFICATE_CHECK_DETAILS,
+    LLP_CERTIFICATE_VIEW_CHANGE_OPTIONS,
+    replaceCertificateId
+} from "../../../../src/model/page.urls";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../../__mocks__/redis.mocks";
 import { mockBasketDetails, mockDissolvedCertificateItem } from "../../../__mocks__/certificates.mocks";
 import { DobType } from "../../../../src/model/DobType";
@@ -15,6 +19,7 @@ const chai = require("chai");
 const CERTIFICATE_ID = "CHS00000000000000001";
 const ITEM_URI = "/orderable/llp-certificates/CHS00000000000000052";
 const CHECK_DETAILS_URL = replaceCertificateId(LLP_CERTIFICATE_CHECK_DETAILS, CERTIFICATE_ID);
+const VIEW_UPDATE_OPTIONS_URL = replaceCertificateId(LLP_CERTIFICATE_VIEW_CHANGE_OPTIONS, CERTIFICATE_ID);
 
 const basketDetails = {
     deliveryDetails: {
@@ -106,7 +111,7 @@ describe("LLP certificate.check.details.controller.integration", () => {
                 .returns(Promise.resolve({ ...basketDetails, enrolled: true }));
 
             const resp = await chai.request(testApp)
-                .get(CHECK_DETAILS_URL)
+                .get(VIEW_UPDATE_OPTIONS_URL)
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
 
             const $ = cheerio.load(resp.text);
@@ -140,7 +145,7 @@ describe("LLP certificate.check.details.controller.integration", () => {
                 .returns(Promise.resolve({ ...basketDetails, enrolled: true }));
 
             const resp = await chai.request(testApp)
-                .get(CHECK_DETAILS_URL)
+                .get(VIEW_UPDATE_OPTIONS_URL)
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
 
             const $ = cheerio.load(resp.text);
@@ -405,23 +410,6 @@ describe("LLP certificate.check.details.controller.integration", () => {
                 .returns(Promise.resolve({ enrolled: false }));
             addItemToBasketStub = sandbox.stub(apiClient, "addItemToBasket")
                 .returns(Promise.resolve(itemUri));
-            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
-                .returns(Promise.resolve(certificateItem));
-
-            const resp = await chai.request(testApp)
-                .post(CHECK_DETAILS_URL)
-                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
-                .redirects(0);
-
-            chai.expect(resp.status).to.equal(302);
-            chai.expect(resp.text).to.contain("/basket");
-        });
-
-        it("redirects the user to orders url if user enrolled", async () => {
-            const certificateItem = {} as CertificateItem;
-
-            getBasketStub = sandbox.stub(apiClient, "getBasket")
-                .returns(Promise.resolve({ enrolled: true }));
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItem));
 

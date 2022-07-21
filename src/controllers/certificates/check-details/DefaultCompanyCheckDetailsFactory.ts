@@ -1,27 +1,26 @@
 import { ViewModelCreatable } from "../ViewModelCreatable";
-import { CERTIFICATE_CHECK_DETAILS, CERTIFICATE_CHECK_DETAILS_ALTERNATE } from "../../../model/template.paths";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 import { CERTIFICATE_OPTIONS, replaceCertificateId } from "../../../model/page.urls";
 import { setServiceUrl } from "../../../utils/service.url.utils";
 import { CompanyStatus } from "../model/CompanyStatus";
 import { DefaultCompanyMappable } from "./DefaultCompanyMappable";
-import { ViewModelVisitor } from "../ViewModelVisitor";
-import { VisitableViewModel } from "../VisitableViewModel";
 
 export class DefaultCompanyCheckDetailsFactory implements ViewModelCreatable {
     private textMapper: DefaultCompanyMappable;
+    private template: string;
 
-    public constructor (textMapper: DefaultCompanyMappable) {
+    public constructor (textMapper: DefaultCompanyMappable, template: string) {
         this.textMapper = textMapper;
+        this.template = template;
     }
 
-    public createViewModel (certificateItem: CertificateItem, basket: Basket): { templateName: string, [key: string]: any } {
+    public createViewModel (certificateItem: CertificateItem, basket: Basket): { [key: string]: any } {
         const itemOptions = certificateItem.itemOptions;
         const changeLink = (itemOptions.certificateType !== "dissolution")
             ? `/orderable/certificates/${certificateItem.id}/delivery-details`
             : `/orderable/dissolved-certificates/${certificateItem.id}/delivery-details`;
-        const viewModel = {
+        return {
             companyName: certificateItem.companyName,
             companyNumber: certificateItem.companyNumber,
             certificateType: this.textMapper.mapCertificateType(itemOptions.certificateType),
@@ -32,7 +31,7 @@ export class DefaultCompanyCheckDetailsFactory implements ViewModelCreatable {
             changeDeliveryDetails: changeLink,
             deliveryDetails: this.textMapper.mapDeliveryDetails(basket.deliveryDetails),
             SERVICE_URL: setServiceUrl(certificateItem),
-            templateName: CERTIFICATE_CHECK_DETAILS,
+            templateName: this.template,
             isNotDissolutionCertificateType: itemOptions.certificateType !== "dissolution",
             statementOfGoodStanding: this.textMapper.isOptionSelected(itemOptions.includeGoodStandingInformation),
             currentCompanyDirectorsNames: this.textMapper.mapDirectorOptions(itemOptions.directorDetails),
@@ -48,12 +47,9 @@ export class DefaultCompanyCheckDetailsFactory implements ViewModelCreatable {
                 emailCopy: certificateItem.itemOptions.deliveryTimescale === "same-day"
             }
         };
-        const decoratedViewModel = new VisitableViewModel(viewModel, basket);
-        decoratedViewModel.accept(this.newViewModelVisitor());
-        return viewModel;
     }
 
-    public newViewModelVisitor (): ViewModelVisitor {
-        return new ViewModelVisitor(CERTIFICATE_CHECK_DETAILS, CERTIFICATE_CHECK_DETAILS_ALTERNATE);
+    public getTemplate (): string {
+        return this.template;
     }
 }

@@ -15,13 +15,13 @@ export class CheckDetailsController {
         this.viewModelCreatable = viewModelCreatable;
     }
 
-    public async handleGet (req: Request, res: Response, next: NextFunction): Promise<void> {
+    public async handleGet (req: Request, res: Response, next: NextFunction) {
         try {
             const accessToken: string = getAccessToken(req.session);
             const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
             const basket: Basket = await getBasket(accessToken);
             const viewModel = this.viewModelCreatable.createViewModel(certificateItem, basket);
-            return res.render(viewModel.templateName,
+            res.render(this.viewModelCreatable.getTemplate(),
                 {
                     ...viewModel,
                     optionFilter: (options: { id: string }[], filter: { [key: string]: boolean }): { id: string }[] => {
@@ -39,16 +39,10 @@ export class CheckDetailsController {
             const accessToken: string = getAccessToken(req.session);
             const certificateId: string = req.params.certificateId;
             const userId = getUserId(req.session);
-            const basket = await getBasket(accessToken);
-            if (basket.enrolled) {
-                this.logger.debug(`User [${userId}] enrolled; not adding item to basket`);
-            } else {
-                this.logger.debug(`User [${userId}] not enrolled; adding item to basket`);
-                const resp = await addItemToBasket(
-                    accessToken,
-                    { itemUri: `/orderable/certificates/${certificateId}` });
-                this.logger.info(`item added to basket certificate_id=${certificateId}, user_id=${userId}, company_number=${resp.companyNumber}, redirecting to basket`);
-            }
+            const resp = await addItemToBasket(
+                accessToken,
+                { itemUri: `/orderable/certificates/${certificateId}` });
+            this.logger.info(`item added to basket certificate_id=${certificateId}, user_id=${userId}, company_number=${resp.companyNumber}, redirecting to basket`);
             res.redirect(`${CHS_URL}/basket`);
         } catch (error) {
             this.logger.error(`error=${error}`);

@@ -9,7 +9,7 @@ import {
     CERTIFICATE_OPTIONS,
     CERTIFICATE_REGISTERED_OFFICE_OPTIONS,
     CERTIFICATE_SECRETARY_OPTIONS,
-    CERTIFICATE_TYPE,
+    CERTIFICATE_TYPE, CERTIFICATE_VIEW_CHANGE_OPTIONS,
     DISSOLVED_CERTIFICATE_CHECK_DETAILS,
     DISSOLVED_CERTIFICATE_DELIVERY_DETAILS,
     DISSOLVED_CERTIFICATE_DELIVERY_OPTIONS,
@@ -18,6 +18,10 @@ import {
     ROOT_CERTIFICATE,
     ROOT_DISSOLVED_CERTIFICATE
 } from "../../model/page.urls";
+import {
+    CERTIFICATE_CHECK_DETAILS as CERTIFICATE_CHECK_DETAILS_TEMPLATE,
+    CERTIFICATE_CHECK_DETAILS_ALTERNATE as CERTIFICATE_CHECK_DETAILS_ALTERNATE_TEMPLATE
+} from "../../model/template.paths";
 import homeController from "../../controllers/certificates/home.controller";
 import { TypeController } from "../../controllers/certificates/type.controller";
 import deliveryDetailsController, { render as renderDeliveryDetails } from "../../controllers/certificates/delivery.details.controller";
@@ -75,10 +79,13 @@ router.post(CERTIFICATE_EMAIL_OPTIONS, emailOptionsController);
 router.get(DISSOLVED_CERTIFICATE_EMAIL_OPTIONS, renderEmailOptions);
 router.post(DISSOLVED_CERTIFICATE_EMAIL_OPTIONS, emailOptionsController);
 
-const checkDetailsController = new CheckDetailsController(new DefaultCompanyCheckDetailsFactory(new CertificateTextMapper(DISPATCH_DAYS)));
+const checkDetailsController = new CheckDetailsController(new DefaultCompanyCheckDetailsFactory(new CertificateTextMapper(DISPATCH_DAYS), CERTIFICATE_CHECK_DETAILS_TEMPLATE));
 router.get(CERTIFICATE_CHECK_DETAILS, checkDetailsController.handleGet.bind(checkDetailsController));
 router.post(CERTIFICATE_CHECK_DETAILS, checkDetailsController.handlePost.bind(checkDetailsController));
 router.get(DISSOLVED_CERTIFICATE_CHECK_DETAILS, checkDetailsController.handleGet.bind(checkDetailsController));
 router.post(DISSOLVED_CERTIFICATE_CHECK_DETAILS, checkDetailsController.handlePost.bind(checkDetailsController));
+
+const viewChangeCertOptions = new CheckDetailsController(new DefaultCompanyCheckDetailsFactory(new CertificateTextMapper(DISPATCH_DAYS), CERTIFICATE_CHECK_DETAILS_ALTERNATE_TEMPLATE));
+router.get(CERTIFICATE_VIEW_CHANGE_OPTIONS, viewChangeCertOptions.handleGet.bind(viewChangeCertOptions));
 
 export default router;
