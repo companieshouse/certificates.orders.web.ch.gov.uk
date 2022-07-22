@@ -24,7 +24,6 @@ import { LPCheckDetailsFactory } from "../../../controllers/certificates/check-d
 import { CertificateTextMapper } from "../../../controllers/certificates/check-details/CertificateTextMapper";
 import { DISPATCH_DAYS } from "../../../config/config";
 import { OptionsControllerConfiguration } from "../../../controllers/certificates/options/OptionsControllerConfiguration";
-import { DefaultCompanyCheckDetailsFactory } from "../../../controllers/certificates/check-details/DefaultCompanyCheckDetailsFactory";
 import { LP_CERTIFICATE_CHECK_DETAILS as LP_CERTIFICATE_CHECK_DETAILS_TEMPLATE, LP_CERTIFICATE_CHECK_DETAILS_ALTERNATE as LP_CERTIFICATE_CHECK_DETAILS_ALTERNATE_TEMPLATE } from "../../../model/template.paths";
 
 const router: Router = Router();

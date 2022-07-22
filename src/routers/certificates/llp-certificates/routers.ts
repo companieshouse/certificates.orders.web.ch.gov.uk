@@ -1,7 +1,6 @@
 import { Router } from "express";
 
 import {
-    CERTIFICATE_CHECK_DETAILS,
     DISSOLVED_CERTIFICATE_DELIVERY_OPTIONS,
     LLP_CERTIFICATE_CHECK_DETAILS,
     LLP_CERTIFICATE_DELIVERY_DETAILS,
@@ -33,7 +32,6 @@ import {
     LLP_CERTIFICATE_CHECK_DETAILS as LLP_CERTIFICATE_CHECK_DETAILS_TEMPLATE,
     LLP_CERTIFICATE_CHECK_DETAILS_ALTERNATE as LLP_CERTIFICATE_CHECK_DETAILS_ALTERNATE_TEMPLATE
 } from "../../../model/template.paths";
-import { DefaultCompanyCheckDetailsFactory } from "../../../controllers/certificates/check-details/DefaultCompanyCheckDetailsFactory";
 
 const router: Router = Router();
 
