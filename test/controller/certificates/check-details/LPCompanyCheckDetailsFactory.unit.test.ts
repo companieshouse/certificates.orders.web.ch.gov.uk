@@ -46,10 +46,7 @@ const EXPECTED_RESULT = {
     principalPlaceOfBusiness: MAPPED_ADDRESS_OPTION,
     generalPartners: MAPPED_OPTION_VALUE,
     limitedPartners: MAPPED_OPTION_VALUE,
-    generalNatureOfBusiness: MAPPED_OPTION_VALUE,
-    filterMappings: {
-        emailCopy: false
-    }
+    generalNatureOfBusiness: MAPPED_OPTION_VALUE
 };
 
 describe("LPCheckDetailsFactory", () => {
@@ -75,26 +72,6 @@ describe("LPCheckDetailsFactory", () => {
                 isNotDissolutionCertificateType: false,
                 SERVICE_URL: "/company/12345678/orderable/dissolved-certificates",
                 changeDeliveryDetails: "/orderable/dissolved-certificates/F00DFACE/delivery-details"
-            });
-        });
-
-        it("Maps certificate item with same-day delivery requested", () => {
-            // when
-            const actual = checkDetailsFactory.createViewModel({
-                ...CERTIFICATE_MODEL,
-                itemOptions: {
-                    ...CERTIFICATE_MODEL.itemOptions,
-                    deliveryTimescale: "same-day"
-                }
-            }, { enrolled: true });
-
-            // then
-            chai.expect(actual).to.deep.equal({
-                ...EXPECTED_RESULT,
-                filterMappings: {
-                    ...EXPECTED_RESULT.filterMappings,
-                    emailCopy: true
-                }
             });
         });
     });

@@ -7,7 +7,7 @@
 {% block beforeContent %}
   {{ govukBackLink({
     text: "Back",
-    href: "delivery-details"
+    href: "javascript:history.back()"
   }) }}
 {% endblock %}
 
@@ -168,7 +168,6 @@
                   }
                 },
                 {
-                  id: "emailCopy",
                   key: {
                     text: "Email copy required"
                   },

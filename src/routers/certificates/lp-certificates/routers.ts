@@ -53,7 +53,7 @@ const checkDetailsController = new CheckDetailsController(new LPCheckDetailsFact
 router.get(LP_CERTIFICATE_CHECK_DETAILS, checkDetailsController.handleGet.bind(checkDetailsController));
 router.post(LP_CERTIFICATE_CHECK_DETAILS, checkDetailsController.handlePost.bind(checkDetailsController));
 
-const viewChangeCertOptions = new CheckDetailsController(new DefaultCompanyCheckDetailsFactory(new CertificateTextMapper(DISPATCH_DAYS), LP_CERTIFICATE_CHECK_DETAILS_ALTERNATE_TEMPLATE));
+const viewChangeCertOptions = new CheckDetailsController(new LPCheckDetailsFactory(new CertificateTextMapper(DISPATCH_DAYS), LP_CERTIFICATE_CHECK_DETAILS_ALTERNATE_TEMPLATE));
 router.get(LP_CERTIFICATE_VIEW_CHANGE_OPTIONS, viewChangeCertOptions.handleGet.bind(viewChangeCertOptions));
 
 export default router;

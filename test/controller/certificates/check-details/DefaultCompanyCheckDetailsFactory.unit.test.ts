@@ -52,8 +52,7 @@ const EXPECTED_RESULT = {
     filterMappings: {
         statementOfGoodStanding: true,
         liquidators: false,
-        administrators: false,
-        emailCopy: false
+        administrators: false
     }
 };
 
@@ -102,8 +101,7 @@ describe("DefaultCompanyCheckDetailsFactory", () => {
                 filterMappings: {
                     statementOfGoodStanding: false,
                     liquidators: true,
-                    administrators: false,
-                    emailCopy: false
+                    administrators: false
                 }
             });
         });
@@ -127,28 +125,7 @@ describe("DefaultCompanyCheckDetailsFactory", () => {
                 filterMappings: {
                     statementOfGoodStanding: false,
                     liquidators: false,
-                    administrators: true,
-                    emailCopy: false
-                }
-            });
-        });
-
-        it("Maps certificate item with same-day delivery requested", () => {
-            // when
-            const actual = checkDetailsFactory.createViewModel({
-                ...CERTIFICATE_MODEL,
-                itemOptions: {
-                    ...CERTIFICATE_MODEL.itemOptions,
-                    deliveryTimescale: "same-day"
-                }
-            }, { enrolled: true });
-
-            // then
-            chai.expect(actual).to.deep.equal({
-                ...EXPECTED_RESULT,
-                filterMappings: {
-                    ...EXPECTED_RESULT.filterMappings,
-                    emailCopy: true
+                    administrators: true
                 }
             });
         });

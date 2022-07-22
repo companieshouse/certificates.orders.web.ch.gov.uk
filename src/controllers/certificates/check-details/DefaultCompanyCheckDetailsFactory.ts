@@ -43,8 +43,7 @@ export class DefaultCompanyCheckDetailsFactory implements ViewModelCreatable {
             filterMappings: {
                 statementOfGoodStanding: certificateItem.itemOptions.companyStatus === CompanyStatus.ACTIVE,
                 liquidators: certificateItem.itemOptions.companyStatus === CompanyStatus.LIQUIDATION,
-                administrators: certificateItem.itemOptions.companyStatus === CompanyStatus.ADMINISTRATION,
-                emailCopy: certificateItem.itemOptions.deliveryTimescale === "same-day"
+                administrators: certificateItem.itemOptions.companyStatus === CompanyStatus.ADMINISTRATION
             }
         };
     }
