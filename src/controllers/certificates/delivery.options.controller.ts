@@ -101,7 +101,7 @@ export const setBackLink = (certificateItem: CertificateItem, session: Session |
     } else if (certificateItem.itemOptions?.designatedMemberDetails?.includeBasicInformation) {
         return "designated-members-options";
     } else if (certificateItem.itemOptions?.principalPlaceOfBusinessDetails?.includeAddressRecordsType) {
-        return "principal-place-of-business-options";
+        return (session?.getExtraData("certificates-orders-web-ch-gov-uk") as CertificateSessionData)?.isFullPage ? "principal-place-of-business-options?layout=full" : "principal-place-of-business-options";
     } else if (certificateItem.itemOptions?.registeredOfficeAddressDetails?.includeAddressRecordsType) {
         return (session?.getExtraData("certificates-orders-web-ch-gov-uk") as CertificateSessionData)?.isFullPage ? "registered-office-options?layout=full" : "registered-office-options";
     }
