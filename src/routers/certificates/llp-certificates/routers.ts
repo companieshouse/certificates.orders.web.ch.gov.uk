@@ -10,7 +10,7 @@ import {
     LLP_CERTIFICATE_MEMBERS_OPTIONS,
     LLP_CERTIFICATE_OPTIONS,
     LLP_CERTIFICATE_REGISTERED_OFFICE_OPTIONS,
-    LLP_CERTIFICATE_TYPE,
+    LLP_CERTIFICATE_TYPE, LLP_CERTIFICATE_VIEW_CHANGE_OPTIONS,
     LLP_ROOT_CERTIFICATE
 } from "../../../model/page.urls";
 
@@ -28,6 +28,10 @@ import { CertificateTextMapper } from "../../../controllers/certificates/check-d
 import { DISPATCH_DAYS } from "../../../config/config";
 import { LLPCheckDetailsFactory } from "../../../controllers/certificates/check-details/LLPCheckDetailsFactory";
 import { OptionsControllerConfiguration } from "../../../controllers/certificates/options/OptionsControllerConfiguration";
+import {
+    LLP_CERTIFICATE_CHECK_DETAILS as LLP_CERTIFICATE_CHECK_DETAILS_TEMPLATE,
+    LLP_CERTIFICATE_CHECK_DETAILS_ALTERNATE as LLP_CERTIFICATE_CHECK_DETAILS_ALTERNATE_TEMPLATE
+} from "../../../model/template.paths";
 
 const router: Router = Router();
 
@@ -56,8 +60,12 @@ router.get(LLP_CERTIFICATE_DELIVERY_OPTIONS, renderDeliveryOptions);
 router.post(LLP_CERTIFICATE_DELIVERY_OPTIONS, deliveryOptionsController);
 router.get(LLP_CERTIFICATE_DELIVERY_EMAIL_OPTIONS, renderEmailOptions);
 router.post(LLP_CERTIFICATE_DELIVERY_EMAIL_OPTIONS, emailOptionsController);
-const checkDetailsController = new CheckDetailsController(new LLPCheckDetailsFactory(new CertificateTextMapper(DISPATCH_DAYS)));
+
+const checkDetailsController = new CheckDetailsController(new LLPCheckDetailsFactory(new CertificateTextMapper(DISPATCH_DAYS), LLP_CERTIFICATE_CHECK_DETAILS_TEMPLATE));
 router.get(LLP_CERTIFICATE_CHECK_DETAILS, checkDetailsController.handleGet.bind(checkDetailsController));
 router.post(LLP_CERTIFICATE_CHECK_DETAILS, checkDetailsController.handlePost.bind(checkDetailsController));
+
+const viewChangeCertOptions = new CheckDetailsController(new LLPCheckDetailsFactory(new CertificateTextMapper(DISPATCH_DAYS), LLP_CERTIFICATE_CHECK_DETAILS_ALTERNATE_TEMPLATE));
+router.get(LLP_CERTIFICATE_VIEW_CHANGE_OPTIONS, viewChangeCertOptions.handleGet.bind(viewChangeCertOptions));
 
 export default router;

@@ -1,0 +1,321 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  Check your certificate - Order a certificate - GOV.UK
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds-from-desktop">
+
+        <form method="post">
+
+            <h1 id="pageHeading" class="govuk-heading-xl">Check your certificate</h1>
+
+            <h2 id="cert-options-heading" class="govuk-heading-m">Certificate options</h2>
+
+          {% if isNotDissolutionCertificateType %}
+            {{ govukSummaryList({
+              classes: 'govuk-!-margin-bottom-9',
+              rows: optionFilter([
+                {
+                  id: "companyName",
+                  key: {
+                    text: "Company name",
+                    classes: 'govuk-!-width-one-half'
+                  },
+                  value: {
+                    text: companyName
+                  },
+                  actions: {
+                    items: [
+                      {
+                      visuallyHiddenText: "company name"
+                      }
+                    ]
+                  }
+                },
+                {
+                  id: "companyNumber",
+                  key: {
+                    text: "Company number"
+                  },
+                  value: {
+                    text: companyNumber
+                  },
+                  actions: {
+                    items: [
+                      {
+                      visuallyHiddenText: "company number"
+                      }
+                    ]
+                  }
+                },
+                {
+                  id: "certificateType",
+                  key: {
+                    text: "Certificate type"
+                  },
+                  value: {
+                    text: certificateType
+                  },
+                  actions: {
+                    items: [
+                      {
+                      visuallyHiddenText: "certificate type"
+                      }
+                    ]
+                  }
+                },
+                {
+                  id: "statementOfGoodStanding",
+                  key: {
+                    text: "Statement of good standing"
+                  },
+                  value: {
+                    classes: "statementOfGoodStanding",
+                    text: statementOfGoodStanding
+                  },
+                  actions: {
+                    items: [
+                      {
+                      visuallyHiddenText: "statement of good standing"
+                      }
+                    ]
+                  }
+                },
+                {
+                  id: "registeredOfficeAddress",
+                  key: {
+                    text: "Registered office address"
+                  },
+                  value: {
+                    classes: "registeredOfficeAddress",
+                    text: registeredOfficeAddress
+                  },
+                  actions: {
+                    items: [
+                      {
+                      visuallyHiddenText: "Registered office address"
+                      }
+                    ]
+                  }
+                },
+                {
+                  id: "directors",
+                  key: {
+                    text: "The names of all current company directors"
+                  },
+                  value: {
+                    classes: "currentCompanyDirectorsNames",
+                    html: currentCompanyDirectorsNames
+                  },
+                  actions: {
+                    items: [
+                      {
+                      visuallyHiddenText: "current company directors names"
+                      }
+                    ]
+                  }
+                },
+                {
+                  id: "secretaries",
+                  key: {
+                    text: "The names of all current secretaries"
+                  },
+                  value: {
+                    classes: "currentSecretariesNames",
+                    html: currentSecretariesNames
+                  },
+                  actions: {
+                    items: [
+                      {
+                      visuallyHiddenText: "current secretaries names"
+                      }
+                    ]
+                  }
+                },
+                {
+                  id: "companyObjects",
+                  key: {
+                    text: "Company objects"
+                  },
+                  value: {
+                    classes: "companyObjects",
+                    text: companyObjects
+                  },
+                  actions: {
+                    items: [
+                      {
+                      visuallyHiddenText: "company objects"
+                      }
+                    ]
+                  }
+                },
+                {
+                  id: "liquidators",
+                  key: {
+                    text: "Liquidators' details"
+                  },
+                  value: {
+                    classes: "liquidators",
+                    text: liquidatorsDetails
+                  },
+                  actions: {
+                    items: [
+                      {
+                        visuallyHiddenText: "liquidators' details"
+                      }
+                    ]
+                  }
+                },
+                {
+                  id: "administrators",
+                  key: {
+                    text: "Administrators' details"
+                  },
+                  value: {
+                    classes: "administrators",
+                    text: administratorsDetails
+                  },
+                  actions: {
+                    items: [
+                      {
+                        visuallyHiddenText: "administrators' details"
+                      }
+                    ]
+                  }
+                },
+                {
+                  key: {
+                    text: "Delivery method",
+                    classes: 'govuk-!-width-one-half'
+                  },
+                  value: {
+                    text: deliveryMethod
+                  },
+                  actions: {
+                    items: [
+                      {
+                        visuallyHiddenText: "delivery method"
+                      }
+                    ]
+                  }
+                },
+                {
+                  key: {
+                    text: "Email copy required"
+                  },
+                  value: {
+                    html: emailCopyRequired
+                  },
+                  actions: {
+                    items: [
+                      {
+                        visuallyHiddenText: "email copy required"
+                      }
+                    ]
+                  }
+                }
+              ], filterMappings)
+            }) }}
+
+            <p class="govuk-body"> To change your certificate options, you'll need to <a id="restartOrder" class="govuk-link" href="{{ changeIncludedOn }}">start the order again</a>.</p>
+
+          {% else %}
+            {{ govukSummaryList({
+              classes: 'govuk-!-margin-bottom-9',
+              rows: [
+                {
+                  key: {
+                    text: "Company name",
+                    classes: 'govuk-!-width-one-half'
+                  },
+                  value: {
+                    text: companyName
+                  },
+                  actions: {
+                    items: [
+                      {
+                      visuallyHiddenText: "company name"
+                      }
+                    ]
+                  }
+                },
+                {
+                  key: {
+                    text: "Company number"
+                  },
+                  value: {
+                    text: companyNumber
+                  },
+                  actions: {
+                    items: [
+                      {
+                      visuallyHiddenText: "company number"
+                      }
+                    ]
+                  }
+                },
+                {
+                  key: {
+                    text: "Certificate type"
+                  },
+                  value: {
+                    text: certificateType
+                  },
+                  actions: {
+                    items: [
+                      {
+                      visuallyHiddenText: "certificate type"
+                      }
+                    ]
+                  }
+                },
+                {
+                  key: {
+                    text: "Delivery method"
+                  },
+                  value: {
+                    text: deliveryMethod
+                  },
+                  actions: {
+                    items: [
+                      {
+                      visuallyHiddenText: "delivery method"
+                      }
+                    ]
+                  }
+                },
+                {
+                  id: "emailCopy",
+                  key: {
+                    text: "Email copy required"
+                  },
+                  value: {
+                    html: emailCopyRequired
+                  },
+                  actions: {
+                    items: [
+                      {
+                        visuallyHiddenText: "email copy required"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }) }}
+          {% endif %}
+
+      </form>
+
+    </div>
+  </div>
+{% endblock %}

@@ -6,7 +6,11 @@ import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/orde
 import { Item as BasketItem } from "@companieshouse/api-sdk-node/dist/services/order/order/types";
 
 import * as apiClient from "../../../../src/client/api.client";
-import { LP_CERTIFICATE_CHECK_DETAILS, replaceCertificateId } from "../../../../src/model/page.urls";
+import {
+    LP_CERTIFICATE_CHECK_DETAILS,
+    LP_CERTIFICATE_VIEW_CHANGE_OPTIONS,
+    replaceCertificateId
+} from "../../../../src/model/page.urls";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../../__mocks__/redis.mocks";
 import { mockBasketDetails, mockDissolvedCertificateItem } from "../../../__mocks__/certificates.mocks";
 const chai = require("chai");
@@ -14,6 +18,7 @@ const chai = require("chai");
 const CERTIFICATE_ID = "CHS00000000000000001";
 const ITEM_URI = "/orderable/llp-certificates/CHS00000000000000052";
 const CHECK_DETAILS_URL = replaceCertificateId(LP_CERTIFICATE_CHECK_DETAILS, CERTIFICATE_ID);
+const VIEW_UPDATE_OPTIONS_URL = replaceCertificateId(LP_CERTIFICATE_VIEW_CHANGE_OPTIONS, CERTIFICATE_ID);
 
 const basketDetails = {
     deliveryDetails: {
@@ -79,6 +84,41 @@ describe("LP certificate.check.details.controller.integration", () => {
             chai.expect($("#orderDetails").text()).to.equal("Order details");
             chai.expect($(".govuk-summary-list__row:nth-of-type(2)").find(".govuk-summary-list__key").text().trim()).to.include("Email copy required");
             chai.expect($(".govuk-summary-list__row:nth-of-type(2)").find(".govuk-summary-list__value").text().trim()).to.include("Email only available for express delivery method");
+        });
+
+        it("renders the view/change certificate options page", async () => {
+            const certificateItem = {
+                companyName: "test company",
+                companyNumber: "00000000",
+                itemCosts: [{
+                    itemCost: "15"
+                }],
+                itemOptions: {
+                    certificateType: "cert type",
+                    forename: "john",
+                    surname: "smith",
+                    deliveryTimescale: "standard",
+                    includeEmailCopy: false
+                }
+            } as CertificateItem;
+
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItem));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ ...basketDetails, enrolled: true }));
+
+            const resp = await chai.request(testApp)
+                .get(VIEW_UPDATE_OPTIONS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+            const $ = cheerio.load(resp.text);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect($(".govuk-heading-xl").text()).to.equal("Check your certificate");
+            chai.expect($("#cert-options-heading").text()).to.equal("Certificate options");
+            chai.expect($(".govuk-summary-list__row:nth-of-type(4)").find(".govuk-summary-list__key").text().trim()).to.include("Statement of good standing");
+            chai.expect($(".govuk-summary-list__row:nth-of-type(9)").find(".govuk-summary-list__key").text().trim()).to.include("Delivery method");
+            chai.expect($(".govuk-summary-list__row:nth-of-type(10)").find(".govuk-summary-list__key").text().trim()).to.include("Email copy required");
         });
     });
 
@@ -181,6 +221,8 @@ describe("LP certificate.check.details.controller.integration", () => {
             const itemUri = { itemUri: ITEM_URI } as BasketItem;
             const certificateItem = {} as CertificateItem;
 
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: false }));
             addItemToBasketStub = sandbox.stub(apiClient, "addItemToBasket")
                 .returns(Promise.resolve(itemUri));
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")

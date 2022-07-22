@@ -8,7 +8,7 @@ import {
     LP_CERTIFICATE_DELIVERY_OPTIONS,
     LP_CERTIFICATE_OPTIONS,
     LP_CERTIFICATE_PRINCIPAL_PLACE_OPTIONS,
-    LP_CERTIFICATE_TYPE,
+    LP_CERTIFICATE_TYPE, LP_CERTIFICATE_VIEW_CHANGE_OPTIONS,
     LP_ROOT_CERTIFICATE
 } from "../../../model/page.urls";
 
@@ -24,6 +24,7 @@ import { LPCheckDetailsFactory } from "../../../controllers/certificates/check-d
 import { CertificateTextMapper } from "../../../controllers/certificates/check-details/CertificateTextMapper";
 import { DISPATCH_DAYS } from "../../../config/config";
 import { OptionsControllerConfiguration } from "../../../controllers/certificates/options/OptionsControllerConfiguration";
+import { LP_CERTIFICATE_CHECK_DETAILS as LP_CERTIFICATE_CHECK_DETAILS_TEMPLATE, LP_CERTIFICATE_CHECK_DETAILS_ALTERNATE as LP_CERTIFICATE_CHECK_DETAILS_ALTERNATE_TEMPLATE } from "../../../model/template.paths";
 
 const router: Router = Router();
 
@@ -45,9 +46,13 @@ router.post(LP_CERTIFICATE_DELIVERY_DETAILS, deliveryDetailsController);
 router.get(LP_CERTIFICATE_DELIVERY_OPTIONS, renderDeliveryOptions);
 router.post(LP_CERTIFICATE_DELIVERY_OPTIONS, deliveryOptionsController);
 router.get(LP_CERTIFICATE_DELIVERY_EMAIL_OPTIONS, renderEmailOptions);
-router.post(LP_CERTIFICATE_DELIVERY_EMAIL_OPTIONS, emailOptionsController)
-const checkDetailsController = new CheckDetailsController(new LPCheckDetailsFactory(new CertificateTextMapper(DISPATCH_DAYS)));
+router.post(LP_CERTIFICATE_DELIVERY_EMAIL_OPTIONS, emailOptionsController);
+
+const checkDetailsController = new CheckDetailsController(new LPCheckDetailsFactory(new CertificateTextMapper(DISPATCH_DAYS), LP_CERTIFICATE_CHECK_DETAILS_TEMPLATE));
 router.get(LP_CERTIFICATE_CHECK_DETAILS, checkDetailsController.handleGet.bind(checkDetailsController));
 router.post(LP_CERTIFICATE_CHECK_DETAILS, checkDetailsController.handlePost.bind(checkDetailsController));
+
+const viewChangeCertOptions = new CheckDetailsController(new LPCheckDetailsFactory(new CertificateTextMapper(DISPATCH_DAYS), LP_CERTIFICATE_CHECK_DETAILS_ALTERNATE_TEMPLATE));
+router.get(LP_CERTIFICATE_VIEW_CHANGE_OPTIONS, viewChangeCertOptions.handleGet.bind(viewChangeCertOptions));
 
 export default router;

@@ -16,6 +16,7 @@ export const YOU_CANNOT_USE_THIS_SERVICE: string = `${errorRoot}/you-cannot-use-
 export const CERTIFICATE_INDEX: string = `${certRoot}/index`;
 export const CERTIFICATE_OPTIONS: string = `${certRoot}/options`;
 export const CERTIFICATE_CHECK_DETAILS: string = `${certRoot}/check-details`;
+export const CERTIFICATE_CHECK_DETAILS_ALTERNATE: string = `${certRoot}/check-details-alternate`;
 export const CERTIFICATE_ORDER_DETAILS: string = `${certRoot}/order-details`;
 export const CERTIFICATE_REGISTERED_OFFICE_OPTIONS: string = `${certRoot}/registered-office-options`;
 export const CERTIFICATE_DIRECTOR_OPTIONS: string = `${certRoot}/director-options`;
@@ -25,6 +26,7 @@ export const LP_CERTIFICATE_INDEX: string = `${lpCertRoot}/index`;
 export const LP_CERTIFICATE_OPTIONS: string = `${lpCertRoot}/options`;
 export const LP_CERTIFICATE_PRINCIPAL_PLACE_OPTIONS: string = `${lpCertRoot}/principal-place-of-business-options`;
 export const LP_CERTIFICATE_CHECK_DETAILS: string = `${lpCertRoot}/check-details`;
+export const LP_CERTIFICATE_CHECK_DETAILS_ALTERNATE: string = `${lpCertRoot}/check-details-alternate`;
 
 export const LLP_CERTIFICATE_INDEX: string = `${llpCertRoot}/index`;
 export const LLP_CERTIFICATE_OPTIONS: string = `${llpCertRoot}/options`;
@@ -32,6 +34,7 @@ export const LLP_CERTIFICATE_REGISTERED_OFFICE_OPTIONS: string = `${llpCertRoot}
 export const LLP_CERTIFICATE_DESIGNATED_MEMBERS_OPTIONS: string = `${llpCertRoot}/designated-members-options`;
 export const LLP_CERTIFICATE_MEMBERS_OPTIONS: string = `${llpCertRoot}/members-options`;
 export const LLP_CERTIFICATE_CHECK_DETAILS: string = `${llpCertRoot}/check-details`;
+export const LLP_CERTIFICATE_CHECK_DETAILS_ALTERNATE: string = `${llpCertRoot}/check-details-alternate`;
 
 export const CERTIFIED_COPY_INDEX: string = `${certifiedCopyRoot}/index`;
 export const CERTIFIED_COPY_CHECK_DETAILS: string = `${certifiedCopyRoot}/check-details`;

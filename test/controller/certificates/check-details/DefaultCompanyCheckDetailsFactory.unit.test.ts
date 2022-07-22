@@ -9,13 +9,12 @@ import {
     MAPPED_DELIVERY_DETAILS,
     MAPPED_DELIVERY_METHOD,
     MAPPED_DIRECTOR_OPTIONS,
+    MAPPED_EMAIL_COPY_REQUIRED,
     MAPPED_FEE,
     MAPPED_OPTION_VALUE,
     MAPPED_SECRETARY_OPTIONS,
-    MAPPED_EMAIL_COPY_REQUIRED,
     StubDefaultCompanyMappable
 } from "./StubDefaultCompanyMappable";
-import sessionHandler from "@companieshouse/node-session-handler"; // needed for side-effects
 
 const CERTIFICATE_MODEL: CertificateItem = {
     id: "F00DFACE",
@@ -58,7 +57,7 @@ const EXPECTED_RESULT = {
 };
 
 describe("DefaultCompanyCheckDetailsFactory", () => {
-    const checkDetailsFactory = new DefaultCompanyCheckDetailsFactory(new StubDefaultCompanyMappable());
+    const checkDetailsFactory = new DefaultCompanyCheckDetailsFactory(new StubDefaultCompanyMappable(), CERTIFICATE_CHECK_DETAILS);
 
     describe("Create view model", () => {
         it("Maps certificate item and basket details to view model", () => {
@@ -132,8 +131,8 @@ describe("DefaultCompanyCheckDetailsFactory", () => {
         });
     });
 
-    describe("Return template name", () => {
-        it("Returns the name of the template to be rendered", () => {
+    describe("getTemplate", () => {
+        it("Returns the template assigned to the factory", () => {
             // when
             const actual = checkDetailsFactory.getTemplate();
 

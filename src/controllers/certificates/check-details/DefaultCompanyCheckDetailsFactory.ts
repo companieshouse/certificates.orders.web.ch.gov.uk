@@ -1,5 +1,4 @@
 import { ViewModelCreatable } from "../ViewModelCreatable";
-import { CERTIFICATE_CHECK_DETAILS } from "../../../model/template.paths";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 import { CERTIFICATE_OPTIONS, replaceCertificateId } from "../../../model/page.urls";
@@ -9,9 +8,11 @@ import { DefaultCompanyMappable } from "./DefaultCompanyMappable";
 
 export class DefaultCompanyCheckDetailsFactory implements ViewModelCreatable {
     private textMapper: DefaultCompanyMappable;
+    private template: string;
 
-    public constructor (textMapper: DefaultCompanyMappable) {
+    public constructor (textMapper: DefaultCompanyMappable, template: string) {
         this.textMapper = textMapper;
+        this.template = template;
     }
 
     public createViewModel (certificateItem: CertificateItem, basket: Basket): { [key: string]: any } {
@@ -30,8 +31,8 @@ export class DefaultCompanyCheckDetailsFactory implements ViewModelCreatable {
             changeDeliveryDetails: changeLink,
             deliveryDetails: this.textMapper.mapDeliveryDetails(basket.deliveryDetails),
             SERVICE_URL: setServiceUrl(certificateItem),
+            templateName: this.template,
             isNotDissolutionCertificateType: itemOptions.certificateType !== "dissolution",
-            templateName: CERTIFICATE_CHECK_DETAILS,
             statementOfGoodStanding: this.textMapper.isOptionSelected(itemOptions.includeGoodStandingInformation),
             currentCompanyDirectorsNames: this.textMapper.mapDirectorOptions(itemOptions.directorDetails),
             currentSecretariesNames: this.textMapper.mapSecretaryOptions(itemOptions.secretaryDetails),
@@ -48,6 +49,6 @@ export class DefaultCompanyCheckDetailsFactory implements ViewModelCreatable {
     }
 
     public getTemplate (): string {
-        return CERTIFICATE_CHECK_DETAILS;
+        return this.template;
     }
 }

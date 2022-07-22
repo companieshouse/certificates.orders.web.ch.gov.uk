@@ -15,14 +15,15 @@ export class CheckDetailsController {
         this.viewModelCreatable = viewModelCreatable;
     }
 
-    public async handleGet (req: Request, res: Response, next: NextFunction): Promise<void> {
+    public async handleGet (req: Request, res: Response, next: NextFunction) {
         try {
             const accessToken: string = getAccessToken(req.session);
             const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
             const basket: Basket = await getBasket(accessToken);
-            return res.render(this.viewModelCreatable.getTemplate(),
+            const viewModel = this.viewModelCreatable.createViewModel(certificateItem, basket);
+            res.render(this.viewModelCreatable.getTemplate(),
                 {
-                    ...this.viewModelCreatable.createViewModel(certificateItem, basket),
+                    ...viewModel,
                     optionFilter: (options: { id: string }[], filter: { [key: string]: boolean }): { id: string }[] => {
                         return options.filter(option => !(option.id in filter) || filter[option.id]);
                     }
@@ -36,7 +37,6 @@ export class CheckDetailsController {
     public async handlePost (req: Request, res: Response, next: NextFunction) {
         try {
             const accessToken: string = getAccessToken(req.session);
-            await getCertificateItem(accessToken, req.params.certificateId);
             const certificateId: string = req.params.certificateId;
             const userId = getUserId(req.session);
             const resp = await addItemToBasket(

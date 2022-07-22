@@ -17,6 +17,7 @@ export const CERTIFICATE_DELIVERY_DETAILS: string = ROOT_CERTIFICATE_ID + "/deli
 export const CERTIFICATE_DELIVERY_OPTIONS: string = ROOT_CERTIFICATE_ID + "/delivery-options";
 export const CERTIFICATE_EMAIL_OPTIONS: string = ROOT_CERTIFICATE_ID + "/email-options";
 export const CERTIFICATE_CHECK_DETAILS: string = ROOT_CERTIFICATE_ID + "/check-details";
+export const CERTIFICATE_VIEW_CHANGE_OPTIONS: string = ROOT_CERTIFICATE_ID + "/view-change-options";
 export const CERTIFICATE_REGISTERED_OFFICE_OPTIONS: string = ROOT_CERTIFICATE_ID + "/registered-office-options";
 export const CERTIFICATE_DIRECTOR_OPTIONS: string = ROOT_CERTIFICATE_ID + "/director-options";
 export const CERTIFICATE_SECRETARY_OPTIONS: string = ROOT_CERTIFICATE_ID + "/secretary-options";
@@ -31,6 +32,7 @@ export const LP_CERTIFICATE_OPTIONS: string = LP_ROOT_CERTIFICATE_ID + "/certifi
 export const LP_CERTIFICATE_PRINCIPAL_PLACE_OPTIONS: string = LP_ROOT_CERTIFICATE_ID + "/principal-place-of-business-options";
 export const LP_CERTIFICATE_DELIVERY_DETAILS: string = LP_ROOT_CERTIFICATE_ID + "/delivery-details";
 export const LP_CERTIFICATE_CHECK_DETAILS: string = LP_ROOT_CERTIFICATE_ID + "/check-details";
+export const LP_CERTIFICATE_VIEW_CHANGE_OPTIONS: string = LP_ROOT_CERTIFICATE_ID + "/view-change-options";
 export const LP_CERTIFICATE_DELIVERY_OPTIONS: string = LP_ROOT_CERTIFICATE_ID + "/delivery-options";
 export const LP_CERTIFICATE_DELIVERY_EMAIL_OPTIONS: string = LP_ROOT_CERTIFICATE_ID + "/email-options";
 
@@ -43,6 +45,7 @@ export const LLP_CERTIFICATE_DESIGNATED_MEMBERS_OPTIONS: string = LLP_ROOT_CERTI
 export const LLP_CERTIFICATE_MEMBERS_OPTIONS: string = LLP_ROOT_CERTIFICATE_ID + "/members-options";
 export const LLP_CERTIFICATE_DELIVERY_DETAILS: string = LLP_ROOT_CERTIFICATE_ID + "/delivery-details";
 export const LLP_CERTIFICATE_CHECK_DETAILS: string = LLP_ROOT_CERTIFICATE_ID + "/check-details";
+export const LLP_CERTIFICATE_VIEW_CHANGE_OPTIONS: string = LLP_ROOT_CERTIFICATE_ID + "/view-change-options";
 export const LLP_CERTIFICATE_DELIVERY_OPTIONS: string = LLP_ROOT_CERTIFICATE_ID + "/delivery-options";
 export const LLP_CERTIFICATE_DELIVERY_EMAIL_OPTIONS: string = LLP_ROOT_CERTIFICATE_ID + "/email-options";
 

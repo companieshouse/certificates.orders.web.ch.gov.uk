@@ -1,19 +1,21 @@
 import chai from "chai";
 
 import { CertificateItem, ItemOptions } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
-import { LP_CERTIFICATE_CHECK_DETAILS } from "../../../../src/model/template.paths";
+import {
+    LP_CERTIFICATE_CHECK_DETAILS,
+    LP_CERTIFICATE_CHECK_DETAILS_ALTERNATE
+} from "../../../../src/model/template.paths";
 import {
     MAPPED_ADDRESS_OPTION,
     MAPPED_CERTIFICATE_TYPE,
     MAPPED_DELIVERY_DETAILS,
     MAPPED_DELIVERY_METHOD,
     MAPPED_EMAIL_COPY_REQUIRED,
-    MAPPED_FEE, MAPPED_MEMBER_OPTIONS,
+    MAPPED_FEE,
     MAPPED_OPTION_VALUE,
     StubDefaultCompanyMappable
 } from "./StubDefaultCompanyMappable";
 import { LPCheckDetailsFactory } from "../../../../src/controllers/certificates/check-details/LPCompanyCheckDetailsFactory";
-import sessionHandler from "@companieshouse/node-session-handler"; // needed for side-effects
 
 const CERTIFICATE_MODEL: CertificateItem = {
     id: "F00DFACE",
@@ -48,7 +50,7 @@ const EXPECTED_RESULT = {
 };
 
 describe("LPCheckDetailsFactory", () => {
-    const checkDetailsFactory = new LPCheckDetailsFactory(new StubDefaultCompanyMappable());
+    const checkDetailsFactory = new LPCheckDetailsFactory(new StubDefaultCompanyMappable(), LP_CERTIFICATE_CHECK_DETAILS);
 
     describe("Create view model", () => {
         it("Maps certificate item and basket details to view model", () => {
@@ -74,8 +76,8 @@ describe("LPCheckDetailsFactory", () => {
         });
     });
 
-    describe("Return template name", () => {
-        it("Returns the name of the template to be rendered", () => {
+    describe("getTemplate", () => {
+        it("Returns the template assigned to the factory", () => {
             // when
             const actual = checkDetailsFactory.getTemplate();
 

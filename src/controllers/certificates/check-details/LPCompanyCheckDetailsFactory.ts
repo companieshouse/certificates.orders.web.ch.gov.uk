@@ -1,5 +1,4 @@
 import { ViewModelCreatable } from "../ViewModelCreatable";
-import { LP_CERTIFICATE_CHECK_DETAILS } from "../../../model/template.paths";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 import {
@@ -12,9 +11,11 @@ import { DefaultCertificateMappable } from "./DefaultCertificateMappable";
 
 export class LPCheckDetailsFactory implements ViewModelCreatable {
     private textMapper: DefaultCertificateMappable;
+    private template: string;
 
-    public constructor (textMapper: DefaultCertificateMappable) {
+    public constructor (textMapper: DefaultCertificateMappable, template: string) {
         this.textMapper = textMapper;
+        this.template = template;
     }
 
     public createViewModel (certificateItem: CertificateItem, basket: Basket): { [key: string]: any } {
@@ -37,7 +38,7 @@ export class LPCheckDetailsFactory implements ViewModelCreatable {
             deliveryDetails: this.textMapper.mapDeliveryDetails(basket.deliveryDetails),
             SERVICE_URL: serviceUrl,
             isNotDissolutionCertificateType: itemOptions.certificateType !== "dissolution",
-            templateName: LP_CERTIFICATE_CHECK_DETAILS,
+            templateName: this.template,
             statementOfGoodStanding: this.textMapper.isOptionSelected(itemOptions.includeGoodStandingInformation),
             principalPlaceOfBusiness: this.textMapper.mapAddressOption(itemOptions.principalPlaceOfBusinessDetails?.includeAddressRecordsType),
             generalPartners: this.textMapper.isOptionSelected(itemOptions.generalPartnerDetails?.includeBasicInformation),
@@ -47,6 +48,6 @@ export class LPCheckDetailsFactory implements ViewModelCreatable {
     };
 
     public getTemplate (): string {
-        return LP_CERTIFICATE_CHECK_DETAILS;
+        return this.template;
     }
 }

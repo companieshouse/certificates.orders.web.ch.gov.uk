@@ -1,5 +1,4 @@
 import { ViewModelCreatable } from "../ViewModelCreatable";
-import { LLP_CERTIFICATE_CHECK_DETAILS } from "../../../model/template.paths";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 import {
@@ -8,15 +7,16 @@ import {
     LLP_CERTIFICATE_OPTIONS, LLP_ROOT_CERTIFICATE,
     replaceCertificateId, replaceCompanyNumber, ROOT_DISSOLVED_CERTIFICATE
 } from "../../../model/page.urls";
-import { setServiceUrl } from "../../../utils/service.url.utils";
 import { CompanyStatus } from "../model/CompanyStatus";
 import { LLPCompanyMappable } from "./LLPCompanyMappable";
 
 export class LLPCheckDetailsFactory implements ViewModelCreatable {
     private textMapper: LLPCompanyMappable;
+    private template: string;
 
-    public constructor (textMapper: LLPCompanyMappable) {
+    public constructor (textMapper: LLPCompanyMappable, template: string) {
         this.textMapper = textMapper;
+        this.template = template;
     }
 
     public createViewModel (certificateItem: CertificateItem, basket: Basket): { [key: string]: any } {
@@ -39,7 +39,7 @@ export class LLPCheckDetailsFactory implements ViewModelCreatable {
             deliveryDetails: this.textMapper.mapDeliveryDetails(basket.deliveryDetails),
             SERVICE_URL: serviceUrl,
             isNotDissolutionCertificateType: itemOptions.certificateType !== "dissolution",
-            templateName: LLP_CERTIFICATE_CHECK_DETAILS,
+            templateName: this.template,
             statementOfGoodStanding: this.textMapper.isOptionSelected(itemOptions.includeGoodStandingInformation),
             currentDesignatedMembersNames: this.textMapper.mapMembersOptions("Including designated members':", itemOptions.designatedMemberDetails),
             currentMembersNames: this.textMapper.mapMembersOptions("Including members':", itemOptions.memberDetails),
@@ -55,6 +55,6 @@ export class LLPCheckDetailsFactory implements ViewModelCreatable {
     }
 
     public getTemplate (): string {
-        return LLP_CERTIFICATE_CHECK_DETAILS;
+        return this.template;
     }
 }
