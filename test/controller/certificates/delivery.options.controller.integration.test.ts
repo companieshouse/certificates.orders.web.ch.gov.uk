@@ -5,7 +5,7 @@ import cheerio from "cheerio";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import * as apiClient from "../../../src/client/api.client";
-import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
+import { Basket, ItemUriRequest } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 import {
     CERTIFICATE_DELIVERY_OPTIONS,
     replaceCertificateId,
@@ -24,6 +24,7 @@ let testApp = null;
 let getCertificateItemStub;
 let patchCertificateItemStub;
 let getBasketStub;
+let appendItemToBasketStub;
 
 describe("delivery.options.integration.test", () => {
     beforeEach((done) => {
@@ -104,6 +105,9 @@ describe("delivery.options.integration.test", () => {
                 .returns(Promise.resolve(certificateDetails));
             patchCertificateItemStub = sandbox.stub(apiClient, "patchCertificateItem")
                 .returns(Promise.resolve(certificateDetails));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: false }));
+
 
             const resp = await chai.request(testApp)
                 .post(DELIVERY_OPTIONS_URL)
@@ -127,6 +131,8 @@ describe("delivery.options.integration.test", () => {
                 .returns(Promise.resolve(certificateDetails));
             patchCertificateItemStub = sandbox.stub(apiClient, "patchCertificateItem")
                 .returns(Promise.resolve(certificateDetails));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: false }));
 
             const resp = await chai.request(testApp)
                 .post(DELIVERY_OPTIONS_URL)
@@ -138,6 +144,39 @@ describe("delivery.options.integration.test", () => {
 
             chai.expect(resp.status).to.equal(302);
             chai.expect(resp.text).to.include("Found. Redirecting to email-options");
+        });
+
+        it("adds item to basket and redirects user to the basket page if enrolled", async () => {
+            const certificateDetails = {
+                itemOptions: {
+                    deliveryTimescale: "standard"
+                },
+                links: {
+                    self: "/path/to/certificate"
+                },
+                kind: "item#certificate"
+            } as CertificateItem;
+
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateDetails));
+            patchCertificateItemStub = sandbox.stub(apiClient, "patchCertificateItem")
+                .returns(Promise.resolve(certificateDetails));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true, items: [{ kind: "item#certificate" } as any] }));
+            sandbox.mock(apiClient).expects("appendItemToBasket")
+                .once()
+                .returns(Promise.resolve());
+
+            const resp = await chai.request(testApp)
+                .post(DELIVERY_OPTIONS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
+                .redirects(0)
+                .send({
+                    deliveryOptions: "standard"
+                });
+
+            chai.expect(resp.status).to.equal(302);
+            chai.expect(resp.text).to.include("Found. Redirecting to /basket");
         });
     });
 
@@ -403,7 +442,7 @@ describe("delivery.options.integration.test", () => {
             chai.expect(resp.status).to.equal(200);
             chai.expect($(".govuk-back-link").attr("href")).to.include("members-options");
         });
-    
+
         it("back button takes the user to the place of business options page if they selected only the place of business option", async () => {
             const basketDetails = {} as Basket;
             const certificateItem = {
@@ -413,21 +452,21 @@ describe("delivery.options.integration.test", () => {
                     }
                 }
             } as CertificateItem;
-    
+
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItem));
             getBasketStub = sandbox.stub(apiClient, "getBasket").returns(Promise.resolve(basketDetails));
-    
+
             const resp = await chai.request(testApp)
                 .get(DELIVERY_OPTIONS_URL)
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
-    
+
             const $ = cheerio.load(resp.text);
-    
+
             chai.expect(resp.status).to.equal(200);
             chai.expect($(".govuk-back-link").attr("href")).to.include("principal-place-of-business-options");
         });
-        
+
     });
 
     describe("delivery option checked", () => {
@@ -449,4 +488,4 @@ describe("delivery.options.integration.test", () => {
             chai.expect(resp.text).to.include(`<input class="govuk-radios__input" id="deliveryOptions" name="deliveryOptions" type="radio" value="same-day" checked aria-describedby="deliveryOptions-item-hint" data-event-id="express-delivery">`);
         });
     });
-});    
+});

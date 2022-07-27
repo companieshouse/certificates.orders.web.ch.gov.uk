@@ -17,6 +17,8 @@ import { CertifiedCopyItem } from "@companieshouse/api-sdk-node/dist/services/or
 import { Basket, BasketPatchRequest } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 
 import {
+    addItemToBasket,
+    appendItemToBasket,
     getBasket,
     getCertificateItem,
     getCertifiedCopyItem,
@@ -33,6 +35,7 @@ import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/compa
 import { MidService } from "@companieshouse/api-sdk-node/dist/services/order";
 import { MidItem, MidItemPostRequest } from "@companieshouse/api-sdk-node/dist/services/order/mid/types";
 import { failure, success, Success } from "@companieshouse/api-sdk-node/dist/services/result";
+import createError, { NotFound } from "http-errors";
 
 const dummyBasketSDKResponse: Resource<Basket> = {
     httpStatusCode: 200,
@@ -477,6 +480,52 @@ describe("api.client", () => {
                 .returns(Promise.resolve(dummyMissingImageDeliveryItemSDKResponse));
             const missingImageDeliveryItem = await getMissingImageDeliveryItem("oauth", "MID-360615-955167");
             chai.expect(missingImageDeliveryItem).to.equal(dummyMissingImageDeliveryItemSDKResponse.resource);
+        });
+    });
+
+    describe("addItemToBasket", () => {
+        it("Sends a POST request to the addItemToBasket endpoint", async () => {
+            const item: any = {
+                companyNumber: "12345678"
+            };
+            sandbox.stub(BasketService.prototype, "postItemToBasket")
+                .returns(Promise.resolve({
+                    resource: item,
+                    httpStatusCode: 200
+                }));
+            const addItemToBasketResult = await addItemToBasket("oauth", { itemUri: "/path/to/item" });
+            chai.expect(addItemToBasketResult).to.equal(item);
+        });
+
+        it("Throws an error if error returned by service", async () => {
+            sandbox.stub(BasketService.prototype, "postItemToBasket")
+                .returns(Promise.resolve({
+                    httpStatusCode: 404
+                }));
+            await chai.expect(addItemToBasket("oauth", { itemUri: "/path/to/item" })).to.be.rejectedWith(NotFound);
+        });
+    });
+
+    describe("appendItemToBasket", () => {
+        it("Sends a POST request to the appendItemToBasket endpoint", async () => {
+            const item: any = {
+                companyNumber: "12345678"
+            };
+            sandbox.stub(BasketService.prototype, "appendItemToBasket")
+                .returns(Promise.resolve({
+                    resource: item,
+                    httpStatusCode: 200
+                }));
+            const appendItemToBasketResult = await appendItemToBasket("oauth", { itemUri: "/path/to/item" });
+            chai.expect(appendItemToBasketResult).to.equal(item);
+        });
+
+        it("Throws an error if error returned by service", async () => {
+            sandbox.stub(BasketService.prototype, "appendItemToBasket")
+                .returns(Promise.resolve({
+                    httpStatusCode: 404
+                }));
+            await chai.expect(appendItemToBasket("oauth", { itemUri: "/path/to/item" })).to.be.rejectedWith(NotFound);
         });
     });
 });

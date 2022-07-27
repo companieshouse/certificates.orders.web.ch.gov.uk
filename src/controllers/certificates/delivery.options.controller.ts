@@ -2,7 +2,13 @@ import { NextFunction, Request, Response } from "express";
 import { check, validationResult } from "express-validator";
 import { CertificateItem, CertificateItemPatchRequest } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { getAccessToken, getUserId } from "../../session/helper";
-import { getCertificateItem, patchCertificateItem } from "../../client/api.client";
+import {
+    addItemToBasket,
+    appendItemToBasket,
+    getBasket,
+    getCertificateItem,
+    patchCertificateItem
+} from "../../client/api.client";
 import { DELIVERY_DETAILS, DELIVERY_OPTIONS, EMAIL_OPTIONS } from "../../model/template.paths";
 import { createLogger } from "ch-structured-logging";
 import { APPLICATION_NAME, DISPATCH_DAYS } from "../../config/config";
@@ -60,27 +66,39 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
                 errorList: [deliveryOptionsErrorData]
             });
         } else {
-            let certificateItem: CertificateItemPatchRequest;
+            let certificateItemPatchRequest: CertificateItemPatchRequest;
             if (deliveryOption === "standard") {
-                certificateItem = {
+                certificateItemPatchRequest = {
                     itemOptions: {
                         deliveryTimescale: deliveryOption,
                         includeEmailCopy: false
                     }
                 };
             } else {
-                certificateItem = {
+                certificateItemPatchRequest = {
                     itemOptions: {
                         deliveryTimescale: deliveryOption
                     }
                 };
             }
-            const certificatePatchResponse = await patchCertificateItem(accessToken, req.params.certificateId, certificateItem);
+            const certificatePatchResponse = await patchCertificateItem(accessToken, req.params.certificateId, certificateItemPatchRequest);
             logger.info(`Patched certificate item with delivery option, id=${req.params.certificateId}, user_id=${userId}, company_number=${certificatePatchResponse.companyNumber}`);
-            if (certificateItem.itemOptions?.deliveryTimescale === "same-day") {
-                return res.redirect(EMAIL_OPTIONS);
+            const basket = await getBasket(accessToken);
+            let hasDeliverableItems = false;
+            for (const item of basket.items || []) {
+                if (item.kind === "item#certificate" || item.kind === "item#certified-copy") {
+                    hasDeliverableItems = true;
+                    break;
+                }
             }
-            return res.redirect(DELIVERY_DETAILS);
+            if (certificateItemPatchRequest.itemOptions?.deliveryTimescale === "same-day") {
+                return res.redirect(EMAIL_OPTIONS);
+            } else if (basket.enrolled && hasDeliverableItems) {
+                await appendItemToBasket(accessToken, { itemUri: certificateItem.links.self });
+                return res.redirect("/basket");
+            } else {
+                return res.redirect(DELIVERY_DETAILS);
+            }
         }
     } catch (err) {
         logger.error(`${err}`);

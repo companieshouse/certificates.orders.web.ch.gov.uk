@@ -3,7 +3,7 @@ import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/compa
 import {
     Basket,
     BasketPatchRequest,
-    ItemUriPostRequest
+    ItemUriRequest
 } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 import {
     CertificateItem,
@@ -69,13 +69,23 @@ export const getCertificateItem = async (oAuth: string, certificateId: string): 
     return certificateItemResource.value.resource as CertificateItem;
 };
 
-export const addItemToBasket = async (oAuth: string, itemUri: ItemUriPostRequest): Promise<BasketItem> => {
+export const addItemToBasket = async (oAuth: string, itemUri: ItemUriRequest): Promise<BasketItem> => {
     const api = createApiClient(undefined, oAuth, API_URL);
     const itemUriResource: Resource<BasketItem> = await api.basket.postItemToBasket(itemUri);
     if (itemUriResource.httpStatusCode !== 200 && itemUriResource.httpStatusCode !== 201) {
         throw createError(itemUriResource.httpStatusCode, itemUriResource.httpStatusCode.toString());
     }
     logger.info(`Add item to basket, status_code=${itemUriResource.httpStatusCode}, company_number=${itemUriResource.resource?.companyNumber}`);
+    return itemUriResource.resource as BasketItem;
+};
+
+export const appendItemToBasket = async (oAuth: string, itemUri: ItemUriRequest): Promise<BasketItem> => {
+    const api = createApiClient(undefined, oAuth, API_URL);
+    const itemUriResource: Resource<BasketItem> = await api.basket.appendItemToBasket(itemUri);
+    if (itemUriResource.httpStatusCode !== 200 && itemUriResource.httpStatusCode !== 201) {
+        throw createError(itemUriResource.httpStatusCode, itemUriResource.httpStatusCode.toString());
+    }
+    logger.info(`Append item to basket, status_code=${itemUriResource.httpStatusCode}, company_number=${itemUriResource.resource?.companyNumber}`);
     return itemUriResource.resource as BasketItem;
 };
 
