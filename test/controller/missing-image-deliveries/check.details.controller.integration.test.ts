@@ -8,6 +8,7 @@ import { Item as BasketItem } from "@companieshouse/api-sdk-node/dist/services/o
 import { MISSING_IMAGE_DELIVERY_CHECK_DETAILS, replaceMissingImageDeliveryId } from "../../../src/model/page.urls";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
 import * as apiClient from "../../../src/client/api.client";
+import { Basket } from "../../../../../../api-sdk-node/dist/services/order/basket";
 
 const MISSING_IMAGE_DELIVERY_ID = "MID-869116-008636";
 const ITEM_URI = "/orderable/missing-image-deliveries/MID-123456-123456";
@@ -77,8 +78,14 @@ describe("mid.check.details.controller.integration", () => {
                 quantity: 1
             } as MidItem;
 
+            const basket: Basket = {
+                enrolled: false
+            }
+
             getMissingImageDeliveryItem = sandbox.stub(apiClient, "getMissingImageDeliveryItem")
                 .returns(Promise.resolve(missingImageDeliveryItem));
+            sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve(basket));
 
             const resp = await chai.request(testApp)
                 .get(CHECK_DETAILS_URL)
@@ -101,11 +108,16 @@ describe("mid.check.details.controller.integration", () => {
         it("redirects the user to orders url", async () => {
             const itemUri = { itemUri: ITEM_URI } as BasketItem;
             const missingImageDeliveryItem = {} as MidItem;
+            const basket: Basket = {
+                enrolled: false
+            }
 
             addItemToBasketStub = sandbox.stub(apiClient, "addItemToBasket")
                 .returns(Promise.resolve(itemUri));
             getMissingImageDeliveryItem = sandbox.stub(apiClient, "getMissingImageDeliveryItem")
                 .returns(Promise.resolve(missingImageDeliveryItem));
+            sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve(basket));
 
             const resp = await chai.request(testApp)
                 .post(CHECK_DETAILS_URL)
@@ -114,6 +126,31 @@ describe("mid.check.details.controller.integration", () => {
 
             chai.expect(resp.status).to.equal(302);
             chai.expect(resp.text).to.contain("/basket");
+            chai.expect(addItemToBasketStub).to.have.been.called;
+        });
+
+        it("redirects the enrolled user to basket page", async () => {
+            const itemUri = { itemUri: ITEM_URI } as BasketItem;
+            const missingImageDeliveryItem = {} as MidItem;
+            const basket: Basket = {
+                enrolled: true
+            }
+
+            addItemToBasketStub = sandbox.stub(apiClient, "appendItemToBasket")
+                .returns(Promise.resolve(itemUri));
+            getMissingImageDeliveryItem = sandbox.stub(apiClient, "getMissingImageDeliveryItem")
+                .returns(Promise.resolve(missingImageDeliveryItem));
+            sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve(basket));
+
+            const resp = await chai.request(testApp)
+                .post(CHECK_DETAILS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
+                .redirects(0);
+
+            chai.expect(resp.status).to.equal(302);
+            chai.expect(resp.text).to.contain("/basket");
+            chai.expect(addItemToBasketStub).to.have.been.called;
         });
     });
 });

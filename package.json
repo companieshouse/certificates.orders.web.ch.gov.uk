@@ -10,13 +10,13 @@
     "lint": "eslint 'src/*.ts' 'src/**/*.ts' 'test/*.ts' 'test/**/*.ts'",
     "lint:fix": "eslint 'src/*.ts' 'src/**/*.ts' 'test/*.ts' 'test/**/*.ts' --fix",
     "sonarqube": "sonar-scanner",
-    "test": "DYNAMIC_LP_CERTIFICATE_ORDERS_ENABLED=true DYNAMIC_LLP_CERTIFICATE_ORDERS_ENABLED=true mocha"
+    "test": "DYNAMIC_LP_CERTIFICATE_ORDERS_ENABLED=true DYNAMIC_LLP_CERTIFICATE_ORDERS_ENABLED=true mocha --inspect-brk -g renders the check details screen"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@companieshouse/api-sdk-node": "^2.0.18",
+    "@companieshouse/api-sdk-node": "^2.0.20",
     "@companieshouse/node-session-handler": "~4.1.6",
     "ch-structured-logging": "git+ssh://git@github.com/companieshouse/ch-structured-logging-node.git#15a811238ceb58988ab755229a5c07b9500200f2",
     "cookie-parser": "~1.4.4",

@@ -7,7 +7,7 @@
 {% block beforeContent %}
   {{ govukBackLink({
     text: "Back",
-    href: backUrl 
+    href: backUrl
   }) }}
 {% endblock %}
 
@@ -75,10 +75,17 @@
 
             <p class="govuk-body">If you make the request after 3pm, we will add the document the next working day.</p>
 
-            {{ govukButton({
-                text: "Continue to payment",
-                id: "submit"
-            }) }}
+            {% if enrolled %}
+                {{ govukButton({
+                    text: "Continue",
+                    id: "submit"
+                }) }}
+            {% else %}
+                {{ govukButton({
+                    text: "Continue to payment",
+                    id: "submit"
+                }) }}
+            {% endif %}
             <p> <a href="/" class="govuk-link govuk-link--no-visited-state">Cancel</a> </p>
             </form>
     </div>
