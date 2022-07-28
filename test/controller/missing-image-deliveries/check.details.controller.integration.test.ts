@@ -8,7 +8,7 @@ import { Item as BasketItem } from "@companieshouse/api-sdk-node/dist/services/o
 import { MISSING_IMAGE_DELIVERY_CHECK_DETAILS, replaceMissingImageDeliveryId } from "../../../src/model/page.urls";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
 import * as apiClient from "../../../src/client/api.client";
-import { Basket } from "../../../../../../api-sdk-node/dist/services/order/basket";
+import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket";
 
 const MISSING_IMAGE_DELIVERY_ID = "MID-869116-008636";
 const ITEM_URI = "/orderable/missing-image-deliveries/MID-123456-123456";

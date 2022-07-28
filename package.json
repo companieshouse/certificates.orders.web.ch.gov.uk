@@ -10,7 +10,7 @@
     "lint": "eslint 'src/*.ts' 'src/**/*.ts' 'test/*.ts' 'test/**/*.ts'",
     "lint:fix": "eslint 'src/*.ts' 'src/**/*.ts' 'test/*.ts' 'test/**/*.ts' --fix",
     "sonarqube": "sonar-scanner",
-    "test": "DYNAMIC_LP_CERTIFICATE_ORDERS_ENABLED=true DYNAMIC_LLP_CERTIFICATE_ORDERS_ENABLED=true mocha --inspect-brk -g renders the check details screen"
+    "test": "DYNAMIC_LP_CERTIFICATE_ORDERS_ENABLED=true DYNAMIC_LLP_CERTIFICATE_ORDERS_ENABLED=true mocha"
   },
   "keywords": [],
   "author": "",
