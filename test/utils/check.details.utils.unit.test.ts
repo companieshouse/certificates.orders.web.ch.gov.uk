@@ -126,7 +126,7 @@ describe("certificate.check.details.controller.unit", () => {
             itemOptions.deliveryTimescale = "same-day";
 
             const returnedString: string | null = mapDeliveryMethod(itemOptions);
-            const expectedString: string = "Same Day";
+            const expectedString: string = "Express (Orders received before 11am will be dispatched the same day. Orders received after 11am will be dispatched the next working day)";
 
             chai.expect(returnedString).to.equal(expectedString);
         });
