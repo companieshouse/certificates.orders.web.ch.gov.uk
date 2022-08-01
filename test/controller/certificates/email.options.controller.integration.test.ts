@@ -24,6 +24,7 @@ const sandbox = sinon.createSandbox();
 let testApp = null;
 let getCertificateItemStub;
 let patchCertificateItemStub;
+let getBasket;
 
 describe("email.options.integration.test", () => {
     beforeEach((done) => {
@@ -103,6 +104,8 @@ describe("email.options.integration.test", () => {
                 .returns(Promise.resolve(certificateDetails));
             patchCertificateItemStub = sandbox.stub(apiClient, "patchCertificateItem")
                 .returns(Promise.resolve(certificateDetails));
+            getBasket = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: false }));
 
             const resp = await chai.request(testApp)
                 .post(EMAIL_OPTIONS_URL)
@@ -114,6 +117,70 @@ describe("email.options.integration.test", () => {
 
             chai.expect(resp.status).to.equal(302);
             chai.expect(resp.text).to.include("Found. Redirecting to delivery-details");
+        });
+
+        it("adds item to basket and redirects the user to the basket page if enrolled", async () => {
+            const certificateDetails = {
+                itemOptions: {
+                    includeEmailCopy: false
+                },
+                links: {
+                    self: "/path/to/certificate"
+                }
+            } as CertificateItem;
+
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateDetails));
+            patchCertificateItemStub = sandbox.stub(apiClient, "patchCertificateItem")
+                .returns(Promise.resolve(certificateDetails));
+            getBasket = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true, items: [{ kind: "item#certificate" } as any] }));
+            sandbox.mock(apiClient).expects("appendItemToBasket")
+                .once()
+                .returns(Promise.resolve());
+
+            const resp = await chai.request(testApp)
+                .post(EMAIL_OPTIONS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
+                .redirects(0)
+                .send({
+                    emailOptions: false
+                });
+
+            chai.expect(resp.status).to.equal(302);
+            chai.expect(resp.text).to.include("/basket");
+        });
+
+        it("enrolled user redirected to delivery details page if no other deliverable items", async () => {
+            const certificateDetails = {
+                itemOptions: {
+                    includeEmailCopy: false
+                },
+                links: {
+                    self: "/path/to/certificate"
+                }
+            } as CertificateItem;
+
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateDetails));
+            patchCertificateItemStub = sandbox.stub(apiClient, "patchCertificateItem")
+                .returns(Promise.resolve(certificateDetails));
+            getBasket = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true, items: [{ kind: "item#missing-image-delivery" } as any] }));
+            sandbox.mock(apiClient).expects("appendItemToBasket")
+                .once()
+                .returns(Promise.resolve());
+
+            const resp = await chai.request(testApp)
+                .post(EMAIL_OPTIONS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
+                .redirects(0)
+                .send({
+                    emailOptions: false
+                });
+
+            chai.expect(resp.status).to.equal(302);
+            chai.expect(resp.text).to.include("/delivery-details");
         });
     });
 

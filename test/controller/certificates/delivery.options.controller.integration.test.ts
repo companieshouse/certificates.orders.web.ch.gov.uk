@@ -178,6 +178,39 @@ describe("delivery.options.integration.test", () => {
             chai.expect(resp.status).to.equal(302);
             chai.expect(resp.text).to.include("Found. Redirecting to /basket");
         });
+
+        it("enrolled user redirected to delivery details page if no other deliverable items", async () => {
+            const certificateDetails = {
+                itemOptions: {
+                    deliveryTimescale: "standard"
+                },
+                links: {
+                    self: "/path/to/certificate"
+                },
+                kind: "item#certificate"
+            } as CertificateItem;
+
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateDetails));
+            patchCertificateItemStub = sandbox.stub(apiClient, "patchCertificateItem")
+                .returns(Promise.resolve(certificateDetails));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true, items: [{ kind: "item#missing-image-delivery" } as any] }));
+            sandbox.mock(apiClient).expects("appendItemToBasket")
+                .once()
+                .returns(Promise.resolve());
+
+            const resp = await chai.request(testApp)
+                .post(DELIVERY_OPTIONS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
+                .redirects(0)
+                .send({
+                    deliveryOptions: "standard"
+                });
+
+            chai.expect(resp.status).to.equal(302);
+            chai.expect(resp.text).to.include("Found. Redirecting to /delivery-details");
+        });
     });
 
     describe("delivery options back button", () => {

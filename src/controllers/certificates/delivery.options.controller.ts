@@ -3,7 +3,6 @@ import { check, validationResult } from "express-validator";
 import { CertificateItem, CertificateItemPatchRequest } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { getAccessToken, getUserId } from "../../session/helper";
 import {
-    addItemToBasket,
     appendItemToBasket,
     getBasket,
     getCertificateItem,
@@ -17,6 +16,7 @@ import { Session } from "@companieshouse/node-session-handler";
 import CertificateSessionData from "session/CertificateSessionData";
 import { DELIVERY_OPTION_SELECTION } from "../../model/error.messages";
 import { createGovUkErrorData } from "../../model/govuk.error.data";
+import { BY_ITEM_KIND, StaticRedirectCallback } from "./StaticRedirectCallback";
 
 const DELIVERY_OPTION_FIELD: string = "deliveryOptions";
 const PAGE_TITLE: string = "Delivery options - Order a certificate - GOV.UK";
@@ -25,6 +25,8 @@ const logger = createLogger(APPLICATION_NAME);
 const validators = [
     check("deliveryOptions").not().isEmpty().withMessage(DELIVERY_OPTION_SELECTION)
 ];
+
+const redirectCallback = new StaticRedirectCallback(BY_ITEM_KIND);
 
 export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
@@ -84,18 +86,14 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
             const certificatePatchResponse = await patchCertificateItem(accessToken, req.params.certificateId, certificateItemPatchRequest);
             logger.info(`Patched certificate item with delivery option, id=${req.params.certificateId}, user_id=${userId}, company_number=${certificatePatchResponse.companyNumber}`);
             const basket = await getBasket(accessToken);
-            let hasDeliverableItems = false;
-            for (const item of basket.items || []) {
-                if (item.kind === "item#certificate" || item.kind === "item#certified-copy") {
-                    hasDeliverableItems = true;
-                    break;
-                }
-            }
             if (certificateItemPatchRequest.itemOptions?.deliveryTimescale === "same-day") {
                 return res.redirect(EMAIL_OPTIONS);
-            } else if (basket.enrolled && hasDeliverableItems) {
+            } else if (basket.enrolled) {
                 await appendItemToBasket(accessToken, { itemUri: certificateItem.links.self });
-                return res.redirect("/basket");
+                return redirectCallback.redirectEnrolled({
+                    response: res,
+                    items: basket.items
+                });
             } else {
                 return res.redirect(DELIVERY_DETAILS);
             }
