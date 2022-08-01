@@ -55,8 +55,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
             resp = await appendItemToBasket(
                 accessToken,
                 { itemUri: `/orderable/missing-image-deliveries/${missingImageDeliveryId}` });
-            logger.info(`User enrolled in multi item baske. Item appended to basket missing_image_delivery_id=${missingImageDeliveryId}, user_id=${userId}, company_number=${resp.companyNumber}, redirecting to basket`);
-        } else {
+            logger.info(`User enrolled for multi-item basket. Item appended to basket missing_image_delivery_id=${missingImageDeliveryId}, user_id=${userId}, company_number=${resp.companyNumber}, redirecting to basket`);        } else {
             resp = await addItemToBasket(
                 accessToken,
                 { itemUri: `/orderable/missing-image-deliveries/${missingImageDeliveryId}` });
