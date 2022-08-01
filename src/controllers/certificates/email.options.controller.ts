@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { check, validationResult } from "express-validator";
 import { CertificateItem, CertificateItemPatchRequest } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { getAccessToken, getUserId } from "../../session/helper";
-import { getCertificateItem, patchCertificateItem } from "../../client/api.client";
+import { appendItemToBasket, getBasket, getCertificateItem, patchCertificateItem } from "../../client/api.client";
 import { DELIVERY_DETAILS, DELIVERY_OPTIONS, EMAIL_OPTIONS } from "../../model/template.paths";
 import { createLogger } from "ch-structured-logging";
 import { APPLICATION_NAME } from "../../config/config";
@@ -10,6 +10,7 @@ import { setServiceUrl } from "../../utils/service.url.utils";
 import { Session } from "@companieshouse/node-session-handler";
 import { EMAIL_OPTION_SELECTION } from "../../model/error.messages";
 import { createGovUkErrorData } from "../../model/govuk.error.data";
+import { BY_ITEM_KIND, StaticRedirectCallback } from "./StaticRedirectCallback";
 
 const EMAIL_OPTION_FIELD: string = "emailOptions";
 const PAGE_TITLE: string = "Email options - Order a certificate - GOV.UK";
@@ -18,6 +19,8 @@ const logger = createLogger(APPLICATION_NAME);
 const validators = [
     check("emailOptions").not().isEmpty().withMessage(EMAIL_OPTION_SELECTION)
 ];
+
+const redirectCallback = new StaticRedirectCallback(BY_ITEM_KIND);
 
 export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
@@ -58,13 +61,21 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
                 errorList: [emailOptionsErrorData]
             });
         } else {
-            const certificateItem: CertificateItemPatchRequest = {
+            const certificateItemPatchRequest: CertificateItemPatchRequest = {
                 itemOptions: {
                     includeEmailCopy: emailOption
                 }
             };
-            const certificatePatchResponse = await patchCertificateItem(accessToken, req.params.certificateId, certificateItem);
+            const certificatePatchResponse = await patchCertificateItem(accessToken, req.params.certificateId, certificateItemPatchRequest);
             logger.info(`Patched certificate item with email option, id=${req.params.certificateId}, user_id=${userId}, company_number=${certificatePatchResponse.companyNumber}`);
+            const basket = await getBasket(accessToken);
+            if (basket.enrolled) {
+                await appendItemToBasket(accessToken, { itemUri: certificateItem.links.self });
+                return redirectCallback.redirectEnrolled({
+                    response: res,
+                    items: basket.items
+                });
+            }
             return res.redirect(DELIVERY_DETAILS);
         }
     } catch (err) {
