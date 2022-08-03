@@ -60,6 +60,7 @@ export const ROOT_CERTIFIED_COPY_ID: string = "/orderable/certified-copies/:cert
 
 export const CERTIFIED_COPY_FILING_HISTORY: string = "/company/:companyNumber/certified-documents";
 
+export const CERTIFIED_COPY_DELIVERY_OPTIONS: string = ROOT_CERTIFIED_COPY_ID + "/delivery-options";
 export const CERTIFIED_COPY_DELIVERY_DETAILS: string = ROOT_CERTIFIED_COPY_ID + "/delivery-details";
 export const CERTIFIED_COPY_CHECK_DETAILS: string = ROOT_CERTIFIED_COPY_ID + "/check-details";
 

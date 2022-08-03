@@ -12,7 +12,7 @@ import {
     CertificateItemPostRequest
 } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { Item as BasketItem } from "@companieshouse/api-sdk-node/dist/services/order/order/types";
-import { CertifiedCopyItem } from "@companieshouse/api-sdk-node/dist/services/order/certified-copies/types";
+import { CertifiedCopyItem, CertifiedCopyItemPatchRequest } from "@companieshouse/api-sdk-node/dist/services/order/certified-copies/types";
 import { API_URL, APPLICATION_NAME } from "../config/config";
 import { createLogger } from "ch-structured-logging";
 import Resource, { ApiResponse, ApiResult } from "@companieshouse/api-sdk-node/dist/services/resource";
@@ -117,6 +117,18 @@ export const getCertifiedCopyItem = async (oAuth: string, certifiedCopyId: strin
     }
     logger.info(`Get certified copy item, certified_copy_item_id=${certifiedCopyId}, status_code=${certifiedCopyItemResource.httpStatusCode}, company_number=${certifiedCopyItemResource.resource?.companyNumber}`);
     return certifiedCopyItemResource.resource as CertifiedCopyItem;
+};
+
+export const patchCertifiedCopyItem = async (
+    oAuth: string, certifiedCopyId: string, certifiedCopyItem: CertifiedCopyItemPatchRequest): Promise<CertifiedCopyItem> => {
+    const api = createApiClient(undefined, oAuth, API_URL);
+    const certifiedCopyItemResource = await api.certifiedCopies.patchCertifiedCopy(certifiedCopyItem, certifiedCopyId);
+    if (certifiedCopyItemResource.isFailure()) {
+        const status = certifiedCopyItemResource.value.httpStatusCode || 500;
+        throw createError(status, status.toString());
+    }
+    logger.info(`Patch certified copy item, id=${certifiedCopyId}, status_code=${certifiedCopyItemResource.value.httpStatusCode}, company_number=${certifiedCopyItemResource.value.resource?.companyNumber}`);
+    return certifiedCopyItemResource.value.resource as CertifiedCopyItem;
 };
 
 export const postMissingImageDeliveryItem = async (oAuth: string, missingImageDeliveryItem: MidItemPostRequest): Promise<MidItem> => {
