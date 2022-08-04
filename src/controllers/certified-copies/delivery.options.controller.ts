@@ -35,7 +35,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         return res.render(DELIVERY_OPTIONS, {
             DISPATCH_DAYS,
             deliveryOption: certifiedCopyItem.itemOptions.deliveryTimescale,
-            templateName: DELIVERY_DETAILS,
+            templateName: DELIVERY_OPTIONS,
             pageTitleText: PAGE_TITLE,
             SERVICE_URL: `/company/${companyNumber}/orderable/certified-copies`,
             backLink: `/company/${companyNumber}/certified-documents`
@@ -67,25 +67,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
                 errorList: [deliveryOptionsErrorData]
             });
         } else {
-            let certifiedCopyItemPatchRequest: CertifiedCopyItemPatchRequest;
-           
-            certifiedCopyItemPatchRequest = {
-                itemOptions: {
-                    deliveryTimescale: deliveryOption
-                }
-            };
-            const certifiedCopyItemPatchResponse = await patchCertifiedCopyItem(accessToken, req.params.certificateId, certifiedCopyItemPatchRequest);
-            logger.info(`Patched certificate item with delivery option, id=${req.params.certificateId}, user_id=${userId}, company_number=${certificatePatchResponse.companyNumber}`);
-            const basket = await getBasket(accessToken);
-            if (basket.enrolled) {
-                await appendItemToBasket(accessToken, { itemUri: certifiedCopyItem.links.self });
-                return redirectCallback.redirectEnrolled({
-                    response: res,
-                    items: basket.items
-                });
-            } else {
                 return res.redirect(DELIVERY_DETAILS);
-            }
         }
     } catch (err) {
         logger.error(`${err}`);

@@ -1,7 +1,7 @@
 import { Router } from "express";
 
 import { ROOT_CERTIFIED_COPY, CERTIFIED_COPY_DELIVERY_DETAILS, CERTIFIED_COPY_CHECK_DETAILS, CERTIFIED_COPY_DELIVERY_OPTIONS } from "../../model/page.urls";
-import deliveryOptionsController, { render as renderDeliveryOptions } from "controllers/certificates/delivery.options.controller";
+import deliveryOptionsController, { render as renderDeliveryOptions } from "../../controllers/certified-copies/delivery.options.controller";
 import deliveryDetailsController, { render as renderCertifiedCopies } from "../../controllers/certified-copies/delivery.details.controller";
 import homeController from "../../controllers/certified-copies/home.controller";
 import checkDetailsController, { render as renderCheckDetails } from "../../controllers/certified-copies/check.details.controller";
