@@ -2,12 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { check, validationResult } from "express-validator";
 import { CertificateItem, CertificateItemPatchRequest } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { getAccessToken, getUserId } from "../../session/helper";
-import {
-    appendItemToBasket,
-    getBasket,
-    getCertificateItem,
-    patchCertificateItem
-} from "../../client/api.client";
+import { appendItemToBasket, getBasket, getCertificateItem, patchCertificateItem } from "../../client/api.client";
 import { DELIVERY_DETAILS, DELIVERY_OPTIONS, EMAIL_OPTIONS } from "../../model/template.paths";
 import { createLogger } from "ch-structured-logging";
 import { APPLICATION_NAME, DISPATCH_DAYS } from "../../config/config";
@@ -33,9 +28,13 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const userId = getUserId(req.session);
         const accessToken: string = getAccessToken(req.session);
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
+        const expressCost =  "50";
+        const standardCost = "15";
         logger.info(`Get certificate item, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
         return res.render(DELIVERY_OPTIONS, {
             DISPATCH_DAYS,
+            expressCost,
+            standardCost,
             deliveryOption: certificateItem.itemOptions.deliveryTimescale,
             templateName: DELIVERY_DETAILS,
             pageTitleText: PAGE_TITLE,

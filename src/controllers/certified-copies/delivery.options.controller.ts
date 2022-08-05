@@ -1,13 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { check, validationResult } from "express-validator";
-import { CertifiedCopyItem, CertifiedCopyItemPatchRequest } from "@companieshouse/api-sdk-node/dist/services/order/certified-copies/types";
+import { CertifiedCopyItem, CertifiedCopyItemPatchRequest} from "@companieshouse/api-sdk-node/dist/services/order/certified-copies/types";
 import { getAccessToken, getUserId } from "../../session/helper";
-import {
-    appendItemToBasket,
-    getBasket,
-    getCertifiedCopyItem,
-    patchCertifiedCopyItem
-} from "../../client/api.client";
+import { appendItemToBasket, getBasket, getCertifiedCopyItem, patchCertifiedCopyItem } from "../../client/api.client";
 import { DELIVERY_DETAILS, DELIVERY_OPTIONS, EMAIL_OPTIONS } from "../../model/template.paths";
 import { createLogger } from "ch-structured-logging";
 import { APPLICATION_NAME, DISPATCH_DAYS } from "../../config/config";
@@ -23,6 +18,7 @@ const validators = [
     check("deliveryOptions").not().isEmpty().withMessage(DELIVERY_OPTION_SELECTION)
 ];
 
+
 const redirectCallback = new StaticRedirectCallback(BY_ITEM_KIND);
 
 export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -31,9 +27,14 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const accessToken: string = getAccessToken(req.session);
         const certifiedCopyItem: CertifiedCopyItem = await getCertifiedCopyItem(accessToken, req.params.certifiedCopyId);
         const companyNumber: string = certifiedCopyItem.companyNumber;
+        const filingType: string = certifiedCopyItem.itemOptions.filingHistoryDocuments[0].filingHistoryType;
+        const expressCost = filingType === "NEWINC" ? "100" : "50";
+        const standardCost = filingType === "NEWINC" ? "50" : "15";
         logger.info(`Get certified copy item, id=${certifiedCopyItem.id}, user_id=${userId}, company_number=${certifiedCopyItem.companyNumber}`);
         return res.render(DELIVERY_OPTIONS, {
             DISPATCH_DAYS,
+            expressCost,
+            standardCost,
             deliveryOption: certifiedCopyItem.itemOptions.deliveryTimescale,
             templateName: DELIVERY_OPTIONS,
             pageTitleText: PAGE_TITLE,

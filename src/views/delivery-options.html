@@ -48,7 +48,7 @@
         items:[
           {
             value: "same-day",
-            text: "Express (£50)",
+            text: "Express (£" + expressCost + ")",
             hint: {
               text: "Orders received before 11am are dispatched the same day. Orders received after 11am will be dispatched the next working day."
             },
@@ -59,7 +59,7 @@
           },
           {
             value: "standard",
-            text: "Standard (£15)",
+            text: "Express (£" + standardCost + ")",
             hint: {
               text: "We will aim to dispatch the order within " + DISPATCH_DAYS + " working days."
             },
