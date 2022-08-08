@@ -26,6 +26,7 @@ import {
     getMissingImageDeliveryItem,
     patchBasket,
     patchCertificateItem,
+    patchCertifiedCopyItem,
     postCertificateItem,
     postInitialCertificateItem,
     postMissingImageDeliveryItem
@@ -358,6 +359,31 @@ describe("api.client", () => {
         });
     });
 
+    describe("getCertifiedCopyItem", () => {
+        it("throws an exception if error returned", async () => {
+            const result = failure({
+                httpStatusCode: 401,
+                errors: [{
+                    error: "Something went wrong"
+                }]
+            } as ApiErrorResponse) as ApiResult<ApiResponse<CertifiedCopyItem>>;
+            sandbox.stub(CertifiedCopyItemService.prototype, "getCertifiedCopy")
+                .returns(Promise.resolve(result));
+            chai.expect(getCertifiedCopyItem("oauth", "CCD-123123-123123")).to.be.rejectedWith("401");
+        });
+        it("returns a certified copy item", async () => {
+            const result: ApiResult<ApiResponse<CertifiedCopyItem>> = success({
+                resource: dummyCertifiedCopyItemSDKResponse.resource,
+                httpStatusCode: 200
+            } as ApiResponse<CertificateItem>);
+            sandbox.stub(CertifiedCopyItemService.prototype, "getCertifiedCopy")
+                .returns(Promise.resolve(result));
+
+            const certifiedCopyItem = await getCertifiedCopyItem("oauth", "CRT-123123-123123");
+            chai.expect(certifiedCopyItem).to.equal(dummyCertificateItemSDKResponse.resource);
+        });
+    });
+
     describe("patchCertificateItem", () => {
         it("throws an exception if error returned", async () => {
             const result = failure({
@@ -380,7 +406,33 @@ describe("api.client", () => {
                 .returns(Promise.resolve(result));
             const certificateItem = await patchCertificateItem("oauth", "CRT-123123-123123",
                 { itemOptions: { includeGoodStandingInformation: true } });
-            chai.expect(certificateItem).to.equal(dummyCertificateItemSDKResponse.resource);
+            chai.expect(certificateItem).to.equal(dummyCertifiedCopyItemSDKResponse.resource);
+        });
+    });
+
+    describe("patchCertifiedCopyItem", () => {
+        it("throws an exception if error returned", async () => {
+            const result = failure({
+                httpStatusCode: 401,
+                errors: [{
+                    error: "Something went wrong"
+                }]
+            } as ApiErrorResponse) as ApiResult<ApiResponse<CertifiedCopyItem>>;
+            sandbox.stub(CertifiedCopyItemService.prototype, "patchCertifiedCopy")
+                .returns(Promise.resolve(result));
+            chai.expect(patchCertifiedCopyItem("oauth", "CRT-123123-123123",
+                { itemOptions: { collectionLocation: "Location" } })).to.be.rejectedWith("401");
+        });
+        it("patches a certified copy item", async () => {
+            const result: ApiResult<ApiResponse<CertificateItem>> = success({
+                resource: dummyCertifiedCopyItemSDKResponse.resource,
+                httpStatusCode: 200
+            } as ApiResponse<CertifiedCopyItem>);
+            sandbox.stub(CertifiedCopyItemService.prototype, "patchCertifiedCopy")
+                .returns(Promise.resolve(result));
+            const certifiedCopyItem = await patchCertifiedCopyItem("oauth", "CRT-123123-123123",
+                { itemOptions: { collectionLocation: "Location" } });
+            chai.expect(certifiedCopyItem).to.equal(dummyCertifiedCopyItemSDKResponse.resource);
         });
     });
 
@@ -460,7 +512,7 @@ describe("api.client", () => {
     describe("getCertifiedCopyItem", () => {
         it("returns a certified copy item object", async () => {
             sandbox.stub(CertifiedCopyItemService.prototype, "getCertifiedCopy").returns(Promise.resolve(dummyCertifiedCopyItemSDKResponse));
-            const certifiedCopyItem = await getCertifiedCopyItem("oauth", "CRT-360615-955167");
+            const certifiedCopyItem = await getCertifiedCopyItem("oauth", "CCD-360615-955167");
             chai.expect(certifiedCopyItem).to.equal(dummyCertifiedCopyItemSDKResponse.resource);
         });
     });
