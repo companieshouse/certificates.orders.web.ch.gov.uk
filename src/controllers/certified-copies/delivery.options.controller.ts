@@ -18,9 +18,6 @@ const validators = [
     check("deliveryOptions").not().isEmpty().withMessage(DELIVERY_OPTION_SELECTION)
 ];
 
-
-const redirectCallback = new StaticRedirectCallback(BY_ITEM_KIND);
-
 export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const userId = getUserId(req.session);
@@ -52,7 +49,6 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         const errors = validationResult(req);
         const userId = getUserId(req.session);
         const accessToken: string = getAccessToken(req.session);
-        const deliveryOption: string = req.body[DELIVERY_OPTION_FIELD];
         const certifiedCopyItem: CertifiedCopyItem = await getCertifiedCopyItem(accessToken, req.params.certifiedCopyId);
         const companyNumber: string = certifiedCopyItem.companyNumber;
         logger.info(`Get certifiied copy item, id=${certifiedCopyItem.id}, user_id=${userId}, company_number=${certifiedCopyItem.companyNumber}`);
@@ -68,7 +64,15 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
                 errorList: [deliveryOptionsErrorData]
             });
         } else {
-                return res.redirect(DELIVERY_DETAILS);
+            let certifiedCopyItemPatchRequest: CertifiedCopyItemPatchRequest;
+            certifiedCopyItemPatchRequest = {
+                itemOptions: {
+                    deliveryTimescale: req.body.deliveryOptions
+                }
+            };
+            const patchedCertifiedCopyItem = await patchCertifiedCopyItem(accessToken, req.params.certifiedCopyId, certifiedCopyItemPatchRequest);
+            logger.info(`Patched certified copy item with delivery option, id=${req.params.certifiedCopyId}, user_id=${userId}, company_number=${patchedCertifiedCopyItem.companyNumber}`);
+            return res.redirect(DELIVERY_DETAILS);
         }
     } catch (err) {
         logger.error(`${err}`);
