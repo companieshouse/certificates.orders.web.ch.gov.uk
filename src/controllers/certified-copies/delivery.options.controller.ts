@@ -24,7 +24,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const companyNumber: string = certifiedCopyItem.companyNumber;
         const filingType: string = certifiedCopyItem.itemOptions.filingHistoryDocuments[0].filingHistoryType;
         const EXPRESS_COST = filingType === "NEWINC" ? "100" : "50";
-        const STANDARD_COST = filingType === "NEWINC" ? "50" : "15";
+        const STANDARD_COST = filingType === "NEWINC" ? "30" : "15";
         logger.info(`Get certified copy item, id=${certifiedCopyItem.id}, user_id=${userId}, company_number=${certifiedCopyItem.companyNumber}`);
         return res.render(DELIVERY_OPTIONS, {
             DISPATCH_DAYS,
