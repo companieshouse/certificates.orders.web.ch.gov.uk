@@ -2,15 +2,13 @@ import { NextFunction, Request, Response } from "express";
 import { check, validationResult } from "express-validator";
 import { CertifiedCopyItem, CertifiedCopyItemPatchRequest} from "@companieshouse/api-sdk-node/dist/services/order/certified-copies/types";
 import { getAccessToken, getUserId } from "../../session/helper";
-import { appendItemToBasket, getBasket, getCertifiedCopyItem, patchCertifiedCopyItem } from "../../client/api.client";
-import { DELIVERY_DETAILS, DELIVERY_OPTIONS, EMAIL_OPTIONS } from "../../model/template.paths";
+import { getCertifiedCopyItem, patchCertifiedCopyItem } from "../../client/api.client";
+import { DELIVERY_DETAILS, DELIVERY_OPTIONS } from "../../model/template.paths";
 import { createLogger } from "ch-structured-logging";
 import { APPLICATION_NAME, DISPATCH_DAYS } from "../../config/config";
 import { DELIVERY_OPTION_SELECTION } from "../../model/error.messages";
 import { createGovUkErrorData } from "../../model/govuk.error.data";
-import { BY_ITEM_KIND, StaticRedirectCallback } from "../certificates/StaticRedirectCallback";
 
-const DELIVERY_OPTION_FIELD: string = "deliveryOptions";
 const PAGE_TITLE: string = "Delivery options - Order a certified document - GOV.UK";
 const logger = createLogger(APPLICATION_NAME);
 

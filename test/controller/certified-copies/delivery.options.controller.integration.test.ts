@@ -6,7 +6,6 @@ import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
 import * as apiClient from "../../../src/client/api.client";
 import { CertifiedCopyItem } from "@companieshouse/api-sdk-node/dist/services/order/certified-copies/types";
 import { CERTIFIED_COPY_DELIVERY_OPTIONS, replaceCertifiedCopyId } from "../../../src/model/page.urls";
-import { ItemOptions } from "@companieshouse/api-sdk-node/dist/services/order/order";
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
