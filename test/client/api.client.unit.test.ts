@@ -26,6 +26,7 @@ import {
     getMissingImageDeliveryItem,
     patchBasket,
     patchCertificateItem,
+    patchCertifiedCopyItem,
     postCertificateItem,
     postInitialCertificateItem,
     postMissingImageDeliveryItem
@@ -384,6 +385,32 @@ describe("api.client", () => {
         });
     });
 
+    describe("patchCertifiedCopyItem", () => {
+        it("throws an exception if error returned", async () => {
+            const result = failure({
+                httpStatusCode: 401,
+                errors: [{
+                    error: "Something went wrong"
+                }]
+            } as ApiErrorResponse) as ApiResult<ApiResponse<CertifiedCopyItem>>;
+            sandbox.stub(CertifiedCopyItemService.prototype, "patchCertifiedCopy")
+                .returns(Promise.resolve(result));
+            chai.expect(patchCertifiedCopyItem("oauth", "CRT-123123-123123",
+                { itemOptions: { collectionLocation: "Location" } })).to.be.rejectedWith("401");
+        });
+        it("patches a certified copy item", async () => {
+            const result: ApiResult<ApiResponse<CertificateItem>> = success({
+                resource: dummyCertifiedCopyItemSDKResponse.resource,
+                httpStatusCode: 200
+            } as ApiResponse<CertifiedCopyItem>);
+            sandbox.stub(CertifiedCopyItemService.prototype, "patchCertifiedCopy")
+                .returns(Promise.resolve(result));
+            const certifiedCopyItem = await patchCertifiedCopyItem("oauth", "CRT-123123-123123",
+                { itemOptions: { collectionLocation: "Location" } });
+            chai.expect(certifiedCopyItem).to.equal(dummyCertifiedCopyItemSDKResponse.resource);
+        });
+    });
+
     describe("postInitialCertificateItem", () => {
         it("returns a Certificate Item object", async () => {
             const result: ApiResult<ApiResponse<CertificateItem>> = success({
@@ -460,7 +487,7 @@ describe("api.client", () => {
     describe("getCertifiedCopyItem", () => {
         it("returns a certified copy item object", async () => {
             sandbox.stub(CertifiedCopyItemService.prototype, "getCertifiedCopy").returns(Promise.resolve(dummyCertifiedCopyItemSDKResponse));
-            const certifiedCopyItem = await getCertifiedCopyItem("oauth", "CRT-360615-955167");
+            const certifiedCopyItem = await getCertifiedCopyItem("oauth", "CCD-360615-955167");
             chai.expect(certifiedCopyItem).to.equal(dummyCertifiedCopyItemSDKResponse.resource);
         });
     });
@@ -528,4 +555,30 @@ describe("api.client", () => {
             await chai.expect(appendItemToBasket("oauth", { itemUri: "/path/to/item" })).to.be.rejectedWith(NotFound);
         });
     });
+
+    describe("patchCertifiedCopyItem", () => [
+        it("Patches a certified copy item", async () => {
+            const result: ApiResult<ApiResponse<CertifiedCopyItem>> = success({
+                resource: dummyCertifiedCopyItemSDKResponse.resource,
+                httpStatusCode: 200
+            } as ApiResponse<CertifiedCopyItem>);
+            sandbox.stub(CertifiedCopyItemService.prototype, "patchCertifiedCopy")
+                .returns(Promise.resolve(result));
+            const certifiedCopyItem = await patchCertifiedCopyItem("oauth", "CCD-123456-123456",
+                { itemOptions: { deliveryTimescale: "standard" } });
+            chai.expect(certifiedCopyItem).to.equal(dummyCertifiedCopyItemSDKResponse.resource);
+        }),
+        it("Fails to patch a certified copy item", async () => {
+            const result = failure({
+                httpStatusCode: 401,
+                errors: [{
+                    error: "Something went wrong"
+                }]
+            } as ApiErrorResponse) as ApiResult<ApiResponse<CertifiedCopyItem>>;
+            sandbox.stub(CertifiedCopyItemService.prototype, "patchCertifiedCopy")
+                .returns(Promise.resolve(result));
+            chai.expect(patchCertifiedCopyItem("oauth", "CCD-123456-123456",
+                { itemOptions: { deliveryTimescale: "standard" } })).to.be.rejectedWith("401");
+        })
+    ]);
 });

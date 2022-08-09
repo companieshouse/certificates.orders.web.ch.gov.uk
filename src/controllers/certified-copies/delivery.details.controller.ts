@@ -4,7 +4,7 @@ import { Basket, BasketPatchRequest } from "@companieshouse/api-sdk-node/dist/se
 import { createLogger } from "ch-structured-logging";
 
 import { getAccessToken, getUserId } from "../../session/helper";
-import { DELIVERY_DETAILS } from "../../model/template.paths";
+import { DELIVERY_DETAILS, DELIVERY_OPTIONS } from "../../model/template.paths";
 import { APPLICATION_NAME } from "../../config/config";
 import { getBasket, patchBasket, getCertifiedCopyItem } from "../../client/api.client";
 import { deliveryDetailsValidationRules, validate } from "../../utils/delivery-details-validation";
@@ -32,7 +32,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const certifiedCopyItemId:string = req.params.certifiedCopyId;
         const certifiedCopyItem:CertifiedCopyItem = await getCertifiedCopyItem(accessToken, certifiedCopyItemId);
         const companyNumber:string = certifiedCopyItem.companyNumber;
-        const backLink: string = `/company/${companyNumber}/certified-documents`;
+        const backLink: string = `/orderable/certified-copies/${certifiedCopyItemId}/delivery-options`;
         const SERVICE_URL = `/company/${companyNumber}/orderable/certified-copies`;
         return res.render(DELIVERY_DETAILS, {
             firstName: basket.deliveryDetails?.forename,
@@ -61,7 +61,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
     const certifiedCopyItemId = req.params.certifiedCopyId;
     const certifiedCopyItem = await getCertifiedCopyItem(accessToken, certifiedCopyItemId);
     const companyNumber = certifiedCopyItem.companyNumber;
-    const backLink: string = `/company/${companyNumber}/certified-documents`;
+    const backLink: string = `/orderable/certified-copies/${certifiedCopyItemId}/delivery-options`;
     const errors = validationResult(req);
     const errorList = validate(errors);
     const firstName: string = req.body[FIRST_NAME_FIELD];
