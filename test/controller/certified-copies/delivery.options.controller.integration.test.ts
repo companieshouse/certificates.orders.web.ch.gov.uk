@@ -129,4 +129,28 @@ describe("delivery.options.controller.integration.test", () => {
         });
     });
 
+    describe("delivery options validation", () => {
+        it("throws a validation error when no option selected", async () => {
+
+            const certifiedCopyItem = {
+                itemOptions: {
+                    forename: "john",
+                    surname: "smith"
+                }
+            } as CertifiedCopyItem;
+
+            getCertifiedCopyItemStub = sandbox.stub(apiClient, "getCertifiedCopyItem")
+                .returns(Promise.resolve(certifiedCopyItem));
+
+            const resp = await chai.request(testApp)
+                .post(DELIVERY_OPTIONS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
+                .redirects(0)
+                .send();
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain(DELIVERY_OPTION_NOT_SELECTED);
+        });
+    });
+
 });
