@@ -49,12 +49,18 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         const accessToken: string = getAccessToken(req.session);
         const certifiedCopyItem: CertifiedCopyItem = await getCertifiedCopyItem(accessToken, req.params.certifiedCopyId);
         const companyNumber: string = certifiedCopyItem.companyNumber;
+        const filingType: string = certifiedCopyItem.itemOptions.filingHistoryDocuments[0].filingHistoryType;
+        const EXPRESS_COST = filingType === "NEWINC" ? "100" : "50";
+        const STANDARD_COST = filingType === "NEWINC" ? "30" : "15";
         logger.info(`Get certifiied copy item, id=${certifiedCopyItem.id}, user_id=${userId}, company_number=${certifiedCopyItem.companyNumber}`);
         if (!errors.isEmpty()) {
             const errorArray = errors.array();
             const errorText = errorArray[errorArray.length - 1].msg as string;
             const deliveryOptionsErrorData = createGovUkErrorData(errorText, "#deliveryOptions", true, "");
             return res.render(DELIVERY_OPTIONS, {
+                DISPATCH_DAYS,
+                EXPRESS_COST,
+                STANDARD_COST,
                 pageTitleText: PAGE_TITLE,
                 SERVICE_URL: `/company/${companyNumber}/orderable/certified-copies`,
                 backLink: `/company/${companyNumber}/certified-documents`,
