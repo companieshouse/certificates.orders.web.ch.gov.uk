@@ -65,7 +65,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
                 SERVICE_URL: `/company/${companyNumber}/orderable/certified-copies`,
                 backLink: `/company/${companyNumber}/certified-documents`,
                 deliveryOptionsErrorData,
-                errorList: [deliveryOptionsErrorData ]
+                errorList: [deliveryOptionsErrorData]
             });
         } else {
             let certifiedCopyItemPatchRequest: CertifiedCopyItemPatchRequest;

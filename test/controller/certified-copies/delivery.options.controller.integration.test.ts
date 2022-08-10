@@ -188,7 +188,7 @@ describe("delivery.options.controller.integration.test", () => {
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain(DELIVERY_OPTION_NOT_SELECTED);
-            chai.expect(resp.text).to.contain("30");
+            chai.expect(resp.text).to.contain("£30");
             chai.expect(resp.text).to.contain("£100")
         });
     });
