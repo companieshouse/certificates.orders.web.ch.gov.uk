@@ -60,7 +60,7 @@ describe("delivery.options.controller.integration.test", () => {
                 },
                 filingHistoryId: "MzAwOTM2MDg5OWFkaXF6a2N4",
                 filingHistoryType: "CH01",
-                filingHistoryCost: "15"
+                filingHistoryCost: "50"
             }],
             forename: "forename",
             surname: "surname"
@@ -132,10 +132,49 @@ describe("delivery.options.controller.integration.test", () => {
         it("throws a validation error when no option selected", async () => {
 
             const certifiedCopyItem = {
-                itemOptions: {
-                    forename: "john",
-                    surname: "smith"
-                }
+                companyName: "test company",
+                companyNumber: "00000000",
+                customerReference: "reference",
+                description: "description",
+                descriptionIdentifier: "description identifier",
+                descriptionValues: {
+                    key: "value"
+                },
+                etag: "etag",
+                id: "CCD-123456-123456",
+                itemCosts: [{
+                    itemCost: "10",
+                    productType: "type",
+                    discountApplied: "0",
+                    calculatedCost: "10"
+                }],
+        itemOptions: {
+            collectionLocation : "london",
+            contactNumber : "02920123456",
+            deliveryMethod : "collection",
+            deliveryTimescale : "same-day",
+            filingHistoryDocuments : [{
+                filingHistoryDate : "2020-07-29",
+                filingHistoryDescription : "change-person-director-company-with-change-date",
+                filingHistoryDescriptionValues : {
+                    change_date : "2020-07-29",
+                    officer_name : "Mr Yawl Ladderrivulet"
+                },
+                filingHistoryId : "OTYxMzE0MjczMmFkaXF6a2N4",
+                filingHistoryType : "NEWINC",
+                filingHistoryCost : "100"
+            }],
+        forename : "cat",
+        surname : "bob"
+        },
+        links: {
+            self: "/path/to/certified-copy"
+        },
+        kind: "item#certified-copy",
+        postalDelivery: true,
+        postageCost: "0",
+        quantity: 1,
+        totalItemCost: "30"
             } as CertifiedCopyItem;
 
             getCertifiedCopyItemStub = sandbox.stub(apiClient, "getCertifiedCopyItem")
@@ -149,6 +188,8 @@ describe("delivery.options.controller.integration.test", () => {
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain(DELIVERY_OPTION_NOT_SELECTED);
+            chai.expect(resp.text).to.contain("30");
+            chai.expect(resp.text).to.contain("£100")
         });
     });
 

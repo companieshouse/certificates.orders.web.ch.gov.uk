@@ -58,8 +58,13 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         if (!errors.isEmpty()) {
             const errorArray = errors.array();
             const errorText = errorArray[errorArray.length - 1].msg as string;
+            const EXPRESS_COST =  "50";
+            const STANDARD_COST = "15";
             const deliveryOptionsErrorData = createGovUkErrorData(errorText, "#deliveryOptions", true, "");
             return res.render(DELIVERY_OPTIONS, {
+                DISPATCH_DAYS,
+                EXPRESS_COST,
+                STANDARD_COST,
                 pageTitleText: PAGE_TITLE,
                 SERVICE_URL: setServiceUrl(certificateItem),
                 backLink: setBackLink(certificateItem, req.session),
