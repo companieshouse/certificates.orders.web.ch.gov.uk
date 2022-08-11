@@ -176,10 +176,12 @@ if (process.env.NODE_ENV !== "production") {
     app.use("/orderable/certificates-assets/static", express.static("dist/static"));
     env.addGlobal("CSS_URL", "/orderable/certificates-assets/static/app.css");
     env.addGlobal("FOOTER", "/orderable/certificates-assets/static/footer.css");
+    env.addGlobal("MOBILE_MENU", "/orderable/certificates-assets/static/js/mobile-menu.js");
 } else {
     app.use("/orderable/certificates-assets/static", express.static("static"));
     env.addGlobal("CSS_URL", "/orderable/certificates-assets/static/app.css");
     env.addGlobal("FOOTER", "/orderable/certificates-assets/static/footer.css");
+    env.addGlobal("MOBILE_MENU", "/orderable/certificates-assets/static/js/mobile-menu.js");
 }
 
 // apply our default router to /
