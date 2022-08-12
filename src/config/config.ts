@@ -62,3 +62,7 @@ export const DYNAMIC_LLP_CERTIFICATE_ORDERS_ENABLED = getEnvironmentValue("DYNAM
 export const LIQUIDATED_COMPANY_CERTIFICATES_ENABLED = getEnvironmentValue("LIQUIDATED_COMPANY_CERTIFICATES_ENABLED", "false") === "true";
 
 export const ADMINISTRATOR_COMPANY_CERTIFICATES_ENABLED = getEnvironmentValue("ADMINISTRATOR_COMPANY_CERTIFICATES_ENABLED", "false") === "true";
+
+export const ACCOUNT_URL = getEnvironmentValue("ACCOUNT_URL");
+
+export const CHS_MONITOR_GUI_URL = getEnvironmentValue("CHS_MONITOR_GUI_URL")

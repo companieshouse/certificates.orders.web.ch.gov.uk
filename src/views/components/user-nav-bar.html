@@ -1,0 +1,30 @@
+<div class="js-toggle-nav" id="global-nav">
+    {% if signedIn %}
+    <a href="#navigation" class="js-header-toggle"> {{ userEmail }}
+        <span class="govuk-visually-hidden">Click to expand or collapse</span>
+    </a>
+    {% else  %}
+    <a id="user-signin-mobile" href="/signin" class="sign-in govuk-link">Sign in / Register</a>
+    {% endif %}
+    <nav role="navigation" class="content {% if signedIn != true %}mobile-hidden{% endif %}">
+        <ul id="navigation">
+            {% if signedIn %}
+            <li id="signed-in-user" class="user">{{ userEmail }}: </li>
+            <li>
+                <a id="user-account" href="{{ ACCOUNT_URL }}">Your details</a>
+            </li>
+            <li>
+                <a id="user-transactions" href="/user/transactions">Your filings</a>
+            </li>
+            <li>
+                <a id="user-follow" href="{{ CHS_MONITOR_GUI_URL }}">Companies you follow</a>
+            </li>
+            <li>
+                <a id="user-signout" href="/signout">Sign out</a>
+            </li>
+            {% else  %}
+            <li class="unauthenticated"><a class="govuk-link" id="user-signin" href="/signin">Sign in / Register</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
