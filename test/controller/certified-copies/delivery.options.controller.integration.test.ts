@@ -6,6 +6,7 @@ import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
 import * as apiClient from "../../../src/client/api.client";
 import { CertifiedCopyItem } from "@companieshouse/api-sdk-node/dist/services/order/certified-copies/types";
 import { CERTIFIED_COPY_DELIVERY_OPTIONS, replaceCertifiedCopyId } from "../../../src/model/page.urls";
+import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
@@ -98,7 +99,10 @@ describe("delivery.options.controller.integration.test", () => {
             certifiedCopyItem.itemOptions.deliveryTimescale = "same-day";
             patchCertifiedCopyItemStub = sandbox.stub(apiClient, "patchCertifiedCopyItem")
                 .returns(Promise.resolve(certifiedCopyItem));
-            
+
+            sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: false }));
+
             const resp = await chai.request(testApp)
                 .post(DELIVERY_OPTIONS_URL)
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
@@ -109,6 +113,62 @@ describe("delivery.options.controller.integration.test", () => {
 
             chai.expect(resp.status).to.equal(302);
             chai.expect(resp.text).to.include("Found. Redirecting to delivery-details");
+        });
+
+        it("redirects an enrolled user to the delivery details page if no deliverable items", async () => {
+            getCertifiedCopyItemStub = sandbox.stub(apiClient, "getCertifiedCopyItem")
+                .returns(Promise.resolve(certifiedCopyItem));
+            certifiedCopyItem.itemOptions.deliveryTimescale = "same-day";
+            patchCertifiedCopyItemStub = sandbox.stub(apiClient, "patchCertifiedCopyItem")
+                .returns(Promise.resolve(certifiedCopyItem));
+
+            sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
+            sandbox.mock(apiClient).expects("appendItemToBasket")
+                .once()
+                .returns(Promise.resolve());
+
+            const resp = await chai.request(testApp)
+                .post(DELIVERY_OPTIONS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
+                .redirects(0)
+                .send({
+                    deliveryOptions: "same-day"
+                });
+
+            chai.expect(resp.status).to.equal(302);
+            chai.expect(resp.text).to.include("/delivery-details");
+        });
+
+        it("redirects an enrolled user to the basket page if deliverable items already in basket", async () => {
+            getCertifiedCopyItemStub = sandbox.stub(apiClient, "getCertifiedCopyItem")
+                .returns(Promise.resolve(certifiedCopyItem));
+            certifiedCopyItem.itemOptions.deliveryTimescale = "same-day";
+            patchCertifiedCopyItemStub = sandbox.stub(apiClient, "patchCertifiedCopyItem")
+                .returns(Promise.resolve(certifiedCopyItem));
+
+            sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve(
+                    {
+                        enrolled: true,
+                        items: [{
+                            ...certifiedCopyItem
+                        }]
+                    } as Basket));
+            sandbox.mock(apiClient).expects("appendItemToBasket")
+                .once()
+                .returns(Promise.resolve());
+
+            const resp = await chai.request(testApp)
+                .post(DELIVERY_OPTIONS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
+                .redirects(0)
+                .send({
+                    deliveryOptions: "same-day"
+                });
+
+            chai.expect(resp.status).to.equal(302);
+            chai.expect(resp.text).to.include("/basket");
         });
     });
 
@@ -148,33 +208,33 @@ describe("delivery.options.controller.integration.test", () => {
                     discountApplied: "0",
                     calculatedCost: "10"
                 }],
-        itemOptions: {
-            collectionLocation : "london",
-            contactNumber : "02920123456",
-            deliveryMethod : "collection",
-            deliveryTimescale : "same-day",
-            filingHistoryDocuments : [{
-                filingHistoryDate : "2020-07-29",
-                filingHistoryDescription : "change-person-director-company-with-change-date",
-                filingHistoryDescriptionValues : {
-                    change_date : "2020-07-29",
-                    officer_name : "Mr Yawl Ladderrivulet"
+                itemOptions: {
+                    collectionLocation: "london",
+                    contactNumber: "02920123456",
+                    deliveryMethod: "collection",
+                    deliveryTimescale: "same-day",
+                    filingHistoryDocuments: [{
+                        filingHistoryDate: "2020-07-29",
+                        filingHistoryDescription: "change-person-director-company-with-change-date",
+                        filingHistoryDescriptionValues: {
+                            change_date: "2020-07-29",
+                            officer_name: "Mr Yawl Ladderrivulet"
+                        },
+                        filingHistoryId: "OTYxMzE0MjczMmFkaXF6a2N4",
+                        filingHistoryType: "NEWINC",
+                        filingHistoryCost: "100"
+                    }],
+                    forename: "cat",
+                    surname: "bob"
                 },
-                filingHistoryId : "OTYxMzE0MjczMmFkaXF6a2N4",
-                filingHistoryType : "NEWINC",
-                filingHistoryCost : "100"
-            }],
-        forename : "cat",
-        surname : "bob"
-        },
-        links: {
-            self: "/path/to/certified-copy"
-        },
-        kind: "item#certified-copy",
-        postalDelivery: true,
-        postageCost: "0",
-        quantity: 1,
-        totalItemCost: "30"
+                links: {
+                    self: "/path/to/certified-copy"
+                },
+                kind: "item#certified-copy",
+                postalDelivery: true,
+                postageCost: "0",
+                quantity: 1,
+                totalItemCost: "30"
             } as CertifiedCopyItem;
 
             getCertifiedCopyItemStub = sandbox.stub(apiClient, "getCertifiedCopyItem")
@@ -189,7 +249,7 @@ describe("delivery.options.controller.integration.test", () => {
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain(DELIVERY_OPTION_NOT_SELECTED);
             chai.expect(resp.text).to.contain("£30");
-            chai.expect(resp.text).to.contain("£100")
+            chai.expect(resp.text).to.contain("£100");
         });
     });
 
