@@ -6,8 +6,7 @@ import { getCertificateItem } from "../../client/api.client";
 import {
     CERTIFICATE_OPTIONS,
     replaceCertificateId,
-    DISSOLVED_CERTIFICATE_DELIVERY_DETAILS,
-    LP_CERTIFICATE_OPTIONS, LLP_CERTIFICATE_OPTIONS
+    LP_CERTIFICATE_OPTIONS, LLP_CERTIFICATE_OPTIONS, DISSOLVED_CERTIFICATE_DELIVERY_OPTIONS
 } from "../../model/page.urls";
 import { getAccessToken } from "../../session/helper";
 import { createLogger } from "ch-structured-logging";
@@ -30,7 +29,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
             let returnToUrl;
 
             if (originatingUrl.includes("/dissolved-certificates")) {
-                returnToUrl = replaceCertificateId(DISSOLVED_CERTIFICATE_DELIVERY_DETAILS, certificateId);
+                returnToUrl = replaceCertificateId(DISSOLVED_CERTIFICATE_DELIVERY_OPTIONS, certificateId);
             } else if (originatingUrl.includes("/lp-certificates")) {
                 returnToUrl = replaceCertificateId(LP_CERTIFICATE_OPTIONS, certificateId);
             } else if (originatingUrl.includes("/llp-certificates")) {

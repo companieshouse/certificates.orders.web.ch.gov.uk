@@ -106,7 +106,7 @@ describe("certificate.auth.middleware.unit", () => {
         );
         await certificateAuthMiddleware(req, res, nextFunctionSpy);
         chai.expect(redirectSpy)
-            .to.have.been.calledWith("/signin?return_to=/orderable/dissolved-certificates/CRT-837816-028323/delivery-details");
+            .to.have.been.calledWith("/signin?return_to=/orderable/dissolved-certificates/CRT-837816-028323/delivery-options");
     });
 
     it("should call res.redirect if there is no session for dissolved certificate", async () => {
@@ -118,6 +118,6 @@ describe("certificate.auth.middleware.unit", () => {
         req.session = undefined;
         await certificateAuthMiddleware(req, res, nextFunctionSpy);
         chai.expect(redirectSpy)
-            .to.have.been.calledWith("/signin?return_to=/orderable/dissolved-certificates/CRT-837816-028323/delivery-details");
+            .to.have.been.calledWith("/signin?return_to=/orderable/dissolved-certificates/CRT-837816-028323/delivery-options");
     });
 });
