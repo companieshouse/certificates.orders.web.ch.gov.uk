@@ -166,7 +166,9 @@ describe("request.util.unit",
                     "/\\/orderable\\/lp-certificates\\/CRT-\\d{6}-\\d{6}\\/certificate-options/," +
                     "/\\/orderable\\/llp-certificates\\/CRT-\\d{6}-\\d{6}\\/certificate-options/," +
                     "/\\/orderable\\/certified-copies\\/CCD-\\d{6}-\\d{6}\\/delivery-details/," +
+                    "/\\/orderable\\/certified-copies\\/CCD-\\d{6}-\\d{6}\\/delivery-options/," +
                     "/\\/orderable\\/dissolved-certificates\\/CRT-\\d{6}-\\d{6}\\/delivery-details/," +
+                    "/\\/orderable\\/dissolved-certificates\\/CRT-\\d{6}-\\d{6}\\/delivery-options/," +
                     "/\\/company\\/[A-Z0-9]{8}\\/orderable\\/missing-image-deliveries\\/[a-zA-Z0-9]{8,}\\/create/," +
                     "/\\/orderable\\/missing-image-deliveries\\/MID-\\d{6}-\\d{6}\\/check-details/.");
             });
