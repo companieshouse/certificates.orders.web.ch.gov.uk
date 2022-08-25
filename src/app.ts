@@ -10,6 +10,7 @@ import lpCertRouter from "./routers/certificates/lp-certificates/routers";
 import llpCertRouter from "./routers/certificates/llp-certificates/routers";
 import certCopyRouter from "./routers/certified-copies/routers";
 import missingImageDeliveryRouter from "./routers/missing-image-deliveries/routers";
+import errorHandlers from "./controllers/error.controller";
 
 import { ERROR_SUMMARY_TITLE } from "./model/error.messages";
 import * as pageUrls from "./model/page.urls";
@@ -52,9 +53,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
 
-app.use(function(req, res, next) { 
-    res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
-     next();
+app.use(function (req, res, next) {
+    res.header("Cache-Control", "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0");
+    next();
 });
 
 // where nunjucks templates should resolve to
@@ -209,5 +210,6 @@ if (FEATURE_FLAGS.llpCertificateOrdersEnabled) {
 }
 app.use("/", certCopyRouter);
 app.use("/", missingImageDeliveryRouter);
+app.use(errorHandlers);
 
 export default app;
