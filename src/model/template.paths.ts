@@ -42,3 +42,5 @@ export const CERTIFIED_COPY_ORDER_DETAILS: string = `${certifiedCopyRoot}/order-
 
 export const MISSING_IMAGE_DELIVERY_INDEX: string = `${missingImageDeliveryRoot}/index`;
 export const MISSING_IMAGE_DELIVERY_CHECK_DETAILS: string = `${missingImageDeliveryRoot}/check-details`;
+
+export const ERROR: string = "error";
