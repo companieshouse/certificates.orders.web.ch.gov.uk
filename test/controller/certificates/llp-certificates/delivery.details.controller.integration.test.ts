@@ -13,6 +13,7 @@ import { SIGNED_IN_COOKIE, signedInSession } from "../../../__mocks__/redis.mock
 const ENTER_YOUR_FIRST_NAME_NOT_INPUT = "Enter your first name";
 const ENTER_YOUR_LAST_NAME_NOT_INPUT = "Enter your last name";
 const ENTER_BUILDING_AND_STREET_LINE_ONE = "Enter a building and street";
+const COMPANY_NAME_INVALID_CHARACTER_ERROR = "Company name cannot include";
 const FIRST_NAME_INVALID_CHARACTER_ERROR = "First name cannot include";
 const LAST_NAME_INVALID_CHARACTER_ERROR = "Last name cannot include";
 const ADDRESS_LINE_ONE_INVALID_CHARACTERS_ERROR: string = "Address line 1 cannot include ";
@@ -115,12 +116,14 @@ describe("certificate.delivery.details.controller", () => {
                     addressLineTwo: INVALID_CHARACTER,
                     addressPostcode: INVALID_CHARACTER,
                     addressTown: INVALID_CHARACTER,
+                    companyName: INVALID_CHARACTER,
                     firstName: INVALID_CHARACTER,
                     lastName: INVALID_CHARACTER
                 })
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
 
             chai.expect(res.status).to.equal(200);
+            chai.expect(res.text).to.contain(COMPANY_NAME_INVALID_CHARACTER_ERROR);
             chai.expect(res.text).to.contain(FIRST_NAME_INVALID_CHARACTER_ERROR);
             chai.expect(res.text).to.contain(LAST_NAME_INVALID_CHARACTER_ERROR);
             chai.expect(res.text).to.contain(ADDRESS_LINE_ONE_INVALID_CHARACTERS_ERROR);
@@ -144,12 +147,14 @@ describe("certificate.delivery.details.controller", () => {
                     addressLineTwo: CHARACTER_LENGTH_TEXT_50,
                     addressPostcode: CHARACTER_LENGTH_TEXT_50,
                     addressTown: CHARACTER_LENGTH_TEXT_50,
+                    companyName: CHARACTER_LENGTH_TEXT_50,
                     firstName: CHARACTER_LENGTH_TEXT_50,
                     lastName: CHARACTER_LENGTH_TEXT_50
                 })
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
 
             chai.expect(res.status).to.equal(200);
+            chai.expect(res.text).to.contain(errorMessages.ORDER_DETAILS_COMPANY_NAME_MAX_LENGTH);
             chai.expect(res.text).to.contain(errorMessages.ORDER_DETAILS_FIRST_NAME_MAX_LENGTH);
             chai.expect(res.text).to.contain(errorMessages.ORDER_DETAILS_LAST_NAME_MAX_LENGTH);
             chai.expect(res.text).to.contain(errorMessages.ADDRESS_LINE_ONE_MAX_LENGTH);
@@ -211,6 +216,7 @@ describe("certificate.delivery.details.controller", () => {
                     addressLineTwo: "Pontcanna",
                     addressPostcode: "CF11 9VE",
                     addressTown: "CARDIFF",
+                    companyName: "Ink Inc",
                     firstName: "JOHN",
                     lastName: "SMITH"
                 })
