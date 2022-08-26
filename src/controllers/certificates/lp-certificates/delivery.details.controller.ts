@@ -11,7 +11,7 @@ import { DELIVERY_DETAILS, DELIVERY_OPTIONS, EMAIL_OPTIONS } from "../../../mode
 import { createLogger } from "ch-structured-logging";
 import { APPLICATION_NAME } from "../../../config/config";
 import { deliveryDetailsValidationRules, validate } from "../../../utils/delivery-details-validation";
-import { setServiceUrl } from "../../../utils/service.url.utils";import { Session } from "@companieshouse/node-session-handler/lib/session/model/Session";import CertificateSessionData from "../../../session/CertificateSessionData";
+import { setServiceUrl } from "../../../utils/service.url.utils";
 import { DeliveryDetailsPropertyName } from "../model/DeliveryDetailsPropertyName";
 
 const PAGE_TITLE: string = "Delivery details - Order a certificate - GOV.UK";
@@ -26,6 +26,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
         logger.info(`Get certificate item, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
         return res.render(DELIVERY_DETAILS, {
+            companyName: "TODO BI-11579",
             firstName: basket.deliveryDetails?.forename,
             lastName: basket.deliveryDetails?.surname,
             addressLineOne: basket.deliveryDetails?.addressLine1,
@@ -50,6 +51,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
 const route = async (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
     const errorList = validate(errors);
+    const companyName: string = req.body[DeliveryDetailsPropertyName.COMPANY_NAME];
     const firstName: string = req.body[DeliveryDetailsPropertyName.FIRST_NAME];
     const lastName: string = req.body[DeliveryDetailsPropertyName.LAST_NAME];
     const addressLineOne: string = req.body[DeliveryDetailsPropertyName.ADDRESS_LINE_ONE];
@@ -72,6 +74,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
             addressPostcode,
             addressTown,
             companyNumber: certificateItem.companyNumber,
+            companyName,
             firstName,
             lastName,
             pageTitle: PAGE_TITLE,
@@ -99,7 +102,8 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
                 locality: addressTown,
                 postalCode: addressPostcode || null,
                 region: addressCounty || null,
-                surname: lastName
+                surname: lastName/* , TODO BI-11579
+                companyName: companyName || null */
             }
         };
         const certificatePatchResponse = await patchCertificateItem(
