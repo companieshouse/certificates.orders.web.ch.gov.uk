@@ -63,6 +63,7 @@ describe("certificate.delivery.details.controller", () => {
                 deliveryDetails: {
                     addressLine1: "117 kings road",
                     addressLine2: "pontcanna",
+                    companyName: "company name",
                     country: "wales",
                     locality: "canton",
                     postalCode: "cf5 4xb",
@@ -79,6 +80,7 @@ describe("certificate.delivery.details.controller", () => {
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("What are the delivery details?");
+            chai.expect(resp.text).to.contain("company name");
         });
     });
 

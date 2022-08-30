@@ -10,6 +10,7 @@ export const mockBasketDetails: any = {
     deliveryDetails: {
         addressLine1: "117 kings road",
         addressLine2: "pontcanna",
+        companyName: "company name",
         country: "wales",
         locality: "canton",
         postalCode: "cf5 4xb",

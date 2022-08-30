@@ -26,7 +26,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
         logger.info(`Get certificate item, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
         return res.render(DELIVERY_DETAILS, {
-            companyName: "TODO BI-11579",
+            companyName: basket.deliveryDetails?.companyName,
             firstName: basket.deliveryDetails?.forename,
             lastName: basket.deliveryDetails?.surname,
             addressLineOne: basket.deliveryDetails?.addressLine1,
