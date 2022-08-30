@@ -196,7 +196,6 @@ describe("certified.copies.delivery.details.controller", () => {
                     addressLineTwo: "Pontcanna",
                     addressPostcode: "CF11 9VE",
                     addressTown: "CARDIFF",
-                    companyName: "Ink Inc",
                     firstName: "JOHN",
                     lastName: "SMITH"
                 })
