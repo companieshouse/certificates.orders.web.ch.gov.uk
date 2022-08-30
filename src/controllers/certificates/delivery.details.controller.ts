@@ -98,13 +98,13 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
             deliveryDetails: {
                 addressLine1: addressLineOne,
                 addressLine2: addressLineTwo || null,
+                companyName: companyName || null,
                 country: addressCountry,
                 forename: firstName,
                 locality: addressTown,
                 postalCode: addressPostcode || null,
                 region: addressCounty || null,
-                surname: lastName/* , TODO BI-11579
-                companyName: companyName || null */
+                surname: lastName
             }
         };
         const certificatePatchResponse = await patchCertificateItem(
