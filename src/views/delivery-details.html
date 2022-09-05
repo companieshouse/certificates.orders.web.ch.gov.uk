@@ -41,6 +41,17 @@
 
         {{ govukInput({
           label: {
+            text: "Company name"
+          },
+        classes: "govuk-!-width-two-thirds",
+        id: "companyName",
+        name: "companyName",
+        value: companyName,
+        errorMessage: companyNameError
+        }) }}
+
+        {{ govukInput({
+          label: {
             text: "First name"
           },
         classes: "govuk-!-width-two-thirds",

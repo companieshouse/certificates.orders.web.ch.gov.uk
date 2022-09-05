@@ -14,4 +14,9 @@ describe("char.set.unit", () => {
         const validatedCharSet = validateCharSet(DUMMY_VALID_NAME);
         chai.expect(validatedCharSet).to.be.undefined;
     });
+
+    it("should return undefined if the input is undefined", () => {
+        const validatedCharSet = validateCharSet(undefined);
+        chai.expect(validatedCharSet).to.be.undefined;
+    });
 });

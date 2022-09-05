@@ -44,6 +44,7 @@ const dummyBasketSDKResponse: Resource<Basket> = {
         deliveryDetails: {
             addressLine1: "117 kings road",
             addressLine2: "canton",
+            companyName: "company name",
             country: "wales",
             forename: "John",
             locality: "Cardiff",
@@ -60,6 +61,7 @@ const basketPatchRequest: BasketPatchRequest = {
     deliveryDetails: {
         addressLine1: "117 kings road",
         addressLine2: "canton",
+        companyName: "company name",
         country: "wales",
         forename: "John",
         locality: "Cardiff",

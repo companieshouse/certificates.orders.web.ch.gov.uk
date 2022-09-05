@@ -1,4 +1,5 @@
 export const enum DeliveryDetailsPropertyName {
+    COMPANY_NAME = "companyName",
     FIRST_NAME = "firstName",
     LAST_NAME = "lastName",
     ADDRESS_LINE_ONE = "addressLineOne",
@@ -7,4 +8,4 @@ export const enum DeliveryDetailsPropertyName {
     ADDRESS_COUNTY = "addressCounty",
     ADDRESS_POSTCODE = "addressPostcode",
     ADDRESS_COUNTRY = "addressCountry"
-};
+}

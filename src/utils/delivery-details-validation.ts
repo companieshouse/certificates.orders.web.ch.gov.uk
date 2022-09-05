@@ -3,6 +3,7 @@ import * as errorMessages from "../model/error.messages";
 import { validateCharSet } from "../utils/char-set";
 import { createGovUkErrorData, GovUkErrorData } from "../model/govuk.error.data";
 
+const COMPANY_NAME_FIELD: string = "companyName";
 const FIRST_NAME_FIELD: string = "firstName";
 const LAST_NAME_FIELD: string = "lastName";
 const ADDRESS_LINE_ONE_FIELD: string = "addressLineOne";
@@ -14,10 +15,19 @@ const ADDRESS_COUNTRY_FIELD: string = "addressCountry";
 
 export const deliveryDetailsValidationRules =
     [
+        check(COMPANY_NAME_FIELD)
+            .isLength({ max: 32 }).withMessage(errorMessages.ORDER_DETAILS_COMPANY_NAME_MAX_LENGTH)
+            .custom((_companyName, { req }) => {
+                const invalidChar = validateCharSet(req.body[COMPANY_NAME_FIELD]);
+                if (invalidChar) {
+                    throw Error(errorMessages.COMPANY_NAME_INVALID_CHARACTERS + invalidChar);
+                }
+                return true;
+            }),
         check(FIRST_NAME_FIELD)
             .not().isEmpty().withMessage(errorMessages.ORDERS_DETAILS_FIRST_NAME_EMPTY)
             .isLength({ max: 32 }).withMessage(errorMessages.ORDER_DETAILS_FIRST_NAME_MAX_LENGTH)
-            .custom((firstName, { req }) => {
+            .custom((_firstName, { req }) => {
                 const invalidChar = validateCharSet(req.body[FIRST_NAME_FIELD]);
                 if (invalidChar) {
                     throw Error(errorMessages.FIRST_NAME_INVALID_CHARACTERS + invalidChar);
@@ -27,7 +37,7 @@ export const deliveryDetailsValidationRules =
         check(LAST_NAME_FIELD)
             .not().isEmpty().withMessage(errorMessages.ORDERS_DETAILS_LAST_NAME_EMPTY)
             .isLength({ max: 32 }).withMessage(errorMessages.ORDER_DETAILS_LAST_NAME_MAX_LENGTH)
-            .custom((lastName, { req }) => {
+            .custom((_lastName, { req }) => {
                 const invalidChar = validateCharSet(req.body[LAST_NAME_FIELD]);
                 if (invalidChar) {
                     throw Error(errorMessages.LAST_NAME_INVALID_CHARACTERS + invalidChar);
@@ -37,7 +47,7 @@ export const deliveryDetailsValidationRules =
         check(ADDRESS_LINE_ONE_FIELD)
             .not().isEmpty().withMessage(errorMessages.ADDRESS_LINE_ONE_EMPTY)
             .isLength({ max: 50 }).withMessage(errorMessages.ADDRESS_LINE_ONE_MAX_LENGTH)
-            .custom((addressLineOne, { req }) => {
+            .custom((_addressLineOne, { req }) => {
                 const invalidChar = validateCharSet(req.body[ADDRESS_LINE_ONE_FIELD]);
                 if (invalidChar) {
                     throw Error(errorMessages.ADDRESS_LINE_ONE_INVALID_CHARACTERS + invalidChar);
@@ -46,7 +56,7 @@ export const deliveryDetailsValidationRules =
             }),
         check(ADDRESS_LINE_TWO_FIELD)
             .isLength({ max: 50 }).withMessage(errorMessages.ADDRESS_LINE_TWO_MAX_LENGTH)
-            .custom((addressLineTwo, { req }) => {
+            .custom((_addressLineTwo, { req }) => {
                 const invalidChar = validateCharSet(req.body[ADDRESS_LINE_TWO_FIELD]);
                 if (invalidChar) {
                     throw Error(errorMessages.ADDRESS_LINE_TWO_INVALID_CHARACTERS + invalidChar);
@@ -56,7 +66,7 @@ export const deliveryDetailsValidationRules =
         check(ADDRESS_TOWN_FIELD)
             .not().isEmpty().withMessage(errorMessages.ADDRESS_TOWN_EMPTY)
             .isLength({ max: 50 }).withMessage(errorMessages.ADDRESS_TOWN_MAX_LENGTH)
-            .custom((addressTown, { req }) => {
+            .custom((_addressTown, { req }) => {
                 const invalidChar = validateCharSet(req.body[ADDRESS_TOWN_FIELD]);
                 if (invalidChar) {
                     throw Error(errorMessages.ADDRESS_TOWN_INVALID_CHARACTERS + invalidChar);
@@ -74,7 +84,7 @@ export const deliveryDetailsValidationRules =
             }),
         check(ADDRESS_COUNTY_FIELD)
             .isLength({ max: 50 }).withMessage(errorMessages.ADDRESS_COUNTY_MAX_LENGTH)
-            .custom((addressCounty, { req }) => {
+            .custom((_addressCounty, { req }) => {
                 const invalidChar = validateCharSet(req.body[ADDRESS_COUNTY_FIELD]);
                 if (invalidChar) {
                     throw Error(errorMessages.ADDRESS_COUNTY_INVALID_CHARACTERS + invalidChar);
@@ -83,7 +93,7 @@ export const deliveryDetailsValidationRules =
             }),
         check(ADDRESS_POSTCODE_FIELD)
             .isLength({ max: 15 }).withMessage(errorMessages.ADDRESS_POSTCODE_MAX_LENGTH)
-            .custom((addressPostcode, { req }) => {
+            .custom((_addressPostcode, { req }) => {
                 const invalidChar = validateCharSet(req.body[ADDRESS_POSTCODE_FIELD]);
                 if (invalidChar) {
                     throw Error(errorMessages.ADDRESS_POSTCODE_INVALID_CHARACTERS + invalidChar);
@@ -93,7 +103,7 @@ export const deliveryDetailsValidationRules =
         check(ADDRESS_COUNTRY_FIELD)
             .not().isEmpty().withMessage(errorMessages.ADDRESS_COUNTRY_EMPTY)
             .isLength({ max: 50 }).withMessage(errorMessages.ADDRESS_COUNTRY_MAX_LENGTH)
-            .custom((addressCountry, { req }) => {
+            .custom((_addressCountry, { req }) => {
                 const invalidChar = validateCharSet(req.body[ADDRESS_COUNTRY_FIELD]);
                 if (invalidChar) {
                     throw Error(errorMessages.ADDRESS_COUNTRY_INVALID_CHARACTERS + invalidChar);
@@ -109,12 +119,16 @@ export const validate = (validationErrors) => {
     let addressLineTwoError;
     let addressPostcodeError;
     let addressTownError;
+    let companyNameError;
     let firstNameError;
     let lastNameError;
 
     const validationErrorList = validationErrors.array({ onlyFirstError: true }).map((error) => {
         const govUkErrorData: GovUkErrorData = createGovUkErrorData(error.msg, "#" + error.param, true, "");
         switch (error.param) {
+        case COMPANY_NAME_FIELD:
+            companyNameError = govUkErrorData;
+            break;
         case FIRST_NAME_FIELD:
             firstNameError = govUkErrorData;
             break;
@@ -155,6 +169,7 @@ export const validate = (validationErrors) => {
         addressLineTwoError,
         addressPostcodeError,
         addressTownError,
+        companyNameError,
         firstNameError,
         lastNameError
     };

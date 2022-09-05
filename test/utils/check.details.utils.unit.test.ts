@@ -87,6 +87,7 @@ const itemOptions: ItemOptions = {
 const deliveryDetails: DeliveryDetails = {
     addressLine1: "Address Line 1",
     addressLine2: "Address Line 2",
+    companyName: "Company Name",
     country: "Wales",
     forename: "John",
     locality: "Locality",
