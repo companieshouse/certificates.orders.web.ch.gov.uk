@@ -172,6 +172,10 @@ export class CertificateTextMapper implements DefaultCompanyMappable, LLPCompany
             return "";
         }
 
+        
+        if (deliveryDetails.companyName !== "" && deliveryDetails.companyName !== undefined) {
+            mappings.push(deliveryDetails.companyName);
+        }
         mappings.push(deliveryDetails.forename + " " + deliveryDetails.surname);
         mappings.push(deliveryDetails.addressLine1);
 
