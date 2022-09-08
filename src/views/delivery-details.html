@@ -39,16 +39,18 @@
           } %}
         {% endif %}
 
-        {{ govukInput({
-          label: {
-            text: "Company name"
-          },
-        classes: "govuk-!-width-two-thirds",
-        id: "companyName",
-        name: "companyName",
-        value: companyName,
-        errorMessage: companyNameError
-        }) }}
+        {% if displayCompanyName %}
+          {{ govukInput({
+            label: {
+              text: "Company name"
+            },
+          classes: "govuk-!-width-two-thirds",
+          id: "companyName",
+          name: "companyName",
+          value: companyName,
+          errorMessage: companyNameError
+          }) }}
+        {% endif %}
 
         {{ govukInput({
           label: {
