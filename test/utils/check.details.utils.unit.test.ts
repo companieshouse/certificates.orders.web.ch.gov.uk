@@ -101,7 +101,7 @@ describe("certificate.check.details.controller.unit", () => {
     describe("mapDeliveryDetails", () => {
         it("should map the correct values when all options are present", () => {
             const returnedString: string = mapDeliveryDetails(deliveryDetails);
-            const expectedString: string = "John Smith<br>" +
+            const expectedString: string = "John Smith<br>Company Name<br>" +
                 "Address Line 1<br>Address Line 2<br>Locality<br>Region<br>CF10 2AA<br>Wales<br>";
 
             chai.expect(returnedString).to.equal(expectedString);
