@@ -125,7 +125,6 @@ describe("certified.copies.delivery.details.controller", () => {
             chai.expect(res.text).to.contain(ADDRESS_COUNTY_INVALID_CHARACTERS_ERROR);
             chai.expect(res.text).to.contain(ADDRESS_POSTCODE_INVALID_CHARACTERS_ERROR);
             chai.expect(res.text).to.contain(ADDRESS_COUNTRY_INVALID_CHARACTERS_ERROR);
-            chai.expect(res.text).to.contain(ADDRESS_COUNTRY_INVALID_CHARACTERS_ERROR);
             chai.expect(res.text).to.contain(COMPANY_NAME_INVALID_CHARACTER_ERROR);
         });
 
