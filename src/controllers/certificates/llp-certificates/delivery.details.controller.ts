@@ -27,7 +27,6 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         logger.info(`Get certificate item, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
         return res.render(DELIVERY_DETAILS, {
             companyName: basket.deliveryDetails?.companyName,
-            displayCompanyName: true,
             firstName: basket.deliveryDetails?.forename,
             lastName: basket.deliveryDetails?.surname,
             addressLineOne: basket.deliveryDetails?.addressLine1,
@@ -76,7 +75,6 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
             addressTown,
             companyNumber: certificateItem.companyNumber,
             companyName,
-            displayCompanyName: true,
             firstName,
             lastName,
             pageTitle: PAGE_TITLE,

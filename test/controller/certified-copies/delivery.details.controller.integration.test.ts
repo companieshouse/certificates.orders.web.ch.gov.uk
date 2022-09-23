@@ -14,6 +14,7 @@ const ENTER_YOUR_LAST_NAME_NOT_INPUT = "Enter your last name";
 const ENTER_BUILDING_AND_STREET_LINE_ONE = "Enter a building and street";
 const FIRST_NAME_INVALID_CHARACTER_ERROR = "First name cannot include";
 const LAST_NAME_INVALID_CHARACTER_ERROR = "Last name cannot include";
+const COMPANY_NAME_INVALID_CHARACTER_ERROR = "Company name cannot include";
 const ADDRESS_LINE_ONE_INVALID_CHARACTERS_ERROR: string = "Address line 1 cannot include ";
 const ADDRESS_LINE_TWO_INVALID_CHARACTERS_ERROR: string = "Address line 2 cannot include ";
 const ADDRESS_TOWN_INVALID_CHARACTERS_ERROR: string = "Town or city cannot include ";
@@ -55,6 +56,7 @@ describe("certified.copies.delivery.details.controller", () => {
                 deliveryDetails: {
                     forename: "john",
                     surname: "smith",
+                    companyName: "company name",
                     addressLine1: "117 kings road",
                     addressLine2: "pontcanna",
                     country: "wales",
@@ -73,6 +75,7 @@ describe("certified.copies.delivery.details.controller", () => {
 
             chai.expect(res.status).to.equal(200);
             chai.expect(res.text).to.contain("What are the delivery details?");
+            chai.expect(res.text).to.contain("company name");
         });
     });
 
@@ -108,7 +111,8 @@ describe("certified.copies.delivery.details.controller", () => {
                     addressPostcode: INVALID_CHARACTER,
                     addressTown: INVALID_CHARACTER,
                     firstName: INVALID_CHARACTER,
-                    lastName: INVALID_CHARACTER
+                    lastName: INVALID_CHARACTER,
+                    companyName: INVALID_CHARACTER
                 })
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
 
@@ -121,6 +125,7 @@ describe("certified.copies.delivery.details.controller", () => {
             chai.expect(res.text).to.contain(ADDRESS_COUNTY_INVALID_CHARACTERS_ERROR);
             chai.expect(res.text).to.contain(ADDRESS_POSTCODE_INVALID_CHARACTERS_ERROR);
             chai.expect(res.text).to.contain(ADDRESS_COUNTRY_INVALID_CHARACTERS_ERROR);
+            chai.expect(res.text).to.contain(COMPANY_NAME_INVALID_CHARACTER_ERROR);
         });
 
         it("should receive error messages requesting less than allowed character length in input fields", async () => {
@@ -136,7 +141,8 @@ describe("certified.copies.delivery.details.controller", () => {
                     addressPostcode: CHARACTER_LENGTH_TEXT_50,
                     addressTown: CHARACTER_LENGTH_TEXT_50,
                     firstName: CHARACTER_LENGTH_TEXT_50,
-                    lastName: CHARACTER_LENGTH_TEXT_50
+                    lastName: CHARACTER_LENGTH_TEXT_50,
+                    companyName: CHARACTER_LENGTH_TEXT_50
                 })
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
 
@@ -149,6 +155,7 @@ describe("certified.copies.delivery.details.controller", () => {
             chai.expect(res.text).to.contain(errorMessages.ADDRESS_COUNTY_MAX_LENGTH);
             chai.expect(res.text).to.contain(errorMessages.ADDRESS_POSTCODE_MAX_LENGTH);
             chai.expect(res.text).to.contain(errorMessages.ADDRESS_COUNTRY_MAX_LENGTH);
+            chai.expect(res.text).to.contain(errorMessages.ORDER_DETAILS_COMPANY_NAME_MAX_LENGTH);
         });
 
         it("should not receive Postcode or county error message when postcode is input", async () => {
@@ -196,6 +203,7 @@ describe("certified.copies.delivery.details.controller", () => {
                     addressLineTwo: "Pontcanna",
                     addressPostcode: "CF11 9VE",
                     addressTown: "CARDIFF",
+                    companyName: "Ink Inc",
                     firstName: "JOHN",
                     lastName: "SMITH"
                 })

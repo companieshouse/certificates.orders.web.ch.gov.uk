@@ -9,16 +9,9 @@ import { APPLICATION_NAME } from "../../config/config";
 import { getBasket, patchBasket, getCertifiedCopyItem } from "../../client/api.client";
 import { deliveryDetailsValidationRules, validate } from "../../utils/delivery-details-validation";
 import { CertifiedCopyItem } from "@companieshouse/api-sdk-node/dist/services/order/certified-copies/types";
+import { DeliveryDetailsPropertyName } from "../certificates/model/DeliveryDetailsPropertyName";
 const escape = require("escape-html");
 
-const FIRST_NAME_FIELD: string = "firstName";
-const LAST_NAME_FIELD: string = "lastName";
-const ADDRESS_LINE_ONE_FIELD: string = "addressLineOne";
-const ADDRESS_LINE_TWO_FIELD: string = "addressLineTwo";
-const ADDRESS_TOWN_FIELD: string = "addressTown";
-const ADDRESS_COUNTY_FIELD: string = "addressCounty";
-const ADDRESS_POSTCODE_FIELD: string = "addressPostcode";
-const ADDRESS_COUNTRY_FIELD: string = "addressCountry";
 const PAGE_TITLE: string = "Delivery details - Order a certified document - GOV.UK";
 
 const logger = createLogger(APPLICATION_NAME);
@@ -37,6 +30,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         return res.render(DELIVERY_DETAILS, {
             firstName: basket.deliveryDetails?.forename,
             lastName: basket.deliveryDetails?.surname,
+            companyName: basket.deliveryDetails?.companyName,
             addressLineOne: basket.deliveryDetails?.addressLine1,
             addressLineTwo: basket.deliveryDetails?.addressLine2,
             addressCountry: basket.deliveryDetails?.country,
@@ -64,14 +58,15 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
     const backLink: string = `/orderable/certified-copies/${certifiedCopyItemId}/delivery-options`;
     const errors = validationResult(req);
     const errorList = validate(errors);
-    const firstName: string = req.body[FIRST_NAME_FIELD];
-    const lastName: string = req.body[LAST_NAME_FIELD];
-    const addressLineOne: string = req.body[ADDRESS_LINE_ONE_FIELD];
-    const addressLineTwo: string = req.body[ADDRESS_LINE_TWO_FIELD];
-    const addressTown: string = req.body[ADDRESS_TOWN_FIELD];
-    const addressCounty: string = req.body[ADDRESS_COUNTY_FIELD];
-    const addressPostcode: string = req.body[ADDRESS_POSTCODE_FIELD];
-    const addressCountry: string = req.body[ADDRESS_COUNTRY_FIELD];
+    const firstName: string = req.body[DeliveryDetailsPropertyName.FIRST_NAME];
+    const lastName: string = req.body[DeliveryDetailsPropertyName.LAST_NAME];
+    const companyName: string = req.body[DeliveryDetailsPropertyName.COMPANY_NAME];
+    const addressLineOne: string = req.body[DeliveryDetailsPropertyName.ADDRESS_LINE_ONE];
+    const addressLineTwo: string = req.body[DeliveryDetailsPropertyName.ADDRESS_LINE_TWO];
+    const addressTown: string = req.body[DeliveryDetailsPropertyName.ADDRESS_TOWN];
+    const addressCounty: string = req.body[DeliveryDetailsPropertyName.ADDRESS_COUNTY];
+    const addressPostcode: string = req.body[DeliveryDetailsPropertyName.ADDRESS_POSTCODE];
+    const addressCountry: string = req.body[DeliveryDetailsPropertyName.ADDRESS_COUNTRY];
     const SERVICE_URL = `/company/${companyNumber}/orderable/certified-copies`;
 
     if (!errors.isEmpty()) {
@@ -83,6 +78,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
             addressLineTwo,
             addressPostcode,
             addressTown,
+            companyName,
             firstName,
             lastName,
             backLink,
@@ -99,6 +95,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
             deliveryDetails: {
                 addressLine1: addressLineOne,
                 addressLine2: addressLineTwo || null,
+                companyName: companyName || null,
                 country: addressCountry,
                 forename: firstName,
                 locality: addressTown,
