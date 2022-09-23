@@ -12,6 +12,11 @@ export const mapDeliveryDetails = (deliveryDetails: DeliveryDetails | undefined)
     }
 
     mappings.push(deliveryDetails.forename + " " + deliveryDetails.surname);
+
+    if (deliveryDetails.companyName !== "" && deliveryDetails.companyName !== undefined) {
+        mappings.push(deliveryDetails.companyName);
+    }
+
     mappings.push(deliveryDetails.addressLine1);
 
     if (deliveryDetails.addressLine2 !== "" && deliveryDetails.addressLine2 !== undefined) {
