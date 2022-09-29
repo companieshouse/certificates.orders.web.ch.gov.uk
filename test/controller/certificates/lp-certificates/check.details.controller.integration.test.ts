@@ -84,7 +84,7 @@ describe("LP certificate.check.details.controller.integration", () => {
             chai.expect($(".govuk-heading-xl").text()).to.equal("Check your order details");
             chai.expect($("#orderDetails").text()).to.equal("Order details");
             chai.expect($(".govuk-summary-list__row:nth-of-type(2)").find(".govuk-summary-list__key").text().trim()).to.include("Email copy required");
-            chai.expect($(".govuk-summary-list__row:nth-of-type(2)").find(".govuk-summary-list__value").text().trim()).to.include("Email only available for express delivery method");
+            chai.expect($(".govuk-summary-list__row:nth-of-type(2)").find(".govuk-summary-list__value").text().trim()).to.include("Email only available for express dispatch");
         });
 
         it("renders the view/change certificate options page", async () => {

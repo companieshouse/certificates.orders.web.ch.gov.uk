@@ -40,10 +40,10 @@ export const mapDeliveryDetails = (deliveryDetails: DeliveryDetails | undefined)
 
 export const mapDeliveryMethod = (itemOptions: Record<string, any>): string | null => {
     if (itemOptions?.deliveryTimescale === "standard") {
-        return "Standard delivery (aim to dispatch within " + dispatchDays + " working days)";
+        return "Standard (aim to send out within " + dispatchDays + " working days)";
     }
     if (itemOptions?.deliveryTimescale === "same-day") {
-        return "Express (Orders received before 11am will be dispatched the same day. Orders received after 11am will be dispatched the next working day)";
+        return "Express (Orders received before 11am will be sent out the same day. Orders received after 11am will be sent out the next working day)";
     }
     return null;
 };

@@ -87,7 +87,7 @@ describe("LLP certificate.check.details.controller.integration", () => {
             chai.expect($("#orderDetails").text()).to.equal("Order details");
             chai.expect($(".govuk-summary-list__row:nth-of-type(4)").find(".govuk-summary-list__key").text().trim()).to.include("Statement of good standing");
             chai.expect($(".govuk-summary-list__row:nth-of-type(2)").find(".govuk-summary-list__key").text().trim()).to.include("Email copy required");
-            chai.expect($(".govuk-summary-list__row:nth-of-type(2)").find(".govuk-summary-list__value").text().trim()).to.include("Email only available for express delivery method");
+            chai.expect($(".govuk-summary-list__row:nth-of-type(2)").find(".govuk-summary-list__value").text().trim()).to.include("Email only available for express dispatch");
         });
 
         it("renders the view/change certificate options page", async () => {
@@ -162,7 +162,7 @@ describe("LLP certificate.check.details.controller.integration", () => {
             chai.expect($(".govuk-summary-list__row:nth-of-type(7)").find(".govuk-summary-list__key").text().trim()).to.equal("Liquidators' details");
             chai.expect($(".liquidators").text().trim()).to.equal("Yes");
             chai.expect($(".govuk-summary-list__row:nth-of-type(2)").find(".govuk-summary-list__key").text().trim()).to.include("Email copy required");
-            chai.expect($(".govuk-summary-list__row:nth-of-type(2)").find(".govuk-summary-list__value").text().trim()).to.include("Email only available for express delivery method");
+            chai.expect($(".govuk-summary-list__row:nth-of-type(2)").find(".govuk-summary-list__value").text().trim()).to.include("Email only available for express dispatch");
         });
 
         it("renders the check details screen for an LLP in administration", async () => {
@@ -202,7 +202,7 @@ describe("LLP certificate.check.details.controller.integration", () => {
             chai.expect($(".govuk-summary-list__row:nth-of-type(7)").find(".govuk-summary-list__key").text().trim()).to.equal("Administrators' details");
             chai.expect($(".administrators").text().trim()).to.equal("Yes");
             chai.expect($(".govuk-summary-list__row:nth-of-type(2)").find(".govuk-summary-list__key").text().trim()).to.include("Email copy required");
-            chai.expect($(".govuk-summary-list__row:nth-of-type(2)").find(".govuk-summary-list__value").text().trim()).to.include("Email only available for express delivery method");
+            chai.expect($(".govuk-summary-list__row:nth-of-type(2)").find(".govuk-summary-list__value").text().trim()).to.include("Email only available for express dispatch");
         });
     });
 
