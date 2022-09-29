@@ -39,7 +39,7 @@
             name: "deliveryOptions",
             fieldset: {
             legend: {
-            text: "Choose a delivery option",
+            text: "Choose a dispatch option",
             isPageHeading: true,
             classes: "govuk-fieldset__legend--xl"
           }
@@ -50,7 +50,7 @@
             value: "same-day",
             text: "Express (£" + EXPRESS_COST + ")",
             hint: {
-              text: "Orders received before 11am are dispatched the same day. Orders received after 11am will be dispatched the next working day."
+              text: "£50 for express dispatch to a UK or international address. Orders received before 11am will be sent out the same working day. Orders received after 11am will be sent out the next working day. We send UK orders by Royal Mail 1st Class post and international orders by Royal Mail International post."
             },
             attributes: {
               "data-event-id" : "express-delivery"
@@ -61,7 +61,7 @@
             value: "standard",
             text: "Standard (£" + STANDARD_COST + ")",
             hint: {
-              text: "We will aim to dispatch the order within " + DISPATCH_DAYS + " working days."
+              text: "We will aim to send out the order within " + DISPATCH_DAYS + " working days. We send UK orders by Royal Mail 2nd Class post and international orders by Royal Mail International Standard post."
             },
             attributes: {
               "data-event-id" : "standard-delivery"
