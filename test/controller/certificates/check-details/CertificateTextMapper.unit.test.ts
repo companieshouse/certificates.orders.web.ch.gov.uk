@@ -190,7 +190,7 @@ describe("CertificateTextMapper", () => {
                 deliveryTimescale: "standard",
                 emailCopyRequired: false
             };
-            chai.expect(textMapper.mapEmailCopyRequired(itemOptions)).to.equal("Email only available for express delivery method");
+            chai.expect(textMapper.mapEmailCopyRequired(itemOptions)).to.equal("Email only available for express dispatch");
         });
 
         it("it returns Yes for express delivery option with email required selected true", () => {

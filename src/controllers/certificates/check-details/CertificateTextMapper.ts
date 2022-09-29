@@ -201,10 +201,10 @@ export class CertificateTextMapper implements DefaultCompanyMappable, LLPCompany
 
     public mapDeliveryMethod (itemOptions: Record<string, any>): string | null {
         if (itemOptions?.deliveryTimescale === "standard") {
-            return "Standard delivery (aim to dispatch within " + this.dispatchDays + " working days)";
+            return "Standard (aim to send out within " + this.dispatchDays + " working days)";
         }
         if (itemOptions?.deliveryTimescale === "same-day") {
-            return "Express (Orders received before 11am will be dispatched the same day. Orders received after 11am will be dispatched the next working day)";
+            return "Express (Orders received before 11am will be sent out the same day. Orders received after 11am will be sent out the next working day)";
         }
         return null;
     }
@@ -226,7 +226,7 @@ export class CertificateTextMapper implements DefaultCompanyMappable, LLPCompany
                 return "No";
             }
         } else {
-            return "Email only available for express delivery method";
+            return "Email only available for express dispatch";
         }
     };
 };
