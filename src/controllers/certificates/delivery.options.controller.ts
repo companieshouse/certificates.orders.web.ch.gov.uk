@@ -30,11 +30,13 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
         const EXPRESS_COST =  "50";
         const STANDARD_COST = "15";
+        const EXPRESS_DISPATCH_TEXT = "£50 for express dispatch to a UK or international address. Orders received before 11am will be sent out the same working day. Orders received after 11am will be sent out the next working day. We send UK orders by Royal Mail 1st Class post and international orders by Royal Mail International post.";
         logger.info(`Get certificate item, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
         return res.render(DELIVERY_OPTIONS, {
             DISPATCH_DAYS,
             EXPRESS_COST,
             STANDARD_COST,
+            EXPRESS_DISPATCH_TEXT,
             deliveryOption: certificateItem.itemOptions.deliveryTimescale,
             templateName: DELIVERY_DETAILS,
             pageTitleText: PAGE_TITLE,

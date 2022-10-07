@@ -28,11 +28,13 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const filingType: string = certifiedCopyItem.itemOptions.filingHistoryDocuments[0].filingHistoryType;
         const EXPRESS_COST = filingType === "NEWINC" ? "100" : "50";
         const STANDARD_COST = filingType === "NEWINC" ? "30" : "15";
+        const EXPRESS_DISPATCH_TEXT = "Orders received before 11am will be sent out the same working day. Orders received after 11am will be sent out the next working day. We send UK orders by Royal Mail 1st Class post and international orders by Royal Mail International post.";
         logger.info(`Get certified copy item, id=${certifiedCopyItem.id}, user_id=${userId}, company_number=${certifiedCopyItem.companyNumber}`);
         return res.render(DELIVERY_OPTIONS, {
             DISPATCH_DAYS,
             EXPRESS_COST,
             STANDARD_COST,
+            EXPRESS_DISPATCH_TEXT,
             deliveryOption: certifiedCopyItem.itemOptions.deliveryTimescale,
             templateName: DELIVERY_OPTIONS,
             pageTitleText: PAGE_TITLE,
