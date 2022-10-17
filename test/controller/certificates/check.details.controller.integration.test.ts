@@ -151,7 +151,6 @@ describe("certificate.check.details.controller.integration", () => {
 
             chai.expect(resp.status).to.equal(200);
             chai.expect($(".govuk-heading-xl").text()).to.equal("Check your certificate");
-            chai.expect($("#cert-options-heading").text()).to.equal("Certificate options");
             chai.expect($(".govuk-summary-list__row:nth-of-type(4)").find(".govuk-summary-list__key").text().trim()).to.include("Statement of good standing");
             chai.expect($(".govuk-summary-list__row:nth-of-type(9)").find(".govuk-summary-list__key").text().trim()).to.include("Dispatch method");
             chai.expect($(".govuk-summary-list__row:nth-of-type(10)").find(".govuk-summary-list__key").text().trim()).to.include("Email copy required");
@@ -285,7 +284,7 @@ describe("certificate.check.details.controller.integration", () => {
             chai.expect(resp.text).not.to.contain("Included on certificate");
             chai.expect(resp.text).to.contain("Dissolution with all company name changes");
             chai.expect(resp.text).to.contain("Email copy required\n        </dt>\n        <dd class=\"govuk-summary-list__value\">\n          Yes\n");
-            chai.expect(resp.text).to.contain("Dispatch method\n        </dt>\n        <dd class=\"govuk-summary-list__value\">\n          Express (Orders received before 11am will be sent out the same day. Orders received after 11am will be sent out the next working day)\n");
+            chai.expect(resp.text).to.contain("Dispatch method\n        </dt>\n        <dd class=\"govuk-summary-list__value\">\n");
         });
     });
 
