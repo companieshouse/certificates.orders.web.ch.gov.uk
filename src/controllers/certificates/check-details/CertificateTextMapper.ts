@@ -201,10 +201,10 @@ export class CertificateTextMapper implements DefaultCompanyMappable, LLPCompany
 
     public mapDeliveryMethod (itemOptions: Record<string, any>): string | null {
         if (itemOptions?.deliveryTimescale === "standard") {
-            return "Standard (aim to send out within " + this.dispatchDays + " working days)";
+            return "Standard";
         }
         if (itemOptions?.deliveryTimescale === "same-day") {
-            return "Express (Orders received before 11am will be sent out the same day. Orders received after 11am will be sent out the next working day)";
+            return "Express";
         }
         return null;
     }

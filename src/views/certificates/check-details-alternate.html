@@ -19,8 +19,6 @@
 
             <h1 id="pageHeading" class="govuk-heading-xl">Check your certificate</h1>
 
-            <h2 id="cert-options-heading" class="govuk-heading-m">Certificate options</h2>
-
           {% if isNotDissolutionCertificateType %}
             {{ govukSummaryList({
               classes: 'govuk-!-margin-bottom-9',
@@ -226,8 +224,16 @@
                 }
               ], filterMappings)
             }) }}
+            {{ govukButton({
+              text: "Change your certificate",
+              href: "certificate-options"
+            }) }}
 
-            <p class="govuk-body"> To change your certificate options, you'll need to <a id="restartOrder" class="govuk-link" href="{{ changeIncludedOn }}">start the order again</a>.</p>
+            {{ govukButton({
+              text: "Return to your basket",
+              classes: "govuk-button--secondary",
+              href: "/basket"
+            }) }}
 
           {% else %}
             {{ govukSummaryList({
