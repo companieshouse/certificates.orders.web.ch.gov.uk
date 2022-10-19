@@ -2,13 +2,14 @@ import {
     DirectorOrSecretaryDetails,
     MemberDetails
 } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
-import { DeliveryDetails } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
+import { Basket, DeliveryDetails } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 import { AddressRecordsType } from "../../../model/AddressRecordsType";
 import { DefaultCompanyMappable } from "./DefaultCompanyMappable";
 import { LLPCompanyMappable } from "./LLPCompanyMappable";
 const escape = require("escape-html");
 
 export class CertificateTextMapper implements DefaultCompanyMappable, LLPCompanyMappable {
+
     private dispatchDays: string;
 
     public constructor (dispatchDays: string) {
@@ -199,15 +200,24 @@ export class CertificateTextMapper implements DefaultCompanyMappable, LLPCompany
         return this.mapToHtml(mappings);
     }
 
-    public mapDeliveryMethod (itemOptions: Record<string, any>): string | null {
-        if (itemOptions?.deliveryTimescale === "standard") {
-            return "Standard";
+    public mapDeliveryMethod (itemOptions: Record<string, any>, basket:Boolean): string | null {
+        if (basket) {
+            if (itemOptions?.deliveryTimescale === "standard") {
+                return "Standard";
+            } else if (itemOptions?.deliveryTimescale === "same-day") {
+                return "Express";
+            } 
+            return null;
+        } else {
+            if (itemOptions?.deliveryTimescale === "standard") {
+                return "Standard (aim to send out within " + this.dispatchDays + " working days)";
+            } 
+            if (itemOptions?.deliveryTimescale === "same-day") {
+                return "Express (Orders received before 11am will be sent out the same day. Orders received after 11am will be sent out the next working day)";
+            } 
         }
-        if (itemOptions?.deliveryTimescale === "same-day") {
-            return "Express";
+            return null;
         }
-        return null;
-    }
 
     private mapToHtml (mappings: string[]): string {
         let htmlString: string = "";
