@@ -200,8 +200,8 @@ export class CertificateTextMapper implements DefaultCompanyMappable, LLPCompany
         return this.mapToHtml(mappings);
     }
 
-    public mapDeliveryMethod (itemOptions: Record<string, any>, basket:Boolean): string | null {
-        if (basket) {
+    public mapDeliveryMethod (itemOptions: Record<string, any>, multiBasketEnabled:Boolean): string | null {
+        if (multiBasketEnabled) {
             if (itemOptions?.deliveryTimescale === "standard") {
                 return "Standard";
             } else if (itemOptions?.deliveryTimescale === "same-day") {
