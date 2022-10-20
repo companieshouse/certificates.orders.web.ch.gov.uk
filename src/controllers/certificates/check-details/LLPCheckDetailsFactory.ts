@@ -21,7 +21,7 @@ export class LLPCheckDetailsFactory implements ViewModelCreatable {
 
     public createViewModel (certificateItem: CertificateItem, basket: Basket): { [key: string]: any } {
         const itemOptions = certificateItem.itemOptions;
-        const baskets = basket.enrolled;
+        const multiItemBasketEnabled = basket.enrolled;
         const changeLink = (certificateItem.itemOptions?.certificateType !== "dissolution")
             ? replaceCertificateId(LLP_CERTIFICATE_DELIVERY_DETAILS, certificateItem.id)
             : replaceCertificateId(DISSOLVED_CERTIFICATE_DELIVERY_DETAILS, certificateItem.id);
@@ -32,7 +32,7 @@ export class LLPCheckDetailsFactory implements ViewModelCreatable {
             companyName: certificateItem.companyName,
             companyNumber: certificateItem.companyNumber,
             certificateType: this.textMapper.mapCertificateType(itemOptions.certificateType),
-            deliveryMethod: this.textMapper.mapDeliveryMethod(itemOptions, baskets),
+            deliveryMethod: this.textMapper.mapDeliveryMethod(itemOptions, multiItemBasketEnabled),
             emailCopyRequired: this.textMapper.mapEmailCopyRequired(itemOptions),
             fee: this.textMapper.prependCurrencySymbol(certificateItem.itemCosts[0].itemCost),
             changeIncludedOn: replaceCertificateId(LLP_CERTIFICATE_OPTIONS, certificateItem.id),

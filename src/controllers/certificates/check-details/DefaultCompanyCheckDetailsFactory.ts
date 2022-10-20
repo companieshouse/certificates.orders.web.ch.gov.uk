@@ -17,7 +17,7 @@ export class DefaultCompanyCheckDetailsFactory implements ViewModelCreatable {
 
     public createViewModel (certificateItem: CertificateItem, basket: Basket): { [key: string]: any } {
         const itemOptions = certificateItem.itemOptions;
-        const baskets = basket.enrolled;
+        const multiItemBasketEnabled = basket.enrolled;
         const changeLink = (itemOptions.certificateType !== "dissolution")
             ? `/orderable/certificates/${certificateItem.id}/delivery-details`
             : `/orderable/dissolved-certificates/${certificateItem.id}/delivery-details`;
@@ -25,7 +25,7 @@ export class DefaultCompanyCheckDetailsFactory implements ViewModelCreatable {
             companyName: certificateItem.companyName,
             companyNumber: certificateItem.companyNumber,
             certificateType: this.textMapper.mapCertificateType(itemOptions.certificateType),
-            deliveryMethod: this.textMapper.mapDeliveryMethod(itemOptions, baskets),
+            deliveryMethod: this.textMapper.mapDeliveryMethod(itemOptions, multiItemBasketEnabled),
             emailCopyRequired: this.textMapper.mapEmailCopyRequired(itemOptions),
             fee: this.textMapper.prependCurrencySymbol(certificateItem.itemCosts[0].itemCost),
             changeIncludedOn: replaceCertificateId(CERTIFICATE_OPTIONS, certificateItem.id),

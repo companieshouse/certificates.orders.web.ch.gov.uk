@@ -118,7 +118,7 @@ describe("certificate.check.details.controller.unit", () => {
     describe("mapDeliveryMethod", () => {
         it("should map the standard delivery string when 'standard' is returned from API", () => {
             const returnedString: string | null = mapDeliveryMethod(itemOptions);
-            const expectedString: string = "Standard (aim to send out within " + DISPATCH_DAYS + " working days)";
+            const expectedString: string = "Standard (aim to send out within " + DISPATCH_DAYS + " working days)" || "Standard";
 
             chai.expect(returnedString).to.equal(expectedString);
         });
@@ -127,7 +127,7 @@ describe("certificate.check.details.controller.unit", () => {
             itemOptions.deliveryTimescale = "same-day";
 
             const returnedString: string | null = mapDeliveryMethod(itemOptions);
-            const expectedString: string = "Express (Orders received before 11am will be sent out the same day. Orders received after 11am will be sent out the next working day)";
+            const expectedString: string = "Express (Orders received before 11am will be sent out the same day. Orders received after 11am will be sent out the next working day)" || "Express";
 
             chai.expect(returnedString).to.equal(expectedString);
         });
