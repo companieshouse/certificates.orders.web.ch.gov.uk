@@ -3,10 +3,12 @@ import chai from "chai";
 import { DobType } from "../../../../src/model/DobType";
 import { AddressRecordsType } from "../../../../src/model/AddressRecordsType";
 import { CertificateTextMapper } from "../../../../src/controllers/certificates/check-details/CertificateTextMapper";
+import { DISPATCH_DAYS } from "../../../../src/config/config";
 import sessionHandler from "@companieshouse/node-session-handler"; // needed for side-effects
 
 describe("CertificateTextMapper", () => {
-    const textMapper = new CertificateTextMapper("5");
+    const textMapper = new CertificateTextMapper("10");
+    const dispatchDays: string = DISPATCH_DAYS;
 
     describe("mapCertificateType", () => {
         it("removes the '-' if present and capitalises the first letter", () => {
@@ -208,6 +210,45 @@ describe("CertificateTextMapper", () => {
                 includeEmailCopy: false
             };
             chai.expect(textMapper.mapEmailCopyRequired(itemOptions)).to.equal("No");
+        });
+    });
+
+    describe("maps dispatch method correctly", () => {
+        it("it returns output stating standard delivery is selected if multiBasketEnabled", () => {
+            const itemOptions = {
+                deliveryTimescale: "standard",
+                multiBasketEnabled: true
+            };
+            chai.expect(textMapper.mapDeliveryMethod(itemOptions, true)).to.equal("Standard");
+        });
+
+        it("it returns Express for express delivery option selected if multiBasketEnabled ", () => {
+            const itemOptions = {
+                deliveryTimescale: "same-day",
+                multiBasketEnabled: true
+            };
+            chai.expect(textMapper.mapDeliveryMethod(itemOptions, true)).to.equal("Express");
+        });
+
+        it("it returns output stating standard delivery is selected", () => {
+            const itemOptions = {
+                deliveryTimescale: "standard",
+            };
+            chai.expect(textMapper.mapDeliveryMethod(itemOptions, false)).to.equal("Standard (aim to send out within " + dispatchDays + " working days)");
+        });
+
+        it("it returns Express for express delivery option selected", () => {
+            const itemOptions = {
+                deliveryTimescale: "same-day",
+            };
+            chai.expect(textMapper.mapDeliveryMethod(itemOptions, false)).to.equal("Express (Orders received before 11am will be sent out the same day. Orders received after 11am will be sent out the next working day)");
+        });
+
+        it("It returns null if deliveryTimscale is null", () => {
+            const itemOptions = {
+                deliveryTimescale: "null",
+            };
+            chai.expect(textMapper.mapDeliveryMethod(itemOptions, false)).to.equal (null);
         });
     });
 });
