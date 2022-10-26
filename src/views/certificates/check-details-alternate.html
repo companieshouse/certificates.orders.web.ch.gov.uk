@@ -7,7 +7,10 @@
 {% block beforeContent %}
   {{ govukBackLink({
     text: "Back",
-    href: "javascript:history.back()"
+    href: "javascript:history.back()",
+    attributes: {
+      "data-event-id" : "back"
+    }
   }) }}
 {% endblock %}
 
@@ -226,13 +229,19 @@
             }) }}
             {{ govukButton({
               text: "Change your certificate",
-              href: "certificate-options"
+              href: "certificate-options",
+              attributes: {
+                "data-event-id" : "change-your-certificate"
+              }
             }) }}
 
             {{ govukButton({
               text: "Return to your basket",
               classes: "govuk-button--secondary",
-              href: "/basket"
+              href: "/basket",
+              attributes: {
+                "data-event-id" : "return-to-your-basket"
+              }
             }) }}
 
           {% else %}
