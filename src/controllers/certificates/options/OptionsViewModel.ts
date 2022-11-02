@@ -1,4 +1,5 @@
 import { ItemOptions } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
+import { BasketLink } from "model/BasketLink";
 
 export type OptionsViewModelData = {
     companyNumber: string
@@ -7,6 +8,9 @@ export type OptionsViewModelData = {
     SERVICE_URL: string
     filterMappings?: {[key: string]: boolean}
     optionFilter?: (options: { value: string }[], filter: { [key: string]: boolean }) => { value: string }[]
+    showBasketLink: boolean
+    basketWebUrl?: string
+    basketItems?: number
 };
 
 export class OptionsViewModel {
