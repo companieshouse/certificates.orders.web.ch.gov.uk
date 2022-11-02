@@ -8,6 +8,8 @@ import { createLogger } from "ch-structured-logging";
 import { registeredOfficeAddressValidationRules, validate } from "../../validation/certificates/registered.office.options.validation";
 import { APPLICATION_NAME } from "../../config/config";
 import CertificateSessionData from "../../session/CertificateSessionData";
+import { getBasketLink } from "../../utils/basket.utils";
+import { BasketLink } from "../../model/BasketLink";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -23,6 +25,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
     const userId = getUserId(req.session);
     const accessToken: string = getAccessToken(req.session);
     const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
+    const basketLink: BasketLink = await getBasketLink(req);
     const itemOptions: ItemOptions = certificateItem.itemOptions;
     const SERVICE_URL = `/company/${certificateItem.companyNumber}/orderable/certificates`;
     const isFullPage = req.query.layout === "full";
@@ -35,7 +38,8 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         optionFilter: optionFilter,
         isFullPage: isFullPage,
         backLink: generateBackLink(isFullPage),
-        roaSelection: certificateItem.itemOptions.registeredOfficeAddressDetails?.includeAddressRecordsType
+        roaSelection: certificateItem.itemOptions.registeredOfficeAddressDetails?.includeAddressRecordsType,
+        ...basketLink
     });
 };
 

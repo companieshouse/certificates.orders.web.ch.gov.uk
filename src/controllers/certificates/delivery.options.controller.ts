@@ -12,6 +12,8 @@ import CertificateSessionData from "session/CertificateSessionData";
 import { DELIVERY_OPTION_SELECTION } from "../../model/error.messages";
 import { createGovUkErrorData } from "../../model/govuk.error.data";
 import { BY_ITEM_KIND, StaticRedirectCallback } from "./StaticRedirectCallback";
+import { getBasketLink } from "../../utils/basket.utils";
+import { BasketLink } from "../../model/BasketLink";
 
 const DELIVERY_OPTION_FIELD: string = "deliveryOptions";
 const PAGE_TITLE: string = "Delivery options - Order a certificate - GOV.UK";
@@ -28,6 +30,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const userId = getUserId(req.session);
         const accessToken: string = getAccessToken(req.session);
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
+        const basketLink: BasketLink = await getBasketLink(req);
         const EXPRESS_COST =  "50";
         const STANDARD_COST = "15";
         const EXPRESS_DISPATCH_TEXT = "£50 for express dispatch to a UK or international address. Orders received before 11am will be sent out the same working day. Orders received after 11am will be sent out the next working day. We send UK orders by Royal Mail 1st Class post and international orders by Royal Mail International post.";
@@ -41,7 +44,8 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             templateName: DELIVERY_DETAILS,
             pageTitleText: PAGE_TITLE,
             SERVICE_URL: setServiceUrl(certificateItem),
-            backLink: setBackLink(certificateItem, req.session)
+            backLink: setBackLink(certificateItem, req.session),
+            ...basketLink
         });
     } catch (err) {
         logger.error(`${err}`);

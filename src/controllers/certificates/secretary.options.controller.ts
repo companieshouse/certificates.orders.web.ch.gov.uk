@@ -7,6 +7,8 @@ import { APPLICATION_NAME } from "../../config/config";
 import { DirectorOrSecretaryDetailsRequest, CertificateItemPatchRequest, CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { Session } from "@companieshouse/node-session-handler/lib/session/model/Session";
 import CertificateSessionData from "../../session/CertificateSessionData";
+import { getBasketLink } from "../../utils/basket.utils";
+import { BasketLink } from "../../model/BasketLink";
 
 const INCLUDE_ADDRESS_FIELD: string = "address";
 const INCLUDE_APPOINTMENT_DATE_FIELD: string = "appointment";
@@ -17,6 +19,7 @@ const logger = createLogger(APPLICATION_NAME);
 export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const accessToken: string = getAccessToken(req.session);
     const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
+    const basketLink: BasketLink = await getBasketLink(req);
     const SERVICE_URL = `/company/${certificateItem.companyNumber}/orderable/certificates`;
     const backLink = setBackLink(certificateItem, req.session);
 
@@ -24,7 +27,8 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         companyNumber: certificateItem.companyNumber,
         backLink,
         secretaryDetails: certificateItem.itemOptions?.secretaryDetails,
-        SERVICE_URL
+        SERVICE_URL,
+        ...basketLink
     });
 };
 
