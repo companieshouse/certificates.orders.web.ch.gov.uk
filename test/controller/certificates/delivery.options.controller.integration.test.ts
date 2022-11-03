@@ -51,6 +51,8 @@ describe("delivery.options.integration.test", () => {
         it("renders the delivery options page", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItem));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
 
             const resp = await chai.request(testApp)
                 .get(DELIVERY_OPTIONS_URL)
@@ -65,6 +67,8 @@ describe("delivery.options.integration.test", () => {
         it("renders the delivery options page for a dissolved company", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItem));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
 
             const resp = await chai.request(testApp)
                 .get(DISSOLVED_DELIVERY_OPTIONS_URL)
@@ -81,6 +85,8 @@ describe("delivery.options.integration.test", () => {
         it("throws a validation error when no option selected", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItem));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
 
             const resp = await chai.request(testApp)
                 .post(DELIVERY_OPTIONS_URL)
@@ -134,7 +140,7 @@ describe("delivery.options.integration.test", () => {
             patchCertificateItemStub = sandbox.stub(apiClient, "patchCertificateItem")
                 .returns(Promise.resolve(certificateDetails));
             getBasketStub = sandbox.stub(apiClient, "getBasket")
-                .returns(Promise.resolve({ enrolled: false }));
+                .returns(Promise.resolve({ enrolled: true }));
 
             const resp = await chai.request(testApp)
                 .post(DELIVERY_OPTIONS_URL)
@@ -219,6 +225,8 @@ describe("delivery.options.integration.test", () => {
         it("back button takes the user to the certificate options page if they have not selected any options", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItem));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
 
             const resp = await chai.request(testApp)
                 .get(DELIVERY_OPTIONS_URL)
@@ -241,6 +249,8 @@ describe("delivery.options.integration.test", () => {
 
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItem));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
 
             const resp = await chai.request(testApp)
                 .get(DELIVERY_OPTIONS_URL)
@@ -263,6 +273,8 @@ describe("delivery.options.integration.test", () => {
 
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItem));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
 
             const resp = await chai.request(testApp)
                 .get(DELIVERY_OPTIONS_URL)
@@ -285,6 +297,8 @@ describe("delivery.options.integration.test", () => {
 
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItem));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
 
             const resp = await chai.request(testApp)
                 .get(DELIVERY_OPTIONS_URL)
@@ -310,6 +324,8 @@ describe("delivery.options.integration.test", () => {
 
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItem));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
 
             const resp = await chai.request(testApp)
                 .get(DELIVERY_OPTIONS_URL)
@@ -338,6 +354,8 @@ describe("delivery.options.integration.test", () => {
 
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItem));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
 
             const resp = await chai.request(testApp)
                 .get(DELIVERY_OPTIONS_URL)
@@ -514,6 +532,8 @@ describe("delivery.options.integration.test", () => {
 
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateDetails));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
 
             const resp = await chai.request(testApp)
                 .get(DELIVERY_OPTIONS_URL)

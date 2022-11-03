@@ -16,6 +16,7 @@ const sandbox = sinon.createSandbox();
 let testApp = null;
 let getCertificateItemStub;
 let patchCertificateItemStub;
+let getBasketStub;
 
 describe("designated-member.options.integration.test", () => {
     beforeEach((done) => {
@@ -54,6 +55,8 @@ describe("designated-member.options.integration.test", () => {
         it("renders the designated member options page", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItem));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
 
             const resp = await chai.request(testApp)
                 .get(DESIGNATED_MEMBER_OPTIONS_URL)
@@ -114,6 +117,8 @@ describe("designated-member.options.integration.test", () => {
         it("renders the designated member options page with previously selected options checked", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(designatedMemberDetailsCertificateItem));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
 
             const resp = await chai.request(testApp)
                 .get(DESIGNATED_MEMBER_OPTIONS_URL)

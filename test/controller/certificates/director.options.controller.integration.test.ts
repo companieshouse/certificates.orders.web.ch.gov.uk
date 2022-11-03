@@ -16,6 +16,7 @@ const sandbox = sinon.createSandbox();
 let testApp = null;
 let getCertificateItemStub;
 let patchCertificateItemStub;
+let getBasketStub;
 
 describe("director.options.integration.test", () => {
     beforeEach((done) => {
@@ -56,6 +57,8 @@ describe("director.options.integration.test", () => {
         it("renders the director options page", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItem));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
 
             const resp = await chai.request(testApp)
                 .get(DIRECTOR_OPTIONS_URL)
@@ -117,6 +120,8 @@ describe("director.options.integration.test", () => {
         it("renders the director options page with previously selected options checked", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(directorDetailsCertificateItem));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
 
             const resp = await chai.request(testApp)
                 .get(DIRECTOR_OPTIONS_URL)
