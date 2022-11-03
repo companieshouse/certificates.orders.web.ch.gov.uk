@@ -10,6 +10,8 @@ import { APPLICATION_NAME } from "../../../config/config";
 import CertificateSessionData from "../../../session/CertificateSessionData";
 import { RegisteredOfficeAddressOptionName } from "./RegisteredOfficeAddressOptionName";
 import { AddressRecordsType } from "../../../model/AddressRecordsType";
+import { getBasketLink } from "../../../utils/basket.utils";
+import { BasketLink } from "../../../model/BasketLink";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -23,6 +25,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
     const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
     const SERVICE_URL = `/company/${certificateItem.companyNumber}/orderable/llp-certificates`;
     const isFullPage = req.query.layout === "full";
+    const basketLink: BasketLink = await getBasketLink(req);
 
     logger.info(`Certificate item retrieved, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
 
@@ -32,7 +35,8 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         optionFilter: optionFilter,
         isFullPage: isFullPage,
         backLink: generateBackLink(isFullPage),
-        roaSelection: certificateItem.itemOptions.registeredOfficeAddressDetails?.includeAddressRecordsType
+        roaSelection: certificateItem.itemOptions.registeredOfficeAddressDetails?.includeAddressRecordsType,
+        ...basketLink
     });
 };
 
