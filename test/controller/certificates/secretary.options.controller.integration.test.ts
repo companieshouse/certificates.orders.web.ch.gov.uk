@@ -16,6 +16,7 @@ const sandbox = sinon.createSandbox();
 let testApp = null;
 let getCertificateItemStub;
 let patchCertificateItemStub;
+let getBasketStub;
 
 const secretaryDetailsCertificateItem = {
     itemOptions: {
@@ -52,6 +53,8 @@ describe("secretary.options.integration.test", () => {
         it("renders the secretary options page", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItem));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
 
             const resp = await chai.request(testApp)
                 .get(SECRETARY_OPTIONS_URL)
@@ -86,6 +89,8 @@ describe("secretary.options.integration.test", () => {
         it("renders the secretary options page with previously selected options checked", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(secretaryDetailsCertificateItem));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
 
             const resp = await chai.request(testApp)
                 .get(SECRETARY_OPTIONS_URL)

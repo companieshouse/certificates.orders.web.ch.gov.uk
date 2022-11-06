@@ -16,6 +16,7 @@ const sandbox = sinon.createSandbox();
 let testApp = null;
 let getCertificateItemStub;
 let patchCertificateItemStub;
+let getBasketStub;
 
 describe("lp.certificate.options.controller.integration", () => {
     const certificateItem = {
@@ -52,6 +53,8 @@ describe("lp.certificate.options.controller.integration", () => {
         it("renders the certificate options page", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItem));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
 
             const resp = await chai.request(testApp)
                 .get(LP_CERTIFICATE_OPTIONS_URL)
