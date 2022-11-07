@@ -15,6 +15,8 @@ import CertificateSessionData from "../../../session/CertificateSessionData";
 import { replaceCompanyNumber, LLP_ROOT_CERTIFICATE } from "../../../model/page.urls";
 import { MembersOptionName } from "./MembersOptionName";
 import { LLP_CERTIFICATE_MEMBERS_OPTIONS } from "../../../model/template.paths";
+import { getBasketLink } from "../../../utils/basket.utils";
+import { BasketLink } from "../../../model/BasketLink";
 
 const logger = createLogger(APPLICATION_NAME);
 const MEMBERS_OPTIONS_FIELD: string = "membersOptions";
@@ -24,12 +26,14 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
     const accessToken: string = getAccessToken(req.session);
     const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
     const itemOptions: ItemOptions = certificateItem.itemOptions;
+    const basketLink: BasketLink = await getBasketLink(req);
     const SERVICE_URL = replaceCompanyNumber(LLP_ROOT_CERTIFICATE, certificateItem.companyNumber);
     logger.info(`Certificate item retrieved, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
     return res.render(LLP_CERTIFICATE_MEMBERS_OPTIONS, {
         memberDetails: itemOptions.memberDetails,
         SERVICE_URL,
-        backLink: setBackLink(certificateItem, req.session)
+        backLink: setBackLink(certificateItem, req.session),
+        ...basketLink
     });
 };
 

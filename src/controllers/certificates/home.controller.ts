@@ -14,6 +14,8 @@ import { YOU_CANNOT_USE_THIS_SERVICE } from "../../model/template.paths";
 import { CompanyType } from "../../model/CompanyType";
 import { FEATURE_FLAGS } from "../../config/FeatureFlags";
 import { optionFilter } from "./OptionFilter";
+import { BasketLink } from "../../model/BasketLink";
+import { getBasketLink } from "../../utils/basket.utils";
 
 type LandingPage = { landingPage: string, startNowUrl: string, serviceUrl: string }
 type CompanyDetail = { companyNumber: string, type: string };
@@ -125,6 +127,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const companyStatus = companyProfile.companyStatus;
         const companyType = companyProfile.type;
         const moreTabUrl = "/company/" + companyNumber + "/more";
+        const basketLink: BasketLink = await getBasketLink(req);
 
         const acceptableCompanyTypes = [
             CompanyType.LIMITED_LIABILITY_PARTNERSHIP,
@@ -180,7 +183,8 @@ export default async (req: Request, res: Response, next: NextFunction) => {
                     liquidators: companyProfile.companyStatus === "liquidation",
                     administrators: companyProfile.companyStatus === "administration"
                 },
-                optionFilter
+                optionFilter,
+                ...basketLink
             });
         } else {
             const SERVICE_NAME = null;

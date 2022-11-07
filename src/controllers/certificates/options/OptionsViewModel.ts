@@ -7,6 +7,9 @@ export type OptionsViewModelData = {
     SERVICE_URL: string
     filterMappings?: {[key: string]: boolean}
     optionFilter?: (options: { value: string }[], filter: { [key: string]: boolean }) => { value: string }[]
+    showBasketLink?: boolean
+    basketWebUrl?: string
+    basketItems?: number
 };
 
 export class OptionsViewModel {

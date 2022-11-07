@@ -11,6 +11,8 @@ import CertificateSessionData from "../../../session/CertificateSessionData";
 import { PrincipalPlaceOfBusinessOptionName } from "./PrincipalPlaceOfBusinessOptionName";
 import { LP_ROOT_CERTIFICATE, replaceCompanyNumber } from "../../../model/page.urls";
 import { AddressRecordsType } from "../../../model/AddressRecordsType";
+import { getBasketLink } from "../../../utils/basket.utils";
+import { BasketLink } from "../../../model/BasketLink";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -25,6 +27,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
     const itemOptions: ItemOptions = certificateItem.itemOptions;
     const SERVICE_URL = replaceCompanyNumber(LP_ROOT_CERTIFICATE, certificateItem.companyNumber);
     const isFullPage = req.query.layout === "full";
+    const basketLink: BasketLink = await getBasketLink(req);
 
     logger.info(`Certificate item retrieved, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
 
@@ -34,7 +37,8 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         optionFilter: optionFilter,
         isFullPage: isFullPage,
         backLink: generateBackLink(isFullPage),
-        principlePlaceOfBusinessSelection: itemOptions.principalPlaceOfBusinessDetails?.includeAddressRecordsType
+        principlePlaceOfBusinessSelection: itemOptions.principalPlaceOfBusinessDetails?.includeAddressRecordsType,
+        ...basketLink
     });
 };
 

@@ -17,6 +17,7 @@ const sandbox = sinon.createSandbox();
 let testApp = null;
 let getCertificateItemStub;
 let patchCertificateItemStub;
+let getBasketStub;
 
 describe("registered.office.options.integration.test", () => {
     beforeEach((done) => {
@@ -85,6 +86,8 @@ describe("registered.office.options.integration.test", () => {
         it("renders the registered office options page", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItem));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
 
             const resp = await chai.request(testApp)
                 .get(REGISTERED_OFFICE_OPTIONS_URL)
@@ -100,6 +103,8 @@ describe("registered.office.options.integration.test", () => {
         it("renders the full registered office options page if full layout requested", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItem));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
 
             const resp = await chai.request(testApp)
                 .get(REGISTERED_OFFICE_OPTIONS_URL + "?layout=full")
@@ -115,6 +120,8 @@ describe("registered.office.options.integration.test", () => {
         it("renders the registered office options page with current address selected", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItemWithCurrent));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
 
             const resp = await chai.request(testApp)
                 .get(REGISTERED_OFFICE_OPTIONS_URL)
@@ -131,6 +138,8 @@ describe("registered.office.options.integration.test", () => {
         it("renders the registered office options page with current address selected if option on full page selected", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItemWithAll));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
 
             const resp = await chai.request(testApp)
                 .get(REGISTERED_OFFICE_OPTIONS_URL)
@@ -147,6 +156,8 @@ describe("registered.office.options.integration.test", () => {
         it("renders the registered office options page with current address and one previous selected", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItemWithCurrentAndOnePrevious));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
 
             const resp = await chai.request(testApp)
                 .get(REGISTERED_OFFICE_OPTIONS_URL)
@@ -163,6 +174,8 @@ describe("registered.office.options.integration.test", () => {
         it("renders the full registered office options page with current address selected", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItemWithCurrent));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
 
             const resp = await chai.request(testApp)
                 .get(REGISTERED_OFFICE_OPTIONS_URL + "?layout=full")
@@ -179,6 +192,8 @@ describe("registered.office.options.integration.test", () => {
         it("renders the full registered office options page with current address and one previous selected", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItemWithCurrentAndOnePrevious));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
 
             const resp = await chai.request(testApp)
                 .get(REGISTERED_OFFICE_OPTIONS_URL + "?layout=full")
@@ -195,6 +210,8 @@ describe("registered.office.options.integration.test", () => {
         it("renders the full registered office options page with current address and two previous selected", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItemWithCurrentPreviousAndPrior));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
 
             const resp = await chai.request(testApp)
                 .get(REGISTERED_OFFICE_OPTIONS_URL + "?layout=full")
@@ -211,6 +228,9 @@ describe("registered.office.options.integration.test", () => {
         it("renders the full registered office options page with all selected", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItemWithAll));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
+            
 
             const resp = await chai.request(testApp)
                 .get(REGISTERED_OFFICE_OPTIONS_URL + "?layout=full")

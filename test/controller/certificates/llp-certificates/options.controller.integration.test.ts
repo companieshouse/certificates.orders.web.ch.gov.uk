@@ -15,6 +15,7 @@ const sandbox = sinon.createSandbox();
 let testApp = null;
 let getCertificateItemStub;
 let patchCertificateItemStub;
+let getBasketStub;
 
 describe("llp.certificate.options.controller.integration", () => {
     const certificateItem = {
@@ -77,6 +78,8 @@ describe("llp.certificate.options.controller.integration", () => {
         it("renders the certificate options page", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItem));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
 
             const resp = await chai.request(testApp)
                 .get(LLP_CERTIFICATE_OPTIONS_URL)
@@ -94,6 +97,8 @@ describe("llp.certificate.options.controller.integration", () => {
         it("renders the certificate options page for a liquidated company", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItemLiquidated));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
 
             const resp = await chai.request(testApp)
                 .get(LLP_CERTIFICATE_OPTIONS_URL)

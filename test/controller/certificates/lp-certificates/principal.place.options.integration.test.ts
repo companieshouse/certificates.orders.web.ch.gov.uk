@@ -18,6 +18,7 @@ const sandbox = sinon.createSandbox();
 let testApp = null;
 let getCertificateItemStub;
 let patchCertificateItemStub;
+let getBasketStub;
 
 describe("place.of.business.options.integration.test", () => {
     beforeEach((done) => {
@@ -76,6 +77,8 @@ describe("place.of.business.options.integration.test", () => {
         it("renders the place of business options page", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItem));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
 
             const resp = await chai.request(testApp)
                 .get(PRINCIPAL_PLACE_OF_BUSINESS_OPTIONS_URL)
@@ -91,6 +94,8 @@ describe("place.of.business.options.integration.test", () => {
         it("renders the full place of business options page if full layout requested", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItem));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
 
             const resp = await chai.request(testApp)
                 .get(PRINCIPAL_PLACE_OF_BUSINESS_OPTIONS_URL + "?layout=full")
@@ -106,6 +111,8 @@ describe("place.of.business.options.integration.test", () => {
         it("renders the place of business options page with current address selected", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItemWithCurrent));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
 
             const resp = await chai.request(testApp)
                 .get(PRINCIPAL_PLACE_OF_BUSINESS_OPTIONS_URL)
@@ -122,6 +129,8 @@ describe("place.of.business.options.integration.test", () => {
         it("renders the place of business options page with current address selected if option on full page selected", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItemWithAll));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
 
             const resp = await chai.request(testApp)
                 .get(PRINCIPAL_PLACE_OF_BUSINESS_OPTIONS_URL)
@@ -138,6 +147,8 @@ describe("place.of.business.options.integration.test", () => {
         it("renders the place of business options page with current address and one previous selected", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItemWithCurrentAndOnePrevious));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
 
             const resp = await chai.request(testApp)
                 .get(PRINCIPAL_PLACE_OF_BUSINESS_OPTIONS_URL)
@@ -154,6 +165,8 @@ describe("place.of.business.options.integration.test", () => {
         it("renders the full place of business options page with current address selected", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItemWithCurrent));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
 
             const resp = await chai.request(testApp)
                 .get(PRINCIPAL_PLACE_OF_BUSINESS_OPTIONS_URL + "?layout=full")
@@ -170,6 +183,8 @@ describe("place.of.business.options.integration.test", () => {
         it("renders the full place of business options page with current address and one previous selected", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItemWithCurrentAndOnePrevious));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
 
             const resp = await chai.request(testApp)
                 .get(PRINCIPAL_PLACE_OF_BUSINESS_OPTIONS_URL + "?layout=full")
@@ -186,6 +201,8 @@ describe("place.of.business.options.integration.test", () => {
         it("renders the full place of business options page with current address and two previous selected", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItemWithCurrentPreviousAndPrior));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
 
             const resp = await chai.request(testApp)
                 .get(PRINCIPAL_PLACE_OF_BUSINESS_OPTIONS_URL + "?layout=full")
@@ -202,6 +219,8 @@ describe("place.of.business.options.integration.test", () => {
         it("renders the full place of business options page with all selected", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItemWithAll));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
 
             const resp = await chai.request(testApp)
                 .get(PRINCIPAL_PLACE_OF_BUSINESS_OPTIONS_URL + "?layout=full")

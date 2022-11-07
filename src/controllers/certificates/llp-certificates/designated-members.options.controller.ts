@@ -9,6 +9,8 @@ import { Session } from "@companieshouse/node-session-handler/lib/session/model/
 import CertificateSessionData from "../../../session/CertificateSessionData";
 import { DesignatedMemberOptionName } from "./DesignatedMemberOptionName";
 import { replaceCompanyNumber, LLP_ROOT_CERTIFICATE } from "../../../model/page.urls";
+import { getBasketLink } from "../../../utils/basket.utils";
+import { BasketLink } from "../../../model/BasketLink";
 
 const logger = createLogger(APPLICATION_NAME);
 const DESIGNATED_MEMBER_OPTIONS_FIELD: string = "designatedMemberOptions";
@@ -18,12 +20,14 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
     const accessToken: string = getAccessToken(req.session);
     const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
     const itemOptions: ItemOptions = certificateItem.itemOptions;
+    const basketLink: BasketLink = await getBasketLink(req);
     const SERVICE_URL = replaceCompanyNumber(LLP_ROOT_CERTIFICATE, certificateItem.companyNumber);
     logger.info(`Certificate item retrieved, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
     return res.render(LLP_CERTIFICATE_DESIGNATED_MEMBERS_OPTIONS, {
         designatedMemberDetails: itemOptions.designatedMemberDetails,
         SERVICE_URL,
-        backLink: setBackLink(certificateItem, req.session)
+        backLink: setBackLink(certificateItem, req.session),
+        ...basketLink
     });
 };
 

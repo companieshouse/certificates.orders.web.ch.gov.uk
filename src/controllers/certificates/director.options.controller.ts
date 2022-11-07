@@ -7,6 +7,8 @@ import { createLogger } from "ch-structured-logging";
 import { APPLICATION_NAME } from "../../config/config";
 import { Session } from "@companieshouse/node-session-handler/lib/session/model/Session";
 import CertificateSessionData from "../../session/CertificateSessionData";
+import { getBasketLink } from "../../utils/basket.utils";
+import { BasketLink } from "../../model/BasketLink";
 
 const logger = createLogger(APPLICATION_NAME);
 const INCLUDE_ADDRESS_FIELD: string = "address";
@@ -21,6 +23,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
     const userId = getUserId(req.session);
     const accessToken: string = getAccessToken(req.session);
     const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
+    const basketLink: BasketLink = await getBasketLink(req);
     const itemOptions: ItemOptions = certificateItem.itemOptions;
     const SERVICE_URL = `/company/${certificateItem.companyNumber}/orderable/certificates`;
     logger.info(`Certificate item retrieved, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
@@ -29,7 +32,8 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         itemOptions: certificateItem.itemOptions,
         directorDetails: itemOptions.directorDetails,
         SERVICE_URL,
-        backLink: setBackLink(certificateItem, req.session)
+        backLink: setBackLink(certificateItem, req.session),
+        ...basketLink
     });
 };
 

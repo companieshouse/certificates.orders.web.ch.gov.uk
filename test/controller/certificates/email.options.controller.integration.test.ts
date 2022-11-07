@@ -50,6 +50,8 @@ describe("email.options.integration.test", () => {
         it("renders the email options page", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItem));
+            getBasket = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
 
             const resp = await chai.request(testApp)
                 .get(EMAIL_OPTIONS_URL)
@@ -64,6 +66,8 @@ describe("email.options.integration.test", () => {
         it("renders the email options page for a dissolved company", async () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItem));
+            getBasket = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
 
             const resp = await chai.request(testApp)
                 .get(DISSOLVED_EMAIL_OPTIONS_URL)
