@@ -4,11 +4,13 @@ import ioredis from "ioredis";
 
 import { ROOT_MISSING_IMAGE_DELIVERY, replaceCompanyNumberAndFilingHistoryId } from "../../../src/model/page.urls";
 import CompanyProfileService from "@companieshouse/api-sdk-node/dist/services/company-profile/service";
+import * as apiClient from "../../../src/client/api.client"
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
 let dummyCompanyProfile;
 let getCompanyProfileStub;
+let getBasketStub;
 
 describe("missingImageDelivery.home.controller.integration", () => {
     beforeEach((done) => {
@@ -67,6 +69,8 @@ describe("missingImageDelivery.home.controller.integration", () => {
     it("renders the start page", async () => {
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
             .returns(Promise.resolve(dummyCompanyProfile));
+        getBasketStub = sandbox.stub(apiClient, "getBasket")
+            .returns(Promise.resolve({ enrolled: true }));
 
         const resp = await chai.request(testApp)
             .get(ROOT_MISSING_IMAGE_DELIVERY);
