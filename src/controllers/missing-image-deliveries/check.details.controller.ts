@@ -9,6 +9,8 @@ import { getFullFilingHistoryDescription } from "../../config/api.enumerations";
 import { replaceCompanyNumberAndFilingHistoryId, ROOT_MISSING_IMAGE_DELIVERY } from "../../model/page.urls";
 import { mapFilingHistoryDescriptionValues, removeAsterisks, mapDate, addCurrencySymbol } from "../../service/map.filing.history.service";
 import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket";
+import { getBasketLink } from "../../utils/basket.utils";
+import { BasketLink } from "../../model/BasketLink";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -19,6 +21,8 @@ export const render = async (req: Request, res: Response, next: NextFunction) =>
         const midID: string = req.params.missingImageDeliveryId;
         const missingImageDeliveryItem: MidItem = await getMissingImageDeliveryItem(accessToken, midID);
         const basket: Basket = await getBasket(accessToken);
+        const basketLink: BasketLink = await getBasketLink(req);
+
         const SERVICE_URL = `/company/${missingImageDeliveryItem.companyNumber}/filing-history`;
 
         const descriptionFromFile = getFullFilingHistoryDescription(missingImageDeliveryItem.itemOptions.filingHistoryDescription);
@@ -34,7 +38,8 @@ export const render = async (req: Request, res: Response, next: NextFunction) =>
             filingHistoryDescription: cleanedFilingHistoryDescription,
             filingHistoryType: missingImageDeliveryItem.itemOptions.filingHistoryType,
             totalCost: addCurrencySymbol(missingImageDeliveryItem.totalItemCost),
-            enrolled: basket.enrolled
+            enrolled: basket.enrolled,
+            ...basketLink
         });
     } catch (err) {
         logger.error(`${err}`);

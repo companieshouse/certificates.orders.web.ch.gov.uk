@@ -4,6 +4,8 @@ import { MISSING_IMAGE_DELIVERY_CREATE, replaceCompanyNumberAndFilingHistoryId }
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
 import { getCompanyProfile } from "../../client/api.client";
 import { API_KEY } from "../../config/config";
+import { getBasketLink } from "../../utils/basket.utils";
+import { BasketLink } from "../../model/BasketLink";
 
 export default async (req: Request, res: Response) => {
     const companyNumber: string = req.params.companyNumber;
@@ -12,6 +14,7 @@ export default async (req: Request, res: Response) => {
     const filingHistoryId: string = req.params.filingHistoryId;
     const startNowUrl: string = replaceCompanyNumberAndFilingHistoryId(MISSING_IMAGE_DELIVERY_CREATE, companyNumber, filingHistoryId);
     const SERVICE_URL = `/company/${companyNumber}/filing-history`;
+    const basketLink: BasketLink = await getBasketLink(req);
 
-    res.render(MISSING_IMAGE_DELIVERY_INDEX, { companyNumber, startNowUrl, SERVICE_URL, companyName });
+    res.render(MISSING_IMAGE_DELIVERY_INDEX, { companyNumber, startNowUrl, SERVICE_URL, companyName, ...basketLink });
 };
