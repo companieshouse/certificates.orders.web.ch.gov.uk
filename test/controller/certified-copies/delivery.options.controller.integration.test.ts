@@ -12,6 +12,7 @@ const sandbox = sinon.createSandbox();
 let testApp = null;
 let getCertifiedCopyItemStub;
 let patchCertifiedCopyItemStub;
+let getBasketStub;
 const CERTIFIED_COPY_ID = "CCD-123456-123456";
 const DELIVERY_OPTION_NOT_SELECTED = "Select a delivery option";
 const DELIVERY_OPTIONS_URL = replaceCertifiedCopyId(CERTIFIED_COPY_DELIVERY_OPTIONS, CERTIFIED_COPY_ID);
@@ -80,6 +81,8 @@ describe("delivery.options.controller.integration.test", () => {
         it("renders the delivery options page", async () => {
             getCertifiedCopyItemStub = sandbox.stub(apiClient, "getCertifiedCopyItem")
                 .returns(Promise.resolve(certifiedCopyItem));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
 
             const resp = await chai.request(testApp)
                 .get(DELIVERY_OPTIONS_URL)
@@ -176,6 +179,8 @@ describe("delivery.options.controller.integration.test", () => {
         it("back button takes the user to the certificate options page if they have not selected any options", async () => {
             getCertifiedCopyItemStub = sandbox.stub(apiClient, "getCertifiedCopyItem")
                 .returns(Promise.resolve(certifiedCopyItem));
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
 
             const resp = await chai.request(testApp)
                 .get(DELIVERY_OPTIONS_URL)

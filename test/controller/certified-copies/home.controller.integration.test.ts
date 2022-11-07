@@ -2,6 +2,7 @@ import sinon from "sinon";
 import ioredis from "ioredis";
 import { ROOT_CERTIFIED_COPY, replaceCompanyNumber } from "../../../src/model/page.urls";
 import CompanyProfileService from "@companieshouse/api-sdk-node/dist/services/company-profile/service";
+import * as apiClient from "../../../src/client/api.client";
 
 const chai = require("chai");
 const COMPANY_NUMBER = "00000000";
@@ -9,6 +10,7 @@ const sandbox = sinon.createSandbox();
 let testApp = null;
 let getCompanyProfileStub;
 let dummyCompanyProfile;
+let getBasketStub;
 
 describe("certified-copy.home.controller.integration", () => {
     beforeEach((done) => {
@@ -68,6 +70,8 @@ describe("certified-copy.home.controller.integration", () => {
         dummyCompanyProfile.resource.links.filingHistory = "/company/00000000/filing-history";
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
             .returns(Promise.resolve(dummyCompanyProfile));
+        getBasketStub = sandbox.stub(apiClient, "getBasket")
+            .returns(Promise.resolve({ enrolled: true }));
 
         const resp = await chai.request(testApp)
             .get(replaceCompanyNumber(ROOT_CERTIFIED_COPY, COMPANY_NUMBER));
