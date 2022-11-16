@@ -68,3 +68,5 @@ export const ACCOUNT_URL = getEnvironmentValue("ACCOUNT_URL");
 export const CHS_MONITOR_GUI_URL = getEnvironmentValue("CHS_MONITOR_GUI_URL")
 
 export const BASKET_WEB_URL = `${CHS_URL}/basket`;
+
+export const BASKET_ITEM_LIMIT = Number(getEnvironmentValue("BASKET_ITEM_LIMIT"));

@@ -6,8 +6,9 @@ import { getCompanyProfile } from "../../client/api.client";
 import { createLogger } from "ch-structured-logging";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
 import createError from "http-errors";
-import { getBasketLink } from "../../utils/basket.utils";
+import { getBasketLimit, getBasketLink } from "../../utils/basket.utils";
 import { BasketLink } from "../../model/BasketLink";
+import {BasketLimit} from "../../model/BasketLimit";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -23,12 +24,22 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const dispatchDays: string = DISPATCH_DAYS;
         const moreTabUrl: string = "/company/" + companyNumber + "/more";
         const basketLink: BasketLink = await getBasketLink(req);
+        const basketLimit: BasketLimit = getBasketLimit(basketLink);
 
         if (!filingHistory || (filingHistory && companyType === "uk-establishment")) {
             const SERVICE_NAME = null;
             res.render(YOU_CANNOT_USE_THIS_SERVICE, { SERVICE_NAME });
         } else {
-            res.render(CERTIFIED_COPY_INDEX, { startNowUrl, companyNumber, SERVICE_URL, dispatchDays, moreTabUrl, companyName, ...basketLink });
+            res.render(CERTIFIED_COPY_INDEX,
+                {
+                    startNowUrl,
+                    companyNumber,
+                    SERVICE_URL,
+                    dispatchDays,
+                    moreTabUrl,
+                    companyName,
+                    ...basketLink,
+                    ...basketLimit });
         }
     } catch (err) {
         logger.error(`${err}`);
