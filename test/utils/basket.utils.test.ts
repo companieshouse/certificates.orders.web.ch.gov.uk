@@ -3,12 +3,13 @@ import chai from "chai";
 import sinon from "sinon";
 import { Request } from "express";
 import * as apiClient from "../../src/client/api.client";
-import { getBasketLink } from "../../src/utils/basket.utils"
+import { getBasketLimit, getBasketLink } from "../../src/utils/basket.utils"
 import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket";
 import { signedInSessionData, signedOutSessionData } from "../__mocks__/redis.mocks";
 const sandbox = sinon.createSandbox();
 // Without this import these tests will not compile.
 import { Session } from "@companieshouse/node-session-handler";
+import { BASKET_ITEM_LIMIT } from "../../src/config/config";
 
 export const getDummyBasket = (enrolled: boolean): Basket => {
     return {
@@ -105,4 +106,63 @@ describe("getBasketLink", () => {
             }
         );
     });
+});
+
+describe("getBasketLimit", () => {
+    afterEach(() => {
+        sandbox.reset();
+        sandbox.restore();
+    });
+
+    it("should report items as below limit (and report configured limit) where no basket link is to be shown", () => {
+        chai.expect(getBasketLimit({showBasketLink: false})).to.deep.equal(
+            { basketLimit: BASKET_ITEM_LIMIT, isBelowLimit: true }
+        );
+    });
+
+    it("should report items as below limit (and report configured limit) where items below limit", () => {
+        chai.expect(getBasketLimit(
+            {
+                showBasketLink: true,
+                basketWebUrl: "http://chsurl.co/basket",
+                basketItems: BASKET_ITEM_LIMIT - 1
+            }
+        )).to.deep.equal(
+            {
+                basketLimit: BASKET_ITEM_LIMIT,
+                isBelowLimit: true
+            }
+        );
+    });
+
+    it("should report items as not below limit (and report configured limit) where items at limit", () => {
+        chai.expect(getBasketLimit(
+            {
+                showBasketLink: true,
+                basketWebUrl: "http://chsurl.co/basket",
+                basketItems: BASKET_ITEM_LIMIT
+            }
+        )).to.deep.equal(
+            {
+                basketLimit: BASKET_ITEM_LIMIT,
+                isBelowLimit: false
+            }
+        );
+    });
+
+    it("should report items as not below limit (and report configured limit) where items over limit", () => {
+        chai.expect(getBasketLimit(
+            {
+                showBasketLink: true,
+                basketWebUrl: "http://chsurl.co/basket",
+                basketItems: BASKET_ITEM_LIMIT + 1
+            }
+        )).to.deep.equal(
+            {
+                basketLimit: BASKET_ITEM_LIMIT,
+                isBelowLimit: false
+            }
+        );
+    });
+
 });
