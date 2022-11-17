@@ -23,8 +23,8 @@ let getBasketStub;
 
 describe("certified-copy.home.controller.integration", () => {
     beforeEach((done) => {
-        sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
-        sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
+        sandbox.stub(ioredis.prototype, "connect").resolves();
+        sandbox.stub(ioredis.prototype, "get").resolves(signedInSession);
         dummyCompanyProfile = {
             httpStatusCode: 200,
             resource: {
@@ -79,9 +79,9 @@ describe("certified-copy.home.controller.integration", () => {
     it("renders the start page as company has a filing history link", async () => {
         dummyCompanyProfile.resource.links.filingHistory = "/company/00000000/filing-history";
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
-            .returns(Promise.resolve(dummyCompanyProfile));
+            .resolves(dummyCompanyProfile);
         getBasketStub = sandbox.stub(apiClient, "getBasket")
-            .returns(Promise.resolve({ enrolled: true }));
+            .resolves({ enrolled: true });
 
         const resp = await chai.request(testApp)
             .get(replaceCompanyNumber(ROOT_CERTIFIED_COPY, COMPANY_NUMBER));
@@ -93,7 +93,7 @@ describe("certified-copy.home.controller.integration", () => {
     it("displays the notification banner with the in context company name and company number", async () => {
         dummyCompanyProfile.resource.links.filingHistory = "/company/00000000/filing-history";
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
-            .returns(Promise.resolve(dummyCompanyProfile));
+            .resolves(dummyCompanyProfile);
 
         const resp = await chai.request(testApp)
             .get(replaceCompanyNumber(ROOT_CERTIFIED_COPY, COMPANY_NUMBER));
@@ -104,7 +104,7 @@ describe("certified-copy.home.controller.integration", () => {
 
     it("does not render the start now page as company has no filing history link", async () => {
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
-            .returns(Promise.resolve(dummyCompanyProfile));
+            .resolves(dummyCompanyProfile);
 
         const resp = await chai.request(testApp)
             .get(replaceCompanyNumber(ROOT_CERTIFIED_COPY, COMPANY_NUMBER));
@@ -117,7 +117,7 @@ describe("certified-copy.home.controller.integration", () => {
         dummyCompanyProfile.resource.links.filingHistory = "/company/00000000/filing-history";
         dummyCompanyProfile.resource.type = "uk-establishment";
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
-            .returns(Promise.resolve(dummyCompanyProfile));
+            .resolves(dummyCompanyProfile);
 
         const resp = await chai.request(testApp)
             .get(replaceCompanyNumber(ROOT_CERTIFIED_COPY, COMPANY_NUMBER));
@@ -129,7 +129,7 @@ describe("certified-copy.home.controller.integration", () => {
     it("renders `This order will be for...` message when no basket link is shown", async () => {
         dummyCompanyProfile.resource.links.filingHistory = "/company/00000000/filing-history";
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
-            .returns(Promise.resolve(dummyCompanyProfile));
+            .resolves(dummyCompanyProfile);
 
         const resp = await chai.request(testApp)
             .get(replaceCompanyNumber(ROOT_CERTIFIED_COPY, COMPANY_NUMBER));
@@ -142,7 +142,7 @@ describe("certified-copy.home.controller.integration", () => {
     it("renders `This order will be for...` message when items below the limit", async () => {
         dummyCompanyProfile.resource.links.filingHistory = "/company/00000000/filing-history";
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
-            .returns(Promise.resolve(dummyCompanyProfile));
+            .resolves(dummyCompanyProfile);
         sandbox.stub(apiClient, "getBasket").resolves(getDummyBasket(true, BASKET_ITEM_LIMIT - 1));
 
         const resp = await chai.request(testApp)
@@ -157,7 +157,7 @@ describe("certified-copy.home.controller.integration", () => {
     it("renders `Your basket is full...` warning when items at the limit", async () => {
         dummyCompanyProfile.resource.links.filingHistory = "/company/00000000/filing-history";
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
-            .returns(Promise.resolve(dummyCompanyProfile));
+            .resolves(dummyCompanyProfile);
         sandbox.stub(apiClient, "getBasket").resolves(getDummyBasket(true, BASKET_ITEM_LIMIT));
 
         const resp = await chai.request(testApp)
@@ -173,7 +173,7 @@ describe("certified-copy.home.controller.integration", () => {
     it("renders `Your basket is full...` warning when items over the limit", async () => {
         dummyCompanyProfile.resource.links.filingHistory = "/company/00000000/filing-history";
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
-            .returns(Promise.resolve(dummyCompanyProfile));
+            .resolves(dummyCompanyProfile);
         sandbox.stub(apiClient, "getBasket").resolves(getDummyBasket(true, BASKET_ITEM_LIMIT + 1));
 
         const resp = await chai.request(testApp)
