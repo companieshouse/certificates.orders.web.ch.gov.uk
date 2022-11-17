@@ -9,7 +9,11 @@ import {
 } from "../../__mocks__/redis.mocks";
 import { getDummyBasket } from "../../utils/basket.utils.test";
 import { BASKET_ITEM_LIMIT } from "../../../src/config/config";
-const chai = require("chai");
+
+import * as chai from "chai";
+import chaiHttp = require("chai-http");
+chai.use(chaiHttp);
+
 const COMPANY_NUMBER = "00000000";
 const sandbox = sinon.createSandbox();
 let testApp = null;
