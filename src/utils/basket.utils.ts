@@ -5,7 +5,7 @@ import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket"
 import { getBasket } from "../client/api.client";
 import { BASKET_ITEM_LIMIT, BASKET_WEB_URL } from "../config/config";
 import { BasketLink } from "../model/BasketLink";
-import {BasketLimit} from "../model/BasketLimit";
+import { BasketLimit } from "../model/BasketLimit";
 
 export const getBasketLink = async (req: Request) : Promise<BasketLink> => {
     const signedIn = req.session?.data?.[SessionKey.SignInInfo]?.[SignInInfoKeys.SignedIn] === 1;

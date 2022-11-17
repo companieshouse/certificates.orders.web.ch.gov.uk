@@ -8,7 +8,7 @@ import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/compa
 import createError from "http-errors";
 import { getBasketLimit, getBasketLink } from "../../utils/basket.utils";
 import { BasketLink } from "../../model/BasketLink";
-import {BasketLimit} from "../../model/BasketLimit";
+import { BasketLimit } from "../../model/BasketLimit";
 
 const logger = createLogger(APPLICATION_NAME);
 
