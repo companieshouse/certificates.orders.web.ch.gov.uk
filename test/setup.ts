@@ -27,3 +27,4 @@ process.env.DYNAMIC_LLP_CERTIFICATE_ORDERS_ENABLED = "true";
 process.env.LIQUIDATED_COMPANY_CERTIFICATES_ENABLED = "true";
 process.env.ACCOUNT_URL = "http://account.co";
 process.env.CHS_MONITOR_GUI_URL = "http://follow.co";
+process.env.BASKET_ITEM_LIMIT = "10";
