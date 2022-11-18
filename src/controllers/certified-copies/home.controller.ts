@@ -1,21 +1,21 @@
-import { Request, Response, NextFunction } from "express";
-import { CERTIFIED_COPY_FILING_HISTORY, replaceCompanyNumber } from "../../model/page.urls";
+import { NextFunction, Request, Response } from "express";
+import { CERTIFIED_COPY_FILING_HISTORY, replaceCompanyNumber, ROOT_CERTIFIED_COPY } from "../../model/page.urls";
 import { CERTIFIED_COPY_INDEX, YOU_CANNOT_USE_THIS_SERVICE } from "../../model/template.paths";
-import { CHS_URL, API_KEY, APPLICATION_NAME, DISPATCH_DAYS } from "../../config/config";
+import { API_KEY, APPLICATION_NAME, CHS_URL, DISPATCH_DAYS } from "../../config/config";
 import { getCompanyProfile } from "../../client/api.client";
 import { createLogger } from "ch-structured-logging";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
-import createError from "http-errors";
 import { getBasketLimit, getBasketLink } from "../../utils/basket.utils";
 import { BasketLink } from "../../model/BasketLink";
-import { BasketLimit } from "../../model/BasketLimit";
+import { BasketLimit, BasketLimitState } from "../../model/BasketLimit";
 
 const logger = createLogger(APPLICATION_NAME);
 
 export default async (req: Request, res: Response, next: NextFunction) => {
+    logger.info(`certified copies home controller default with req params = ${req.method}, ${JSON.stringify(req.params)}, ${req.header('referrer')}`);
     try {
         const companyNumber: string = req.params.companyNumber;
-        const startNowUrl = `${CHS_URL}${replaceCompanyNumber(CERTIFIED_COPY_FILING_HISTORY, companyNumber)}`;
+        const startNowUrl = `${CHS_URL}${replaceCompanyNumber(ROOT_CERTIFIED_COPY, companyNumber)}`;
         const companyProfile: CompanyProfile = await getCompanyProfile(API_KEY, companyNumber);
         const companyName : string = companyProfile.companyName;
         const companyType = companyProfile.type;
@@ -25,6 +25,19 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const moreTabUrl: string = "/company/" + companyNumber + "/more";
         const basketLink: BasketLink = await getBasketLink(req);
         const basketLimit: BasketLimit = getBasketLimit(basketLink);
+        const referrer = req.header('referrer');
+        if (referrer == startNowUrl) {
+            logger.debug(`Back on ${startNowUrl} again.`)
+            if (basketLimit.basketLimitState == BasketLimitState.BELOW_LIMIT) {
+                const nextPage = `${CHS_URL}${replaceCompanyNumber(CERTIFIED_COPY_FILING_HISTORY, companyNumber)}`;
+                logger.debug(`Basket is not full, redirecting to  ${nextPage}.`)
+                // TODO BI-12132 Will this be a security issue according to SonarQube?
+                res.redirect(`${CHS_URL}${replaceCompanyNumber(CERTIFIED_COPY_FILING_HISTORY, companyNumber)}`)
+            } else {
+                logger.debug(`Basket is full, should display error and disable button.`)
+                basketLimit.basketLimitState = BasketLimitState.DISPLAY_LIMIT_ERROR;
+            }
+        }
 
         if (!filingHistory || (filingHistory && companyType === "uk-establishment")) {
             const SERVICE_NAME = null;
