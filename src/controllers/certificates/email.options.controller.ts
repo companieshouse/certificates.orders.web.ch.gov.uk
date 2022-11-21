@@ -77,7 +77,8 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
                 await appendItemToBasket(accessToken, { itemUri: certificateItem.links.self });
                 return redirectCallback.redirectEnrolled({
                     response: res,
-                    items: basket.items
+                    items: basket.items,
+                    deliveryDetails: basket.deliveryDetails
                 });
             }
             return res.redirect(DELIVERY_DETAILS);

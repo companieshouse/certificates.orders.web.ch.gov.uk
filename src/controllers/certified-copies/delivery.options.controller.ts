@@ -92,7 +92,8 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
                 });
                 return redirectCallback.redirectEnrolled({
                     response: res,
-                    items: basket.items
+                    items: basket.items,
+                    deliveryDetails: basket.deliveryDetails
                 });
             } else {
                 logger.debug(`User ${userId} is disenrolled; redirecting user to delivery details page...`);
