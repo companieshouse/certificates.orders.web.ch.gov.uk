@@ -31,7 +31,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
             if (basketLimit.basketLimitState == BasketLimitState.BELOW_LIMIT) {
                 const nextPage = `${CHS_URL}${replaceCompanyNumber(CERTIFIED_COPY_FILING_HISTORY, companyNumber)}`;
                 logger.debug(`Basket is not full, redirecting to  ${nextPage}.`)
-                res.redirect(`${CHS_URL}${replaceCompanyNumber(CERTIFIED_COPY_FILING_HISTORY, companyNumber)}`)
+                return res.redirect(`${CHS_URL}${replaceCompanyNumber(CERTIFIED_COPY_FILING_HISTORY, companyNumber)}`)
             } else {
                 logger.debug(`Basket is full, should display error and disable button.`)
                 basketLimit.basketLimitState = BasketLimitState.DISPLAY_LIMIT_ERROR;
