@@ -15,7 +15,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
     logger.info(`certified copies home controller default with req params = ${req.method}, ${JSON.stringify(req.params)}, ${req.header('referrer')}`);
     try {
         const companyNumber: string = req.params.companyNumber;
-        const startNowUrl = `${CHS_URL}${replaceCompanyNumber(ROOT_CERTIFIED_COPY, companyNumber)}`;
+        let startNowUrl = `${CHS_URL}${replaceCompanyNumber(ROOT_CERTIFIED_COPY, companyNumber)}`;
         const companyProfile: CompanyProfile = await getCompanyProfile(API_KEY, companyNumber);
         const companyName : string = companyProfile.companyName;
         const companyType = companyProfile.type;
@@ -36,6 +36,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
             } else {
                 logger.debug(`Basket is full, should display error and disable button.`)
                 basketLimit.basketLimitState = BasketLimitState.DISPLAY_LIMIT_ERROR;
+                startNowUrl = ""; // This really disables the button (actually a link).
             }
         }
 
