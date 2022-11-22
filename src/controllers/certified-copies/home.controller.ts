@@ -12,7 +12,6 @@ import { BasketLimit, BasketLimitState } from "../../model/BasketLimit";
 const logger = createLogger(APPLICATION_NAME);
 
 export default async (req: Request, res: Response, next: NextFunction) => {
-    logger.info(`certified copies home controller default with req params = ${req.method}, ${JSON.stringify(req.params)}, ${req.header('referrer')}`);
     try {
         const companyNumber: string = req.params.companyNumber;
         let startNowUrl = `${CHS_URL}${replaceCompanyNumber(ROOT_CERTIFIED_COPY, companyNumber)}`;
@@ -25,19 +24,13 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const moreTabUrl: string = "/company/" + companyNumber + "/more";
         const basketLink: BasketLink = await getBasketLink(req);
         const basketLimit: BasketLimit = getBasketLimit(basketLink);
-        const referrer = req.header('referrer');
-        if (referrer == startNowUrl) {
-            logger.debug(`Back on ${startNowUrl} again.`)
-            if (basketLimit.basketLimitState == BasketLimitState.BELOW_LIMIT) {
-                const nextPage = `${CHS_URL}${replaceCompanyNumber(CERTIFIED_COPY_FILING_HISTORY, companyNumber)}`;
-                logger.debug(`Basket is not full, redirecting to  ${nextPage}.`)
-                return res.redirect(`${CHS_URL}${replaceCompanyNumber(CERTIFIED_COPY_FILING_HISTORY, companyNumber)}`)
-            } else {
-                logger.debug(`Basket is full, should display error and disable button.`)
-                basketLimit.basketLimitState = BasketLimitState.DISPLAY_LIMIT_ERROR;
-                startNowUrl = ""; // This really disables the button (actually a link).
-            }
+
+        const { redirected, startNowUrl: newStartNowUrl } =
+            handleStartNow(req, res, startNowUrl, basketLimit, companyNumber);
+        if (redirected) {
+            return;
         }
+        startNowUrl = newStartNowUrl;
 
         if (!filingHistory || (filingHistory && companyType === "uk-establishment")) {
             const SERVICE_NAME = null;
@@ -59,3 +52,31 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         next(err);
     }
 };
+
+/**
+ * handleStartNow checks to see whether the incoming request may have resulted from the user clicking
+ * on the start now button (or the page being reloaded). If so, it controls the presentation of
+ * a basket limit warning/error and the start now button enabled state as appropriate.
+ */
+const handleStartNow = (req: Request,
+                         res: Response,
+                         startNowUrl: string,
+                         basketLimit: BasketLimit,
+                         companyNumber: string) :
+    { redirected: boolean, startNowUrl: string } => {
+    const referrer = req.header('referrer');
+    if (referrer == startNowUrl) { // we are here as a result of start now being clicked (or the page being reloaded)
+        logger.debug(`Back on ${startNowUrl} again.`)
+        if (basketLimit.basketLimitState == BasketLimitState.BELOW_LIMIT) {
+            const nextPage = `${CHS_URL}${replaceCompanyNumber(CERTIFIED_COPY_FILING_HISTORY, companyNumber)}`;
+            logger.debug(`Basket is not full, redirecting to  ${nextPage}.`)
+            res.redirect(nextPage)
+            return { redirected: true, startNowUrl: startNowUrl };
+        } else {
+            logger.debug(`Basket is full, display error and disable button.`)
+            basketLimit.basketLimitState = BasketLimitState.DISPLAY_LIMIT_ERROR; // styles button as disabled
+            startNowUrl = ""; // really disables the button (actually a link)
+        }
+    }
+    return { redirected: false, startNowUrl: startNowUrl };
+}
