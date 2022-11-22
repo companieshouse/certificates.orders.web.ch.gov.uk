@@ -1,6 +1,7 @@
 import Resource from "@companieshouse/api-sdk-node/dist/services/resource";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
+import { DeliveryDetails } from "@companieshouse/api-sdk-node/dist/services/order/basket";
 
 export const mockCompanyProfileConfiguration: any = {
     companyNumber: "00000000"
@@ -167,4 +168,16 @@ export const mockNotAcceptableDissolvedCompanyLimitedPartnershipProfile: Resourc
             filingHistory: "/company/00000000/filing-history"
         }
     }
+};
+
+export const mockDeliveryDetails: DeliveryDetails = {
+    addressLine1: "1 Casterly Rock",
+    addressLine2: "Lannisport",
+    forename: "Jaime",
+    surname: "Lannister",
+    companyName: "Lannister Inc",
+    country: "Westeros",
+    locality: "Westlands",
+    postalCode: "CF48 3AA",
+    region: "West"
 };

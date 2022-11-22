@@ -1,6 +1,7 @@
 import { StaticRedirectCallback } from "../../../src/controllers/certificates/StaticRedirectCallback";
 import { expect } from "chai";
 import { createSandbox } from "sinon";
+import { mockDeliveryDetails as deliveryDetails } from "../../__mocks__/certificates.mocks";
 
 describe("StaticRedirectCallback", () => {
 
@@ -16,7 +17,8 @@ describe("StaticRedirectCallback", () => {
             // when
             callback.redirectEnrolled({
                 response: mockResponse,
-                items: [{}]
+                items: [{}],
+                deliveryDetails: deliveryDetails
             } as any);
 
             // then

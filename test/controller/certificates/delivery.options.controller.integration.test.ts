@@ -5,13 +5,13 @@ import cheerio from "cheerio";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import * as apiClient from "../../../src/client/api.client";
-import { Basket, ItemUriRequest } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
+import { Basket, DeliveryDetails, ItemUriRequest } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 import {
     CERTIFICATE_DELIVERY_OPTIONS,
     replaceCertificateId,
-    CERTIFICATE_EMAIL_OPTIONS,
     DISSOLVED_CERTIFICATE_DELIVERY_OPTIONS
 } from "../../../src/model/page.urls";
+import { mockDeliveryDetails as deliveryDetails } from "../../__mocks__/certificates.mocks";
 
 const CERTIFICATE_ID = "CRT-000000-000000";
 const DELIVERY_OPTION_NOT_SELECTED = "Select a delivery option";
@@ -24,7 +24,6 @@ let testApp = null;
 let getCertificateItemStub;
 let patchCertificateItemStub;
 let getBasketStub;
-let appendItemToBasketStub;
 
 describe("delivery.options.integration.test", () => {
     beforeEach((done) => {
@@ -170,7 +169,7 @@ describe("delivery.options.integration.test", () => {
             patchCertificateItemStub = sandbox.stub(apiClient, "patchCertificateItem")
                 .returns(Promise.resolve(certificateDetails));
             getBasketStub = sandbox.stub(apiClient, "getBasket")
-                .returns(Promise.resolve({ enrolled: true, items: [{ kind: "item#certificate" } as any] }));
+                .returns(Promise.resolve({ enrolled: true, items: [{ kind: "item#certificate" } as any], deliveryDetails }));
             sandbox.mock(apiClient).expects("appendItemToBasket")
                 .once()
                 .returns(Promise.resolve());
