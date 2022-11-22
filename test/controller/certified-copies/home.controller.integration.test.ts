@@ -8,7 +8,8 @@ import {
     signedInSession
 } from "../../__mocks__/redis.mocks";
 import { getDummyBasket } from "../../utils/basket.utils.test";
-import { BASKET_ITEM_LIMIT } from "../../../src/config/config";
+import { BASKET_ITEM_LIMIT, CHS_URL } from "../../../src/config/config";
+import * as HTMLParser from 'node-html-parser';
 
 import * as chai from "chai";
 import chaiHttp = require("chai-http");
@@ -137,6 +138,7 @@ describe("certified-copy.home.controller.integration", () => {
         chai.expect(resp.status).to.equal(200);
         chai.expect(resp.text).to.contain("Sign in / Register");
         chai.expect(resp.text).to.contain("This order will be for company name (00000000)");
+        verifyStartButtonEnabledStateIs(resp.text, true);
     });
 
     it("renders `This order will be for...` message when items below the limit", async () => {
@@ -152,6 +154,7 @@ describe("certified-copy.home.controller.integration", () => {
         chai.expect(resp.status).to.equal(200);
         chai.expect(resp.text).to.contain(`Basket (${BASKET_ITEM_LIMIT - 1})`);
         chai.expect(resp.text).to.contain("This order will be for company name (00000000)");
+        verifyStartButtonEnabledStateIs(resp.text, true);
     });
 
     it("renders `Your basket is full...` warning when items at the limit", async () => {
@@ -168,6 +171,7 @@ describe("certified-copy.home.controller.integration", () => {
         chai.expect(resp.text).to.contain(`Basket (${BASKET_ITEM_LIMIT})`);
         chai.expect(resp.text).to.contain(
             `Your basket is full. You cannot add more than ${BASKET_ITEM_LIMIT} items to your order.`);
+        verifyStartButtonEnabledStateIs(resp.text, true);
     });
 
     it("renders `Your basket is full...` warning when items over the limit", async () => {
@@ -184,6 +188,63 @@ describe("certified-copy.home.controller.integration", () => {
         chai.expect(resp.text).to.contain(`Basket (${BASKET_ITEM_LIMIT + 1})`);
         chai.expect(resp.text).to.contain(
             `Your basket is full. You cannot add more than ${BASKET_ITEM_LIMIT} items to your order.`);
+        verifyStartButtonEnabledStateIs(resp.text, true);
     });
+
+    it("renders `There is a problem...` error, disables button when items at the limit and re-referred back to page", async () => {
+        dummyCompanyProfile.resource.links.filingHistory = "/company/00000000/filing-history";
+        getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
+            .resolves(dummyCompanyProfile);
+        sandbox.stub(apiClient, "getBasket").resolves(getDummyBasket(true, BASKET_ITEM_LIMIT));
+
+        const url : string = replaceCompanyNumber(ROOT_CERTIFIED_COPY, COMPANY_NUMBER);
+
+        const resp = await chai.request(testApp)
+            .get(url)
+            .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
+            .set("Referrer", `${CHS_URL}${url}`);
+
+        chai.expect(resp.status).to.equal(200);
+        chai.expect(resp.text).to.contain(`Basket (${BASKET_ITEM_LIMIT})`);
+        chai.expect(resp.text).to.contain(`There is a problem`);
+        chai.expect(resp.text).to.contain(`You cannot add more than ${BASKET_ITEM_LIMIT} items to your order.`);
+        verifyStartButtonEnabledStateIs(resp.text, false);
+    });
+
+    it("renders `There is a problem...` error, disables button when items over the limit and re-referred back to page", async () => {
+        dummyCompanyProfile.resource.links.filingHistory = "/company/00000000/filing-history";
+        getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
+            .resolves(dummyCompanyProfile);
+        sandbox.stub(apiClient, "getBasket").resolves(getDummyBasket(true, BASKET_ITEM_LIMIT + 1));
+
+        const url : string = replaceCompanyNumber(ROOT_CERTIFIED_COPY, COMPANY_NUMBER);
+
+        const resp = await chai.request(testApp)
+            .get(url)
+            .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
+            .set("Referrer", `${CHS_URL}${url}`);
+
+        chai.expect(resp.status).to.equal(200);
+        chai.expect(resp.text).to.contain(`Basket (${BASKET_ITEM_LIMIT + 1})`);
+        chai.expect(resp.text).to.contain(`There is a problem`);
+        chai.expect(resp.text).to.contain(`You cannot add more than ${BASKET_ITEM_LIMIT} items to your order.`);
+        verifyStartButtonEnabledStateIs(resp.text, false);
+    });
+
+const verifyStartButtonEnabledStateIs = (responseText: string, isEnabled: boolean) => {
+    const page = HTMLParser.parse(responseText)
+    const startNowButton = page.querySelector(".govuk-button--start");
+    chai.expect(startNowButton).to.exist;
+    chai.expect(startNowButton!.childNodes[0]!).to.exist;
+    chai.expect(startNowButton!.childNodes[0]!.text).to.contain("Start now");
+
+    // The presence/absence of the href attribute (content) is what really determines whether the button (link)
+    // is enabled or not.
+    if (isEnabled) {
+        chai.expect(startNowButton!.rawAttributes.href).to.exist;
+    } else {
+        chai.expect(startNowButton!.rawAttributes.href).to.not.exist;
+    }
+}
 
 });
