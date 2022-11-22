@@ -12,6 +12,7 @@ export const DISSOLVED_CERTIFICATE_DELIVERY_DETAILS_RE = /\/orderable\/dissolved
 export const DISSOLVED_CERTIFICATE_DELIVERY_OPTIONS_RE = /\/orderable\/dissolved-certificates\/CRT-\d{6}-\d{6}\/delivery-options/;
 export const MISSING_IMAGE_DELIVERY_CREATE_RE = /\/company\/[A-Z0-9]{8}\/orderable\/missing-image-deliveries\/[a-zA-Z0-9]{8,}\/create/;
 export const MISSING_IMAGE_DELIVERY_CHECK_DETAILS_RE = /\/orderable\/missing-image-deliveries\/MID-\d{6}-\d{6}\/check-details/;
+export const CERTIFIED_DOCUMENTS_SELECTION_RE = /\/company\/[A-Z0-9]{8}\/certified-documents/;
 const REDIRECTS_WHITELIST: RegExp[] = [
     CERTIFICATE_OPTIONS_RE,
     LP_CERTIFICATE_OPTIONS_RE,
@@ -21,7 +22,9 @@ const REDIRECTS_WHITELIST: RegExp[] = [
     DISSOLVED_CERTIFICATE_DELIVERY_DETAILS_RE,
     DISSOLVED_CERTIFICATE_DELIVERY_OPTIONS_RE,
     MISSING_IMAGE_DELIVERY_CREATE_RE,
-    MISSING_IMAGE_DELIVERY_CHECK_DETAILS_RE];
+    MISSING_IMAGE_DELIVERY_CHECK_DETAILS_RE,
+    CERTIFIED_DOCUMENTS_SELECTION_RE
+];
 
 // getWhitelistedReturnToURL performs checks on the return to URL to be used in a redirect, as it is obtained from the
 // inbound request, and therefore potentially subject to forging attacks.
@@ -43,7 +46,7 @@ export const getWhitelistedReturnToURL = (returnToUrl: string) => {
 // Extracting a value from a field from the incoming request in this way appears to allay SonarQube's fears that
 // any redirect using the value is doing so using user-controlled data.
 // Throws an Error if no match found.
-export const extractValueFromRequestField = (requestField: String, expression: RegExp) => {
+export const extractValueFromRequestField = (requestField: string, expression: RegExp) => {
     if (requestField) {
         const extractedMatches = requestField.match(expression);
         if (extractedMatches !== null && extractedMatches.length > 0) {
@@ -60,7 +63,7 @@ export const extractValueFromRequestField = (requestField: String, expression: R
 // Extracting a value from a field from the incoming request in this way appears to allay SonarQube's fears that
 // any redirect using the value is doing so using user-controlled data.
 // Returns null if no match found.
-export const extractValueIfPresentFromRequestField = (requestField: String, expression: RegExp) => {
+export const extractValueIfPresentFromRequestField = (requestField: string, expression: RegExp) => {
     if (requestField) {
         const extractedMatches = requestField.match(expression);
         if (extractedMatches !== null && extractedMatches.length > 0) {

@@ -8,6 +8,7 @@ import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/compa
 import { getBasketLimit, getBasketLink } from "../../utils/basket.utils";
 import { BasketLink } from "../../model/BasketLink";
 import { BasketLimit, BasketLimitState } from "../../model/BasketLimit";
+import { getWhitelistedReturnToURL } from "../../utils/request.util";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -70,7 +71,7 @@ const handleStartNow = (req: Request,
         if (basketLimit.basketLimitState == BasketLimitState.BELOW_LIMIT) {
             const nextPage = `${CHS_URL}${replaceCompanyNumber(CERTIFIED_COPY_FILING_HISTORY, companyNumber)}`;
             logger.debug(`Basket is not full, redirecting to  ${nextPage}.`)
-            res.redirect(nextPage)
+            res.redirect(getWhitelistedReturnToURL(nextPage))
             return { redirected: true, startNowUrl: startNowUrl };
         } else {
             logger.debug(`Basket is full, display error and disable button.`)
