@@ -5,3 +5,4 @@ export const CERTIFIED_COPY_DELIVERY_OPTIONS_PAGE = "/orderable/certified-copies
 export const DISSOLVED_CERTIFICATE_DELIVERY_OPTIONS_PAGE = "/orderable/dissolved-certificates/CRT-837816-028323/delivery-details";
 export const MISSING_IMAGE_DELIVERY_CREATE_PAGE = "/company/00006500/orderable/missing-image-deliveries/MzAwOTM2MDg5OWFkaXF6a2N5/create";
 export const MISSING_IMAGE_DELIVERY_CHECK_DETAILS_PAGE = "/orderable/missing-image-deliveries/MID-368516-028323/check-details";
+export const CERTIFIED_DOCUMENTS_SELECTION_PAGE = "/company/00006400/certified-documents";

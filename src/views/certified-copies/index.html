@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% set notificationHtml %}
-    {% if isBelowLimit %}
+    {% if basketLimitState == "below-limit" %}
         <p class="govuk-notification-banner__heading">
             This order will be for {{ companyName }} ({{ companyNumber }}).
             <p>If you want to order a certified document for a different company, you will need to
@@ -29,9 +29,20 @@
 
 {% block content %}
 
-  {{ govukNotificationBanner({
-    html: notificationHtml
-  }) }}
+    {% if basketLimitState == "display-limit-error" %}
+        {{ govukErrorSummary({
+          titleText: ERROR_SUMMARY_TITLE,
+          errorList: [
+            {
+              text: "You cannot add more than " + basketLimit + " items to your order."
+            }
+          ]
+        }) }}
+    {% else %}
+        {{ govukNotificationBanner({
+            html: notificationHtml
+        }) }}
+    {% endif %}
 
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
@@ -54,6 +65,7 @@
               href: startNowUrl,
               classes: "govuk-!-margin-top-2 govuk-!-margin-bottom-8",
               isStartButton: true,
+              disabled: basketLimitState == 'display-limit-error',
               attributes: {
                 "data-event-id": "start-now-button",
                 onclick: "_paq.push(['trackGoal'," + CERTIFIED_COPIES_PIWIK_START_GOAL_ID + "]);"

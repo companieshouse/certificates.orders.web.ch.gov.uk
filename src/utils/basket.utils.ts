@@ -5,7 +5,7 @@ import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket"
 import { getBasket } from "../client/api.client";
 import { BASKET_ITEM_LIMIT, BASKET_WEB_URL } from "../config/config";
 import { BasketLink } from "../model/BasketLink";
-import { BasketLimit } from "../model/BasketLimit";
+import { BasketLimit, BasketLimitState } from "../model/BasketLimit";
 
 export const getBasketLink = async (req: Request) : Promise<BasketLink> => {
     const signedIn = req.session?.data?.[SessionKey.SignInInfo]?.[SignInInfoKeys.SignedIn] === 1;
@@ -22,11 +22,12 @@ export const getBasketLink = async (req: Request) : Promise<BasketLink> => {
 
 export const getBasketLimit = (basketLink: BasketLink) : BasketLimit => {
     if (!basketLink.showBasketLink) {
-        return { basketLimit: BASKET_ITEM_LIMIT, isBelowLimit: true };
+        return { basketLimit: BASKET_ITEM_LIMIT, basketLimitState: BasketLimitState.BELOW_LIMIT };
     }
 
     return {
         basketLimit: BASKET_ITEM_LIMIT,
-        isBelowLimit: basketLink.basketItems! < BASKET_ITEM_LIMIT
+        basketLimitState: basketLink.basketItems! < BASKET_ITEM_LIMIT ?
+            BasketLimitState.BELOW_LIMIT : BasketLimitState.DISPLAY_LIMIT_WARNING
     };
 }

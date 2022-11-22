@@ -10,6 +10,7 @@ const sandbox = sinon.createSandbox();
 // Without this import these tests will not compile.
 import { Session } from "@companieshouse/node-session-handler";
 import { BASKET_ITEM_LIMIT } from "../../src/config/config";
+import { BasketLimitState } from "../../src/model/BasketLimit";
 
 export const getDummyBasket = (enrolled: boolean, numberOfItems: number = 1): Basket => {
     const item =
@@ -117,7 +118,7 @@ describe("getBasketLimit", () => {
 
     it("should report items as below limit (and report configured limit) where no basket link is to be shown", () => {
         chai.expect(getBasketLimit({showBasketLink: false})).to.deep.equal(
-            { basketLimit: BASKET_ITEM_LIMIT, isBelowLimit: true }
+            { basketLimit: BASKET_ITEM_LIMIT, basketLimitState: BasketLimitState.BELOW_LIMIT }
         );
     });
 
@@ -131,7 +132,7 @@ describe("getBasketLimit", () => {
         )).to.deep.equal(
             {
                 basketLimit: BASKET_ITEM_LIMIT,
-                isBelowLimit: true
+                basketLimitState: BasketLimitState.BELOW_LIMIT
             }
         );
     });
@@ -146,7 +147,7 @@ describe("getBasketLimit", () => {
         )).to.deep.equal(
             {
                 basketLimit: BASKET_ITEM_LIMIT,
-                isBelowLimit: false
+                basketLimitState: BasketLimitState.DISPLAY_LIMIT_WARNING
             }
         );
     });
@@ -161,7 +162,7 @@ describe("getBasketLimit", () => {
         )).to.deep.equal(
             {
                 basketLimit: BASKET_ITEM_LIMIT,
-                isBelowLimit: false
+                basketLimitState: BasketLimitState.DISPLAY_LIMIT_WARNING
             }
         );
     });
