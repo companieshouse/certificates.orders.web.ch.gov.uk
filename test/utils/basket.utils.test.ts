@@ -10,7 +10,7 @@ const sandbox = sinon.createSandbox();
 // Without this import these tests will not compile.
 import { Session } from "@companieshouse/node-session-handler";
 import { BASKET_ITEM_LIMIT } from "../../src/config/config";
-import {BasketLimitState} from "../../src/model/BasketLimit";
+import { BasketLimitState } from "../../src/model/BasketLimit";
 
 export const getDummyBasket = (enrolled: boolean, numberOfItems: number = 1): Basket => {
     const item =
