@@ -7,6 +7,7 @@ import * as apiClient from "../../../src/client/api.client";
 import { CertifiedCopyItem } from "@companieshouse/api-sdk-node/dist/services/order/certified-copies/types";
 import { CERTIFIED_COPY_DELIVERY_OPTIONS, replaceCertifiedCopyId } from "../../../src/model/page.urls";
 import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
+import { mockDeliveryDetails as deliveryDetails } from "../../__mocks__/certificates.mocks";
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
@@ -156,7 +157,8 @@ describe("delivery.options.controller.integration.test", () => {
                         enrolled: true,
                         items: [{
                             ...certifiedCopyItem
-                        }]
+                        }],
+                        deliveryDetails
                     } as Basket));
             sandbox.mock(apiClient).expects("appendItemToBasket")
                 .once()
