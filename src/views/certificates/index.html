@@ -1,12 +1,19 @@
 {% extends "layout.html" %}
 
 {% set notificationHtml %}
-  <p class="govuk-notification-banner__heading">
-    This order will be for {{ companyName }} ({{ companyNumber }}).
-    <p>If you want to order a certificate for a different company, you will need to
-    <a class="govuk-notification-banner__link" href="https://find-and-update.company-information.service.gov.uk/">search for the company on the register,</a>
-    then use the 'More' tab on the company page to re-enter this service.</p>
-  </p>
+    {% if basketLimitState == "below-limit" %}
+        <p class="govuk-notification-banner__heading">
+            This order will be for {{ companyName }} ({{ companyNumber }}).
+            <p>If you want to order a certificate for a different company, you will need to
+            <a class="govuk-notification-banner__link" href="https://find-and-update.company-information.service.gov.uk/">search for the company on the register,</a>
+            then use the 'More' tab on the company page to re-enter this service.</p>
+        </p>
+    {% else %}
+        <p class="govuk-notification-banner__heading">
+            Your basket is full. You cannot add more than {{ basketLimit }} items to your order.
+            Remove some items before adding more.
+        </p>
+   {% endif %}
 {% endset %}
 
 {% block pageTitle %}
