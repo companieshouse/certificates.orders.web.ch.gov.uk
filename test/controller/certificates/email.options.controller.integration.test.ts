@@ -12,7 +12,8 @@ import {
 } from "../../../src/model/page.urls";
 import { setBackLink } from "../../../src/controllers/certificates/email.options.controller";
 import { dataEmpty } from "../../__mocks__/session.mocks";
-import { mockDissolvedCertificateItem } from "../../__mocks__/certificates.mocks";
+import { mockDissolvedCertificateItem, mockDeliveryDetails as deliveryDetails } from "../../__mocks__/certificates.mocks";
+import { DeliveryDetails } from "@companieshouse/api-sdk-node/dist/services/order/basket";
 
 const CERTIFICATE_ID = "CRT-000000-000000";
 const EMAIL_OPTION_NOT_SELECTED = "Select ‘yes’ if you would like an email copy of the certificate";
@@ -138,7 +139,7 @@ describe("email.options.integration.test", () => {
             patchCertificateItemStub = sandbox.stub(apiClient, "patchCertificateItem")
                 .returns(Promise.resolve(certificateDetails));
             getBasket = sandbox.stub(apiClient, "getBasket")
-                .returns(Promise.resolve({ enrolled: true, items: [{ kind: "item#certificate" } as any] }));
+                .returns(Promise.resolve({ enrolled: true, items: [{ kind: "item#certificate" } as any], deliveryDetails }));
             sandbox.mock(apiClient).expects("appendItemToBasket")
                 .once()
                 .returns(Promise.resolve());

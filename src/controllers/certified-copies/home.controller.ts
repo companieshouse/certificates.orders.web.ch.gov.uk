@@ -20,7 +20,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const companyName : string = companyProfile.companyName;
         const companyType = companyProfile.type;
         const filingHistory = companyProfile.links.filingHistory;
-        const SERVICE_URL = `/company/${companyNumber}/orderable/certified-copies`;
+        const SERVICE_URL = "#"; // disable 'Order a certified document' link when already on same page
         const dispatchDays: string = DISPATCH_DAYS;
         const moreTabUrl: string = "/company/" + companyNumber + "/more";
         const basketLink: BasketLink = await getBasketLink(req);
@@ -56,8 +56,8 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 
 /**
  * handleStartNow checks to see whether the incoming request may have resulted from the user clicking
- * on the start now button (or the page being reloaded). If so, it controls the presentation of
- * a basket limit warning/error and the start now button enabled state as appropriate.
+ * on the start now button. If so, it controls the presentation of a basket limit warning/error and the
+ * start now button enabled state as appropriate.
  */
 const handleStartNow = (req: Request,
                          res: Response,
@@ -66,7 +66,7 @@ const handleStartNow = (req: Request,
                          companyNumber: string) :
     { redirected: boolean, startNowUrl: string } => {
     const referrer = req.header('referrer');
-    if (referrer == startNowUrl) { // we are here as a result of start now being clicked (or the page being reloaded)
+    if (referrer == startNowUrl) { // we are here as a result of start now being clicked
         logger.debug(`Back on ${startNowUrl} again.`)
         if (basketLimit.basketLimitState == BasketLimitState.BELOW_LIMIT) {
             const nextPage = `${CHS_URL}${replaceCompanyNumber(CERTIFIED_COPY_FILING_HISTORY, companyNumber)}`;
