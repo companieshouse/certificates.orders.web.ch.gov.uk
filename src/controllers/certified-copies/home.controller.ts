@@ -1,5 +1,10 @@
 import { NextFunction, Request, Response } from "express";
-import {CERTIFIED_COPY_FILING_HISTORY, replaceCompanyNumber, ROOT_CERTIFIED_COPY} from "../../model/page.urls";
+import {
+    CERTIFIED_COPY_FILING_HISTORY,
+    replaceCompanyNumber,
+    ROOT_CERTIFIED_COPY,
+    START_BUTTON_PATH_SUFFIX
+} from "../../model/page.urls";
 import { CERTIFIED_COPY_INDEX, YOU_CANNOT_USE_THIS_SERVICE } from "../../model/template.paths";
 import { API_KEY, APPLICATION_NAME, CHS_URL, DISPATCH_DAYS } from "../../config/config";
 import { getCompanyProfile } from "../../client/api.client";
@@ -15,7 +20,7 @@ const logger = createLogger(APPLICATION_NAME);
 export default async (req: Request, res: Response, next: NextFunction) => {
     try {
         const companyNumber: string = req.params.companyNumber;
-        const startNowPath = `${replaceCompanyNumber(ROOT_CERTIFIED_COPY, companyNumber)}/start`;
+        const startNowPath = `${replaceCompanyNumber(ROOT_CERTIFIED_COPY, companyNumber)}${START_BUTTON_PATH_SUFFIX}`;
         let startNowUrl = `${CHS_URL}${startNowPath}`;
         const companyProfile: CompanyProfile = await getCompanyProfile(API_KEY, companyNumber);
         const companyName : string = companyProfile.companyName;
@@ -27,13 +32,14 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const basketLink: BasketLink = await getBasketLink(req);
         const basketLimit: BasketLimit = getBasketLimit(basketLink);
 
-        if (req.url == startNowPath) { // we are here as a result of start now being clicked
-            const {redirected, startNowUrl: newStartNowUrl} =
-                handleStartNow(req, res, startNowUrl, basketLimit, companyNumber);
-            if (redirected) {
+        if (req.url == startNowPath) {
+            logger.debug(`Start now button clicked, req.url = ${req.url}`);
+            if (displayBasketLimitError(req, res, basketLimit, companyNumber)) {
+                logger.debug(`Disable start now button.`);
+                startNowUrl = "";
+            } else {
                 return;
             }
-            startNowUrl = newStartNowUrl;
         }
 
         if (!filingHistory || (filingHistory && companyType === "uk-establishment")) {
@@ -58,27 +64,21 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 };
 
 /**
- * handleStartNow  controls the presentation of a basket limit warning/error and the start now button enabled
- * state as appropriate.
+ * displayBasketLimitError controls the presentation of a basket limit warning/error as appropriate.
+ * @return whether a basket limit error is to be displayed (<code>true</code>), or not (<code>false</code>)
  */
-const handleStartNow = (req: Request,
-                        res: Response,
-                        startNowUrl: string,
-                        basketLimit: BasketLimit,
-                        companyNumber: string) :
-    { redirected: boolean, startNowUrl: string } => {
-    logger.debug(`Start now button clicked, req.url = ${req.url}`);
+const displayBasketLimitError = (req: Request,
+                                 res: Response,
+                                 basketLimit: BasketLimit,
+                                 companyNumber: string) : boolean => {
     if (basketLimit.basketLimitState == BasketLimitState.BELOW_LIMIT) {
         const nextPage = `${CHS_URL}${replaceCompanyNumber(CERTIFIED_COPY_FILING_HISTORY, companyNumber)}`;
         logger.debug(`Basket is not full, redirecting to  ${nextPage}.`)
         res.redirect(getWhitelistedReturnToURL(nextPage))
-        return { redirected: true, startNowUrl: startNowUrl };
+        return false;
     } else {
-        logger.debug(`Basket is full, display error and disable button.`)
+        logger.debug(`Basket is full, display error.`)
         basketLimit.basketLimitState = BasketLimitState.DISPLAY_LIMIT_ERROR; // styles button as disabled
-        startNowUrl = ""; // really disables the button (actually a link)
+        return true
     }
-
-    return { redirected: false, startNowUrl: startNowUrl };
-
 }
