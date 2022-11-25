@@ -15,7 +15,8 @@ import { CompanyType } from "../../model/CompanyType";
 import { FEATURE_FLAGS } from "../../config/FeatureFlags";
 import { optionFilter } from "./OptionFilter";
 import { BasketLink } from "../../model/BasketLink";
-import { getBasketLink } from "../../utils/basket.utils";
+import { getBasketLimit, getBasketLink } from "../../utils/basket.utils";
+import { BasketLimit } from "../../model/BasketLimit";
 
 type LandingPage = { landingPage: string, startNowUrl: string, serviceUrl: string }
 type CompanyDetail = { companyNumber: string, type: string };
@@ -128,6 +129,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const companyType = companyProfile.type;
         const moreTabUrl = "/company/" + companyNumber + "/more";
         const basketLink: BasketLink = await getBasketLink(req);
+        const basketLimit: BasketLimit = getBasketLimit(basketLink);
 
         const acceptableCompanyTypes = [
             CompanyType.LIMITED_LIABILITY_PARTNERSHIP,
@@ -184,7 +186,8 @@ export default async (req: Request, res: Response, next: NextFunction) => {
                     administrators: companyProfile.companyStatus === "administration"
                 },
                 optionFilter,
-                ...basketLink
+                ...basketLink,
+                ...basketLimit
             });
         } else {
             const SERVICE_NAME = null;
