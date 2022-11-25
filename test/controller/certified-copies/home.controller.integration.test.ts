@@ -1,6 +1,6 @@
 import sinon from "sinon";
 import ioredis from "ioredis";
-import { ROOT_CERTIFIED_COPY, replaceCompanyNumber } from "../../../src/model/page.urls";
+import { ROOT_CERTIFIED_COPY, replaceCompanyNumber, START_BUTTON_PATH_SUFFIX } from "../../../src/model/page.urls";
 import CompanyProfileService from "@companieshouse/api-sdk-node/dist/services/company-profile/service";
 import * as apiClient from "../../../src/client/api.client";
 import {
@@ -8,7 +8,7 @@ import {
     signedInSession
 } from "../../__mocks__/redis.mocks";
 import { getDummyBasket } from "../../utils/basket.utils.test";
-import { BASKET_ITEM_LIMIT, CHS_URL } from "../../../src/config/config";
+import { BASKET_ITEM_LIMIT } from "../../../src/config/config";
 import * as HTMLParser from 'node-html-parser';
 
 import * as chai from "chai";
@@ -197,12 +197,11 @@ describe("certified-copy.home.controller.integration", () => {
             .resolves(dummyCompanyProfile);
         sandbox.stub(apiClient, "getBasket").resolves(getDummyBasket(true, BASKET_ITEM_LIMIT));
 
-        const url : string = replaceCompanyNumber(ROOT_CERTIFIED_COPY, COMPANY_NUMBER);
+        const url : string = replaceCompanyNumber(ROOT_CERTIFIED_COPY, COMPANY_NUMBER) + START_BUTTON_PATH_SUFFIX;
 
         const resp = await chai.request(testApp)
             .get(url)
-            .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
-            .set("Referrer", `${CHS_URL}${url}`);
+            .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
 
         chai.expect(resp.status).to.equal(200);
         chai.expect(resp.text).to.contain(`Basket (${BASKET_ITEM_LIMIT})`);
@@ -217,12 +216,11 @@ describe("certified-copy.home.controller.integration", () => {
             .resolves(dummyCompanyProfile);
         sandbox.stub(apiClient, "getBasket").resolves(getDummyBasket(true, BASKET_ITEM_LIMIT + 1));
 
-        const url : string = replaceCompanyNumber(ROOT_CERTIFIED_COPY, COMPANY_NUMBER);
+        const url : string = replaceCompanyNumber(ROOT_CERTIFIED_COPY, COMPANY_NUMBER) + START_BUTTON_PATH_SUFFIX;
 
         const resp = await chai.request(testApp)
             .get(url)
-            .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
-            .set("Referrer", `${CHS_URL}${url}`);
+            .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
 
         chai.expect(resp.status).to.equal(200);
         chai.expect(resp.text).to.contain(`Basket (${BASKET_ITEM_LIMIT + 1})`);
