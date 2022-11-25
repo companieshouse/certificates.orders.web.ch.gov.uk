@@ -10,8 +10,11 @@
         </p>
     {% else %}
         <p class="govuk-notification-banner__heading">
-            Your basket is full. You cannot add more than {{ basketLimit }} items to your order.
-            Remove some items before adding more.
+            Your basket is full
+        </p>
+        <p>
+            You cannot add more than {{ basketLimit }} items to your order.
+            To add more you'll need to remove some items first.
         </p>
    {% endif %}
 {% endset %}
@@ -34,7 +37,8 @@
           titleText: ERROR_SUMMARY_TITLE,
           errorList: [
             {
-              text: "You cannot add more than " + basketLimit + " items to your order."
+              text: "Your basket is full. To add more to your order, you'll need to remove some items first.",
+              href: basketWebUrl
             }
           ]
         }) }}

@@ -169,8 +169,9 @@ describe("certified-copy.home.controller.integration", () => {
 
         chai.expect(resp.status).to.equal(200);
         chai.expect(resp.text).to.contain(`Basket (${BASKET_ITEM_LIMIT})`);
-        chai.expect(resp.text).to.contain(
-            `Your basket is full. You cannot add more than ${BASKET_ITEM_LIMIT} items to your order.`);
+        chai.expect(resp.text).to.contain(`Your basket is full`);
+        chai.expect(resp.text).to.contain(`You cannot add more than ${BASKET_ITEM_LIMIT} items to your order.`);
+        chai.expect(resp.text).to.contain(`To add more you'll need to remove some items first.`);
         verifyStartButtonEnabledStateIs(resp.text, true);
     });
 
@@ -186,8 +187,9 @@ describe("certified-copy.home.controller.integration", () => {
 
         chai.expect(resp.status).to.equal(200);
         chai.expect(resp.text).to.contain(`Basket (${BASKET_ITEM_LIMIT + 1})`);
-        chai.expect(resp.text).to.contain(
-            `Your basket is full. You cannot add more than ${BASKET_ITEM_LIMIT} items to your order.`);
+        chai.expect(resp.text).to.contain(`Your basket is full`);
+        chai.expect(resp.text).to.contain(`You cannot add more than ${BASKET_ITEM_LIMIT} items to your order.`);
+        chai.expect(resp.text).to.contain(`To add more you'll need to remove some items first.`);
         verifyStartButtonEnabledStateIs(resp.text, true);
     });
 
@@ -206,7 +208,7 @@ describe("certified-copy.home.controller.integration", () => {
         chai.expect(resp.status).to.equal(200);
         chai.expect(resp.text).to.contain(`Basket (${BASKET_ITEM_LIMIT})`);
         chai.expect(resp.text).to.contain(`There is a problem`);
-        chai.expect(resp.text).to.contain(`You cannot add more than ${BASKET_ITEM_LIMIT} items to your order.`);
+        chai.expect(resp.text).to.contain(`Your basket is full. To add more to your order, you&#39;ll need to remove some items first.`);
         verifyStartButtonEnabledStateIs(resp.text, false);
     });
 
@@ -225,7 +227,7 @@ describe("certified-copy.home.controller.integration", () => {
         chai.expect(resp.status).to.equal(200);
         chai.expect(resp.text).to.contain(`Basket (${BASKET_ITEM_LIMIT + 1})`);
         chai.expect(resp.text).to.contain(`There is a problem`);
-        chai.expect(resp.text).to.contain(`You cannot add more than ${BASKET_ITEM_LIMIT} items to your order.`);
+        chai.expect(resp.text).to.contain(`Your basket is full. To add more to your order, you&#39;ll need to remove some items first.`);
         verifyStartButtonEnabledStateIs(resp.text, false);
     });
 
