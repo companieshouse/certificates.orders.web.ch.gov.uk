@@ -16,7 +16,8 @@ import {
     DISSOLVED_CERTIFICATE_EMAIL_OPTIONS,
     DISSOLVED_CERTIFICATE_TYPE,
     ROOT_CERTIFICATE,
-    ROOT_DISSOLVED_CERTIFICATE
+    ROOT_DISSOLVED_CERTIFICATE,
+    START_BUTTON_PATH_SUFFIX
 } from "../../model/page.urls";
 import {
     CERTIFICATE_CHECK_DETAILS as CERTIFICATE_CHECK_DETAILS_TEMPLATE,
@@ -40,7 +41,9 @@ import { OptionsControllerConfiguration } from "../../controllers/certificates/o
 const router: Router = Router();
 
 router.get(ROOT_CERTIFICATE, homeController);
+router.get(ROOT_CERTIFICATE + START_BUTTON_PATH_SUFFIX, homeController);
 router.get(ROOT_DISSOLVED_CERTIFICATE, homeController);
+router.get(ROOT_DISSOLVED_CERTIFICATE + START_BUTTON_PATH_SUFFIX, homeController);
 
 const typeController = new TypeController(new Map<string, string>([
     [CompanyStatus.ACTIVE, CERTIFICATE_OPTIONS],
