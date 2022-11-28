@@ -19,6 +19,7 @@ import {
     CERTIFICATE_TYPE_PAGE,
     CERTIFIED_COPY_DELIVERY_OPTIONS_PAGE,
     DISSOLVED_CERTIFICATE_DELIVERY_OPTIONS_PAGE,
+    DISSOLVED_CERTIFICATE_TYPE_PAGE,
     LLP_CERTIFICATE_OPTIONS_PAGE,
     LP_CERTIFICATE_OPTIONS_PAGE,
     MISSING_IMAGE_DELIVERY_CHECK_DETAILS_PAGE,
@@ -83,6 +84,12 @@ describe("request.util.unit",
                 expect(returnToUrl).to.equal(CERTIFICATE_TYPE_PAGE);
             });
 
+            it("gets correct return to URL for the dissolved certificate type page", () => {
+                const returnToUrl = extractValueFromRequestField(DISSOLVED_CERTIFICATE_TYPE_PAGE,
+                    CERTIFICATE_TYPE_RE);
+                expect(returnToUrl).to.equal(DISSOLVED_CERTIFICATE_TYPE_PAGE);
+            });
+
             it("errors if asked to look up an unknown page URL", () => {
                 const execution = () => extractValueFromRequestField(UNKNOWN_URL, CERTIFICATE_OPTIONS_RE);
                 expect(execution).to.throw("Unable to extract value sought from requestField /unknown using regular " +
@@ -145,6 +152,12 @@ describe("request.util.unit",
                 expect(returnToUrl).to.equal(CERTIFICATE_TYPE_PAGE);
             });
 
+            it("gets correct return to URL for the dissolved certificate type page", () => {
+                const returnToUrl = extractValueIfPresentFromRequestField(DISSOLVED_CERTIFICATE_TYPE_PAGE,
+                    CERTIFICATE_TYPE_RE);
+                expect(returnToUrl).to.equal(DISSOLVED_CERTIFICATE_TYPE_PAGE);
+            });
+
             it("returns null if asked to look up an unknown page URL", () => {
                 const returnToUrl = extractValueIfPresentFromRequestField(UNKNOWN_URL, CERTIFICATE_OPTIONS_RE);
                 expect(returnToUrl).to.equal(null);
@@ -197,6 +210,11 @@ describe("request.util.unit",
                 expect(returnToUrl).to.equal(CERTIFICATE_TYPE_PAGE);
             });
 
+            it("gets correct return to URL for the dissolved certificate type page", () => {
+                const returnToUrl = getWhitelistedReturnToURL(DISSOLVED_CERTIFICATE_TYPE_PAGE);
+                expect(returnToUrl).to.equal(DISSOLVED_CERTIFICATE_TYPE_PAGE);
+            });
+
             it("errors if asked to look up an unknown page URL", () => {
                 const execution = () => getWhitelistedReturnToURL(UNKNOWN_URL);
                 expect(execution).to.throw("Return to URL /unknown not found in trusted URLs whitelist " +
@@ -210,7 +228,7 @@ describe("request.util.unit",
                     "/\\/company\\/[A-Z0-9]{8}\\/orderable\\/missing-image-deliveries\\/[a-zA-Z0-9]{8,}\\/create/," +
                     "/\\/orderable\\/missing-image-deliveries\\/MID-\\d{6}-\\d{6}\\/check-details/," +
                     "/\\/company\\/[A-Z0-9]{8}\\/certified-documents/," +
-                    "/\\/company\\/[A-Z0-9]{8}\\/orderable\\/certificates\\/certificate-type/.");
+                    "/\\/company\\/[A-Z0-9]{8}\\/orderable\\/(certificates|dissolved-certificates)\\/certificate-type/.");
             });
         });
     });

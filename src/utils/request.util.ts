@@ -13,7 +13,7 @@ export const DISSOLVED_CERTIFICATE_DELIVERY_OPTIONS_RE = /\/orderable\/dissolved
 export const MISSING_IMAGE_DELIVERY_CREATE_RE = /\/company\/[A-Z0-9]{8}\/orderable\/missing-image-deliveries\/[a-zA-Z0-9]{8,}\/create/;
 export const MISSING_IMAGE_DELIVERY_CHECK_DETAILS_RE = /\/orderable\/missing-image-deliveries\/MID-\d{6}-\d{6}\/check-details/;
 export const CERTIFIED_DOCUMENTS_SELECTION_RE = /\/company\/[A-Z0-9]{8}\/certified-documents/;
-export const CERTIFICATE_TYPE_RE = /\/company\/[A-Z0-9]{8}\/orderable\/certificates\/certificate-type/;
+export const CERTIFICATE_TYPE_RE = /\/company\/[A-Z0-9]{8}\/orderable\/(certificates|dissolved-certificates)\/certificate-type/;
 const REDIRECTS_WHITELIST: RegExp[] = [
     CERTIFICATE_OPTIONS_RE,
     LP_CERTIFICATE_OPTIONS_RE,

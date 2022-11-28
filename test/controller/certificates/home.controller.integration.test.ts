@@ -2,7 +2,12 @@ import chai from "chai";
 import sinon from "sinon";
 import ioredis from "ioredis";
 
-import { ROOT_CERTIFICATE, replaceCompanyNumber } from "../../../src/model/page.urls";
+import {
+    replaceCompanyNumber,
+    ROOT_CERTIFICATE,
+    ROOT_DISSOLVED_CERTIFICATE,
+    START_BUTTON_PATH_SUFFIX
+} from "../../../src/model/page.urls";
 import CompanyProfileService from "@companieshouse/api-sdk-node/dist/services/company-profile/service";
 import { dummyCompanyProfileAcceptableCompanyType, dummyCompanyProfileNotAcceptableCompanyType } from "../../__mocks__/company.profile.mocks";
 
@@ -18,6 +23,9 @@ import { BASKET_ITEM_LIMIT } from "../../../src/config/config";
 import { getDummyBasket } from "../../utils/basket.utils.test";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
 import * as apiClient from "../../../src/client/api.client";
+import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
+import { ApiResponse, ApiResult } from "@companieshouse/api-sdk-node/dist/services/resource";
+import { success } from "@companieshouse/api-sdk-node/dist/services/result";
 
 const COMPANY_NUMBER = "00000000";
 
@@ -268,6 +276,7 @@ describe("certificate.home.controller.integration", () => {
         chai.expect(resp.status).to.equal(200);
         chai.expect(resp.text).to.contain("Sign in / Register");
         chai.expect(resp.text).to.contain("This order will be for company name (00000000)");
+        verifyStartButtonEnabledStateIs(resp.text, true);
     });
 
     it("renders `This order will be for...` message when items below the limit", async () => {
@@ -282,6 +291,7 @@ describe("certificate.home.controller.integration", () => {
         chai.expect(resp.status).to.equal(200);
         chai.expect(resp.text).to.contain(`Basket (${BASKET_ITEM_LIMIT - 1})`);
         chai.expect(resp.text).to.contain("This order will be for company name (00000000)");
+        verifyStartButtonEnabledStateIs(resp.text, true);
     });
 
     it("renders `Your basket is full...` warning when items at the limit", async () => {
@@ -299,6 +309,7 @@ describe("certificate.home.controller.integration", () => {
         chai.expect(resp.text).to.contain(
             `You cannot add more than ${BASKET_ITEM_LIMIT} items to your order.`);
         chai.expect(resp.text).to.contain(`To add more you'll need to remove some items first.`);
+        verifyStartButtonEnabledStateIs(resp.text, true);
     });
 
     it("renders `Your basket is full...` warning when items over the limit", async () => {
@@ -315,5 +326,88 @@ describe("certificate.home.controller.integration", () => {
         chai.expect(resp.text).to.contain(`Your basket is full`);
         chai.expect(resp.text).to.contain(
             `You cannot add more than ${BASKET_ITEM_LIMIT} items to your order.`);
-        chai.expect(resp.text).to.contain(`To add more you'll need to remove some items first.`);    });
+        chai.expect(resp.text).to.contain(`To add more you'll need to remove some items first.`);
+        verifyStartButtonEnabledStateIs(resp.text, true);
+    });
+
+    it("renders `There is a problem...` error, disables button when items at the limit and start now is clicked", async () => {
+        getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
+            .resolves(mockAcceptableDissolvedCompanyProfile);
+        sandbox.stub(apiClient, "getBasket").resolves(getDummyBasket(true, BASKET_ITEM_LIMIT));
+
+        const url : string = replaceCompanyNumber(ROOT_DISSOLVED_CERTIFICATE, COMPANY_NUMBER) + START_BUTTON_PATH_SUFFIX;
+
+        const resp = await chai.request(testApp)
+            .get(url)
+            .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+        chai.expect(resp.status).to.equal(200);
+        chai.expect(resp.text).to.contain(`Basket (${BASKET_ITEM_LIMIT})`);
+        chai.expect(resp.text).to.contain(`There is a problem`);
+        chai.expect(resp.text).to.contain(`Your basket is full. To add more to your order, you&#39;ll need to remove some items first.`);
+        verifyStartButtonEnabledStateIs(resp.text, false);
+    });
+
+    it("renders `There is a problem...` error, disables button when items over the limit and start now is clicked", async () => {
+        getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
+            .resolves(mockAcceptableDissolvedCompanyProfile);
+        sandbox.stub(apiClient, "getBasket").resolves(getDummyBasket(true, BASKET_ITEM_LIMIT + 1));
+
+        const url : string = replaceCompanyNumber(ROOT_DISSOLVED_CERTIFICATE, COMPANY_NUMBER) + START_BUTTON_PATH_SUFFIX;
+
+        const resp = await chai.request(testApp)
+            .get(url)
+            .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+        chai.expect(resp.status).to.equal(200);
+        chai.expect(resp.text).to.contain(`Basket (${BASKET_ITEM_LIMIT + 1})`);
+        chai.expect(resp.text).to.contain(`There is a problem`);
+        chai.expect(resp.text).to.contain(`Your basket is full. To add more to your order, you&#39;ll need to remove some items first.`);
+        verifyStartButtonEnabledStateIs(resp.text, false);
+    });
+
+    it("redirects to the next page when items below the limit and start now is clicked", async () => {
+        getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
+            .resolves(mockAcceptableDissolvedCompanyProfile);
+        sandbox.stub(apiClient, "getBasket").resolves(getDummyBasket(true, BASKET_ITEM_LIMIT - 1));
+        const certificateDetails = {
+            id: "CRT-951616-000712",
+            itemOptions: {
+                companyStatus: "dissolved",
+                certificateType: "incorporation-with-all-name-changes"
+            }
+        } as CertificateItem;
+        const itemCreatedResponse: ApiResult<ApiResponse<CertificateItem>> = success({
+            httpStatusCode: 201,
+            resource: certificateDetails
+        });
+        sandbox.stub(apiClient, "postInitialCertificateItem").resolves(itemCreatedResponse);
+        sandbox.stub(apiClient, "getCertificateItem").resolves(certificateDetails);
+
+        const url : string = replaceCompanyNumber(ROOT_DISSOLVED_CERTIFICATE, COMPANY_NUMBER) + START_BUTTON_PATH_SUFFIX;
+
+        const resp = await chai.request(testApp)
+            .get(url)
+            .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+        // Redirected-to page.
+        chai.expect(resp.status).to.equal(200);
+        chai.expect(resp.text).to.contain("Choose a dispatch option");
+    });
+
+    const verifyStartButtonEnabledStateIs = (responseText: string, isEnabled: boolean) => {
+        const page = cheerio.load(responseText)
+        const startNowButton = page(".govuk-button--start");
+        chai.expect(startNowButton).to.exist;
+        chai.expect(startNowButton.text()).to.contain("Start now");
+
+        // The presence/absence of the href attribute (content) is what really determines whether the button (link)
+        // is enabled or not.
+        if (isEnabled) {
+            chai.expect(startNowButton!.attr("href")).to.exist;
+        } else {
+            chai.expect(startNowButton!.attr("href")).to.not.exist;
+        }
+    }
+
 });
