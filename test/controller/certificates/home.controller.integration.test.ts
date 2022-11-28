@@ -242,7 +242,7 @@ describe("certificate.home.controller.integration", () => {
         chai.expect(resp.status).to.equal(200);
 
         const $ = cheerio.load(resp.text);
-        chai.expect($(".govuk-button--start").attr("href")).to.equal("/company/00000000/orderable/certificates/certificate-type");
+        chai.expect($(".govuk-button--start").attr("href")).to.equal("/company/00000000/orderable/certificates/start");
     });
 
     it("renders the correct start now button URL for a dissolved company", async () => {
@@ -255,7 +255,7 @@ describe("certificate.home.controller.integration", () => {
         chai.expect(resp.status).to.equal(200);
 
         const $ = cheerio.load(resp.text);
-        chai.expect($(".govuk-button--start").attr("href")).to.equal("/company/00000000/orderable/dissolved-certificates/certificate-type");
+        chai.expect($(".govuk-button--start").attr("href")).to.equal("/company/00000000/orderable/dissolved-certificates/start");
     });
 
     it("renders `This order will be for...` message when no basket link is shown", async () => {
@@ -295,8 +295,10 @@ describe("certificate.home.controller.integration", () => {
 
         chai.expect(resp.status).to.equal(200);
         chai.expect(resp.text).to.contain(`Basket (${BASKET_ITEM_LIMIT})`);
+        chai.expect(resp.text).to.contain(`Your basket is full`);
         chai.expect(resp.text).to.contain(
-            `Your basket is full. You cannot add more than ${BASKET_ITEM_LIMIT} items to your order.`);
+            `You cannot add more than ${BASKET_ITEM_LIMIT} items to your order.`);
+        chai.expect(resp.text).to.contain(`To add more you'll need to remove some items first.`);
     });
 
     it("renders `Your basket is full...` warning when items over the limit", async () => {
@@ -310,7 +312,8 @@ describe("certificate.home.controller.integration", () => {
 
         chai.expect(resp.status).to.equal(200);
         chai.expect(resp.text).to.contain(`Basket (${BASKET_ITEM_LIMIT + 1})`);
+        chai.expect(resp.text).to.contain(`Your basket is full`);
         chai.expect(resp.text).to.contain(
-            `Your basket is full. You cannot add more than ${BASKET_ITEM_LIMIT} items to your order.`);
-    });
+            `You cannot add more than ${BASKET_ITEM_LIMIT} items to your order.`);
+        chai.expect(resp.text).to.contain(`To add more you'll need to remove some items first.`);    });
 });
