@@ -17,6 +17,7 @@ import { optionFilter } from "./OptionFilter";
 import { BasketLink } from "../../model/BasketLink";
 import { getBasketLimit, getBasketLink } from "../../utils/basket.utils";
 import { BasketLimit, BasketLimitState } from "../../model/BasketLimit";
+import { getWhitelistedReturnToURL } from "../../utils/request.util";
 
 type LandingPage = { landingPage: string, startNowUrl: string, nextPageUrl: string, serviceUrl: string }
 type CompanyDetail = { companyNumber: string, type: string };
@@ -176,7 +177,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
             }
 
             if (redirectToNextPage(req, res, basketLimit, landingPage)) {
-                //  No more to do here.
+                // No more to do here.
                 return;
             }
 
@@ -222,7 +223,7 @@ const redirectToNextPage = (req: Request,
         logger.debug(`Start now button clicked, req.url = ${req.url}`);
         if (basketLimit.basketLimitState == BasketLimitState.BELOW_LIMIT) {
             logger.debug(`Basket is not full, redirecting to  ${landingPage.nextPageUrl}.`);
-            res.redirect(/* TODO BI-12134 Do we need this? getWhitelistedReturnToURL(*/landingPage.nextPageUrl/*)*/);
+            res.redirect(getWhitelistedReturnToURL(landingPage.nextPageUrl));
             return true;
         } else {
             logger.debug(`Basket is full, display error and disable start now button.`);

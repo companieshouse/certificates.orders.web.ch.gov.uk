@@ -9,12 +9,14 @@ import {
     CERTIFIED_COPIES_DELIVERY_DETAILS_RE,
     MISSING_IMAGE_DELIVERY_CHECK_DETAILS_RE,
     MISSING_IMAGE_DELIVERY_CREATE_RE,
-    CERTIFIED_DOCUMENTS_SELECTION_RE
+    CERTIFIED_DOCUMENTS_SELECTION_RE,
+    CERTIFICATE_TYPE_RE
 } from "../../src/utils/request.util";
 import { expect } from "chai";
 import {
     CERTIFIED_DOCUMENTS_SELECTION_PAGE,
     CERTIFICATE_OPTIONS_PAGE,
+    CERTIFICATE_TYPE_PAGE,
     CERTIFIED_COPY_DELIVERY_OPTIONS_PAGE,
     DISSOLVED_CERTIFICATE_DELIVERY_OPTIONS_PAGE,
     LLP_CERTIFICATE_OPTIONS_PAGE,
@@ -75,6 +77,12 @@ describe("request.util.unit",
                 expect(returnToUrl).to.equal(CERTIFIED_DOCUMENTS_SELECTION_PAGE);
             });
 
+            it("gets correct return to URL for the certificate type page", () => {
+                const returnToUrl = extractValueFromRequestField(CERTIFICATE_TYPE_PAGE,
+                    CERTIFICATE_TYPE_RE);
+                expect(returnToUrl).to.equal(CERTIFICATE_TYPE_PAGE);
+            });
+
             it("errors if asked to look up an unknown page URL", () => {
                 const execution = () => extractValueFromRequestField(UNKNOWN_URL, CERTIFICATE_OPTIONS_RE);
                 expect(execution).to.throw("Unable to extract value sought from requestField /unknown using regular " +
@@ -131,6 +139,12 @@ describe("request.util.unit",
                 expect(returnToUrl).to.equal(CERTIFIED_DOCUMENTS_SELECTION_PAGE);
             });
 
+            it("gets correct return to URL for the certificate type page", () => {
+                const returnToUrl = extractValueIfPresentFromRequestField(CERTIFICATE_TYPE_PAGE,
+                    CERTIFICATE_TYPE_RE);
+                expect(returnToUrl).to.equal(CERTIFICATE_TYPE_PAGE);
+            });
+
             it("returns null if asked to look up an unknown page URL", () => {
                 const returnToUrl = extractValueIfPresentFromRequestField(UNKNOWN_URL, CERTIFICATE_OPTIONS_RE);
                 expect(returnToUrl).to.equal(null);
@@ -178,6 +192,11 @@ describe("request.util.unit",
                 expect(returnToUrl).to.equal(CERTIFIED_DOCUMENTS_SELECTION_PAGE);
             });
 
+            it("gets correct return to URL for the certificate type page", () => {
+                const returnToUrl = getWhitelistedReturnToURL(CERTIFICATE_TYPE_PAGE);
+                expect(returnToUrl).to.equal(CERTIFICATE_TYPE_PAGE);
+            });
+
             it("errors if asked to look up an unknown page URL", () => {
                 const execution = () => getWhitelistedReturnToURL(UNKNOWN_URL);
                 expect(execution).to.throw("Return to URL /unknown not found in trusted URLs whitelist " +
@@ -190,7 +209,8 @@ describe("request.util.unit",
                     "/\\/orderable\\/dissolved-certificates\\/CRT-\\d{6}-\\d{6}\\/delivery-options/," +
                     "/\\/company\\/[A-Z0-9]{8}\\/orderable\\/missing-image-deliveries\\/[a-zA-Z0-9]{8,}\\/create/," +
                     "/\\/orderable\\/missing-image-deliveries\\/MID-\\d{6}-\\d{6}\\/check-details/," +
-                    "/\\/company\\/[A-Z0-9]{8}\\/certified-documents/.");
+                    "/\\/company\\/[A-Z0-9]{8}\\/certified-documents/," +
+                    "/\\/company\\/[A-Z0-9]{8}\\/orderable\\/certificates\\/certificate-type/.");
             });
         });
     });

@@ -6,3 +6,4 @@ export const DISSOLVED_CERTIFICATE_DELIVERY_OPTIONS_PAGE = "/orderable/dissolved
 export const MISSING_IMAGE_DELIVERY_CREATE_PAGE = "/company/00006500/orderable/missing-image-deliveries/MzAwOTM2MDg5OWFkaXF6a2N5/create";
 export const MISSING_IMAGE_DELIVERY_CHECK_DETAILS_PAGE = "/orderable/missing-image-deliveries/MID-368516-028323/check-details";
 export const CERTIFIED_DOCUMENTS_SELECTION_PAGE = "/company/00006400/certified-documents";
+export const CERTIFICATE_TYPE_PAGE = "/company/00006400/orderable/certificates/certificate-type";
