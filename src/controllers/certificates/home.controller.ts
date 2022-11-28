@@ -175,14 +175,9 @@ export default async (req: Request, res: Response, next: NextFunction) => {
                 landingPage = strategy(companyProfile);
             }
 
-            if (req.url.endsWith(START_BUTTON_PATH_SUFFIX)) {
-                logger.debug(`Start now button clicked, req.url = ${req.url}`);
-                if (displayBasketLimitError(req, res, basketLimit, landingPage.nextPageUrl)) {
-                    logger.debug(`Disable start now button.`);
-                    landingPage.startNowUrl = "";
-                } else {
-                    return;
-                }
+            if (redirectToNextPage(req, res, basketLimit, landingPage)) {
+                //  No more to do here.
+                return;
             }
 
             logger.debug(`Rendering ${landingPage.landingPage}, company_status=${companyStatus}, start_now_url=${landingPage.startNowUrl}, company_number=${companyNumber}, service_url=${landingPage.serviceUrl}, dispatch_days=${DISPATCH_DAYS}, more_tab_url=${moreTabUrl}`);
@@ -214,20 +209,27 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 };
 
 /**
- * displayBasketLimitError controls the presentation of a basket limit warning/error as appropriate.
- * @return whether a basket limit error is to be displayed (<code>true</code>), or not (<code>false</code>)
+ * redirectToNextPage checks to see whether the incoming request may have resulted from the user clicking
+ * on the start now button. If so, it controls the presentation of a basket limit warning/error, or redirects
+ * to the next page as appropriate.
+ * @return whether this has redirected to the next page (<code>true</code>), or not (<code>false</code>)
  */
-const displayBasketLimitError = (req: Request,
+const redirectToNextPage = (req: Request,
                                  res: Response,
                                  basketLimit: BasketLimit,
-                                 nextPageUrl: string) : boolean => {
-    if (basketLimit.basketLimitState == BasketLimitState.BELOW_LIMIT) {
-        logger.debug(`Basket is not full, redirecting to  ${nextPageUrl}.`)
-        res.redirect(/* TODO BI-12134 Do we need this? getWhitelistedReturnToURL(*/nextPageUrl/*)*/)
-        return false;
-    } else {
-        logger.debug(`Basket is full, display error.`)
-        basketLimit.basketLimitState = BasketLimitState.DISPLAY_LIMIT_ERROR; // styles button as disabled
-        return true
+                                 landingPage: LandingPage) : boolean => {
+    if (req.url.endsWith(START_BUTTON_PATH_SUFFIX)) {
+        logger.debug(`Start now button clicked, req.url = ${req.url}`);
+        if (basketLimit.basketLimitState == BasketLimitState.BELOW_LIMIT) {
+            logger.debug(`Basket is not full, redirecting to  ${landingPage.nextPageUrl}.`);
+            res.redirect(/* TODO BI-12134 Do we need this? getWhitelistedReturnToURL(*/landingPage.nextPageUrl/*)*/);
+            return true;
+        } else {
+            logger.debug(`Basket is full, display error and disable start now button.`);
+            basketLimit.basketLimitState = BasketLimitState.DISPLAY_LIMIT_ERROR; // styles button as disabled
+            landingPage.startNowUrl = ""; // really disables the button
+            return false;
+        }
     }
+    return false;
 }
