@@ -3,6 +3,8 @@
 import { createLogger } from "ch-structured-logging";
 import { APPLICATION_NAME } from "../config/config";
 
+export const START_BUTTON_PATH_SUFFIX = "/start";
+
 export const ROOT_CERTIFICATE: string = "/company/:companyNumber/orderable/certificates";
 export const ROOT_CERTIFICATE_ID: string = "/orderable/certificates/:certificateId";
 

@@ -1,6 +1,6 @@
 import sinon from "sinon";
 import ioredis from "ioredis";
-import { ROOT_CERTIFIED_COPY, replaceCompanyNumber } from "../../../src/model/page.urls";
+import { ROOT_CERTIFIED_COPY, replaceCompanyNumber, START_BUTTON_PATH_SUFFIX } from "../../../src/model/page.urls";
 import CompanyProfileService from "@companieshouse/api-sdk-node/dist/services/company-profile/service";
 import * as apiClient from "../../../src/client/api.client";
 import {
@@ -8,8 +8,8 @@ import {
     signedInSession
 } from "../../__mocks__/redis.mocks";
 import { getDummyBasket } from "../../utils/basket.utils.test";
-import { BASKET_ITEM_LIMIT, CHS_URL } from "../../../src/config/config";
-import * as HTMLParser from 'node-html-parser';
+import { BASKET_ITEM_LIMIT } from "../../../src/config/config";
+import cheerio from "cheerio";
 
 import * as chai from "chai";
 import chaiHttp = require("chai-http");
@@ -169,8 +169,9 @@ describe("certified-copy.home.controller.integration", () => {
 
         chai.expect(resp.status).to.equal(200);
         chai.expect(resp.text).to.contain(`Basket (${BASKET_ITEM_LIMIT})`);
-        chai.expect(resp.text).to.contain(
-            `Your basket is full. You cannot add more than ${BASKET_ITEM_LIMIT} items to your order.`);
+        chai.expect(resp.text).to.contain(`Your basket is full`);
+        chai.expect(resp.text).to.contain(`You cannot add more than ${BASKET_ITEM_LIMIT} items to your order.`);
+        chai.expect(resp.text).to.contain(`To add more you'll need to remove some items first.`);
         verifyStartButtonEnabledStateIs(resp.text, true);
     });
 
@@ -186,8 +187,9 @@ describe("certified-copy.home.controller.integration", () => {
 
         chai.expect(resp.status).to.equal(200);
         chai.expect(resp.text).to.contain(`Basket (${BASKET_ITEM_LIMIT + 1})`);
-        chai.expect(resp.text).to.contain(
-            `Your basket is full. You cannot add more than ${BASKET_ITEM_LIMIT} items to your order.`);
+        chai.expect(resp.text).to.contain(`Your basket is full`);
+        chai.expect(resp.text).to.contain(`You cannot add more than ${BASKET_ITEM_LIMIT} items to your order.`);
+        chai.expect(resp.text).to.contain(`To add more you'll need to remove some items first.`);
         verifyStartButtonEnabledStateIs(resp.text, true);
     });
 
@@ -197,17 +199,16 @@ describe("certified-copy.home.controller.integration", () => {
             .resolves(dummyCompanyProfile);
         sandbox.stub(apiClient, "getBasket").resolves(getDummyBasket(true, BASKET_ITEM_LIMIT));
 
-        const url : string = replaceCompanyNumber(ROOT_CERTIFIED_COPY, COMPANY_NUMBER);
+        const url : string = replaceCompanyNumber(ROOT_CERTIFIED_COPY, COMPANY_NUMBER) + START_BUTTON_PATH_SUFFIX;
 
         const resp = await chai.request(testApp)
             .get(url)
-            .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
-            .set("Referrer", `${CHS_URL}${url}`);
+            .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
 
         chai.expect(resp.status).to.equal(200);
         chai.expect(resp.text).to.contain(`Basket (${BASKET_ITEM_LIMIT})`);
         chai.expect(resp.text).to.contain(`There is a problem`);
-        chai.expect(resp.text).to.contain(`You cannot add more than ${BASKET_ITEM_LIMIT} items to your order.`);
+        chai.expect(resp.text).to.contain(`Your basket is full. To add more to your order, you&#39;ll need to remove some items first.`);
         verifyStartButtonEnabledStateIs(resp.text, false);
     });
 
@@ -217,33 +218,31 @@ describe("certified-copy.home.controller.integration", () => {
             .resolves(dummyCompanyProfile);
         sandbox.stub(apiClient, "getBasket").resolves(getDummyBasket(true, BASKET_ITEM_LIMIT + 1));
 
-        const url : string = replaceCompanyNumber(ROOT_CERTIFIED_COPY, COMPANY_NUMBER);
+        const url : string = replaceCompanyNumber(ROOT_CERTIFIED_COPY, COMPANY_NUMBER) + START_BUTTON_PATH_SUFFIX;
 
         const resp = await chai.request(testApp)
             .get(url)
-            .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
-            .set("Referrer", `${CHS_URL}${url}`);
+            .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
 
         chai.expect(resp.status).to.equal(200);
         chai.expect(resp.text).to.contain(`Basket (${BASKET_ITEM_LIMIT + 1})`);
         chai.expect(resp.text).to.contain(`There is a problem`);
-        chai.expect(resp.text).to.contain(`You cannot add more than ${BASKET_ITEM_LIMIT} items to your order.`);
+        chai.expect(resp.text).to.contain(`Your basket is full. To add more to your order, you&#39;ll need to remove some items first.`);
         verifyStartButtonEnabledStateIs(resp.text, false);
     });
 
 const verifyStartButtonEnabledStateIs = (responseText: string, isEnabled: boolean) => {
-    const page = HTMLParser.parse(responseText)
-    const startNowButton = page.querySelector(".govuk-button--start");
+    const page = cheerio.load(responseText)
+    const startNowButton = page(".govuk-button--start");
     chai.expect(startNowButton).to.exist;
-    chai.expect(startNowButton!.childNodes[0]!).to.exist;
-    chai.expect(startNowButton!.childNodes[0]!.text).to.contain("Start now");
+    chai.expect(startNowButton.text()).to.contain("Start now");
 
     // The presence/absence of the href attribute (content) is what really determines whether the button (link)
     // is enabled or not.
     if (isEnabled) {
-        chai.expect(startNowButton!.rawAttributes.href).to.exist;
+        chai.expect(startNowButton!.attr("href")).to.exist;
     } else {
-        chai.expect(startNowButton!.rawAttributes.href).to.not.exist;
+        chai.expect(startNowButton!.attr("href")).to.not.exist;
     }
 }
 
