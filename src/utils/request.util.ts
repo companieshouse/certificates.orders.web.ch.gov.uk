@@ -14,7 +14,7 @@ export const MISSING_IMAGE_DELIVERY_CREATE_RE = /\/company\/[A-Z0-9]{8}\/orderab
 export const MISSING_IMAGE_DELIVERY_CHECK_DETAILS_RE = /\/orderable\/missing-image-deliveries\/MID-\d{6}-\d{6}\/check-details/;
 export const CERTIFIED_DOCUMENTS_SELECTION_RE = /\/company\/[A-Z0-9]{8}\/certified-documents/;
 export const CERTIFICATE_TYPE_RE =
-    /\/company\/[A-Z0-9]{8}\/orderable\/(certificates|dissolved-certificates|lp-certificates)\/certificate-type/;
+    /\/company\/[A-Z0-9]{8}\/orderable\/(certificates|dissolved-certificates|lp-certificates|llp-certificates)\/certificate-type/;
 const REDIRECTS_WHITELIST: RegExp[] = [
     CERTIFICATE_OPTIONS_RE,
     LP_CERTIFICATE_OPTIONS_RE,

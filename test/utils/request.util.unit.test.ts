@@ -24,7 +24,8 @@ import {
     LP_CERTIFICATE_OPTIONS_PAGE,
     MISSING_IMAGE_DELIVERY_CHECK_DETAILS_PAGE,
     MISSING_IMAGE_DELIVERY_CREATE_PAGE,
-    LP_CERTIFICATE_TYPE_PAGE
+    LP_CERTIFICATE_TYPE_PAGE,
+    LLP_CERTIFICATE_TYPE_PAGE
 } from "./constants";
 
 const UNKNOWN_URL = "/unknown";
@@ -95,6 +96,12 @@ describe("request.util.unit",
                 const returnToUrl = extractValueFromRequestField(LP_CERTIFICATE_TYPE_PAGE,
                     CERTIFICATE_TYPE_RE);
                 expect(returnToUrl).to.equal(LP_CERTIFICATE_TYPE_PAGE);
+            });
+
+            it("gets correct return to URL for the LLP certificate type page", () => {
+                const returnToUrl = extractValueFromRequestField(LLP_CERTIFICATE_TYPE_PAGE,
+                    CERTIFICATE_TYPE_RE);
+                expect(returnToUrl).to.equal(LLP_CERTIFICATE_TYPE_PAGE);
             });
 
             it("errors if asked to look up an unknown page URL", () => {
@@ -171,6 +178,12 @@ describe("request.util.unit",
                 expect(returnToUrl).to.equal(LP_CERTIFICATE_TYPE_PAGE);
             });
 
+            it("gets correct return to URL for the LLP certificate type page", () => {
+                const returnToUrl = extractValueIfPresentFromRequestField(LLP_CERTIFICATE_TYPE_PAGE,
+                    CERTIFICATE_TYPE_RE);
+                expect(returnToUrl).to.equal(LLP_CERTIFICATE_TYPE_PAGE);
+            });
+
             it("returns null if asked to look up an unknown page URL", () => {
                 const returnToUrl = extractValueIfPresentFromRequestField(UNKNOWN_URL, CERTIFICATE_OPTIONS_RE);
                 expect(returnToUrl).to.equal(null);
@@ -233,6 +246,11 @@ describe("request.util.unit",
                 expect(returnToUrl).to.equal(LP_CERTIFICATE_TYPE_PAGE);
             });
 
+            it("gets correct return to URL for the LLP certificate type page", () => {
+                const returnToUrl = getWhitelistedReturnToURL(LLP_CERTIFICATE_TYPE_PAGE);
+                expect(returnToUrl).to.equal(LLP_CERTIFICATE_TYPE_PAGE);
+            });
+
             it("errors if asked to look up an unknown page URL", () => {
                 const execution = () => getWhitelistedReturnToURL(UNKNOWN_URL);
                 expect(execution).to.throw("Return to URL /unknown not found in trusted URLs whitelist " +
@@ -246,7 +264,7 @@ describe("request.util.unit",
                     "/\\/company\\/[A-Z0-9]{8}\\/orderable\\/missing-image-deliveries\\/[a-zA-Z0-9]{8,}\\/create/," +
                     "/\\/orderable\\/missing-image-deliveries\\/MID-\\d{6}-\\d{6}\\/check-details/," +
                     "/\\/company\\/[A-Z0-9]{8}\\/certified-documents/," +
-                    "/\\/company\\/[A-Z0-9]{8}\\/orderable\\/(certificates|dissolved-certificates|lp-certificates)\\/certificate-type/.");
+                    "/\\/company\\/[A-Z0-9]{8}\\/orderable\\/(certificates|dissolved-certificates|lp-certificates|llp-certificates)\\/certificate-type/.");
             });
         });
     });
