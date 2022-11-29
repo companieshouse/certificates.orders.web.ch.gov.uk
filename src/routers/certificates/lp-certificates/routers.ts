@@ -8,8 +8,10 @@ import {
     LP_CERTIFICATE_DELIVERY_OPTIONS,
     LP_CERTIFICATE_OPTIONS,
     LP_CERTIFICATE_PRINCIPAL_PLACE_OPTIONS,
-    LP_CERTIFICATE_TYPE, LP_CERTIFICATE_VIEW_CHANGE_OPTIONS,
-    LP_ROOT_CERTIFICATE
+    LP_CERTIFICATE_TYPE,
+    LP_CERTIFICATE_VIEW_CHANGE_OPTIONS,
+    LP_ROOT_CERTIFICATE,
+    START_BUTTON_PATH_SUFFIX
 } from "../../../model/page.urls";
 
 import homeController from "../../../controllers/certificates/home.controller";
@@ -29,6 +31,7 @@ import { LP_CERTIFICATE_CHECK_DETAILS as LP_CERTIFICATE_CHECK_DETAILS_TEMPLATE, 
 const router: Router = Router();
 
 router.get(LP_ROOT_CERTIFICATE, homeController);
+router.get(LP_ROOT_CERTIFICATE + START_BUTTON_PATH_SUFFIX, homeController);
 const typeController = new TypeController(new Map<string, string>([
     [CompanyStatus.ACTIVE, LP_CERTIFICATE_OPTIONS],
     [CompanyStatus.DISSOLVED, DISSOLVED_CERTIFICATE_DELIVERY_OPTIONS]
