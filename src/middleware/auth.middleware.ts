@@ -5,7 +5,6 @@ import {
     CERTIFICATE_TYPE,
     LLP_CERTIFICATE_TYPE,
     LLP_ROOT_CERTIFICATE,
-    LP_CERTIFICATE_TYPE,
     LP_ROOT_CERTIFICATE,
     replaceCompanyNumber,
     ROOT_CERTIFICATE,
@@ -50,10 +49,10 @@ const lpFeatureFlagOnStrategy = ({ companyNumber, companyType } : CompanyDetails
     let returnToUrl: string;
     if (FEATURE_FLAGS.lpCertificateOrdersEnabled && CompanyType.LIMITED_PARTNERSHIP === companyType) {
         logger.debug(`**5**`); // TODO-12134 Remove this
-        returnToUrl = replaceCompanyNumber(LP_CERTIFICATE_TYPE, companyNumber);
+        returnToUrl = replaceCompanyNumber(LP_ROOT_CERTIFICATE, companyNumber) + START_BUTTON_PATH_SUFFIX;
     } else {
         logger.debug(`**6**`); // TODO-12134 Remove this
-        returnToUrl = replaceCompanyNumber(CERTIFICATE_TYPE, companyNumber);
+        returnToUrl = replaceCompanyNumber(ROOT_CERTIFICATE, companyNumber) + START_BUTTON_PATH_SUFFIX;
     }
     return returnToUrl;
 };
