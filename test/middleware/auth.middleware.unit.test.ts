@@ -73,7 +73,7 @@ describe("auth.middleware.unit", () => {
 
         await authMiddleware(req, res, nextFunctionSpy);
         chai.expect(redirectSpy)
-            .to.have.been.calledWith("/signin?return_to=/company/0001/orderable/certificates/certificate-type");
+            .to.have.been.calledWith("/signin?return_to=/company/0001/orderable/certificates/start");
     });
 
     it("should call res.redirect correctly for LTD company when path is not root and no session", async () => {
@@ -95,7 +95,7 @@ describe("auth.middleware.unit", () => {
 
         await authMiddleware(req, res, nextFunctionSpy);
         chai.expect(redirectSpy)
-            .to.have.been.calledWith("/signin?return_to=/company/0001/orderable/certificates/certificate-type");
+            .to.have.been.calledWith("/signin?return_to=/company/0001/orderable/certificates/start");
     });
 
     it("should call res.redirect correctly for LP company when is not root and user is not signed in", async () => {
@@ -216,7 +216,7 @@ describe("auth.middleware.unit", () => {
 
         await authMiddleware(req, res, nextFunctionSpy);
         chai.expect(redirectSpy)
-            .to.have.been.calledWith("/signin?return_to=/company/0001/orderable/certificates/certificate-type");
+            .to.have.been.calledWith("/signin?return_to=/company/0001/orderable/certificates/start");
     });
 
     it("should call res.redirect correctly for LLP company when path is not root and no session and LP feature flag is false", async () => {
@@ -239,7 +239,7 @@ describe("auth.middleware.unit", () => {
 
         await authMiddleware(req, res, nextFunctionSpy);
         chai.expect(redirectSpy)
-            .to.have.been.calledWith("/signin?return_to=/company/0001/orderable/certificates/certificate-type");
+            .to.have.been.calledWith("/signin?return_to=/company/0001/orderable/certificates/start");
     });
 
     it("should check that the url is valid when starting with /orderable/certificates/", () => {

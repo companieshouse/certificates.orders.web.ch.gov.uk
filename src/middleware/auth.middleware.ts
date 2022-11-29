@@ -1,7 +1,14 @@
 import { NextFunction, Request, Response } from "express";
 import { SessionKey } from "@companieshouse/node-session-handler/lib/session/keys/SessionKey";
 import { SignInInfoKeys } from "@companieshouse/node-session-handler/lib/session/keys/SignInInfoKeys";
-import { CERTIFICATE_TYPE, LLP_CERTIFICATE_TYPE, LP_CERTIFICATE_TYPE, replaceCompanyNumber } from "./../model/page.urls";
+import {
+    CERTIFICATE_TYPE,
+    LLP_CERTIFICATE_TYPE,
+    LP_CERTIFICATE_TYPE,
+    replaceCompanyNumber,
+    ROOT_CERTIFICATE,
+    START_BUTTON_PATH_SUFFIX
+} from "./../model/page.urls";
 import { createLogger } from "ch-structured-logging";
 import {
     API_KEY,
@@ -20,24 +27,30 @@ type CompanyDetails = { companyNumber: string, companyType: string }
 const featureFlagsOnStrategy = ({ companyNumber, companyType } : CompanyDetails): string => {
     let returnToUrl: string;
     if (FEATURE_FLAGS.lpCertificateOrdersEnabled && CompanyType.LIMITED_PARTNERSHIP === companyType) {
+        logger.debug(`**1**`); // TODO-12134 Remove this
         returnToUrl = replaceCompanyNumber(LP_CERTIFICATE_TYPE, companyNumber);
     } else if (FEATURE_FLAGS.llpCertificateOrdersEnabled && CompanyType.LIMITED_LIABILITY_PARTNERSHIP === companyType) {
+        logger.debug(`**2**`); // TODO-12134 Remove this
         returnToUrl = replaceCompanyNumber(LLP_CERTIFICATE_TYPE, companyNumber);
     } else {
-        returnToUrl = replaceCompanyNumber(CERTIFICATE_TYPE, companyNumber);
+        logger.debug(`**3**`); // TODO-12134 Remove this
+        returnToUrl = replaceCompanyNumber(ROOT_CERTIFICATE, companyNumber) + START_BUTTON_PATH_SUFFIX;
     }
     return returnToUrl;
 };
 
 const featureFlagsOffStrategy = ({ companyNumber } : CompanyDetails): string => {
+    logger.debug(`**4**`); // TODO-12134 Remove this
     return replaceCompanyNumber(CERTIFICATE_TYPE, companyNumber);
 };
 
 const lpFeatureFlagOnStrategy = ({ companyNumber, companyType } : CompanyDetails): string => {
     let returnToUrl: string;
     if (FEATURE_FLAGS.lpCertificateOrdersEnabled && CompanyType.LIMITED_PARTNERSHIP === companyType) {
+        logger.debug(`**5**`); // TODO-12134 Remove this
         returnToUrl = replaceCompanyNumber(LP_CERTIFICATE_TYPE, companyNumber);
     } else {
+        logger.debug(`**6**`); // TODO-12134 Remove this
         returnToUrl = replaceCompanyNumber(CERTIFICATE_TYPE, companyNumber);
     }
     return returnToUrl;
@@ -46,8 +59,10 @@ const lpFeatureFlagOnStrategy = ({ companyNumber, companyType } : CompanyDetails
 const llpFeatureFlagOnStrategy = ({ companyNumber, companyType } : CompanyDetails): string => {
     let returnToUrl: string;
     if (FEATURE_FLAGS.llpCertificateOrdersEnabled && CompanyType.LIMITED_LIABILITY_PARTNERSHIP === companyType) {
+        logger.debug(`**7**`); // TODO-12134 Remove this
         returnToUrl = replaceCompanyNumber(LLP_CERTIFICATE_TYPE, companyNumber);
     } else {
+        logger.debug(`**8**`); // TODO-12134 Remove this
         returnToUrl = replaceCompanyNumber(CERTIFICATE_TYPE, companyNumber);
     }
     return returnToUrl;
