@@ -122,7 +122,7 @@ describe("auth.middleware.unit", () => {
 
         await authMiddleware(req, res, nextFunctionSpy);
 
-        chai.expect(redirectSpy).to.have.been.calledWith("/signin?return_to=/company/0001/orderable/lp-certificates/certificate-type");
+        chai.expect(redirectSpy).to.have.been.calledWith("/signin?return_to=/company/0001/orderable/lp-certificates/start");
     });
 
     it("should call res.redirect correctly for LP company when path is not root and no session", async () => {
@@ -144,7 +144,7 @@ describe("auth.middleware.unit", () => {
 
         await authMiddleware(req, res, nextFunctionSpy);
         chai.expect(redirectSpy)
-            .to.have.been.calledWith("/signin?return_to=/company/0001/orderable/lp-certificates/certificate-type");
+            .to.have.been.calledWith("/signin?return_to=/company/0001/orderable/lp-certificates/start");
     });
 
     it("should call res.redirect correctly for LLP company when is not root and user is not signed in", async () => {

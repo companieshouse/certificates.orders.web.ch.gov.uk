@@ -5,6 +5,7 @@ import {
     CERTIFICATE_TYPE,
     LLP_CERTIFICATE_TYPE,
     LP_CERTIFICATE_TYPE,
+    LP_ROOT_CERTIFICATE,
     replaceCompanyNumber,
     ROOT_CERTIFICATE,
     START_BUTTON_PATH_SUFFIX
@@ -28,7 +29,7 @@ const featureFlagsOnStrategy = ({ companyNumber, companyType } : CompanyDetails)
     let returnToUrl: string;
     if (FEATURE_FLAGS.lpCertificateOrdersEnabled && CompanyType.LIMITED_PARTNERSHIP === companyType) {
         logger.debug(`**1**`); // TODO-12134 Remove this
-        returnToUrl = replaceCompanyNumber(LP_CERTIFICATE_TYPE, companyNumber);
+        returnToUrl = replaceCompanyNumber(LP_ROOT_CERTIFICATE, companyNumber) + START_BUTTON_PATH_SUFFIX;
     } else if (FEATURE_FLAGS.llpCertificateOrdersEnabled && CompanyType.LIMITED_LIABILITY_PARTNERSHIP === companyType) {
         logger.debug(`**2**`); // TODO-12134 Remove this
         returnToUrl = replaceCompanyNumber(LLP_CERTIFICATE_TYPE, companyNumber);
