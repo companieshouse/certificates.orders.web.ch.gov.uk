@@ -8,3 +8,4 @@ export const MISSING_IMAGE_DELIVERY_CHECK_DETAILS_PAGE = "/orderable/missing-ima
 export const CERTIFIED_DOCUMENTS_SELECTION_PAGE = "/company/00006400/certified-documents";
 export const CERTIFICATE_TYPE_PAGE = "/company/00006400/orderable/certificates/certificate-type";
 export const DISSOLVED_CERTIFICATE_TYPE_PAGE = "/company/00006400/orderable/dissolved-certificates/certificate-type";
+export const LP_CERTIFICATE_TYPE_PAGE = "/company/LP016505/orderable/lp-certificates/certificate-type";
