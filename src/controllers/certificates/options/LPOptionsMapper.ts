@@ -5,7 +5,7 @@ import {
 import { OptionsViewModel } from "./OptionsViewModel";
 import { LP_CERTIFICATE_OPTIONS } from "../../../model/template.paths";
 import { AbstractOptionsMapper } from "./AbstractOptionsMapper";
-import { LP_ROOT_CERTIFICATE, replaceCompanyNumber } from "../../../model/page.urls";
+import { replaceCompanyNumber, ROOT_CERTIFICATE } from "../../../model/page.urls";
 import { OptionSelection } from "./OptionSelection";
 import { LPRedirectStateMachine } from "./LPRedirectStateMachine";
 import { ResourceState } from "./OptionsService";
@@ -16,7 +16,7 @@ export class LPOptionsMapper extends AbstractOptionsMapper<LPRedirectStateMachin
             companyNumber: item.companyNumber,
             itemOptions: item.itemOptions,
             templateName: LP_CERTIFICATE_OPTIONS,
-            SERVICE_URL: replaceCompanyNumber(LP_ROOT_CERTIFICATE, item.companyNumber)
+            SERVICE_URL: replaceCompanyNumber(ROOT_CERTIFICATE, item.companyNumber)
         });
     }
 
