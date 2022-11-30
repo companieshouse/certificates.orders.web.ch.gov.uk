@@ -3,7 +3,6 @@ import { SessionKey } from "@companieshouse/node-session-handler/lib/session/key
 import { SignInInfoKeys } from "@companieshouse/node-session-handler/lib/session/keys/SignInInfoKeys";
 import {
     CERTIFICATE_TYPE,
-    LLP_CERTIFICATE_TYPE,
     LLP_ROOT_CERTIFICATE,
     LP_ROOT_CERTIFICATE,
     replaceCompanyNumber,
@@ -61,7 +60,7 @@ const llpFeatureFlagOnStrategy = ({ companyNumber, companyType } : CompanyDetail
     let returnToUrl: string;
     if (FEATURE_FLAGS.llpCertificateOrdersEnabled && CompanyType.LIMITED_LIABILITY_PARTNERSHIP === companyType) {
         logger.debug(`**7**`); // TODO-12134 Remove this
-        returnToUrl = replaceCompanyNumber(LLP_CERTIFICATE_TYPE, companyNumber);
+        returnToUrl = replaceCompanyNumber(LLP_ROOT_CERTIFICATE, companyNumber) + START_BUTTON_PATH_SUFFIX;
     } else {
         logger.debug(`**8**`); // TODO-12134 Remove this
         returnToUrl = replaceCompanyNumber(ROOT_CERTIFICATE, companyNumber) + START_BUTTON_PATH_SUFFIX;
