@@ -2,7 +2,6 @@ import { NextFunction, Request, Response } from "express";
 import { SessionKey } from "@companieshouse/node-session-handler/lib/session/keys/SessionKey";
 import { SignInInfoKeys } from "@companieshouse/node-session-handler/lib/session/keys/SignInInfoKeys";
 import {
-    CERTIFICATE_TYPE,
     LLP_ROOT_CERTIFICATE,
     LP_ROOT_CERTIFICATE,
     replaceCompanyNumber,
@@ -41,7 +40,7 @@ const featureFlagsOnStrategy = ({ companyNumber, companyType } : CompanyDetails)
 
 const featureFlagsOffStrategy = ({ companyNumber } : CompanyDetails): string => {
     logger.debug(`**4**`); // TODO-12134 Remove this
-    return replaceCompanyNumber(CERTIFICATE_TYPE, companyNumber);
+    return replaceCompanyNumber(ROOT_CERTIFICATE, companyNumber) + START_BUTTON_PATH_SUFFIX;
 };
 
 const lpFeatureFlagOnStrategy = ({ companyNumber, companyType } : CompanyDetails): string => {
