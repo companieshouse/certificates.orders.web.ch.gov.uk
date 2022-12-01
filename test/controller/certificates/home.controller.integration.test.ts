@@ -308,7 +308,7 @@ describe("certificate.home.controller.integration", () => {
         chai.expect(resp.text).to.contain(`Your basket is full`);
         chai.expect(resp.text).to.contain(
             `You cannot add more than ${BASKET_ITEM_LIMIT} items to your order.`);
-        chai.expect(resp.text).to.contain(`To add more you'll need to remove some items first.`);
+        chai.expect(resp.text).to.contain(`To add more, you'll need to remove some items first.`);
         verifyStartButtonEnabledStateIs(resp.text, true);
     });
 
@@ -326,7 +326,7 @@ describe("certificate.home.controller.integration", () => {
         chai.expect(resp.text).to.contain(`Your basket is full`);
         chai.expect(resp.text).to.contain(
             `You cannot add more than ${BASKET_ITEM_LIMIT} items to your order.`);
-        chai.expect(resp.text).to.contain(`To add more you'll need to remove some items first.`);
+        chai.expect(resp.text).to.contain(`To add more, you'll need to remove some items first.`);
         verifyStartButtonEnabledStateIs(resp.text, true);
     });
 
