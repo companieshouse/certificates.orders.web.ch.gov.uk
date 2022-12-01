@@ -99,3 +99,7 @@ export const replaceMissingImageDeliveryId = (uri: string, missingImageDeliveryI
     logger.debug(`Replacing Missing Image Delivery Id, uri=${uri}, missing_image_delivery_id=${missingImageDeliveryId}`);
     return uri.replace(":missingImageDeliveryId", missingImageDeliveryId);
 };
+
+export const getStartNowUrl = (rootUrl: string, companyNumber: string) => {
+    return replaceCompanyNumber(rootUrl, companyNumber) + START_BUTTON_PATH_SUFFIX;
+};

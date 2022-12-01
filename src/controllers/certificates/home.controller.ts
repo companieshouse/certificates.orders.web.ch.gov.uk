@@ -2,9 +2,15 @@ import { NextFunction, Request, Response } from "express";
 import {
     CERTIFICATE_TYPE,
     DISSOLVED_CERTIFICATE_TYPE,
-    LLP_CERTIFICATE_TYPE, LLP_ROOT_CERTIFICATE,
-    LP_CERTIFICATE_TYPE, LP_ROOT_CERTIFICATE,
-    replaceCompanyNumber, ROOT_CERTIFICATE, ROOT_DISSOLVED_CERTIFICATE, START_BUTTON_PATH_SUFFIX
+    getStartNowUrl,
+    LLP_CERTIFICATE_TYPE,
+    LLP_ROOT_CERTIFICATE,
+    LP_CERTIFICATE_TYPE,
+    LP_ROOT_CERTIFICATE,
+    replaceCompanyNumber,
+    ROOT_CERTIFICATE,
+    ROOT_DISSOLVED_CERTIFICATE,
+    START_BUTTON_PATH_SUFFIX
 } from "../../model/page.urls";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
 import { getCompanyProfile } from "../../client/api.client";
@@ -27,7 +33,7 @@ const logger = createLogger(APPLICATION_NAME);
 const lpLandingPage = (companyNumber: string) => {
     return {
         landingPage: "certificates/lp-certificates/index",
-        startNowUrl: replaceCompanyNumber(LP_ROOT_CERTIFICATE, companyNumber) + START_BUTTON_PATH_SUFFIX,
+        startNowUrl: getStartNowUrl(LP_ROOT_CERTIFICATE, companyNumber),
         nextPageUrl: replaceCompanyNumber(LP_CERTIFICATE_TYPE, companyNumber),
         serviceUrl: `/company/${companyNumber}/orderable/lp-certificates`
     };
@@ -36,7 +42,7 @@ const lpLandingPage = (companyNumber: string) => {
 const llpLandingPage = (companyNumber: string) => {
     return {
         landingPage: "certificates/llp-certificates/index",
-        startNowUrl: replaceCompanyNumber(LLP_ROOT_CERTIFICATE, companyNumber) + START_BUTTON_PATH_SUFFIX,
+        startNowUrl: getStartNowUrl(LLP_ROOT_CERTIFICATE, companyNumber),
         nextPageUrl: replaceCompanyNumber(LLP_CERTIFICATE_TYPE, companyNumber),
         serviceUrl: `/company/${companyNumber}/orderable/llp-certificates`
     };
@@ -45,7 +51,7 @@ const llpLandingPage = (companyNumber: string) => {
 const otherLandingPage = (companyNumber: string) => {
     return {
         landingPage: "certificates/index",
-        startNowUrl: replaceCompanyNumber(ROOT_CERTIFICATE, companyNumber) + START_BUTTON_PATH_SUFFIX,
+        startNowUrl: getStartNowUrl(ROOT_CERTIFICATE, companyNumber),
         nextPageUrl: replaceCompanyNumber(CERTIFICATE_TYPE, companyNumber),
         serviceUrl: `/company/${companyNumber}/orderable/certificates`
     };
@@ -166,7 +172,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
             if (companyStatus === "dissolved") {
                 landingPage = {
                     landingPage: "certificates/index",
-                    startNowUrl: replaceCompanyNumber(ROOT_DISSOLVED_CERTIFICATE, companyNumber) + START_BUTTON_PATH_SUFFIX,
+                    startNowUrl: getStartNowUrl(ROOT_DISSOLVED_CERTIFICATE, companyNumber),
                     nextPageUrl: replaceCompanyNumber(DISSOLVED_CERTIFICATE_TYPE, companyNumber),
                     serviceUrl: `/company/${companyNumber}/orderable/dissolved-certificates`
                 };
