@@ -25,30 +25,24 @@ type CompanyDetails = { companyNumber: string, companyType: string }
 const featureFlagsOnStrategy = ({ companyNumber, companyType } : CompanyDetails): string => {
     let returnToUrl: string;
     if (CompanyType.LIMITED_PARTNERSHIP === companyType) {
-        logger.debug(`**1**`); // TODO-12134 Remove this
         returnToUrl = getStartNowUrl(LP_ROOT_CERTIFICATE, companyNumber);
     } else if (CompanyType.LIMITED_LIABILITY_PARTNERSHIP === companyType) {
-        logger.debug(`**2**`); // TODO-12134 Remove this
         returnToUrl = getStartNowUrl(LLP_ROOT_CERTIFICATE, companyNumber);
     } else {
-        logger.debug(`**3**`); // TODO-12134 Remove this
         returnToUrl = getStartNowUrl(ROOT_CERTIFICATE, companyNumber);
     }
     return returnToUrl;
 };
 
 const featureFlagsOffStrategy = ({ companyNumber } : CompanyDetails): string => {
-    logger.debug(`**4**`); // TODO-12134 Remove this
     return getStartNowUrl(ROOT_CERTIFICATE, companyNumber);
 };
 
 const lpFeatureFlagOnStrategy = ({ companyNumber, companyType } : CompanyDetails): string => {
     let returnToUrl: string;
     if (CompanyType.LIMITED_PARTNERSHIP === companyType) {
-        logger.debug(`**5**`); // TODO-12134 Remove this
         returnToUrl = getStartNowUrl(LP_ROOT_CERTIFICATE, companyNumber);
     } else {
-        logger.debug(`**6**`); // TODO-12134 Remove this
         returnToUrl = getStartNowUrl(ROOT_CERTIFICATE, companyNumber);
     }
     return returnToUrl;
@@ -57,10 +51,8 @@ const lpFeatureFlagOnStrategy = ({ companyNumber, companyType } : CompanyDetails
 const llpFeatureFlagOnStrategy = ({ companyNumber, companyType } : CompanyDetails): string => {
     let returnToUrl: string;
     if (CompanyType.LIMITED_LIABILITY_PARTNERSHIP === companyType) {
-        logger.debug(`**7**`); // TODO-12134 Remove this
         returnToUrl = getStartNowUrl(LLP_ROOT_CERTIFICATE, companyNumber);
     } else {
-        logger.debug(`**8**`); // TODO-12134 Remove this
         returnToUrl = getStartNowUrl(ROOT_CERTIFICATE, companyNumber);
     }
     return returnToUrl;
