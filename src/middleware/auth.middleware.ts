@@ -24,10 +24,10 @@ type CompanyDetails = { companyNumber: string, companyType: string }
 
 const featureFlagsOnStrategy = ({ companyNumber, companyType } : CompanyDetails): string => {
     let returnToUrl: string;
-    if (FEATURE_FLAGS.lpCertificateOrdersEnabled && CompanyType.LIMITED_PARTNERSHIP === companyType) {
+    if (CompanyType.LIMITED_PARTNERSHIP === companyType) {
         logger.debug(`**1**`); // TODO-12134 Remove this
         returnToUrl = getStartNowUrl(LP_ROOT_CERTIFICATE, companyNumber);
-    } else if (FEATURE_FLAGS.llpCertificateOrdersEnabled && CompanyType.LIMITED_LIABILITY_PARTNERSHIP === companyType) {
+    } else if (CompanyType.LIMITED_LIABILITY_PARTNERSHIP === companyType) {
         logger.debug(`**2**`); // TODO-12134 Remove this
         returnToUrl = getStartNowUrl(LLP_ROOT_CERTIFICATE, companyNumber);
     } else {
@@ -44,7 +44,7 @@ const featureFlagsOffStrategy = ({ companyNumber } : CompanyDetails): string => 
 
 const lpFeatureFlagOnStrategy = ({ companyNumber, companyType } : CompanyDetails): string => {
     let returnToUrl: string;
-    if (FEATURE_FLAGS.lpCertificateOrdersEnabled && CompanyType.LIMITED_PARTNERSHIP === companyType) {
+    if (CompanyType.LIMITED_PARTNERSHIP === companyType) {
         logger.debug(`**5**`); // TODO-12134 Remove this
         returnToUrl = getStartNowUrl(LP_ROOT_CERTIFICATE, companyNumber);
     } else {
@@ -56,7 +56,7 @@ const lpFeatureFlagOnStrategy = ({ companyNumber, companyType } : CompanyDetails
 
 const llpFeatureFlagOnStrategy = ({ companyNumber, companyType } : CompanyDetails): string => {
     let returnToUrl: string;
-    if (FEATURE_FLAGS.llpCertificateOrdersEnabled && CompanyType.LIMITED_LIABILITY_PARTNERSHIP === companyType) {
+    if (CompanyType.LIMITED_LIABILITY_PARTNERSHIP === companyType) {
         logger.debug(`**7**`); // TODO-12134 Remove this
         returnToUrl = getStartNowUrl(LLP_ROOT_CERTIFICATE, companyNumber);
     } else {
