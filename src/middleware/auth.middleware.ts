@@ -1,7 +1,12 @@
 import { NextFunction, Request, Response } from "express";
 import { SessionKey } from "@companieshouse/node-session-handler/lib/session/keys/SessionKey";
 import { SignInInfoKeys } from "@companieshouse/node-session-handler/lib/session/keys/SignInInfoKeys";
-import { CERTIFICATE_TYPE, LLP_CERTIFICATE_TYPE, LP_CERTIFICATE_TYPE, replaceCompanyNumber } from "./../model/page.urls";
+import {
+    getStartNowUrl,
+    LLP_ROOT_CERTIFICATE,
+    LP_ROOT_CERTIFICATE,
+    ROOT_CERTIFICATE
+} from "./../model/page.urls";
 import { createLogger } from "ch-structured-logging";
 import {
     API_KEY,
@@ -19,36 +24,36 @@ type CompanyDetails = { companyNumber: string, companyType: string }
 
 const featureFlagsOnStrategy = ({ companyNumber, companyType } : CompanyDetails): string => {
     let returnToUrl: string;
-    if (FEATURE_FLAGS.lpCertificateOrdersEnabled && CompanyType.LIMITED_PARTNERSHIP === companyType) {
-        returnToUrl = replaceCompanyNumber(LP_CERTIFICATE_TYPE, companyNumber);
-    } else if (FEATURE_FLAGS.llpCertificateOrdersEnabled && CompanyType.LIMITED_LIABILITY_PARTNERSHIP === companyType) {
-        returnToUrl = replaceCompanyNumber(LLP_CERTIFICATE_TYPE, companyNumber);
+    if (CompanyType.LIMITED_PARTNERSHIP === companyType) {
+        returnToUrl = getStartNowUrl(LP_ROOT_CERTIFICATE, companyNumber);
+    } else if (CompanyType.LIMITED_LIABILITY_PARTNERSHIP === companyType) {
+        returnToUrl = getStartNowUrl(LLP_ROOT_CERTIFICATE, companyNumber);
     } else {
-        returnToUrl = replaceCompanyNumber(CERTIFICATE_TYPE, companyNumber);
+        returnToUrl = getStartNowUrl(ROOT_CERTIFICATE, companyNumber);
     }
     return returnToUrl;
 };
 
 const featureFlagsOffStrategy = ({ companyNumber } : CompanyDetails): string => {
-    return replaceCompanyNumber(CERTIFICATE_TYPE, companyNumber);
+    return getStartNowUrl(ROOT_CERTIFICATE, companyNumber);
 };
 
 const lpFeatureFlagOnStrategy = ({ companyNumber, companyType } : CompanyDetails): string => {
     let returnToUrl: string;
-    if (FEATURE_FLAGS.lpCertificateOrdersEnabled && CompanyType.LIMITED_PARTNERSHIP === companyType) {
-        returnToUrl = replaceCompanyNumber(LP_CERTIFICATE_TYPE, companyNumber);
+    if (CompanyType.LIMITED_PARTNERSHIP === companyType) {
+        returnToUrl = getStartNowUrl(LP_ROOT_CERTIFICATE, companyNumber);
     } else {
-        returnToUrl = replaceCompanyNumber(CERTIFICATE_TYPE, companyNumber);
+        returnToUrl = getStartNowUrl(ROOT_CERTIFICATE, companyNumber);
     }
     return returnToUrl;
 };
 
 const llpFeatureFlagOnStrategy = ({ companyNumber, companyType } : CompanyDetails): string => {
     let returnToUrl: string;
-    if (FEATURE_FLAGS.llpCertificateOrdersEnabled && CompanyType.LIMITED_LIABILITY_PARTNERSHIP === companyType) {
-        returnToUrl = replaceCompanyNumber(LLP_CERTIFICATE_TYPE, companyNumber);
+    if (CompanyType.LIMITED_LIABILITY_PARTNERSHIP === companyType) {
+        returnToUrl = getStartNowUrl(LLP_ROOT_CERTIFICATE, companyNumber);
     } else {
-        returnToUrl = replaceCompanyNumber(CERTIFICATE_TYPE, companyNumber);
+        returnToUrl = getStartNowUrl(ROOT_CERTIFICATE, companyNumber);
     }
     return returnToUrl;
 };

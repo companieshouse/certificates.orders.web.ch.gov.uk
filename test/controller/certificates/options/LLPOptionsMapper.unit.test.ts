@@ -34,7 +34,7 @@ describe("LLPOptionMapper", () => {
                     companyStatus: "active"
                 },
                 templateName: LLP_CERTIFICATE_OPTIONS,
-                SERVICE_URL: "/company/12345678/orderable/llp-certificates",
+                SERVICE_URL: "/company/12345678/orderable/certificates",
                 filterMappings: {
                     goodStanding: true,
                     liquidators: false,
@@ -64,7 +64,7 @@ describe("LLPOptionMapper", () => {
                     companyStatus: "liquidation"
                 },
                 templateName: LLP_CERTIFICATE_OPTIONS,
-                SERVICE_URL: "/company/12345678/orderable/llp-certificates",
+                SERVICE_URL: "/company/12345678/orderable/certificates",
                 filterMappings: {
                     goodStanding: false,
                     liquidators: true,
@@ -93,7 +93,7 @@ describe("LLPOptionMapper", () => {
                     companyStatus: "administration"
                 },
                 templateName: LLP_CERTIFICATE_OPTIONS,
-                SERVICE_URL: "/company/12345678/orderable/llp-certificates",
+                SERVICE_URL: "/company/12345678/orderable/certificates",
                 filterMappings: {
                     goodStanding: false,
                     liquidators: false,

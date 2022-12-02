@@ -11,7 +11,8 @@ import {
     LLP_CERTIFICATE_OPTIONS,
     LLP_CERTIFICATE_REGISTERED_OFFICE_OPTIONS,
     LLP_CERTIFICATE_TYPE, LLP_CERTIFICATE_VIEW_CHANGE_OPTIONS,
-    LLP_ROOT_CERTIFICATE
+    LLP_ROOT_CERTIFICATE,
+    START_BUTTON_PATH_SUFFIX
 } from "../../../model/page.urls";
 
 import homeController from "../../../controllers/certificates/home.controller";
@@ -36,6 +37,7 @@ import {
 const router: Router = Router();
 
 router.get(LLP_ROOT_CERTIFICATE, homeController);
+router.get(LLP_ROOT_CERTIFICATE + START_BUTTON_PATH_SUFFIX, homeController);
 const typeController = new TypeController(new Map<string, string>([
     [CompanyStatus.ACTIVE, LLP_CERTIFICATE_OPTIONS],
     [CompanyStatus.LIQUIDATION, LLP_CERTIFICATE_OPTIONS],

@@ -6,7 +6,10 @@ import { OptionsViewModel } from "./OptionsViewModel";
 import { CompanyStatus } from "../model/CompanyStatus";
 import { LLP_CERTIFICATE_OPTIONS } from "../../../model/template.paths";
 import { optionFilter } from "../OptionFilter";
-import { LLP_ROOT_CERTIFICATE, replaceCompanyNumber } from "../../../model/page.urls";
+import {
+    replaceCompanyNumber,
+    ROOT_CERTIFICATE
+} from "../../../model/page.urls";
 import { AbstractOptionsMapper } from "./AbstractOptionsMapper";
 import { OptionSelection } from "./OptionSelection";
 import { LLPRedirectStateMachine } from "./LLPRedirectStateMachine";
@@ -18,7 +21,7 @@ export class LLPOptionsMapper extends AbstractOptionsMapper<LLPRedirectStateMach
             companyNumber: item.companyNumber,
             itemOptions: item.itemOptions,
             templateName: LLP_CERTIFICATE_OPTIONS,
-            SERVICE_URL: replaceCompanyNumber(LLP_ROOT_CERTIFICATE, item.companyNumber),
+            SERVICE_URL: replaceCompanyNumber(ROOT_CERTIFICATE, item.companyNumber),
             filterMappings: {
                 goodStanding: item.itemOptions.companyStatus === CompanyStatus.ACTIVE,
                 liquidators: item.itemOptions.companyStatus === CompanyStatus.LIQUIDATION,

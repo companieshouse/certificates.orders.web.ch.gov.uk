@@ -35,7 +35,7 @@ describe("LPOptionMapper", () => {
                     companyStatus: "active"
                 },
                 templateName: LP_CERTIFICATE_OPTIONS,
-                SERVICE_URL: "/company/12345678/orderable/lp-certificates"
+                SERVICE_URL: "/company/12345678/orderable/certificates"
             });
         });
     });
