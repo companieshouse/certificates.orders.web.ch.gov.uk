@@ -6,6 +6,7 @@ import * as apiClient from "../../../src/client/api.client";
 import { MISSING_IMAGE_DELIVERY_CREATE, replaceCompanyNumberAndFilingHistoryId } from "../../../src/model/page.urls";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
 import { MidItem } from "@companieshouse/api-sdk-node/dist/services/order/mid/types";
+import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 
 const FILING_HISTORY_ID = "MzAwOTM2MDg5OWFkaXF6a2N4";
 const COMPANY_NUMBER = "00006500";
@@ -14,6 +15,26 @@ const MISSING_IMAGE_DELIVERY_CREATE_URL = replaceCompanyNumberAndFilingHistoryId
 const sandbox = sinon.createSandbox();
 let testApp = null;
 let postMissingImageDeliveryItemStub;
+let getBasketStub;
+
+
+const basketDetails = {
+    deliveryDetails: {
+        forename: "bob",
+        surname: "jones",
+        addressLine1: "117 kings road",
+        addressLine2: "pontcanna",
+        country: "wales",
+        locality: "canton",
+        postalCode: "cf5 4xb",
+        region: "glamorgan"
+    },
+    items: [
+        {
+            totalItemCost: "15"
+        }
+    ]
+} as Basket;
 
 describe("create.missing.image.delivery.item.controller.integration", () => {
     beforeEach((done) => {
@@ -35,6 +56,8 @@ describe("create.missing.image.delivery.item.controller.integration", () => {
                 id: "MID-951616-000712"
             } as MidItem;
 
+            getBasketStub = sandbox.stub(apiClient, "getBasket")
+            .returns(Promise.resolve(basketDetails));
             postMissingImageDeliveryItemStub = sandbox.stub(apiClient, "postMissingImageDeliveryItem")
                 .returns(Promise.resolve(missingImageDeliveryDetails));
 
