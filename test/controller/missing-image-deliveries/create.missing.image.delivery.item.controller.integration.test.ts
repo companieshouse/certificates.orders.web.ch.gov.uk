@@ -17,7 +17,6 @@ let testApp = null;
 let postMissingImageDeliveryItemStub;
 let getBasketStub;
 
-
 const basketDetails = {
     deliveryDetails: {
         forename: "bob",
