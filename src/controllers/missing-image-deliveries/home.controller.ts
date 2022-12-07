@@ -8,6 +8,8 @@ import { getBasketLimit, getBasketLink } from "../../utils/basket.utils";
 import { BasketLink } from "../../model/BasketLink";
 import { BasketLimit, BasketLimitState } from "../../model/BasketLimit";
 import {createLogger} from "ch-structured-logging";
+import { SessionKey } from "@companieshouse/node-session-handler/lib/session/keys/SessionKey";
+import { SignInInfoKeys } from "@companieshouse/node-session-handler/lib/session/keys/SignInInfoKeys";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -18,13 +20,18 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const companyProfile: CompanyProfile = await getCompanyProfile(API_KEY, companyNumber);
         const companyName: string = companyProfile.companyName;
         const filingHistoryId: string = req.params.filingHistoryId;
-        const startNowUrl: string = replaceCompanyNumberAndFilingHistoryId(MISSING_IMAGE_DELIVERY_CREATE, companyNumber, filingHistoryId);
+        let startNowUrl: string = replaceCompanyNumberAndFilingHistoryId(MISSING_IMAGE_DELIVERY_CREATE, companyNumber, filingHistoryId);
         const SERVICE_URL = `/company/${companyNumber}/filing-history`;
         const basketLink: BasketLink = await getBasketLink(req);
         const basketLimit: BasketLimit = getBasketLimit(basketLink);
 
-        if (errorParam === "display-limit-error") {
+        const signedIn = req.session?.data?.[SessionKey.SignInInfo]?.[SignInInfoKeys.SignedIn] === 1;
+
+        if (errorParam === "display-limit-error" && signedIn) {
             basketLimit.basketLimitState = BasketLimitState.DISPLAY_LIMIT_ERROR;
+            startNowUrl = "";
+        } else {
+            req.query.params = "";
         }
 
         res.render(MISSING_IMAGE_DELIVERY_INDEX,
