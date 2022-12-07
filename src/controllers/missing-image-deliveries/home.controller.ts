@@ -13,6 +13,7 @@ const logger = createLogger(APPLICATION_NAME);
 
 export default async (req: Request, res: Response, next: NextFunction) => {
     try {
+        const errorParam = req.query.error;
         const companyNumber: string = req.params.companyNumber;
         const companyProfile: CompanyProfile = await getCompanyProfile(API_KEY, companyNumber);
         const companyName: string = companyProfile.companyName;
@@ -21,6 +22,10 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const SERVICE_URL = `/company/${companyNumber}/filing-history`;
         const basketLink: BasketLink = await getBasketLink(req);
         const basketLimit: BasketLimit = getBasketLimit(basketLink);
+
+        if (errorParam === "display-limit-error") {
+            basketLimit.basketLimitState = BasketLimitState.DISPLAY_LIMIT_ERROR;
+        }
 
         res.render(MISSING_IMAGE_DELIVERY_INDEX,
             {
