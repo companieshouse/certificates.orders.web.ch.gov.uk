@@ -11,7 +11,7 @@
     "lint:fix": "eslint 'src/*.ts' 'src/**/*.ts' './test/*.ts' './test/**/*.ts' --fix",
     "test": "DYNAMIC_LP_CERTIFICATE_ORDERS_ENABLED=true DYNAMIC_LLP_CERTIFICATE_ORDERS_ENABLED=true mocha",
     "test:coverage": "nyc npm test",
-    "sonarqube": "sonar-scanner"
+    "analyse-code": "sonar-scanner"
   },
   "keywords": [],
   "author": "",
