@@ -10,6 +10,7 @@ export const CERTIFIED_COPIES_DELIVERY_DETAILS_RE = /\/orderable\/certified-copi
 export const CERTIFIED_COPIES_DELIVERY_OPTIONS_RE = /\/orderable\/certified-copies\/CCD-\d{6}-\d{6}\/delivery-options/;
 export const DISSOLVED_CERTIFICATE_DELIVERY_DETAILS_RE = /\/orderable\/dissolved-certificates\/CRT-\d{6}-\d{6}\/delivery-details/;
 export const DISSOLVED_CERTIFICATE_DELIVERY_OPTIONS_RE = /\/orderable\/dissolved-certificates\/CRT-\d{6}-\d{6}\/delivery-options/;
+export const MISSING_IMAGE_DELIVERY_DISPLAY_BASKET_ERROR = /\/company\/[A-Z0-9]{8}\/orderable\/missing-image-deliveries\/[a-zA-Z0-9]{8,}\/?error=display-limit-error/;
 export const MISSING_IMAGE_DELIVERY_CREATE_RE = /\/company\/[A-Z0-9]{8}\/orderable\/missing-image-deliveries\/[a-zA-Z0-9]{8,}\/create/;
 export const MISSING_IMAGE_DELIVERY_CHECK_DETAILS_RE = /\/orderable\/missing-image-deliveries\/MID-\d{6}-\d{6}\/check-details/;
 export const CERTIFIED_DOCUMENTS_SELECTION_RE = /\/company\/[A-Z0-9]{8}\/certified-documents/;
@@ -23,6 +24,7 @@ const REDIRECTS_WHITELIST: RegExp[] = [
     CERTIFIED_COPIES_DELIVERY_OPTIONS_RE,
     DISSOLVED_CERTIFICATE_DELIVERY_DETAILS_RE,
     DISSOLVED_CERTIFICATE_DELIVERY_OPTIONS_RE,
+    MISSING_IMAGE_DELIVERY_DISPLAY_BASKET_ERROR,
     MISSING_IMAGE_DELIVERY_CREATE_RE,
     MISSING_IMAGE_DELIVERY_CHECK_DETAILS_RE,
     CERTIFIED_DOCUMENTS_SELECTION_RE,
