@@ -1,7 +1,7 @@
 import chai from "chai";
 import sinon from "sinon";
 import ioredis from "ioredis";
-import {SIGNED_OUT_COOKIE, signedOutSession } from "../../__mocks__/redis.mocks";
+import { SIGNED_OUT_COOKIE, signedOutSession } from "../../__mocks__/redis.mocks";
 import { ROOT_CERTIFIED_COPY, replaceCompanyNumber, START_BUTTON_PATH_SUFFIX } from "../../../src/model/page.urls";
 import CompanyProfileService from "@companieshouse/api-sdk-node/dist/services/company-profile/service";
 
