@@ -10,7 +10,8 @@ import {
     MISSING_IMAGE_DELIVERY_CHECK_DETAILS_RE,
     MISSING_IMAGE_DELIVERY_CREATE_RE,
     CERTIFIED_DOCUMENTS_SELECTION_RE,
-    CERTIFICATE_TYPE_RE
+    CERTIFICATE_TYPE_RE,
+    CERTIFIED_COPIES_START_RE
 } from "../../src/utils/request.util";
 import { expect } from "chai";
 import {
@@ -25,7 +26,8 @@ import {
     MISSING_IMAGE_DELIVERY_CHECK_DETAILS_PAGE,
     MISSING_IMAGE_DELIVERY_CREATE_PAGE,
     LP_CERTIFICATE_TYPE_PAGE,
-    LLP_CERTIFICATE_TYPE_PAGE
+    LLP_CERTIFICATE_TYPE_PAGE,
+    CERTIFIED_COPY_START_PAGE
 } from "./constants";
 
 const UNKNOWN_URL = "/unknown";
@@ -102,6 +104,12 @@ describe("request.util.unit",
                 const returnToUrl = extractValueFromRequestField(LLP_CERTIFICATE_TYPE_PAGE,
                     CERTIFICATE_TYPE_RE);
                 expect(returnToUrl).to.equal(LLP_CERTIFICATE_TYPE_PAGE);
+            });
+
+            it("gets correct return to URL for the certified copies start page", () => {
+                const returnToUrl = extractValueFromRequestField(CERTIFIED_COPY_START_PAGE,
+                    CERTIFIED_COPIES_START_RE);
+                expect(returnToUrl).to.equal(CERTIFIED_COPY_START_PAGE);
             });
 
             it("errors if asked to look up an unknown page URL", () => {
@@ -184,6 +192,12 @@ describe("request.util.unit",
                 expect(returnToUrl).to.equal(LLP_CERTIFICATE_TYPE_PAGE);
             });
 
+            it("gets correct return to URL for the certified copies start page", () => {
+                const returnToUrl = extractValueIfPresentFromRequestField(CERTIFIED_COPY_START_PAGE,
+                    CERTIFIED_COPIES_START_RE);
+                expect(returnToUrl).to.equal(CERTIFIED_COPY_START_PAGE);
+            });
+
             it("returns null if asked to look up an unknown page URL", () => {
                 const returnToUrl = extractValueIfPresentFromRequestField(UNKNOWN_URL, CERTIFICATE_OPTIONS_RE);
                 expect(returnToUrl).to.equal(null);
@@ -251,6 +265,11 @@ describe("request.util.unit",
                 expect(returnToUrl).to.equal(LLP_CERTIFICATE_TYPE_PAGE);
             });
 
+            it("gets correct return to URL for the certified copies start page", () => {
+                const returnToUrl = getWhitelistedReturnToURL(CERTIFIED_COPY_START_PAGE);
+                expect(returnToUrl).to.equal(CERTIFIED_COPY_START_PAGE);
+            });
+
             it("errors if asked to look up an unknown page URL", () => {
                 const execution = () => getWhitelistedReturnToURL(UNKNOWN_URL);
                 expect(execution).to.throw("Return to URL /unknown not found in trusted URLs whitelist " +
@@ -259,6 +278,7 @@ describe("request.util.unit",
                     "/\\/orderable\\/llp-certificates\\/CRT-\\d{6}-\\d{6}\\/certificate-options/," +
                     "/\\/orderable\\/certified-copies\\/CCD-\\d{6}-\\d{6}\\/delivery-details/," +
                     "/\\/orderable\\/certified-copies\\/CCD-\\d{6}-\\d{6}\\/delivery-options/," +
+                    "/\\/company\\/[A-Z0-9]{8}\\/orderable\\/certified-copies\\/start/," +
                     "/\\/orderable\\/dissolved-certificates\\/CRT-\\d{6}-\\d{6}\\/delivery-details/," +
                     "/\\/orderable\\/dissolved-certificates\\/CRT-\\d{6}-\\d{6}\\/delivery-options/," +
                     "/\\/company\\/[A-Z0-9]{8}\\/orderable\\/missing-image-deliveries\\/[a-zA-Z0-9]{8,}\\/create/," +

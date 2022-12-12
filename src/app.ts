@@ -18,6 +18,7 @@ import { createLoggerMiddleware } from "ch-structured-logging";
 import authMiddleware from "./middleware/auth.middleware";
 import authCertificateMiddleware from "./middleware/certificates/auth.middleware";
 import authCertifiedCopyMiddleware from "./middleware/certified-copies/auth.middleware";
+import authCertifiedCopyStartNowMiddleware from "./middleware/certified-copies/auth.start.now.middleware";
 import authMissingImageDeliveryCreateMiddleware, {
     authMissingImageDeliveryCheckDetailsMiddleware
 } from "./middleware/missing-image-deliveries/auth.middleware";
@@ -129,6 +130,7 @@ app.use(pageUrls.ROOT_DISSOLVED_CERTIFICATE, authMiddleware);
 app.use(pageUrls.ROOT_DISSOLVED_CERTIFICATE_ID, authCertificateMiddleware);
 
 app.use([pageUrls.ROOT_CERTIFIED_COPY, pageUrls.ROOT_CERTIFIED_COPY_ID], SessionMiddleware(cookieConfig, sessionStore));
+app.use(pageUrls.ROOT_CERTIFIED_COPY, authCertifiedCopyStartNowMiddleware);
 app.use(pageUrls.ROOT_CERTIFIED_COPY_ID, authCertifiedCopyMiddleware);
 
 app.use([pageUrls.ROOT_MISSING_IMAGE_DELIVERY, pageUrls.ROOT_MISSING_IMAGE_DELIVERY_ID], SessionMiddleware(cookieConfig, sessionStore));
