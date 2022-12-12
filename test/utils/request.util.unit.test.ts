@@ -7,6 +7,7 @@ import {
     LLP_CERTIFICATE_OPTIONS_RE,
     DISSOLVED_CERTIFICATE_DELIVERY_DETAILS_RE,
     CERTIFIED_COPIES_DELIVERY_DETAILS_RE,
+    MISSING_IMAGE_DELIVERY_DISPLAY_BASKET_ERROR_RE,
     MISSING_IMAGE_DELIVERY_CHECK_DETAILS_RE,
     MISSING_IMAGE_DELIVERY_CREATE_RE,
     CERTIFIED_DOCUMENTS_SELECTION_RE,
@@ -23,6 +24,7 @@ import {
     DISSOLVED_CERTIFICATE_TYPE_PAGE,
     LLP_CERTIFICATE_OPTIONS_PAGE,
     LP_CERTIFICATE_OPTIONS_PAGE,
+    MISSING_IMAGE_DELIVERY_BASKET_ERROR,
     MISSING_IMAGE_DELIVERY_CHECK_DETAILS_PAGE,
     MISSING_IMAGE_DELIVERY_CREATE_PAGE,
     LP_CERTIFICATE_TYPE_PAGE,
@@ -62,6 +64,12 @@ describe("request.util.unit",
                 const returnToUrl = extractValueFromRequestField(DISSOLVED_CERTIFICATE_DELIVERY_OPTIONS_PAGE,
                     DISSOLVED_CERTIFICATE_DELIVERY_DETAILS_RE);
                 expect(returnToUrl).to.equal(DISSOLVED_CERTIFICATE_DELIVERY_OPTIONS_PAGE);
+            });
+
+            it("gets correct return to URL for missing image delivery basket full error", () => {
+                const returnToUrl = extractValueFromRequestField(MISSING_IMAGE_DELIVERY_BASKET_ERROR,
+                    MISSING_IMAGE_DELIVERY_DISPLAY_BASKET_ERROR_RE);
+                expect(returnToUrl).to.equal(MISSING_IMAGE_DELIVERY_BASKET_ERROR);
             });
 
             it("gets correct return to URL for missing image delivery check details page", () => {
@@ -281,6 +289,7 @@ describe("request.util.unit",
                     "/\\/company\\/[A-Z0-9]{8}\\/orderable\\/certified-copies\\/start/," +
                     "/\\/orderable\\/dissolved-certificates\\/CRT-\\d{6}-\\d{6}\\/delivery-details/," +
                     "/\\/orderable\\/dissolved-certificates\\/CRT-\\d{6}-\\d{6}\\/delivery-options/," +
+                    "/\\/company\\/[A-Z0-9]{8}\\/orderable\\/missing-image-deliveries\\/[a-zA-Z0-9]{8,}\\?error=display-limit-error/," +
                     "/\\/company\\/[A-Z0-9]{8}\\/orderable\\/missing-image-deliveries\\/[a-zA-Z0-9]{8,}\\/create/," +
                     "/\\/orderable\\/missing-image-deliveries\\/MID-\\d{6}-\\d{6}\\/check-details/," +
                     "/\\/company\\/[A-Z0-9]{8}\\/certified-documents/," +

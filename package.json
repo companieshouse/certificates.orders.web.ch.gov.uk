@@ -9,7 +9,7 @@
     "build": "NODE_ENV=production tsc && cp -r src/views dist/ && gulp static",
     "lint": "eslint 'src/*.ts' 'src/**/*.ts' './test/*.ts' './test/**/*.ts'",
     "lint:fix": "eslint 'src/*.ts' 'src/**/*.ts' './test/*.ts' './test/**/*.ts' --fix",
-    "test": "DYNAMIC_LP_CERTIFICATE_ORDERS_ENABLED=true DYNAMIC_LLP_CERTIFICATE_ORDERS_ENABLED=true mocha",
+    "test": "DYNAMIC_LP_CERTIFICATE_ORDERS_ENABLED=true DYNAMIC_LLP_CERTIFICATE_ORDERS_ENABLED=true mocha test",
     "test:coverage": "nyc npm test",
     "analyse-code": "sonar-scanner"
   },

@@ -8,6 +8,7 @@ import { MidItem, MidItemPostRequest } from "@companieshouse/api-sdk-node/dist/s
 import { BasketLink } from "../../model/BasketLink";
 import { BasketLimit, BasketLimitState } from "../../model/BasketLimit";
 import { getBasketLimit, getBasketLink } from "../../utils/basket.utils";
+import { getWhitelistedReturnToURL } from "../../utils/request.util";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -33,7 +34,8 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             logger.info(`Missing Image Delivery Item created, id=${missingImageDeliveryItem.id}, user_id=${userId}, company_number=${missingImageDeliveryItem.companyNumber}`);
             res.redirect(replaceMissingImageDeliveryId(MISSING_IMAGE_DELIVERY_CHECK_DETAILS, missingImageDeliveryItem.id));
         } else {
-            res.redirect(replaceCompanyNumberAndFilingHistoryId(ROOT_MISSING_IMAGE_DELIVERY_BASKET_ERROR, companyNumber,filingHistoryId));
+            const nextPage = replaceCompanyNumberAndFilingHistoryId(ROOT_MISSING_IMAGE_DELIVERY_BASKET_ERROR, companyNumber,filingHistoryId);
+            res.redirect(getWhitelistedReturnToURL(nextPage));
         }
     } catch (err) {
         logger.error(`${err}`);
