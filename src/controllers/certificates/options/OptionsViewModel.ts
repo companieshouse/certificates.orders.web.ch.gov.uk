@@ -10,6 +10,8 @@ export type OptionsViewModelData = {
     showBasketLink?: boolean
     basketWebUrl?: string
     basketItems?: number
+    isSignedIn: boolean
+    userEmailAddress?: string
 };
 
 export class OptionsViewModel {

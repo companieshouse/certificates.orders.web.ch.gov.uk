@@ -23,11 +23,8 @@ import { optionFilter } from "./OptionFilter";
 import { BasketLink } from "../../model/BasketLink";
 import { getBasketLimit, getBasketLink } from "../../utils/basket.utils";
 import { mapPageHeader } from "../../utils/page.header.utils";
-import { PageHeader } from "../../model/PageHeader";
 import { BasketLimit, BasketLimitState } from "../../model/BasketLimit";
 import { getWhitelistedReturnToURL } from "../../utils/request.util";
-import { SessionKey } from "@companieshouse/node-session-handler/lib/session/keys/SessionKey";
-import { SignInInfoKeys } from "@companieshouse/node-session-handler/lib/session/keys/SignInInfoKeys";
 
 type LandingPage = { landingPage: string, startNowUrl: string, nextPageUrl: string, serviceUrl: string }
 type CompanyDetail = { companyNumber: string, type: string };
@@ -144,6 +141,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const moreTabUrl = "/company/" + companyNumber + "/more";
         const basketLink: BasketLink = await getBasketLink(req);
         const basketLimit: BasketLimit = getBasketLimit(basketLink);
+        const pageHeader = mapPageHeader(req);
 
         const acceptableCompanyTypes = [
             CompanyType.LIMITED_LIABILITY_PARTNERSHIP,
@@ -190,8 +188,6 @@ export default async (req: Request, res: Response, next: NextFunction) => {
                 // No more to do here.
                 return;
             }
-
-            const pageHeader = mapPageHeader(req);
 
             logger.debug(`Rendering ${landingPage.landingPage}, company_status=${companyStatus}, start_now_url=${landingPage.startNowUrl}, company_number=${companyNumber}, service_url=${landingPage.serviceUrl}, dispatch_days=${DISPATCH_DAYS}, more_tab_url=${moreTabUrl}`);
             res.render(landingPage.landingPage, {

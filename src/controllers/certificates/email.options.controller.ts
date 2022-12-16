@@ -13,6 +13,7 @@ import { createGovUkErrorData } from "../../model/govuk.error.data";
 import { BY_ITEM_KIND, StaticRedirectCallback } from "./StaticRedirectCallback";
 import { getBasketLink } from "../../utils/basket.utils";
 import { BasketLink } from "../../model/BasketLink";
+import { mapPageHeader } from "../../utils/page.header.utils";
 
 const EMAIL_OPTION_FIELD: string = "emailOptions";
 const PAGE_TITLE: string = "Email options - Order a certificate - GOV.UK";
@@ -31,13 +32,15 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
         logger.info(`Get certificate item, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
         const basketLink: BasketLink = await getBasketLink(req);
+        const pageHeader = mapPageHeader(req);
         return res.render(EMAIL_OPTIONS, {
             emailOption: certificateItem.itemOptions.includeEmailCopy,
             templateName: EMAIL_OPTIONS,
             pageTitleText: PAGE_TITLE,
             SERVICE_URL: setServiceUrl(certificateItem),
             backLink: setBackLink(certificateItem, req.session),
-            ...basketLink
+            ...basketLink,
+            ...pageHeader
         });
     } catch (err) {
         logger.error(`${err}`);

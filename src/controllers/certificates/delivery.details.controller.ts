@@ -11,6 +11,7 @@ import { deliveryDetailsValidationRules, validate } from "../../utils/delivery-d
 import { setServiceUrl } from "../../utils/service.url.utils";
 import { Session } from "@companieshouse/node-session-handler/lib/session/model/Session";
 import { DeliveryDetailsPropertyName } from "./model/DeliveryDetailsPropertyName";
+import { mapPageHeader } from "../../utils/page.header.utils";
 const escape = require("escape-html");
 
 const PAGE_TITLE: string = "Delivery details - Order a certificate - GOV.UK";
@@ -22,6 +23,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const userId = getUserId(req.session);
         const accessToken: string = getAccessToken(req.session);
         const basket: Basket = await getBasket(accessToken);
+        const pageHeader = mapPageHeader(req);
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
         logger.info(`Get certificate item, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
         return res.render(DELIVERY_DETAILS, {
@@ -39,7 +41,8 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             templateName: DELIVERY_DETAILS,
             pageTitleText: PAGE_TITLE,
             SERVICE_URL: setServiceUrl(certificateItem),
-            backLink: setBackLink(certificateItem, req.session)
+            backLink: setBackLink(certificateItem, req.session),
+            ...pageHeader
         });
     } catch (err) {
         logger.error(`${err}`);

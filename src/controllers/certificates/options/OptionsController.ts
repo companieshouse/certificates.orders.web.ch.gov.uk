@@ -5,6 +5,8 @@ import { getAccessToken, getUserId } from "../../../session/helper";
 import { OptionsService } from "./OptionsService";
 import { BasketLink } from "model/BasketLink";
 import { getBasketLink } from "../../../utils/basket.utils";
+import { mapPageHeader } from "../../../utils/page.header.utils";
+import { PageHeader } from "model/PageHeader";
 
 const MORE_INFO_FIELD: string = "moreInfo";
 
@@ -23,9 +25,12 @@ export class OptionsController {
             const result = await this.service.readCertificate(accessToken, req.params.certificateId);
             this.logger.debug(`Fetched certificate item: id=${req.params.certificateId}, user_id=${userId}`);
             const basketLink: BasketLink = await getBasketLink(req);
+            const pageHeader: PageHeader = mapPageHeader(req);
             result.data.showBasketLink = basketLink.showBasketLink;
             result.data.basketItems = basketLink.basketItems;
             result.data.basketWebUrl = basketLink.basketWebUrl;
+            result.data.isSignedIn = pageHeader.isSignedIn;
+            result.data.userEmailAddress = pageHeader.userEmailAddress;
             res.render(result.template, result.data);
         } catch (error) {
             this.logger.error(error);

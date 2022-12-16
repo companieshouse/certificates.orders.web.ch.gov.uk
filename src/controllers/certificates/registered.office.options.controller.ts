@@ -10,6 +10,7 @@ import { APPLICATION_NAME } from "../../config/config";
 import CertificateSessionData from "../../session/CertificateSessionData";
 import { getBasketLink } from "../../utils/basket.utils";
 import { BasketLink } from "../../model/BasketLink";
+import { mapPageHeader } from "../../utils/page.header.utils";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -29,6 +30,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
     const itemOptions: ItemOptions = certificateItem.itemOptions;
     const SERVICE_URL = `/company/${certificateItem.companyNumber}/orderable/certificates`;
     const isFullPage = req.query.layout === "full";
+    const pageHeader = mapPageHeader(req);
 
     logger.info(`Certificate item retrieved, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
 
@@ -39,7 +41,8 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         isFullPage: isFullPage,
         backLink: generateBackLink(isFullPage),
         roaSelection: certificateItem.itemOptions.registeredOfficeAddressDetails?.includeAddressRecordsType,
-        ...basketLink
+        ...basketLink,
+        ...pageHeader
     });
 };
 

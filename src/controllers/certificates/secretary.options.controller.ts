@@ -9,6 +9,7 @@ import { Session } from "@companieshouse/node-session-handler/lib/session/model/
 import CertificateSessionData from "../../session/CertificateSessionData";
 import { getBasketLink } from "../../utils/basket.utils";
 import { BasketLink } from "../../model/BasketLink";
+import { mapPageHeader } from "../../utils/page.header.utils";
 
 const INCLUDE_ADDRESS_FIELD: string = "address";
 const INCLUDE_APPOINTMENT_DATE_FIELD: string = "appointment";
@@ -22,13 +23,15 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
     const basketLink: BasketLink = await getBasketLink(req);
     const SERVICE_URL = `/company/${certificateItem.companyNumber}/orderable/certificates`;
     const backLink = setBackLink(certificateItem, req.session);
+    const pageHeader = mapPageHeader(req);
 
     return res.render(CERTIFICATE_SECRETARY_OPTIONS, {
         companyNumber: certificateItem.companyNumber,
         backLink,
         secretaryDetails: certificateItem.itemOptions?.secretaryDetails,
         SERVICE_URL,
-        ...basketLink
+        ...basketLink,
+        ...pageHeader
     });
 };
 
