@@ -70,3 +70,15 @@ export const CHS_MONITOR_GUI_URL = getEnvironmentValue("CHS_MONITOR_GUI_URL")
 export const BASKET_WEB_URL = `${CHS_URL}/basket`;
 
 export const BASKET_ITEM_LIMIT = Number(getEnvironmentValue("BASKET_ITEM_LIMIT"));
+
+export const CERTIFICATE_FEEDBACK_SOURCE = `${CHS_URL}/certificates`;
+
+export const DISSOLVED_CERTIFICATE_FEEDBACK_SOURCE = `${CHS_URL}/dissolved-certificates`;
+
+export const CERTIFIED_COPIES_FEEDBACK_SOURCE = `${CHS_URL}/certified-copies`;
+
+export const MISSING_IMAGE_DELIVERY_COPIES_FEEDBACK_SOURCE = `${CHS_URL}/missing-image-deliveries`;
+
+export const LP_CERTIFICATE_FEEDBACK_SOURCE = `${CHS_URL}/lp-certificates`;
+
+export const LLP_CERTIFICATE_FEEDBACK_SOURCE = `${CHS_URL}/llp-certificates`;
