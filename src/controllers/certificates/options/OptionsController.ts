@@ -31,6 +31,7 @@ export class OptionsController {
             result.data.basketWebUrl = basketLink.basketWebUrl;
             result.data.isSignedIn = pageHeader.isSignedIn;
             result.data.userEmailAddress = pageHeader.userEmailAddress;
+            result.data.serviceName = pageHeader.serviceName;
             res.render(result.template, result.data);
         } catch (error) {
             this.logger.error(error);
