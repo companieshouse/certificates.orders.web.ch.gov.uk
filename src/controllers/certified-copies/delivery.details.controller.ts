@@ -10,6 +10,8 @@ import { getBasket, patchBasket, getCertifiedCopyItem } from "../../client/api.c
 import { deliveryDetailsValidationRules, validate } from "../../utils/delivery-details-validation";
 import { CertifiedCopyItem } from "@companieshouse/api-sdk-node/dist/services/order/certified-copies/types";
 import { DeliveryDetailsPropertyName } from "../certificates/model/DeliveryDetailsPropertyName";
+import { mapPageHeader } from "../../utils/page.header.utils";
+
 const escape = require("escape-html");
 
 const PAGE_TITLE: string = "Delivery details - Order a certified document - GOV.UK";
@@ -27,6 +29,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const companyNumber:string = certifiedCopyItem.companyNumber;
         const backLink: string = `/orderable/certified-copies/${certifiedCopyItemId}/delivery-options`;
         const SERVICE_URL = `/company/${companyNumber}/orderable/certified-copies`;
+        const pageHeader = mapPageHeader(req);
         return res.render(DELIVERY_DETAILS, {
             firstName: basket.deliveryDetails?.forename,
             lastName: basket.deliveryDetails?.surname,
@@ -42,7 +45,8 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             SERVICE_URL,
             companyNumber,
             templateName: DELIVERY_DETAILS,
-            pageTitleText: PAGE_TITLE
+            pageTitleText: PAGE_TITLE,
+            ...pageHeader
         });
     } catch (err) {
         logger.error(`${err}`);

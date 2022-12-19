@@ -144,7 +144,6 @@ app.use((req, res, next) => {
         env.addGlobal("PIWIK_SERVICE_NAME", PIWIK_SERVICE_NAME_CERTIFICATES);
         env.addGlobal("DISSOLVED_CERTIFICATE_PIWIK_START_GOAL_ID", DISSOLVED_CERTIFICATE_PIWIK_START_GOAL_ID);
     } else if (req.path.includes("/certified-copies")) {
-        env.addGlobal("SERVICE_NAME", SERVICE_NAME_CERTIFIED_COPIES);
         env.addGlobal("PIWIK_SERVICE_NAME", PIWIK_SERVICE_NAME_CERTIFIED_COPIES);
         env.addGlobal("CERTIFIED_COPIES_PIWIK_START_GOAL_ID", CERTIFIED_COPIES_PIWIK_START_GOAL_ID);
     } else if (req.path.includes("missing-image-deliveries")) {

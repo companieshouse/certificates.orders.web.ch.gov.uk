@@ -34,6 +34,9 @@ export const mapPageHeader = (req: Request): PageHeader => {
     if (req.path.includes("/certificates") || req.path.includes("/dissolved-certificates")) {
         serviceName = SERVICE_NAME_CERTIFICATES;
     }
+    if (req.path.includes("/certified-copies")) {
+        serviceName = SERVICE_NAME_CERTIFIED_COPIES;
+    }
 
     return {
         userEmailAddress: userEmailAddress,
