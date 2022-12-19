@@ -1,7 +1,7 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import { getAccessToken, getUserId } from "../session/helper";
-import { CertificateItem, RegisteredOfficeAddressDetailsRequest, CertificateItemPatchRequest, ItemOptions, RegisteredOfficeAddressDetails } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
-import { getCertificateItem, patchCertificateItem } from "../client/api.client";
+import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
+import { getCertificateItem } from "../client/api.client";
 import { getBasketLink } from "../utils/basket.utils";
 import { BasketLink } from "../model/BasketLink";
 import { mapPageHeader } from "../utils/page.header.utils";
