@@ -209,8 +209,8 @@ export default async (req: Request, res: Response, next: NextFunction) => {
                 ...pageHeader
             });
         } else {
-            const SERVICE_NAME = null;
-            res.render(YOU_CANNOT_USE_THIS_SERVICE, { SERVICE_NAME });
+            const serviceName = null;
+            res.render(YOU_CANNOT_USE_THIS_SERVICE, { serviceName });
         }
     } catch (err) {
         logger.error(`${err}`);

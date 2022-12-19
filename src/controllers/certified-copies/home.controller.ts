@@ -43,8 +43,8 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         }
 
         if (!filingHistory || (filingHistory && companyType === "uk-establishment")) {
-            const SERVICE_NAME = null;
-            res.render(YOU_CANNOT_USE_THIS_SERVICE, { SERVICE_NAME });
+            const serviceName = null;
+            res.render(YOU_CANNOT_USE_THIS_SERVICE, { serviceName });
         } else {
             res.render(CERTIFIED_COPY_INDEX,
                 {

@@ -1,4 +1,5 @@
 export interface PageHeader {
     userEmailAddress: string | undefined,
-    isSignedIn: boolean
+    isSignedIn: boolean,
+    serviceName: string
 }
