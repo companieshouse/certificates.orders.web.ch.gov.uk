@@ -12,6 +12,7 @@ import { RegisteredOfficeAddressOptionName } from "./RegisteredOfficeAddressOpti
 import { AddressRecordsType } from "../../../model/AddressRecordsType";
 import { getBasketLink } from "../../../utils/basket.utils";
 import { BasketLink } from "../../../model/BasketLink";
+import { mapPageHeader } from "../../../utils/page.header.utils";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -26,6 +27,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
     const SERVICE_URL = `/company/${certificateItem.companyNumber}/orderable/llp-certificates`;
     const isFullPage = req.query.layout === "full";
     const basketLink: BasketLink = await getBasketLink(req);
+    const pageHeader = mapPageHeader(req);
 
     logger.info(`Certificate item retrieved, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
 
@@ -36,7 +38,8 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         isFullPage: isFullPage,
         backLink: generateBackLink(isFullPage),
         roaSelection: certificateItem.itemOptions.registeredOfficeAddressDetails?.includeAddressRecordsType,
-        ...basketLink
+        ...basketLink,
+        ...pageHeader
     });
 };
 
