@@ -1,5 +1,6 @@
 import chai from "chai";
-import { generateBackLink, optionFilter, setRegOfficeOption } from "../../../src/controllers/certificates/registered.office.options.controller";
+import { optionFilter, setRegOfficeOption } from "../../../src/controllers/certificates/registered.office.options.controller";
+import { generateBackLink } from "../../../src/service/registered.office.options.service";
 
 describe("registered.office.options.controller.unit", () => {
     describe("setRegOfficeOption", () => {

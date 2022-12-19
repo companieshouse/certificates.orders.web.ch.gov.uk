@@ -1,7 +1,7 @@
 import chai from "chai";
 
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
-import { setBackLink } from "../../../../src/utils/delivery.details.utils";
+import { setBackLink } from "../../../../src/service/delivery.details.service";
 
 describe("llp.delivery.details.controller.unit", () => {
     describe("setBackUrl for  delivery timescale option selected", () => {

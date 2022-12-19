@@ -1,5 +1,6 @@
 import chai from "chai";
-import { generateBackLink, optionFilter, setRegOfficeOption } from "../../../../src/controllers/certificates/llp-certificates/registered.office.options.controller";
+import { optionFilter, setRegOfficeOption } from "../../../../src/controllers/certificates/llp-certificates/registered.office.options.controller";
+import { generateBackLink } from "../../../../src/service/registered.office.options.service";
 import { RegisteredOfficeAddressOptionName } from "../../../../src/controllers/certificates/llp-certificates/RegisteredOfficeAddressOptionName";
 import { AddressRecordsType } from "../../../../src/model/AddressRecordsType";
 

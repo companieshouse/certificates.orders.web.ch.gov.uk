@@ -12,9 +12,8 @@ import { createLogger } from "ch-structured-logging";
 import { APPLICATION_NAME } from "../../../config/config";
 import { deliveryDetailsValidationRules, validate } from "../../../utils/delivery-details-validation";
 import { setServiceUrl } from "../../../utils/service.url.utils";
-import { renderNonBasketJourneyDeliveryDetails, setBackLink } from "../../../utils/delivery.details.utils";
+import { renderNonBasketJourneyDeliveryDetails, setBackLink } from "../../../service/delivery.details.service";
 import { DeliveryDetailsPropertyName } from "../model/DeliveryDetailsPropertyName";
-import { mapPageHeader } from "../../../utils/page.header.utils";
 
 const PAGE_TITLE: string = "Delivery details - Order a certificate - GOV.UK";
 

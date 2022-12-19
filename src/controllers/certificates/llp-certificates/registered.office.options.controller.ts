@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 import { LLP_CERTIFICATE_REGISTERED_OFFICE_OPTIONS } from "../../../model/template.paths";
-import { CertificateItem, RegisteredOfficeAddressDetailsRequest, CertificateItemPatchRequest } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
-import { getCertificateItem, patchCertificateItem } from "../../../client/api.client";
+import { RegisteredOfficeAddressDetailsRequest, CertificateItemPatchRequest } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
+import { patchCertificateItem } from "../../../client/api.client";
 import { getAccessToken, getUserId } from "../../../session/helper";
 import { createLogger } from "ch-structured-logging";
 import { registeredOfficeAddressValidationRules, validate } from "../../../validation/certificates/registered.office.options.validation";
@@ -10,9 +10,7 @@ import { APPLICATION_NAME } from "../../../config/config";
 import CertificateSessionData from "../../../session/CertificateSessionData";
 import { RegisteredOfficeAddressOptionName } from "./RegisteredOfficeAddressOptionName";
 import { AddressRecordsType } from "../../../model/AddressRecordsType";
-import { getBasketLink } from "../../../utils/basket.utils";
-import { BasketLink } from "../../../model/BasketLink";
-import { mapPageHeader } from "../../../utils/page.header.utils";
+import { renderRegisteredOfficeOptions, generateBackLink} from "../../../service/registered.office.options.service";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -21,29 +19,8 @@ const REGISTERED_OFFICE_OPTION: string = "registeredOffice";
 export const optionFilter = (items) => items.filter((item) => item.display);
 
 export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const userId = getUserId(req.session);
-    const accessToken: string = getAccessToken(req.session);
-    const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
-    const SERVICE_URL = `/company/${certificateItem.companyNumber}/orderable/llp-certificates`;
-    const isFullPage = req.query.layout === "full";
-    const basketLink: BasketLink = await getBasketLink(req);
-    const pageHeader = mapPageHeader(req);
-
-    logger.info(`Certificate item retrieved, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
-
-    return res.render(LLP_CERTIFICATE_REGISTERED_OFFICE_OPTIONS, {
-        companyNumber: certificateItem.companyNumber,
-        SERVICE_URL,
-        optionFilter: optionFilter,
-        isFullPage: isFullPage,
-        backLink: generateBackLink(isFullPage),
-        roaSelection: certificateItem.itemOptions.registeredOfficeAddressDetails?.includeAddressRecordsType,
-        ...basketLink,
-        ...pageHeader
-    });
+    renderRegisteredOfficeOptions(req, res, true, LLP_CERTIFICATE_REGISTERED_OFFICE_OPTIONS, optionFilter);
 };
-
-export const generateBackLink = (fullPage: boolean) => fullPage ? "registered-office-options" : "certificate-options";
 
 const route = async (req: Request, res: Response, next: NextFunction) => {
     try {
