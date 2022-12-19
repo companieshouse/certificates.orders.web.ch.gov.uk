@@ -25,7 +25,7 @@ export const mapPageHeader = (req: Request): PageHeader => {
     if (req.path.includes("/certified-copies")) {
         serviceName = SERVICE_NAME_CERTIFIED_COPIES;
     }
-    if (req.path.includes("missing-image-deliveries")) {
+    if (req.path.includes("/missing-image-deliveries")) {
         serviceName = SERVICE_NAME_MISSING_IMAGE_DELIVERY;
     }
 
