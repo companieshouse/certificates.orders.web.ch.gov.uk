@@ -10,6 +10,7 @@ import { BasketLimit, BasketLimitState } from "../../model/BasketLimit";
 import {createLogger} from "ch-structured-logging";
 import { SessionKey } from "@companieshouse/node-session-handler/lib/session/keys/SessionKey";
 import { SignInInfoKeys } from "@companieshouse/node-session-handler/lib/session/keys/SignInInfoKeys";
+import { mapPageHeader } from "../../utils/page.header.utils";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -24,6 +25,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const SERVICE_URL = `/company/${companyNumber}/filing-history`;
         const basketLink: BasketLink = await getBasketLink(req);
         const basketLimit: BasketLimit = getBasketLimit(basketLink);
+        const pageHeader = mapPageHeader(req);
 
         const signedIn = req.session?.data?.[SessionKey.SignInInfo]?.[SignInInfoKeys.SignedIn] === 1;
 
@@ -41,7 +43,8 @@ export default async (req: Request, res: Response, next: NextFunction) => {
                 SERVICE_URL,
                 companyName,
                 ...basketLink,
-                ...basketLimit
+                ...basketLimit,
+                ...pageHeader
             });
     } catch (err) {
         logger.error(`${err}`);

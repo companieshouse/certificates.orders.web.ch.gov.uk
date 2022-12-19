@@ -30,11 +30,8 @@ import {
     COOKIE_DOMAIN,
     CACHE_SERVER,
     APPLICATION_NAME,
-    SERVICE_NAME_CERTIFICATES,
     PIWIK_SERVICE_NAME_CERTIFICATES,
-    SERVICE_NAME_CERTIFIED_COPIES,
     PIWIK_SERVICE_NAME_CERTIFIED_COPIES,
-    SERVICE_NAME_MISSING_IMAGE_DELIVERY,
     PIWIK_SERVICE_NAME_MISSING_IMAGE_DELIVERY,
     CERTIFICATE_PIWIK_START_GOAL_ID,
     CERTIFIED_COPIES_PIWIK_START_GOAL_ID,
@@ -44,8 +41,6 @@ import {
     LP_CERTIFICATE_PIWIK_START_GOAL_ID, LLP_CERTIFICATE_PIWIK_START_GOAL_ID
 } from "./config/config";
 import { FEATURE_FLAGS } from "./config/FeatureFlags";
-import { SessionKey } from "@companieshouse/node-session-handler/lib/session/keys/SessionKey";
-import { SignInInfoKeys } from "@companieshouse/node-session-handler/lib/session/keys/SignInInfoKeys";
 
 const app = express();
 
@@ -147,15 +142,12 @@ app.use((req, res, next) => {
         env.addGlobal("PIWIK_SERVICE_NAME", PIWIK_SERVICE_NAME_CERTIFIED_COPIES);
         env.addGlobal("CERTIFIED_COPIES_PIWIK_START_GOAL_ID", CERTIFIED_COPIES_PIWIK_START_GOAL_ID);
     } else if (req.path.includes("missing-image-deliveries")) {
-        env.addGlobal("SERVICE_NAME", SERVICE_NAME_MISSING_IMAGE_DELIVERY);
         env.addGlobal("PIWIK_SERVICE_NAME", PIWIK_SERVICE_NAME_MISSING_IMAGE_DELIVERY);
         env.addGlobal("MISSING_IMAGE_DELIVERY_PIWIK_START_GOAL_ID", MISSING_IMAGE_DELIVERY_PIWIK_START_GOAL_ID);
     } else if (req.path.includes("/lp-certificates")) {
-        env.addGlobal("SERVICE_NAME", SERVICE_NAME_CERTIFICATES);
         env.addGlobal("PIWIK_SERVICE_NAME", PIWIK_SERVICE_NAME_CERTIFICATES);
         env.addGlobal("CERTIFICATE_PIWIK_START_GOAL_ID", LP_CERTIFICATE_PIWIK_START_GOAL_ID);
     } else if (req.path.includes("/llp-certificates")) {
-        env.addGlobal("SERVICE_NAME", SERVICE_NAME_CERTIFICATES);
         env.addGlobal("PIWIK_SERVICE_NAME", PIWIK_SERVICE_NAME_CERTIFICATES);
         env.addGlobal("CERTIFICATE_PIWIK_START_GOAL_ID", LLP_CERTIFICATE_PIWIK_START_GOAL_ID);
     } else {
