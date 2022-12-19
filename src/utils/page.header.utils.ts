@@ -31,7 +31,7 @@ export const mapPageHeader = (req: Request): PageHeader => {
 
     let serviceName = SERVICE_NAME_GENERIC;
 
-    if (req.path.includes("/certificates")) {
+    if (req.path.includes("/certificates") || req.path.includes("/dissolved-certificates")) {
         serviceName = SERVICE_NAME_CERTIFICATES;
     }
 

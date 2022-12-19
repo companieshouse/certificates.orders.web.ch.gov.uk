@@ -141,7 +141,6 @@ app.use((req, res, next) => {
         env.addGlobal("PIWIK_SERVICE_NAME", PIWIK_SERVICE_NAME_CERTIFICATES);
         env.addGlobal("CERTIFICATE_PIWIK_START_GOAL_ID", CERTIFICATE_PIWIK_START_GOAL_ID);
     } else if (req.path.includes("/dissolved-certificates")) {
-        env.addGlobal("SERVICE_NAME", SERVICE_NAME_CERTIFICATES);
         env.addGlobal("PIWIK_SERVICE_NAME", PIWIK_SERVICE_NAME_CERTIFICATES);
         env.addGlobal("DISSOLVED_CERTIFICATE_PIWIK_START_GOAL_ID", DISSOLVED_CERTIFICATE_PIWIK_START_GOAL_ID);
     } else if (req.path.includes("/certified-copies")) {
