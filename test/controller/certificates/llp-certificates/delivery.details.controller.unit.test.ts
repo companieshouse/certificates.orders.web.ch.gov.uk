@@ -1,9 +1,7 @@
 import chai from "chai";
 
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
-import { setBackLink } from "../../../../src/controllers/certificates/llp-certificates/delivery.details.controller";
-import { mockDissolvedCertificateItem } from "../../../__mocks__/certificates.mocks";
-import { dataEmpty, fullPageFalse, fullPageTrue } from "../../../__mocks__/session.mocks";
+import { setBackLink } from "../../../../src/utils/delivery.details.utils";
 
 describe("llp.delivery.details.controller.unit", () => {
     describe("setBackUrl for  delivery timescale option selected", () => {

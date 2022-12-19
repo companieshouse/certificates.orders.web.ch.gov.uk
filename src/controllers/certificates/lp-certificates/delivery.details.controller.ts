@@ -4,51 +4,23 @@ import {
     CertificateItem,
     CertificateItemPatchRequest
 } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
-import { Basket, BasketPatchRequest } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
+import { BasketPatchRequest } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 import { getAccessToken, getUserId } from "../../../session/helper";
-import { getCertificateItem, patchCertificateItem, getBasket, patchBasket } from "../../../client/api.client";
-import { DELIVERY_DETAILS, DELIVERY_OPTIONS, EMAIL_OPTIONS } from "../../../model/template.paths";
+import { getCertificateItem, patchCertificateItem, patchBasket } from "../../../client/api.client";
+import { DELIVERY_DETAILS } from "../../../model/template.paths";
 import { createLogger } from "ch-structured-logging";
 import { APPLICATION_NAME } from "../../../config/config";
 import { deliveryDetailsValidationRules, validate } from "../../../utils/delivery-details-validation";
 import { setServiceUrl } from "../../../utils/service.url.utils";
+import { renderNonBasketJourneyDeliveryDetails, setBackLink } from "../../../utils/delivery.details.utils";
 import { DeliveryDetailsPropertyName } from "../model/DeliveryDetailsPropertyName";
-import { mapPageHeader } from "../../../utils/page.header.utils";
 
 const PAGE_TITLE: string = "Delivery details - Order a certificate - GOV.UK";
 
 const logger = createLogger(APPLICATION_NAME);
 
 export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-        const userId = getUserId(req.session);
-        const accessToken: string = getAccessToken(req.session);
-        const basket: Basket = await getBasket(accessToken);
-        const pageHeader = mapPageHeader(req);
-        const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
-        logger.info(`Get certificate item, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
-        return res.render(DELIVERY_DETAILS, {
-            companyName: basket.deliveryDetails?.companyName,
-            firstName: basket.deliveryDetails?.forename,
-            lastName: basket.deliveryDetails?.surname,
-            addressLineOne: basket.deliveryDetails?.addressLine1,
-            addressLineTwo: basket.deliveryDetails?.addressLine2,
-            addressCountry: basket.deliveryDetails?.country,
-            addressTown: basket.deliveryDetails?.locality,
-            addressPoBox: basket.deliveryDetails?.poBox,
-            addressPostcode: basket.deliveryDetails?.postalCode,
-            addressCounty: basket.deliveryDetails?.region,
-            companyNumber: certificateItem.companyNumber,
-            templateName: DELIVERY_DETAILS,
-            pageTitleText: PAGE_TITLE,
-            SERVICE_URL: setServiceUrl(certificateItem),
-            backLink: setBackLink(certificateItem),
-            ...pageHeader
-        });
-    } catch (err) {
-        logger.error(`${err}`);
-        next(err);
-    }
+    renderNonBasketJourneyDeliveryDetails(req, res, next, PAGE_TITLE);
 };
 
 const route = async (req: Request, res: Response, next: NextFunction) => {
@@ -119,14 +91,6 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         logger.error(`${err}`);
         return next(err);
     }
-};
-
-        export const setBackLink = (certificateItem: CertificateItem):string => {
-            if (certificateItem.itemOptions?.deliveryTimescale === "same-day") {
-                return EMAIL_OPTIONS;
-    }
-
-    return DELIVERY_OPTIONS;
 };
 
 export default [...deliveryDetailsValidationRules, route];
