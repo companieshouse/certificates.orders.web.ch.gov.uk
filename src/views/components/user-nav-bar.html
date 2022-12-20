@@ -1,15 +1,15 @@
 <div class="js-toggle-nav" id="global-nav">
     {% if signedIn %}
-    <a href="#navigation" class="js-header-toggle"> {{ userEmail }}
+    <a href="#navigation" class="js-header-toggle"> {{ userEmailAddress }}
         <span class="govuk-visually-hidden">Click to expand or collapse</span>
     </a>
     {% else  %}
     <a id="user-signin-mobile" href="/signin" class="sign-in govuk-link">Sign in / Register</a>
     {% endif %}
-    <nav role="navigation" class="content {% if signedIn != true %}mobile-hidden{% endif %}">
+    <nav role="navigation" class="content {% if isSignedIn != true %}mobile-hidden{% endif %}">
         <ul id="navigation">
-            {% if signedIn %}
-            <li id="signed-in-user" class="user">{{ userEmail }}: </li>
+            {% if isSignedIn %}
+            <li id="signed-in-user" class="user">{{ userEmailAddress }}: </li>
             <li>
                 <a id="user-account" href="{{ ACCOUNT_URL }}/user/account">Your details</a>
             </li>

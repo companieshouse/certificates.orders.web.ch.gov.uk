@@ -9,6 +9,7 @@ import { Session } from "@companieshouse/node-session-handler/lib/session/model/
 import CertificateSessionData from "../../session/CertificateSessionData";
 import { getBasketLink } from "../../utils/basket.utils";
 import { BasketLink } from "../../model/BasketLink";
+import { mapPageHeader } from "../../utils/page.header.utils";
 
 const logger = createLogger(APPLICATION_NAME);
 const INCLUDE_ADDRESS_FIELD: string = "address";
@@ -26,6 +27,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
     const basketLink: BasketLink = await getBasketLink(req);
     const itemOptions: ItemOptions = certificateItem.itemOptions;
     const SERVICE_URL = `/company/${certificateItem.companyNumber}/orderable/certificates`;
+    const pageHeader = mapPageHeader(req);
     logger.info(`Certificate item retrieved, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
     return res.render(CERTIFICATE_DIRECTOR_OPTIONS, {
         companyNumber: certificateItem.companyNumber,
@@ -33,7 +35,8 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         directorDetails: itemOptions.directorDetails,
         SERVICE_URL,
         backLink: setBackLink(certificateItem, req.session),
-        ...basketLink
+        ...basketLink,
+        ...pageHeader
     });
 };
 

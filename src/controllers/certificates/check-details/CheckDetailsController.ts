@@ -7,7 +7,8 @@ import { createLogger } from "ch-structured-logging";
 import { APPLICATION_NAME, CHS_URL } from "../../../config/config";
 import { ViewModelCreatable } from "../ViewModelCreatable";
 import { BasketLink } from "model/BasketLink";
-import { getBasketLink } from "../../../utils/basket.utils"
+import { getBasketLink } from "../../../utils/basket.utils";
+import { mapPageHeader } from "../../../utils/page.header.utils";
 
 export class CheckDetailsController {
     private logger = createLogger(APPLICATION_NAME);
@@ -23,6 +24,7 @@ export class CheckDetailsController {
             const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
             const basket: Basket = await getBasket(accessToken);
             const basketLink: BasketLink = await getBasketLink(req);
+            const pageHeader = mapPageHeader(req);
             const viewModel = this.viewModelCreatable.createViewModel(certificateItem, basket);
             res.render(this.viewModelCreatable.getTemplate(),
                 {
@@ -30,7 +32,8 @@ export class CheckDetailsController {
                     optionFilter: (options: { id: string }[], filter: { [key: string]: boolean }): { id: string }[] => {
                         return options.filter(option => !(option.id in filter) || filter[option.id]);
                     },
-                    ...basketLink
+                    ...basketLink,
+                    ...pageHeader
                 });
         } catch (err) {
             this.logger.error(`${err}`);

@@ -22,6 +22,7 @@ import { FEATURE_FLAGS } from "../../config/FeatureFlags";
 import { optionFilter } from "./OptionFilter";
 import { BasketLink } from "../../model/BasketLink";
 import { getBasketLimit, getBasketLink } from "../../utils/basket.utils";
+import { mapPageHeader } from "../../utils/page.header.utils";
 import { BasketLimit, BasketLimitState } from "../../model/BasketLimit";
 import { getWhitelistedReturnToURL } from "../../utils/request.util";
 
@@ -140,6 +141,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const moreTabUrl = "/company/" + companyNumber + "/more";
         const basketLink: BasketLink = await getBasketLink(req);
         const basketLimit: BasketLimit = getBasketLimit(basketLink);
+        const pageHeader = mapPageHeader(req);
 
         const acceptableCompanyTypes = [
             CompanyType.LIMITED_LIABILITY_PARTNERSHIP,
@@ -203,11 +205,12 @@ export default async (req: Request, res: Response, next: NextFunction) => {
                 },
                 optionFilter,
                 ...basketLink,
-                ...basketLimit
+                ...basketLimit,
+                ...pageHeader
             });
         } else {
-            const SERVICE_NAME = null;
-            res.render(YOU_CANNOT_USE_THIS_SERVICE, { SERVICE_NAME });
+            const serviceName = null;
+            res.render(YOU_CANNOT_USE_THIS_SERVICE, { serviceName });
         }
     } catch (err) {
         logger.error(`${err}`);

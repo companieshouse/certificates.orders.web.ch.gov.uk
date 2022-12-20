@@ -11,6 +11,7 @@ import { mapFilingHistoryDescriptionValues, removeAsterisks, mapDate, addCurrenc
 import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket";
 import { getBasketLink } from "../../utils/basket.utils";
 import { BasketLink } from "../../model/BasketLink";
+import { mapPageHeader } from "../../utils/page.header.utils";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -22,6 +23,7 @@ export const render = async (req: Request, res: Response, next: NextFunction) =>
         const missingImageDeliveryItem: MidItem = await getMissingImageDeliveryItem(accessToken, midID);
         const basket: Basket = await getBasket(accessToken);
         const basketLink: BasketLink = await getBasketLink(req);
+        const pageHeader = mapPageHeader(req);
 
         const SERVICE_URL = `/company/${missingImageDeliveryItem.companyNumber}/filing-history`;
 
@@ -39,7 +41,8 @@ export const render = async (req: Request, res: Response, next: NextFunction) =>
             filingHistoryType: missingImageDeliveryItem.itemOptions.filingHistoryType,
             totalCost: addCurrencySymbol(missingImageDeliveryItem.totalItemCost),
             enrolled: basket.enrolled,
-            ...basketLink
+            ...basketLink,
+            ...pageHeader
         });
     } catch (err) {
         logger.error(`${err}`);

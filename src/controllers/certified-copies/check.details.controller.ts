@@ -11,6 +11,7 @@ import { getCertifiedCopyItem, getBasket, addItemToBasket } from "../../client/a
 import { mapDeliveryDetails, mapDeliveryMethod } from "../../utils/check.details.utils";
 import { getFullFilingHistoryDescription } from "../../config/api.enumerations";
 import { mapFilingHistoryDescriptionValues, removeAsterisks, mapDate, addCurrencySymbol } from "../../service/map.filing.history.service";
+import { mapPageHeader } from "../../utils/page.header.utils";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -20,6 +21,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const certifiedCopyItem: CertifiedCopyItem = await getCertifiedCopyItem(accessToken, req.params.certifiedCopyId);
         const basket: Basket = await getBasket(accessToken);
         const SERVICE_URL = `/company/${certifiedCopyItem.companyNumber}/orderable/certified-copies`;
+        const pageHeader = mapPageHeader(req);
 
         res.render(CERTIFIED_COPY_CHECK_DETAILS, {
             backUrl: replaceCertifiedCopyId(CERTIFIED_COPY_DELIVERY_DETAILS, req.params.certifiedCopyId),
@@ -29,7 +31,8 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             deliveryDetails: mapDeliveryDetails(basket.deliveryDetails),
             filingHistoryDocuments: mapFilingHistoriesDocuments(certifiedCopyItem.itemOptions.filingHistoryDocuments),
             totalCost: addCurrencySymbol(certifiedCopyItem.totalItemCost),
-            SERVICE_URL
+            SERVICE_URL,
+            ...pageHeader
         });
     } catch (err) {
         logger.error(`${err}`);

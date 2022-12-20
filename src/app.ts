@@ -30,13 +30,9 @@ import {
     COOKIE_DOMAIN,
     CACHE_SERVER,
     APPLICATION_NAME,
-    SERVICE_NAME_CERTIFICATES,
     PIWIK_SERVICE_NAME_CERTIFICATES,
-    SERVICE_NAME_CERTIFIED_COPIES,
     PIWIK_SERVICE_NAME_CERTIFIED_COPIES,
-    SERVICE_NAME_MISSING_IMAGE_DELIVERY,
     PIWIK_SERVICE_NAME_MISSING_IMAGE_DELIVERY,
-    SERVICE_NAME_GENERIC,
     CERTIFICATE_PIWIK_START_GOAL_ID,
     CERTIFIED_COPIES_PIWIK_START_GOAL_ID,
     MISSING_IMAGE_DELIVERY_PIWIK_START_GOAL_ID,
@@ -52,8 +48,6 @@ import {
     DISSOLVED_CERTIFICATE_FEEDBACK_SOURCE
 } from "./config/config";
 import { FEATURE_FLAGS } from "./config/FeatureFlags";
-import { SessionKey } from "@companieshouse/node-session-handler/lib/session/keys/SessionKey";
-import { SignInInfoKeys } from "@companieshouse/node-session-handler/lib/session/keys/SignInInfoKeys";
 
 const app = express();
 
@@ -146,37 +140,30 @@ app.use(pageUrls.ROOT_MISSING_IMAGE_DELIVERY_ID, authMissingImageDeliveryCheckDe
 
 app.use((req, res, next) => {
     if (req.path.includes("/certificates")) {
-        env.addGlobal("SERVICE_NAME", SERVICE_NAME_CERTIFICATES);
         env.addGlobal("PIWIK_SERVICE_NAME", PIWIK_SERVICE_NAME_CERTIFICATES);
         env.addGlobal("CERTIFICATE_PIWIK_START_GOAL_ID", CERTIFICATE_PIWIK_START_GOAL_ID);
         env.addGlobal("FEEDBACK_SOURCE", CERTIFICATE_FEEDBACK_SOURCE);
     } else if (req.path.includes("/dissolved-certificates")) {
-        env.addGlobal("SERVICE_NAME", SERVICE_NAME_CERTIFICATES);
         env.addGlobal("PIWIK_SERVICE_NAME", PIWIK_SERVICE_NAME_CERTIFICATES);
         env.addGlobal("DISSOLVED_CERTIFICATE_PIWIK_START_GOAL_ID", DISSOLVED_CERTIFICATE_PIWIK_START_GOAL_ID);
         env.addGlobal("FEEDBACK_SOURCE", DISSOLVED_CERTIFICATE_FEEDBACK_SOURCE);
     } else if (req.path.includes("/certified-copies")) {
-        env.addGlobal("SERVICE_NAME", SERVICE_NAME_CERTIFIED_COPIES);
         env.addGlobal("PIWIK_SERVICE_NAME", PIWIK_SERVICE_NAME_CERTIFIED_COPIES);
         env.addGlobal("CERTIFIED_COPIES_PIWIK_START_GOAL_ID", CERTIFIED_COPIES_PIWIK_START_GOAL_ID);
         env.addGlobal("FEEDBACK_SOURCE", CERTIFIED_COPIES_FEEDBACK_SOURCE);
     } else if (req.path.includes("missing-image-deliveries")) {
-        env.addGlobal("SERVICE_NAME", SERVICE_NAME_MISSING_IMAGE_DELIVERY);
         env.addGlobal("PIWIK_SERVICE_NAME", PIWIK_SERVICE_NAME_MISSING_IMAGE_DELIVERY);
         env.addGlobal("MISSING_IMAGE_DELIVERY_PIWIK_START_GOAL_ID", MISSING_IMAGE_DELIVERY_PIWIK_START_GOAL_ID);
         env.addGlobal("FEEDBACK_SOURCE", MISSING_IMAGE_DELIVERY_COPIES_FEEDBACK_SOURCE);
     } else if (req.path.includes("/lp-certificates")) {
-        env.addGlobal("SERVICE_NAME", SERVICE_NAME_CERTIFICATES);
         env.addGlobal("PIWIK_SERVICE_NAME", PIWIK_SERVICE_NAME_CERTIFICATES);
         env.addGlobal("CERTIFICATE_PIWIK_START_GOAL_ID", LP_CERTIFICATE_PIWIK_START_GOAL_ID);
         env.addGlobal("FEEDBACK_SOURCE", LP_CERTIFICATE_FEEDBACK_SOURCE);
     } else if (req.path.includes("/llp-certificates")) {
-        env.addGlobal("SERVICE_NAME", SERVICE_NAME_CERTIFICATES);
         env.addGlobal("PIWIK_SERVICE_NAME", PIWIK_SERVICE_NAME_CERTIFICATES);
         env.addGlobal("CERTIFICATE_PIWIK_START_GOAL_ID", LLP_CERTIFICATE_PIWIK_START_GOAL_ID);
         env.addGlobal("FEEDBACK_SOURCE", LLP_CERTIFICATE_FEEDBACK_SOURCE);
     } else {
-        env.addGlobal("SERVICE_NAME", SERVICE_NAME_GENERIC);
         env.addGlobal("PIWIK_SERVICE_NAME", "");
         env.addGlobal("SERVICE_PATH", "");
     }
@@ -194,12 +181,6 @@ env.addGlobal("PIWIK_SITE_ID", PIWIK_SITE_ID);
 env.addGlobal("ERROR_SUMMARY_TITLE", ERROR_SUMMARY_TITLE);
 env.addGlobal("ACCOUNT_URL", process.env.ACCOUNT_URL);
 env.addGlobal("CHS_MONITOR_GUI_URL", process.env.CHS_MONITOR_GUI_URL);
-
-app.use((req, res, next) => {
-    env.addGlobal("signedIn", req.session?.data?.[SessionKey.SignInInfo]?.[SignInInfoKeys.SignedIn] === 1);
-    env.addGlobal("userEmail", req.session?.data?.signin_info?.user_profile?.email);
-    next();
-});
 
 // serve static assets in development.
 // this will execute in production for now, but we will host these else where in the future.

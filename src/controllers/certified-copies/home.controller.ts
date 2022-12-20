@@ -14,6 +14,7 @@ import { getBasketLimit, getBasketLink } from "../../utils/basket.utils";
 import { BasketLink } from "../../model/BasketLink";
 import { BasketLimit, BasketLimitState } from "../../model/BasketLimit";
 import { getWhitelistedReturnToURL } from "../../utils/request.util";
+import { mapPageHeader } from "../../utils/page.header.utils";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -31,6 +32,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const moreTabUrl: string = "/company/" + companyNumber + "/more";
         const basketLink: BasketLink = await getBasketLink(req);
         const basketLimit: BasketLimit = getBasketLimit(basketLink);
+        const pageHeader = mapPageHeader(req);
 
         if (req.url == startNowPath) {
             logger.debug(`Start now button clicked, req.url = ${req.url}`);
@@ -43,8 +45,8 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         }
 
         if (!filingHistory || (filingHistory && companyType === "uk-establishment")) {
-            const SERVICE_NAME = null;
-            res.render(YOU_CANNOT_USE_THIS_SERVICE, { SERVICE_NAME });
+            const serviceName = null;
+            res.render(YOU_CANNOT_USE_THIS_SERVICE, { serviceName });
         } else {
             res.render(CERTIFIED_COPY_INDEX,
                 {
@@ -55,7 +57,8 @@ export default async (req: Request, res: Response, next: NextFunction) => {
                     moreTabUrl,
                     companyName,
                     ...basketLink,
-                    ...basketLimit });
+                    ...basketLimit,
+                    ...pageHeader });
         }
     } catch (err) {
         logger.error(`${err}`);
