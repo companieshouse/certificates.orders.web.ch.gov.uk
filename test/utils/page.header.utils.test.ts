@@ -16,7 +16,7 @@ const dissolvedCertificatesPath: string = "/dissolved-certificates";
 const lpCertificatesPath: string = "/lp-certificates";
 const llpCertificatesPath: string = "/llp-certificates";
 const certifiedCopiesPath: string = "/certified-copies";
-const midPath: string = "/missing-image-deliveriess";
+const midPath: string = "/missing-image-deliveries";
 const testEmailAddress: string = "test@testemail.com";
 
 describe("mapPageHeader", () => {
