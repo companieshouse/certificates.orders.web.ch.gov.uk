@@ -15,6 +15,9 @@ export const signedInSessionData = {
             refresh_token: "y4YXof84bkUeBZlavRlAGfdq5VMkpPm6UR0OYwPvI6i6UDmtEiTQ1Ro-HGCGo01y4ploP4Kdwd6H4dEh8-E_Fg",
             token_type: "Bearer"
         },
+        user_profile: {
+            email: "test@testemail.com"
+        },
         signed_in: 1
     }
 };
