@@ -26,6 +26,7 @@ import * as apiClient from "../../../src/client/api.client";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { ApiResponse, ApiResult } from "@companieshouse/api-sdk-node/dist/services/resource";
 import { success } from "@companieshouse/api-sdk-node/dist/services/result";
+import BasketService from "@companieshouse/api-sdk-node/dist/services/order/basket/service";
 
 const COMPANY_NUMBER = "00000000";
 
@@ -395,6 +396,20 @@ describe("certificate.home.controller.integration", () => {
         chai.expect(resp.text).to.contain("Choose a dispatch option");
     });
 
+    it("renders `Sorry, there is a problem with the service` error & user nav bar if orders API is down", async () => {
+        sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
+            .resolves(mockAcceptableDissolvedCompanyProfile);
+        sandbox.stub(BasketService.prototype, "getBasket").resolves({ httpStatusCode: 404 });
+
+        const resp = await chai.request(testApp)
+            .get(replaceCompanyNumber(ROOT_CERTIFICATE, COMPANY_NUMBER))
+            .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+        chai.expect(resp.status).to.equal(404);
+        chai.expect(resp.text).to.contain(`Sorry, there is a problem with the service`);
+        verifyUserNavBarRenderedWithoutBasketLink(resp.text);
+    });
+
     const verifyStartButtonEnabledStateIs = (responseText: string, isEnabled: boolean) => {
         const page = cheerio.load(responseText)
         const startNowButton = page(".govuk-button--start");
@@ -408,6 +423,15 @@ describe("certificate.home.controller.integration", () => {
         } else {
             chai.expect(startNowButton!.attr("href")).to.not.exist;
         }
+    }
+
+    const verifyUserNavBarRenderedWithoutBasketLink = (responseText: string) => {
+        chai.expect(responseText).to.not.contain(`Basket (`);
+        chai.expect(responseText).to.contain(`test@testemail.com`);
+        chai.expect(responseText).to.contain(`Your details`);
+        chai.expect(responseText).to.contain(`Your filings`);
+        chai.expect(responseText).to.contain(`Companies you follow`);
+        chai.expect(responseText).to.contain(`Sign out`);
     }
 
 });
