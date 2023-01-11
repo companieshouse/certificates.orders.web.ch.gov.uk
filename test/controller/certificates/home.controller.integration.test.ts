@@ -396,8 +396,7 @@ describe("certificate.home.controller.integration", () => {
         chai.expect(resp.text).to.contain("Choose a dispatch option");
     });
 
-    it("renders `Sorry, there is a problem with the service` error and user nav bar when orders API is down",
-        async () => {
+    it("renders `Sorry, there is a problem with the service` error & user nav bar if orders API is down", async () => {
         sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
             .resolves(mockAcceptableDissolvedCompanyProfile);
         sandbox.stub(BasketService.prototype, "getBasket").resolves({ httpStatusCode: 404 });
