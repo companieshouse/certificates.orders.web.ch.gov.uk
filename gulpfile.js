@@ -1,6 +1,6 @@
 const gulp = require("gulp");
 const sass = require("gulp-sass")(require('sass'));
-sass.compiler = require('node-sass');
+sass.compiler = require('sass');
 // copies the fonts and images from the govuk-frontend package to the dist directory
 gulp.task("govuk-frontend-copy", function() {
   return gulp.src([
