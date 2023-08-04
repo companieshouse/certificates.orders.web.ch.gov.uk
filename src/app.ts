@@ -185,7 +185,7 @@ env.addGlobal("CHS_MONITOR_GUI_URL", process.env.CHS_MONITOR_GUI_URL);
 // serve static assets in development.
 // this will execute in production for now, but we will host these else where in the future.
 if (process.env.NODE_ENV !== "production") {
-    app.use("/orderable/certificates-assets/static", express.static("dist/static"));
+    app.use("/orderable/certificates-assets/static", express.static("static"));
     env.addGlobal("CSS_URL", "/orderable/certificates-assets/static/app.css");
     env.addGlobal("FOOTER", "/orderable/certificates-assets/static/footer.css");
     env.addGlobal("MOBILE_MENU", "/orderable/certificates-assets/static/js/mobile-menu.js");
