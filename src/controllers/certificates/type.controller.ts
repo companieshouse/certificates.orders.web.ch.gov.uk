@@ -3,7 +3,7 @@ import { NextFunction, Request, Response } from "express";
 import { getAccessToken, getUserId } from "../../session/helper";
 import { postInitialCertificateItem } from "../../client/api.client";
 import { replaceCertificateId } from "../../model/page.urls";
-import { createLogger } from "ch-structured-logging";
+import { createLogger } from "@companieshouse/structured-logging-node";
 import { APPLICATION_NAME } from "../../config/config";
 import { YOU_CANNOT_USE_THIS_SERVICE } from "../../model/template.paths";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates";

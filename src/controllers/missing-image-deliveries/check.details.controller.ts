@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { MISSING_IMAGE_DELIVERY_CHECK_DETAILS } from "../../model/template.paths";
 import { getAccessToken, getUserId } from "../../session/helper";
 import { APPLICATION_NAME, CHS_URL } from "../../config/config";
-import { createLogger } from "ch-structured-logging";
+import { createLogger } from "@companieshouse/structured-logging-node";
 import { MidItem } from "@companieshouse/api-sdk-node/dist/services/order/mid/types";
 import { getMissingImageDeliveryItem, addItemToBasket, getBasket, appendItemToBasket } from "../../client/api.client";
 import { getFullFilingHistoryDescription } from "../../config/api.enumerations";

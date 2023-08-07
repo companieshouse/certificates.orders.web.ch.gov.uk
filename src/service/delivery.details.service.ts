@@ -5,7 +5,7 @@ import { getAccessToken, getUserId } from "../session/helper";
 import { getCertificateItem, getBasket } from "../client/api.client";
 import { DELIVERY_DETAILS, DELIVERY_OPTIONS, EMAIL_OPTIONS } from "../model/template.paths";
 import { mapPageHeader } from "../utils/page.header.utils";
-import { createLogger } from "ch-structured-logging";
+import { createLogger } from "@companieshouse/structured-logging-node";
 import { APPLICATION_NAME } from "../config/config";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 

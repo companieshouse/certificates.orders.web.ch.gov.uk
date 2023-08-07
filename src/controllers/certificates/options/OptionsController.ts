@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { createLogger } from "ch-structured-logging";
+import { createLogger } from "@companieshouse/structured-logging-node";
 import { APPLICATION_NAME } from "../../../config/config";
 import { getAccessToken, getUserId } from "../../../session/helper";
 import { OptionsService } from "./OptionsService";

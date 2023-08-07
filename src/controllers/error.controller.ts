@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { HttpError } from "http-errors";
 import { APPLICATION_NAME, CHS_URL } from "../config/config";
-import { createLogger } from "ch-structured-logging";
+import { createLogger } from "@companieshouse/structured-logging-node";
 import * as templatePaths from "../model/template.paths";
 import { PageHeader } from "../model/PageHeader";
 import { mapPageHeader } from "../utils/page.header.utils";

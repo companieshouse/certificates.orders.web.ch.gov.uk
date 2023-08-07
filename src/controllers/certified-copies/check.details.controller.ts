@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { createLogger } from "ch-structured-logging";
+import { createLogger } from "@companieshouse/structured-logging-node";
 import { CertifiedCopyItem, FilingHistoryDocuments } from "@companieshouse/api-sdk-node/dist/services/order/certified-copies";
 import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket";
 

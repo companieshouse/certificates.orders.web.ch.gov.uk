@@ -7,7 +7,7 @@ import {API_KEY, APPLICATION_NAME} from "../../config/config";
 import { getBasketLimit, getBasketLink } from "../../utils/basket.utils";
 import { BasketLink } from "../../model/BasketLink";
 import { BasketLimit, BasketLimitState } from "../../model/BasketLimit";
-import {createLogger} from "ch-structured-logging";
+import {createLogger} from "@companieshouse/structured-logging-node";
 import { SessionKey } from "@companieshouse/node-session-handler/lib/session/keys/SessionKey";
 import { SignInInfoKeys } from "@companieshouse/node-session-handler/lib/session/keys/SignInInfoKeys";
 import { mapPageHeader } from "../../utils/page.header.utils";

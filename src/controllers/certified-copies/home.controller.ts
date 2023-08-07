@@ -8,7 +8,7 @@ import {
 import { CERTIFIED_COPY_INDEX, YOU_CANNOT_USE_THIS_SERVICE } from "../../model/template.paths";
 import { API_KEY, APPLICATION_NAME, CHS_URL, DISPATCH_DAYS } from "../../config/config";
 import { getCompanyProfile } from "../../client/api.client";
-import { createLogger } from "ch-structured-logging";
+import { createLogger } from "@companieshouse/structured-logging-node";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
 import { getBasketLimit, getBasketLink } from "../../utils/basket.utils";
 import { BasketLink } from "../../model/BasketLink";

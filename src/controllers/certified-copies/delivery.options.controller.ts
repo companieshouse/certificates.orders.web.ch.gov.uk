@@ -4,7 +4,7 @@ import { CertifiedCopyItem, CertifiedCopyItemPatchRequest } from "@companieshous
 import { getAccessToken, getUserId } from "../../session/helper";
 import { appendItemToBasket, getBasket, getCertifiedCopyItem, patchCertifiedCopyItem } from "../../client/api.client";
 import { DELIVERY_DETAILS, DELIVERY_OPTIONS } from "../../model/template.paths";
-import { createLogger } from "ch-structured-logging";
+import { createLogger } from "@companieshouse/structured-logging-node";
 import { APPLICATION_NAME, DISPATCH_DAYS } from "../../config/config";
 import { DELIVERY_OPTION_SELECTION } from "../../model/error.messages";
 import { createGovUkErrorData } from "../../model/govuk.error.data";

@@ -4,7 +4,7 @@ import { LP_CERTIFICATE_PRINCIPAL_PLACE_OPTIONS } from "../../../model/template.
 import { CertificateItem, CertificateItemPatchRequest, ItemOptions, PrincipalPlaceOfBusinessDetailsRequest } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { getCertificateItem, patchCertificateItem } from "../../../client/api.client";
 import { getAccessToken, getUserId } from "../../../session/helper";
-import { createLogger } from "ch-structured-logging";
+import { createLogger } from "@companieshouse/structured-logging-node";
 import { principalPlaceOfBusinessValidationRules, validate } from "../../../validation/lp-certificates/principal.place.options.validation";
 import { APPLICATION_NAME } from "../../../config/config";
 import CertificateSessionData from "../../../session/CertificateSessionData";

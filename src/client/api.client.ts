@@ -14,7 +14,7 @@ import {
 import { Item as BasketItem } from "@companieshouse/api-sdk-node/dist/services/order/order/types";
 import { CertifiedCopyItem, CertifiedCopyItemPatchRequest } from "@companieshouse/api-sdk-node/dist/services/order/certified-copies/types";
 import { API_URL, APPLICATION_NAME } from "../config/config";
-import { createLogger } from "ch-structured-logging";
+import { createLogger } from "@companieshouse/structured-logging-node";
 import Resource, { ApiResponse, ApiResult } from "@companieshouse/api-sdk-node/dist/services/resource";
 import createError from "http-errors";
 import { MidItem, MidItemPostRequest } from "@companieshouse/api-sdk-node/dist/services/order/mid/types";

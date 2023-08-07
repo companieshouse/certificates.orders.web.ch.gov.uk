@@ -7,7 +7,7 @@ import {
     LP_ROOT_CERTIFICATE,
     ROOT_CERTIFICATE
 } from "./../model/page.urls";
-import { createLogger } from "ch-structured-logging";
+import { createLogger } from "@companieshouse/structured-logging-node";
 import {
     API_KEY,
     APPLICATION_NAME
