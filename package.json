@@ -19,7 +19,7 @@
   "dependencies": {
     "@companieshouse/api-sdk-node": "^2.0.95",
     "@companieshouse/node-session-handler": "^4.1.9",
-    "ch-structured-logging": "git+ssh://git@github.com/companieshouse/ch-structured-logging-node.git#15a811238ceb58988ab755229a5c07b9500200f2",
+    "@companieshouse/structured-logging-node": "^1.0.8",
     "cookie-parser": "~1.4.6",
     "escape-html": "^1.0.3",
     "express": "~4.18.2",
@@ -81,5 +81,11 @@
       "**/*.spec.ts"
     ],
     "exec": "ts-node ./src/bin/www.ts"
+  },
+  "overrides": {
+    "chokidar": "3.5.3",
+    "glob-stream": "8.0.0",
+    "semver": "7.5.4",
+    "simple-update-notifier": "2.0.0"
   }
 }
