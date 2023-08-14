@@ -1,5 +1,5 @@
 #!/bin/bash
-# Start script for <service_name>
+# Start script for certificates-orders-web-ch-gov-uk
 npm i
 PORT=3000
 export NODE_PORT=${PORT}
