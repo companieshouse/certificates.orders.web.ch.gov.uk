@@ -8,7 +8,7 @@ import {
     replaceCompanyNumberAndFilingHistoryId,
     replaceMissingImageDeliveryId
 } from "../../model/page.urls";
-import { createLogger } from "ch-structured-logging";
+import { createLogger } from "@companieshouse/structured-logging-node";
 import { APPLICATION_NAME } from "../../config/config";
 import { getWhitelistedReturnToURL } from "../../utils/request.util";
 

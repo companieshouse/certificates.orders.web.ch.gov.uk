@@ -1,6 +1,6 @@
 // Certificate section:
 
-import { createLogger } from "ch-structured-logging";
+import { createLogger } from "@companieshouse/structured-logging-node";
 import { APPLICATION_NAME } from "../config/config";
 
 export const START_BUTTON_PATH_SUFFIX = "/start";

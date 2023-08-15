@@ -4,7 +4,7 @@ import { CERTIFICATE_REGISTERED_OFFICE_OPTIONS } from "../../model/template.path
 import { RegisteredOfficeAddressDetailsRequest, CertificateItemPatchRequest } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { patchCertificateItem } from "../../client/api.client";
 import { getAccessToken, getUserId } from "../../session/helper";
-import { createLogger } from "ch-structured-logging";
+import { createLogger } from "@companieshouse/structured-logging-node";
 import { registeredOfficeAddressValidationRules, validate } from "../../validation/certificates/registered.office.options.validation";
 import { APPLICATION_NAME } from "../../config/config";
 import CertificateSessionData from "../../session/CertificateSessionData";

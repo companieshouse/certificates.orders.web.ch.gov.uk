@@ -7,3 +7,5 @@
 !tsconfig.json
 !api-enumerations
 !static
+!dist
+!docker_start.sh

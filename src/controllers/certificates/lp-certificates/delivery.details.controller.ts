@@ -8,7 +8,7 @@ import { BasketPatchRequest } from "@companieshouse/api-sdk-node/dist/services/o
 import { getAccessToken, getUserId } from "../../../session/helper";
 import { getCertificateItem, patchCertificateItem, patchBasket } from "../../../client/api.client";
 import { DELIVERY_DETAILS } from "../../../model/template.paths";
-import { createLogger } from "ch-structured-logging";
+import { createLogger } from "@companieshouse/structured-logging-node";
 import { APPLICATION_NAME } from "../../../config/config";
 import { deliveryDetailsValidationRules, validate } from "../../../utils/delivery-details-validation";
 import { setServiceUrl } from "../../../utils/service.url.utils";

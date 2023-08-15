@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 import { Basket, BasketPatchRequest } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
-import { createLogger } from "ch-structured-logging";
+import { createLogger } from "@companieshouse/structured-logging-node";
 
 import { getAccessToken, getUserId } from "../../session/helper";
 import { DELIVERY_DETAILS, DELIVERY_OPTIONS } from "../../model/template.paths";

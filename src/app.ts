@@ -14,7 +14,7 @@ import errorHandlers from "./controllers/error.controller";
 
 import { ERROR_SUMMARY_TITLE } from "./model/error.messages";
 import * as pageUrls from "./model/page.urls";
-import { createLoggerMiddleware } from "ch-structured-logging";
+import { createLoggerMiddleware } from "@companieshouse/structured-logging-node";
 import authMiddleware from "./middleware/auth.middleware";
 import authCertificateMiddleware from "./middleware/certificates/auth.middleware";
 import authCertifiedCopyMiddleware from "./middleware/certified-copies/auth.middleware";
@@ -182,19 +182,10 @@ env.addGlobal("ERROR_SUMMARY_TITLE", ERROR_SUMMARY_TITLE);
 env.addGlobal("ACCOUNT_URL", process.env.ACCOUNT_URL);
 env.addGlobal("CHS_MONITOR_GUI_URL", process.env.CHS_MONITOR_GUI_URL);
 
-// serve static assets in development.
-// this will execute in production for now, but we will host these else where in the future.
-if (process.env.NODE_ENV !== "production") {
-    app.use("/orderable/certificates-assets/static", express.static("dist/static"));
-    env.addGlobal("CSS_URL", "/orderable/certificates-assets/static/app.css");
-    env.addGlobal("FOOTER", "/orderable/certificates-assets/static/footer.css");
-    env.addGlobal("MOBILE_MENU", "/orderable/certificates-assets/static/js/mobile-menu.js");
-} else {
-    app.use("/orderable/certificates-assets/static", express.static("static"));
-    env.addGlobal("CSS_URL", "/orderable/certificates-assets/static/app.css");
-    env.addGlobal("FOOTER", "/orderable/certificates-assets/static/footer.css");
-    env.addGlobal("MOBILE_MENU", "/orderable/certificates-assets/static/js/mobile-menu.js");
-}
+app.use("/orderable/certificates-assets/static", express.static("static"));
+env.addGlobal("CSS_URL", "/orderable/certificates-assets/static/app.css");
+env.addGlobal("FOOTER", "/orderable/certificates-assets/static/footer.css");
+env.addGlobal("MOBILE_MENU", "/orderable/certificates-assets/static/js/mobile-menu.js");
 
 // apply our default router to /
 app.use("/", certRouter);

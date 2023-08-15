@@ -4,7 +4,7 @@ import { SignInInfoKeys } from "@companieshouse/node-session-handler/lib/session
 import { getUserId } from "../../session/helper";
 import { CERTIFIED_COPY_DELIVERY_OPTIONS, replaceCertifiedCopyId } from "../../model/page.urls";
 
-import { createLogger } from "ch-structured-logging";
+import { createLogger } from "@companieshouse/structured-logging-node";
 
 import { APPLICATION_NAME } from "../../config/config";
 import { getCertifiedCopyItem } from "client/api.client";
