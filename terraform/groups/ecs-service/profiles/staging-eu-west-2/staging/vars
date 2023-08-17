@@ -1,0 +1,27 @@
+aws_bucket = "staging-eu-west-2.terraform-state.ch.gov.uk"
+remote_state_bucket = "ch-service-staging-terraform-state"
+environment = "staging"
+deploy_to = "staging"
+state_prefix = "env:/staging"
+aws_profile = "staging-eu-west-2"
+kms_alias = "alias/staging-eu-west-2/environment-services-kms"
+
+# scaling configs
+desired_task_count = 2 # use multi instance in staging
+
+# service configs
+log_level = "trace"
+cdn_host = "d2ovzaxriww2h8.cloudfront.net"
+chs_url = "https://staging.company-information.service.gov.uk"
+account_local_url = "https://identity-staging.company-information.service.gov.uk"
+dev_specs_url = "https://developer-specs-staging.company-information.service.gov.uk"
+piwik_url = "https://matomo.platform.aws.chdev.org/"
+piwik_site_id = "15"
+cache_server = "staging-chs-elasticache.3psdof.ng.0001.euw2.cache.amazonaws.com:6379"
+cookie_domain = "company-information.service.gov.uk"
+oauth2_redirect_uri = "https://developer-staging.company-information.service.gov.uk/oauth2/user/callback"
+oauth2_auth_uri = "https://identity-staging.company-information.service.gov.uk/oauth2/authorise"
+account_test_url = "https://account-stagsbox.companieshouse.gov.uk"
+account_future_url = ""
+dev_site_url = "https://developer-staging.company-information.service.gov.uk"
+dev_site_hostname = "developer-staging.company-information.service.gov.uk"
