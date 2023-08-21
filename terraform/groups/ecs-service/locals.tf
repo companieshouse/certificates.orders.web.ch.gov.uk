@@ -7,7 +7,7 @@ locals {
   docker_repo               = "certificates.orders.web.ch.gov.uk"
   lb_listener_rule_priority = 11
   lb_listener_paths         = ["/certificates_orders*"]
-  healthcheck_path          = "/certificates_orders" #healthcheck path for certificates orders web
+  healthcheck_path          = "/orderable/certificates" #healthcheck path for certificates orders web
   healthcheck_matcher       = "200-302"              # no explicit healthcheck in this service yet, change this when added!
 
   service_secrets = jsondecode(data.vault_generic_secret.service_secrets.data_json)
