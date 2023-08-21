@@ -2,9 +2,9 @@
 locals {
   stack_name                = "order-service" # this must match the stack name the service deploys into
   name_prefix               = "${local.stack_name}-${var.environment}"
-  service_name              = "certificates_orders_web" # testing service name
+  service_name              = "certificates-orders-web" # testing service name
   container_port            = "3000"                    # default node port required here until prod docker container is built allowing port change via env var
-  docker_repo               = "certificates_orders_web"
+  docker_repo               = "certificates.orders.web.ch.gov.uk"
   lb_listener_rule_priority = 10
   lb_listener_paths         = ["/certificates_orders*"]
   healthcheck_path          = "/certificates_orders" #healthcheck path for certificates orders web
