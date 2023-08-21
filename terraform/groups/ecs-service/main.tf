@@ -12,7 +12,7 @@ terraform {
 }
 
 provider "aws" {
-  region  = var.aws_region
+  region = var.aws_region
 }
 
 terraform {
@@ -66,5 +66,5 @@ module "ecs-service" {
   task_environment = local.task_environment
   task_secrets     = local.task_secrets
 
-  depends_on=[module.secrets]
+  depends_on = [module.secrets]
 }

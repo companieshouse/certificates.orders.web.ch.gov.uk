@@ -1,51 +1,24 @@
 
-# Commented params moved to vault service secrets
-# account_url
-account_local_url = "https://account.cidev.aws.chdev.org"
-api_url = "https://api.cidev.aws.chdev.org"
-aws_bucket = "development-eu-west-2.terraform-state.ch.gov.uk"
+# Account environment variables
 aws_profile = "development-eu-west-2"
-basket_item_limit=10
-
-# pre existing
-cdn_host = "d3uvya5a8a1ncx.cloudfront.net"
-chs_url = "https://cidev.aws.chdev.org"
-cookie_domain = "cidev.aws.chdev.org"
-log_level = "trace"
-piwik_site_id = "7"
-piwik_url = "https://matomo.platform.aws.chdev.org/"
-
-deploy_to = "development"
 environment = "cidev"
-feature_flag_active_officers_01072021 = "true"
-feature_flag_five_or_less_officers_journey_21102021 = "true"
-feature_flag_private_sdk_12052021 = "false"
 kms_alias = "alias/development-eu-west-2/environment-services-kms"
 
-psc_statements_api_page_size = "100"
-radio_button_value_log_length = "50"
-remote_state_bucket = "ch-development-terraform-state-london"
-show_service_offline_page = "false"
-state_prefix = "env:/development"
-url_log_max_length = "400"
-url_param_max_length = "50"
-
-# New ones added
-certificate_piwik_start_goal_id = "1"
-certified_copies_piwik_start_goal_id = "2"
-chs_api_key = ""
-chs_monitor_gui_url = ""
+# Service environment variables
+basket_item_limit = 10
+certificate_piwik_start_goal_id = 1
+certified_copies_piwik_start_goal_id = 2
 cookie_name = "__sid"
-cookie_secret = ""
-default_session_expiration = "3600"
-dispatch_days = "10"
-dissolved_certificate_piwik_start_goal_id = "4"
-human_log = "1"
-missing_image_delivery_piwik_start_goal_id = "3"
-tz = "europe/london"
-dynamic_lp_certificate_orders_enabled = "true"
-dynamic_llp_certificate_orders_enabled = "true"
-lp_certificate_piwik_start_goal_id = "5"
-llp_certificate_piwik_start_goal_id = "6"
-liquidated_company_certificates_enabled = "true"
-administrator_company_certificates_enabled = "true"
+default_session_expiration = 3600
+dispatch_days = 10
+dissolved_certificate_piwik_start_goal_id = 4
+human_log = 1
+log_level = "debug"
+missing_image_delivery_piwik_start_goal_id = 3
+tz = "Europe/London"
+dynamic_lp_certificate_orders_enabled = true
+dynamic_llp_certificate_orders_enabled = true
+lp_certificate_piwik_start_goal_id = 5
+llp_certificate_piwik_start_goal_id = 6
+liquidated_company_certificates_enabled = true
+administrator_company_certificates_enabled = true
