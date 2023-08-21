@@ -115,7 +115,7 @@ variable "llp_certificate_piwik_start_goal_id" {
   type = number
 }
 
-variable "liquidated_company_certificates_enabledd" {
+variable "liquidated_company_certificates_enabled" {
   type = bool
 }
 
