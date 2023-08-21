@@ -6,7 +6,21 @@ locals {
   container_port            = "3000"                    # default node port required here until prod docker container is built allowing port change via env var
   docker_repo               = "certificates.orders.web.ch.gov.uk"
   lb_listener_rule_priority = 11
-  lb_listener_paths         = ["/certificates_orders*"]
+  lb_listener_paths         = [
+    "/company/*/orderable/certificates",
+    "/company/*/orderable/dissolved-certificates",
+    "/company/*/orderable/certified-copies",
+    "/company/*/orderable/missing-image-deliveries",
+    "/orderable/certificates",
+    "/orderable/dissolved-certificates",
+    "/orderable/certified-copies",
+    "/orderable/missing-image-deliveries",
+    "/orderable/certificates-assets",
+    "/company/*/orderable/lp-certificates",
+    "/orderable/lp-certificates",
+    "/company/*/orderable/llp-certificates",
+    "/orderable/llp-certificates"
+  ]
   healthcheck_path          = "/orderable/certificates" #healthcheck path for certificates orders web
   healthcheck_matcher       = "200-302"              # no explicit healthcheck in this service yet, change this when added!
 
