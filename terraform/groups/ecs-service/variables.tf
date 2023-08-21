@@ -50,7 +50,6 @@ variable "required_memory" {
 # Service environment variable configs
 # ------------------------------------------------------------------------------
 variable "certificates_orders_web_version" {
-  default     = "ecs-1.0"
   type        = string
   description = "The version of the certificates orders web container to run."
 }
