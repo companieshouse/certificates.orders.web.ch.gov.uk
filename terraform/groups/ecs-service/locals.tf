@@ -5,7 +5,7 @@ locals {
   service_name              = "certificates-orders-web" # testing service name
   container_port            = "3000"                    # default node port required here until prod docker container is built allowing port change via env var
   docker_repo               = "certificates.orders.web.ch.gov.uk"
-  lb_listener_rule_priority = 10
+  lb_listener_rule_priority = 11
   lb_listener_paths         = ["/certificates_orders*"]
   healthcheck_path          = "/certificates_orders" #healthcheck path for certificates orders web
   healthcheck_matcher       = "200-302"              # no explicit healthcheck in this service yet, change this when added!
