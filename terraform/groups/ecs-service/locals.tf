@@ -43,16 +43,16 @@ locals {
 
   task_secrets = [
     { "name" : "ACCOUNT_URL", "valueFrom" : "${local.service_secrets_arn_map.account_url}" },
-    { "name" : "API_URL", "value" : "${local.service_secrets_arn_map.api_url}" },
+    { "name" : "API_URL", "valueFrom" : "${local.service_secrets_arn_map.api_url}" },
     { "name" : "CACHE_SERVER", "valueFrom" : "${local.service_secrets_arn_map.cache_server}" },
-    { "name" : "CDN_HOST", "value" : "//${local.service_secrets_arn_map.cdn_host}" },
+    { "name" : "CDN_HOST", "valueFrom" : "${local.service_secrets_arn_map.cdn_host}" },
     { "name" : "CHS_API_KEY", "valueFrom" : "${local.service_secrets_arn_map.chs_api_key}" },
     { "name" : "CHS_MONITOR_GUI_URL", "valueFrom" : "${local.service_secrets_arn_map.chs_monitor_gui_url}" },
-    { "name" : "CHS_URL", "value" : "${local.service_secrets_arn_map.chs_url}" },
-    { "name" : "COOKIE_DOMAIN", "value" : "${local.service_secrets_arn_map.cookie_domain}" },
+    { "name" : "CHS_URL", "valueFrom" : "${local.service_secrets_arn_map.chs_url}" },
+    { "name" : "COOKIE_DOMAIN", "valueFrom" : "${local.service_secrets_arn_map.cookie_domain}" },
     { "name" : "COOKIE_SECRET", "valueFrom" : "${local.service_secrets_arn_map.cookie_secret}" },
-    { "name" : "PIWIK_SITE_ID", "value" : "${local.service_secrets_arn_map.piwik_site_id}" },
-    { "name" : "PIWIK_URL", "value" : "${local.service_secrets_arn_map.piwik_url}" },
+    { "name" : "PIWIK_SITE_ID", "valueFrom" : "${local.service_secrets_arn_map.piwik_site_id}" },
+    { "name" : "PIWIK_URL", "valueFrom" : "${local.service_secrets_arn_map.piwik_url}" },
     { "name" : "CHS_DEVELOPER_CLIENT_ID", "valueFrom" : "${local.secrets_arn_map.web-oauth2-client-id}" },
     { "name" : "CHS_DEVELOPER_CLIENT_SECRET", "valueFrom" : "${local.secrets_arn_map.web-oauth2-client-secret}" },
     { "name" : "DEVELOPER_OAUTH2_REQUEST_KEY", "valueFrom" : "${local.secrets_arn_map.web-oauth2-request-key}" }
