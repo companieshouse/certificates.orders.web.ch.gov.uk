@@ -30,8 +30,6 @@ locals {
     "piwik_site_id"       = local.service_secrets["piwik_site_id"]
     "piwik_url"           = local.service_secrets["piwik_url"]
     "vpc_name"            = local.service_secrets["vpc_name"]
-    "oauth2_auth_uri"     = local.service_secrets["oauth2_auth_uri"]
-    "oauth2_redirect_uri" = local.service_secrets["oauth2_redirect_uri"]
   }
 
   # create a map of secret name => secret arn to pass into ecs service module
@@ -58,8 +56,6 @@ locals {
     { "name" : "COOKIE_SECRET", "valueFrom" : "${local.service_secrets_arn_map.cookie_secret}" },
     { "name" : "PIWIK_SITE_ID", "valueFrom" : "${local.service_secrets_arn_map.piwik_site_id}" },
     { "name" : "PIWIK_URL", "valueFrom" : "${local.service_secrets_arn_map.piwik_url}" },
-    { "name" : "OAUTH2_REDIRECT_URI", "valueFrom": "${local.service_secrets_arn_map.oauth2_redirect_uri}" },
-    { "name" : "OAUTH2_AUTH_URI", "valueFrom": "${local.service_secrets_arn_map.oauth2_auth_uri}" },
     { "name" : "CHS_DEVELOPER_CLIENT_ID", "valueFrom" : "${local.secrets_arn_map.web-oauth2-client-id}" },
     { "name" : "CHS_DEVELOPER_CLIENT_SECRET", "valueFrom" : "${local.secrets_arn_map.web-oauth2-client-secret}" },
     { "name" : "DEVELOPER_OAUTH2_REQUEST_KEY", "valueFrom" : "${local.secrets_arn_map.web-oauth2-request-key}" }
