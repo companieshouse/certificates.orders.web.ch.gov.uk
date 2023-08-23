@@ -1,7 +1,7 @@
 {
-  "name": "web-starter-nodejs",
+  "name": "certificates.orders.web.ch.gov.uk",
   "version": "1.0.0",
-  "description": "A starter web application",
+  "description": "Certificate ordering web service integrating with the CH orders service.",
   "main": "index.js",
   "scripts": {
     "start": "node dist/bin/www.js",
