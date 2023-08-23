@@ -57,11 +57,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 const actuatorOptions = {
-    basePath: "/certificates-orders-web", // It will set /management/info instead of /info
-    /* infoGitMode: "simple", */ // the amount of git information you want to expose, 'simple' or 'full',
-    infoBuildOptions: undefined, // extra information you want to expose in the build object. Requires an object.
-    infoDateFormat: undefined, // by default, git.commit.time will show as is defined in git.properties. If infoDateFormat is defined, moment will format git.commit.time. See https://momentjs.com/docs/#/displaying/format/.
-    customEndpoints: [] // array of custom endpoints
+    basePath: "/certificates-orders-web"
 };
 
 app.use(actuator(actuatorOptions));
