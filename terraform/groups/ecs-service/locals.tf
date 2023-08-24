@@ -8,10 +8,11 @@ locals {
   lb_listener_rule_priority = 11
   lb_listener_paths         = [
     "/company/*/orderable/*",
-    "/orderable/*"
+    "/orderable/*",
+    "/certificates-orders-web/health"
   ]
-  healthcheck_path          = "/company/00019993/orderable/certificates" # healthcheck path for certificates orders web
-  healthcheck_matcher       = "200"                                      # no explicit healthcheck in this service yet, change this when added!
+  healthcheck_path          = "/orderable/certificates" # healthcheck path for certificates orders web
+  healthcheck_matcher       = "404" # "200-302"         # no explicit healthcheck in this service yet, change this when added!
 
   service_secrets = jsondecode(data.vault_generic_secret.service_secrets.data_json)
 
