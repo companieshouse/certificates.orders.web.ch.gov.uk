@@ -2,6 +2,7 @@ import express from "express";
 import nunjucks from "nunjucks";
 import path from "path";
 import cookieParser from "cookie-parser";
+import actuator from "express-actuator";
 import Redis from "ioredis";
 import { SessionStore, SessionMiddleware, CookieConfig } from "@companieshouse/node-session-handler";
 
@@ -54,6 +55,12 @@ const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
+
+const actuatorOptions = {
+    basePath: "/certificates-orders-web"
+};
+
+app.use(actuator(actuatorOptions));
 
 app.use(function (req, res, next) {
     res.header("Cache-Control", "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0");

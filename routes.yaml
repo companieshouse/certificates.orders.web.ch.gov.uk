@@ -29,3 +29,4 @@ routes:
   24: /company/(.*)/orderable/lp-certificates/.*
   25: /orderable/lp-certificates
   26: /orderable/lp-certificates/.*
+  27: /certificates-orders-web/health

@@ -92,4 +92,14 @@ Use the following environment variables to enable / disable dynamic certificate 
 |DYNAMIC_LP_CERTIFICATE_ORDERS_ENABLED|Limited Partnership certificates | true &#x7c; false | false |
 |DYNAMIC_LLP_CERTIFICATE_ORDERS_ENABLED|Limited Liability Partnership certificates | true &#x7c; false | false |
 
+### Health check endpoint
 
+| Path                                | Method | Description                                                         |
+|-------------------------------------|--------|---------------------------------------------------------------------|
+| *`/certificates-orders-web/health`* | GET    | Returns HTTP OK (`200`) to indicate a healthy application instance. |
+
+#### Health check implementation note
+
+* The healthcheck endpoint uses the [`express-actuator`](https://www.npmjs.com/package/express-actuator?activeTab=readme)
+package. This means the app also provides `/certificates-orders-web/info` and `/certificates-orders-web/metrics`
+endpoints. These should probably not be exposed.
