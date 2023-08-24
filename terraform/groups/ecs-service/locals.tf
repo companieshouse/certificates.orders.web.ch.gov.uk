@@ -12,7 +12,7 @@ locals {
     "/certificates-orders-web/health"
   ]
   healthcheck_path          = "/orderable/certificates" # healthcheck path for certificates orders web
-  healthcheck_matcher       = "404" # "200-302"         # no explicit healthcheck in this service yet, change this when added!
+  healthcheck_matcher       = "200"                     # no explicit healthcheck in this service yet, change this when added!
 
   service_secrets = jsondecode(data.vault_generic_secret.service_secrets.data_json)
 
