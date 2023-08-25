@@ -50,9 +50,6 @@ import {
 } from "./config/config";
 import { FEATURE_FLAGS } from "./config/FeatureFlags";
 
-// Comment added to test build and deployment of app to ECS at 12.29.
-// Comment added to test build and deployment of app to ECS at 14.45.
-
 const app = express();
 
 app.use(express.urlencoded({ extended: false }));
