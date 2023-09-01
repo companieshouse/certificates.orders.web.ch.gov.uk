@@ -10,7 +10,23 @@ kms_alias = "alias/staging-eu-west-2/environment-services-kms"
 desired_task_count = 2 # use multi instance in staging
 
 # service configs
-log_level = "trace"
+administrator_company_certificates_enabled = true
+basket_item_limit = 10
+certificate_piwik_start_goal_id = 3
+certified_copies_piwik_start_goal_id = 4
+cookie_name = "__SID"
+default_session_expiration = 3600
+dispatch_days = 10
+dissolved_certificate_piwik_start_goal_id = 6
+dynamic_lp_certificate_orders_enabled = true
+dynamic_llp_certificate_orders_enabled = true
+human_log = 1
+liquidated_company_certificates_enabled = true
+llp_certificate_piwik_start_goal_id = 8
+lp_certificate_piwik_start_goal_id = 7
+missing_image_delivery_piwik_start_goal_id = 5
+tz = "Europe/London"
+log_level = "DEBUG"
 cdn_host = "d2ovzaxriww2h8.cloudfront.net"
 chs_url = "https://staging.company-information.service.gov.uk"
 account_local_url = "https://identity-staging.company-information.service.gov.uk"
