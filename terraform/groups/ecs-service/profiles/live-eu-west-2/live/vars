@@ -1,0 +1,29 @@
+aws_bucket = "live-eu-west-2.terraform-state.ch.gov.uk"
+remote_state_bucket = "ch-service-live-terraform-state"
+environment = "live"
+deploy_to = "live"
+state_prefix = "env:/live"
+aws_profile = "live-eu-west-2"
+kms_alias = "alias/live-eu-west-2/environment-services-kms"
+
+# scaling configs
+desired_task_count = 2 # use multi instance in live
+
+# service configs
+administrator_company_certificates_enabled = true
+basket_item_limit = 10
+certificate_piwik_start_goal_id = 3
+certified_copies_piwik_start_goal_id = 4
+cookie_name = "__SID"
+default_session_expiration = 3600
+dispatch_days = 10
+dissolved_certificate_piwik_start_goal_id = 22
+dynamic_lp_certificate_orders_enabled = true
+dynamic_llp_certificate_orders_enabled = true
+human_log = 1
+liquidated_company_certificates_enabled = true
+llp_certificate_piwik_start_goal_id = 8
+lp_certificate_piwik_start_goal_id = 7
+missing_image_delivery_piwik_start_goal_id = 19
+tz = "Europe/London"
+log_level = "DEBUG"

@@ -6,7 +6,7 @@
 
 import http from "http";
 import yargs from "yargs";
-import { createLogger } from "ch-structured-logging";
+import { createLogger } from "@companieshouse/structured-logging-node";
 
 import app from "../app";
 import { APPLICATION_NAME } from "../config/config";

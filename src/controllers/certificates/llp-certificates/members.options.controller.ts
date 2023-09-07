@@ -7,7 +7,7 @@ import {
     OrdinaryMemberDetailsRequest
 } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { getCertificateItem, patchCertificateItem } from "../../../client/api.client";
-import { createLogger } from "ch-structured-logging";
+import { createLogger } from "@companieshouse/structured-logging-node";
 import { APPLICATION_NAME } from "../../../config/config";
 import { Session } from "@companieshouse/node-session-handler/lib/session/model/Session";
 import CertificateSessionData from "../../../session/CertificateSessionData";

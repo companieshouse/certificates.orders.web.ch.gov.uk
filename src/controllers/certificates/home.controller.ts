@@ -14,7 +14,7 @@ import {
 } from "../../model/page.urls";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
 import { getCompanyProfile } from "../../client/api.client";
-import { createLogger } from "ch-structured-logging";
+import { createLogger } from "@companieshouse/structured-logging-node";
 import { API_KEY, APPLICATION_NAME, DISPATCH_DAYS } from "../../config/config";
 import { YOU_CANNOT_USE_THIS_SERVICE } from "../../model/template.paths";
 import { CompanyType } from "../../model/CompanyType";

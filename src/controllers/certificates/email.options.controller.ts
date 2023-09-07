@@ -4,7 +4,7 @@ import { CertificateItem, CertificateItemPatchRequest } from "@companieshouse/ap
 import { getAccessToken, getUserId } from "../../session/helper";
 import { appendItemToBasket, getBasket, getCertificateItem, patchCertificateItem } from "../../client/api.client";
 import { DELIVERY_DETAILS, DELIVERY_OPTIONS, EMAIL_OPTIONS } from "../../model/template.paths";
-import { createLogger } from "ch-structured-logging";
+import { createLogger } from "@companieshouse/structured-logging-node";
 import { APPLICATION_NAME } from "../../config/config";
 import { setServiceUrl } from "../../utils/service.url.utils";
 import { Session } from "@companieshouse/node-session-handler";

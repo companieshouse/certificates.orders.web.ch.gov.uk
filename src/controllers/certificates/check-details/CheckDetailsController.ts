@@ -3,7 +3,7 @@ import { getAccessToken, getUserId } from "../../../session/helper";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { addItemToBasket, getBasket, getCertificateItem } from "../../../client/api.client";
 import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
-import { createLogger } from "ch-structured-logging";
+import { createLogger } from "@companieshouse/structured-logging-node";
 import { APPLICATION_NAME, CHS_URL } from "../../../config/config";
 import { ViewModelCreatable } from "../ViewModelCreatable";
 import { BasketLink } from "model/BasketLink";

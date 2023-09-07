@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { getAccessToken, getUserId } from "../../session/helper";
 import { getCertificateItem, patchCertificateItem } from "../../client/api.client";
 import { CERTIFICATE_SECRETARY_OPTIONS } from "../../model/template.paths";
-import { createLogger } from "ch-structured-logging";
+import { createLogger } from "@companieshouse/structured-logging-node";
 import { APPLICATION_NAME } from "../../config/config";
 import { DirectorOrSecretaryDetailsRequest, CertificateItemPatchRequest, CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { Session } from "@companieshouse/node-session-handler/lib/session/model/Session";

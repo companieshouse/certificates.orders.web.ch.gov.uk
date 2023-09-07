@@ -6,7 +6,7 @@ import { getBasketLink } from "../utils/basket.utils";
 import { BasketLink } from "../model/BasketLink";
 import { mapPageHeader } from "../utils/page.header.utils";
 import { APPLICATION_NAME } from "../config/config";
-import { createLogger } from "ch-structured-logging";
+import { createLogger } from "@companieshouse/structured-logging-node";
 
 const logger = createLogger(APPLICATION_NAME);
 

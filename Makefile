@@ -34,6 +34,14 @@ test: test-unit
 test-unit:
 	npm run test:coverage
 
+.PHONY: lint
+lint:
+	npm i lint
+
+.PHONY: security-check
+security-check:
+	npm audit
+
 .PHONY: package
 package: build
 ifndef version

@@ -401,7 +401,7 @@ describe("api.client", () => {
                 { itemOptions: { collectionLocation: "Location" } })).to.be.rejectedWith("401");
         });
         it("patches a certified copy item", async () => {
-            const result: ApiResult<ApiResponse<CertificateItem>> = success({
+            const result: ApiResult<ApiResponse<CertifiedCopyItem>> = success({
                 resource: dummyCertifiedCopyItemSDKResponse.resource,
                 httpStatusCode: 200
             } as ApiResponse<CertifiedCopyItem>);
@@ -429,9 +429,9 @@ describe("api.client", () => {
             chai.expect((certificateItem as Success<ApiResponse<CertificateItem>, ApiErrorResponse>).value.resource).to.equal(dummyCertificateItemSDKResponse.resource);
         });
         it("postInitialCertificateItem_error", async () => {
-            const result: ApiResult<ApiErrorResponse> = failure({
+            const result = failure({
                 httpStatusCode: 500
-            } as ApiErrorResponse);
+            } as ApiErrorResponse)as ApiResult<ApiResponse<CertificateItem>>;
             sandbox.stub(CertificateItemService.prototype, "postInitialCertificate")
                 .returns(Promise.resolve(result));
             const certificateItem = await postInitialCertificateItem("oauth", certificateItemInitialRequest);
@@ -458,9 +458,9 @@ describe("api.client", () => {
         });
 
         it("postCertificateItem_error", async () => {
-            const result: ApiResult<ApiErrorResponse> = failure({
+            const result = failure({
                 httpStatusCode: 500
-            } as ApiErrorResponse);
+            } as ApiErrorResponse) as ApiResult<ApiResponse<CertificateItem>>;
             sandbox.stub(CertificateItemService.prototype, "postCertificate")
                 .returns(Promise.resolve(result));
             const certificateItem = await postCertificateItem("oauth", certificateItemRequest);
