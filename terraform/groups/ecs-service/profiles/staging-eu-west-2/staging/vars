@@ -1,10 +1,5 @@
-aws_bucket = "staging-eu-west-2.terraform-state.ch.gov.uk"
-remote_state_bucket = "ch-service-staging-terraform-state"
 environment = "staging"
-deploy_to = "staging"
-state_prefix = "env:/staging"
 aws_profile = "staging-eu-west-2"
-kms_alias = "alias/staging-eu-west-2/environment-services-kms"
 
 # scaling configs
 desired_task_count = 2 # use multi instance in staging
@@ -27,3 +22,5 @@ lp_certificate_piwik_start_goal_id = 7
 missing_image_delivery_piwik_start_goal_id = 5
 tz = "Europe/London"
 log_level = "DEBUG"
+piwik_site_id = "15"
+piwik_url = "https://matomo.platform.aws.chdev.org"
