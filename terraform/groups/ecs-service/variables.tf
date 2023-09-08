@@ -15,9 +15,6 @@ variable "aws_profile" {
   type        = string
   description = "The AWS profile to use for deployment."
 }
-variable "kms_alias" {
-  type = string
-}
 
 # ------------------------------------------------------------------------------
 # Docker Container
@@ -120,4 +117,14 @@ variable "liquidated_company_certificates_enabled" {
 
 variable "administrator_company_certificates_enabled" {
   type = bool
+}
+
+variable "piwik_site_id" {
+  description = "The site ID to use when connecting to piwik_url"
+  type        = string
+}
+
+variable "piwik_url" {
+  description = "The URL to use to connect to Piwik / Matomo"
+  type        = string
 }
