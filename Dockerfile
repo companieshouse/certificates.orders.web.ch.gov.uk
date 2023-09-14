@@ -3,6 +3,10 @@ WORKDIR /opt
 COPY api-enumerations ./api-enumerations
 COPY dist ./package.json ./package-lock.json docker_start.sh routes.yaml ./
 
+RUN dnf update -y && \
+        dnf install -y \
+        tar
+
 CMD ["./docker_start.sh"]
 
 EXPOSE 3000
