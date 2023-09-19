@@ -97,19 +97,18 @@ Use the following environment variables to enable / disable dynamic certificate 
 | Path                                                    | Method(s) | Description                                                                                      |
 |---------------------------------------------------------|-----------|--------------------------------------------------------------------------------------------------|
 | *`/company/(.*)/orderable/certificates/.*`*             | GET       | Certificates start page for company.                                                             |
-| *`/orderable/certificates-assets/.*`*                   | GET       | Serves static assets. Once static files moved to the CDN, this route will no longer be required. |
 | *`/orderable/certificates/.*`*                          | GET, POST | Certificates item options pages.                                                                 |
-| *`/company/(.*)/orderable/certified-copies/.*`*         | GET       | Certified copies start page for company.                                                         |
-| *`/orderable/certified-copies/.*`*                      | GET, POST | Certified copies item options pages.                                                             |
-| *`/company/(.*)/orderable/missing-image-deliveries/.*`* | GET       | MID start page for company.                                                                      |                                                                                                 |
-| *`/orderable/missing-image-deliveries/.`*               | GET, POST | MID item options pages.                                                                          |
-| *`/company/(.*)/orderable/dissolved-certificates/.*`*   | GET       | Dissolved certificates start page for company.                                                   |                                                                                                |
-| *`/orderable/dissolved-certificates/.*  `*              | GET       | Dissolved certificates item options pages.                                                       |
+| *`/company/(.*)/orderable/dissolved-certificates/.*`*   | GET       | Certificates start page for dissolved company.                                                   |                                                                                                |
+| *`/orderable/dissolved-certificates/.*  `*              | GET, POST | Certificates item options pages for dissolved company.                                           |
 | *`/company/(.*)/orderable/llp-certificates/.*`*         | GET       | Certificates start page for LLP company.                                                         |                                                                                                  |
 | *`/orderable/llp-certificates/.*`*                      | GET, POST | Certificates item options pages for LLP company.                                                 |
 | *`/company/(.*)/orderable/lp-certificates/.*`*          | GET       | Certificates start page for LP company.                                                          |
 | *`/orderable/lp-certificates/.*`*                       | GET, POST | Certificates item options pages for LP company.                                                  |
-
+| *`/company/(.*)/orderable/certified-copies/.*`*         | GET       | Certified copies start page for company.                                                         |
+| *`/orderable/certified-copies/.*`*                      | GET, POST | Certified copies item options pages.                                                             |
+| *`/company/(.*)/orderable/missing-image-deliveries/.*`* | GET       | MID start page for company.                                                                      |                                                                                                 |
+| *`/orderable/missing-image-deliveries/.`*               | GET, POST | MID item options pages.                                                                          |
+| *`/orderable/certificates-assets/.*`*                   | GET       | Serves static assets. Once static files moved to the CDN, this route will no longer be required. |
 
 ### Health check endpoint
 
