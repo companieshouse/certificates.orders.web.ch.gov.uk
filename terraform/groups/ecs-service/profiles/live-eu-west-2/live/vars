@@ -21,6 +21,6 @@ dispatch_days = 10
 human_log = 1
 liquidated_company_certificates_enabled = true
 tz = "Europe/London"
-log_level = "info"
+log_level = "DEBUG"
 piwik_site_id = "2"
 piwik_url = "https://matomo.companieshouse.gov.uk"
