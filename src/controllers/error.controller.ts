@@ -12,7 +12,7 @@ const SERVICE_URL = CHS_URL;
 
 const errorHandler = (err: unknown, req: Request, res: Response, next: NextFunction) => {
     const errorStatusCode = err instanceof HttpError ? err?.statusCode : 500;
-    logger.error("Error: " + `${req.path}`);
+    logger.error(`Error: ${err} handling ${req.path}.`);
     const pageHeader: PageHeader = mapPageHeader(req);
     pageHeader.serviceName = serviceName;
     res.status(errorStatusCode).render(templatePaths.ERROR, { errorMessage: err, ...pageHeader, SERVICE_URL });
