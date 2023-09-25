@@ -51,7 +51,7 @@ export const patchCertificateItem = async (
     oAuth: string, certificateId: string, certificateItem: CertificateItemPatchRequest): Promise<CertificateItem> => {
     const api = createApiClient(undefined, oAuth, API_URL);
     const certificateItemResource = await api.certificate.patchCertificate(certificateItem, certificateId);
-    if (certificateItemResource.isFailure()) {
+    if (certificateItemResource.isFailure() || certificateItemResource.value.httpStatusCode !== 200) {
         const status = certificateItemResource.value.httpStatusCode || 500;
         throw createError(status, status.toString());
     }
