@@ -10,6 +10,12 @@ const logger = createLogger(APPLICATION_NAME);
 const serviceName = "Find and update company information";
 const SERVICE_URL = CHS_URL;
 
+const notFoundHandler = (req: Request, res: Response, next: NextFunction) => {
+    logger.error(`Page not found handling ${req.path}`);
+    const pageHeader: PageHeader = mapPageHeader(req);
+    return res.status(404).render(templatePaths.ERROR_NOT_FOUND, { ...pageHeader, serviceName, SERVICE_URL });
+};
+
 const errorHandler = (err: unknown, req: Request, res: Response, next: NextFunction) => {
     const errorStatusCode = err instanceof HttpError ? err?.statusCode : 500;
     logger.error(`Error: ${err} handling ${req.path}.`);
@@ -18,4 +24,4 @@ const errorHandler = (err: unknown, req: Request, res: Response, next: NextFunct
     res.status(errorStatusCode).render(templatePaths.ERROR, { errorMessage: err, ...pageHeader, SERVICE_URL });
 };
 
-export default errorHandler;
+export default [notFoundHandler, errorHandler];

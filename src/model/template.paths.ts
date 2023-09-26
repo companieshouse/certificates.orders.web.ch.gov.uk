@@ -44,3 +44,4 @@ export const MISSING_IMAGE_DELIVERY_INDEX: string = `${missingImageDeliveryRoot}
 export const MISSING_IMAGE_DELIVERY_CHECK_DETAILS: string = `${missingImageDeliveryRoot}/check-details`;
 
 export const ERROR: string = "error";
+export const ERROR_NOT_FOUND: string = "error-not-found";

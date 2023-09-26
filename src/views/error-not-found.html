@@ -1,0 +1,23 @@
+
+{% extends "layout.html" %}
+
+{% block header %}
+{% include "includes/cookie-banner.html" %}
+  {{ govukHeader({
+    homepageUrl: "http://gov.uk/"
+  }) }}
+{% endblock %}
+
+{% block pageTitle %}
+  Page not found - Request a document - GOV.UK
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl">Page not found</h1>
+      <p class="govuk-body">If you typed the web address, check it is correct.</p>
+      <p class="govuk-body">If you still can't find what you're looking for email <a href="mailto:enquiries@companieshouse.gov.uk">enquiries@companieshouse.gov.uk</a></p>
+    </div>
+  </div>
+{% endblock %}
