@@ -42,7 +42,7 @@ const optionsController = OptionsControllerConfiguration.optionsControllerInstan
 router.get(LP_CERTIFICATE_OPTIONS, optionsController.handleGet.bind(optionsController));
 router.post(LP_CERTIFICATE_OPTIONS, optionsController.handlePost.bind(optionsController));
 
-router.get(LP_CERTIFICATE_PRINCIPAL_PLACE_OPTIONS, renderPlaceOfBusinessOptions);
+// router.get(LP_CERTIFICATE_PRINCIPAL_PLACE_OPTIONS, renderPlaceOfBusinessOptions);
 router.post(LP_CERTIFICATE_PRINCIPAL_PLACE_OPTIONS, placeOfBusinessOptionsController);
 router.get(LP_CERTIFICATE_DELIVERY_DETAILS, renderDeliveryDetails);
 router.post(LP_CERTIFICATE_DELIVERY_DETAILS, deliveryDetailsController);
