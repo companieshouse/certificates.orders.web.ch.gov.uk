@@ -37,6 +37,7 @@ export const LLP_CERTIFICATE_CHECK_DETAILS: string = `${llpCertRoot}/check-detai
 export const LLP_CERTIFICATE_CHECK_DETAILS_ALTERNATE: string = `${llpCertRoot}/check-details-alternate`;
 
 export const CERTIFIED_COPY_INDEX: string = `${certifiedCopyRoot}/index`;
+export const DCAC_CERTIFIED_COPY_INDEX: string = `${certifiedCopyRoot}/dcac-index`;
 export const CERTIFIED_COPY_CHECK_DETAILS: string = `${certifiedCopyRoot}/check-details`;
 export const CERTIFIED_COPY_ORDER_DETAILS: string = `${certifiedCopyRoot}/order-details`;
 

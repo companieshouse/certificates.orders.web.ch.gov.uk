@@ -1,0 +1,102 @@
+{% extends "layout.html" %}
+
+{% set notificationHtml %}
+    {% if basketLimitState == "below-limit" %}
+        <p class="govuk-notification-banner__heading">
+            This order will be for {{ companyName }} ({{ companyNumber }}).
+            <p>If you want to order a certified document for a different company, you will need to
+            <a class="govuk-notification-banner__link" href="https://find-and-update.company-information.service.gov.uk/">search for the company on the register,</a>
+            then use the 'More' tab on the company page to re-enter this service.</p>
+        </p>
+    {% else %}
+        <p class="govuk-notification-banner__heading">
+            Your basket is full
+        </p>
+        <p>
+            You cannot add more than {{ basketLimit }} items to your order.
+            To add more, you'll need to remove some items first.
+        </p>
+   {% endif %}
+{% endset %}
+
+{% block pageTitle %}
+  Order a certified document - GOV.UK
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/company/" + companyNumber + "/more"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+    {% if basketLimitState == "display-limit-error" %}
+        {{ govukErrorSummary({
+          titleText: ERROR_SUMMARY_TITLE,
+          errorList: [
+            {
+              text: "Your basket is full. To add more to your order, you'll need to remove some items first.",
+              href: basketWebUrl
+            }
+          ]
+        }) }}
+    {% endif %}
+
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <span class="govuk-caption-l">{{ companyName }}</span>
+            <h1 class="govuk-heading-xl">Order a certified document</h1>
+            <p class="govuk-body-l">
+                Use this service to order a signed document or incorporation package from the company's filing history.
+            </p>
+            <p class="govuk-body">To order a certifed document or an incorporation package. you'll need:</p>
+            <ul class="govuk-list govuk-list--bullet">
+              <li>to sign in to or create a Companies House account</li>
+              <li>a debit or credit card for payment</li>
+            </ul>
+            <div class="govuk-inset-text">
+                <p class="govuk-body">You cannot use this service to order a certificate that confirms company details and can include a statement of good standing. For this, you'll need to use our <a href="{{ moreTabUrl }}" class="govuk-link" data-event-id="certificates-from-certified-copies">Order a certificate service</a>.</p>
+            </div>
+
+            <p class="govuk-body">To order for a different company, 
+                <a class="govuk-notification-banner__link" href="https://find-and-update.company-information.service.gov.uk/">search for the company on the register.</a>
+            </p>
+
+            <h2 class="govuk-heading-m">Before you start</h2>
+
+            <p class="govuk-body">You should check which document you need to order. You can 
+                <a href="{{ filingHistoryUrl }}" class="govuk-link" data-event-id="filing-history-from-certified-copies">check the company's filing history</a> to:
+            </p>
+
+            <ul class="govuk-list govuk-list--bullet">
+                <li>find and preview the document you need to order</li>
+                <li>make sure the document is available - for some older documents you may need to order a scan of the original document first</li>
+            </ul>
+
+            <h2 class="govuk-heading-m">Choosing paper or digital documents</h2>
+
+            <p class="govuk-body">
+                You can choose to order digital and paper copies of certified documents. You may need to order a paper document if the person who is asking for it needs a paper copy with a wet ink signature.
+            </p>
+
+            <p class="govuk-body">
+                Digital documents will be a PDF document, embedded with an approved Registrar of Companies electronic signature. You will need to open the PDF in Adobe Reader to view the signature. You can 
+                <a href="https://get.adobe.com/uk/reader/" class="govuk-link" data-event-id="adobe-reader-download-from-certified-copies">download Adobe Reader for free.</a>
+            </p>
+
+            {{ govukButton({
+                text: "Start now",
+                href: startNowUrl,
+                classes: "govuk-!-margin-top-2 govuk-!-margin-bottom-8",
+                isStartButton: true,
+                disabled: basketLimitState == 'display-limit-error',
+                attributes: {
+                  "data-event-id": "start-now-button",
+                  onclick: "_paq.push(['trackGoal'," + CERTIFIED_COPIES_PIWIK_START_GOAL_ID + "]);"
+                }
+              }) }}
+        </div>
+    </div>
+{% endblock %}

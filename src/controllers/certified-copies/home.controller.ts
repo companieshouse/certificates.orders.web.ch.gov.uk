@@ -5,7 +5,7 @@ import {
     ROOT_CERTIFIED_COPY,
     START_BUTTON_PATH_SUFFIX
 } from "../../model/page.urls";
-import { CERTIFIED_COPY_INDEX, YOU_CANNOT_USE_THIS_SERVICE } from "../../model/template.paths";
+import { CERTIFIED_COPY_INDEX, DCAC_CERTIFIED_COPY_INDEX, YOU_CANNOT_USE_THIS_SERVICE } from "../../model/template.paths";
 import { API_KEY, APPLICATION_NAME, CHS_URL, DISPATCH_DAYS } from "../../config/config";
 import { getCompanyProfile } from "../../client/api.client";
 import { createLogger } from "@companieshouse/structured-logging-node";
@@ -15,6 +15,7 @@ import { BasketLink } from "../../model/BasketLink";
 import { BasketLimit, BasketLimitState } from "../../model/BasketLimit";
 import { getWhitelistedReturnToURL } from "../../utils/request.util";
 import { mapPageHeader } from "../../utils/page.header.utils";
+import { FEATURE_FLAGS } from "../../config/FeatureFlags";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -30,9 +31,11 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const SERVICE_URL = `/company/${companyNumber}/orderable/certified-copies`;
         const dispatchDays: string = DISPATCH_DAYS;
         const moreTabUrl: string = "/company/" + companyNumber + "/more";
+        const filingHistoryUrl: string = "/company/" + companyNumber + "/filing-history";
         const basketLink: BasketLink = await getBasketLink(req);
         const basketLimit: BasketLimit = getBasketLimit(basketLink);
         const pageHeader = mapPageHeader(req);
+        const digitalCertifiedDocumentsEnabled: boolean = FEATURE_FLAGS.digitalCertifiedDocumentsEnabled;
 
         if (req.url == startNowPath) {
             logger.debug(`Start now button clicked, req.url = ${req.url}`);
@@ -48,17 +51,19 @@ export default async (req: Request, res: Response, next: NextFunction) => {
             const serviceName = null;
             res.render(YOU_CANNOT_USE_THIS_SERVICE, { serviceName });
         } else {
-            res.render(CERTIFIED_COPY_INDEX,
+            res.render(digitalCertifiedDocumentsEnabled ? DCAC_CERTIFIED_COPY_INDEX : CERTIFIED_COPY_INDEX,
                 {
                     startNowUrl,
                     companyNumber,
                     SERVICE_URL,
                     dispatchDays,
                     moreTabUrl,
+                    filingHistoryUrl,
                     companyName,
                     ...basketLink,
                     ...basketLimit,
-                    ...pageHeader });
+                    ...pageHeader
+                 });
         }
     } catch (err) {
         logger.error(`${err}`);
