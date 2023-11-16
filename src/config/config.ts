@@ -63,6 +63,8 @@ export const LIQUIDATED_COMPANY_CERTIFICATES_ENABLED = getEnvironmentValue("LIQU
 
 export const ADMINISTRATOR_COMPANY_CERTIFICATES_ENABLED = getEnvironmentValue("ADMINISTRATOR_COMPANY_CERTIFICATES_ENABLED", "false") === "true";
 
+export const DIGITAL_CERTIFIED_DOCUMENTS_ENABLED = getEnvironmentValue("DIGITAL_CERTIFIED_DOCUMENTS_ENABLED", "false") === "true";
+
 export const ACCOUNT_URL = getEnvironmentValue("ACCOUNT_URL");
 
 export const CHS_MONITOR_GUI_URL = getEnvironmentValue("CHS_MONITOR_GUI_URL")
