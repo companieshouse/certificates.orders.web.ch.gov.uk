@@ -9,4 +9,3 @@
 !static
 !dist
 !docker_start.sh
-!routes.yaml
