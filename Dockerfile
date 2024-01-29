@@ -1,7 +1,9 @@
-FROM 416670754337.dkr.ecr.eu-west-2.amazonaws.com/ci-node-runtime-18
+FROM 416670754337.dkr.ecr.eu-west-2.amazonaws.com/ci-node-runtime-20
 WORKDIR /opt
 COPY api-enumerations ./api-enumerations
-COPY dist ./package.json ./package-lock.json docker_start.sh routes.yaml ./
+COPY dist ./dist
+COPY node_modules ./node_modules
+COPY ./package.json ./package-lock.json docker_start.sh routes.yaml ./
 
 CMD ["./docker_start.sh"]
 
