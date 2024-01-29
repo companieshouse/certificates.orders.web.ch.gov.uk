@@ -17,9 +17,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@companieshouse/api-sdk-node": "^2.0.103",
-    "@companieshouse/node-session-handler": "^4.1.9",
-    "@companieshouse/structured-logging-node": "^1.0.8",
+    "@companieshouse/api-sdk-node": "^2.0.146",
+    "@companieshouse/node-session-handler": "^5.0.1",
+    "@companieshouse/structured-logging-node": "^2.0.1",
     "cookie-parser": "~1.4.6",
     "escape-html": "^1.0.3",
     "express": "~4.18.2",
@@ -66,12 +66,18 @@
     "mocha": "^10.2.0",
     "nodemon": "~2.0.4",
     "nyc": "^15.1.0",
-    "sass": "^1.64.2",
+    "sass": "1.32.13",
     "sinon": "~9.0.2",
     "sinon-chai": "~3.5.0",
     "sonarqube-scanner": "^2.8.1",
     "ts-node": "~8.8.2",
     "typescript": "~5.1.6"
+  },
+  "@comments devDependencies": {
+    "@package sass": [
+      "We're using an older version of @sass to suppress deprecation warnings thrown by the @govuk-frontend package during the build",
+      "We'll upgrade to the most recent version of @sass after this issue is fixed in the @govuk-frontend package"
+    ]
   },
   "nodemonConfig": {
     "watch": [
