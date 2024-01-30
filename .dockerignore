@@ -10,3 +10,4 @@
 !dist
 !docker_start.sh
 !routes.yaml
+!node_modules
