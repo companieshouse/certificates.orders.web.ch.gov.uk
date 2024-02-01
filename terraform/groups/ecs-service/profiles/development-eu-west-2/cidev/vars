@@ -2,3 +2,5 @@
 aws_profile = "development-eu-west-2"
 environment = "cidev"
 
+# service configs
+use_set_environment_files = true
