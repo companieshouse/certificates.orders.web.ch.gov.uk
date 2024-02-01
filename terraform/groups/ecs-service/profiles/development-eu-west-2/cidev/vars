@@ -2,6 +2,10 @@
 aws_profile = "development-eu-west-2"
 environment = "cidev"
 
+# FIXME
+docker_registry = "416670754337.dkr.ecr.eu-west-2.amazonaws.com"
+certificates_orders_web_version = "1.0.0"
+
 # Service environment variables
 basket_item_limit = 10
 certificate_piwik_start_goal_id = 3
