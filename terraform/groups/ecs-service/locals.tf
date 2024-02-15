@@ -10,8 +10,7 @@ locals {
   lb_listener_rule_priority = 11
   lb_listener_paths         = [
     "/company/*/orderable/*",
-    "/orderable/*",
-    "/certificates-orders-web/health"
+    "/orderable/*"
   ]
   healthcheck_path            = "/certificates-orders-web/health" # healthcheck path for certificates orders web
   healthcheck_matcher         = "200"                             # no explicit healthcheck in this service yet, change this when added!
