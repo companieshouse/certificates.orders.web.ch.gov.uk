@@ -91,7 +91,7 @@ describe("certificate.options.controller.integration", () => {
             chai.expect($(".govuk-fieldset__heading").text().trim()).to
                 .equal("What information would you like to be included on the certificate?");
             chai.expect($(".govuk-checkboxes__item").length).to.be.greaterThan(0);
-            chai.expect($(".govuk-checkboxes__item:first").find("label").text().trim()).to.equal("Statement of good standing");
+            chai.expect($(".govuk-checkboxes__item:first").find("label").text().trim()).to.equal("Summary statement previously known as statement of good standing");
         });
 
         it("renders the certificate options page for a liquidated company", async () => {
