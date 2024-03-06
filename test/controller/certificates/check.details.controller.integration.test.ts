@@ -134,7 +134,7 @@ describe("certificate.check.details.controller.integration", () => {
             chai.expect(resp.status).to.equal(200);
             chai.expect($(".govuk-heading-xl").text()).to.equal("Check your order details");
             chai.expect($("#orderDetails").text()).to.equal("Order details");
-            chai.expect($(".govuk-summary-list__row:nth-of-type(4)").find(".govuk-summary-list__key").text().trim()).to.include("Statement of good standing");
+            chai.expect($(".govuk-summary-list__row:nth-of-type(4)").find(".govuk-summary-list__key").text().trim()).to.include("Summary statement previously known as statement of good standing");
         });
 
         it("renders the view/change certificate options page", async () => {
@@ -151,7 +151,7 @@ describe("certificate.check.details.controller.integration", () => {
 
             chai.expect(resp.status).to.equal(200);
             chai.expect($(".govuk-heading-xl").text()).to.equal("Check your certificate");
-            chai.expect($(".govuk-summary-list__row:nth-of-type(4)").find(".govuk-summary-list__key").text().trim()).to.include("Statement of good standing");
+            chai.expect($(".govuk-summary-list__row:nth-of-type(4)").find(".govuk-summary-list__key").text().trim()).to.include("Summary statement previously known as statement of good standing");
             chai.expect($(".govuk-summary-list__row:nth-of-type(9)").find(".govuk-summary-list__key").text().trim()).to.include("Dispatch method");
             chai.expect($(".govuk-summary-list__row:nth-of-type(10)").find(".govuk-summary-list__key").text().trim()).to.include("Email copy required");
         });
