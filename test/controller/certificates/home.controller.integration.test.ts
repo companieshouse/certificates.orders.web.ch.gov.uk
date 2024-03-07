@@ -90,7 +90,7 @@ describe("certificate.home.controller.integration", () => {
 
         chai.expect(resp.status).to.equal(200);
         chai.expect(resp.text).to.contain("Use this service to order a signed certificate of dissolution for a company, including all company name changes.");
-        chai.expect(resp.text).not.to.contain("statement of good standing");
+        chai.expect(resp.text).not.to.contain("summary statement previously known as statement of good standing");
         chai.expect(resp.text).not.to.contain("registered office address");
         chai.expect(resp.text).not.to.contain("directors");
         chai.expect(resp.text).not.to.contain("secretaries");
@@ -106,7 +106,7 @@ describe("certificate.home.controller.integration", () => {
 
         chai.expect(resp.status).to.equal(200);
         chai.expect(resp.text).to.contain("Use this service to order a signed certificate of incorporation for a company, including all company name changes.");
-        chai.expect(resp.text).to.contain("statement of good standing");
+        chai.expect(resp.text).to.contain("summary statement - previously known as statement of good standing");
         chai.expect(resp.text).to.contain("registered office address");
         chai.expect(resp.text).to.contain("directors");
         chai.expect(resp.text).to.contain("secretaries");
@@ -124,7 +124,7 @@ describe("certificate.home.controller.integration", () => {
 
         chai.expect(resp.status).to.equal(200);
         chai.expect(resp.text).to.contain("Use this service to order a signed certificate of incorporation for a company, including all company name changes.");
-        chai.expect(resp.text).to.contain("statement of good standing");
+        chai.expect(resp.text).to.contain("summary statement - previously known as statement of good standing");
         chai.expect(resp.text).to.contain("registered office address");
         chai.expect(resp.text).to.contain("designated members");
         chai.expect(resp.text).to.contain("members");
@@ -142,7 +142,7 @@ describe("certificate.home.controller.integration", () => {
 
         chai.expect(resp.status).to.equal(200);
         chai.expect(resp.text).to.contain("Use this service to order a signed certificate of incorporation for a company, including all company name changes.");
-        chai.expect(resp.text).to.not.contain("statement of good standing");
+        chai.expect(resp.text).to.not.contain("summary statement previously known as statement of good standing");
         chai.expect(resp.text).to.contain("registered office address");
         chai.expect(resp.text).to.contain("directors");
         chai.expect(resp.text).to.contain("secretaries");
@@ -161,7 +161,7 @@ describe("certificate.home.controller.integration", () => {
 
         chai.expect(resp.status).to.equal(200);
         chai.expect(resp.text).to.contain("Use this service to order a signed certificate of incorporation for a company, including all company name changes.");
-        chai.expect(resp.text).to.not.contain("statement of good standing");
+        chai.expect(resp.text).to.not.contain("summary statement previously known as statement of good standing");
         chai.expect(resp.text).to.contain("registered office address");
         chai.expect(resp.text).to.contain("designated members");
         chai.expect(resp.text).to.contain("members");
@@ -202,7 +202,7 @@ describe("certificate.home.controller.integration", () => {
 
         chai.expect(resp.status).to.equal(200);
         chai.expect(resp.text).to.contain("Use this service to order a signed certificate of incorporation for a company, including all company name changes.");
-        chai.expect(resp.text).to.not.contain("statement of good standing");
+        chai.expect(resp.text).to.not.contain("summary statement previously known as statement of good standing");
         chai.expect(resp.text).to.contain("registered office address");
         chai.expect(resp.text).to.contain("directors");
         chai.expect(resp.text).to.contain("secretaries");
@@ -221,7 +221,7 @@ describe("certificate.home.controller.integration", () => {
 
         chai.expect(resp.status).to.equal(200);
         chai.expect(resp.text).to.contain("Use this service to order a signed certificate of incorporation for a company, including all company name changes.");
-        chai.expect(resp.text).to.not.contain("statement of good standing");
+        chai.expect(resp.text).to.not.contain("summary statement previously known as statement of good standing");
         chai.expect(resp.text).to.contain("registered office address");
         chai.expect(resp.text).to.contain("designated members");
         chai.expect(resp.text).to.contain("members");
