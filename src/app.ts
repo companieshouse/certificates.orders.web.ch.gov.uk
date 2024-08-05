@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import actuator from "express-actuator";
 import Redis from "ioredis";
 import { SessionStore, SessionMiddleware, CookieConfig } from "@companieshouse/node-session-handler";
+import { CsrfProtectionMiddleware } from "@companieshouse/web-security-node";
 
 import certRouter from "./routers/certificates/routers";
 import lpCertRouter from "./routers/certificates/lp-certificates/routers";
@@ -59,6 +60,14 @@ app.use(cookieParser());
 const actuatorOptions = {
     basePath: "/certificates-orders-web"
 };
+
+const csrfProtectionMiddleware = CsrfProtectionMiddleware({
+  sessionStore,
+  enabled: true,
+  sessionCookieName: config.COOKIE_NAME
+});
+app.use(csrfProtectionMiddleware);
+
 
 app.use(actuator(actuatorOptions));
 
