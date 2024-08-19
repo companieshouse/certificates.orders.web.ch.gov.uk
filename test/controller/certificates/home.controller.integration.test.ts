@@ -123,7 +123,7 @@ describe("certificate.home.controller.integration", () => {
             .get(replaceCompanyNumber(ROOT_CERTIFICATE, mockCompanyProfileConfiguration.companyNumber));
 
         chai.expect(resp.status).to.equal(200);
-        chai.expect(resp.text).to.contain("Use this service to order a signed certificate of incorporation for a company, including all company name changes.");
+        chai.expect(resp.text).to.contain("Use this service to order a signed certificate for a company, including all company name changes.");
         chai.expect(resp.text).to.contain("summary statement - previously known as statement of good standing");
         chai.expect(resp.text).to.contain("registered office address");
         chai.expect(resp.text).to.contain("designated members");
@@ -160,7 +160,7 @@ describe("certificate.home.controller.integration", () => {
             .get(replaceCompanyNumber(ROOT_CERTIFICATE, mockCompanyProfileConfiguration.companyNumber));
 
         chai.expect(resp.status).to.equal(200);
-        chai.expect(resp.text).to.contain("Use this service to order a signed certificate of incorporation for a company, including all company name changes.");
+        chai.expect(resp.text).to.contain("Use this service to order a signed certificate for a company, including all company name changes.");
         chai.expect(resp.text).to.not.contain("summary statement previously known as statement of good standing");
         chai.expect(resp.text).to.contain("registered office address");
         chai.expect(resp.text).to.contain("designated members");
@@ -220,7 +220,7 @@ describe("certificate.home.controller.integration", () => {
             .get(replaceCompanyNumber(ROOT_CERTIFICATE, mockCompanyProfileConfiguration.companyNumber));
 
         chai.expect(resp.status).to.equal(200);
-        chai.expect(resp.text).to.contain("Use this service to order a signed certificate of incorporation for a company, including all company name changes.");
+        chai.expect(resp.text).to.contain("Use this service to order a signed certificate for a company, including all company name changes.");
         chai.expect(resp.text).to.not.contain("summary statement previously known as statement of good standing");
         chai.expect(resp.text).to.contain("registered office address");
         chai.expect(resp.text).to.contain("designated members");
