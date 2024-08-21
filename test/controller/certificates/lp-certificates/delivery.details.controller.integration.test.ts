@@ -253,7 +253,7 @@ describe("certificate.delivery.details.controller", () => {
             chai.expect($(".govuk-back-link").attr("href")).to.include("delivery-options");
         });
 
-        it("back button takes the user to the email options page if they have selected same day delivery", async () => {
+        it("back button takes the user to the additional copies options page if they have selected same day delivery", async () => {
             const basketDetails = {} as Basket;
             const certificateItem = {
                 itemOptions: {
@@ -272,7 +272,7 @@ describe("certificate.delivery.details.controller", () => {
             const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect($(".govuk-back-link").attr("href")).to.include("email-options");
+            chai.expect($(".govuk-back-link").attr("href")).to.include("additional-copies");
         });
     });
 });

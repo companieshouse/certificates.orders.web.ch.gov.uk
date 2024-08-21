@@ -98,7 +98,7 @@ describe("email.options.integration.test", () => {
     });
 
     describe("email options patch", () => {
-        it("redirects the user to the delivery-details page", async () => {
+        it("redirects the user to the additional-copies page", async () => {
             const certificateDetails = {
                 itemOptions: {
                     includeEmailCopy: false
@@ -121,42 +121,44 @@ describe("email.options.integration.test", () => {
                 });
 
             chai.expect(resp.status).to.equal(302);
-            chai.expect(resp.text).to.include("Found. Redirecting to delivery-details");
+            chai.expect(resp.text).to.include("Found. Redirecting to additional-copies");
         });
 
-        it("adds item to basket and redirects the user to the basket page if enrolled", async () => {
-            const certificateDetails = {
-                itemOptions: {
-                    includeEmailCopy: false
-                },
-                links: {
-                    self: "/path/to/certificate"
-                }
-            } as CertificateItem;
 
-            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
-                .returns(Promise.resolve(certificateDetails));
-            patchCertificateItemStub = sandbox.stub(apiClient, "patchCertificateItem")
-                .returns(Promise.resolve(certificateDetails));
-            getBasket = sandbox.stub(apiClient, "getBasket")
-                .returns(Promise.resolve({ enrolled: true, items: [{ kind: "item#certificate" } as any], deliveryDetails }));
-            sandbox.mock(apiClient).expects("appendItemToBasket")
-                .once()
-                .returns(Promise.resolve());
+        // this test move to new basket location
+        // it("adds item to basket and redirects the user to the basket page if enrolled", async () => {
+        //     const certificateDetails = {
+        //         itemOptions: {
+        //             includeEmailCopy: false
+        //         },
+        //         links: {
+        //             self: "/path/to/certificate"
+        //         }
+        //     } as CertificateItem;
 
-            const resp = await chai.request(testApp)
-                .post(EMAIL_OPTIONS_URL)
-                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
-                .redirects(0)
-                .send({
-                    emailOptions: false
-                });
+        //     getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+        //         .returns(Promise.resolve(certificateDetails));
+        //     patchCertificateItemStub = sandbox.stub(apiClient, "patchCertificateItem")
+        //         .returns(Promise.resolve(certificateDetails));
+        //     getBasket = sandbox.stub(apiClient, "getBasket")
+        //         .returns(Promise.resolve({ enrolled: true, items: [{ kind: "item#certificate" } as any], deliveryDetails }));
+        //     sandbox.mock(apiClient).expects("appendItemToBasket")
+        //         .once()
+        //         .returns(Promise.resolve());
 
-            chai.expect(resp.status).to.equal(302);
-            chai.expect(resp.text).to.include("/basket");
-        });
+        //     const resp = await chai.request(testApp)
+        //         .post(EMAIL_OPTIONS_URL)
+        //         .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
+        //         .redirects(0)
+        //         .send({
+        //             emailOptions: false
+        //         });
 
-        it("enrolled user redirected to delivery details page if no other deliverable items", async () => {
+        //     chai.expect(resp.status).to.equal(302);
+        //     chai.expect(resp.text).to.include("/basket");
+        // });
+
+        it("enrolled user redirected to additional copies page if no other deliverable items", async () => {
             const certificateDetails = {
                 itemOptions: {
                     includeEmailCopy: false
@@ -185,7 +187,7 @@ describe("email.options.integration.test", () => {
                 });
 
             chai.expect(resp.status).to.equal(302);
-            chai.expect(resp.text).to.include("/delivery-details");
+            chai.expect(resp.text).to.include("Found. Redirecting to additional-copies");
         });
     });
 

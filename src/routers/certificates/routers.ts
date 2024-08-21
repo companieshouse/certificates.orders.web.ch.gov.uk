@@ -9,6 +9,8 @@ import {
     CERTIFICATE_OPTIONS,
     CERTIFICATE_REGISTERED_OFFICE_OPTIONS,
     CERTIFICATE_SECRETARY_OPTIONS,
+    CERTIFICATE_ADDITIONAL_COPIES_OPTIONS,
+    CERTIFICATE_ADDITIONAL_COPIES_QUANTITY_OPTIONS,
     CERTIFICATE_TYPE, CERTIFICATE_VIEW_CHANGE_OPTIONS,
     DISSOLVED_CERTIFICATE_CHECK_DETAILS,
     DISSOLVED_CERTIFICATE_DELIVERY_DETAILS,
@@ -31,6 +33,8 @@ import emailOptionsController, { render as renderEmailOptions } from "../../cont
 import registeredOfficeOptionsController, { render as renderRegisteredOfficeOptions } from "../../controllers/certificates/registered.office.options.controller";
 import directorOptionsController, { render as renderDirectorOptions } from "../../controllers/certificates/director.options.controller";
 import secretaryOptionsController, { render as renderSecretaryOptions } from "../../controllers/certificates/secretary.options.controller";
+import additionalCopiesController, { render as renderAdditionalCopies} from "../../controllers/certificates/additional.copies.controller";
+import additionalCopiesQuantityController, { render as renderAdditionalCopiesQuantity} from "../../controllers/certificates/additional.copies.quantity.controller";
 import { CompanyStatus } from "../../controllers/certificates/model/CompanyStatus";
 import { CheckDetailsController } from "../../controllers/certificates/check-details/CheckDetailsController";
 import { CertificateTextMapper } from "../../controllers/certificates/check-details/CertificateTextMapper";
@@ -81,6 +85,12 @@ router.get(CERTIFICATE_EMAIL_OPTIONS, renderEmailOptions);
 router.post(CERTIFICATE_EMAIL_OPTIONS, emailOptionsController);
 router.get(DISSOLVED_CERTIFICATE_EMAIL_OPTIONS, renderEmailOptions);
 router.post(DISSOLVED_CERTIFICATE_EMAIL_OPTIONS, emailOptionsController);
+
+router.get(CERTIFICATE_ADDITIONAL_COPIES_OPTIONS, renderAdditionalCopies);
+router.post(CERTIFICATE_ADDITIONAL_COPIES_OPTIONS, additionalCopiesController);
+
+router.get(CERTIFICATE_ADDITIONAL_COPIES_QUANTITY_OPTIONS, renderAdditionalCopiesQuantity);
+router.post(CERTIFICATE_ADDITIONAL_COPIES_QUANTITY_OPTIONS, additionalCopiesQuantityController);
 
 const checkDetailsController = new CheckDetailsController(new DefaultCompanyCheckDetailsFactory(new CertificateTextMapper(DISPATCH_DAYS), CERTIFICATE_CHECK_DETAILS_TEMPLATE));
 router.get(CERTIFICATE_CHECK_DETAILS, checkDetailsController.handleGet.bind(checkDetailsController));

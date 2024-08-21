@@ -1,0 +1,64 @@
+import chai from "chai";
+import sinon from "sinon";
+import ioredis from "ioredis";
+import cheerio from "cheerio";
+import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
+import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
+import * as apiClient from "../../../src/client/api.client";
+import {
+    CERTIFICATE_ADDITIONAL_COPIES_QUANTITY_OPTIONS,
+    replaceCertificateId
+} from "../../../src/model/page.urls";
+
+const CERTIFICATE_ID = "CRT-000000-000000";
+const ADDITIONAL_COPIES_OPTIONS_URL =
+    replaceCertificateId(CERTIFICATE_ADDITIONAL_COPIES_QUANTITY_OPTIONS, CERTIFICATE_ID);
+
+const sandbox = sinon.createSandbox();
+let testApp = null;
+let getCertificateItemStub;
+let getBasket;
+
+describe("additional.copies.quantity.integration.test", () => {
+    beforeEach((done) => {
+        sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
+        sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
+
+        testApp = require("../../../src/app").default;
+        done();
+    });
+
+    afterEach(() => {
+        sandbox.reset();
+        sandbox.restore();
+    });
+
+    const certificateItem = {
+        itemOptions: {
+            deliveryTimescale: "deliveryOption"
+        }
+    } as CertificateItem;
+
+    describe("Check the page renders", () => {
+        it("renders the additional copies quantity options page", async () => {
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItem));
+            getBasket = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true }));
+
+            const resp = await chai.request(testApp)
+                .get(ADDITIONAL_COPIES_OPTIONS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+            const $ = cheerio.load(resp.text);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect($("h1").text().trim()).to.equal("How many additional copies do you need?");
+        });
+
+    });
+
+    //TO-DO: Add tests once Patch request added for BI-12452
+
+
+});

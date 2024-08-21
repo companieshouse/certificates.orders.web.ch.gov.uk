@@ -23,6 +23,8 @@ export const CERTIFICATE_VIEW_CHANGE_OPTIONS: string = ROOT_CERTIFICATE_ID + "/v
 export const CERTIFICATE_REGISTERED_OFFICE_OPTIONS: string = ROOT_CERTIFICATE_ID + "/registered-office-options";
 export const CERTIFICATE_DIRECTOR_OPTIONS: string = ROOT_CERTIFICATE_ID + "/director-options";
 export const CERTIFICATE_SECRETARY_OPTIONS: string = ROOT_CERTIFICATE_ID + "/secretary-options";
+export const CERTIFICATE_ADDITIONAL_COPIES_OPTIONS: string = ROOT_CERTIFICATE_ID + "/additional-copies";
+export const CERTIFICATE_ADDITIONAL_COPIES_QUANTITY_OPTIONS: string = ROOT_CERTIFICATE_ID + "/additional-copies-quantity";
 
 export const DISSOLVED_CERTIFICATE_DELIVERY_OPTIONS: string = ROOT_DISSOLVED_CERTIFICATE_ID + "/delivery-options";
 export const DISSOLVED_CERTIFICATE_EMAIL_OPTIONS = ROOT_DISSOLVED_CERTIFICATE_ID + "/email-options";

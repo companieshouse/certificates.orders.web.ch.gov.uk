@@ -3,7 +3,7 @@ import { NextFunction, Request, Response } from "express";
 import { setServiceUrl } from "../utils/service.url.utils";
 import { getAccessToken, getUserId } from "../session/helper";
 import { getCertificateItem, getBasket } from "../client/api.client";
-import { DELIVERY_DETAILS, DELIVERY_OPTIONS, EMAIL_OPTIONS } from "../model/template.paths";
+import { ADDITIONAL_COPIES, DELIVERY_DETAILS, DELIVERY_OPTIONS } from "../model/template.paths";
 import { mapPageHeader } from "../utils/page.header.utils";
 import { createLogger } from "@companieshouse/structured-logging-node";
 import { APPLICATION_NAME } from "../config/config";
@@ -45,7 +45,7 @@ export const renderNonBasketJourneyDeliveryDetails = async (req: Request, res: R
 
 export const setBackLink = (certificateItem: CertificateItem):string => {
     if (certificateItem.itemOptions?.deliveryTimescale === "same-day") {
-        return EMAIL_OPTIONS;
+        return ADDITIONAL_COPIES;
     }
     return DELIVERY_OPTIONS;
 };

@@ -230,7 +230,7 @@ describe("certificate.delivery.details.controller", () => {
     });
 
     describe("delivery details back button", () => {
-        it("back button takes the user to the email options page if they selected same-day delivery", async () => {
+        it("back button takes the user to the additional copies page if they selected same-day delivery", async () => {
             const basketDetails = {} as Basket;
             const certificateItem = {
                 itemOptions: {
@@ -249,7 +249,7 @@ describe("certificate.delivery.details.controller", () => {
             const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect($(".govuk-back-link").attr("href")).to.include("email-options");
+            chai.expect($(".govuk-back-link").attr("href")).to.include("additional-copies");
         });
 
         it("back button takes the user to the delivery options page if they selected standard delivery", async () => {

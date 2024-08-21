@@ -15,7 +15,7 @@ describe("llp.delivery.details.controller.unit", () => {
             } as CertificateItem;
             chai.expect(setBackLink(certificateItem)).to.equal("delivery-options");
         });
-        it("the back button link should take the user to the email options page when express delivery is selected", () => {
+        it("the back button link should take the user to the additional copies options page when express delivery is selected", () => {
             const certificateItem = {
                 itemOptions: {
                     forename: "john",
@@ -23,7 +23,7 @@ describe("llp.delivery.details.controller.unit", () => {
                     deliveryTimescale: "same-day"
                 }
             } as CertificateItem;
-            chai.expect(setBackLink(certificateItem)).to.equal("email-options");
+            chai.expect(setBackLink(certificateItem)).to.equal("additional-copies");
         });
     });
 });
