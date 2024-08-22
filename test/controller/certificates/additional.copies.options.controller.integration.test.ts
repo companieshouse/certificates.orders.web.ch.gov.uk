@@ -34,9 +34,12 @@ describe("additional.copies.options.integration.test", () => {
     });
 
     const certificateItem = {
+        id: CERTIFICATE_ID,
+        companyNumber: "12345678",
         itemOptions: {
-            deliveryTimescale: "deliveryOption"
-        }
+            deliveryTimescale: "standard"
+        },
+        links: { self: `/orderable/certificates/${CERTIFICATE_ID}` }
     } as CertificateItem;
 
     describe("Check the page renders", () => {
@@ -58,7 +61,37 @@ describe("additional.copies.options.integration.test", () => {
 
     });
 
-    //TO-DO: Add tests once Patch request added for BI-12452
+    describe("Route handling", () => {
+        it("redirects to additional copies quantity page if 'Yes' is selected", async () => {
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItem));
+            getBasket = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: false }));
 
+            const resp = await chai.request(testApp)
+                .post(ADDITIONAL_COPIES_OPTIONS_URL)
+                .send({ additionalCopiesOptions: "true" })
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.include("Additional Copies Quantity - Order a certificate - GOV.UK");
+        });
+
+        it("redirects to delivery details page if 'No' is selected", async () => {
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItem));
+            getBasket = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: false }));
+
+            const resp = await chai.request(testApp)
+                .post(ADDITIONAL_COPIES_OPTIONS_URL)
+                .send({ additionalCopiesOptions: "false" })
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+                chai.expect(resp.status).to.equal(200);
+                chai.expect(resp.text).to.include("Delivery details - Order a certificate - GOV.UK");
+        });
+
+    });
 
 });

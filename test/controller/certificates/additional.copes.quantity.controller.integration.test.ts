@@ -5,13 +5,14 @@ import cheerio from "cheerio";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import * as apiClient from "../../../src/client/api.client";
+import { mockDeliveryDetails as deliveryDetails } from "../../__mocks__/certificates.mocks";
 import {
     CERTIFICATE_ADDITIONAL_COPIES_QUANTITY_OPTIONS,
     replaceCertificateId
 } from "../../../src/model/page.urls";
 
 const CERTIFICATE_ID = "CRT-000000-000000";
-const ADDITIONAL_COPIES_OPTIONS_URL =
+const ADDITIONAL_COPIES_QUANTITY_OPTIONS_URL =
     replaceCertificateId(CERTIFICATE_ADDITIONAL_COPIES_QUANTITY_OPTIONS, CERTIFICATE_ID);
 
 const sandbox = sinon.createSandbox();
@@ -34,9 +35,12 @@ describe("additional.copies.quantity.integration.test", () => {
     });
 
     const certificateItem = {
+        id: CERTIFICATE_ID,
+        companyNumber: "12345678",
         itemOptions: {
-            deliveryTimescale: "deliveryOption"
-        }
+            deliveryTimescale: "standard"
+        },
+        links: { self: `/orderable/certificates/${CERTIFICATE_ID}` }
     } as CertificateItem;
 
     describe("Check the page renders", () => {
@@ -47,7 +51,7 @@ describe("additional.copies.quantity.integration.test", () => {
                 .returns(Promise.resolve({ enrolled: true }));
 
             const resp = await chai.request(testApp)
-                .get(ADDITIONAL_COPIES_OPTIONS_URL)
+                .get(ADDITIONAL_COPIES_QUANTITY_OPTIONS_URL)
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
 
             const $ = cheerio.load(resp.text);
@@ -58,7 +62,54 @@ describe("additional.copies.quantity.integration.test", () => {
 
     });
 
-    //TO-DO: Add tests once Patch request added for BI-12452
+    describe("Route handling", () => {
+        it("redirects to delivery details page when quantity is selected", async () => {
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItem));
+            getBasket = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: false }));
 
+            const resp = await chai.request(testApp)
+                .post(ADDITIONAL_COPIES_QUANTITY_OPTIONS_URL)
+                .send({ additionalCopiesQuantity: 2 })
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.include("Delivery details - Order a certificate - GOV.UK");
+        });
+
+    });
+        //TO-DO: Add tests once Patch request added for BI-12452
+        it("adds item to basket and redirects the user to the basket page if enrolled", async () => {
+            const certificateDetails = {
+                itemOptions: {
+                    includeEmailCopy: false
+                },
+                links: {
+                    self: "/path/to/certificate"
+                }
+            } as CertificateItem;
+
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateDetails));
+            // patchCertificateItemStub = sandbox.stub(apiClient, "patchCertificateItem")
+            //     .returns(Promise.resolve(certificateDetails));
+            getBasket = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: true, items: [{ kind: "item#certificate" } as any], deliveryDetails }));
+            sandbox.mock(apiClient).expects("appendItemToBasket")
+                .once()
+                .returns(Promise.resolve());
+
+            const resp = await chai.request(testApp)
+                .post(ADDITIONAL_COPIES_QUANTITY_OPTIONS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
+                .redirects(0)
+                .send({
+                    emailOptions: false
+                });
+
+            chai.expect(resp.status).to.equal(302);
+            chai.expect(resp.text).to.include("/basket");
+        });
 
 });
