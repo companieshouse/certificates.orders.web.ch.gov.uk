@@ -15,21 +15,21 @@ describe("delivery.details.controller.unit", () => {
             } as CertificateItem;
             chai.expect(setBackLink(certificateItem)).to.equal("delivery-options");
         });
-        it("the back button link should take the user to the email options page", () => {
+        it("the back button link should take the user to the additional copies options page", () => {
             const certificateItem = {
                 itemOptions: {
                     deliveryTimescale: "same-day"
                 }
             } as CertificateItem;
-            chai.expect(setBackLink(certificateItem)).to.equal("email-options");
+            chai.expect(setBackLink(certificateItem)).to.equal("additional-copies");
         });
     });
 
     describe("setBackUrl for dissolved certificate", () => {
         const certificateItem = mockDissolvedCertificateItem as CertificateItem;
 
-        it("the back button link should take the user to the email options page for same-day delivery option", () => {
-            chai.expect(setBackLink(certificateItem)).to.equal("email-options");
+        it("the back button link should take the user to the additional copies options page for same-day delivery option", () => {
+            chai.expect(setBackLink(certificateItem)).to.equal("additional-copies");
         });
 
         it("the back button link should take the user to the delivery options page for standard delivery option", () => {

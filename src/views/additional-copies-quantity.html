@@ -1,0 +1,153 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+{% if errorList.length > 0 %}
+Error:
+{% endif %}
+Additional Copies Quantity - Order a certificate - GOV.UK
+{% endblock %}
+
+{% set mainClasses = "govuk-main-wrapper--l" %}
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: backLink
+}) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds-from-desktop">
+    <form method="post">
+
+      {% if errorList.length > 0 %}
+          {{ govukErrorSummary({
+            titleText: ERROR_SUMMARY_TITLE,
+            errorList: errorList
+          }) }}
+        {% endif %}
+
+        {% if collectionErr.flag %}
+          {% set collectionErrorMessage = {
+            text: collectionErr.text
+          } %}
+        {% endif %}
+
+      {{ govukRadios({
+        idPrefix: "additionalCopiesQuantity",
+        id:"additionalCopiesQuantityOptions",
+      name: "additionalCopiesQuantityOptions",
+      fieldset: {
+      legend: {
+      text: "How many additional copies do you need?",
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--xl"
+      }
+      },
+      errorMessage: additionalCopiesQuantityOptionsErrorsData,
+      items:[
+      {
+      value: 1,
+      text: "1",
+
+      attributes: {
+      "data-event-id" : "additional-copy-quantity-1"
+      }
+      },
+    
+      {
+      value: 2,
+      text: "2",
+
+      attributes: {
+      "data-event-id" : "additional-copy-quantity-2"
+      }
+      },
+
+      {
+      value: 3,
+      text: "3",
+
+      attributes: {
+      "data-event-id" : "additional-copy-quantity-3"
+      }
+      },
+
+      {
+      value: 4,
+      text: "4",
+
+      attributes: {
+      "data-event-id" : "additional-copy-quantity-4"
+      }
+      },
+
+      {
+      value: 5,
+      text: "5",
+
+      attributes: {
+      "data-event-id" : "additional-copy-quantity-5"
+      }
+      },
+
+      {
+      value: 6,
+      text: "6",
+
+      attributes: {
+      "data-event-id" : "additional-copy-quantity-6"
+      }
+      },
+
+      {
+      value: 7,
+      text: "7",
+
+      attributes: {
+      "data-event-id" : "additional-copy-quantity-7"
+      }
+      },
+
+      {
+      value: 8,
+      text: "8",
+
+      attributes: {
+      "data-event-id" : "additional-copy-quantity-8"
+      }
+      },
+
+      {
+      value: 9,
+      text: "9",
+
+      attributes: {
+      "data-event-id" : "additional-copy-quantity-9"
+      }
+      },
+
+      {
+      value: 10,
+      text: "10",
+
+      attributes: {
+      "data-event-id" : "additional-copy-quantity-10"
+      }
+      }
+
+      ]
+      }) }}
+
+      {{ govukButton({
+      text: "Continue",
+      attributes: {
+      "data-event-id": "continue-button",
+      id: "submit"
+      }
+      }) }}
+
+    </form>
+  </div>
+</div>
+{% endblock %}

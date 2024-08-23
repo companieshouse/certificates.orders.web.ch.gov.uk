@@ -10,6 +10,8 @@ export const COLLECTION: string = "collection";
 export const DELIVERY_DETAILS: string = "delivery-details";
 export const DELIVERY_OPTIONS: string = "delivery-options";
 export const EMAIL_OPTIONS: string = "email-options";
+export const ADDITIONAL_COPIES: string = "additional-copies";
+export const ADDITIONAL_COPIES_QUANTITY: string = "additional-copies-quantity";
 
 export const YOU_CANNOT_USE_THIS_SERVICE: string = `${errorRoot}/you-cannot-use-this-service`;
 

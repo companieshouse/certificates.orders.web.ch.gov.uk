@@ -1,0 +1,81 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+{% if errorList.length > 0 %}
+Error:
+{% endif %}
+Additional Copies - Order a certificate - GOV.UK
+{% endblock %}
+
+{% set mainClasses = "govuk-main-wrapper--l" %}
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: backLink
+}) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds-from-desktop">
+    <form method="post">
+
+      {% if errorList.length > 0 %}
+          {{ govukErrorSummary({
+            titleText: ERROR_SUMMARY_TITLE,
+            errorList: errorList
+          }) }}
+        {% endif %}
+
+        {% if collectionErr.flag %}
+          {% set collectionErrorMessage = {
+            text: collectionErr.text
+          } %}
+        {% endif %}
+
+      {{ govukRadios({
+        idPrefix: "additionalCopies",
+        id:"additionalCopiesOptions",
+      name: "additionalCopiesOptions",
+      fieldset: {
+      legend: {
+      text: "Would you like additional copies of the certificate?",
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--xl"
+      }
+      },
+      errorMessage: additionalCopiesOptionsErrorsData,
+      items:[
+      {
+      value: "true",
+      text: "Yes",
+
+      attributes: {
+      "data-event-id" : "additional-copy-option-yes"
+      },
+      checked: true if additionalCopyOption == true
+      },
+    
+      {
+      value: "false",
+      text: "No",
+      attributes: {
+      "data-event-id" : "additional-copy-option-no"
+      },
+      checked: true if additionalCopyOption == false
+      }
+      ]
+      }) }}
+
+      {{ govukButton({
+      text: "Continue",
+      attributes: {
+      "data-event-id": "continue-button",
+      id: "submit"
+      }
+      }) }}
+
+    </form>
+  </div>
+</div>
+{% endblock %}
