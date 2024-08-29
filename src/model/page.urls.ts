@@ -28,6 +28,8 @@ export const CERTIFICATE_ADDITIONAL_COPIES_QUANTITY_OPTIONS: string = ROOT_CERTI
 
 export const DISSOLVED_CERTIFICATE_DELIVERY_OPTIONS: string = ROOT_DISSOLVED_CERTIFICATE_ID + "/delivery-options";
 export const DISSOLVED_CERTIFICATE_EMAIL_OPTIONS = ROOT_DISSOLVED_CERTIFICATE_ID + "/email-options";
+export const DISSOLVED_CERTIFICATE_ADDITIONAL_COPIES_OPTIONS = ROOT_DISSOLVED_CERTIFICATE_ID + "/additional-copies";
+export const DISSOLVED_CERTIFICATE_ADDITIONAL_COPIES_QUANTITY_OPTIONS = ROOT_DISSOLVED_CERTIFICATE_ID + "/additional-copies-quantity";
 
 export const LP_ROOT_CERTIFICATE: string = "/company/:companyNumber/orderable/lp-certificates";
 export const LP_ROOT_CERTIFICATE_ID: string = "/orderable/lp-certificates/:certificateId";
@@ -39,6 +41,8 @@ export const LP_CERTIFICATE_CHECK_DETAILS: string = LP_ROOT_CERTIFICATE_ID + "/c
 export const LP_CERTIFICATE_VIEW_CHANGE_OPTIONS: string = LP_ROOT_CERTIFICATE_ID + "/view-change-options";
 export const LP_CERTIFICATE_DELIVERY_OPTIONS: string = LP_ROOT_CERTIFICATE_ID + "/delivery-options";
 export const LP_CERTIFICATE_DELIVERY_EMAIL_OPTIONS: string = LP_ROOT_CERTIFICATE_ID + "/email-options";
+export const LP_CERTIFICATE_ADDITIONAL_COPIES_OPTIONS: string = LP_ROOT_CERTIFICATE_ID + "/additional-copies";
+export const LP_CERTIFICATE_ADDITIONAL_COPIES_QUANTITY_OPTIONS: string = LP_ROOT_CERTIFICATE_ID + "/additional-copies-quantity";
 
 export const LLP_ROOT_CERTIFICATE: string = "/company/:companyNumber/orderable/llp-certificates";
 export const LLP_ROOT_CERTIFICATE_ID: string = "/orderable/llp-certificates/:certificateId";
@@ -52,6 +56,8 @@ export const LLP_CERTIFICATE_CHECK_DETAILS: string = LLP_ROOT_CERTIFICATE_ID + "
 export const LLP_CERTIFICATE_VIEW_CHANGE_OPTIONS: string = LLP_ROOT_CERTIFICATE_ID + "/view-change-options";
 export const LLP_CERTIFICATE_DELIVERY_OPTIONS: string = LLP_ROOT_CERTIFICATE_ID + "/delivery-options";
 export const LLP_CERTIFICATE_DELIVERY_EMAIL_OPTIONS: string = LLP_ROOT_CERTIFICATE_ID + "/email-options";
+export const LLP_CERTIFICATE_ADDITIONAL_COPIES_OPTIONS: string = LLP_ROOT_CERTIFICATE_ID + "/additional-copies";
+export const LLP_CERTIFICATE_ADDITIONAL_COPIES_QUANTITY_OPTIONS: string = LLP_ROOT_CERTIFICATE_ID + "/additional-copies-quantity";
 
 export const DISSOLVED_CERTIFICATE_OPTIONS: string = ROOT_DISSOLVED_CERTIFICATE_ID + "/certificate-options";
 export const DISSOLVED_CERTIFICATE_DELIVERY_DETAILS: string = ROOT_DISSOLVED_CERTIFICATE_ID + "/delivery-details";

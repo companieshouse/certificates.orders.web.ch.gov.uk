@@ -2,6 +2,8 @@ import { Router } from "express";
 
 import {
     DISSOLVED_CERTIFICATE_DELIVERY_OPTIONS,
+    LP_CERTIFICATE_ADDITIONAL_COPIES_OPTIONS,
+    LP_CERTIFICATE_ADDITIONAL_COPIES_QUANTITY_OPTIONS,
     LP_CERTIFICATE_CHECK_DETAILS,
     LP_CERTIFICATE_DELIVERY_DETAILS,
     LP_CERTIFICATE_DELIVERY_EMAIL_OPTIONS,
@@ -19,6 +21,8 @@ import placeOfBusinessOptionsController, { render as renderPlaceOfBusinessOption
 import deliveryDetailsController, { render as renderDeliveryDetails } from "../../../controllers/certificates/lp-certificates/delivery.details.controller";
 import deliveryOptionsController, { render as renderDeliveryOptions } from "../../../controllers/certificates/delivery.options.controller";
 import emailOptionsController, { render as renderEmailOptions } from "../../../controllers/certificates/email.options.controller";
+import additionalCopiesController, { render as renderAdditionalCopies} from "../../../controllers/certificates/additional.copies.controller";
+import additionalCopiesQuantityController, { render as renderAdditionalCopiesQuantity} from "../../../controllers/certificates/additional.copies.quantity.controller";
 import { TypeController } from "../../../controllers/certificates/type.controller";
 import { CompanyStatus } from "../../../controllers/certificates/model/CompanyStatus";
 import { CheckDetailsController } from "../../../controllers/certificates/check-details/CheckDetailsController";
@@ -50,6 +54,10 @@ router.get(LP_CERTIFICATE_DELIVERY_OPTIONS, renderDeliveryOptions);
 router.post(LP_CERTIFICATE_DELIVERY_OPTIONS, deliveryOptionsController);
 router.get(LP_CERTIFICATE_DELIVERY_EMAIL_OPTIONS, renderEmailOptions);
 router.post(LP_CERTIFICATE_DELIVERY_EMAIL_OPTIONS, emailOptionsController);
+router.get(LP_CERTIFICATE_ADDITIONAL_COPIES_OPTIONS, renderAdditionalCopies);
+router.post(LP_CERTIFICATE_ADDITIONAL_COPIES_OPTIONS, additionalCopiesController);
+router.get(LP_CERTIFICATE_ADDITIONAL_COPIES_QUANTITY_OPTIONS, renderAdditionalCopiesQuantity);
+router.post(LP_CERTIFICATE_ADDITIONAL_COPIES_QUANTITY_OPTIONS, additionalCopiesQuantityController);
 
 const checkDetailsController = new CheckDetailsController(new LPCheckDetailsFactory(new CertificateTextMapper(DISPATCH_DAYS), LP_CERTIFICATE_CHECK_DETAILS_TEMPLATE));
 router.get(LP_CERTIFICATE_CHECK_DETAILS, checkDetailsController.handleGet.bind(checkDetailsController));
