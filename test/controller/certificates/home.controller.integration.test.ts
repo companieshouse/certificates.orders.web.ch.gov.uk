@@ -67,7 +67,6 @@ describe("certificate.home.controller.integration", () => {
             .get(replaceCompanyNumber(ROOT_CERTIFICATE, COMPANY_NUMBER));
 
         chai.expect(resp.status).to.equal(200);
-        chai.expect(resp.text).to.contain("This order will be for company name (00000000)");
     });
 
     it("does not render the start page if company type is not allowed to order a certificate", async () => {
@@ -106,10 +105,10 @@ describe("certificate.home.controller.integration", () => {
 
         chai.expect(resp.status).to.equal(200);
         chai.expect(resp.text).to.contain("Use this service to order a signed certificate for a company, including all company name changes.");
-        chai.expect(resp.text).to.contain("summary statement - previously known as statement of good standing");
-        chai.expect(resp.text).to.contain("registered office address");
-        chai.expect(resp.text).to.contain("directors");
-        chai.expect(resp.text).to.contain("secretaries");
+        chai.expect(resp.text).to.contain("a summary statement (this used to be known as statement of good standing)");
+        chai.expect(resp.text).to.contain("the registered office address");
+        chai.expect(resp.text).to.contain("company directors");
+        chai.expect(resp.text).to.contain("company secretaries");
         chai.expect(resp.text).to.contain("company objects");
         chai.expect(resp.text).to.not.contain("details of liquidators");
         chai.expect(resp.text).to.not.contain("details of administrators");
@@ -124,7 +123,7 @@ describe("certificate.home.controller.integration", () => {
 
         chai.expect(resp.status).to.equal(200);
         chai.expect(resp.text).to.contain("Use this service to order a signed certificate for a company, including all company name changes.");
-        chai.expect(resp.text).to.contain("summary statement - previously known as statement of good standing");
+        chai.expect(resp.text).to.contain("a summary statement (this used to be known as statement of good standing)");
         chai.expect(resp.text).to.contain("registered office address");
         chai.expect(resp.text).to.contain("designated members");
         chai.expect(resp.text).to.contain("members");
@@ -267,7 +266,7 @@ describe("certificate.home.controller.integration", () => {
         chai.expect($(".govuk-button--start").attr("href")).to.equal("/company/00000000/orderable/dissolved-certificates/start");
     });
 
-    it("renders `This order will be for...` message when no basket link is shown", async () => {
+    it("renders `order a company certificate...` message when no basket link is shown", async () => {
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
             .resolves(mockAcceptableDissolvedCompanyProfile);
 
@@ -276,11 +275,10 @@ describe("certificate.home.controller.integration", () => {
 
         chai.expect(resp.status).to.equal(200);
         chai.expect(resp.text).to.contain("Sign in / Register");
-        chai.expect(resp.text).to.contain("This order will be for company name (00000000)");
         verifyStartButtonEnabledStateIs(resp.text, true);
     });
 
-    it("renders `This order will be for...` message when items below the limit", async () => {
+    it("renders `order a company certificate...` message when items below the limit", async () => {
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
             .resolves(mockAcceptableDissolvedCompanyProfile);
         sandbox.stub(apiClient, "getBasket").resolves(getDummyBasket(true, BASKET_ITEM_LIMIT - 1));
@@ -291,7 +289,6 @@ describe("certificate.home.controller.integration", () => {
 
         chai.expect(resp.status).to.equal(200);
         chai.expect(resp.text).to.contain(`Basket (${BASKET_ITEM_LIMIT - 1})`);
-        chai.expect(resp.text).to.contain("This order will be for company name (00000000)");
         verifyStartButtonEnabledStateIs(resp.text, true);
     });
 
