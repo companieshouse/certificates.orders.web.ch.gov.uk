@@ -37,11 +37,11 @@ export const route = async (req: Request, res: Response, next: NextFunction): Pr
         const errors = validationResult(req);
         const userId = getUserId(req.session);
         const accessToken: string = getAccessToken(req.session);
-
         const additionalCopiesQuantity: string = req.body[ADDITIONAL_COPIES_QUANTITY_OPTION_FIELD];
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
 
         logger.info(`Get certificate item, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
+        
         if (!errors.isEmpty()) {
             const errorArray = errors.array();
             const errorText = errorArray[errorArray.length - 1].msg as string;
@@ -54,7 +54,6 @@ export const route = async (req: Request, res: Response, next: NextFunction): Pr
                 errorList: [additionalCopiesQuantityErrorData]
             });
         } else {
-
             logger.info(`User has selected quantity=${additionalCopiesQuantity} of additional copies`);
             const certificateItemPatchRequest: CertificateItemPatchRequest = {
                 quantity : parseInt(additionalCopiesQuantity)
@@ -70,13 +69,10 @@ export const route = async (req: Request, res: Response, next: NextFunction): Pr
                     response: res,
                     items: basket.items,
                     deliveryDetails: basket.deliveryDetails,
-
                 });
-              
             }
-            
             return res.redirect(DELIVERY_DETAILS);
-            
+
             }
         } catch (err) {
         logger.error(`${err}`);
