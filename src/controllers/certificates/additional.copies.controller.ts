@@ -53,7 +53,6 @@ export const route = async (req: Request, res: Response, next: NextFunction): Pr
                 errorList: [additionalCopiesErrorData]
             });
         } else {
-            
             if (additionalCopies === 'true') {
                 logger.info(`User selected 'Yes' to additional copies, redirecting to Additional Copies Quantity page`);
                 return res.redirect(ADDITIONAL_COPIES_QUANTITY);

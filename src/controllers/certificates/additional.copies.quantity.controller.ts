@@ -42,7 +42,6 @@ export const route = async (req: Request, res: Response, next: NextFunction): Pr
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
 
         logger.info(`Get certificate item, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
-        logger.info("In try: " + certificateItem.quantity)
         if (!errors.isEmpty()) {
             const errorArray = errors.array();
             const errorText = errorArray[errorArray.length - 1].msg as string;
@@ -63,7 +62,7 @@ export const route = async (req: Request, res: Response, next: NextFunction): Pr
 
             const patchedCertificateItem = await patchCertificateItem(accessToken, req.params.certificateId, certificateItemPatchRequest);
             logger.info(`Patched certificate item with delivery option, id=${req.params.certificateId}, user_id=${userId}, company_number=${patchedCertificateItem.companyNumber}`);
-            
+
             const basket = await getBasket(accessToken);
             if (basket.enrolled) {
                 await appendItemToBasket(accessToken,{ itemUri: patchedCertificateItem.links.self});
