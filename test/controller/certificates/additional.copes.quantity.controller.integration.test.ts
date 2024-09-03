@@ -18,6 +18,7 @@ const ADDITIONAL_COPIES_QUANTITY_OPTIONS_URL =
 const sandbox = sinon.createSandbox();
 let testApp = null;
 let getCertificateItemStub;
+let patchCertificateItemStub;
 let getBasket;
 
 describe("additional.copies.quantity.integration.test", () => {
@@ -64,8 +65,19 @@ describe("additional.copies.quantity.integration.test", () => {
 
     describe("Route handling", () => {
         it("redirects to delivery details page when quantity is selected", async () => {
+            const certificateDetails = {
+                itemOptions: {
+                    includeEmailCopy: false
+                },
+                links: {
+                    self: "/path/to/certificate"
+                }
+            } as CertificateItem;
+
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItem));
+            patchCertificateItemStub = sandbox.stub(apiClient, "patchCertificateItem")
+            .returns(Promise.resolve(certificateDetails));
             getBasket = sandbox.stub(apiClient, "getBasket")
                 .returns(Promise.resolve({ enrolled: false }));
 
@@ -79,7 +91,6 @@ describe("additional.copies.quantity.integration.test", () => {
         });
 
     });
-        //TO-DO: Add tests once Patch request added for BI-12452
         it("adds item to basket and redirects the user to the basket page if enrolled", async () => {
             const certificateDetails = {
                 itemOptions: {
@@ -92,8 +103,8 @@ describe("additional.copies.quantity.integration.test", () => {
 
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateDetails));
-            // patchCertificateItemStub = sandbox.stub(apiClient, "patchCertificateItem")
-            //     .returns(Promise.resolve(certificateDetails));
+            patchCertificateItemStub = sandbox.stub(apiClient, "patchCertificateItem")
+                .returns(Promise.resolve(certificateDetails));
             getBasket = sandbox.stub(apiClient, "getBasket")
                 .returns(Promise.resolve({ enrolled: true, items: [{ kind: "item#certificate" } as any], deliveryDetails }));
             sandbox.mock(apiClient).expects("appendItemToBasket")
