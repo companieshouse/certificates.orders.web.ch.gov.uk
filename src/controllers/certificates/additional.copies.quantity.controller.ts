@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
-import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
+import { CertificateItem, CertificateItemPatchRequest } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { getAccessToken, getUserId } from "../../session/helper";
-import { appendItemToBasket, getBasket, getCertificateItem } from "../../client/api.client";
+import { appendItemToBasket, getBasket, getCertificateItem, patchCertificateItem } from "../../client/api.client";
 import { DELIVERY_DETAILS, ADDITIONAL_COPIES, ADDITIONAL_COPIES_QUANTITY } from "../../model/template.paths";
 import { createLogger } from "@companieshouse/structured-logging-node";
 import { APPLICATION_NAME } from "../../config/config";
@@ -37,11 +37,12 @@ export const route = async (req: Request, res: Response, next: NextFunction): Pr
         const errors = validationResult(req);
         const userId = getUserId(req.session);
         const accessToken: string = getAccessToken(req.session);
+
         const additionalCopiesQuantity: string = req.body[ADDITIONAL_COPIES_QUANTITY_OPTION_FIELD];
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
 
         logger.info(`Get certificate item, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
-        
+        logger.info("In try: " + certificateItem.quantity)
         if (!errors.isEmpty()) {
             const errorArray = errors.array();
             const errorText = errorArray[errorArray.length - 1].msg as string;
@@ -54,19 +55,27 @@ export const route = async (req: Request, res: Response, next: NextFunction): Pr
                 errorList: [additionalCopiesQuantityErrorData]
             });
         } else {
+
             logger.info(`User has selected quantity=${additionalCopiesQuantity} of additional copies`);
+            const certificateItemPatchRequest: CertificateItemPatchRequest = {
+                quantity : parseInt(additionalCopiesQuantity)
+            };
 
-            //TO-DO: - BI-12031 - Patch quantity to certificateItemResource
-
+            const patchedCertificateItem = await patchCertificateItem(accessToken, req.params.certificateId, certificateItemPatchRequest);
+            logger.info(`Patched certificate item with delivery option, id=${req.params.certificateId}, user_id=${userId}, company_number=${patchedCertificateItem.companyNumber}`);
+            
             const basket = await getBasket(accessToken);
             if (basket.enrolled) {
-                await appendItemToBasket(accessToken, { itemUri: certificateItem.links.self });
+                await appendItemToBasket(accessToken,{ itemUri: patchedCertificateItem.links.self});
                 return redirectCallback.redirectEnrolled({
                     response: res,
                     items: basket.items,
-                    deliveryDetails: basket.deliveryDetails
+                    deliveryDetails: basket.deliveryDetails,
+
                 });
+              
             }
+            
             return res.redirect(DELIVERY_DETAILS);
             
             }
