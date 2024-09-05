@@ -20,6 +20,7 @@ const CERTIFICATE_MODEL: CertificateItem = {
     id: "F00DFACE",
     companyName: "ACME LTD",
     companyNumber: "12345678",
+    quantity: 1,
     itemCosts: [{
         itemCost: "10"
     }],
@@ -48,6 +49,7 @@ const EXPECTED_RESULT = {
     companyObjects: MAPPED_OPTION_VALUE,
     registeredOfficeAddress: MAPPED_ADDRESS_OPTION,
     liquidatorsDetails: MAPPED_OPTION_VALUE,
+    quantity: 1,
     administratorsDetails: MAPPED_OPTION_VALUE,
     filterMappings: {
         statementOfGoodStanding: true,
@@ -141,3 +143,4 @@ describe("DefaultCompanyCheckDetailsFactory", () => {
         });
     });
 });
+
