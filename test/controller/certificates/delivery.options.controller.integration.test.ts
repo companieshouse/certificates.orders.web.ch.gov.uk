@@ -153,7 +153,7 @@ describe("delivery.options.integration.test", () => {
             chai.expect(resp.text).to.include("Found. Redirecting to email-options");
         });
 
-        it("adds item to basket and redirects user to the basket page if enrolled", async () => {
+        it("redirects the user to the additional-copies page", async () => {
             const certificateDetails = {
                 itemOptions: {
                     deliveryTimescale: "standard"
@@ -183,10 +183,10 @@ describe("delivery.options.integration.test", () => {
                 });
 
             chai.expect(resp.status).to.equal(302);
-            chai.expect(resp.text).to.include("Found. Redirecting to /basket");
+            chai.expect(resp.text).to.include("Found. Redirecting to additional-copies");
         });
 
-        it("enrolled user redirected to delivery details page if no other deliverable items", async () => {
+        it("enrolled user redirected to additional copies page if no other deliverable items", async () => {
             const certificateDetails = {
                 itemOptions: {
                     deliveryTimescale: "standard"
@@ -216,7 +216,7 @@ describe("delivery.options.integration.test", () => {
                 });
 
             chai.expect(resp.status).to.equal(302);
-            chai.expect(resp.text).to.include("Found. Redirecting to /delivery-details");
+            chai.expect(resp.text).to.include("Found. Redirecting to additional-copies");
         });
     });
 
