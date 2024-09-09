@@ -99,7 +99,6 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
             logger.info(`Patched certificate item with delivery option, id=${req.params.certificateId}, user_id=${userId}, company_number=${certificatePatchResponse.companyNumber}`);
             const basket = await getBasket(accessToken);
             if (certificateItemPatchRequest.itemOptions?.deliveryTimescale === "same-day") {
-                logger.info("same day if satateent to email options")
                 return res.redirect(EMAIL_OPTIONS);
             } else if (basket.enrolled) {
                 await appendItemToBasket(accessToken, { itemUri: certificateItem.links.self });
