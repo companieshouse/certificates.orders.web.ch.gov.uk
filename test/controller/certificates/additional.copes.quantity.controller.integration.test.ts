@@ -123,4 +123,40 @@ describe("additional.copies.quantity.integration.test", () => {
             chai.expect(resp.text).to.include("/basket");
         });
 
+    describe("Quantity update", () => {
+        it("redirects to delivery details page when quantity is selected", async () => {
+            const initialQuantity = 1;
+            const additionalCopiesQuantity = 2;
+            const expectedQuantity = initialQuantity + additionalCopiesQuantity;
+            const certificateDetails = {
+                itemOptions: {
+                    includeEmailCopy: false
+                },
+                links: {
+                    self: "/path/to/certificate"
+                },
+                quantity: initialQuantity
+            } as CertificateItem;
+    
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateDetails));
+            patchCertificateItemStub = sandbox.stub(apiClient, "patchCertificateItem")
+                .callsFake(() => {
+                    certificateDetails.quantity += additionalCopiesQuantity;
+                    return Promise.resolve(certificateDetails);
+                });
+            getBasket = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: false }));
+    
+            const resp = await chai.request(testApp)
+                .post(ADDITIONAL_COPIES_QUANTITY_OPTIONS_URL)
+                .send({ additionalCopiesQuantity: additionalCopiesQuantity })
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+    
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.include("Delivery details - Order a certificate - GOV.UK");
+            chai.expect(patchCertificateItemStub.calledOnce).to.be.true;
+            chai.expect(certificateDetails.quantity).to.equal(expectedQuantity);
+        });
+    });
 });

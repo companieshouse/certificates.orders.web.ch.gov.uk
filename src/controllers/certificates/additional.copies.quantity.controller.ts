@@ -54,14 +54,15 @@ export const route = async (req: Request, res: Response, next: NextFunction): Pr
                 errorList: [additionalCopiesQuantityErrorData]
             });
         } else {
-            logger.info(`User has selected quantity=${additionalCopiesQuantity} of additional copies`);
+            const currentQuantity= certificateItem.quantity
+            logger.info(`User has selected ${additionalCopiesQuantity} additional copies`);
             const certificateItemPatchRequest: CertificateItemPatchRequest = {
-                quantity : parseInt(additionalCopiesQuantity)
+                quantity : currentQuantity + parseInt(additionalCopiesQuantity)
             };
-
+            
             const patchedCertificateItem = await patchCertificateItem(accessToken, req.params.certificateId, certificateItemPatchRequest);
             logger.info(`Patched certificate item with delivery option, id=${req.params.certificateId}, user_id=${userId}, company_number=${patchedCertificateItem.companyNumber}`);
-
+            logger.info(`Quantity has been updated to: ${patchedCertificateItem.quantity} ` );
             const basket = await getBasket(accessToken);
             if (basket.enrolled) {
                 await appendItemToBasket(accessToken,{ itemUri: patchedCertificateItem.links.self});
