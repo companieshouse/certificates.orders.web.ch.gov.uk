@@ -28,7 +28,7 @@
   {% if companyStatus === "dissolved" %}
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
-        <h3 class="govuk-hint">{{ companyName }}</h3>
+        <p class="govuk-hint" style="font-size: 24px">{{ companyName }}</p>
         <h1 class="govuk-heading-xl">Order a company certificate</h1>
 
         <p class="govuk-body-l">Use this service to order a signed certificate of dissolution for a company, including all company name changes. </p>
@@ -62,41 +62,41 @@
           }
         }) }}
 
-        <h3 class="govuk-heading-m">Costs</h3>
-                <table class="govuk-table">
-                    <thead class="govuk-table__head">
-                      <tr class="govuk-table__row">
-                          <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Service</th>
-                          <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Cost</th>
-                          <th scope="col" class="govuk-table__header govuk-!-width-one-half">Dispatch information</th>
-                      </tr>
-                    </thead>
-                    <tbody class="govuk-table__body">
-                      <tr class="govuk-table__row">
-                        <td class="govuk-table__cell" id="standard"><h4 class="govuk-heading-s">Standard</h4></td>
-                        <td class="govuk-table__cell" id="standardCost">£15</td>
-                        <td class="govuk-table__cell" id="standardDescription">We will aim to send out the order within
-                          {{ DISPATCH_DAYS }} working days. We send UK orders by Royal Mail 2nd Class post and international orders by Royal Mail International Standard post.</td>
-                      </tr>
-                      <tr class="govuk-table__row">
-                        <td class="govuk-table__cell" id="express"><h4 class="govuk-heading-s">Express</h4></td>
-                        <td class="govuk-table__cell" id="expressCost">£50</td>
-                        <td class="govuk-table__cell" id="expressDescription">Orders received before 11am will be sent out the same working day. Orders received after 11am will be sent out the next working day. We send UK orders by Royal Mail 1st Class post and international orders by Royal Mail International post.</td>
-                      </tr>
-                      <tr class="govuk-table__row">
-                        <td class="govuk-table__cell" id="additionalCopies"><h4 class="govuk-heading-s">Additional copies</h4></td>
-                        <td class="govuk-table__cell" id="additionalCost">£10 each</td>
-                        <td class="govuk-table__cell" id="additionalCopiesDescription">You can order up to 10 additional copies of a certificate. We'll include any additional copies when we send your standard or express order.</td>
-                      </tr>
-                    </tbody>  
-                </table>
+        <table class="govuk-table">
+          <caption class="govuk-table__caption govuk-table__caption--m">Costs</caption>
+            <thead class="govuk-table__head">
+              <tr class="govuk-table__row">
+                  <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Service</th>
+                  <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Cost</th>
+                  <th scope="col" class="govuk-table__header govuk-!-width-one-half">Dispatch information</th>
+              </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+              <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header" id="standard">Standard</th>
+                <td class="govuk-table__cell" id="standardCost">£15</td>
+                <td class="govuk-table__cell" id="standardDescription">We will aim to send out the order within
+                  {{ DISPATCH_DAYS }} working days. We send UK orders by Royal Mail 2nd Class post and international orders by Royal Mail International Standard post.</td>
+              </tr>
+              <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header" id="express">Express</th>
+                <td class="govuk-table__cell" id="expressCost">£50</td>
+                <td class="govuk-table__cell" id="expressDescription">Orders received before 11am will be sent out the same working day. Orders received after 11am will be sent out the next working day. We send UK orders by Royal Mail 1st Class post and international orders by Royal Mail International post.</td>
+              </tr>
+              <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header" id="additionalCopies">Additional copies</th>
+                <td class="govuk-table__cell" id="additionalCost">£10 each</td>
+                <td class="govuk-table__cell" id="additionalCopiesDescription">You can order up to 10 additional copies of a certificate. We'll include any additional copies when we send your standard or express order.</td>
+              </tr>
+            </tbody>  
+        </table>
       </div>
     </div>
   {% else %}
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
 
-        <h3 class="govuk-hint">{{ companyName }}</h3>
+        <p class="govuk-hint" style="font-size: 24px">{{ companyName }}</p>
 
         <h1 class="govuk-heading-xl">Order a company certificate</h1>
 
@@ -128,11 +128,11 @@
           A company certificate is different to the certificate of incorporation from when the company was formed. Copies of these can be ordered through the <a href="{{ moreTabUrl }}" class='govuk-link' data-event-id="certified-copies-from-certificates">Order a certified document service</a>.
         </div>
 
-        <h3 class="govuk-heading-m">Before you start</h3>
+        <h2 class="govuk-heading-m">Before you start</h2>
 
         <p class="govuk-body">You should check the company information is up to date before you order. The information on the certificate will be taken from the company's filing history at the time of ordering.</p>
 
-        <h3 class="govuk-heading-m">What you'll need</h3>
+        <h2 class="govuk-heading-m">What you'll need</h2>
         <p class="govuk-body">You'll need:</p>
         <ul class="govuk-list govuk-list--bullet">
           <li>to sign in to or create an account</li>
@@ -164,8 +164,8 @@
           }
         }) }}
 
-        <h3 class="govuk-heading-m">Costs</h3>
                 <table class="govuk-table">
+                  <caption class="govuk-table__caption govuk-table__caption--m">Costs</caption>
                     <thead class="govuk-table__head">
                       <tr class="govuk-table__row">
                           <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Service</th>
@@ -175,20 +175,20 @@
                     </thead>
                     <tbody class="govuk-table__body">
                       <tr class="govuk-table__row">
-                        <td class="govuk-table__cell" id="standard"><h4 class="govuk-heading-s">Standard</h4></td>
-                        <td class="govuk-table__cell" id="standardCost">£15</td>
-                        <td class="govuk-table__cell" id="standardDescription">We will aim to send out the order within
+                        <th scope="row" class="govuk-table__header">Standard</th>
+                        <td class="govuk-table__cell">£15</td>
+                        <td class="govuk-table__cell">We will aim to send out the order within
                           {{ DISPATCH_DAYS }} working days. We send UK orders by Royal Mail 2nd Class post and international orders by Royal Mail International Standard post.</td>
                       </tr>
                       <tr class="govuk-table__row">
-                        <td class="govuk-table__cell" id="express"><h4 class="govuk-heading-s">Express</h4></td>
-                        <td class="govuk-table__cell" id="expressCost">£50</td>
-                        <td class="govuk-table__cell" id="expressDescription">Orders received before 11am will be sent out the same working day. Orders received after 11am will be sent out the next working day. We send UK orders by Royal Mail 1st Class post and international orders by Royal Mail International post.</td>
+                        <th scope="row" class="govuk-table__header">Express</th>
+                        <td class="govuk-table__cell">£50</td>
+                        <td class="govuk-table__cell">Orders received before 11am will be sent out the same working day. Orders received after 11am will be sent out the next working day. We send UK orders by Royal Mail 1st Class post and international orders by Royal Mail International post.</td>
                       </tr>
                       <tr class="govuk-table__row">
-                        <td class="govuk-table__cell" id="additionalCopies"><h4 class="govuk-heading-s">Additional copies</h4></td>
-                        <td class="govuk-table__cell" id="additionalCost">£10 each</td>
-                        <td class="govuk-table__cell" id="additionalCopiesDescription">You can order up to 10 additional copies of a certificate. We'll include any additional copies when we send your standard or express order.</td>
+                        <th scope="row" class="govuk-table__header">Additional copies</th>
+                        <td class="govuk-table__cell">£10 each</td>
+                        <td class="govuk-table__cell">You can order up to 10 additional copies of a certificate. We'll include any additional copies when we send your standard or express order.</td>
                       </tr>
                     </tbody>  
                 </table>
