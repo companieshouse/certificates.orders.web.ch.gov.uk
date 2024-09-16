@@ -6,3 +6,8 @@ use_set_environment_files = true
 
 # scaling configs
 desired_task_count = 2 # use multi instance in staging
+
+# scaling configs
+service_autoscale_enabled  = true
+service_scaledown_schedule = "55 19 * * ? *"
+service_scaleup_schedule   = "5 6 * * ? *"
