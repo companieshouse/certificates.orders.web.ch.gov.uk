@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { validationResult } from "express-validator";
+import { check, validationResult } from "express-validator";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { getAccessToken, getUserId } from "../../session/helper";
 import { appendItemToBasket, getBasket, getCertificateItem } from "../../client/api.client";
@@ -11,12 +11,16 @@ import { Session } from "@companieshouse/node-session-handler";
 import { createGovUkErrorData } from "../../model/govuk.error.data";
 import { renderPage } from "../../utils/render.utils";
 import { BY_ITEM_KIND, StaticRedirectCallback } from "./StaticRedirectCallback";
+import { ADDITIONAL_COPIES_OPTION_SELECTION } from "../../model/error.messages";
 
 const logger = createLogger(APPLICATION_NAME);
 const ADDITIONAL_COPIES_OPTION_FIELD: string = "additionalCopiesOptions";
 const PAGE_TITLE: string = "Additional Copies - Order a certificate - GOV.UK";
 const redirectCallback = new StaticRedirectCallback(BY_ITEM_KIND);
 
+const validators = [
+    check("additionalCopiesOptions").not().isEmpty().withMessage(ADDITIONAL_COPIES_OPTION_SELECTION)
+];
 
 export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
@@ -32,7 +36,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
     }
 };
 
-export const route = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+const route = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const errors = validationResult(req);
         const userId = getUserId(req.session);
@@ -44,7 +48,7 @@ export const route = async (req: Request, res: Response, next: NextFunction): Pr
         if (!errors.isEmpty()) {
             const errorArray = errors.array();
             const errorText = errorArray[errorArray.length - 1].msg as string;
-            const additionalCopiesErrorData = createGovUkErrorData(errorText, "#additionalCopies", true, "");
+            const additionalCopiesErrorData = createGovUkErrorData(errorText, "#additionalCopiesOptions", true, "");
             return res.render(ADDITIONAL_COPIES, {
                 pageTitleText: PAGE_TITLE,
                 SERVICE_URL: setServiceUrl(certificateItem),
@@ -84,4 +88,4 @@ export const setBackLink = (certificateItem: CertificateItem, session: Session |
     return DELIVERY_OPTIONS;
 };
 
-export default [route];
+export default [...validators, route];

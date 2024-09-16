@@ -13,6 +13,7 @@ import {
 const CERTIFICATE_ID = "CRT-000000-000000";
 const ADDITIONAL_COPIES_OPTIONS_URL =
     replaceCertificateId(CERTIFICATE_ADDITIONAL_COPIES_OPTIONS, CERTIFICATE_ID);
+const ADDITIONAL_COPIES_OPTION_NOT_SELECTED: string = "Select ‘yes’ if you would like an additional copy of the certificate";
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
@@ -57,6 +58,20 @@ describe("additional.copies.options.integration.test", () => {
 
             chai.expect(resp.status).to.equal(200);
             chai.expect($("h1").text().trim()).to.equal("Would you like additional copies of the certificate?");
+        });
+
+        it("throws a validation error when no option selected", async () => {
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItem));
+
+            const resp = await chai.request(testApp)
+                .post(ADDITIONAL_COPIES_OPTIONS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
+                .redirects(0)
+                .send();
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain(ADDITIONAL_COPIES_OPTION_NOT_SELECTED);
         });
 
     });
