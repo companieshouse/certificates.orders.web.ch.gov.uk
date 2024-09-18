@@ -3,7 +3,7 @@ import { check, validationResult } from "express-validator";
 import { CertificateItem, CertificateItemPatchRequest } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { getAccessToken, getUserId } from "../../session/helper";
 import { appendItemToBasket, getBasket, getCertificateItem, patchCertificateItem } from "../../client/api.client";
-import { DELIVERY_DETAILS, DELIVERY_OPTIONS, EMAIL_OPTIONS } from "../../model/template.paths";
+import { ADDITIONAL_COPIES, DELIVERY_DETAILS, DELIVERY_OPTIONS, EMAIL_OPTIONS } from "../../model/template.paths";
 import { createLogger } from "@companieshouse/structured-logging-node";
 import { APPLICATION_NAME, DISPATCH_DAYS } from "../../config/config";
 import { setServiceUrl } from "../../utils/service.url.utils";
@@ -24,7 +24,6 @@ const validators = [
     check("deliveryOptions").not().isEmpty().withMessage(DELIVERY_OPTION_SELECTION)
 ];
 
-const redirectCallback = new StaticRedirectCallback(BY_ITEM_KIND);
 
 export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
@@ -103,11 +102,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
                 return res.redirect(EMAIL_OPTIONS);
             } else if (basket.enrolled) {
                 await appendItemToBasket(accessToken, { itemUri: certificateItem.links.self });
-                return redirectCallback.redirectEnrolled({
-                    response: res,
-                    items: basket.items,
-                    deliveryDetails: basket.deliveryDetails
-                });
+                return res.redirect(ADDITIONAL_COPIES);
             } else {
                 return res.redirect(DELIVERY_DETAILS);
             }

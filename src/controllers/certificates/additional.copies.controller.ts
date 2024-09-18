@@ -27,7 +27,8 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         logger.info(`Render additional copies options page`);
         const accessToken: string = getAccessToken(req.session);
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
-        const backLink = EMAIL_OPTIONS;
+        const backLink = setBackLink(certificateItem, req.session)
+
 
         await renderPage(req, res, ADDITIONAL_COPIES, PAGE_TITLE, certificateItem, backLink);
     } catch (err) {
