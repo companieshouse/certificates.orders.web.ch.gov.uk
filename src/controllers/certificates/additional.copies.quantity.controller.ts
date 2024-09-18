@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { validationResult } from "express-validator";
+import { check, validationResult } from "express-validator";
 import { CertificateItem, CertificateItemPatchRequest } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { getAccessToken, getUserId } from "../../session/helper";
 import { appendItemToBasket, getBasket, getCertificateItem, patchCertificateItem } from "../../client/api.client";
@@ -11,12 +11,16 @@ import { Session } from "@companieshouse/node-session-handler";
 import { createGovUkErrorData } from "../../model/govuk.error.data";
 import { BY_ITEM_KIND, StaticRedirectCallback } from "./StaticRedirectCallback";
 import { renderPage } from "../../utils/render.utils";
+import { ADDITIONAL_COPIES_QUANTITY_OPTION_SELECTION } from "../../model/error.messages";
 
 const logger = createLogger(APPLICATION_NAME);
 const ADDITIONAL_COPIES_QUANTITY_OPTION_FIELD: string = "additionalCopiesQuantityOptions";
 const PAGE_TITLE: string = "Additional Copies Quantity - Order a certificate - GOV.UK";
 const redirectCallback = new StaticRedirectCallback(BY_ITEM_KIND);
 
+const validators = [
+    check("additionalCopiesQuantityOptions").not().isEmpty().withMessage(ADDITIONAL_COPIES_QUANTITY_OPTION_SELECTION)
+];
 
 export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
@@ -45,7 +49,7 @@ export const route = async (req: Request, res: Response, next: NextFunction): Pr
         if (!errors.isEmpty()) {
             const errorArray = errors.array();
             const errorText = errorArray[errorArray.length - 1].msg as string;
-            const additionalCopiesQuantityErrorData = createGovUkErrorData(errorText, "#additionalCopiesQuantity", true, "");
+            const additionalCopiesQuantityErrorData = createGovUkErrorData(errorText, "#additionalCopiesQuantityOptions", true, "");
             return res.render(ADDITIONAL_COPIES_QUANTITY, {
                 pageTitleText: PAGE_TITLE,
                 SERVICE_URL: setServiceUrl(certificateItem),
@@ -85,4 +89,4 @@ export const setBackLink = (certificateItem: CertificateItem, session: Session |
    return ADDITIONAL_COPIES;
 };
 
-export default [route];
+export default [...validators, route];

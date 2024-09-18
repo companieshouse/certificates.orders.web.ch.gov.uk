@@ -36,3 +36,4 @@ export const ADDRESS_COUNTRY_EMPTY: string = "Enter a country";
 export const DELIVERY_OPTION_SELECTION: string = "Select a delivery option";
 export const EMAIL_OPTION_SELECTION: string = "Select ‘yes’ if you would like an email copy of the certificate";
 export const ADDITIONAL_COPIES_OPTION_SELECTION: string = "Select ‘yes’ if you would like an additional copy of the certificate";
+export const ADDITIONAL_COPIES_QUANTITY_OPTION_SELECTION: string = "Select how many additional copies you need";
