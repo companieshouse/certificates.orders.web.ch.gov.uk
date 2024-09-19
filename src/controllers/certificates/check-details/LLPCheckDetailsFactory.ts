@@ -47,6 +47,7 @@ export class LLPCheckDetailsFactory implements ViewModelCreatable {
             registeredOfficeAddress: this.textMapper.mapAddressOption(itemOptions.registeredOfficeAddressDetails?.includeAddressRecordsType),
             liquidatorsDetails: this.textMapper.isOptionSelected(itemOptions.liquidatorsDetails?.includeBasicInformation),
             administratorsDetails: this.textMapper.isOptionSelected(itemOptions.administratorsDetails?.includeBasicInformation),
+            quantity: certificateItem.quantity,
             filterMappings: {
                 statementOfGoodStanding: certificateItem.itemOptions.companyStatus === CompanyStatus.ACTIVE,
                 liquidators: certificateItem.itemOptions.companyStatus === CompanyStatus.LIQUIDATION,

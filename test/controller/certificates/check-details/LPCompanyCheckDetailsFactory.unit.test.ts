@@ -21,6 +21,7 @@ const CERTIFICATE_MODEL: CertificateItem = {
     id: "F00DFACE",
     companyName: "ACME LTD",
     companyNumber: "12345678",
+    quantity: 1,
     itemCosts: [{
         itemCost: "10"
     }],
@@ -46,7 +47,8 @@ const EXPECTED_RESULT = {
     principalPlaceOfBusiness: MAPPED_ADDRESS_OPTION,
     generalPartners: MAPPED_OPTION_VALUE,
     limitedPartners: MAPPED_OPTION_VALUE,
-    generalNatureOfBusiness: MAPPED_OPTION_VALUE
+    generalNatureOfBusiness: MAPPED_OPTION_VALUE,
+    quantity: 1,
 };
 
 describe("LPCheckDetailsFactory", () => {

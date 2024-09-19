@@ -19,6 +19,7 @@ const CERTIFICATE_MODEL: CertificateItem = {
     id: "F00DFACE",
     companyName: "ACME LTD",
     companyNumber: "12345678",
+    quantity: 1,
     itemCosts: [{
         itemCost: "10"
     }],
@@ -47,6 +48,7 @@ const EXPECTED_RESULT = {
     registeredOfficeAddress: MAPPED_ADDRESS_OPTION,
     liquidatorsDetails: MAPPED_OPTION_VALUE,
     administratorsDetails: MAPPED_OPTION_VALUE,
+    quantity: 1,
     filterMappings: {
         statementOfGoodStanding: true,
         liquidators: false,
