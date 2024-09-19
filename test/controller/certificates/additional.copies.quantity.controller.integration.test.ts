@@ -12,6 +12,7 @@ import {
 } from "../../../src/model/page.urls";
 
 const CERTIFICATE_ID = "CRT-000000-000000";
+const ADDITIONAL_COPIES_QUANTITY_OPTION_NOT_SELECTED = "Select how many additional copies you need";
 const ADDITIONAL_COPIES_QUANTITY_OPTIONS_URL =
     replaceCertificateId(CERTIFICATE_ADDITIONAL_COPIES_QUANTITY_OPTIONS, CERTIFICATE_ID);
 
@@ -63,6 +64,20 @@ describe("additional.copies.quantity.integration.test", () => {
 
     });
 
+    describe("additional copies quantity options validation", () => {
+        it("throws a validation error when no option selected", async () => {
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateItem));
+            const resp = await chai.request(testApp)
+                .post(ADDITIONAL_COPIES_QUANTITY_OPTIONS_URL)
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
+                .redirects(0)
+                .send();
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain(ADDITIONAL_COPIES_QUANTITY_OPTION_NOT_SELECTED);
+        });
+    });
+
     describe("Route handling", () => {
         it("redirects to delivery details page when quantity is selected", async () => {
             const certificateDetails = {
@@ -83,7 +98,7 @@ describe("additional.copies.quantity.integration.test", () => {
 
             const resp = await chai.request(testApp)
                 .post(ADDITIONAL_COPIES_QUANTITY_OPTIONS_URL)
-                .send({ additionalCopiesQuantity: 2 })
+                .send({ additionalCopiesQuantityOptions: 2 })
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
 
             chai.expect(resp.status).to.equal(200);
@@ -115,9 +130,7 @@ describe("additional.copies.quantity.integration.test", () => {
                 .post(ADDITIONAL_COPIES_QUANTITY_OPTIONS_URL)
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
                 .redirects(0)
-                .send({
-                    emailOptions: false
-                });
+                .send({ additionalCopiesQuantityOptions: 2 });
 
             chai.expect(resp.status).to.equal(302);
             chai.expect(resp.text).to.include("/basket");
@@ -150,7 +163,7 @@ describe("additional.copies.quantity.integration.test", () => {
     
             const resp = await chai.request(testApp)
                 .post(ADDITIONAL_COPIES_QUANTITY_OPTIONS_URL)
-                .send({ additionalCopiesQuantity: additionalCopiesQuantity })
+                .send({ additionalCopiesQuantityOptions: additionalCopiesQuantity })
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
     
             chai.expect(resp.status).to.equal(200);
