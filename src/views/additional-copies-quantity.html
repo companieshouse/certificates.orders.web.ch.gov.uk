@@ -34,7 +34,7 @@ href: backLink
         {% endif %}
 
       {{ govukRadios({
-        idPrefix: "additionalCopiesQuantity",
+        idPrefix: "additionalCopiesQuantityOptions",
         id:"additionalCopiesQuantityOptions",
       name: "additionalCopiesQuantityOptions",
       fieldset: {
@@ -44,7 +44,7 @@ href: backLink
       classes: "govuk-fieldset__legend--xl"
       }
       },
-      errorMessage: additionalCopiesQuantityOptionsErrorsData,
+      errorMessage: additionalCopiesQuantityErrorData,
       items:[
       {
       value: 1,
