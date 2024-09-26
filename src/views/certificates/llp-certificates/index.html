@@ -34,20 +34,26 @@
         <p class="govuk-body-l">Use this service to order a signed certificate of dissolution for a company, including all company name changes. </p>
 
         <p class="govuk-body">You can order additional copies of a certificate if you need to.</p>
-        
+
         <p class="govuk-body">Ordering a certificate takes around 5 minutes.</p>
 
         {% if basketLimitState == "below-limit" %}
-          <p class="govuk-body">To order for a different company, 
+          <p class="govuk-body">To order for a different company,
             <a class="govuk-notification-banner__link" href="https://find-and-update.company-information.service.gov.uk/">search for the company on the register</a>.</p>
           {% else %}
-           <p class="govuk-notification-banner__heading">
-                Your basket is full
-           </p>
-           <p>
-            You cannot add more than {{ basketLimit }} items to your order.
-            To add more, you'll need to remove some items first.
-           </p>
+           <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+               <div class="govuk-notification-banner__header">
+                   <h2 class="govuk-notification-banner__title">
+                       Your basket is full
+                   </h2>
+               </div>
+               <div class="govuk-notification-banner__content">
+                   <p class="govuk-notification-banner__heading">
+                       You cannot add more than {{ basketLimit }} items to your order.
+                       To add more, you'll need to remove some items first.
+                   </p>
+               </div>
+           </div>
          {% endif %}
 
         {{ govukButton({
@@ -121,7 +127,7 @@
         {% endif %}
 
         <p class="govuk-body">You can order additional copies of a certificate if you need to.</p>
-        
+
         <div class="govuk-inset-text">
           A company certificate is different to the certificate of incorporation from when the company was formed. Copies of these can be ordered through the <a href="{{ moreTabUrl }}" class='govuk-link' data-event-id="certified-copies-from-certificates">Order a certified document service</a>.
         </div>
@@ -138,16 +144,22 @@
         </ul>
 
           {% if basketLimitState == "below-limit" %}
-          <p class="govuk-body">To order for a different company, 
+          <p class="govuk-body">To order for a different company,
             <a class="govuk-notification-banner__link" href="https://find-and-update.company-information.service.gov.uk/">search for the company on the register</a>.</p>
           {% else %}
-           <p class="govuk-notification-banner__heading">
-                Your basket is full
-           </p>
-           <p>
-            You cannot add more than {{ basketLimit }} items to your order.
-            To add more, you'll need to remove some items first.
-           </p>
+           <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+               <div class="govuk-notification-banner__header">
+                   <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                       Your basket is full
+                   </h2>
+               </div>
+               <div class="govuk-notification-banner__content">
+                   <p class="govuk-notification-banner__heading">
+                       You cannot add more than {{ basketLimit }} items to your order.
+                       To add more, you'll need to remove some items first.
+                   </p>
+               </div>
+           </div>
          {% endif %}
 
         {{ govukButton({
