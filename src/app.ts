@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import actuator from "express-actuator";
 import Redis from "ioredis";
 import { SessionStore, SessionMiddleware, CookieConfig } from "@companieshouse/node-session-handler";
+import { CsrfProtectionMiddleware } from "@companieshouse/web-security-node";
 
 import certRouter from "./routers/certificates/routers";
 import lpCertRouter from "./routers/certificates/lp-certificates/routers";
@@ -29,6 +30,7 @@ import {
     PIWIK_URL,
     COOKIE_SECRET,
     COOKIE_DOMAIN,
+    COOKIE_NAME,
     CACHE_SERVER,
     APPLICATION_NAME,
     PIWIK_SERVICE_NAME_CERTIFICATES,
@@ -74,7 +76,8 @@ const viewPath = path.join(__dirname, "views");
 const env = nunjucks.configure([
     viewPath,
     "node_modules/govuk-frontend/",
-    "node_modules/govuk-frontend/components"
+    "node_modules/govuk-frontend/components",
+    "node_modules/@companieshouse"
 ], {
     autoescape: true,
     express: app
@@ -201,6 +204,13 @@ app.use("/orderable/certificates-assets/static", express.static("static"));
 env.addGlobal("CSS_URL", "/orderable/certificates-assets/static/app.css");
 env.addGlobal("FOOTER", "/orderable/certificates-assets/static/footer.css");
 env.addGlobal("MOBILE_MENU", "/orderable/certificates-assets/static/js/mobile-menu.js");
+
+const csrfProtectionMiddleware = CsrfProtectionMiddleware({
+    sessionStore,
+    enabled: true,
+    sessionCookieName: COOKIE_NAME
+  });
+  app.use(csrfProtectionMiddleware);
 
 // apply our default router to /
 app.use("/", certRouter);
