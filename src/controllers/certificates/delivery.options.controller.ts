@@ -101,7 +101,6 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
             if (certificateItemPatchRequest.itemOptions?.deliveryTimescale === "same-day") {
                 return res.redirect(EMAIL_OPTIONS);
             } else if (basket.enrolled) {
-                await appendItemToBasket(accessToken, { itemUri: certificateItem.links.self });
                 return res.redirect(ADDITIONAL_COPIES);
             } else {
                 return res.redirect(DELIVERY_DETAILS);
