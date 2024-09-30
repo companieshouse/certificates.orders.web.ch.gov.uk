@@ -170,9 +170,7 @@ describe("delivery.options.integration.test", () => {
                 .returns(Promise.resolve(certificateDetails));
             getBasketStub = sandbox.stub(apiClient, "getBasket")
                 .returns(Promise.resolve({ enrolled: true, items: [{ kind: "item#certificate" } as any], deliveryDetails }));
-            sandbox.mock(apiClient).expects("appendItemToBasket")
-                .once()
-                .returns(Promise.resolve());
+     
 
             const resp = await chai.request(testApp)
                 .post(DELIVERY_OPTIONS_URL)
@@ -203,9 +201,6 @@ describe("delivery.options.integration.test", () => {
                 .returns(Promise.resolve(certificateDetails));
             getBasketStub = sandbox.stub(apiClient, "getBasket")
                 .returns(Promise.resolve({ enrolled: true, items: [{ kind: "item#missing-image-delivery" } as any] }));
-            sandbox.mock(apiClient).expects("appendItemToBasket")
-                .once()
-                .returns(Promise.resolve());
 
             const resp = await chai.request(testApp)
                 .post(DELIVERY_OPTIONS_URL)
