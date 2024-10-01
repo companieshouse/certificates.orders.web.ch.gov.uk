@@ -205,12 +205,6 @@ env.addGlobal("CSS_URL", "/orderable/certificates-assets/static/app.css");
 env.addGlobal("FOOTER", "/orderable/certificates-assets/static/footer.css");
 env.addGlobal("MOBILE_MENU", "/orderable/certificates-assets/static/js/mobile-menu.js");
 
-const csrfProtectionMiddleware = CsrfProtectionMiddleware({
-    sessionStore,
-    enabled: true,
-    sessionCookieName: COOKIE_NAME
-  });
-  app.use(csrfProtectionMiddleware);
 
 // apply our default router to /
 app.use("/", certRouter);
@@ -223,5 +217,12 @@ if (FEATURE_FLAGS.llpCertificateOrdersEnabled) {
 app.use("/", certCopyRouter);
 app.use("/", missingImageDeliveryRouter);
 app.use(errorHandlers);
+
+const csrfProtectionMiddleware = CsrfProtectionMiddleware({
+    sessionStore,
+    enabled: true,
+    sessionCookieName: COOKIE_NAME
+  });
+  app.use(csrfProtectionMiddleware);
 
 export default app;
