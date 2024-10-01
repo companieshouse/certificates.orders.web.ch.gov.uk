@@ -86,6 +86,13 @@ const env = nunjucks.configure([
 const cookieConfig: CookieConfig = { cookieName: "__SID", cookieSecret: COOKIE_SECRET, cookieDomain: COOKIE_DOMAIN };
 const sessionStore = new SessionStore(new Redis(`redis://${CACHE_SERVER}`));
 
+const csrfProtectionMiddleware = CsrfProtectionMiddleware({
+    sessionStore,
+    enabled: true,
+    sessionCookieName: COOKIE_NAME
+  });
+  app.use(csrfProtectionMiddleware);
+
 const PROTECTED_PATHS = [
     pageUrls.CERTIFICATE_OPTIONS,
     pageUrls.CERTIFICATE_TYPE,
@@ -205,7 +212,6 @@ env.addGlobal("CSS_URL", "/orderable/certificates-assets/static/app.css");
 env.addGlobal("FOOTER", "/orderable/certificates-assets/static/footer.css");
 env.addGlobal("MOBILE_MENU", "/orderable/certificates-assets/static/js/mobile-menu.js");
 
-
 // apply our default router to /
 app.use("/", certRouter);
 if (FEATURE_FLAGS.lpCertificateOrdersEnabled) {
@@ -217,12 +223,5 @@ if (FEATURE_FLAGS.llpCertificateOrdersEnabled) {
 app.use("/", certCopyRouter);
 app.use("/", missingImageDeliveryRouter);
 app.use(errorHandlers);
-
-const csrfProtectionMiddleware = CsrfProtectionMiddleware({
-    sessionStore,
-    enabled: true,
-    sessionCookieName: COOKIE_NAME
-  });
-  app.use(csrfProtectionMiddleware);
 
 export default app;
