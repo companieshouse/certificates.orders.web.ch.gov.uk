@@ -143,37 +143,31 @@ const csrfProtectionMiddleware = CsrfProtectionMiddleware({
 app.use(PROTECTED_PATHS, createLoggerMiddleware(APPLICATION_NAME));
 app.use([pageUrls.ROOT_CERTIFICATE, pageUrls.ROOT_CERTIFICATE_ID], SessionMiddleware(cookieConfig, sessionStore));
 app.use(pageUrls.ROOT_CERTIFICATE, authMiddleware);
-app.use(pageUrls.ROOT_CERTIFICATE_ID, csrfProtectionMiddleware);
-app.use(pageUrls.ROOT_CERTIFICATE_ID, SessionMiddleware(cookieConfig, sessionStore));
+app.use(pageUrls.ROOT_CERTIFICATE, csrfProtectionMiddleware);
 app.use(pageUrls.ROOT_CERTIFICATE_ID, authCertificateMiddleware);
 
 app.use([pageUrls.LP_ROOT_CERTIFICATE, pageUrls.LP_ROOT_CERTIFICATE_ID], SessionMiddleware(cookieConfig, sessionStore));
 app.use(pageUrls.LP_ROOT_CERTIFICATE, authMiddleware);
+app.use(pageUrls.LP_ROOT_CERTIFICATE, csrfProtectionMiddleware);
 app.use(pageUrls.LP_ROOT_CERTIFICATE_ID, authCertificateMiddleware);
-app.use(pageUrls.LP_ROOT_CERTIFICATE_ID, SessionMiddleware(cookieConfig, sessionStore));
-app.use(pageUrls.LP_ROOT_CERTIFICATE_ID, csrfProtectionMiddleware);
 
 app.use([pageUrls.LLP_ROOT_CERTIFICATE, pageUrls.LLP_ROOT_CERTIFICATE_ID], SessionMiddleware(cookieConfig, sessionStore));
 app.use(pageUrls.LLP_ROOT_CERTIFICATE, authMiddleware);
+app.use(pageUrls.LLP_ROOT_CERTIFICATE, csrfProtectionMiddleware);
 app.use(pageUrls.LLP_ROOT_CERTIFICATE_ID, authCertificateMiddleware);
-app.use(pageUrls.LLP_ROOT_CERTIFICATE_ID, SessionMiddleware(cookieConfig, sessionStore));
-app.use(pageUrls.LLP_ROOT_CERTIFICATE_ID, csrfProtectionMiddleware);
 
 app.use([pageUrls.ROOT_DISSOLVED_CERTIFICATE, pageUrls.ROOT_DISSOLVED_CERTIFICATE_ID], SessionMiddleware(cookieConfig, sessionStore));
 app.use(pageUrls.ROOT_DISSOLVED_CERTIFICATE, authMiddleware);
+app.use(pageUrls.ROOT_DISSOLVED_CERTIFICATE, csrfProtectionMiddleware);
 app.use(pageUrls.ROOT_DISSOLVED_CERTIFICATE_ID, authCertificateMiddleware);
-app.use(pageUrls.ROOT_DISSOLVED_CERTIFICATE_ID, SessionMiddleware(cookieConfig, sessionStore));
-app.use(pageUrls.ROOT_DISSOLVED_CERTIFICATE_ID, csrfProtectionMiddleware);
 
 app.use([pageUrls.ROOT_CERTIFIED_COPY, pageUrls.ROOT_CERTIFIED_COPY_ID], SessionMiddleware(cookieConfig, sessionStore));
 app.use(pageUrls.ROOT_CERTIFIED_COPY, authCertifiedCopyStartNowMiddleware);
-app.use(pageUrls.ROOT_CERTIFIED_COPY_ID, SessionMiddleware(cookieConfig, sessionStore));
 app.use(pageUrls.ROOT_CERTIFIED_COPY_ID, csrfProtectionMiddleware);
 
 app.use([pageUrls.ROOT_MISSING_IMAGE_DELIVERY, pageUrls.ROOT_MISSING_IMAGE_DELIVERY_ID], SessionMiddleware(cookieConfig, sessionStore));
 app.use(pageUrls.MISSING_IMAGE_DELIVERY_CREATE, authMissingImageDeliveryCreateMiddleware);
 app.use(pageUrls.ROOT_MISSING_IMAGE_DELIVERY_ID, authMissingImageDeliveryCheckDetailsMiddleware);
-app.use(pageUrls.ROOT_MISSING_IMAGE_DELIVERY_ID, SessionMiddleware(cookieConfig, sessionStore));
 app.use(pageUrls.ROOT_MISSING_IMAGE_DELIVERY_ID, csrfProtectionMiddleware);
 
 app.use((req, res, next) => {

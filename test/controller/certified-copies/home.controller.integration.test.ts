@@ -77,7 +77,7 @@ describe("certified-copy.home.controller.integration", () => {
         sandbox.restore();
     });
 
-    it.only("renders the start page as company has a filing history link", async () => {
+    it("renders the start page as company has a filing history link", async () => {
         dummyCompanyProfile.resource.links.filingHistory = "/company/00000000/filing-history";
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
             .resolves(dummyCompanyProfile);
@@ -91,7 +91,7 @@ describe("certified-copy.home.controller.integration", () => {
         chai.expect(resp.text).to.contain("Order a certified document");
     });
 
-    it.only("displays the notification banner with the in context company name and company number", async () => {
+    it("displays the notification banner with the in context company name and company number", async () => {
         dummyCompanyProfile.resource.links.filingHistory = "/company/00000000/filing-history";
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
             .resolves(dummyCompanyProfile);
@@ -103,7 +103,7 @@ describe("certified-copy.home.controller.integration", () => {
         chai.expect(resp.text).to.contain("This order will be for company name (00000000)");
     });
 
-    it.only("does not render the start now page as company has no filing history link", async () => {
+    it("does not render the start now page as company has no filing history link", async () => {
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
             .resolves(dummyCompanyProfile);
 
@@ -114,7 +114,7 @@ describe("certified-copy.home.controller.integration", () => {
         chai.expect(resp.text).to.contain("You cannot order a certificate or certified document for this company. ");
     });
 
-    it.only("does not render the start now page if company type is uk establishment and has a filing history link", async () => {
+    it("does not render the start now page if company type is uk establishment and has a filing history link", async () => {
         dummyCompanyProfile.resource.links.filingHistory = "/company/00000000/filing-history";
         dummyCompanyProfile.resource.type = "uk-establishment";
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
@@ -127,7 +127,7 @@ describe("certified-copy.home.controller.integration", () => {
         chai.expect(resp.text).to.contain("You cannot order a certificate or certified document for this company. ");
     });
 
-    it.only("renders `This order will be for...` message when no basket link is shown", async () => {
+    it("renders `This order will be for...` message when no basket link is shown", async () => {
         dummyCompanyProfile.resource.links.filingHistory = "/company/00000000/filing-history";
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
             .resolves(dummyCompanyProfile);
@@ -138,10 +138,10 @@ describe("certified-copy.home.controller.integration", () => {
         chai.expect(resp.status).to.equal(200);
         chai.expect(resp.text).to.contain("Sign in / Register");
         chai.expect(resp.text).to.contain("This order will be for company name (00000000)");
-        // verifyStartButtonEnabledStateIs(resp.text, true);
+        verifyStartButtonEnabledStateIs(resp.text, true);
     });
 
-    it.only("renders `This order will be for...` message when items below the limit", async () => {
+    it("renders `This order will be for...` message when items below the limit", async () => {
         dummyCompanyProfile.resource.links.filingHistory = "/company/00000000/filing-history";
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
             .resolves(dummyCompanyProfile);
@@ -154,10 +154,10 @@ describe("certified-copy.home.controller.integration", () => {
         chai.expect(resp.status).to.equal(200);
         chai.expect(resp.text).to.contain(`Basket (${BASKET_ITEM_LIMIT - 1})`);
         chai.expect(resp.text).to.contain("This order will be for company name (00000000)");
-        // verifyStartButtonEnabledStateIs(resp.text, true);
+        verifyStartButtonEnabledStateIs(resp.text, true);
     });
 
-    it.only("renders `Your basket is full...` warning when items at the limit", async () => {
+    it("renders `Your basket is full...` warning when items at the limit", async () => {
         dummyCompanyProfile.resource.links.filingHistory = "/company/00000000/filing-history";
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
             .resolves(dummyCompanyProfile);
@@ -172,10 +172,10 @@ describe("certified-copy.home.controller.integration", () => {
         chai.expect(resp.text).to.contain(`Your basket is full`);
         chai.expect(resp.text).to.contain(`You cannot add more than ${BASKET_ITEM_LIMIT} items to your order.`);
         chai.expect(resp.text).to.contain(`To add more, you'll need to remove some items first.`);
-        // verifyStartButtonEnabledStateIs(resp.text, true);
+        verifyStartButtonEnabledStateIs(resp.text, true);
     });
 
-    it.only("renders `Your basket is full...` warning when items over the limit", async () => {
+    it("renders `Your basket is full...` warning when items over the limit", async () => {
         dummyCompanyProfile.resource.links.filingHistory = "/company/00000000/filing-history";
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
             .resolves(dummyCompanyProfile);
@@ -190,10 +190,10 @@ describe("certified-copy.home.controller.integration", () => {
         chai.expect(resp.text).to.contain(`Your basket is full`);
         chai.expect(resp.text).to.contain(`You cannot add more than ${BASKET_ITEM_LIMIT} items to your order.`);
         chai.expect(resp.text).to.contain(`To add more, you'll need to remove some items first.`);
-        // verifyStartButtonEnabledStateIs(resp.text, true);
+        verifyStartButtonEnabledStateIs(resp.text, true);
     });
 
-    it.only("renders `There is a problem...` error, disables button when items at the limit and re-referred back to page", async () => {
+    it("renders `There is a problem...` error, disables button when items at the limit and re-referred back to page", async () => {
         dummyCompanyProfile.resource.links.filingHistory = "/company/00000000/filing-history";
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
             .resolves(dummyCompanyProfile);
@@ -209,10 +209,10 @@ describe("certified-copy.home.controller.integration", () => {
         chai.expect(resp.text).to.contain(`Basket (${BASKET_ITEM_LIMIT})`);
         chai.expect(resp.text).to.contain(`There is a problem`);
         chai.expect(resp.text).to.contain(`Your basket is full. To add more to your order, you&#39;ll need to remove some items first.`);
-        // verifyStartButtonEnabledStateIs(resp.text, false);
+        verifyStartButtonEnabledStateIs(resp.text, false);
     });
 
-    it.only("renders `There is a problem...` error, disables button when items over the limit and re-referred back to page", async () => {
+    it("renders `There is a problem...` error, disables button when items over the limit and re-referred back to page", async () => {
         dummyCompanyProfile.resource.links.filingHistory = "/company/00000000/filing-history";
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
             .resolves(dummyCompanyProfile);
@@ -228,7 +228,7 @@ describe("certified-copy.home.controller.integration", () => {
         chai.expect(resp.text).to.contain(`Basket (${BASKET_ITEM_LIMIT + 1})`);
         chai.expect(resp.text).to.contain(`There is a problem`);
         chai.expect(resp.text).to.contain(`Your basket is full. To add more to your order, you&#39;ll need to remove some items first.`);
-        // verifyStartButtonEnabledStateIs(resp.text, false);
+        verifyStartButtonEnabledStateIs(resp.text, false);
     });
 
 const verifyStartButtonEnabledStateIs = (responseText: string, isEnabled: boolean) => {
