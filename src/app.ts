@@ -163,12 +163,13 @@ app.use(pageUrls.ROOT_DISSOLVED_CERTIFICATE_ID, authCertificateMiddleware);
 
 app.use([pageUrls.ROOT_CERTIFIED_COPY, pageUrls.ROOT_CERTIFIED_COPY_ID], SessionMiddleware(cookieConfig, sessionStore));
 app.use(pageUrls.ROOT_CERTIFIED_COPY, authCertifiedCopyStartNowMiddleware);
-app.use(pageUrls.ROOT_CERTIFIED_COPY_ID, csrfProtectionMiddleware);
+app.use(pageUrls.ROOT_CERTIFIED_COPY, csrfProtectionMiddleware);
+app.use(pageUrls.ROOT_CERTIFIED_COPY_ID, authCertifiedCopyMiddleware);
 
 app.use([pageUrls.ROOT_MISSING_IMAGE_DELIVERY, pageUrls.ROOT_MISSING_IMAGE_DELIVERY_ID], SessionMiddleware(cookieConfig, sessionStore));
+app.use(pageUrls.ROOT_MISSING_IMAGE_DELIVERY, csrfProtectionMiddleware);
 app.use(pageUrls.MISSING_IMAGE_DELIVERY_CREATE, authMissingImageDeliveryCreateMiddleware);
 app.use(pageUrls.ROOT_MISSING_IMAGE_DELIVERY_ID, authMissingImageDeliveryCheckDetailsMiddleware);
-app.use(pageUrls.ROOT_MISSING_IMAGE_DELIVERY_ID, csrfProtectionMiddleware);
 
 app.use((req, res, next) => {
     if (req.path.includes("/certificates")) {
