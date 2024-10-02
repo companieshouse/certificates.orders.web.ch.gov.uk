@@ -86,13 +86,6 @@ const env = nunjucks.configure([
 const cookieConfig: CookieConfig = { cookieName: "__SID", cookieSecret: COOKIE_SECRET, cookieDomain: COOKIE_DOMAIN };
 const sessionStore = new SessionStore(new Redis(`redis://${CACHE_SERVER}`));
 
-const csrfProtectionMiddleware = CsrfProtectionMiddleware({
-    sessionStore,
-    enabled: true,
-    sessionCookieName: COOKIE_NAME
-  });
-  app.use(csrfProtectionMiddleware);
-
 const PROTECTED_PATHS = [
     pageUrls.CERTIFICATE_OPTIONS,
     pageUrls.CERTIFICATE_TYPE,
@@ -137,6 +130,15 @@ const PROTECTED_PATHS = [
     pageUrls.MISSING_IMAGE_DELIVERY_CREATE,
     pageUrls.MISSING_IMAGE_DELIVERY_CHECK_DETAILS
 ];
+
+app.use(SessionMiddleware(cookieConfig, sessionStore));
+
+const csrfProtectionMiddleware = CsrfProtectionMiddleware({
+    sessionStore,
+    enabled: true,
+    sessionCookieName: COOKIE_NAME
+  });
+  app.use(csrfProtectionMiddleware);
 
 app.use(PROTECTED_PATHS, createLoggerMiddleware(APPLICATION_NAME));
 app.use([pageUrls.ROOT_CERTIFICATE, pageUrls.ROOT_CERTIFICATE_ID], SessionMiddleware(cookieConfig, sessionStore));
