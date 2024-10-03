@@ -12,6 +12,7 @@ import {
     DISSOLVED_CERTIFICATE_DELIVERY_OPTIONS
 } from "../../../src/model/page.urls";
 import { mockDeliveryDetails as deliveryDetails } from "../../__mocks__/certificates.mocks";
+import { getAppWithMockedCsrf } from '../../__mocks__/csrf.mocks';
 
 const CERTIFICATE_ID = "CRT-000000-000000";
 const DELIVERY_OPTION_NOT_SELECTED = "Select a delivery option";
@@ -30,7 +31,7 @@ describe("delivery.options.integration.test", () => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
         sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
 
-        testApp = require("../../../src/app").default;
+        testApp = getAppWithMockedCsrf(sandbox);
         done();
     });
 

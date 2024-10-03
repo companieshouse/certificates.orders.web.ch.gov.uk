@@ -12,6 +12,7 @@ import {
     replaceCertificateId
 } from "../../../../src/model/page.urls";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../../__mocks__/redis.mocks";
+import { getAppWithMockedCsrf } from '../../../__mocks__/csrf.mocks';
 import { mockBasketDetails, mockDissolvedCertificateItem } from "../../../__mocks__/certificates.mocks";
 const chai = require("chai");
 
@@ -43,7 +44,7 @@ describe("LP certificate.check.details.controller.integration", () => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
         sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
 
-        testApp = require("../../../../src/app").default;
+        testApp = getAppWithMockedCsrf(sandbox);
         done();
     });
 

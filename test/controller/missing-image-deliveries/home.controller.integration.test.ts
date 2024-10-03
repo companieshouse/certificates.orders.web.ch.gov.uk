@@ -8,6 +8,7 @@ import * as apiClient from "../../../src/client/api.client"
 import { getDummyBasket } from "../../utils/basket.utils.test";
 import { BASKET_ITEM_LIMIT } from "../../../src/config/config";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
+import { getAppWithMockedCsrf } from '../../__mocks__/csrf.mocks';
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
@@ -60,7 +61,7 @@ describe("missingImageDelivery.home.controller.integration", () => {
             }
         };
 
-        testApp = require("../../../src/app").default;
+        testApp = getAppWithMockedCsrf(sandbox);
         done();
     });
 

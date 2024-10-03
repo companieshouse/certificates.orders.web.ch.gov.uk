@@ -15,6 +15,7 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <form method="post">
+      {% include "includes/csrf_token.html" %}
 
       {{ govukCheckboxes({
         idPrefix: "member-options",

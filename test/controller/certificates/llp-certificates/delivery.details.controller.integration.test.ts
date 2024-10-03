@@ -9,6 +9,7 @@ import * as apiClient from "../../../../src/client/api.client";
 import { LLP_CERTIFICATE_DELIVERY_DETAILS, replaceCertificateId } from "../../../../src/model/page.urls";
 import * as errorMessages from "../../../../src/model/error.messages";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../../__mocks__/redis.mocks";
+import { getAppWithMockedCsrf } from '../../../__mocks__/csrf.mocks';
 
 const ENTER_YOUR_FIRST_NAME_NOT_INPUT = "Enter your first name";
 const ENTER_YOUR_LAST_NAME_NOT_INPUT = "Enter your last name";
@@ -42,7 +43,7 @@ describe("certificate.delivery.details.controller", () => {
     beforeEach((done) => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
         sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
-        testApp = require("../../../../src/app").default;
+        testApp = getAppWithMockedCsrf(sandbox);
         done();
     });
 

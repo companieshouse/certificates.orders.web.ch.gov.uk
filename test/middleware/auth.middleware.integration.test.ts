@@ -3,6 +3,7 @@ import sinon from "sinon";
 import ioredis from "ioredis";
 
 import { SIGNED_OUT_COOKIE, signedOutSession } from "../__mocks__/redis.mocks";
+import { getAppWithMockedCsrf } from '../__mocks__/csrf.mocks';
 
 import {
     CERTIFICATE_OPTIONS,
@@ -56,7 +57,7 @@ describe("auth.middleware.integration", () => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
         sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedOutSession));
 
-        testApp = require("../../src/app").default;
+        testApp = getAppWithMockedCsrf(sandbox);
         done();
     });
 

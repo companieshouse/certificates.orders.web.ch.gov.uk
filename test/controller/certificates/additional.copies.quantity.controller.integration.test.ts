@@ -6,6 +6,7 @@ import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import * as apiClient from "../../../src/client/api.client";
 import { mockDeliveryDetails as deliveryDetails } from "../../__mocks__/certificates.mocks";
+import { getAppWithMockedCsrf } from '../../__mocks__/csrf.mocks';
 import {
     CERTIFICATE_ADDITIONAL_COPIES_QUANTITY_OPTIONS,
     replaceCertificateId
@@ -27,7 +28,7 @@ describe("additional.copies.quantity.integration.test", () => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
         sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
 
-        testApp = require("../../../src/app").default;
+        testApp = getAppWithMockedCsrf(sandbox);
         done();
     });
 

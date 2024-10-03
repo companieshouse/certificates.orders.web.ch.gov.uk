@@ -1,6 +1,7 @@
 import chai from "chai";
 import sinon from "sinon";
 import ioredis from "ioredis";
+import proxyquire from 'proxyquire';
 
 import {
     replaceCompanyNumber,
@@ -17,6 +18,7 @@ import {
     mockAcceptableDissolvedCompanyProfile,
     mockCompanyProfileConfiguration
 } from "../../__mocks__/certificates.mocks";
+import { getAppWithMockedCsrf } from '../../__mocks__/csrf.mocks';
 import { FEATURE_FLAGS } from "../../../src/config/FeatureFlags";
 import cheerio from "cheerio";
 import { BASKET_ITEM_LIMIT } from "../../../src/config/config";
@@ -39,7 +41,7 @@ describe("certificate.home.controller.integration", () => {
         sandbox.stub(ioredis.prototype, "connect").resolves();
         sandbox.stub(ioredis.prototype, "get").resolves(signedInSession);
 
-        testApp = require("../../../src/app").default;
+        testApp = getAppWithMockedCsrf(sandbox)
         done();
     });
 
@@ -278,7 +280,7 @@ describe("certificate.home.controller.integration", () => {
         verifyStartButtonEnabledStateIs(resp.text, true);
     });
 
-    it("renders `order a company certificate...` message when items below the limit", async () => {
+    it("renders `order a company certificate...` message when items below the limit xx", async () => {
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
             .resolves(mockAcceptableDissolvedCompanyProfile);
         sandbox.stub(apiClient, "getBasket").resolves(getDummyBasket(true, BASKET_ITEM_LIMIT - 1));

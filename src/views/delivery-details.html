@@ -18,6 +18,7 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <form method="post">
+      {% include "includes/csrf_token.html" %}
         {% call govukFieldset({
           legend: {
             text: "What are the delivery details?",

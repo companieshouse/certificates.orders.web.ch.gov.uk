@@ -10,6 +10,7 @@ import {
 import { getDummyBasket } from "../../utils/basket.utils.test";
 import { BASKET_ITEM_LIMIT } from "../../../src/config/config";
 import cheerio from "cheerio";
+import { getAppWithMockedCsrf } from '../../__mocks__/csrf.mocks';
 
 import * as chai from "chai";
 import chaiHttp = require("chai-http");
@@ -68,7 +69,7 @@ describe("certified-copy.home.controller.integration", () => {
             }
         };
 
-        testApp = require("../../../src/app").default;
+        testApp = getAppWithMockedCsrf(sandbox);
         done();
     });
 

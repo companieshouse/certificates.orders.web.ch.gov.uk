@@ -14,6 +14,7 @@ import { setBackLink } from "../../../src/controllers/certificates/email.options
 import { dataEmpty } from "../../__mocks__/session.mocks";
 import { mockDissolvedCertificateItem, mockDeliveryDetails as deliveryDetails } from "../../__mocks__/certificates.mocks";
 import { DeliveryDetails } from "@companieshouse/api-sdk-node/dist/services/order/basket";
+import { getAppWithMockedCsrf } from '../../__mocks__/csrf.mocks';
 
 const CERTIFICATE_ID = "CRT-000000-000000";
 const EMAIL_OPTION_NOT_SELECTED = "Select ‘yes’ if you would like an email copy of the certificate";
@@ -32,7 +33,7 @@ describe("email.options.integration.test", () => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
         sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
 
-        testApp = require("../../../src/app").default;
+        testApp = getAppWithMockedCsrf(sandbox);
         done();
     });
 

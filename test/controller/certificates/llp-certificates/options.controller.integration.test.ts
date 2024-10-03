@@ -7,6 +7,7 @@ import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/orde
 import * as apiClient from "../../../../src/client/api.client";
 import { LLP_CERTIFICATE_OPTIONS, replaceCertificateId } from "../../../../src/model/page.urls";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../../__mocks__/redis.mocks";
+import { getAppWithMockedCsrf } from '../../../__mocks__/csrf.mocks';
 
 const CERTIFICATE_ID = "CHS00000000000000001";
 const LLP_CERTIFICATE_OPTIONS_URL = replaceCertificateId(LLP_CERTIFICATE_OPTIONS, CERTIFICATE_ID);
@@ -65,7 +66,7 @@ describe("llp.certificate.options.controller.integration", () => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
         sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
 
-        testApp = require("../../../../src/app").default;
+        testApp = getAppWithMockedCsrf(sandbox);
         done();
     });
 

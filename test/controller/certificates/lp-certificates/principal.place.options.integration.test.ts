@@ -3,6 +3,7 @@ import sinon from "sinon";
 import ioredis from "ioredis";
 import cheerio from "cheerio";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../../__mocks__/redis.mocks";
+import { getAppWithMockedCsrf } from '../../../__mocks__/csrf.mocks';
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import * as apiClient from "../../../../src/client/api.client";
 import { LP_CERTIFICATE_PRINCIPAL_PLACE_OPTIONS, replaceCertificateId } from "../../../../src/model/page.urls";
@@ -25,7 +26,7 @@ describe("place.of.business.options.integration.test", () => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
         sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
 
-        testApp = require("../../../../src/app").default;
+        testApp = getAppWithMockedCsrf(sandbox);
         done();
     });
 

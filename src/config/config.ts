@@ -13,6 +13,8 @@ export const PIWIK_URL = getEnvironmentValue("PIWIK_URL");
 
 export const PIWIK_SITE_ID = getEnvironmentValue("PIWIK_SITE_ID");
 
+export const COOKIE_NAME = getEnvironmentValue("COOKIE_NAME");
+
 export const COOKIE_SECRET = getEnvironmentValue("COOKIE_SECRET");
 
 export const CACHE_SERVER = getEnvironmentValue("CACHE_SERVER");
