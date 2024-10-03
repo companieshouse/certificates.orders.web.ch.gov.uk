@@ -69,7 +69,7 @@ const route = async (req: Request, res: Response, next: NextFunction): Promise<v
                     const certificateItemPatchRequest: CertificateItemPatchRequest = {
                         quantity : baseQuantity
                 };
-                const certificateItem = await patchCertificateItem(accessToken, req.params.certificateId, certificateItemPatchRequest);
+                certificateItem = await patchCertificateItem(accessToken, req.params.certificateId, certificateItemPatchRequest);
                 logger.info(`Total quantity has been reset back to: ${certificateItem.quantity} ` );
             }
                 const basket = await getBasket(accessToken);
