@@ -58,10 +58,10 @@ const route = async (req: Request, res: Response, next: NextFunction): Promise<v
                 errorList: [additionalCopiesQuantityErrorData]
             });
         } else {
-            const currentQuantity= certificateItem.quantity
+            const baseQuantity = 1;
             logger.info(`User has selected ${additionalCopiesQuantity} additional copies`);
             const certificateItemPatchRequest: CertificateItemPatchRequest = {
-                quantity : currentQuantity + parseInt(additionalCopiesQuantity)
+                quantity : baseQuantity + parseInt(additionalCopiesQuantity)
             };
             
             const patchedCertificateItem = await patchCertificateItem(accessToken, req.params.certificateId, certificateItemPatchRequest);

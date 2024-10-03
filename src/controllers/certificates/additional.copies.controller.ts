@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { check, validationResult } from "express-validator";
-import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
+import { CertificateItem, CertificateItemPatchRequest } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { getAccessToken, getUserId } from "../../session/helper";
-import { appendItemToBasket, getBasket, getCertificateItem } from "../../client/api.client";
+import { appendItemToBasket, getBasket, getCertificateItem, patchCertificateItem } from "../../client/api.client";
 import { DELIVERY_DETAILS, DELIVERY_OPTIONS, EMAIL_OPTIONS, ADDITIONAL_COPIES, ADDITIONAL_COPIES_QUANTITY } from "../../model/template.paths";
 import { createLogger } from "@companieshouse/structured-logging-node";
 import { APPLICATION_NAME } from "../../config/config";
@@ -43,7 +43,7 @@ const route = async (req: Request, res: Response, next: NextFunction): Promise<v
         const userId = getUserId(req.session);
         const accessToken: string = getAccessToken(req.session);
         const additionalCopies: string = req.body[ADDITIONAL_COPIES_OPTION_FIELD];
-        const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
+        let certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
         logger.info(`Get certificate item, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
         
         if (!errors.isEmpty()) {
@@ -63,7 +63,15 @@ const route = async (req: Request, res: Response, next: NextFunction): Promise<v
                 return res.redirect(ADDITIONAL_COPIES_QUANTITY);
             } else {
                 logger.info(`User selected 'No' to additional copies, updating basket and redirecting to Delivery Details page`);
-
+                if (certificateItem.quantity > 1){
+                    // If user previously selected additional copies and now chooses no, reset quantity back to 1.
+                    const baseQuantity = 1;
+                    const certificateItemPatchRequest: CertificateItemPatchRequest = {
+                        quantity : baseQuantity
+                };
+                certificateItem = await patchCertificateItem(accessToken, req.params.certificateId, certificateItemPatchRequest);
+                logger.info(`Total quantity has been reset back to: ${certificateItem.quantity} ` );
+            }
                 const basket = await getBasket(accessToken);
                 if (basket.enrolled) {
                     await appendItemToBasket(accessToken, { itemUri: certificateItem.links.self });

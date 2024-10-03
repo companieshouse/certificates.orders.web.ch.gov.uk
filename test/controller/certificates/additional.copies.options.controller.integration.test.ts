@@ -17,6 +17,7 @@ const ADDITIONAL_COPIES_OPTION_NOT_SELECTED: string = "Select ‘yes’ if you w
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
+let patchCertificateItemStub;
 let getCertificateItemStub;
 let getBasket;
 
@@ -74,6 +75,41 @@ describe("additional.copies.options.integration.test", () => {
             chai.expect(resp.text).to.contain(ADDITIONAL_COPIES_OPTION_NOT_SELECTED);
         });
 
+    });
+
+    describe("Reset Quantity update", () => {
+        it("should reset the certificate quantity to 1 if 'No' is selected and the quantity in session was previously greater than 1", async () => {
+            const initialQuantity = 3; 
+            const expectedQuantity = 1;
+    
+            const certificateDetails = {
+                links: {
+                    self: "/path/to/certificate"
+                },
+                quantity: initialQuantity
+            } as CertificateItem;
+    
+            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+                .returns(Promise.resolve(certificateDetails));
+    
+                patchCertificateItemStub = sandbox.stub(apiClient, "patchCertificateItem")
+                .callsFake(() => {
+                    certificateDetails.quantity = expectedQuantity;
+                    return Promise.resolve(certificateDetails);
+                });
+    
+            getBasket = sandbox.stub(apiClient, "getBasket")
+                .returns(Promise.resolve({ enrolled: false }));
+    
+            const resp = await chai.request(testApp)
+            .post(ADDITIONAL_COPIES_OPTIONS_URL)
+            .send({ additionalCopiesOptions: "false" })
+            .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+    
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(patchCertificateItemStub.calledOnce).to.be.true;
+            chai.expect(certificateDetails.quantity).to.equal(expectedQuantity);
+        });
     });
 
     describe("Route handling", () => {
