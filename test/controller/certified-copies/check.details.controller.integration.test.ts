@@ -10,6 +10,7 @@ import { CertifiedCopyItem } from "@companieshouse/api-sdk-node/dist/services/or
 import * as apiClient from "../../../src/client/api.client";
 import { CERTIFIED_COPY_CHECK_DETAILS, replaceCertifiedCopyId } from "../../../src/model/page.urls";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
+import { getAppWithMockedCsrf } from '../../__mocks__/csrf.mocks';
 import { DISPATCH_DAYS } from "../../../src/config/config";
 
 const CERTIFIED_COPY_ID = "CCD-123456-123456";
@@ -26,7 +27,7 @@ describe("certified-copy.check.details.controller.integration", () => {
     beforeEach((done) => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
         sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
-        testApp = require("../../../src/app").default;
+        testApp = getAppWithMockedCsrf(sandbox);
         done();
     });
 

@@ -2,6 +2,7 @@ import chai from "chai";
 import sinon from "sinon";
 import ioredis from "ioredis";
 import { SIGNED_OUT_COOKIE, signedOutSession } from "../../__mocks__/redis.mocks";
+import { getAppWithMockedCsrf } from '../../__mocks__/csrf.mocks';
 import { ROOT_CERTIFIED_COPY, replaceCompanyNumber, START_BUTTON_PATH_SUFFIX } from "../../../src/model/page.urls";
 import CompanyProfileService from "@companieshouse/api-sdk-node/dist/services/company-profile/service";
 
@@ -61,7 +62,7 @@ describe("certified-copies.auth.start.now.middleware.integration", () => {
         sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
             .resolves(dummyCompanyProfile);
 
-        testApp = require("../../../src/app").default;
+        testApp = getAppWithMockedCsrf(sandbox);
         done();
     });
 

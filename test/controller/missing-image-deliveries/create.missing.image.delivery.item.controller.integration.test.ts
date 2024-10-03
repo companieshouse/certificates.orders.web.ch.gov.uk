@@ -5,6 +5,7 @@ import ioredis from "ioredis";
 import * as apiClient from "../../../src/client/api.client";
 import { MISSING_IMAGE_DELIVERY_CREATE, replaceCompanyNumberAndFilingHistoryId } from "../../../src/model/page.urls";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
+import { getAppWithMockedCsrf } from '../../__mocks__/csrf.mocks';
 import { MidItem } from "@companieshouse/api-sdk-node/dist/services/order/mid/types";
 import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 
@@ -40,7 +41,7 @@ describe("create.missing.image.delivery.item.controller.integration", () => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
         sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
 
-        testApp = require("../../../src/app").default;
+        testApp = getAppWithMockedCsrf(sandbox);
         done();
     });
 
