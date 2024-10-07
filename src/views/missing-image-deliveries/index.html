@@ -9,13 +9,19 @@
       In the company's filing history, select 'Request document' for the document you require.</p>
     </p>
   {% else %}
-    <p class="govuk-notification-banner__heading">
-      Your basket is full
-    </p>
-    <p>
-      You cannot add more than {{ basketLimit }} items to your order.
-      To add more, you'll need to remove some items first.
-    </p>
+    <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+      <div class="govuk-notification-banner__header">
+        <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+          Your basket is full
+        </h2>
+      </div>
+      <div class="govuk-notification-banner__content">
+        <p class="govuk-notification-banner__heading">
+          You cannot add more than {{ basketLimit }} items to your order.
+          To add more, you'll need to remove some items first.
+        </p>
+      </div>
+    </div>
   {% endif %}
 {% endset %}
 
@@ -46,7 +52,7 @@
         html: notificationHtml
     }) }}
   {% endif %}
-  
+
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-xl">Request a document</h1>
