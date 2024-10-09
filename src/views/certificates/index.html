@@ -106,6 +106,22 @@
 
         <p class="govuk-caption-l">{{ companyName }}</p>
 
+        {% if basketLimitState == "display-limit-error" %}
+        <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+          <div class="govuk-notification-banner__header">
+            <h2 class="govuk-notification-banner__title">
+              Your basket is full
+            </h2>
+          </div>
+          <div class="govuk-notification-banner__content">
+            <p class="govuk-notification-banner__heading">
+              You cannot add more than {{ basketLimit }} items to your order.
+              To add more, you'll need to remove some items first.
+            </p>
+          </div>
+        </div>
+        {% endif %}
+
         <h1 class="govuk-heading-xl">Order a company certificate</h1>
 
         <p class="govuk-body-l">Use this service to order a signed certificate for a company, including all company name changes. </p>
@@ -147,24 +163,10 @@
           <li>a debit or credit card</li>
         </ul>
 
-          {% if basketLimitState == "below-limit" %}
-          <p class="govuk-body">To order for a different company,
-            <a class="govuk-notification-banner__link" href="https://find-and-update.company-information.service.gov.uk/">search for the company on the register</a>.</p>
-          {% else %}
-           <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
-             <div class="govuk-notification-banner__header">
-               <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
-                 Your basket is full
-               </h2>
-             </div>
-             <div class="govuk-notification-banner__content">
-               <p class="govuk-notification-banner__heading">
-                 You cannot add more than {{ basketLimit }} items to your order.
-                 To add more, you'll need to remove some items first.
-               </p>
-             </div>
-           </div>
-         {% endif %}
+
+        <p class="govuk-body">To order for a different company,
+          <a class="govuk-notification-banner__link" href="https://find-and-update.company-information.service.gov.uk/">search for the company on the register</a>.</p>
+
 
         {{ govukButton({
           text: "Start now",
