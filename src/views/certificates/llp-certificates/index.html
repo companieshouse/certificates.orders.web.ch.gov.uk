@@ -31,7 +31,7 @@
         <p class="govuk-caption-l">{{ companyName }}</p>
         <h1 class="govuk-heading-xl">Order a company certificate</h1>
 
-        {% if basketLimitState == "display-limit-error" % %}
+        {% if basketLimitState == "display-limit-error" %}
           <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
             <div class="govuk-notification-banner__header">
               <h2 class="govuk-notification-banner__title">
@@ -55,7 +55,7 @@
 
         <p class="govuk-body">To order for a different company,
           <a class="govuk-notification-banner__link" href="https://find-and-update.company-information.service.gov.uk/">search for the company on the register</a>.</p>
-        
+
 
         {{ govukButton({
             text: "Start now",
