@@ -9,20 +9,14 @@
             then use the 'More' tab on the company page to re-enter this service.</p>
         </p>
     {% else %}
-        <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
-            <div class="govuk-notification-banner__header">
-                <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
-                    Your basket is full
-                </h2>
-            </div>
-            <div class="govuk-notification-banner__content">
-                <p class="govuk-notification-banner__heading">
-                    You cannot add more than {{ basketLimit }} items to your order.
-                    To add more, you'll need to remove some items first.
-                </p>
-            </div>
-        </div>
-   {% endif %}
+        <p class="govuk-notification-banner__heading">
+            Your basket is full
+        </p>
+        <p>
+            You cannot add more than {{ basketLimit }} items to your order.
+            To add more, you'll need to remove some items first.
+        </p>
+    {% endif %}
 {% endset %}
 
 {% block pageTitle %}
