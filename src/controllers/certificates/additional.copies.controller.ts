@@ -42,7 +42,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             ADDITIONAL_COPIES,
             pageTitleText: PAGE_TITLE,
             SERVICE_URL: setServiceUrl(certificateItem),
-            additionalCopyOption: req.body[ADDITIONAL_COPIES_OPTION_SELECTION],
+            additionalCopyOption: req.body[ADDITIONAL_COPIES_OPTION_FIELD],
             backLink,
             ...basketLink,
             ...pageHeader
