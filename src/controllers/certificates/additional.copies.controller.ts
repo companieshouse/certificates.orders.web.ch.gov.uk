@@ -12,6 +12,9 @@ import { createGovUkErrorData } from "../../model/govuk.error.data";
 import { renderPage } from "../../utils/render.utils";
 import { BY_ITEM_KIND, StaticRedirectCallback } from "./StaticRedirectCallback";
 import { ADDITIONAL_COPIES_OPTION_SELECTION } from "../../model/error.messages";
+import { getBasketLink } from "../../utils/basket.utils";
+import { mapPageHeader } from "../../utils/page.header.utils";
+import { BasketLink } from "../../model/BasketLink";
 
 const logger = createLogger(APPLICATION_NAME);
 const ADDITIONAL_COPIES_OPTION_FIELD: string = "additionalCopiesOptions";
@@ -31,6 +34,19 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
 
 
         await renderPage(req, res, ADDITIONAL_COPIES, PAGE_TITLE, certificateItem, backLink);
+
+        const basketLink: BasketLink = await getBasketLink(req);
+        const pageHeader = mapPageHeader(req);
+
+        return res.render(ADDITIONAL_COPIES, {
+            ADDITIONAL_COPIES,
+            pageTitleText: PAGE_TITLE,
+            SERVICE_URL: setServiceUrl(certificateItem),
+            additionalCopyOption: req.body[ADDITIONAL_COPIES_OPTION_SELECTION],
+            backLink,
+            ...basketLink,
+            ...pageHeader
+    });
     } catch (err) {
         logger.error(`${err}`);
         next(err);
