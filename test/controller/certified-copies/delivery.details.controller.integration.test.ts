@@ -5,6 +5,7 @@ import ioredis from "ioredis";
 import { CERTIFIED_COPY_DELIVERY_DETAILS, replaceCertifiedCopyId } from "../../../src/model/page.urls";
 import * as errorMessages from "../../../src/model/error.messages";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
+import { getAppWithMockedCsrf } from '../../__mocks__/csrf.mocks';
 import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 import * as apiClient from "../../../src/client/api.client";
 import { CertifiedCopyItem } from "@companieshouse/api-sdk-node/dist/services/order/certified-copies/types";
@@ -41,7 +42,7 @@ describe("certified.copies.delivery.details.controller", () => {
     beforeEach((done) => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
         sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
-        testApp = require("../../../src/app").default;
+        testApp = getAppWithMockedCsrf(sandbox);
         done();
     });
 

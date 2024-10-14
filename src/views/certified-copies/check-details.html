@@ -16,6 +16,7 @@
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds-from-desktop">
             <form method="post">
+            {% include "includes/csrf_token.html" %}
                 <h1 class="govuk-heading-xl">Check your order details</h1>
                 <h2 class="govuk-heading-m">Order details</h2>
                 <div class="govuk-summary-list govuk-!-margin-bottom-9">

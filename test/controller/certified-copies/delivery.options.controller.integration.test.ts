@@ -8,6 +8,7 @@ import { CertifiedCopyItem } from "@companieshouse/api-sdk-node/dist/services/or
 import { CERTIFIED_COPY_DELIVERY_OPTIONS, replaceCertifiedCopyId } from "../../../src/model/page.urls";
 import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 import { mockDeliveryDetails as deliveryDetails } from "../../__mocks__/certificates.mocks";
+import { getAppWithMockedCsrf } from '../../__mocks__/csrf.mocks';
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
@@ -23,7 +24,7 @@ describe("delivery.options.controller.integration.test", () => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
         sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
 
-        testApp = require("../../../src/app").default;
+        testApp = getAppWithMockedCsrf(sandbox);
         done();
     });
 

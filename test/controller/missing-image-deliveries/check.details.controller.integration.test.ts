@@ -7,6 +7,7 @@ import { Item as BasketItem } from "@companieshouse/api-sdk-node/dist/services/o
 
 import { MISSING_IMAGE_DELIVERY_CHECK_DETAILS, replaceMissingImageDeliveryId } from "../../../src/model/page.urls";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
+import { getAppWithMockedCsrf } from '../../__mocks__/csrf.mocks';
 import * as apiClient from "../../../src/client/api.client";
 import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket";
 
@@ -25,7 +26,7 @@ describe("mid.check.details.controller.integration", () => {
         sandbox.restore();
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
         sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
-        testApp = require("../../../src/app").default;
+        testApp = getAppWithMockedCsrf(sandbox);
         done();
     });
 
