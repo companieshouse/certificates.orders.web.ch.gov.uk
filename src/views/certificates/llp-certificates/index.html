@@ -13,42 +13,38 @@
 
 {% block content %}
 
-    {% if basketLimitState == "display-limit-error" %}
-        {{ govukErrorSummary({
-          titleText: ERROR_SUMMARY_TITLE,
-          errorList: [
-            {
-              text: "Your basket is full. To add more to your order, you'll need to remove some items first.",
-              href: basketWebUrl
-            }
-          ]
-        }) }}
-    {% endif %}
+  {% if basketLimitState == "display-limit-error" %}
+  {{ govukErrorSummary({
+  titleText: ERROR_SUMMARY_TITLE,
+  errorList: [
+  {
+  text: "Your basket is full. To add more to your order, you'll need to remove some items first.",
+  href: basketWebUrl
+  }
+  ]
+  }) }}
+  {% elseif basketLimitState != "below-limit" %}
+  <div class="govuk-notification-banner" role="region" data-module="govuk-notification-banner">
+    <div class="govuk-notification-banner__header">
+      <h2 class="govuk-notification-banner__title">
+        Important
+      </h2>
+    </div>
+    <div class="govuk-notification-banner__content">
+      <h3 class="govuk-notification-banner__heading">Your basket is full</h3>
+      <p class="govuk-body">
+        You cannot add more than {{ basketLimit }} items to your order.
+        To add more, you'll need to remove some items first.
+      </p>
+    </div>
+  </div>
+  {% endif %}
 
   {% if companyStatus === "dissolved" %}
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
-
-        {% if basketLimitState != "below-limit" %}
-          <div class="govuk-notification-banner" role="region" data-module="govuk-notification-banner">
-            <div class="govuk-notification-banner__header">
-              <h2 class="govuk-notification-banner__title">
-                Important
-              </h2>
-            </div>
-            <div class="govuk-notification-banner__content">
-              <h3 class="govuk-notification-banner__heading">Your basket is full</h3>
-              <p class="govuk-body">
-                You cannot add more than {{ basketLimit }} items to your order.
-                To add more, you'll need to remove some items first.
-              </p>
-            </div>
-          </div>
-        {% endif %}
-
-          <p class="govuk-caption-l">{{ companyName }}</p>
+        <p class="govuk-caption-l">{{ companyName }}</p>
           <h1 class="govuk-heading-xl">Order a company certificate</h1>
-
         <p class="govuk-body-l">Use this service to order a signed certificate of dissolution for a company, including all company name changes. </p>
 
         <p class="govuk-body">You can order additional copies of a certificate if you need to.</p>
@@ -56,8 +52,8 @@
         <p class="govuk-body">Ordering a certificate takes around 5 minutes.</p>
 
         <p class="govuk-body">To order for a different company,
-          <a class="govuk-notification-banner__link" href="https://find-and-update.company-information.service.gov.uk/">search for the company on the register</a>.</p>
-
+          <a class="govuk-notification-banner__link" href="/">search for the company on the register</a>.
+        </p>
 
         {{ govukButton({
             text: "Start now",
@@ -103,24 +99,6 @@
   {% else %}
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
-
-        {% if basketLimitState != "below-limit" %}
-          <div class="govuk-notification-banner" role="region" data-module="govuk-notification-banner">
-              <div class="govuk-notification-banner__header">
-                  <h2 class="govuk-notification-banner__title">
-                      Important
-                  </h2>
-              </div>
-              <div class="govuk-notification-banner__content">
-                  <h3 class="govuk-notification-banner__heading">Your basket is full</h3>
-                  <p class="govuk-body">
-                      You cannot add more than {{ basketLimit }} items to your order.
-                      To add more, you'll need to remove some items first.
-                  </p>
-              </div>
-          </div>
-        {% endif %}
-
         <p class="govuk-caption-l">{{ companyName }}</p>
 
         <h1 class="govuk-heading-xl">Order a company certificate</h1>
@@ -164,7 +142,8 @@
         </ul>
 
           <p class="govuk-body">To order for a different company,
-            <a class="govuk-notification-banner__link" href="https://find-and-update.company-information.service.gov.uk/">search for the company on the register</a>.</p>
+            <a class="govuk-notification-banner__link" href="/">search for the company on the register</a>.
+          </p>
 
         {{ govukButton({
             text: "Start now",
