@@ -209,7 +209,7 @@ env.addGlobal("ERROR_SUMMARY_TITLE", ERROR_SUMMARY_TITLE);
 env.addGlobal("ACCOUNT_URL", process.env.ACCOUNT_URL);
 env.addGlobal("CHS_MONITOR_GUI_URL", process.env.CHS_MONITOR_GUI_URL);
 
-app.use("/orderable/certificates-assets/static", express.static("static"));
+app.use("/orderable/certificates-assets/static", express.static("dist/static"));
 env.addGlobal("CSS_URL", "/orderable/certificates-assets/static/app.css");
 env.addGlobal("FOOTER", "/orderable/certificates-assets/static/footer.css");
 env.addGlobal("MOBILE_MENU", "/orderable/certificates-assets/static/js/mobile-menu.js");

@@ -29,8 +29,9 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
         const backLink = setBackLink(certificateItem, req.session)
 
+        const additionalCopyOption: number = certificateItem.quantity > 1? 1 : 2;
 
-        await renderPage(req, res, ADDITIONAL_COPIES, PAGE_TITLE, certificateItem, backLink);
+        await renderPage(req, res, ADDITIONAL_COPIES, PAGE_TITLE, certificateItem, backLink, additionalCopyOption);
     } catch (err) {
         logger.error(`${err}`);
         next(err);
