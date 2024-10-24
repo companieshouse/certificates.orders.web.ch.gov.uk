@@ -30,7 +30,6 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
         const backLink = setBackLink(certificateItem, req.session)
 
-        // const additionalCopiesOptions: number = getSelectionFromCertificate(certificateItem) //req.body[ADDITIONAL_COPIES_OPTION_FIELD];
         const userSelection = getSelectionFromCertificate(certificateItem) || 
                             getSelectionFromSession(req) ||
                             0;
@@ -115,7 +114,7 @@ export const getSelectionFromSession = (req: Request): number => {
     if (isAddCopies) {
         if (isAddCopies == "true") {
             return 1;
-        } 
+        }
         return 2;
     }
     return isAddCopies;
