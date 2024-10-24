@@ -1,3 +1,5 @@
 export default interface CertificateSessionData {
-    isFullPage: boolean
+    isFullPage: boolean,
+    includesAdditionalCopies: string,
+    additionalCopiesQuantity: number
 };
