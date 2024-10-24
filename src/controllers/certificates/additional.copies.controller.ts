@@ -30,8 +30,10 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
         const backLink = setBackLink(certificateItem, req.session)
 
-        const additionalCopiesOptions: string = req.body[ADDITIONAL_COPIES_OPTION_FIELD];
-        const userSelection = additionalCopiesOptions || (req.session?.getExtraData("certificates-orders-web-ch-gov-uk") as CertificateSessionData)?.includesAdditionalCopies || "";
+        // const additionalCopiesOptions: number = getSelectionFromCertificate(certificateItem) //req.body[ADDITIONAL_COPIES_OPTION_FIELD];
+        const userSelection = getSelectionFromCertificate(certificateItem) || 
+                            getSelectionFromSession(req) ||
+                            0;
 
         await renderPage(req, res, ADDITIONAL_COPIES, PAGE_TITLE, certificateItem, backLink, userSelection);
     } catch (err) {
@@ -103,5 +105,20 @@ export const setBackLink = (certificateItem: CertificateItem, session: Session |
     }
     return DELIVERY_OPTIONS;
 };
+
+export const getSelectionFromCertificate = (certificateItem: CertificateItem): number => {
+    return certificateItem.quantity > 1? 1: 2;
+}
+
+export const getSelectionFromSession = (req: Request): number => {
+    const isAddCopies: String = (req.session?.getExtraData("certificates-orders-web-ch-gov-uk") as CertificateSessionData)?.includesAdditionalCopies;
+    if (isAddCopies) {
+        if (isAddCopies == "true") {
+            return 1;
+        } 
+        return 2;
+    }
+    return isAddCopies;
+} 
 
 export default [...validators, route];
