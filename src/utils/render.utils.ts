@@ -11,7 +11,8 @@ export const renderPage = async (
     templateName: string,
     pageTitle: string,
     certificateItem: CertificateItem,
-    backLink: string
+    backLink: string,
+    radioButtonSelection: string | number,
 ): Promise<void> => {
     const basketLink: BasketLink = await getBasketLink(req);
     const pageHeader = mapPageHeader(req);
@@ -21,6 +22,7 @@ export const renderPage = async (
         pageTitleText: pageTitle,
         SERVICE_URL: setServiceUrl(certificateItem),
         backLink,
+        radioButtonSelection,
         ...basketLink,
         ...pageHeader
     });

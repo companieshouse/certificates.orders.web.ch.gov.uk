@@ -12,6 +12,7 @@ import { createGovUkErrorData } from "../../model/govuk.error.data";
 import { renderPage } from "../../utils/render.utils";
 import { BY_ITEM_KIND, StaticRedirectCallback } from "./StaticRedirectCallback";
 import { ADDITIONAL_COPIES_OPTION_SELECTION } from "../../model/error.messages";
+import CertificateSessionData from "session/CertificateSessionData";
 
 const logger = createLogger(APPLICATION_NAME);
 const ADDITIONAL_COPIES_OPTION_FIELD: string = "additionalCopiesOptions";
@@ -29,8 +30,10 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
         const backLink = setBackLink(certificateItem, req.session)
 
+        const additionalCopiesOptions: string = req.body[ADDITIONAL_COPIES_OPTION_FIELD];
+        const userSelection = additionalCopiesOptions || (req.session?.getExtraData("certificates-orders-web-ch-gov-uk") as CertificateSessionData)?.includesAdditionalCopies || "";
 
-        await renderPage(req, res, ADDITIONAL_COPIES, PAGE_TITLE, certificateItem, backLink);
+        await renderPage(req, res, ADDITIONAL_COPIES, PAGE_TITLE, certificateItem, backLink, userSelection);
     } catch (err) {
         logger.error(`${err}`);
         next(err);
@@ -55,10 +58,14 @@ const route = async (req: Request, res: Response, next: NextFunction): Promise<v
                 SERVICE_URL: setServiceUrl(certificateItem),
                 backLink: setBackLink(certificateItem, req.session),
                 additionalCopiesErrorData,
-                errorList: [additionalCopiesErrorData]
+                errorList: [additionalCopiesErrorData],
+                radioButtonSelection: additionalCopies
             });
         } else {
             if (additionalCopies === 'true') {
+                req.session?.setExtraData("certificates-orders-web-ch-gov-uk", {
+                    includesAdditionalCopies: additionalCopies
+                } as CertificateSessionData);
                 logger.info(`User selected 'Yes' to additional copies, redirecting to Additional Copies Quantity page`);
                 return res.redirect(ADDITIONAL_COPIES_QUANTITY);
             } else {
