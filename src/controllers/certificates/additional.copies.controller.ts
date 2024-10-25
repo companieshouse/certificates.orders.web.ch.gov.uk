@@ -106,6 +106,9 @@ export const setBackLink = (certificateItem: CertificateItem, session: Session |
 };
 
 export const getSelectionFromCertificate = (certificateItem: CertificateItem): number => {
+    if (!certificateItem.quantity || certificateItem.quantity < 0) {
+        return 0;
+    }
     return certificateItem.quantity > 1? 1: 2;
 }
 
@@ -117,7 +120,7 @@ export const getSelectionFromSession = (req: Request): number => {
         }
         return 2;
     }
-    return isAddCopies;
+    return 0;
 } 
 
 export default [...validators, route];
