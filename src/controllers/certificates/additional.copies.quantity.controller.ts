@@ -12,6 +12,7 @@ import { createGovUkErrorData } from "../../model/govuk.error.data";
 import { BY_ITEM_KIND, StaticRedirectCallback } from "./StaticRedirectCallback";
 import { renderPage } from "../../utils/render.utils";
 import { ADDITIONAL_COPIES_QUANTITY_OPTION_SELECTION } from "../../model/error.messages";
+import CertificateSessionData from "session/CertificateSessionData";
 
 const logger = createLogger(APPLICATION_NAME);
 const ADDITIONAL_COPIES_QUANTITY_OPTION_FIELD: string = "additionalCopiesQuantityOptions";
@@ -29,7 +30,11 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
         const backLink = ADDITIONAL_COPIES;
 
-        await renderPage(req, res, ADDITIONAL_COPIES_QUANTITY, PAGE_TITLE, certificateItem, backLink);
+        const userSelection = certificateItem.quantity || 
+                            (req.session?.getExtraData("certificates-orders-web-ch-gov-uk") as CertificateSessionData)?.additionalCopiesQuantity || 
+                            0;
+
+        await renderPage(req, res, ADDITIONAL_COPIES_QUANTITY, PAGE_TITLE, certificateItem, backLink, userSelection);
     } catch (err) {
         logger.error(`${err}`);
         next(err);
@@ -55,7 +60,8 @@ const route = async (req: Request, res: Response, next: NextFunction): Promise<v
                 SERVICE_URL: setServiceUrl(certificateItem),
                 backLink: setBackLink(certificateItem, req.session),
                 additionalCopiesQuantityErrorData,
-                errorList: [additionalCopiesQuantityErrorData]
+                errorList: [additionalCopiesQuantityErrorData],
+                radioButtonSelection: additionalCopiesQuantity
             });
         } else {
             const baseQuantity = 1;
