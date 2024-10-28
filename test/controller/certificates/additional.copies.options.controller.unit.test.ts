@@ -30,9 +30,9 @@ describe("additional.copies.options.controller.unit", () => {
         });
         it("a quantity of 0 returns 0", () => {
             const certificateItem = {
-                quantity: 5 
+                quantity: 0 
             } as CertificateItem;
-            chai.expect(getSelectionFromCertificate(certificateItem)).to.equal(2);
+            chai.expect(getSelectionFromCertificate(certificateItem)).to.equal(0);
         });
     });
     describe("assert getSelectionFromSession returns the correct value", () => {
@@ -46,7 +46,7 @@ describe("additional.copies.options.controller.unit", () => {
             const req = {
                 session: additionalCopiesFalse 
             } as Request;
-            chai.expect(getSelectionFromSession(req)).to.equal(1);
+            chai.expect(getSelectionFromSession(req)).to.equal(2);
         });
         it("if additionalCopies is null return 0", () => {
             const req = {

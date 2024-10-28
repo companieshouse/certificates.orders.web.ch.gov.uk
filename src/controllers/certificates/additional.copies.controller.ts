@@ -109,13 +109,13 @@ export const getSelectionFromCertificate = (certificateItem: CertificateItem): n
     if (!certificateItem.quantity || certificateItem.quantity < 0) {
         return 0;
     }
-    return certificateItem.quantity > 1? 1: 2;
+    return certificateItem.quantity > 1? 2: 1;
 }
 
 export const getSelectionFromSession = (req: Request): number => {
-    const isAddCopies: String = (req.session?.getExtraData("certificates-orders-web-ch-gov-uk") as CertificateSessionData)?.includesAdditionalCopies;
-    if (isAddCopies) {
-        if (isAddCopies == "true") {
+    const isAddCopies: string = (req.session?.getExtraData("certificates-orders-web-ch-gov-uk") as CertificateSessionData)?.includesAdditionalCopies;
+    if (isAddCopies != null) {
+        if (isAddCopies) {
             return 1;
         }
         return 2;
