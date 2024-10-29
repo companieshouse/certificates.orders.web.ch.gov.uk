@@ -1,8 +1,30 @@
 import chai from "chai";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
-import { setBackLink, getSelectionFromCertificate, getSelectionFromSession } from "../../../src/controllers/certificates/additional.copies.controller";
+import { setBackLink, getSelectionFromCertificate, getSelectionFromSession, getSelection } from "../../../src/controllers/certificates/additional.copies.controller";
 import { dataEmpty, additionalCopiesTrue, additionalCopiesFalse, additionalCopiesNull } from "../../__mocks__/session.mocks";
 import { Request } from "express";
+
+const certificateItemWithQuantityOne = {
+    quantity: 1 
+} as CertificateItem;
+const certificateItemWithQuantityFive = {
+    quantity: 5
+} as CertificateItem;
+const certificateItemWithQuantityZero = {
+    quantity: 0 
+} as CertificateItem;
+const certificateItemNoQuantity = {
+} as CertificateItem;
+
+const reqWithTrue = {
+    session: additionalCopiesTrue 
+} as Request;
+const reqWithFalse = {
+    session: additionalCopiesFalse
+} as Request;
+const reqWithNull = {
+    session: additionalCopiesNull
+} as Request;
 
 describe("additional.copies.options.controller.unit", () => {
     describe("setBackUrl for no option selected", () => {
@@ -15,44 +37,21 @@ describe("additional.copies.options.controller.unit", () => {
             chai.expect(setBackLink(certificateItem, dataEmpty)).to.equal("delivery-options");
         });
     });
-    describe("assert getSelectionFromCertificate returns the correct value", () => {
-        it("a quantity of 1 returns 1", () => {
-            const certificateItem = {
-                quantity: 1 
-            } as CertificateItem;
-            chai.expect(getSelectionFromCertificate(certificateItem)).to.equal(1);
+    describe("assert getSelection returns the correct value", () => {
+        it("if quantity is 1 return 1", () => {
+            chai.expect(getSelection(certificateItemWithQuantityOne, reqWithTrue)).to.equal(1);
         });
-        it("a quantity of 5 returns 2", () => {
-            const certificateItem = {
-                quantity: 5 
-            } as CertificateItem;
-            chai.expect(getSelectionFromCertificate(certificateItem)).to.equal(2);
+        it("if quantity is 5 return 2", () => {
+            chai.expect(getSelection(certificateItemWithQuantityFive, reqWithTrue)).to.equal(2);
         });
-        it("a quantity of 0 returns 0", () => {
-            const certificateItem = {
-                quantity: 0 
-            } as CertificateItem;
-            chai.expect(getSelectionFromCertificate(certificateItem)).to.equal(0);
+        it("if quantity is 0 and additionalCopies is true return 1", () => {
+            chai.expect(getSelection(certificateItemWithQuantityZero, reqWithTrue)).to.equal(1);
         });
-    });
-    describe("assert getSelectionFromSession returns the correct value", () => {
-        it("if additionalCopies is true return 1", () => {
-            const req = {
-                session: additionalCopiesTrue 
-            } as Request;
-            chai.expect(getSelectionFromSession(req)).to.equal(1);
+        it("if quantity is 0 and additionalCopies is false return 2", () => {
+            chai.expect(getSelection(certificateItemWithQuantityZero, reqWithFalse)).to.equal(2);
         });
-        it("if additionalCopies is false return 2", () => {
-            const req = {
-                session: additionalCopiesFalse 
-            } as Request;
-            chai.expect(getSelectionFromSession(req)).to.equal(2);
-        });
-        it("if additionalCopies is null return 0", () => {
-            const req = {
-                session: additionalCopiesNull 
-            } as Request;
-            chai.expect(getSelectionFromSession(req)).to.equal(0);
+        it("if quantity is 0 and additionalCopies is null return 0", () => {
+            chai.expect(getSelection(certificateItemWithQuantityZero, reqWithNull)).to.equal(0);
         });
     })
 });
