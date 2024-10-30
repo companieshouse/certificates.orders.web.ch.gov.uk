@@ -30,7 +30,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
         const backLink = setBackLink(certificateItem, req.session)
 
-        const userSelection = getSelection(certificateItem, req)
+        const userSelection = getSelection(req)
 
         await renderPage(req, res, ADDITIONAL_COPIES, PAGE_TITLE, certificateItem, backLink, userSelection);
     } catch (err) {
@@ -121,13 +121,10 @@ export const getSelectionFromSession = (req: Request): number => {
     return 0;
 } 
 
-export const getSelection = (certificateItem: CertificateItem, req: Request): number => {
-    if (certificateItem.quantity != null && certificateItem.quantity > 0) {
-        return certificateItem.quantity > 1? 2: 1;
-    }
-    
+export const getSelection = (req: Request): number => {
+
     const isAddCopies: string = (req.session?.getExtraData("certificates-orders-web-ch-gov-uk") as CertificateSessionData)?.includesAdditionalCopies;
-    if (isAddCopies != null) {
+    if (isAddCopies != undefined) {
         return isAddCopies == "true"? 1: 2;
     }
 

@@ -38,20 +38,14 @@ describe("additional.copies.options.controller.unit", () => {
         });
     });
     describe("assert getSelection returns the correct value", () => {
-        it("if quantity is 1 return 1", () => {
-            chai.expect(getSelection(certificateItemWithQuantityOne, reqWithTrue)).to.equal(1);
+        it("if additionalCopies is true return 1", () => {
+            chai.expect(getSelection(reqWithTrue)).to.equal(1);
         });
-        it("if quantity is 5 return 2", () => {
-            chai.expect(getSelection(certificateItemWithQuantityFive, reqWithTrue)).to.equal(2);
+        it("if additionalCopies is false return 2", () => {
+            chai.expect(getSelection(reqWithFalse)).to.equal(2);
         });
-        it("if quantity is 0 and additionalCopies is true return 1", () => {
-            chai.expect(getSelection(certificateItemWithQuantityZero, reqWithTrue)).to.equal(1);
-        });
-        it("if quantity is 0 and additionalCopies is false return 2", () => {
-            chai.expect(getSelection(certificateItemWithQuantityZero, reqWithFalse)).to.equal(2);
-        });
-        it("if quantity is 0 and additionalCopies is null return 0", () => {
-            chai.expect(getSelection(certificateItemWithQuantityZero, reqWithNull)).to.equal(0);
+        it("if additionalCopies is null return 0", () => {
+            chai.expect(getSelection(reqWithNull)).to.equal(0);
         });
     })
 });
