@@ -111,3 +111,5 @@ export const getSelectionFromCertificate = (certificateItem: CertificateItem): n
     }
     return certificateItem.quantity > 1? 1: 2;
 }
+
+export default [...validators, route];

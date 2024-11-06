@@ -12,7 +12,6 @@ import { createGovUkErrorData } from "../../model/govuk.error.data";
 import { BY_ITEM_KIND, StaticRedirectCallback } from "./StaticRedirectCallback";
 import { renderPage } from "../../utils/render.utils";
 import { ADDITIONAL_COPIES_QUANTITY_OPTION_SELECTION } from "../../model/error.messages";
-import CertificateSessionData from "session/CertificateSessionData";
 
 const logger = createLogger(APPLICATION_NAME);
 const ADDITIONAL_COPIES_QUANTITY_OPTION_FIELD: string = "additionalCopiesQuantityOptions";
