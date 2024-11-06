@@ -146,8 +146,7 @@ describe("OtherCompanyOptionMapper", () => {
                     administratorsDetails: {
                         includeBasicInformation: true
                     }
-                },
-                quantity: 1
+                }
             } as CertificateItemPatchRequest);
         });
 
@@ -163,8 +162,7 @@ describe("OtherCompanyOptionMapper", () => {
                 itemOptions: {
                     ...mapper.createInitialItemOptions(CompanyStatus.ACTIVE),
                     includeGoodStandingInformation: true
-                },
-                quantity: 1
+                }
             } as CertificateItemPatchRequest);
         });
 
@@ -176,8 +174,7 @@ describe("OtherCompanyOptionMapper", () => {
             chai.expect(result).to.deep.equal({
                 itemOptions: {
                     ...mapper.createInitialItemOptions(CompanyStatus.ACTIVE)
-                },
-                quantity: 1
+                }
             } as CertificateItemPatchRequest);
         });
     });
