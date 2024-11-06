@@ -111,25 +111,3 @@ export const getSelectionFromCertificate = (certificateItem: CertificateItem): n
     }
     return certificateItem.quantity > 1? 1: 2;
 }
-
-export const getSelectionFromSession = (req: Request): number => {
-    const isAddCopies: string = (req.session?.getExtraData("certificates-orders-web-ch-gov-uk") as CertificateSessionData)?.includesAdditionalCopies;
-    if (isAddCopies != null) {
-        if (isAddCopies) {
-            return 1;
-        }
-        return 2;
-    }
-    return 0;
-}
-
-export const getSelection = (req: Request): number => {
-
-    const isAddCopies: string = (req.session?.getExtraData("certificates-orders-web-ch-gov-uk") as CertificateSessionData)?.includesAdditionalCopies;
-    if (isAddCopies != undefined) {
-        return isAddCopies == "true"? 1: 2;
-    }
-
-    return 0;
-}
-export default [...validators, route];
