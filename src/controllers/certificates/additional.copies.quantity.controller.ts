@@ -29,8 +29,6 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
         const backLink = ADDITIONAL_COPIES;
 
-        console.trace("[!]acq cert: " + certificateItem.quantity);
-
         const userSelection = certificateItem.quantity - 1;
 
         await renderPage(req, res, ADDITIONAL_COPIES_QUANTITY, PAGE_TITLE, certificateItem, backLink, userSelection);
@@ -47,7 +45,6 @@ const route = async (req: Request, res: Response, next: NextFunction): Promise<v
         const accessToken: string = getAccessToken(req.session);
         const additionalCopiesQuantity: string = req.body[ADDITIONAL_COPIES_QUANTITY_OPTION_FIELD];
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
-        console.trace("[!] acq body from route: " + additionalCopiesQuantity + "\terrors is empty: " + errors.isEmpty())
 
         logger.info(`Get certificate item, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
 
