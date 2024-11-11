@@ -12,7 +12,6 @@ import { createGovUkErrorData } from "../../model/govuk.error.data";
 import { BY_ITEM_KIND, StaticRedirectCallback } from "./StaticRedirectCallback";
 import { renderPage } from "../../utils/render.utils";
 import { ADDITIONAL_COPIES_QUANTITY_OPTION_SELECTION } from "../../model/error.messages";
-import CertificateSessionData from "session/CertificateSessionData";
 
 const logger = createLogger(APPLICATION_NAME);
 const ADDITIONAL_COPIES_QUANTITY_OPTION_FIELD: string = "additionalCopiesQuantityOptions";
@@ -30,9 +29,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
         const backLink = ADDITIONAL_COPIES;
 
-        const userSelection = certificateItem.quantity || 
-                            (req.session?.getExtraData("certificates-orders-web-ch-gov-uk") as CertificateSessionData)?.additionalCopiesQuantity || 
-                            0;
+        const userSelection = certificateItem.quantity - 1;
 
         await renderPage(req, res, ADDITIONAL_COPIES_QUANTITY, PAGE_TITLE, certificateItem, backLink, userSelection);
     } catch (err) {
@@ -50,7 +47,7 @@ const route = async (req: Request, res: Response, next: NextFunction): Promise<v
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
 
         logger.info(`Get certificate item, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
-        
+
         if (!errors.isEmpty()) {
             const errorArray = errors.array();
             const errorText = errorArray[errorArray.length - 1].msg as string;
@@ -69,7 +66,6 @@ const route = async (req: Request, res: Response, next: NextFunction): Promise<v
             const certificateItemPatchRequest: CertificateItemPatchRequest = {
                 quantity : baseQuantity + parseInt(additionalCopiesQuantity)
             };
-            
             const patchedCertificateItem = await patchCertificateItem(accessToken, req.params.certificateId, certificateItemPatchRequest);
             logger.info(`Patched certificate item with delivery option, id=${req.params.certificateId}, user_id=${userId}, company_number=${patchedCertificateItem.companyNumber}`);
             logger.info(`Quantity has been updated to: ${patchedCertificateItem.quantity} ` );

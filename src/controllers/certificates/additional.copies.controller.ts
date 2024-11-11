@@ -30,11 +30,11 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
         const backLink = setBackLink(certificateItem, req.session)
 
-        const userSelection = getSelectionFromCertificate(certificateItem) || 
-                            getSelectionFromSession(req) ||
-                            0;
+        const basket = await getBasket(accessToken);
+        const inBasket: boolean = basket.items?.find(item => item.id == certificateItem.id) != undefined;
+        const certSelection = inBasket ? getSelectionFromCertificate(certificateItem): 0
 
-        await renderPage(req, res, ADDITIONAL_COPIES, PAGE_TITLE, certificateItem, backLink, userSelection);
+        await renderPage(req, res, ADDITIONAL_COPIES, PAGE_TITLE, certificateItem, backLink, certSelection);
     } catch (err) {
         logger.error(`${err}`);
         next(err);
@@ -49,7 +49,7 @@ const route = async (req: Request, res: Response, next: NextFunction): Promise<v
         const additionalCopies: string = req.body[ADDITIONAL_COPIES_OPTION_FIELD];
         let certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
         logger.info(`Get certificate item, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
-        
+
         if (!errors.isEmpty()) {
             const errorArray = errors.array();
             const errorText = errorArray[errorArray.length - 1].msg as string;
@@ -106,21 +106,10 @@ export const setBackLink = (certificateItem: CertificateItem, session: Session |
 };
 
 export const getSelectionFromCertificate = (certificateItem: CertificateItem): number => {
-    if (!certificateItem.quantity || certificateItem.quantity < 0) {
+    if (certificateItem.quantity == undefined || certificateItem.quantity < 1) {
         return 0;
     }
-    return certificateItem.quantity > 1? 2: 1;
+    return certificateItem.quantity > 1? 1: 2;
 }
-
-export const getSelectionFromSession = (req: Request): number => {
-    const isAddCopies: string = (req.session?.getExtraData("certificates-orders-web-ch-gov-uk") as CertificateSessionData)?.includesAdditionalCopies;
-    if (isAddCopies != null) {
-        if (isAddCopies) {
-            return 1;
-        }
-        return 2;
-    }
-    return 0;
-} 
 
 export default [...validators, route];

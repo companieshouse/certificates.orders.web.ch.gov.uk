@@ -14,8 +14,7 @@ export abstract class AbstractOptionsMapper<T extends RedirectStateMachine> {
     mapOptionsToUpdate (companyStatus: string, selectedOptions: SelectedOptions): CertificateItemPatchRequest {
         const initialItemOptions: ItemOptionsRequest = this.createInitialItemOptions(companyStatus);
         const result: CertificateItemPatchRequest = {
-            itemOptions: initialItemOptions,
-            quantity: 1
+            itemOptions: initialItemOptions
         };
         const options = this.mapSelectedOptionsToArray(selectedOptions);
         options.reduce((itemOptionsAccum: ItemOptionsRequest, option: string) =>
