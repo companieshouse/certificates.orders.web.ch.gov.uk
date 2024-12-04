@@ -78,7 +78,7 @@
   },
   "@comments devDependencies": {
     "@package sass": [
-      "We're using an older version of @sass to suppress deprecation warnings thrown by the @govuk-frontend package during the build",
+      "We are using an older version of @sass to suppress deprecation warnings thrown by the @govuk-frontend package during the build",
       "We'll upgrade to the most recent version of @sass after this issue is fixed in the @govuk-frontend package"
     ]
   },
