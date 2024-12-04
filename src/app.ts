@@ -7,11 +7,11 @@ import Redis from "ioredis";
 import { SessionStore, SessionMiddleware, CookieConfig } from "@companieshouse/node-session-handler";
 import { CsrfProtectionMiddleware } from "@companieshouse/web-security-node";
 
-import certRouter from "./routers/certificates/routers";
-import lpCertRouter from "./routers/certificates/lp-certificates/routers";
-import llpCertRouter from "./routers/certificates/llp-certificates/routers";
-import certCopyRouter from "./routers/certified-copies/routers";
-import missingImageDeliveryRouter from "./routers/missing-image-deliveries/routers";
+import certRouter from "./routers/certificates/router";
+import lpCertRouter from "./routers/certificates/lp-certificates/router";
+import llpCertRouter from "./routers/certificates/llp-certificates/router";
+import certCopyRouter from "./routers/certified-copies/router";
+import missingImageDeliveryRouter from "./routers/missing-image-deliveries/router";
 import errorHandlers from "./controllers/error.controller";
 
 import { ERROR_SUMMARY_TITLE } from "./model/error.messages";

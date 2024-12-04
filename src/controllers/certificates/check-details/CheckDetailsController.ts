@@ -55,5 +55,5 @@ export class CheckDetailsController {
             this.logger.error(`error=${error}`);
             return next(error);
         }
-    };
+    }
 }

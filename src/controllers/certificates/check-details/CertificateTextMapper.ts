@@ -2,7 +2,7 @@ import {
     DirectorOrSecretaryDetails,
     MemberDetails
 } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
-import { Basket, DeliveryDetails } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
+import { DeliveryDetails } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 import { AddressRecordsType } from "../../../model/AddressRecordsType";
 import { DefaultCompanyMappable } from "./DefaultCompanyMappable";
 import { LLPCompanyMappable } from "./LLPCompanyMappable";
@@ -16,7 +16,7 @@ export class CertificateTextMapper implements DefaultCompanyMappable, LLPCompany
         this.dispatchDays = dispatchDays;
     }
 
-    public isOptionSelected (itemOption: Boolean | undefined): string {
+    public isOptionSelected (itemOption: boolean | undefined): string {
         if (itemOption === undefined) {
             return "No";
         } else {
@@ -200,7 +200,7 @@ export class CertificateTextMapper implements DefaultCompanyMappable, LLPCompany
         return this.mapToHtml(mappings);
     }
 
-    public mapDeliveryMethod (itemOptions: Record<string, any>, multiBasketEnabled:Boolean): string | null {
+    public mapDeliveryMethod (itemOptions: Record<string, any>, multiBasketEnabled:boolean): string | null {
         if (multiBasketEnabled) {
             if (itemOptions?.deliveryTimescale === "standard") {
                 return "Standard";
@@ -238,5 +238,5 @@ export class CertificateTextMapper implements DefaultCompanyMappable, LLPCompany
         } else {
             return "Email only available for express dispatch";
         }
-    };
-};
+    }
+}

@@ -62,7 +62,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
                 isFullPage: isFullPage,
                 backLink: generateBackLink(isFullPage)
             });
-        };
+        }
         const prinPlaceOption: string = req.body[PRINCIPAL_PLACE_OPTION];
         const optionSelected: PrincipalPlaceOfBusinessDetailsRequest = setPrincipalPlaceOption(prinPlaceOption);
 

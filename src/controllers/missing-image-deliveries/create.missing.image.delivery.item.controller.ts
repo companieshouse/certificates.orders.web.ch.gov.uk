@@ -40,5 +40,5 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
     } catch (err) {
         logger.error(`${err}`);
         next(err);
-    };
+    }
 };

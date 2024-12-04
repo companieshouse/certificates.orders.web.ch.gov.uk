@@ -4,10 +4,10 @@ import {
     CertificateItem,
     CertificateItemPatchRequest
 } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
-import { Basket, BasketPatchRequest } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
+import { BasketPatchRequest } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 import { getAccessToken, getUserId } from "../../../session/helper";
-import { getCertificateItem, patchCertificateItem, getBasket, patchBasket } from "../../../client/api.client";
-import { DELIVERY_DETAILS, DELIVERY_OPTIONS, EMAIL_OPTIONS } from "../../../model/template.paths";
+import { getCertificateItem, patchCertificateItem, patchBasket } from "../../../client/api.client";
+import { DELIVERY_DETAILS } from "../../../model/template.paths";
 import { createLogger } from "@companieshouse/structured-logging-node";
 import { APPLICATION_NAME } from "../../../config/config";
 import { deliveryDetailsValidationRules, validate } from "../../../utils/delivery-details-validation";

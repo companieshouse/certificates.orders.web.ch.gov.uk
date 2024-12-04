@@ -57,7 +57,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const mapFilingHistoriesDocuments = (filingHistoryDocuments: FilingHistoryDocuments[]) => {
-    const mappedFilingHistories = filingHistoryDocuments.map(filingHistoryDocument => {
+    return filingHistoryDocuments.map(filingHistoryDocument => {
         const descriptionFromFile = getFullFilingHistoryDescription(filingHistoryDocument.filingHistoryDescription);
         const mappedFilingHistroyDescription = mapFilingHistoryDescriptionValues(descriptionFromFile, filingHistoryDocument.filingHistoryDescriptionValues || {});
         const cleanedFilingHistoryDescription = removeAsterisks(mappedFilingHistroyDescription);
@@ -71,7 +71,7 @@ export const mapFilingHistoriesDocuments = (filingHistoryDocuments: FilingHistor
             filingHistoryCost: costWithCurrencySymbol
         };
     });
-    return mappedFilingHistories;
+   
 };
 
 export default [route];

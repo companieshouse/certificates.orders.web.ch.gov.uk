@@ -39,7 +39,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
                 isFullPage: isFullPage,
                 backLink: generateBackLink(isFullPage)
             });
-        };
+        }
         const regOfficeOption: string = req.body[REGISTERED_OFFICE_OPTION];
         const optionSelected: RegisteredOfficeAddressDetailsRequest = setRegOfficeOption(regOfficeOption);
 

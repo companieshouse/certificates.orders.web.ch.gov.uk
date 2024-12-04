@@ -1,4 +1,4 @@
-import { NextFunction, Request, RequestHandler, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { SessionKey } from "@companieshouse/node-session-handler/lib/session/keys/SessionKey";
 import { SignInInfoKeys } from "@companieshouse/node-session-handler/lib/session/keys/SignInInfoKeys";
 import { getUserId } from "../../session/helper";
@@ -7,7 +7,6 @@ import { CERTIFIED_COPY_DELIVERY_OPTIONS, replaceCertifiedCopyId } from "../../m
 import { createLogger } from "@companieshouse/structured-logging-node";
 
 import { APPLICATION_NAME } from "../../config/config";
-import { getCertifiedCopyItem } from "client/api.client";
 import { getWhitelistedReturnToURL } from "../../utils/request.util";
 
 const logger = createLogger(APPLICATION_NAME);

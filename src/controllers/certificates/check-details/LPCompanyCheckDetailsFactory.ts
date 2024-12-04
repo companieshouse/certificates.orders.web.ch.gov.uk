@@ -47,7 +47,7 @@ export class LPCheckDetailsFactory implements ViewModelCreatable {
             generalNatureOfBusiness: this.textMapper.isOptionSelected(itemOptions.includeGeneralNatureOfBusinessInformation),
             quantity: certificateItem.quantity,
         };
-    };
+    }
 
     public getTemplate (): string {
         return this.template;

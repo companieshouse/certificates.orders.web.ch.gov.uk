@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { getAccessToken, getUserId } from "../../../session/helper";
-import { CertificateItem, ItemOptions, DirectorOrSecretaryDetails, DirectorOrSecretaryDetailsRequest, CertificateItemPatchRequest, DesignatedMemberDetailsRequest } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
+import { CertificateItem, ItemOptions, CertificateItemPatchRequest, DesignatedMemberDetailsRequest } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { getCertificateItem, patchCertificateItem } from "../../../client/api.client";
 import { LLP_CERTIFICATE_DESIGNATED_MEMBERS_OPTIONS } from "../../../model/template.paths";
 import { createLogger } from "@companieshouse/structured-logging-node";

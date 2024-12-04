@@ -17,7 +17,7 @@ export abstract class AbstractOptionsMapper<T extends RedirectStateMachine> {
             itemOptions: initialItemOptions
         };
         const options = this.mapSelectedOptionsToArray(selectedOptions);
-        options.reduce((itemOptionsAccum: ItemOptionsRequest, option: string) =>
+        result.itemOptions = options.reduce((itemOptionsAccum: ItemOptionsRequest, option: string) =>
             this.filterItemOptions(itemOptionsAccum, option), initialItemOptions);
         return result;
     }

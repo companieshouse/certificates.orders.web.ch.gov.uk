@@ -9,4 +9,4 @@ export const enum CompanyType {
     PRIVATE_UNLIMITED = "private-unlimited",
     PRIVATE_UNLIMITED_NSC = "private-unlimited-nsc",
     LIMITED_PARTNERSHIP = "limited-partnership"
-};
+}

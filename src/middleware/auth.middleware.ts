@@ -68,7 +68,7 @@ if (FEATURE_FLAGS.lpCertificateOrdersEnabled && FEATURE_FLAGS.llpCertificateOrde
     strategy = llpFeatureFlagOnStrategy;
 } else {
     strategy = featureFlagsOffStrategy;
-};
+}
 
 export default async (req: Request, res: Response, next: NextFunction) => {
     try {

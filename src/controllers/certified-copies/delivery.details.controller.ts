@@ -4,7 +4,7 @@ import { Basket, BasketPatchRequest } from "@companieshouse/api-sdk-node/dist/se
 import { createLogger } from "@companieshouse/structured-logging-node";
 
 import { getAccessToken, getUserId } from "../../session/helper";
-import { DELIVERY_DETAILS, DELIVERY_OPTIONS } from "../../model/template.paths";
+import { DELIVERY_DETAILS } from "../../model/template.paths";
 import { APPLICATION_NAME } from "../../config/config";
 import { getBasket, patchBasket, getCertifiedCopyItem } from "../../client/api.client";
 import { deliveryDetailsValidationRules, validate } from "../../utils/delivery-details-validation";
@@ -94,7 +94,6 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
     }
     try {
         const userId = getUserId(req.session);
-        const accessToken: string = getAccessToken(req.session);
         const basketDeliveryDetails: BasketPatchRequest = {
             deliveryDetails: {
                 addressLine1: addressLineOne,

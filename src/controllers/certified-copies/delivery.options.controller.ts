@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { check, validationResult } from "express-validator";
-import { CertifiedCopyItem, CertifiedCopyItemPatchRequest } from "@companieshouse/api-sdk-node/dist/services/order/certified-copies/types";
+import { CertifiedCopyItem } from "@companieshouse/api-sdk-node/dist/services/order/certified-copies/types";
 import { getAccessToken, getUserId } from "../../session/helper";
 import { appendItemToBasket, getBasket, getCertifiedCopyItem, patchCertifiedCopyItem } from "../../client/api.client";
 import { DELIVERY_DETAILS, DELIVERY_OPTIONS } from "../../model/template.paths";

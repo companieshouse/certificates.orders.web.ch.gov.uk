@@ -10,7 +10,7 @@ export class StaticRedirectCallback {
     }
 
     redirectEnrolled (request: EnrolledRedirectRequest) {
-        if (((request.items || [])).find(this.deliverableItemPredicate)) {
+        if ((request.items || []).find(this.deliverableItemPredicate)) {
             if (request.deliveryDetails) {
                 return request.response.redirect("/basket");
             }

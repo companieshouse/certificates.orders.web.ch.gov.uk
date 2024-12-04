@@ -17,7 +17,7 @@ const logger = createLogger(APPLICATION_NAME);
 
 export const render = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const userId = getUserId(req.session);
+
         const accessToken: string = getAccessToken(req.session);
         const midID: string = req.params.missingImageDeliveryId;
         const missingImageDeliveryItem: MidItem = await getMissingImageDeliveryItem(accessToken, midID);

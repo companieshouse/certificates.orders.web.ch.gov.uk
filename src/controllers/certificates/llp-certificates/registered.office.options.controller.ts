@@ -45,7 +45,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
             itemOptions: {
                 registeredOfficeAddressDetails: optionSelected
             }
-        };
+        }
         const accessToken: string = getAccessToken(req.session);
         const userId = getUserId(req.session);
         const patchResponse = await patchCertificateItem(accessToken, req.params.certificateId, certificateItem);
