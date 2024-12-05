@@ -8,7 +8,7 @@ const sass = gulpSass(dartSass);
 gulp.task("govuk-frontend-copy", function() {
   return gulp.src([
     "./node_modules/govuk-frontend/govuk/assets/**/*"
-  ]).pipe(gulp.dest("./dist/static"));
+  ], {encoding: false}).pipe(gulp.dest("./dist/static"));
 });
 // compiles the sass down to css
 gulp.task('sass', function() {
