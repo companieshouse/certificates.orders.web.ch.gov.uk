@@ -23,7 +23,7 @@
     "@companieshouse/web-security-node": "^4.1.1",
     "cookie-parser": "^1.4.7",
     "escape-html": "^1.0.3",
-    "express": "~4.21.1",
+    "express": "~4.19.2",
     "express-actuator": "^1.8.4",
     "express-validator": "^7.0.1",
     "govuk-frontend": "^4.7.0",
