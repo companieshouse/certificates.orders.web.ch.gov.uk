@@ -132,7 +132,7 @@ const PROTECTED_PATHS = [
 ];
 
 
-const MIDDLEWARE_PATHS = [
+const SESSION_MIDDLEWARE_PATHS = [
     pageUrls.ROOT_CERTIFICATE,
     pageUrls.ROOT_CERTIFICATE_ID,
     pageUrls.LP_ROOT_CERTIFICATE,
@@ -147,14 +147,14 @@ const MIDDLEWARE_PATHS = [
     pageUrls.ROOT_MISSING_IMAGE_DELIVERY_ID
 ];
 
-app.use(MIDDLEWARE_PATHS, SessionMiddleware(cookieConfig, sessionStore));
+app.use(SESSION_MIDDLEWARE_PATHS, SessionMiddleware(cookieConfig, sessionStore));
 
 const csrfProtectionMiddleware = CsrfProtectionMiddleware({
     sessionStore,
     enabled: true,
     sessionCookieName: COOKIE_NAME
   });
-  app.use(MIDDLEWARE_PATHS, csrfProtectionMiddleware);
+  app.use(SESSION_MIDDLEWARE_PATHS, csrfProtectionMiddleware);
 
 app.use(PROTECTED_PATHS, createLoggerMiddleware(APPLICATION_NAME));
 app.use(pageUrls.ROOT_CERTIFICATE, authMiddleware);
