@@ -49,7 +49,6 @@ import {
     MISSING_IMAGE_DELIVERY_COPIES_FEEDBACK_SOURCE,
     CERTIFIED_COPIES_FEEDBACK_SOURCE,
     DISSOLVED_CERTIFICATE_FEEDBACK_SOURCE,
-    MIDDLEWARE_PATHS
 } from "./config/config";
 import { FEATURE_FLAGS } from "./config/FeatureFlags";
 
@@ -132,6 +131,22 @@ const PROTECTED_PATHS = [
     pageUrls.MISSING_IMAGE_DELIVERY_CHECK_DETAILS
 ];
 
+
+const MIDDLEWARE_PATHS = [
+    pageUrls.ROOT_CERTIFICATE,
+    pageUrls.ROOT_CERTIFICATE_ID,
+    pageUrls.LP_ROOT_CERTIFICATE,
+    pageUrls.LP_ROOT_CERTIFICATE_ID,
+    pageUrls.LLP_ROOT_CERTIFICATE,
+    pageUrls.LLP_ROOT_CERTIFICATE_ID,
+    pageUrls.ROOT_DISSOLVED_CERTIFICATE,
+    pageUrls.ROOT_DISSOLVED_CERTIFICATE_ID,
+    pageUrls.ROOT_CERTIFIED_COPY,
+    pageUrls.ROOT_CERTIFIED_COPY_ID,
+    pageUrls.ROOT_MISSING_IMAGE_DELIVERY,
+    pageUrls.ROOT_MISSING_IMAGE_DELIVERY_ID
+];
+
 app.use(MIDDLEWARE_PATHS, SessionMiddleware(cookieConfig, sessionStore));
 
 const csrfProtectionMiddleware = CsrfProtectionMiddleware({
@@ -142,27 +157,16 @@ const csrfProtectionMiddleware = CsrfProtectionMiddleware({
   app.use(MIDDLEWARE_PATHS, csrfProtectionMiddleware);
 
 app.use(PROTECTED_PATHS, createLoggerMiddleware(APPLICATION_NAME));
-app.use([pageUrls.ROOT_CERTIFICATE, pageUrls.ROOT_CERTIFICATE_ID], SessionMiddleware(cookieConfig, sessionStore));
 app.use(pageUrls.ROOT_CERTIFICATE, authMiddleware);
 app.use(pageUrls.ROOT_CERTIFICATE_ID, authCertificateMiddleware);
-
-app.use([pageUrls.LP_ROOT_CERTIFICATE, pageUrls.LP_ROOT_CERTIFICATE_ID], SessionMiddleware(cookieConfig, sessionStore));
 app.use(pageUrls.LP_ROOT_CERTIFICATE, authMiddleware);
 app.use(pageUrls.LP_ROOT_CERTIFICATE_ID, authCertificateMiddleware);
-
-app.use([pageUrls.LLP_ROOT_CERTIFICATE, pageUrls.LLP_ROOT_CERTIFICATE_ID], SessionMiddleware(cookieConfig, sessionStore));
 app.use(pageUrls.LLP_ROOT_CERTIFICATE, authMiddleware);
 app.use(pageUrls.LLP_ROOT_CERTIFICATE_ID, authCertificateMiddleware);
-
-app.use([pageUrls.ROOT_DISSOLVED_CERTIFICATE, pageUrls.ROOT_DISSOLVED_CERTIFICATE_ID], SessionMiddleware(cookieConfig, sessionStore));
 app.use(pageUrls.ROOT_DISSOLVED_CERTIFICATE, authMiddleware);
 app.use(pageUrls.ROOT_DISSOLVED_CERTIFICATE_ID, authCertificateMiddleware);
-
-app.use([pageUrls.ROOT_CERTIFIED_COPY, pageUrls.ROOT_CERTIFIED_COPY_ID], SessionMiddleware(cookieConfig, sessionStore));
 app.use(pageUrls.ROOT_CERTIFIED_COPY, authCertifiedCopyStartNowMiddleware);
 app.use(pageUrls.ROOT_CERTIFIED_COPY_ID, authCertifiedCopyMiddleware);
-
-app.use([pageUrls.ROOT_MISSING_IMAGE_DELIVERY, pageUrls.ROOT_MISSING_IMAGE_DELIVERY_ID], SessionMiddleware(cookieConfig, sessionStore));
 app.use(pageUrls.MISSING_IMAGE_DELIVERY_CREATE, authMissingImageDeliveryCreateMiddleware);
 app.use(pageUrls.ROOT_MISSING_IMAGE_DELIVERY_ID, authMissingImageDeliveryCheckDetailsMiddleware);
 
