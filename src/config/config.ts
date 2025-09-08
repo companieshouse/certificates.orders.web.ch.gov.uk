@@ -84,5 +84,3 @@ export const MISSING_IMAGE_DELIVERY_COPIES_FEEDBACK_SOURCE = `${CHS_URL}/missing
 export const LP_CERTIFICATE_FEEDBACK_SOURCE = `${CHS_URL}/lp-certificates`;
 
 export const LLP_CERTIFICATE_FEEDBACK_SOURCE = `${CHS_URL}/llp-certificates`;
-
-export const MIDDLEWARE_PATHS = /\/certificates-orders-web\/((?!health).)*/;

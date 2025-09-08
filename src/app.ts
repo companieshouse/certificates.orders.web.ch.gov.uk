@@ -48,8 +48,7 @@ import {
     LP_CERTIFICATE_FEEDBACK_SOURCE,
     MISSING_IMAGE_DELIVERY_COPIES_FEEDBACK_SOURCE,
     CERTIFIED_COPIES_FEEDBACK_SOURCE,
-    DISSOLVED_CERTIFICATE_FEEDBACK_SOURCE,
-    MIDDLEWARE_PATHS
+    DISSOLVED_CERTIFICATE_FEEDBACK_SOURCE
 } from "./config/config";
 import { FEATURE_FLAGS } from "./config/FeatureFlags";
 
@@ -132,14 +131,14 @@ const PROTECTED_PATHS = [
     pageUrls.MISSING_IMAGE_DELIVERY_CHECK_DETAILS
 ];
 
-app.use(MIDDLEWARE_PATHS, SessionMiddleware(cookieConfig, sessionStore));
+app.use(SessionMiddleware(cookieConfig, sessionStore));
 
 const csrfProtectionMiddleware = CsrfProtectionMiddleware({
     sessionStore,
     enabled: true,
     sessionCookieName: COOKIE_NAME
   });
-  app.use(MIDDLEWARE_PATHS, csrfProtectionMiddleware);
+  app.use(csrfProtectionMiddleware);
 
 app.use(PROTECTED_PATHS, createLoggerMiddleware(APPLICATION_NAME));
 app.use([pageUrls.ROOT_CERTIFICATE, pageUrls.ROOT_CERTIFICATE_ID], SessionMiddleware(cookieConfig, sessionStore));
