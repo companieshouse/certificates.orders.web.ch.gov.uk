@@ -16,8 +16,7 @@ const directorDetails: DirectorOrSecretaryDetails = {
     includeBasicInformation: true,
     includeCountryOfResidence: true,
     includeDobType: "DobType",
-    includeNationality: true,
-    includeOccupation: true
+    includeNationality: true
 };
 
 const secretaryDetails: DirectorOrSecretaryDetails = {
@@ -26,8 +25,7 @@ const secretaryDetails: DirectorOrSecretaryDetails = {
     includeBasicInformation: true,
     includeCountryOfResidence: true,
     includeDobType: "DobType",
-    includeNationality: true,
-    includeOccupation: true
+    includeNationality: true
 };
 
 const registeredOfficeAddressDetails: RegisteredOfficeAddressDetails = {

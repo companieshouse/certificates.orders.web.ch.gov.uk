@@ -55,8 +55,7 @@ const certificateItemTemplate = {
             includeBasicInformation: true,
             includeCountryOfResidence: true,
             includeDobType: "partial",
-            includeNationality: true,
-            includeOccupation: true
+            includeNationality: true
         },
         secretaryDetails: {
             includeBasicInformation: true,
@@ -247,7 +246,7 @@ describe("certificate.check.details.controller.integration", () => {
             const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect($(".currentCompanyDirectorsNames").text().trim()).to.equal("Including directors':Correspondence addressOccupationDate of birth (month and year)Appointment dateNationalityCountry of residence");
+            chai.expect($(".currentCompanyDirectorsNames").text().trim()).to.equal("Including directors':Correspondence addressDate of birth (month and year)Appointment dateNationalityCountry of residence");
         });
     });
 

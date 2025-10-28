@@ -54,13 +54,12 @@ describe("director.options.controller.unit", () => {
         });
     });
 
-    describe("It should set address, occupation and DOB to true when selected and everything else to false", () => {
-        it("When address, occupation and DOB have been selected, they should be set to true with everything else set to false", () => {
-            const option: string [] = ["address", "occupation", "dob"];
+    describe("It should set address and DOB to true when selected and everything else to false", () => {
+        it("When address and DOB have been selected, they should be set to true with everything else set to false", () => {
+            const option: string [] = ["address", "dob"];
             const returnedDirectorOption = setDirectorOption(option);
 
             chai.expect(returnedDirectorOption.includeAddress).to.equal(true);
-            chai.expect(returnedDirectorOption.includeOccupation).to.equal(true);
             chai.expect(returnedDirectorOption.includeDobType).to.equal("partial");
             chai.expect(returnedDirectorOption.includeAppointmentDate).to.equal(false);
             chai.expect(returnedDirectorOption.includeNationality).to.equal(false);

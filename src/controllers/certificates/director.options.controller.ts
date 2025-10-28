@@ -17,7 +17,6 @@ const INCLUDE_APPOINTMENT_DATE_FIELD: string = "appointment";
 const INCLUDE_COUNTRY_OF_RESIDENCE_FIELD: string = "countryOfResidence";
 const INCLUDE_DOB_TYPE_FIELD: string = "dob";
 const INCLUDE_NATIONALITY_FIELD: string = "nationality";
-const INCLUDE_OCCUPATION_FIELD: string = "occupation";
 const DIRECTOR_OPTIONS_FIELD: string = "directorOptions";
 
 export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -80,8 +79,7 @@ export const setDirectorOption = (options: string[]): DirectorOrSecretaryDetails
         includeBasicInformation: true,
         includeCountryOfResidence: false,
         includeDobType: null,
-        includeNationality: false,
-        includeOccupation: false
+        includeNationality: false
     };
     return options === undefined ? initialDirectorOptions
         : options.reduce((directorOptionsAccum: DirectorOrSecretaryDetailsRequest, option: string) => {
@@ -104,10 +102,6 @@ export const setDirectorOption = (options: string[]): DirectorOrSecretaryDetails
             }
             case INCLUDE_NATIONALITY_FIELD: {
                 directorOptionsAccum.includeNationality = true;
-                break;
-            }
-            case INCLUDE_OCCUPATION_FIELD: {
-                directorOptionsAccum.includeOccupation = true;
                 break;
             }
             default:

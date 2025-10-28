@@ -60,12 +60,11 @@ describe("CertificateTextMapper", () => {
                 includeBasicInformation: true,
                 includeCountryOfResidence: true,
                 includeDobType: "partial",
-                includeNationality: true,
-                includeOccupation: true
+                includeNationality: true
             };
 
             chai.expect(textMapper.mapDirectorOptions(directorOptions))
-                .to.equal("Including directors&#39;:<br><br>Correspondence address<br>Occupation<br>Date of birth (month and year)<br>Appointment date<br>Nationality<br>Country of residence<br>");
+                .to.equal("Including directors&#39;:<br><br>Correspondence address<br>Date of birth (month and year)<br>Appointment date<br>Nationality<br>Country of residence<br>");
         });
 
         it("maps correctly when only one additional option selected", () => {
@@ -84,8 +83,7 @@ describe("CertificateTextMapper", () => {
                 includeAppointmentDate: false,
                 includeBasicInformation: true,
                 includeCountryOfResidence: false,
-                includeNationality: false,
-                includeOccupation: false
+                includeNationality: false
             };
 
             chai.expect(textMapper.mapDirectorOptions(directorOptions))

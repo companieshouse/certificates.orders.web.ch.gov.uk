@@ -99,8 +99,7 @@ const dummyCertificateItemSDKResponse: Resource<CertificateItem> = {
                 includeBasicInformation: false,
                 includeCountryOfResidence: false,
                 includeDobType: "yes",
-                includeNationality: true,
-                includeOccupation: true
+                includeNationality: true
             },
             forename: "John",
             includeCompanyObjectsInformation: true,
@@ -116,8 +115,7 @@ const dummyCertificateItemSDKResponse: Resource<CertificateItem> = {
                 includeBasicInformation: false,
                 includeCountryOfResidence: false,
                 includeDobType: "yes",
-                includeNationality: true,
-                includeOccupation: true
+                includeNationality: true
             },
             surname: "Smith",
             companyType: "ltd",
