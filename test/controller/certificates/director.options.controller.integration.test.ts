@@ -48,8 +48,7 @@ describe("director.options.integration.test", () => {
                 includeBasicInformation: true,
                 includeCountryOfResidence: false,
                 includeDobType: "partial",
-                includeNationality: false,
-                includeOccupation: false
+                includeNationality: false
             }
         }
     } as CertificateItem;
@@ -132,11 +131,10 @@ describe("director.options.integration.test", () => {
 
             chai.expect(resp.status).to.equal(200);
             chai.expect($("#director-options").prop("checked")).be.false;
-            chai.expect($("#director-options-2").prop("checked")).be.false;
+            chai.expect($("#director-options-2").prop("checked")).be.true;
             chai.expect($("#director-options-3").prop("checked")).be.true;
-            chai.expect($("#director-options-4").prop("checked")).be.true;
+            chai.expect($("#director-options-4").prop("checked")).be.false;
             chai.expect($("#director-options-5").prop("checked")).be.false;
-            chai.expect($("#director-options-6").prop("checked")).be.false;
         });
     });
 });
