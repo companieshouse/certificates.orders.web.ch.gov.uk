@@ -95,7 +95,7 @@
     "exec": "ts-node ./src/bin/www.ts"
   },
   "overrides": {
-    "cookie": "0.6.0",
+    "cookie": "0.7.0",
     "micromatch": "4.0.8",
     "body-parser": "1.20.3",
     "braces": "3.0.3",
