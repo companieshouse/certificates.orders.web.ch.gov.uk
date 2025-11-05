@@ -1,0 +1,9 @@
+{
+  "exec": "ts-node ./src/bin/nodemon-entry.ts",
+  "ext": "ts,html",
+  "watch": ["./src"],
+  "events": {
+    "restart": "echo '🔄 '  Nodemon Restarting...",
+    "crash": "echo '💥 '  Nodemon Crashed!"
+  }
+}

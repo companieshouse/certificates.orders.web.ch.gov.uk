@@ -66,8 +66,7 @@ export class CertificateTextMapper implements DefaultCompanyMappable, LLPCompany
             directorOptions.includeAppointmentDate === false &&
             directorOptions.includeCountryOfResidence === false &&
             directorOptions.includeDobType === undefined &&
-            directorOptions.includeNationality === false &&
-            directorOptions.includeOccupation === false) {
+            directorOptions.includeNationality === false) {
             return "Yes";
         }
 
@@ -77,10 +76,6 @@ export class CertificateTextMapper implements DefaultCompanyMappable, LLPCompany
 
         if (directorOptions.includeAddress) {
             mappings.push("Correspondence address");
-        }
-
-        if (directorOptions.includeOccupation) {
-            mappings.push("Occupation");
         }
 
         if (directorOptions.includeDobType === "partial" ||

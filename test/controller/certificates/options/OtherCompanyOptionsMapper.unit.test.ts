@@ -192,8 +192,7 @@ describe("OtherCompanyOptionMapper", () => {
                     includeAppointmentDate: null,
                     includeCountryOfResidence: null,
                     includeDobType: null,
-                    includeNationality: null,
-                    includeOccupation: null
+                    includeNationality: null
                 },
                 includeCompanyObjectsInformation: null,
                 includeGoodStandingInformation: null,
@@ -220,8 +219,7 @@ describe("OtherCompanyOptionMapper", () => {
                     includeAppointmentDate: null,
                     includeCountryOfResidence: null,
                     includeDobType: null,
-                    includeNationality: null,
-                    includeOccupation: null
+                    includeNationality: null
                 },
                 includeCompanyObjectsInformation: null,
                 includeGoodStandingInformation: null,
@@ -251,8 +249,7 @@ describe("OtherCompanyOptionMapper", () => {
                     includeAppointmentDate: null,
                     includeCountryOfResidence: null,
                     includeDobType: null,
-                    includeNationality: null,
-                    includeOccupation: null
+                    includeNationality: null
                 },
                 includeCompanyObjectsInformation: null,
                 includeGoodStandingInformation: null,

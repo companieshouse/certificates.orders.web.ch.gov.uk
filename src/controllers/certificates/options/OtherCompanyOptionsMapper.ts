@@ -35,8 +35,7 @@ export class OtherCompanyOptionsMapper extends AbstractOptionsMapper<OtherCompan
                 includeAppointmentDate: null,
                 includeCountryOfResidence: null,
                 includeDobType: null,
-                includeNationality: null,
-                includeOccupation: null
+                includeNationality: null
             },
             includeCompanyObjectsInformation: null,
             includeGoodStandingInformation: null,
