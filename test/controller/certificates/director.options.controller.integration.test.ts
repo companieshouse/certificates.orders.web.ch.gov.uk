@@ -10,7 +10,7 @@ import { getAppWithMockedCsrf } from '../../__mocks__/csrf.mocks';
 
 const CERTIFICATE_ID = "CRT-000000-000000";
 const DIRECTOR_OPTIONS_NOT_SELECTED =
-    "The certificate will include the names of all current company directors, and any of the details you choose below.";
+    "On 18th November 2025 the requirement for officers to provide Companies House with a business occupation was removed and it can no longer be included on certified certificates. The certificate will include the names of all current company directors, and any of the details you choose below.";
 const DIRECTOR_OPTIONS_URL =
     replaceCertificateId(CERTIFICATE_DIRECTOR_OPTIONS, CERTIFICATE_ID);
 const sandbox = sinon.createSandbox();
