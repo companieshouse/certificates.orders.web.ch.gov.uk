@@ -5,7 +5,7 @@ import { getAccessToken, getUserId } from "../../session/helper";
 import { appendItemToBasket, getBasket, getCertifiedCopyItem, patchCertifiedCopyItem } from "../../client/api.client";
 import { DELIVERY_DETAILS, DELIVERY_OPTIONS } from "../../model/template.paths";
 import { createLogger } from "@companieshouse/structured-logging-node";
-import { APPLICATION_NAME, DISPATCH_DAYS } from "../../config/config";
+import { APPLICATION_NAME, DISPATCH_DAYS, STANDARD_FEE, EXPRESS_FEE, STANDARD_INCORP_FEE, EXPRESS_INCORP_FEE } from "../../config/config";
 import { DELIVERY_OPTION_SELECTION } from "../../model/error.messages";
 import { createGovUkErrorData } from "../../model/govuk.error.data";
 import { BY_ITEM_KIND, StaticRedirectCallback } from "../certificates/StaticRedirectCallback";
@@ -29,8 +29,8 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const certifiedCopyItem: CertifiedCopyItem = await getCertifiedCopyItem(accessToken, req.params.certifiedCopyId);
         const companyNumber: string = certifiedCopyItem.companyNumber;
         const filingType: string = certifiedCopyItem.itemOptions.filingHistoryDocuments[0].filingHistoryType;
-        const EXPRESS_COST = filingType === "NEWINC" ? "100" : "50";
-        const STANDARD_COST = filingType === "NEWINC" ? "30" : "15";
+        const EXPRESS_COST = filingType === "NEWINC" ? EXPRESS_INCORP_FEE : EXPRESS_FEE;
+        const STANDARD_COST = filingType === "NEWINC" ? STANDARD_INCORP_FEE : STANDARD_FEE;
         const EXPRESS_DISPATCH_TEXT = "Orders received before 11am will be sent out the same working day. Orders received after 11am will be sent out the next working day. We send UK orders by Royal Mail 1st Class post and international orders by Royal Mail International post.";
         logger.info(`Get certified copy item, id=${certifiedCopyItem.id}, user_id=${userId}, company_number=${certifiedCopyItem.companyNumber}`);
         const basketLink: BasketLink = await getBasketLink(req);
@@ -62,8 +62,8 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         const certifiedCopyItem: CertifiedCopyItem = await getCertifiedCopyItem(accessToken, req.params.certifiedCopyId);
         const companyNumber: string = certifiedCopyItem.companyNumber;
         const filingType: string = certifiedCopyItem.itemOptions.filingHistoryDocuments[0].filingHistoryType;
-        const EXPRESS_COST = filingType === "NEWINC" ? "100" : "50";
-        const STANDARD_COST = filingType === "NEWINC" ? "30" : "15";
+        const EXPRESS_COST = filingType === "NEWINC" ? EXPRESS_INCORP_FEE : EXPRESS_FEE;
+        const STANDARD_COST = filingType === "NEWINC" ? STANDARD_INCORP_FEE : STANDARD_FEE;
         logger.info(`Get certifiied copy item, id=${certifiedCopyItem.id}, user_id=${userId}, company_number=${certifiedCopyItem.companyNumber}`);
         if (!errors.isEmpty()) {
             const errorArray = errors.array();

@@ -15,7 +15,7 @@ import {
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
 import { getCompanyProfile } from "../../client/api.client";
 import { createLogger } from "@companieshouse/structured-logging-node";
-import { API_KEY, APPLICATION_NAME, DISPATCH_DAYS, ORDER_CERTIFICATE_STANDARD_FEE, ORDER_CERTIFICATE_EXPRESS_FEE, ORDER_CERTIFICATE_ADDITIONAL_COPIES_FEE } from "../../config/config";
+import { API_KEY, APPLICATION_NAME, DISPATCH_DAYS, STANDARD_FEE, EXPRESS_FEE, ADDITIONAL_COPIES_FEE } from "../../config/config";
 import { YOU_CANNOT_USE_THIS_SERVICE } from "../../model/template.paths";
 import { CompanyType } from "../../model/CompanyType";
 import { FEATURE_FLAGS } from "../../config/FeatureFlags";
@@ -142,9 +142,9 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const basketLink: BasketLink = await getBasketLink(req);
         const basketLimit: BasketLimit = getBasketLimit(basketLink);
         const pageHeader = mapPageHeader(req);
-        const standard_fee = ORDER_CERTIFICATE_STANDARD_FEE;
-        const express_fee = ORDER_CERTIFICATE_EXPRESS_FEE;
-        const additional_fee = ORDER_CERTIFICATE_ADDITIONAL_COPIES_FEE;
+        const standard_fee = STANDARD_FEE;
+        const express_fee = EXPRESS_FEE;
+        const additional_fee = ADDITIONAL_COPIES_FEE;
 
         const acceptableCompanyTypes = [
             CompanyType.LIMITED_LIABILITY_PARTNERSHIP,

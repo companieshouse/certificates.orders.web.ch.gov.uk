@@ -6,7 +6,7 @@ import {
     START_BUTTON_PATH_SUFFIX
 } from "../../model/page.urls";
 import { CERTIFIED_COPY_INDEX, YOU_CANNOT_USE_THIS_SERVICE } from "../../model/template.paths";
-import { API_KEY, APPLICATION_NAME, CHS_URL, DISPATCH_DAYS } from "../../config/config";
+import { API_KEY, APPLICATION_NAME, CHS_URL, DISPATCH_DAYS, STANDARD_FEE, EXPRESS_FEE, STANDARD_INCORP_FEE, EXPRESS_INCORP_FEE } from "../../config/config";
 import { getCompanyProfile } from "../../client/api.client";
 import { createLogger } from "@companieshouse/structured-logging-node";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
@@ -33,6 +33,10 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const basketLink: BasketLink = await getBasketLink(req);
         const basketLimit: BasketLimit = getBasketLimit(basketLink);
         const pageHeader = mapPageHeader(req);
+        const standard_fee = STANDARD_FEE;
+        const express_fee = EXPRESS_FEE;
+        const standard_incorp_fee = STANDARD_INCORP_FEE;
+        const express_incorp_fee = EXPRESS_INCORP_FEE;
 
         if (req.url == startNowPath) {
             logger.debug(`Start now button clicked, req.url = ${req.url}`);
@@ -54,6 +58,10 @@ export default async (req: Request, res: Response, next: NextFunction) => {
                     companyNumber,
                     SERVICE_URL,
                     dispatchDays,
+                    standard_fee, 
+                    express_fee, 
+                    standard_incorp_fee, 
+                    express_incorp_fee,
                     moreTabUrl,
                     companyName,
                     ...basketLink,
