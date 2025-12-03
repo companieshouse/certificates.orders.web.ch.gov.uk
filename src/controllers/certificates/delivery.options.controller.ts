@@ -5,7 +5,7 @@ import { getAccessToken, getUserId } from "../../session/helper";
 import { appendItemToBasket, getBasket, getCertificateItem, patchCertificateItem } from "../../client/api.client";
 import { ADDITIONAL_COPIES, DELIVERY_DETAILS, DELIVERY_OPTIONS, EMAIL_OPTIONS } from "../../model/template.paths";
 import { createLogger } from "@companieshouse/structured-logging-node";
-import { APPLICATION_NAME, DISPATCH_DAYS } from "../../config/config";
+import { APPLICATION_NAME, DISPATCH_DAYS, STANDARD_FEE, EXPRESS_FEE, ADDITIONAL_COPIES_FEE } from "../../config/config";
 import { setServiceUrl } from "../../utils/service.url.utils";
 import { Session } from "@companieshouse/node-session-handler";
 import CertificateSessionData from "session/CertificateSessionData";
@@ -32,9 +32,9 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
         const basketLink: BasketLink = await getBasketLink(req);
         const pageHeader = mapPageHeader(req);
-        const EXPRESS_COST =  "50";
-        const STANDARD_COST = "15";
-        const EXPRESS_DISPATCH_TEXT = "£50 for express dispatch to a UK or international address. Orders received before 11am will be sent out the same working day. Orders received after 11am will be sent out the next working day. We send UK orders by Royal Mail 1st Class post and international orders by Royal Mail International post.";
+        const EXPRESS_COST =  EXPRESS_FEE;
+        const STANDARD_COST = STANDARD_FEE;
+        const EXPRESS_DISPATCH_TEXT = EXPRESS_COST + " for express dispatch to a UK or international address. Orders received before 11am will be sent out the same working day. Orders received after 11am will be sent out the next working day. We send UK orders by Royal Mail 1st Class post and international orders by Royal Mail International post.";
         logger.info(`Get certificate item, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
         return res.render(DELIVERY_OPTIONS, {
             DISPATCH_DAYS,
@@ -66,8 +66,8 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         if (!errors.isEmpty()) {
             const errorArray = errors.array();
             const errorText = errorArray[errorArray.length - 1].msg as string;
-            const EXPRESS_COST =  "50";
-            const STANDARD_COST = "15";
+            const EXPRESS_COST =  EXPRESS_FEE;
+            const STANDARD_COST = STANDARD_FEE;
             const deliveryOptionsErrorData = createGovUkErrorData(errorText, "#deliveryOptions", true, "");
             return res.render(DELIVERY_OPTIONS, {
                 DISPATCH_DAYS,

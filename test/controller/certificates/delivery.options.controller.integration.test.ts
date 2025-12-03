@@ -96,8 +96,8 @@ describe("delivery.options.integration.test", () => {
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain(DELIVERY_OPTION_NOT_SELECTED);
-            chai.expect(resp.text).to.contain("£15");
-            chai.expect(resp.text).to.contain("£50")
+            chai.expect(resp.text).to.contain("£22");
+            chai.expect(resp.text).to.contain("£65")
         });
     });
 

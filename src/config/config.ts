@@ -84,3 +84,13 @@ export const MISSING_IMAGE_DELIVERY_COPIES_FEEDBACK_SOURCE = `${CHS_URL}/missing
 export const LP_CERTIFICATE_FEEDBACK_SOURCE = `${CHS_URL}/lp-certificates`;
 
 export const LLP_CERTIFICATE_FEEDBACK_SOURCE = `${CHS_URL}/llp-certificates`;
+
+export const STANDARD_FEE = getEnvironmentValue("STANDARD_FEE");
+
+export const EXPRESS_FEE = getEnvironmentValue("EXPRESS_FEE");
+
+export const STANDARD_INCORP_FEE = getEnvironmentValue("STANDARD_INCORP_FEE");
+
+export const EXPRESS_INCORP_FEE = getEnvironmentValue("EXPRESS_INCORP_FEE");
+
+export const ADDITIONAL_COPIES_FEE = getEnvironmentValue("ADDITIONAL_COPIES_FEE");
