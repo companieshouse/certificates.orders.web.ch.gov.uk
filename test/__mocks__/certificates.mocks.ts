@@ -24,7 +24,7 @@ export const mockDissolvedCertificateItem = {
     companyNumber: "00000000",
     itemCosts: [
         {
-            itemCost: "15"
+            itemCost: "22"
         }
     ],
     itemOptions: {

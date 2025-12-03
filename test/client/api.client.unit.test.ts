@@ -158,7 +158,7 @@ const dummyCertificateItemSDKResponse: Resource<CertificateItem> = {
         postageCost: "0",
         postalDelivery: false,
         quantity: 1,
-        totalItemCost: "50",
+        totalItemCost: "65",
         userId: "user id"
     }
 };
@@ -253,7 +253,7 @@ const dummyCertifiedCopyItemSDKResponse: Resource<CertifiedCopyItem> = {
                 },
                 filingHistoryId: "MzAwOTM2MDg5OWFkaXF6a2N4",
                 filingHistoryType: "CH01",
-                filingHistoryCost: "15"
+                filingHistoryCost: "22"
             }],
             forename: "forename",
             surname: "surname"
@@ -265,7 +265,7 @@ const dummyCertifiedCopyItemSDKResponse: Resource<CertifiedCopyItem> = {
         postalDelivery: true,
         postageCost: "0",
         quantity: 1,
-        totalItemCost: "15"
+        totalItemCost: "22"
     }
 };
 
@@ -303,7 +303,7 @@ const dummyMissingImageDeliveryItemSDKResponse: Resource<MidItem> = {
         postageCost: "0",
         postalDelivery: false,
         quantity: 1,
-        totalItemCost: "50"
+        totalItemCost: "65"
     }
 };
 
