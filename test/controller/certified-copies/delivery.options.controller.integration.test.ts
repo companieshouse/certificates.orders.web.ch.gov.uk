@@ -230,7 +230,7 @@ describe("delivery.options.controller.integration.test", () => {
                         },
                         filingHistoryId: "OTYxMzE0MjczMmFkaXF6a2N4",
                         filingHistoryType: "NEWINC",
-                        filingHistoryCost: "100"
+                        filingHistoryCost: "130"
                     }],
                     forename: "cat",
                     surname: "bob"
@@ -242,7 +242,7 @@ describe("delivery.options.controller.integration.test", () => {
                 postalDelivery: true,
                 postageCost: "0",
                 quantity: 1,
-                totalItemCost: "30"
+                totalItemCost: "44"
             } as CertifiedCopyItem;
 
             getCertifiedCopyItemStub = sandbox.stub(apiClient, "getCertifiedCopyItem")
@@ -256,8 +256,8 @@ describe("delivery.options.controller.integration.test", () => {
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain(DELIVERY_OPTION_NOT_SELECTED);
-            chai.expect(resp.text).to.contain("£30");
-            chai.expect(resp.text).to.contain("£100");
+            chai.expect(resp.text).to.contain("£44");
+            chai.expect(resp.text).to.contain("£130");
         });
     });
 
