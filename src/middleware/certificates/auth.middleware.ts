@@ -6,7 +6,7 @@ import { getCertificateItem } from "../../client/api.client";
 import {
     CERTIFICATE_OPTIONS,
     replaceCertificateId,
-    LP_CERTIFICATE_OPTIONS, 
+    LP_CERTIFICATE_OPTIONS,
     LLP_CERTIFICATE_OPTIONS,
     DISSOLVED_CERTIFICATE_DELIVERY_OPTIONS
 } from "../../model/page.urls";

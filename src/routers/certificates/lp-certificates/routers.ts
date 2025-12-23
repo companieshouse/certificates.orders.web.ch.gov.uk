@@ -21,8 +21,8 @@ import placeOfBusinessOptionsController, { render as renderPlaceOfBusinessOption
 import deliveryDetailsController, { render as renderDeliveryDetails } from "../../../controllers/certificates/lp-certificates/delivery.details.controller";
 import deliveryOptionsController, { render as renderDeliveryOptions } from "../../../controllers/certificates/delivery.options.controller";
 import emailOptionsController, { render as renderEmailOptions } from "../../../controllers/certificates/email.options.controller";
-import additionalCopiesController, { render as renderAdditionalCopies} from "../../../controllers/certificates/additional.copies.controller";
-import additionalCopiesQuantityController, { render as renderAdditionalCopiesQuantity} from "../../../controllers/certificates/additional.copies.quantity.controller";
+import additionalCopiesController, { render as renderAdditionalCopies } from "../../../controllers/certificates/additional.copies.controller";
+import additionalCopiesQuantityController, { render as renderAdditionalCopiesQuantity } from "../../../controllers/certificates/additional.copies.quantity.controller";
 import { TypeController } from "../../../controllers/certificates/type.controller";
 import { CompanyStatus } from "../../../controllers/certificates/model/CompanyStatus";
 import { CheckDetailsController } from "../../../controllers/certificates/check-details/CheckDetailsController";

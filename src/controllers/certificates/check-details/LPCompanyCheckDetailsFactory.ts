@@ -45,7 +45,7 @@ export class LPCheckDetailsFactory implements ViewModelCreatable {
             generalPartners: this.textMapper.isOptionSelected(itemOptions.generalPartnerDetails?.includeBasicInformation),
             limitedPartners: this.textMapper.isOptionSelected(itemOptions.limitedPartnerDetails?.includeBasicInformation),
             generalNatureOfBusiness: this.textMapper.isOptionSelected(itemOptions.includeGeneralNatureOfBusinessInformation),
-            quantity: certificateItem.quantity,
+            quantity: certificateItem.quantity
         };
     };
 

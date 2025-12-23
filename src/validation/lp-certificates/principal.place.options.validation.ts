@@ -24,6 +24,6 @@ export const validate = (validationErrors) => {
 
     return {
         errorList: validationErrorList,
-        principalPlaceOptionError: principalPlaceOptionError
+        principalPlaceOptionError
     };
 };

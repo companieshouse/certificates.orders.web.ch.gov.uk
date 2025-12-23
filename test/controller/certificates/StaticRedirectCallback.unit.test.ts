@@ -4,7 +4,6 @@ import { createSandbox } from "sinon";
 import { mockDeliveryDetails as deliveryDetails } from "../../__mocks__/certificates.mocks";
 
 describe("StaticRedirectCallback", () => {
-
     const sandbox = createSandbox();
 
     describe("redirectEnrolled", () => {
@@ -18,7 +17,7 @@ describe("StaticRedirectCallback", () => {
             callback.redirectEnrolled({
                 response: mockResponse,
                 items: [{}],
-                deliveryDetails: deliveryDetails
+                deliveryDetails
             } as any);
 
             // then

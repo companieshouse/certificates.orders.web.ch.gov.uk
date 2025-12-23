@@ -10,7 +10,7 @@ import { APPLICATION_NAME } from "../../../config/config";
 import CertificateSessionData from "../../../session/CertificateSessionData";
 import { RegisteredOfficeAddressOptionName } from "./RegisteredOfficeAddressOptionName";
 import { AddressRecordsType } from "../../../model/AddressRecordsType";
-import { renderRegisteredOfficeOptions, generateBackLink} from "../../../service/registered.office.options.service";
+import { renderRegisteredOfficeOptions, generateBackLink } from "../../../service/registered.office.options.service";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -33,8 +33,8 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
             return res.render(LLP_CERTIFICATE_REGISTERED_OFFICE_OPTIONS, {
                 ...errorList,
                 registeredOfficeOption,
-                optionFilter: optionFilter,
-                isFullPage: isFullPage,
+                optionFilter,
+                isFullPage,
                 backLink: generateBackLink(isFullPage)
             });
         };
@@ -51,7 +51,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         const patchResponse = await patchCertificateItem(accessToken, req.params.certificateId, certificateItem);
         logger.info(`Patched certificate item with registered office option, id=${req.params.certificateId}, user_id=${userId}, company_number=${patchResponse.companyNumber}, certificate_options=${JSON.stringify(certificateItem)}`);
         req.session?.setExtraData("certificates-orders-web-ch-gov-uk", {
-            isFullPage: isFullPage
+            isFullPage
         } as CertificateSessionData);
         if (patchResponse.itemOptions.designatedMemberDetails?.includeBasicInformation) {
             return res.redirect("designated-members-options");

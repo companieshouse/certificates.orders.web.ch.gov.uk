@@ -36,8 +36,8 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
     return res.render(LP_CERTIFICATE_PRINCIPAL_PLACE_OPTIONS, {
         companyNumber: certificateItem.companyNumber,
         SERVICE_URL,
-        optionFilter: optionFilter,
-        isFullPage: isFullPage,
+        optionFilter,
+        isFullPage,
         backLink: generateBackLink(isFullPage),
         principlePlaceOfBusinessSelection: itemOptions.principalPlaceOfBusinessDetails?.includeAddressRecordsType,
         ...basketLink,
@@ -57,9 +57,9 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         if (!errors.isEmpty()) {
             return res.render(LP_CERTIFICATE_PRINCIPAL_PLACE_OPTIONS, {
                 ...errorList,
-                principalPlaceOption: principalPlaceOption,
-                optionFilter: optionFilter,
-                isFullPage: isFullPage,
+                principalPlaceOption,
+                optionFilter,
+                isFullPage,
                 backLink: generateBackLink(isFullPage)
             });
         };
@@ -76,7 +76,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         const patchResponse = await patchCertificateItem(accessToken, req.params.certificateId, certificateItem);
         logger.info(`Patched certificate item with principal place option, id=${req.params.certificateId}, user_id=${userId}, company_number=${patchResponse.companyNumber}, certificate_options=${JSON.stringify(certificateItem)}`);
         req.session?.setExtraData("certificates-orders-web-ch-gov-uk", {
-            isFullPage: isFullPage
+            isFullPage
         } as CertificateSessionData);
         return res.redirect("delivery-options");
     } catch (err) {

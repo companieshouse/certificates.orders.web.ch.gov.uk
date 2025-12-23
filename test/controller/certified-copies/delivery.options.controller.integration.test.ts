@@ -8,7 +8,7 @@ import { CertifiedCopyItem } from "@companieshouse/api-sdk-node/dist/services/or
 import { CERTIFIED_COPY_DELIVERY_OPTIONS, replaceCertifiedCopyId } from "../../../src/model/page.urls";
 import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 import { mockDeliveryDetails as deliveryDetails } from "../../__mocks__/certificates.mocks";
-import { getAppWithMockedCsrf } from '../../__mocks__/csrf.mocks';
+import { getAppWithMockedCsrf } from "../../__mocks__/csrf.mocks";
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
@@ -198,7 +198,6 @@ describe("delivery.options.controller.integration.test", () => {
 
     describe("delivery options validation", () => {
         it("throws a validation error when no option selected", async () => {
-
             const certifiedCopyItem = {
                 companyName: "test company",
                 companyNumber: "00000000",
@@ -260,5 +259,4 @@ describe("delivery.options.controller.integration.test", () => {
             chai.expect(resp.text).to.contain("£130");
         });
     });
-
 });

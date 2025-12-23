@@ -3,7 +3,7 @@ import sinon from "sinon";
 import ioredis from "ioredis";
 import cheerio from "cheerio";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
-import { getAppWithMockedCsrf } from '../../__mocks__/csrf.mocks';
+import { getAppWithMockedCsrf } from "../../__mocks__/csrf.mocks";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import * as apiClient from "../../../src/client/api.client";
 import { CERTIFICATE_REGISTERED_OFFICE_OPTIONS, replaceCertificateId } from "../../../src/model/page.urls";
@@ -231,7 +231,6 @@ describe("registered.office.options.integration.test", () => {
                 .returns(Promise.resolve(certificateItemWithAll));
             getBasketStub = sandbox.stub(apiClient, "getBasket")
                 .returns(Promise.resolve({ enrolled: true }));
-            
 
             const resp = await chai.request(testApp)
                 .get(REGISTERED_OFFICE_OPTIONS_URL + "?layout=full")

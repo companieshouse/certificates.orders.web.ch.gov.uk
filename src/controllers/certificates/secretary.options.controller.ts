@@ -70,7 +70,8 @@ export const setSecretaryOption = (options: string[]): DirectorOrSecretaryDetail
         includeAppointmentDate: false,
         includeBasicInformation: true
     };
-    return options === undefined ? initialSecretaryOptions
+    return options === undefined
+        ? initialSecretaryOptions
         : options.reduce((secretaryOptionsAccum: DirectorOrSecretaryDetailsRequest, option: string) => {
             switch (option) {
             case INCLUDE_ADDRESS_FIELD: {

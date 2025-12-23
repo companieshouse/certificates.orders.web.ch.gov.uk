@@ -21,7 +21,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const basketLink: BasketLink = await getBasketLink(req);
         const basketLimit: BasketLimit = getBasketLimit(basketLink);
 
-        if (basketLimit.basketLimitState == BasketLimitState.BELOW_LIMIT) {
+        if (basketLimit.basketLimitState === BasketLimitState.BELOW_LIMIT) {
             const missingImageDeliveryItemRequest: MidItemPostRequest = {
                 companyNumber,
                 itemOptions: {
@@ -34,7 +34,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
             logger.info(`Missing Image Delivery Item created, id=${missingImageDeliveryItem.id}, user_id=${userId}, company_number=${missingImageDeliveryItem.companyNumber}`);
             res.redirect(replaceMissingImageDeliveryId(MISSING_IMAGE_DELIVERY_CHECK_DETAILS, missingImageDeliveryItem.id));
         } else {
-            const nextPage = replaceCompanyNumberAndFilingHistoryId(ROOT_MISSING_IMAGE_DELIVERY_BASKET_ERROR, companyNumber,filingHistoryId);
+            const nextPage = replaceCompanyNumberAndFilingHistoryId(ROOT_MISSING_IMAGE_DELIVERY_BASKET_ERROR, companyNumber, filingHistoryId);
             res.redirect(getWhitelistedReturnToURL(nextPage));
         }
     } catch (err) {

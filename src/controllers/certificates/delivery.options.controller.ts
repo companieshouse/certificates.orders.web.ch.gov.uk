@@ -24,7 +24,6 @@ const validators = [
     check("deliveryOptions").not().isEmpty().withMessage(DELIVERY_OPTION_SELECTION)
 ];
 
-
 export const render = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const userId = getUserId(req.session);
@@ -32,7 +31,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
         const basketLink: BasketLink = await getBasketLink(req);
         const pageHeader = mapPageHeader(req);
-        const EXPRESS_COST =  EXPRESS_FEE;
+        const EXPRESS_COST = EXPRESS_FEE;
         const STANDARD_COST = STANDARD_FEE;
         const EXPRESS_DISPATCH_TEXT = EXPRESS_COST + " for express dispatch to a UK or international address. Orders received before 11am will be sent out the same working day. Orders received after 11am will be sent out the next working day. We send UK orders by Royal Mail 1st Class post and international orders by Royal Mail International post.";
         logger.info(`Get certificate item, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
@@ -66,7 +65,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         if (!errors.isEmpty()) {
             const errorArray = errors.array();
             const errorText = errorArray[errorArray.length - 1].msg as string;
-            const EXPRESS_COST =  EXPRESS_FEE;
+            const EXPRESS_COST = EXPRESS_FEE;
             const STANDARD_COST = STANDARD_FEE;
             const deliveryOptionsErrorData = createGovUkErrorData(errorText, "#deliveryOptions", true, "");
             return res.render(DELIVERY_OPTIONS, {

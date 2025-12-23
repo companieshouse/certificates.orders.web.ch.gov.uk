@@ -2,13 +2,13 @@ import chai from "chai";
 import sinon from "sinon";
 import ioredis from "ioredis";
 import { SIGNED_OUT_COOKIE, signedOutSession } from "../../__mocks__/redis.mocks";
-import { getAppWithMockedCsrf } from '../../__mocks__/csrf.mocks';
+import { getAppWithMockedCsrf } from "../../__mocks__/csrf.mocks";
 import { ROOT_CERTIFIED_COPY, replaceCompanyNumber, START_BUTTON_PATH_SUFFIX } from "../../../src/model/page.urls";
 import CompanyProfileService from "@companieshouse/api-sdk-node/dist/services/company-profile/service";
 
 const COMPANY_NUMBER = "00006500";
 const CERTIFIED_COPY_START_NOW_BUTTON_URL =
-    replaceCompanyNumber(ROOT_CERTIFIED_COPY + START_BUTTON_PATH_SUFFIX, COMPANY_NUMBER) ;
+    replaceCompanyNumber(ROOT_CERTIFIED_COPY + START_BUTTON_PATH_SUFFIX, COMPANY_NUMBER);
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
@@ -81,11 +81,10 @@ describe("certified-copies.auth.start.now.middleware.integration", () => {
 
     it("should redirect " + ROOT_CERTIFIED_COPY + START_BUTTON_PATH_SUFFIX + " to sign in if user is not logged in",
         async () => {
-        const resp = await chai.request(testApp)
-            .get(replaceCompanyNumber(CERTIFIED_COPY_START_NOW_BUTTON_URL, COMPANY_NUMBER))
-            .set("Cookie", [`__SID=${SIGNED_OUT_COOKIE}`]);
+            const resp = await chai.request(testApp)
+                .get(replaceCompanyNumber(CERTIFIED_COPY_START_NOW_BUTTON_URL, COMPANY_NUMBER))
+                .set("Cookie", [`__SID=${SIGNED_OUT_COOKIE}`]);
 
-        chai.expect(resp.redirects[0]).to.include(`/signin?return_to=${CERTIFIED_COPY_START_NOW_BUTTON_URL}`);
-    });
-
+            chai.expect(resp.redirects[0]).to.include(`/signin?return_to=${CERTIFIED_COPY_START_NOW_BUTTON_URL}`);
+        });
 });

@@ -12,7 +12,7 @@ export const renderPage = async (
     pageTitle: string,
     certificateItem: CertificateItem,
     backLink: string,
-    selection: number,
+    selection: number
 ): Promise<void> => {
     const basketLink: BasketLink = await getBasketLink(req);
     const pageHeader = mapPageHeader(req);

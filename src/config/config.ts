@@ -35,7 +35,6 @@ export const PIWIK_SERVICE_NAME_CERTIFIED_COPIES = "order-a-certified-document";
 
 export const SERVICE_NAME_CERTIFICATES = "Order a certificate";
 
-
 export const PIWIK_SERVICE_NAME_CERTIFICATES = "order-a-certificate";
 
 export const SERVICE_NAME_MISSING_IMAGE_DELIVERY = "Request a document";
@@ -68,7 +67,7 @@ export const ADMINISTRATOR_COMPANY_CERTIFICATES_ENABLED = getEnvironmentValue("A
 
 export const ACCOUNT_URL = getEnvironmentValue("ACCOUNT_URL");
 
-export const CHS_MONITOR_GUI_URL = getEnvironmentValue("CHS_MONITOR_GUI_URL")
+export const CHS_MONITOR_GUI_URL = getEnvironmentValue("CHS_MONITOR_GUI_URL");
 
 export const BASKET_WEB_URL = `${CHS_URL}/basket`;
 

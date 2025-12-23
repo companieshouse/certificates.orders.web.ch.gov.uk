@@ -77,7 +77,8 @@ export const setMembersOption = (options: string[]): OrdinaryMemberDetailsReques
         includeCountryOfResidence: false,
         includeDobType: null
     };
-    return options === undefined ? initialMembersOptions
+    return options === undefined
+        ? initialMembersOptions
         : options.reduce((memberOptionAccum: OrdinaryMemberDetailsRequest, option: string) => {
             switch (option) {
             case MembersOptionName.INCLUDE_ADDRESS: {

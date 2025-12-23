@@ -27,7 +27,7 @@ export class LLPOptionsMapper extends AbstractOptionsMapper<LLPRedirectStateMach
                 liquidators: item.itemOptions.companyStatus === CompanyStatus.LIQUIDATION,
                 administrators: item.itemOptions.companyStatus === CompanyStatus.ADMINISTRATION
             },
-            optionFilter: optionFilter
+            optionFilter
         });
     }
 

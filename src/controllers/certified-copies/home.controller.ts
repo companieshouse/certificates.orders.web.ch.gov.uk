@@ -33,12 +33,12 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const basketLink: BasketLink = await getBasketLink(req);
         const basketLimit: BasketLimit = getBasketLimit(basketLink);
         const pageHeader = mapPageHeader(req);
-        const standard_fee = STANDARD_FEE;
-        const express_fee = EXPRESS_FEE;
-        const standard_incorp_fee = STANDARD_INCORP_FEE;
-        const express_incorp_fee = EXPRESS_INCORP_FEE;
+        const standardFee = STANDARD_FEE;
+        const expressFee = EXPRESS_FEE;
+        const standardIncorpFee = STANDARD_INCORP_FEE;
+        const expressIncorpFee = EXPRESS_INCORP_FEE;
 
-        if (req.url == startNowPath) {
+        if (req.url === startNowPath) {
             logger.debug(`Start now button clicked, req.url = ${req.url}`);
             if (displayBasketLimitError(req, res, basketLimit, companyNumber)) {
                 logger.debug(`Disable start now button.`);
@@ -58,15 +58,16 @@ export default async (req: Request, res: Response, next: NextFunction) => {
                     companyNumber,
                     SERVICE_URL,
                     dispatchDays,
-                    standard_fee, 
-                    express_fee, 
-                    standard_incorp_fee, 
-                    express_incorp_fee,
+                    standardFee,
+                    expressFee,
+                    standardIncorpFee,
+                    expressIncorpFee,
                     moreTabUrl,
                     companyName,
                     ...basketLink,
                     ...basketLimit,
-                    ...pageHeader });
+                    ...pageHeader
+                });
         }
     } catch (err) {
         logger.error(`${err}`);
@@ -79,17 +80,17 @@ export default async (req: Request, res: Response, next: NextFunction) => {
  * @return whether a basket limit error is to be displayed (<code>true</code>), or not (<code>false</code>)
  */
 const displayBasketLimitError = (req: Request,
-                                 res: Response,
-                                 basketLimit: BasketLimit,
-                                 companyNumber: string) : boolean => {
-    if (basketLimit.basketLimitState == BasketLimitState.BELOW_LIMIT) {
+    res: Response,
+    basketLimit: BasketLimit,
+    companyNumber: string) : boolean => {
+    if (basketLimit.basketLimitState === BasketLimitState.BELOW_LIMIT) {
         const nextPage = `${CHS_URL}${replaceCompanyNumber(CERTIFIED_COPY_FILING_HISTORY, companyNumber)}`;
-        logger.debug(`Basket is not full, redirecting to  ${nextPage}.`)
-        res.redirect(getWhitelistedReturnToURL(nextPage))
+        logger.debug(`Basket is not full, redirecting to  ${nextPage}.`);
+        res.redirect(getWhitelistedReturnToURL(nextPage));
         return false;
     } else {
-        logger.debug(`Basket is full, display error.`)
+        logger.debug(`Basket is full, display error.`);
         basketLimit.basketLimitState = BasketLimitState.DISPLAY_LIMIT_ERROR; // styles button as disabled
-        return true
+        return true;
     }
-}
+};

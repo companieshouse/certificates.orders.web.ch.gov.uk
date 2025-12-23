@@ -4,8 +4,8 @@ import { Request, Response } from "express";
 import SessionHandler from "@companieshouse/node-session-handler";
 import { Session } from "@companieshouse/node-session-handler/lib/session/model/Session";
 import authCertifiedCopyStartNowMiddleware from "../../../src/middleware/certified-copies/auth.start.now.middleware";
-import {CERTIFIED_COPY_START_PAGE} from "../../utils/constants";
-import {START_BUTTON_PATH_SUFFIX} from "../../../src/model/page.urls";
+import { CERTIFIED_COPY_START_PAGE } from "../../utils/constants";
+import { START_BUTTON_PATH_SUFFIX } from "../../../src/model/page.urls";
 
 const sandbox = sinon.createSandbox();
 
@@ -15,7 +15,6 @@ const redirectSpy = sandbox.spy();
 res.redirect = redirectSpy;
 
 describe("certified-copies.auth.start.now.middleware.unit", () => {
-
     afterEach(() => {
         sandbox.reset();
         sandbox.restore();
@@ -83,8 +82,8 @@ describe("certified-copies.auth.start.now.middleware.unit", () => {
             }
         );
         const res = {
-            redirect(_url: string) {
-                throw new Error('Error thrown by test code');
+            redirect (_url: string) {
+                throw new Error("Error thrown by test code");
             }
         } as unknown as Response;
 
@@ -94,5 +93,4 @@ describe("certified-copies.auth.start.now.middleware.unit", () => {
             .to.have.been.calledWith(`/signin?return_to=${CERTIFIED_COPY_START_PAGE}`);
         chai.expect(nextFunctionSpy).to.have.been.called;
     });
-
 });

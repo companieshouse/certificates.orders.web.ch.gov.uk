@@ -8,7 +8,7 @@ import * as apiClient from "../../../../src/client/api.client";
 import { LP_CERTIFICATE_DELIVERY_DETAILS, replaceCertificateId } from "../../../../src/model/page.urls";
 import * as errorMessages from "../../../../src/model/error.messages";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../../__mocks__/redis.mocks";
-import { getAppWithMockedCsrf } from '../../../__mocks__/csrf.mocks';
+import { getAppWithMockedCsrf } from "../../../__mocks__/csrf.mocks";
 const chai = require("chai");
 
 const ENTER_YOUR_FIRST_NAME_NOT_INPUT = "Enter your first name";

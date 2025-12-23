@@ -35,8 +35,8 @@ import emailOptionsController, { render as renderEmailOptions } from "../../cont
 import registeredOfficeOptionsController, { render as renderRegisteredOfficeOptions } from "../../controllers/certificates/registered.office.options.controller";
 import directorOptionsController, { render as renderDirectorOptions } from "../../controllers/certificates/director.options.controller";
 import secretaryOptionsController, { render as renderSecretaryOptions } from "../../controllers/certificates/secretary.options.controller";
-import additionalCopiesController, { render as renderAdditionalCopies} from "../../controllers/certificates/additional.copies.controller";
-import additionalCopiesQuantityController, { render as renderAdditionalCopiesQuantity} from "../../controllers/certificates/additional.copies.quantity.controller";
+import additionalCopiesController, { render as renderAdditionalCopies } from "../../controllers/certificates/additional.copies.controller";
+import additionalCopiesQuantityController, { render as renderAdditionalCopiesQuantity } from "../../controllers/certificates/additional.copies.quantity.controller";
 import { CompanyStatus } from "../../controllers/certificates/model/CompanyStatus";
 import { CheckDetailsController } from "../../controllers/certificates/check-details/CheckDetailsController";
 import { CertificateTextMapper } from "../../controllers/certificates/check-details/CertificateTextMapper";

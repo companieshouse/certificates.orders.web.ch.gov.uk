@@ -6,7 +6,7 @@ import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import * as apiClient from "../../../src/client/api.client";
 import { CERTIFICATE_DIRECTOR_OPTIONS, replaceCertificateId } from "../../../src/model/page.urls";
-import { getAppWithMockedCsrf } from '../../__mocks__/csrf.mocks';
+import { getAppWithMockedCsrf } from "../../__mocks__/csrf.mocks";
 
 const CERTIFICATE_ID = "CRT-000000-000000";
 const DIRECTOR_OPTIONS_NOT_SELECTED =

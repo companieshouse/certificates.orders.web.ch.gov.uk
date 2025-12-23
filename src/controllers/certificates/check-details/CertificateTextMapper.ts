@@ -9,7 +9,6 @@ import { LLPCompanyMappable } from "./LLPCompanyMappable";
 const escape = require("escape-html");
 
 export class CertificateTextMapper implements DefaultCompanyMappable, LLPCompanyMappable {
-
     private dispatchDays: string;
 
     public constructor (dispatchDays: string) {
@@ -201,18 +200,18 @@ export class CertificateTextMapper implements DefaultCompanyMappable, LLPCompany
                 return "Standard";
             } else if (itemOptions?.deliveryTimescale === "same-day") {
                 return "Express";
-            } 
+            }
             return null;
         } else {
             if (itemOptions?.deliveryTimescale === "standard") {
                 return "Standard (aim to send out within " + this.dispatchDays + " working days)";
-            } 
+            }
             if (itemOptions?.deliveryTimescale === "same-day") {
                 return "Express (Orders received before 11am will be sent out the same day. Orders received after 11am will be sent out the next working day)";
-            } 
+            }
         }
-            return null;
-        }
+        return null;
+    }
 
     private mapToHtml (mappings: string[]): string {
         let htmlString: string = "";

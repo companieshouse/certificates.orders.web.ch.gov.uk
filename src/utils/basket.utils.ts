@@ -27,7 +27,8 @@ export const getBasketLimit = (basketLink: BasketLink) : BasketLimit => {
 
     return {
         basketLimit: BASKET_ITEM_LIMIT,
-        basketLimitState: basketLink.basketItems! < BASKET_ITEM_LIMIT ?
-            BasketLimitState.BELOW_LIMIT : BasketLimitState.DISPLAY_LIMIT_WARNING
+        basketLimitState: basketLink.basketItems! < BASKET_ITEM_LIMIT
+            ? BasketLimitState.BELOW_LIMIT
+            : BasketLimitState.DISPLAY_LIMIT_WARNING
     };
-}
+};

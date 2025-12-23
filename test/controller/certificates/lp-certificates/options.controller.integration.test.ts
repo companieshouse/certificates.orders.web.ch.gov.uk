@@ -7,7 +7,7 @@ import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/orde
 import * as apiClient from "../../../../src/client/api.client";
 import { LP_CERTIFICATE_OPTIONS, replaceCertificateId } from "../../../../src/model/page.urls";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../../__mocks__/redis.mocks";
-import { getAppWithMockedCsrf } from '../../../__mocks__/csrf.mocks';
+import { getAppWithMockedCsrf } from "../../../__mocks__/csrf.mocks";
 import { DYNAMIC_LP_CERTIFICATE_ORDERS_ENABLED } from "../../../../src/config/config";
 
 const CERTIFICATE_ID = "CHS00000000000000001";
