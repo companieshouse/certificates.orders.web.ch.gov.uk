@@ -12,7 +12,7 @@ import {
     replaceCertificateId
 } from "../../../../src/model/page.urls";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../../__mocks__/redis.mocks";
-import { getAppWithMockedCsrf } from '../../../__mocks__/csrf.mocks';
+import { getAppWithMockedCsrf } from "../../../__mocks__/csrf.mocks";
 import { mockBasketDetails, mockDissolvedCertificateItem } from "../../../__mocks__/certificates.mocks";
 import { DobType } from "../../../../src/model/DobType";
 const chai = require("chai");

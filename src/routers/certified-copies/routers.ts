@@ -18,7 +18,7 @@ router.get(ROOT_CERTIFIED_COPY, homeController);
 router.get(ROOT_CERTIFIED_COPY + START_BUTTON_PATH_SUFFIX, homeController);
 
 router.get(CERTIFIED_COPY_DELIVERY_OPTIONS, renderDeliveryOptions);
-router.post(CERTIFIED_COPY_DELIVERY_OPTIONS, deliveryOptionsController)
+router.post(CERTIFIED_COPY_DELIVERY_OPTIONS, deliveryOptionsController);
 
 router.get(CERTIFIED_COPY_DELIVERY_DETAILS, renderCertifiedCopies);
 router.post(CERTIFIED_COPY_DELIVERY_DETAILS, deliveryDetailsController);

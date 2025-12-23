@@ -10,7 +10,7 @@ import {
 import { getDummyBasket } from "../../utils/basket.utils.test";
 import { BASKET_ITEM_LIMIT } from "../../../src/config/config";
 import cheerio from "cheerio";
-import { getAppWithMockedCsrf } from '../../__mocks__/csrf.mocks';
+import { getAppWithMockedCsrf } from "../../__mocks__/csrf.mocks";
 
 import * as chai from "chai";
 import chaiHttp = require("chai-http");
@@ -232,19 +232,18 @@ describe("certified-copy.home.controller.integration", () => {
         verifyStartButtonEnabledStateIs(resp.text, false);
     });
 
-const verifyStartButtonEnabledStateIs = (responseText: string, isEnabled: boolean) => {
-    const page = cheerio.load(responseText)
-    const startNowButton = page(".govuk-button--start");
-    chai.expect(startNowButton).to.exist;
-    chai.expect(startNowButton.text()).to.contain("Start now");
+    const verifyStartButtonEnabledStateIs = (responseText: string, isEnabled: boolean) => {
+        const page = cheerio.load(responseText);
+        const startNowButton = page(".govuk-button--start");
+        chai.expect(startNowButton).to.exist;
+        chai.expect(startNowButton.text()).to.contain("Start now");
 
-    // The presence/absence of the href attribute (content) is what really determines whether the button (link)
-    // is enabled or not.
-    if (isEnabled) {
-        chai.expect(startNowButton!.attr("href")).to.exist;
-    } else {
-        chai.expect(startNowButton!.attr("href")).to.not.exist;
-    }
-}
-
+        // The presence/absence of the href attribute (content) is what really determines whether the button (link)
+        // is enabled or not.
+        if (isEnabled) {
+            chai.expect(startNowButton!.attr("href")).to.exist;
+        } else {
+            chai.expect(startNowButton!.attr("href")).to.not.exist;
+        }
+    };
 });

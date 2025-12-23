@@ -1,16 +1,15 @@
-
 import chai from "chai";
 import sinon from "sinon";
 import { Request } from "express";
 import * as apiClient from "../../src/client/api.client";
-import { getBasketLimit, getBasketLink } from "../../src/utils/basket.utils"
+import { getBasketLimit, getBasketLink } from "../../src/utils/basket.utils";
 import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket";
 import { signedInSessionData, signedOutSessionData } from "../__mocks__/redis.mocks";
-const sandbox = sinon.createSandbox();
 // Without this import these tests will not compile.
 import { Session } from "@companieshouse/node-session-handler";
 import { BASKET_ITEM_LIMIT } from "../../src/config/config";
 import { BasketLimitState } from "../../src/model/BasketLimit";
+const sandbox = sinon.createSandbox();
 
 export const getDummyBasket = (enrolled: boolean, numberOfItems: number = 1): Basket => {
     const item =
@@ -59,7 +58,7 @@ export const getDummyBasket = (enrolled: boolean, numberOfItems: number = 1): Ba
 
     return {
         items: Array(numberOfItems).fill(item),
-        enrolled: enrolled
+        enrolled
     };
 };
 
@@ -117,7 +116,7 @@ describe("getBasketLimit", () => {
     });
 
     it("should report items as below limit (and report configured limit) where no basket link is to be shown", () => {
-        chai.expect(getBasketLimit({showBasketLink: false})).to.deep.equal(
+        chai.expect(getBasketLimit({ showBasketLink: false })).to.deep.equal(
             { basketLimit: BASKET_ITEM_LIMIT, basketLimitState: BasketLimitState.BELOW_LIMIT }
         );
     });
@@ -166,5 +165,4 @@ describe("getBasketLimit", () => {
             }
         );
     });
-
 });

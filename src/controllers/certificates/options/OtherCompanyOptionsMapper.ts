@@ -23,7 +23,7 @@ export class OtherCompanyOptionsMapper extends AbstractOptionsMapper<OtherCompan
                 liquidators: item.itemOptions.companyStatus === CompanyStatus.LIQUIDATION,
                 administrators: item.itemOptions.companyStatus === CompanyStatus.ADMINISTRATION
             },
-            optionFilter: optionFilter
+            optionFilter
         });
     }
 

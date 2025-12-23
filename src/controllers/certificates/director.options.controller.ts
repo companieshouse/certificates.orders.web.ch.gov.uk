@@ -81,7 +81,8 @@ export const setDirectorOption = (options: string[]): DirectorOrSecretaryDetails
         includeDobType: null,
         includeNationality: false
     };
-    return options === undefined ? initialDirectorOptions
+    return options === undefined
+        ? initialDirectorOptions
         : options.reduce((directorOptionsAccum: DirectorOrSecretaryDetailsRequest, option: string) => {
             switch (option) {
             case INCLUDE_ADDRESS_FIELD: {

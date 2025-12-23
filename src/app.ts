@@ -137,8 +137,8 @@ const csrfProtectionMiddleware = CsrfProtectionMiddleware({
     sessionStore,
     enabled: true,
     sessionCookieName: COOKIE_NAME
-  });
-  app.use(csrfProtectionMiddleware);
+});
+app.use(csrfProtectionMiddleware);
 
 app.use(PROTECTED_PATHS, createLoggerMiddleware(APPLICATION_NAME));
 app.use([pageUrls.ROOT_CERTIFICATE, pageUrls.ROOT_CERTIFICATE_ID], SessionMiddleware(cookieConfig, sessionStore));

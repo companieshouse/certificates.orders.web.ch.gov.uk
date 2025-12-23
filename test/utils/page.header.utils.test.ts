@@ -3,12 +3,12 @@ import { signedInSessionData, SIGNED_IN_COOKIE } from "../__mocks__/redis.mocks"
 import chai from "chai";
 import { Request } from "express";
 import { Session } from "@companieshouse/node-session-handler/lib/session/model/Session";
-import { mapPageHeader } from "../../src/utils/page.header.utils"
+import { mapPageHeader } from "../../src/utils/page.header.utils";
 import { PageHeader } from "../../src/model/PageHeader";
 import {
     SERVICE_NAME_CERTIFICATES,
     SERVICE_NAME_CERTIFIED_COPIES,
-    SERVICE_NAME_MISSING_IMAGE_DELIVERY,
+    SERVICE_NAME_MISSING_IMAGE_DELIVERY
 } from "../../src/config/config";
 
 const certificatesPath: string = "/certificates";
@@ -85,8 +85,8 @@ describe("mapPageHeader", () => {
 
 const generateMockRequest = (path: string, isSignedIn: number):Request => {
     const mockRequest = {
-        path: path
-    } as Request
+        path
+    } as Request;
     mockRequest.session = new Session(
         {
             signin_info: {

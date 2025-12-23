@@ -75,7 +75,8 @@ export const setDesignatedMemberOption = (options: string[]): DesignatedMemberDe
         includeCountryOfResidence: false,
         includeDobType: null
     };
-    return options === undefined ? initialDesignatedMemberOptions
+    return options === undefined
+        ? initialDesignatedMemberOptions
         : options.reduce((designMemberOptionAccum: DesignatedMemberDetailsRequest, option: string) => {
             switch (option) {
             case DesignatedMemberOptionName.INCLUDE_ADDRESS: {

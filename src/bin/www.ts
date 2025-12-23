@@ -72,9 +72,14 @@ function onError (error) {
     case "EACCES":
         logger.error(bind + " requires elevated privileges");
         process.exit(1);
+
+        break;
+
     case "EADDRINUSE":
         logger.error(bind + " is already in use");
         process.exit(1);
+
+        break;
     default:
         throw error;
     }

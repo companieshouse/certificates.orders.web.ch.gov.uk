@@ -142,9 +142,9 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const basketLink: BasketLink = await getBasketLink(req);
         const basketLimit: BasketLimit = getBasketLimit(basketLink);
         const pageHeader = mapPageHeader(req);
-        const standard_fee = STANDARD_FEE;
-        const express_fee = EXPRESS_FEE;
-        const additional_fee = ADDITIONAL_COPIES_FEE;
+        const standardFee = STANDARD_FEE;
+        const expressFee = EXPRESS_FEE;
+        const additionalFee = ADDITIONAL_COPIES_FEE;
 
         const acceptableCompanyTypes = [
             CompanyType.LIMITED_LIABILITY_PARTNERSHIP,
@@ -199,9 +199,9 @@ export default async (req: Request, res: Response, next: NextFunction) => {
                 companyNumber,
                 SERVICE_URL: landingPage.serviceUrl,
                 DISPATCH_DAYS,
-                standard_fee,
-                express_fee,
-                additional_fee,
+                standardFee,
+                expressFee,
+                additionalFee,
                 moreTabUrl,
                 companyName,
                 filterMappings: {
@@ -231,12 +231,12 @@ export default async (req: Request, res: Response, next: NextFunction) => {
  * @return whether this has redirected to the next page (<code>true</code>), or not (<code>false</code>)
  */
 const redirectToNextPage = (req: Request,
-                                 res: Response,
-                                 basketLimit: BasketLimit,
-                                 landingPage: LandingPage) : boolean => {
+    res: Response,
+    basketLimit: BasketLimit,
+    landingPage: LandingPage) : boolean => {
     if (req.url.endsWith(START_BUTTON_PATH_SUFFIX)) {
         logger.debug(`Start now button clicked, req.url = ${req.url}`);
-        if (basketLimit.basketLimitState == BasketLimitState.BELOW_LIMIT) {
+        if (basketLimit.basketLimitState === BasketLimitState.BELOW_LIMIT) {
             logger.debug(`Basket is not full, redirecting to  ${landingPage.nextPageUrl}.`);
             res.redirect(getWhitelistedReturnToURL(landingPage.nextPageUrl));
             return true;
@@ -248,4 +248,4 @@ const redirectToNextPage = (req: Request,
         }
     }
     return false;
-}
+};

@@ -6,11 +6,10 @@ import {
     SERVICE_NAME_CERTIFICATES,
     SERVICE_NAME_CERTIFIED_COPIES,
     SERVICE_NAME_MISSING_IMAGE_DELIVERY,
-    SERVICE_NAME_GENERIC,
+    SERVICE_NAME_GENERIC
 } from "../config/config";
 
 export const mapPageHeader = (req: Request): PageHeader => {
-
     const userEmailAddress = req.session?.data?.signin_info?.user_profile?.email;
     const isSignedIn = req.session?.data?.[SessionKey.SignInInfo]?.[SignInInfoKeys.SignedIn] === 1;
 
@@ -30,8 +29,8 @@ export const mapPageHeader = (req: Request): PageHeader => {
     }
 
     return {
-        userEmailAddress: userEmailAddress,
-        isSignedIn: isSignedIn,
-        serviceName: serviceName
+        userEmailAddress,
+        isSignedIn,
+        serviceName
     };
-}
+};

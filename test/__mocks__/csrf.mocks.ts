@@ -1,5 +1,5 @@
-import sinon from 'sinon';
-import proxyquire from 'proxyquire';
+import sinon from "sinon";
+import proxyquire from "proxyquire";
 
 // Function to return the stubbed WebSecurity module
 export const getAppWithMockedCsrf = (sandbox: sinon.SinonSandbox) => {
@@ -8,7 +8,7 @@ export const getAppWithMockedCsrf = (sandbox: sinon.SinonSandbox) => {
         CsrfProtectionMiddleware: sandbox.stub().callsFake((csrfOptions) => {
             // Return a no-op middleware
             return (req, res, next) => {
-                console.log('No-op CSRF middleware executed');
+                console.log("No-op CSRF middleware executed");
                 next();
             };
         })

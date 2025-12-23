@@ -230,23 +230,23 @@ describe("CertificateTextMapper", () => {
 
         it("it returns output stating standard delivery is selected", () => {
             const itemOptions = {
-                deliveryTimescale: "standard",
+                deliveryTimescale: "standard"
             };
             chai.expect(textMapper.mapDeliveryMethod(itemOptions, false)).to.equal("Standard (aim to send out within " + dispatchDays + " working days)");
         });
 
         it("it returns Express for express delivery option selected", () => {
             const itemOptions = {
-                deliveryTimescale: "same-day",
+                deliveryTimescale: "same-day"
             };
             chai.expect(textMapper.mapDeliveryMethod(itemOptions, false)).to.equal("Express (Orders received before 11am will be sent out the same day. Orders received after 11am will be sent out the next working day)");
         });
 
         it("It returns null if deliveryTimscale is null", () => {
             const itemOptions = {
-                deliveryTimescale: "null",
+                deliveryTimescale: "null"
             };
-            chai.expect(textMapper.mapDeliveryMethod(itemOptions, false)).to.equal (null);
+            chai.expect(textMapper.mapDeliveryMethod(itemOptions, false)).to.equal(null);
         });
     });
 });

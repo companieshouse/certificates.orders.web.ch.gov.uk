@@ -4,7 +4,7 @@ import ioredis from "ioredis";
 import * as apiClient from "../../../src/client/api.client";
 import { CERTIFICATE_TYPE, replaceCertificateId } from "../../../src/model/page.urls";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
-import { getAppWithMockedCsrf } from '../../__mocks__/csrf.mocks';
+import { getAppWithMockedCsrf } from "../../__mocks__/csrf.mocks";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { ApiErrorResponse, ApiResponse, ApiResult } from "@companieshouse/api-sdk-node/dist/services/resource";
 import { failure, success } from "@companieshouse/api-sdk-node/dist/services/result";

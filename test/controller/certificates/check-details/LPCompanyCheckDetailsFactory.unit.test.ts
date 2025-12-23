@@ -48,7 +48,7 @@ const EXPECTED_RESULT = {
     generalPartners: MAPPED_OPTION_VALUE,
     limitedPartners: MAPPED_OPTION_VALUE,
     generalNatureOfBusiness: MAPPED_OPTION_VALUE,
-    quantity: 1,
+    quantity: 1
 };
 
 describe("LPCheckDetailsFactory", () => {

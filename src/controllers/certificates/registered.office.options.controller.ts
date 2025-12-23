@@ -8,7 +8,7 @@ import { createLogger } from "@companieshouse/structured-logging-node";
 import { registeredOfficeAddressValidationRules, validate } from "../../validation/certificates/registered.office.options.validation";
 import { APPLICATION_NAME } from "../../config/config";
 import CertificateSessionData from "../../session/CertificateSessionData";
-import { renderRegisteredOfficeOptions, generateBackLink} from "../../service/registered.office.options.service";
+import { renderRegisteredOfficeOptions, generateBackLink } from "../../service/registered.office.options.service";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -21,7 +21,7 @@ const ALL_CURRENT_AND_PREVIOUS_ADDRESSES_FIELD: string = "allCurrentAndPreviousA
 export const optionFilter = (items) => items.filter((item) => item.display);
 
 export const render = async (req: Request, res: Response): Promise<void> => {
-    renderRegisteredOfficeOptions(req, res, false, CERTIFICATE_REGISTERED_OFFICE_OPTIONS, optionFilter)
+    renderRegisteredOfficeOptions(req, res, false, CERTIFICATE_REGISTERED_OFFICE_OPTIONS, optionFilter);
 };
 
 const route = async (req: Request, res: Response, next: NextFunction) => {
@@ -35,8 +35,8 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
             return res.render(CERTIFICATE_REGISTERED_OFFICE_OPTIONS, {
                 ...errorList,
                 registeredOfficeOption,
-                optionFilter: optionFilter,
-                isFullPage: isFullPage,
+                optionFilter,
+                isFullPage,
                 backLink: generateBackLink(isFullPage)
             });
         };
@@ -53,7 +53,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
         const patchResponse = await patchCertificateItem(accessToken, req.params.certificateId, certificateItem);
         logger.info(`Patched certificate item with registered office option, id=${req.params.certificateId}, user_id=${userId}, company_number=${patchResponse.companyNumber}, certificate_options=${JSON.stringify(certificateItem)}`);
         req.session?.setExtraData("certificates-orders-web-ch-gov-uk", {
-            isFullPage: isFullPage
+            isFullPage
         } as CertificateSessionData);
         if (patchResponse.itemOptions.directorDetails?.includeBasicInformation) {
             return res.redirect("director-options");

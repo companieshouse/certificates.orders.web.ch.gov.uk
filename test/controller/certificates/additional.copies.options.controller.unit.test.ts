@@ -1,16 +1,16 @@
 import chai from "chai";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
-import { setBackLink, getSelectionFromCertificate, } from "../../../src/controllers/certificates/additional.copies.controller";
-import { dataEmpty} from "../../__mocks__/session.mocks";
+import { setBackLink, getSelectionFromCertificate } from "../../../src/controllers/certificates/additional.copies.controller";
+import { dataEmpty } from "../../__mocks__/session.mocks";
 
 const certificateItemWithQuantityOne = {
-    quantity: 1 
+    quantity: 1
 } as CertificateItem;
 const certificateItemWithQuantityFive = {
     quantity: 5
 } as CertificateItem;
 const certificateItemWithQuantityZero = {
-    quantity: 0 
+    quantity: 0
 } as CertificateItem;
 
 describe("additional.copies.options.controller.unit", () => {
@@ -34,5 +34,5 @@ describe("additional.copies.options.controller.unit", () => {
         it("if quantity is 0 return 0", () => {
             chai.expect(getSelectionFromCertificate(certificateItemWithQuantityZero)).to.equal(0);
         });
-    })
+    });
 });

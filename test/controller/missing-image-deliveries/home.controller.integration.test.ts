@@ -4,11 +4,11 @@ import ioredis from "ioredis";
 
 import { ROOT_MISSING_IMAGE_DELIVERY, replaceCompanyNumberAndFilingHistoryId, ROOT_MISSING_IMAGE_DELIVERY_BASKET_ERROR } from "../../../src/model/page.urls";
 import CompanyProfileService from "@companieshouse/api-sdk-node/dist/services/company-profile/service";
-import * as apiClient from "../../../src/client/api.client"
+import * as apiClient from "../../../src/client/api.client";
 import { getDummyBasket } from "../../utils/basket.utils.test";
 import { BASKET_ITEM_LIMIT } from "../../../src/config/config";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
-import { getAppWithMockedCsrf } from '../../__mocks__/csrf.mocks';
+import { getAppWithMockedCsrf } from "../../__mocks__/csrf.mocks";
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
@@ -127,14 +127,14 @@ describe("missingImageDelivery.home.controller.integration", () => {
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
             .returns(Promise.resolve(dummyCompanyProfile));
         sandbox.stub(apiClient, "getBasket")
-            .resolves(getDummyBasket(true, BASKET_ITEM_LIMIT -1));
+            .resolves(getDummyBasket(true, BASKET_ITEM_LIMIT - 1));
 
         const resp = await chai.request(testApp)
             .get(replaceCompanyNumberAndFilingHistoryId(ROOT_MISSING_IMAGE_DELIVERY, "00000000", "mytxjsks"))
             .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
 
         chai.expect(resp.status).to.equal(200);
-        chai.expect(resp.text).to.contain(`Basket (${BASKET_ITEM_LIMIT -1})`);
+        chai.expect(resp.text).to.contain(`Basket (${BASKET_ITEM_LIMIT - 1})`);
         chai.expect(resp.text).to.contain("This request will be for company name (00000000)");
     });
 });

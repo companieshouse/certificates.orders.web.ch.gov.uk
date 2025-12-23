@@ -12,7 +12,7 @@ import {
     DISSOLVED_CERTIFICATE_DELIVERY_OPTIONS
 } from "../../../src/model/page.urls";
 import { mockDeliveryDetails as deliveryDetails } from "../../__mocks__/certificates.mocks";
-import { getAppWithMockedCsrf } from '../../__mocks__/csrf.mocks';
+import { getAppWithMockedCsrf } from "../../__mocks__/csrf.mocks";
 
 const CERTIFICATE_ID = "CRT-000000-000000";
 const DELIVERY_OPTION_NOT_SELECTED = "Select a delivery option";
@@ -97,7 +97,7 @@ describe("delivery.options.integration.test", () => {
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain(DELIVERY_OPTION_NOT_SELECTED);
             chai.expect(resp.text).to.contain("£22");
-            chai.expect(resp.text).to.contain("£65")
+            chai.expect(resp.text).to.contain("£65");
         });
     });
 
@@ -115,7 +115,6 @@ describe("delivery.options.integration.test", () => {
                 .returns(Promise.resolve(certificateDetails));
             getBasketStub = sandbox.stub(apiClient, "getBasket")
                 .returns(Promise.resolve({ enrolled: false }));
-
 
             const resp = await chai.request(testApp)
                 .post(DELIVERY_OPTIONS_URL)
@@ -171,7 +170,6 @@ describe("delivery.options.integration.test", () => {
                 .returns(Promise.resolve(certificateDetails));
             getBasketStub = sandbox.stub(apiClient, "getBasket")
                 .returns(Promise.resolve({ enrolled: true, items: [{ kind: "item#certificate" } as any], deliveryDetails }));
-     
 
             const resp = await chai.request(testApp)
                 .post(DELIVERY_OPTIONS_URL)
@@ -514,7 +512,6 @@ describe("delivery.options.integration.test", () => {
             chai.expect(resp.status).to.equal(200);
             chai.expect($(".govuk-back-link").attr("href")).to.include("principal-place-of-business-options");
         });
-
     });
 
     describe("delivery option checked", () => {
