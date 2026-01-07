@@ -1,7 +1,8 @@
 import chai from "chai";
+import chaiHttp from "chai-http";
 import sinon from "sinon";
 import ioredis from "ioredis";
-import cheerio from "cheerio";
+import * as cheerio from "cheerio";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
 import { getAppWithMockedCsrf } from "../../__mocks__/csrf.mocks";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
@@ -15,9 +16,9 @@ const CERTIFICATE_ID = "CRT-000000-000000";
 const ADDITIONAL_COPIES_OPTIONS_URL =
     replaceCertificateId(CERTIFICATE_ADDITIONAL_COPIES_OPTIONS, CERTIFICATE_ID);
 const ADDITIONAL_COPIES_OPTION_NOT_SELECTED: string = "Select ‘yes’ if you would like an additional copy of the certificate";
-
+chai.use(chaiHttp);
 const sandbox = sinon.createSandbox();
-let testApp = null;
+let testApp: null = null;
 let patchCertificateItemStub;
 let getCertificateItemStub;
 let getBasket;

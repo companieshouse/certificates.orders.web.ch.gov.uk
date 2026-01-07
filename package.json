@@ -24,7 +24,7 @@
     "@companieshouse/web-security-node": "^4.4.14",
     "cookie-parser": "^1.4.7",
     "escape-html": "^1.0.3",
-    "express": "4.21.2",
+    "express": "^4.22.1",
     "express-actuator": "^1.8.4",
     "express-validator": "^7.0.1",
     "govuk-frontend": "^4.7.0",
@@ -95,6 +95,7 @@
     "exec": "ts-node ./src/bin/www.ts"
   },
   "overrides": {
+    "qs": "^6.14.1",
     "cookie": "0.7.0",
     "micromatch": "4.0.8",
     "body-parser": "1.20.3",

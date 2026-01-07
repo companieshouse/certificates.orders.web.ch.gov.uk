@@ -1,7 +1,7 @@
 import chai from "chai";
 import sinon from "sinon";
 import ioredis from "ioredis";
-import cheerio from "cheerio";
+import * as cheerio from "cheerio";
 import sessionHandler from "@companieshouse/node-session-handler";
 import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 import { Item as BasketItem } from "@companieshouse/api-sdk-node/dist/services/order/order/types";
@@ -18,7 +18,7 @@ const ITEM_URI = "/orderable/certified-copies/CCD-123456-123456";
 const CHECK_DETAILS_URL = replaceCertifiedCopyId(CERTIFIED_COPY_CHECK_DETAILS, CERTIFIED_COPY_ID);
 
 const sandbox = sinon.createSandbox();
-let testApp = null;
+let testApp: null = null;
 let getCertifiedCopyItemStub;
 let getBasketStub;
 let addItemToBasketStub;

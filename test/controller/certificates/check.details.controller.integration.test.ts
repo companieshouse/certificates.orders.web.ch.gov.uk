@@ -1,6 +1,6 @@
 import sinon from "sinon";
 import ioredis from "ioredis";
-import cheerio from "cheerio";
+import * as cheerio from "cheerio";
 import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 import { Item as BasketItem } from "@companieshouse/api-sdk-node/dist/services/order/order/types";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
@@ -99,7 +99,7 @@ const administrationCertificateItem = {
 };
 
 const sandbox = sinon.createSandbox();
-let testApp = null;
+let testApp: null = null;
 let addItemToBasketStub;
 let getCertificateItemStub;
 let getBasketStub;

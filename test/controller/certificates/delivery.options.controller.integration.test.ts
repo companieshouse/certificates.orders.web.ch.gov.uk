@@ -1,7 +1,7 @@
 import chai from "chai";
 import sinon from "sinon";
 import ioredis from "ioredis";
-import cheerio from "cheerio";
+import * as cheerio from "cheerio";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import * as apiClient from "../../../src/client/api.client";
@@ -21,7 +21,7 @@ const DELIVERY_OPTIONS_URL =
 const DISSOLVED_DELIVERY_OPTIONS_URL =
     replaceCertificateId(DISSOLVED_CERTIFICATE_DELIVERY_OPTIONS, CERTIFICATE_ID);
 const sandbox = sinon.createSandbox();
-let testApp = null;
+let testApp: null = null;
 let getCertificateItemStub;
 let patchCertificateItemStub;
 let getBasketStub;

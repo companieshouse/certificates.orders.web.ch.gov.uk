@@ -20,7 +20,7 @@ import {
 } from "../../__mocks__/certificates.mocks";
 import { getAppWithMockedCsrf } from "../../__mocks__/csrf.mocks";
 import { FEATURE_FLAGS } from "../../../src/config/FeatureFlags";
-import cheerio from "cheerio";
+import * as cheerio from "cheerio";
 import { BASKET_ITEM_LIMIT } from "../../../src/config/config";
 import { getDummyBasket } from "../../utils/basket.utils.test";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
@@ -33,7 +33,7 @@ import BasketService from "@companieshouse/api-sdk-node/dist/services/order/bask
 const COMPANY_NUMBER = "00000000";
 
 const sandbox = sinon.createSandbox();
-let testApp = null;
+let testApp: null = null;
 let getCompanyProfileStub;
 
 describe("certificate.home.controller.integration", () => {

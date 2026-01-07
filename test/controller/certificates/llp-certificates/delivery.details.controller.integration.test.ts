@@ -1,7 +1,7 @@
 import chai from "chai";
 import sinon from "sinon";
 import ioredis from "ioredis";
-import cheerio from "cheerio";
+import * as cheerio from "cheerio";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 
@@ -31,7 +31,7 @@ const CERTIFICATE_ID = "CHS00000000000000001";
 const DELIVERY_DETAILS_URL = replaceCertificateId(LLP_CERTIFICATE_DELIVERY_DETAILS, CERTIFICATE_ID);
 
 const sandbox = sinon.createSandbox();
-let testApp = null;
+let testApp: null = null;
 let getCertificateItemStub;
 let getBasketStub;
 let patchBasketStub;
