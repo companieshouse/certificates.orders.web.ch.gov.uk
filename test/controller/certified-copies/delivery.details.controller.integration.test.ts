@@ -1,4 +1,5 @@
 import chai from "chai";
+import chaiHttp from "chai-http";
 import sinon from "sinon";
 import ioredis from "ioredis";
 
@@ -29,8 +30,9 @@ const COUNTY: string = "county";
 const CERTIFIED_COPY_ID = "0001";
 const DELIVERY_DETAILS_URL = replaceCertifiedCopyId(CERTIFIED_COPY_DELIVERY_DETAILS, CERTIFIED_COPY_ID);
 
+chai.use(chaiHttp);
 const sandbox = sinon.createSandbox();
-let testApp = null;
+let testApp: null = null;
 let getBasketStub;
 let patchBasketStub;
 let getCertifiedCopyItemStub;
