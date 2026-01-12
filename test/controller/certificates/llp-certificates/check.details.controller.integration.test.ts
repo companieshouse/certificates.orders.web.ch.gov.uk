@@ -35,7 +35,7 @@ const basketDetails = {
 } as Basket;
 
 const sandbox = sinon.createSandbox();
-let testApp = null;
+let testApp: null = null;
 let addItemToBasketStub;
 let getCertificateItemStub;
 let getBasketStub;

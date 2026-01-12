@@ -18,7 +18,7 @@ chai.use(chaiHttp);
 
 const COMPANY_NUMBER = "00000000";
 const sandbox = sinon.createSandbox();
-let testApp = null;
+let testApp: null = null;
 let getCompanyProfileStub;
 let dummyCompanyProfile;
 let getBasketStub;

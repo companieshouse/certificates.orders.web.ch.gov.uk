@@ -16,7 +16,7 @@ const CERTIFICATE_ID = "CRT-000000-000000";
 const PRINCIPAL_PLACE_OF_BUSINESS_OPTIONS_URL =
     replaceCertificateId(LP_CERTIFICATE_PRINCIPAL_PLACE_OPTIONS, CERTIFICATE_ID);
 const sandbox = sinon.createSandbox();
-let testApp = null;
+let testApp: null = null;
 let getCertificateItemStub;
 let patchCertificateItemStub;
 let getBasketStub;

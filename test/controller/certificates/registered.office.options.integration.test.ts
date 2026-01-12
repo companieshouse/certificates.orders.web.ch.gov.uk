@@ -15,7 +15,7 @@ const REGISTERED_OFFICE_OPTION_NOT_SELECTED =
 const REGISTERED_OFFICE_OPTIONS_URL =
     replaceCertificateId(CERTIFICATE_REGISTERED_OFFICE_OPTIONS, CERTIFICATE_ID);
 const sandbox = sinon.createSandbox();
-let testApp = null;
+let testApp: null = null;
 let getCertificateItemStub;
 let patchCertificateItemStub;
 let getBasketStub;

@@ -14,7 +14,7 @@ const SECRETARY_OPTIONS_INFO_TEXT =
 const SECRETARY_OPTIONS_URL =
     replaceCertificateId(CERTIFICATE_SECRETARY_OPTIONS, CERTIFICATE_ID);
 const sandbox = sinon.createSandbox();
-let testApp = null;
+let testApp: null = null;
 let getCertificateItemStub;
 let patchCertificateItemStub;
 let getBasketStub;

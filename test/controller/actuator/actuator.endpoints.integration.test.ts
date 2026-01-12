@@ -8,7 +8,7 @@ const INFO_ENDPOINT = "/info";
 const METRICS_ENDPOINT = "/metrics";
 
 const sandbox = sinon.createSandbox();
-let testApp = null;
+let testApp: null = null;
 
 describe("actuator.endpoints.integration", () => {
     beforeEach((done) => {

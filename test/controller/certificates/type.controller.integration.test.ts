@@ -12,7 +12,7 @@ import { failure, success } from "@companieshouse/api-sdk-node/dist/services/res
 const chai = require("chai");
 
 const sandbox = sinon.createSandbox();
-let testApp = null;
+let testApp: null = null;
 let postCertificateItemStub;
 let postDissolvedCertificateItemStub;
 const COMPANY_NUMBER = "00006500";

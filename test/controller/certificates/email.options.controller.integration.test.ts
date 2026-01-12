@@ -23,7 +23,7 @@ const EMAIL_OPTIONS_URL =
 const DISSOLVED_EMAIL_OPTIONS_URL =
     replaceCertificateId(DISSOLVED_CERTIFICATE_EMAIL_OPTIONS, CERTIFICATE_ID);
 const sandbox = sinon.createSandbox();
-let testApp = null;
+let testApp: null = null;
 let getCertificateItemStub;
 let patchCertificateItemStub;
 let getBasket;

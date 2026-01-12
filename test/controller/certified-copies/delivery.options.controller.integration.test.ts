@@ -11,7 +11,7 @@ import { mockDeliveryDetails as deliveryDetails } from "../../__mocks__/certific
 import { getAppWithMockedCsrf } from '../../__mocks__/csrf.mocks';
 
 const sandbox = sinon.createSandbox();
-let testApp = null;
+let testApp: null = null;
 let getCertifiedCopyItemStub;
 let patchCertifiedCopyItemStub;
 let getBasketStub;

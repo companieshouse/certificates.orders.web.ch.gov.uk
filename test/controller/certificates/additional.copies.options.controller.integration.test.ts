@@ -17,7 +17,7 @@ const ADDITIONAL_COPIES_OPTIONS_URL =
 const ADDITIONAL_COPIES_OPTION_NOT_SELECTED: string = "Select ‘yes’ if you would like an additional copy of the certificate";
 
 const sandbox = sinon.createSandbox();
-let testApp = null;
+let testApp: null = null;
 let patchCertificateItemStub;
 let getCertificateItemStub;
 let getBasket;

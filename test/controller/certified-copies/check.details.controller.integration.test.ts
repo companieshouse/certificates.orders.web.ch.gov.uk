@@ -18,7 +18,7 @@ const ITEM_URI = "/orderable/certified-copies/CCD-123456-123456";
 const CHECK_DETAILS_URL = replaceCertifiedCopyId(CERTIFIED_COPY_CHECK_DETAILS, CERTIFIED_COPY_ID);
 
 const sandbox = sinon.createSandbox();
-let testApp = null;
+let testApp: null = null;
 let getCertifiedCopyItemStub;
 let getBasketStub;
 let addItemToBasketStub;

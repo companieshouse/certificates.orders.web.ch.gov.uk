@@ -14,7 +14,7 @@ const DIRECTOR_OPTIONS_NOT_SELECTED =
 const DIRECTOR_OPTIONS_URL =
     replaceCertificateId(CERTIFICATE_DIRECTOR_OPTIONS, CERTIFICATE_ID);
 const sandbox = sinon.createSandbox();
-let testApp = null;
+let testApp: null = null;
 let getCertificateItemStub;
 let patchCertificateItemStub;
 let getBasketStub;

@@ -50,7 +50,7 @@ const FILING_HISTORY_ID = "MzAwOTM2MDg5OWFkaXF6a2N5";
 const COMPANY_NUMBER = "00006500";
 
 const sandbox = sinon.createSandbox();
-let testApp = null;
+let testApp: null = null;
 
 describe("auth.middleware.integration", () => {
     beforeEach((done) => {
