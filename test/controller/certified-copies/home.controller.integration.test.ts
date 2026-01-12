@@ -13,14 +13,14 @@ import cheerio from "cheerio";
 import { getAppWithMockedCsrf } from '../../__mocks__/csrf.mocks';
 
 import * as chai from "chai";
-import chaiHttp = require("chai-http");
+import chaiHttp from "chai-http";
 chai.use(chaiHttp);
 
 const COMPANY_NUMBER = "00000000";
 const sandbox = sinon.createSandbox();
 let testApp: null = null;
 let getCompanyProfileStub;
-let dummyCompanyProfile;
+let dummyCompanyProfile: any;
 let getBasketStub;
 
 describe("certified-copy.home.controller.integration", () => {
