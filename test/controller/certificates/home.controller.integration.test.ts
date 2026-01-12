@@ -37,12 +37,11 @@ let testApp: null = null;
 let getCompanyProfileStub;
 
 describe("certificate.home.controller.integration", () => {
-    beforeEach((done) => {
+    beforeEach(async () => {
         sandbox.stub(ioredis.prototype, "connect").resolves();
         sandbox.stub(ioredis.prototype, "get").resolves(signedInSession);
 
-        testApp = getAppWithMockedCsrf(sandbox)
-        done();
+        testApp = await getAppWithMockedCsrf(sandbox);
     });
 
     afterEach(() => {

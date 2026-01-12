@@ -53,12 +53,11 @@ const sandbox = sinon.createSandbox();
 let testApp: null = null;
 
 describe("auth.middleware.integration", () => {
-    beforeEach((done) => {
+    beforeEach(async () => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
         sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedOutSession));
 
-        testApp = getAppWithMockedCsrf(sandbox);
-        done();
+        testApp = await getAppWithMockedCsrf(sandbox);
     });
 
     afterEach(() => {

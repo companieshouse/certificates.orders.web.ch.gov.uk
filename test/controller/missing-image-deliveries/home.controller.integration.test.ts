@@ -12,7 +12,7 @@ import { getAppWithMockedCsrf } from '../../__mocks__/csrf.mocks';
 
 const sandbox = sinon.createSandbox();
 let testApp: null = null;
-let dummyCompanyProfile;
+let dummyCompanyProfile: any;
 let getCompanyProfileStub;
 let getBasketStub;
 

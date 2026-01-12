@@ -23,12 +23,11 @@ let getCertificateItemStub;
 let getBasket;
 
 describe("additional.copies.options.integration.test", () => {
-    beforeEach((done) => {
+    beforeEach(async () => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
         sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
 
-        testApp = getAppWithMockedCsrf(sandbox)
-        done();
+        testApp = await getAppWithMockedCsrf(sandbox);
     });
 
     afterEach(() => {
