@@ -11,8 +11,8 @@ import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
 import { getAppWithMockedCsrf } from '../../__mocks__/csrf.mocks';
 
 const sandbox = sinon.createSandbox();
-let testApp = null;
-let dummyCompanyProfile;
+let testApp: null = null;
+let dummyCompanyProfile: any;
 let getCompanyProfileStub;
 let getBasketStub;
 

@@ -11,7 +11,7 @@ const CERTIFIED_COPY_START_NOW_BUTTON_URL =
     replaceCompanyNumber(ROOT_CERTIFIED_COPY + START_BUTTON_PATH_SUFFIX, COMPANY_NUMBER) ;
 
 const sandbox = sinon.createSandbox();
-let testApp = null;
+let testApp: null = null;
 let dummyCompanyProfile;
 
 describe("certified-copies.auth.start.now.middleware.integration", () => {

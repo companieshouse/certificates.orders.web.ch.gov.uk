@@ -16,7 +16,7 @@ const CERTIFICATE_ID = "CRT-000000-000000";
 const REGISTERED_OFFICE_OPTIONS_URL =
     replaceCertificateId(LLP_CERTIFICATE_REGISTERED_OFFICE_OPTIONS, CERTIFICATE_ID);
 const sandbox = sinon.createSandbox();
-let testApp = null;
+let testApp: null = null;
 let getCertificateItemStub;
 let patchCertificateItemStub;
 let getBasketStub;

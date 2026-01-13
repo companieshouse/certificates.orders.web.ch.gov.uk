@@ -13,7 +13,7 @@ const CERTIFICATE_ID = "CHS00000000000000001";
 const LLP_CERTIFICATE_OPTIONS_URL = replaceCertificateId(LLP_CERTIFICATE_OPTIONS, CERTIFICATE_ID);
 
 const sandbox = sinon.createSandbox();
-let testApp = null;
+let testApp: null = null;
 let getCertificateItemStub;
 let patchCertificateItemStub;
 let getBasketStub;

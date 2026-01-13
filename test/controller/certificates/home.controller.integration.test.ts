@@ -33,7 +33,7 @@ import BasketService from "@companieshouse/api-sdk-node/dist/services/order/bask
 const COMPANY_NUMBER = "00000000";
 
 const sandbox = sinon.createSandbox();
-let testApp = null;
+let testApp: null = null;
 let getCompanyProfileStub;
 
 describe("certificate.home.controller.integration", () => {
@@ -42,7 +42,7 @@ describe("certificate.home.controller.integration", () => {
         sandbox.stub(ioredis.prototype, "get").resolves(signedInSession);
 
         testApp = getAppWithMockedCsrf(sandbox)
-        done();
+        done ();
     });
 
     afterEach(() => {

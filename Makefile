@@ -42,6 +42,10 @@ lint:
 security-check:
 	npm audit
 
+.PHONY: dependency-check
+dependency-check:
+	npm audit
+
 .PHONY: package
 package: build
 ifndef version
@@ -61,4 +65,4 @@ endif
 
 .PHONY: sonar
 sonar: test
-	npm run analyse-code
+	npm run sonarqube

@@ -14,7 +14,7 @@ const COMPANY_NUMBER = "00006500";
 const MISSING_IMAGE_DELIVERY_CREATE_URL = replaceCompanyNumberAndFilingHistoryId(MISSING_IMAGE_DELIVERY_CREATE, COMPANY_NUMBER, FILING_HISTORY_ID);
 
 const sandbox = sinon.createSandbox();
-let testApp = null;
+let testApp: null = null;
 let postMissingImageDeliveryItemStub;
 let getBasketStub;
 
