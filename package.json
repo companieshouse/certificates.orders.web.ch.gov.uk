@@ -11,7 +11,8 @@
     "lint:fix": "eslint 'src/*.ts' 'src/**/*.ts' './test/*.ts' './test/**/*.ts' --fix",
     "test": "DYNAMIC_LP_CERTIFICATE_ORDERS_ENABLED=true DYNAMIC_LLP_CERTIFICATE_ORDERS_ENABLED=true mocha test",
     "test:coverage": "nyc npm test",
-    "analyse-code": "sonar-scanner",
+    "sonarqube-pull-request": "sonar-scanner -D sonar.pullrequest.base=master",
+    "sonarqube": "branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD); if [[ $branch == \"HEAD\" ]]; then echo $branch && npm run sonarqube-base-branch; else echo $branch && npm run sonarqube-pull-request; fi;",
     "chs-dev": "nodemon --legacy-watch"
   },
   "keywords": [],
