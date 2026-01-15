@@ -95,3 +95,7 @@ export const STANDARD_INCORP_FEE = getEnvironmentValue("STANDARD_INCORP_FEE");
 export const EXPRESS_INCORP_FEE = getEnvironmentValue("EXPRESS_INCORP_FEE");
 
 export const ADDITIONAL_COPIES_FEE = getEnvironmentValue("ADDITIONAL_COPIES_FEE");
+
+export const CONFIGURABLE_BANNER_TITLE = getEnvironmentValue("CONFIGURABLE_BANNER_TITLE", "");
+export const CONFIGURABLE_BANNER_TEXT = getEnvironmentValue("CONFIGURABLE_BANNER_TEXT", "");
+export const CONFIGURABLE_BANNER_ENABLED = getEnvironmentValue("CONFIGURABLE_BANNER_ENABLED", "false") === "true";

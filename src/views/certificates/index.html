@@ -39,6 +39,14 @@
     </div>
   </div>
   {% endif %}
+  {% if CONFIGURABLE_BANNER_ENABLED and CONFIGURABLE_BANNER_TITLE and CONFIGURABLE_BANNER_TEXT %}
+    {{ govukNotificationBanner({
+      titleHtml: '<span class="govuk-notification-banner__title">Important</span>',
+      html: CONFIGURABLE_BANNER_TITLE ~ CONFIGURABLE_BANNER_TEXT,
+      type: 'info',
+      classes: 'govuk-!-margin-bottom-4'
+    }) }}
+  {% endif %}
 
   {% if companyStatus === "dissolved" %}
     <div class="govuk-grid-row">
@@ -46,7 +54,7 @@
 
         <p class="govuk-caption-l">{{ companyName }}</p>
 
-        <h1 class="govuk-heading-xl">Order a company certificate</h1>
+        <h1 class="govuk-heading-xl">OrderD a company certificate</h1>
 
         <p class="govuk-body-l">Use this service to order a signed certificate of dissolution for a company, including all company name changes. </p>
 
@@ -104,10 +112,9 @@
   {% else %}
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
-
         <p class="govuk-caption-l">{{ companyName }}</p>
 
-        <h1 class="govuk-heading-xl">Order a company certificate</h1>
+        <h1 class="govuk-heading-xl">OrderX a company certificate</h1>
 
         <p class="govuk-body-l">Use this service to order a signed certificate for a company, including all company name changes. </p>
 
@@ -134,7 +141,7 @@
         <p class="govuk-body">You can order additional copies of a certificate if you need to.</p>
 
         <div class="govuk-inset-text">
-          A company certificate is different to the certificate of incorporation from when the company was formed. Copies of these can be ordered through the <a href="{{ moreTabUrl }}" class='govuk-link' data-event-id="certified-copies-from-certificates">Order a certified document service</a>.
+          A company certificate is different to the certificate of incorporation from when the company was formed. Copies of these can be ordered through the <a href="{{ moreTabUrl }}" class="govuk-link" data-event-id="certified-copies-from-certificates">Order a certified document service</a>.
         </div>
 
         <h2 class="govuk-heading-m">Before you start</h2>
