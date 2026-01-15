@@ -40,12 +40,17 @@
   </div>
   {% endif %}
   {% if CONFIGURABLE_BANNER_ENABLED and CONFIGURABLE_BANNER_TITLE and CONFIGURABLE_BANNER_TEXT %}
-    {{ govukNotificationBanner({
-      titleHtml: '<span class="govuk-notification-banner__title">Important</span>',
-      html: CONFIGURABLE_BANNER_TITLE ~ CONFIGURABLE_BANNER_TEXT,
-      type: 'info',
-      classes: 'govuk-!-margin-bottom-4'
-    }) }}
+    <div class="govuk-notification-banner" role="region" data-module="govuk-notification-banner">
+        <div class="govuk-notification-banner__header">
+            <h2 class="govuk-notification-banner__title">
+                Important
+            </h2>
+        </div>
+        <div class="govuk-notification-banner__content">
+            <h3 class="govuk-notification-banner__heading">{{ CONFIGURABLE_BANNER_TITLE }}</h3>
+            <p class="govuk-body">{{ CONFIGURABLE_BANNER_TEXT | safe }}</p>
+        </div>
+    </div>
   {% endif %}
 
   {% if companyStatus === "dissolved" %}
@@ -54,7 +59,7 @@
 
         <p class="govuk-caption-l">{{ companyName }}</p>
 
-        <h1 class="govuk-heading-xl">OrderD a company certificate</h1>
+        <h1 class="govuk-heading-xl">Order a company certificate</h1>
 
         <p class="govuk-body-l">Use this service to order a signed certificate of dissolution for a company, including all company name changes. </p>
 
@@ -114,7 +119,7 @@
       <div class="govuk-grid-column-two-thirds">
         <p class="govuk-caption-l">{{ companyName }}</p>
 
-        <h1 class="govuk-heading-xl">OrderX a company certificate</h1>
+        <h1 class="govuk-heading-xl">Order a company certificate</h1>
 
         <p class="govuk-body-l">Use this service to order a signed certificate for a company, including all company name changes. </p>
 
