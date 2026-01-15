@@ -2,6 +2,7 @@
 export function parseHtmlLinks(input: string): string {
   if (!input) return "";
   // Regex to match [text](url)
-  return input.replace(/\[([^\]]*)\]\(([^]*)\)/g, '<a class="govuk-link" href="$2">$1</a>');
+  const linkRegex = /\[([^\]]*)\]\(((?:[^()]*\([^)]*\))*[^)]*)\)/g;
+  return input.replace(linkRegex, '<a class="govuk-link" href="$2">$1</a>');
 }
 
