@@ -18,7 +18,7 @@ const ADDITIONAL_COPIES_QUANTITY_OPTIONS_URL =
     replaceCertificateId(CERTIFICATE_ADDITIONAL_COPIES_QUANTITY_OPTIONS, CERTIFICATE_ID);
 
 const sandbox = sinon.createSandbox();
-let testApp = null;
+let testApp: null = null;
 let getCertificateItemStub;
 let patchCertificateItemStub;
 let getBasket;
@@ -28,8 +28,8 @@ describe("additional.copies.quantity.integration.test", () => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
         sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
 
-        testApp = getAppWithMockedCsrf(sandbox);
-        done();
+        testApp = getAppWithMockedCsrf(sandbox)
+        done ();
     });
 
     afterEach(() => {

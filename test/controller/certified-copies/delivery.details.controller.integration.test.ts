@@ -30,7 +30,7 @@ const CERTIFIED_COPY_ID = "0001";
 const DELIVERY_DETAILS_URL = replaceCertifiedCopyId(CERTIFIED_COPY_DELIVERY_DETAILS, CERTIFIED_COPY_ID);
 
 const sandbox = sinon.createSandbox();
-let testApp = null;
+let testApp: null = null;
 let getBasketStub;
 let patchBasketStub;
 let getCertifiedCopyItemStub;

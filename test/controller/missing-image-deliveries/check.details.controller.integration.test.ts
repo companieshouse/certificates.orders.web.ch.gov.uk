@@ -16,7 +16,7 @@ const ITEM_URI = "/orderable/missing-image-deliveries/MID-123456-123456";
 const CHECK_DETAILS_URL = replaceMissingImageDeliveryId(MISSING_IMAGE_DELIVERY_CHECK_DETAILS, MISSING_IMAGE_DELIVERY_ID);
 
 const sandbox = sinon.createSandbox();
-let testApp = null;
+let testApp: null = null;
 let getMissingImageDeliveryItem;
 let addItemToBasketStub;
 

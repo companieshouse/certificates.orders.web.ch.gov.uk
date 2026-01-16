@@ -1,14 +1,18 @@
 import chai from "chai";
+import chaiHttp from "chai-http";
 import sinon from "sinon";
 import ioredis from "ioredis";
 import { signedInSession } from "../../__mocks__/redis.mocks";
+
+chai.use(chaiHttp);
+
 const ACTUATOR_BASE_PATH = "/certificates-orders-web";
 const HEALTH_ENDPOINT = "/health";
 const INFO_ENDPOINT = "/info";
 const METRICS_ENDPOINT = "/metrics";
 
 const sandbox = sinon.createSandbox();
-let testApp = null;
+let testApp: null = null;
 
 describe("actuator.endpoints.integration", () => {
     beforeEach((done) => {

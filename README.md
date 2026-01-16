@@ -138,5 +138,3 @@ Only one banner or error is shown at a time on the certificate start page in lin
 1. Basket error (red error summary) - shown when the basket maximum has been reached and the user attempts to click "Start now" button. This error supersedes any notification banner.
 2. Configurable banner - shown when `CONFIGURABLE_BANNER_ENABLED`, `CONFIGURABLE_BANNER_TITLE` and `CONFIGURABLE_BANNER_TEXT` are all set. This banner takes precedence over the full basket informational banner.
 3. Basket full informational banner - shown when the basket is at or above the display limit but the red basket error condition is not currently triggered.
-
-
