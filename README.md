@@ -103,3 +103,40 @@ Use the following environment variables to enable / disable dynamic certificate 
 * The healthcheck endpoint uses the [`express-actuator`](https://www.npmjs.com/package/express-actuator?activeTab=readme)
 package. This means the app also provides `/certificates-orders-web/info` and `/certificates-orders-web/metrics`
 endpoints. These should probably not be exposed.
+
+## Configurable banner
+
+The application has a configurable notification banner that can be shown at the top of certificate start page.
+This will be displayed for all certificate types (standard, LP, LLP) when enabled.
+It is controlled by three environment variables:
+
+- **CONFIGURABLE_BANNER_ENABLED** - Set to `true` to show the banner (default: `false`).
+- **CONFIGURABLE_BANNER_TITLE** - The banner heading (rendered as an H3 with class `govuk-notification-banner__heading`).
+- **CONFIGURABLE_BANNER_TEXT** - The banner body. Use Markdown style links: `[text](https://example.com)`.
+  
+**Please note that all three variables must be set for the banner to be displayed.**
+
+For example:
+
+```bash
+export CONFIGURABLE_BANNER_ENABLED=true
+export CONFIGURABLE_BANNER_TITLE="From 1st February 2026, some of our fees will be changing."
+export CONFIGURABLE_BANNER_TEXT="We've published a full list of Companies House fees that are changing from 1 February 2026. [View the fees](https://example.com/fees)"
+```
+
+#### Link (Markdown) support
+
+- Only Markdown style links are parsed in `CONFIGURABLE_BANNER_TEXT`. Use the format: `[link text](https://example.com)`.
+- Multiple links are supported in the same string and will be converted to HTML anchor tags with the `govuk-link` class.
+- The link parser handles URLs containing parentheses in common cases (for example `https://example.com/path(foo)`), but very complex nested parentheses inside URLs should be encoded.
+- Raw URLs (plain `https://example.com` without Markdown formatting) will not be auto converted.
+
+#### Banner precedence and behaviour
+
+Only one banner or error is shown at a time on the certificate start page in line with GDS standards. The visible message follows this priority (highest first):
+
+1. Basket error (red error summary) - shown when the basket maximum has been reached and the user attempts to click "Start now" button. This error supersedes any notification banner.
+2. Configurable banner - shown when `CONFIGURABLE_BANNER_ENABLED`, `CONFIGURABLE_BANNER_TITLE` and `CONFIGURABLE_BANNER_TEXT` are all set. This banner takes precedence over the full basket informational banner.
+3. Basket full informational banner - shown when the basket is at or above the display limit but the red basket error condition is not currently triggered.
+
+
