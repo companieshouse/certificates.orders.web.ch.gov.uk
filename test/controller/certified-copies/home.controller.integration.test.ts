@@ -25,6 +25,7 @@ let getBasketStub;
 
 describe("certified-copy.home.controller.integration", () => {
     beforeEach((done) => {
+         process.env.CONFIGURABLE_BANNER_ENABLED = "false";
         sandbox.stub(ioredis.prototype, "connect").resolves();
         sandbox.stub(ioredis.prototype, "get").resolves(signedInSession);
         dummyCompanyProfile = {
@@ -92,17 +93,40 @@ describe("certified-copy.home.controller.integration", () => {
         chai.expect(resp.text).to.contain("Order a certified document");
     });
 
-    it("displays the notification banner with the in context company name and company number", async () => {
-        dummyCompanyProfile.resource.links.filingHistory = "/company/00000000/filing-history";
-        getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
-            .resolves(dummyCompanyProfile);
+    it("displays the This order will be for company name... banner with the in context company name and company number", async () => {
+    process.env.CONFIGURABLE_BANNER_ENABLED = "false";
 
-        const resp = await chai.request(testApp)
-            .get(replaceCompanyNumber(ROOT_CERTIFIED_COPY, COMPANY_NUMBER));
+    dummyCompanyProfile.resource.links.filingHistory = "/company/00000000/filing-history";
+    getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
+        .resolves(dummyCompanyProfile);
 
-        chai.expect(resp.status).to.equal(200);
-        chai.expect(resp.text).to.contain("This order will be for company name (00000000)");
-    });
+    // Reinitialise the app to pick up the updated environment variable?
+    testApp = getAppWithMockedCsrf(sandbox);
+
+    const resp = await chai.request(testApp)
+        .get(replaceCompanyNumber(ROOT_CERTIFIED_COPY, COMPANY_NUMBER));
+
+    chai.expect(resp.status).to.equal(200);
+    chai.expect(resp.text).to.contain("This order will be for company name (00000000)");
+});
+
+
+    it("displays the configurable banner when CONFIGURABLE_BANNER_ENABLED is enabled", async () => {
+    process.env.CONFIGURABLE_BANNER_ENABLED = "true";
+
+    dummyCompanyProfile.resource.links.filingHistory = "/company/00000000/filing-history";
+    getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
+        .resolves(dummyCompanyProfile);
+
+        // Reinitialise the app to pick up the updated environment variable?
+    testApp = getAppWithMockedCsrf(sandbox);
+
+    const resp = await chai.request(testApp)
+        .get(replaceCompanyNumber(ROOT_CERTIFIED_COPY, COMPANY_NUMBER));
+
+    chai.expect(resp.status).to.equal(200);
+    chai.expect(resp.text).to.contain("This is some banner text for testing.");
+});
 
     it("does not render the start now page as company has no filing history link", async () => {
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
@@ -129,6 +153,7 @@ describe("certified-copy.home.controller.integration", () => {
     });
 
     it("renders `This order will be for...` message when no basket link is shown", async () => {
+        process.env.CONFIGURABLE_BANNER_ENABLED = "false";
         dummyCompanyProfile.resource.links.filingHistory = "/company/00000000/filing-history";
         getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
             .resolves(dummyCompanyProfile);

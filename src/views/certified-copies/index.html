@@ -1,7 +1,14 @@
 {% extends "layout.html" %}
 
 {% set notificationHtml %}
-    {% if basketLimitState == "below-limit" %}
+    {% if CONFIGURABLE_BANNER_ENABLED and CONFIGURABLE_BANNER_TITLE and CONFIGURABLE_BANNER_TEXT %}
+    <p class="govuk-notification-banner__heading">
+        <strong>{{ CONFIGURABLE_BANNER_TITLE }}</strong>
+    </p>
+    <p>
+        {{ CONFIGURABLE_BANNER_TEXT | safe }}
+    </p>
+    {% elif basketLimitState == "below-limit" %}
         <p class="govuk-notification-banner__heading">
             This order will be for {{ companyName }} ({{ companyNumber }}).
             <p>If you want to order a certified document for a different company, you will need to

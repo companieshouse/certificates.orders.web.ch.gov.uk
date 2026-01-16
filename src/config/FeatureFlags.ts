@@ -1,5 +1,6 @@
 import {
     ADMINISTRATOR_COMPANY_CERTIFICATES_ENABLED,
+    CONFIGURABLE_BANNER_ENABLED,
     DYNAMIC_LLP_CERTIFICATE_ORDERS_ENABLED,
     DYNAMIC_LP_CERTIFICATE_ORDERS_ENABLED,
     LIQUIDATED_COMPANY_CERTIFICATES_ENABLED
@@ -7,7 +8,8 @@ import {
 
 export class FeatureFlags {
     constructor (private _lpCertificateOrdersEnabled: boolean, private _llpCertificateOrdersEnabled: boolean,
-        private _liquidatedCompanyCertificateEnabled: boolean, private _administrationCompanyCertificateEnabled: boolean) {
+        private _liquidatedCompanyCertificateEnabled: boolean, private _administrationCompanyCertificateEnabled: boolean,
+        private _configurableBannerEnabled: boolean) {
     }
 
     get lpCertificateOrdersEnabled (): boolean {
@@ -41,6 +43,13 @@ export class FeatureFlags {
     set administrationCompanyCertificateEnabled (value: boolean) {
         this._administrationCompanyCertificateEnabled = value;
     }
+    get configurableBannerEnabled (): boolean {
+        return this._configurableBannerEnabled;
+    }
+
+    set configurableBannerEnabled (value: boolean) {
+        this._configurableBannerEnabled = value;
+    }
 }
 
-export const FEATURE_FLAGS = new FeatureFlags(DYNAMIC_LP_CERTIFICATE_ORDERS_ENABLED, DYNAMIC_LLP_CERTIFICATE_ORDERS_ENABLED, LIQUIDATED_COMPANY_CERTIFICATES_ENABLED, ADMINISTRATOR_COMPANY_CERTIFICATES_ENABLED);
+export const FEATURE_FLAGS = new FeatureFlags(DYNAMIC_LP_CERTIFICATE_ORDERS_ENABLED, DYNAMIC_LLP_CERTIFICATE_ORDERS_ENABLED, LIQUIDATED_COMPANY_CERTIFICATES_ENABLED, ADMINISTRATOR_COMPANY_CERTIFICATES_ENABLED, CONFIGURABLE_BANNER_ENABLED);
