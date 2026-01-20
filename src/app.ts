@@ -13,6 +13,7 @@ import llpCertRouter from "./routers/certificates/llp-certificates/routers";
 import certCopyRouter from "./routers/certified-copies/routers";
 import missingImageDeliveryRouter from "./routers/missing-image-deliveries/routers";
 import errorHandlers from "./controllers/error.controller";
+import { parseHtmlLinks } from "./utils/parse-html-links";
 
 import { ERROR_SUMMARY_TITLE } from "./model/error.messages";
 import * as pageUrls from "./model/page.urls";
@@ -48,7 +49,10 @@ import {
     LP_CERTIFICATE_FEEDBACK_SOURCE,
     MISSING_IMAGE_DELIVERY_COPIES_FEEDBACK_SOURCE,
     CERTIFIED_COPIES_FEEDBACK_SOURCE,
-    DISSOLVED_CERTIFICATE_FEEDBACK_SOURCE
+    DISSOLVED_CERTIFICATE_FEEDBACK_SOURCE,
+    CONFIGURABLE_BANNER_TITLE,
+    CONFIGURABLE_BANNER_TEXT,
+    CONFIGURABLE_BANNER_ENABLED
 } from "./config/config";
 import { FEATURE_FLAGS } from "./config/FeatureFlags";
 
@@ -208,6 +212,9 @@ env.addGlobal("PIWIK_SITE_ID", PIWIK_SITE_ID);
 env.addGlobal("ERROR_SUMMARY_TITLE", ERROR_SUMMARY_TITLE);
 env.addGlobal("ACCOUNT_URL", process.env.ACCOUNT_URL);
 env.addGlobal("CHS_MONITOR_GUI_URL", process.env.CHS_MONITOR_GUI_URL);
+env.addGlobal("CONFIGURABLE_BANNER_TITLE", CONFIGURABLE_BANNER_TITLE);
+env.addGlobal("CONFIGURABLE_BANNER_TEXT", parseHtmlLinks(CONFIGURABLE_BANNER_TEXT));
+env.addGlobal("CONFIGURABLE_BANNER_ENABLED", CONFIGURABLE_BANNER_ENABLED);
 
 app.use("/orderable/certificates-assets/static", express.static("static"));
 env.addGlobal("CSS_URL", "/orderable/certificates-assets/static/app.css");

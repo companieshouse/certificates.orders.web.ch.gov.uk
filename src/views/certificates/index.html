@@ -14,30 +14,43 @@
 {% block content %}
 
   {% if basketLimitState == "display-limit-error" %}
-  {{ govukErrorSummary({
-  titleText: ERROR_SUMMARY_TITLE,
-  errorList: [
-  {
-  text: "Your basket is full. To add more to your order, you'll need to remove some items first.",
-  href: basketWebUrl
-  }
-  ]
-  }) }}
-  {% elseif basketLimitState != "below-limit" %}
-  <div class="govuk-notification-banner" role="region" data-module="govuk-notification-banner">
-    <div class="govuk-notification-banner__header">
-      <h2 class="govuk-notification-banner__title">
-        Important
-      </h2>
-    </div>
-    <div class="govuk-notification-banner__content">
-      <h3 class="govuk-notification-banner__heading">Your basket is full</h3>
-      <p class="govuk-body">
-        You cannot add more than {{ basketLimit }} items to your order.
-        To add more, you'll need to remove some items first.
-      </p>
-    </div>
-  </div>
+    {{ govukErrorSummary({
+      titleText: ERROR_SUMMARY_TITLE,
+      errorList: [
+        {
+          text: "Your basket is full. To add more to your order, you'll need to remove some items first.",
+          href: basketWebUrl
+        }
+      ]
+    }) }}
+  {% else %}
+
+    {# Banner selection: configurable banner supersedes full basket banner #}
+    {% if CONFIGURABLE_BANNER_ENABLED and CONFIGURABLE_BANNER_TITLE and CONFIGURABLE_BANNER_TEXT %}
+      <div class="govuk-notification-banner" role="region" data-module="govuk-notification-banner">
+        <div class="govuk-notification-banner__header">
+          <h2 class="govuk-notification-banner__title">Important</h2>
+        </div>
+        <div class="govuk-notification-banner__content">
+          <h3 class="govuk-notification-banner__heading">{{ CONFIGURABLE_BANNER_TITLE }}</h3>
+          <p class="govuk-body">{{ CONFIGURABLE_BANNER_TEXT | safe }}</p>
+        </div>
+      </div>
+    {% elseif basketLimitState != "below-limit" %}
+      <div class="govuk-notification-banner" role="region" data-module="govuk-notification-banner">
+        <div class="govuk-notification-banner__header">
+          <h2 class="govuk-notification-banner__title">Important</h2>
+        </div>
+        <div class="govuk-notification-banner__content">
+          <h3 class="govuk-notification-banner__heading">Your basket is full</h3>
+          <p class="govuk-body">
+            You cannot add more than {{ basketLimit }} items to your order.
+            To add more, you'll need to remove some items first.
+          </p>
+        </div>
+      </div>
+    {% endif %}
+
   {% endif %}
 
   {% if companyStatus === "dissolved" %}
@@ -48,14 +61,15 @@
 
         <h1 class="govuk-heading-xl">Order a company certificate</h1>
 
-        <p class="govuk-body-l">Use this service to order a signed certificate of dissolution for a company, including all company name changes. </p>
+        <p class="govuk-body-l">Use this service to order a signed certificate of dissolution for a company, including all company name changes.</p>
 
         <p class="govuk-body">You can order additional copies of a certificate if you need to.</p>
 
         <p class="govuk-body">Ordering a certificate takes around 5 minutes.</p>
 
         {% if basketLimitState == "below-limit" %}
-          <p class="govuk-body">To order for a different company,
+          <p class="govuk-body">
+            To order for a different company,
             <a class="govuk-notification-banner__link" href="/">search for the company on the register</a>.
           </p>
         {% endif %}
@@ -104,12 +118,11 @@
   {% else %}
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
-
         <p class="govuk-caption-l">{{ companyName }}</p>
 
         <h1 class="govuk-heading-xl">Order a company certificate</h1>
 
-        <p class="govuk-body-l">Use this service to order a signed certificate for a company, including all company name changes. </p>
+        <p class="govuk-body-l">Use this service to order a signed certificate for a company, including all company name changes.</p>
 
         <p class="govuk-body-m">You can add company information to the certificate, including:</p>
 
@@ -128,13 +141,13 @@
         </ul>
 
         {% if companyStatus !== "administration" and companyStatus !== "liquidation" %}
-        <p class="govuk-body">If you want to add a summary statement, the company must meet certain requirements. Read the <a class="govuk-link" href="https://www.gov.uk/guidance/order-certified-copies-and-certificates-from-companies-house">guidance on ordering certified documents and certificates</a> for more information.</p>
+          <p class="govuk-body">If you want to add a summary statement, the company must meet certain requirements. Read the <a class="govuk-link" href="https://www.gov.uk/guidance/order-certified-copies-and-certificates-from-companies-house">guidance on ordering certified documents and certificates</a> for more information.</p>
         {% endif %}
 
         <p class="govuk-body">You can order additional copies of a certificate if you need to.</p>
 
         <div class="govuk-inset-text">
-          A company certificate is different to the certificate of incorporation from when the company was formed. Copies of these can be ordered through the <a href="{{ moreTabUrl }}" class='govuk-link' data-event-id="certified-copies-from-certificates">Order a certified document service</a>.
+          A company certificate is different to the certificate of incorporation from when the company was formed. Copies of these can be ordered through the <a href="{{ moreTabUrl }}" class="govuk-link" data-event-id="certified-copies-from-certificates">Order a certified document service</a>.
         </div>
 
         <h2 class="govuk-heading-m">Before you start</h2>
@@ -195,5 +208,6 @@
         </table>
       </div>
     </div>
-{% endif %}
+  {% endif %}
+
 {% endblock %}
