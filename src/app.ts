@@ -14,6 +14,7 @@ import certCopyRouter from "./routers/certified-copies/routers";
 import missingImageDeliveryRouter from "./routers/missing-image-deliveries/routers";
 import errorHandlers from "./controllers/error.controller";
 import { parseHtmlLinks } from "./utils/parse-html-links";
+
 import { ERROR_SUMMARY_TITLE } from "./model/error.messages";
 import * as pageUrls from "./model/page.urls";
 import { createLoggerMiddleware } from "@companieshouse/structured-logging-node";
@@ -214,6 +215,7 @@ env.addGlobal("CHS_MONITOR_GUI_URL", process.env.CHS_MONITOR_GUI_URL);
 env.addGlobal("CONFIGURABLE_BANNER_TITLE", CONFIGURABLE_BANNER_TITLE);
 env.addGlobal("CONFIGURABLE_BANNER_TEXT", parseHtmlLinks(CONFIGURABLE_BANNER_TEXT));
 env.addGlobal("CONFIGURABLE_BANNER_ENABLED", CONFIGURABLE_BANNER_ENABLED);
+
 app.use("/orderable/certificates-assets/static", express.static("static"));
 env.addGlobal("CSS_URL", "/orderable/certificates-assets/static/app.css");
 env.addGlobal("FOOTER", "/orderable/certificates-assets/static/footer.css");
