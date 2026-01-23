@@ -36,6 +36,6 @@ process.env.STANDARD_DISCOUNT= "6";
 process.env.EXPRESS_DISCOUNT= "49";
 process.env.EXPRESS_INCORP_FEE= "130";
 process.env.STANDARD_INCORP_FEE= "44";
-process.env.CONFIGURABLE_BANNER_ENABLED = "false";
+process.env.CONFIGURABLE_BANNER_ENABLED = 'false';
 process.env.CONFIGURABLE_BANNER_TITLE = "This is a banner title for testing";
 process.env.CONFIGURABLE_BANNER_TEXT = "This is some banner text for testing.";
