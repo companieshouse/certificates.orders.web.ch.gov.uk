@@ -1,4 +1,4 @@
-{% extends "components/template.njk" %}
+{% extends "ch-node-utils/templates/layouts/template.njk" %}
 
 {% from "govuk/components/breadcrumbs/macro.njk"          import govukBreadcrumbs %}
 {% from "govuk/components/button/macro.njk"               import govukButton %}
@@ -13,11 +13,13 @@
 {% from "govuk/components/radios/macro.njk"               import govukRadios %}
 {% from "govuk/components/input/macro.njk"                import govukInput %}
 {% from "govuk/components/header/macro.njk"               import govukHeader %}
-{% from "./components/footer/macro.njk"                   import chFooter %}
+{% from "govuk/components/footer/macro.njk"               import govukFooter %}
+{% from "govuk/components/service-navigation/macro.njk"   import govukServiceNavigation %}
 {% from "govuk/components/notification-banner/macro.njk"  import govukNotificationBanner %}
 {% from "web-security-node/components/csrf-token-input/macro.njk" import csrfTokenInput %}
 
 {% block head %}
+{{ super () }}
 <meta name="format-detection" content="telephone=no">
 <meta name="robots" content="noindex">
 <!--[if !IE 8]><!-->
@@ -44,6 +46,10 @@
 
 {% endblock %}
 
+{% block pageTitle %}
+    {{ SERVICE_NAME }}
+{% endblock %}
+
 {% block bodyStart %}
   {% include "components/cookie-consent-banner.html" %}
 {% endblock %}
@@ -51,15 +57,17 @@
 {% block header %}
   {% include "includes/cookie-banner.html" %}
   {{ govukHeader({
-    homepageUrl: "http://gov.uk/",
+    homepageUrl: "http://gov.uk/"
+  }) }}
+  {{ govukServiceNavigation({
     serviceName: serviceName,
-    serviceUrl: SERVICE_URL
+      serviceUrl: SERVICE_URL
   }) }}
 {% endblock %}
 
 {% block footer %}
-      {{ chFooter({
-      classes: "ch",
+      {{ govukFooter({
+      classes: "app-footer",
       meta: {
         items: [
           {
@@ -83,13 +91,22 @@
             href: "https://developer.companieshouse.gov.uk/api/docs/",
             text: "Developers"
           }
-        ]
+        ],
+        html: 'Built by <a class="govuk-footer__link" href="https://www.gov.uk/government/organisations/companies-house">Companies House</a>'
       }
     }) }}
 {% endblock %}
 
 {% block bodyEnd %}
   {# Run JavaScript at end of the <body>, to avoid blocking the initial render. #}
+    {{ super() }}
+  <script>var global = global || {}; global.CDN_ROOT = '//{{CDN_URL}}'</script>
+  <script src="//{{CDN_URL}}/javascripts/vendor/require.js"></script>
+  <script type="text/javascript">
+    require(['//{{CDN_URL}}/javascripts/require-global-config.js'], function () {
+        console.log('Loaded require-global-config.js');
+  });
+  </script>
     <script src="//{{CDN_URL}}/javascripts/app/piwik-enable.js"></script>
     <script src="//{{CDN_URL}}/javascripts/app/cookie-consent/cookie-consent-1.0.0.js"></script>
     <script src="//{{CDN_URL}}/javascripts/app/cookie-consent/piwik-only-cookie-consent.js"></script>
