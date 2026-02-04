@@ -47,7 +47,7 @@
 {% endblock %}
 
 {% block pageTitle %}
-    {{ SERVICE_NAME }}
+    {{ serviceName }}
 {% endblock %}
 
 {% block bodyStart %}
@@ -61,11 +61,18 @@
   }) }}
   {{ govukServiceNavigation({
     serviceName: serviceName,
-      serviceUrl: SERVICE_URL
+    serviceUrl: SERVICE_URL
   }) }}
+  <div class="govuk-width-container">
+    {% include "components/user-nav-bar.html" %}
+  </div>
 {% endblock %}
 
 {% block footer %}
+  <div id="chs-customer-insights">
+    <a href="https://www.smartsurvey.co.uk/s/getcompanyinformation/" target="_blank" rel="noopener" class="govuk-link">Tell us what you think of this service<span class="hidden">(link opens a new window)</span></a>
+    <a id="feedback-link" href="../help/feedback?sourceurl={{ FEEDBACK_SOURCE }}" class="secondary-customer-insights govuk-link" target="_blank">Is there anything wrong with this page?<span class="hidden">(link opens a new window)</span></a>
+  </div>
       {{ govukFooter({
       classes: "app-footer",
       meta: {
