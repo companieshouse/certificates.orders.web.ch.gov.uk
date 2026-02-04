@@ -2,7 +2,7 @@
 @import "variables";
 
 // the govuk frontend
-@import "../node_modules/govuk-frontend/govuk/all";
+@import "../node_modules/govuk-frontend/dist/govuk/base";
 
 #global-nav {
   font-family: "GDS Transport", Arial, sans-serif;
@@ -320,4 +320,16 @@ pre[class*="language-"] {
   .mobile-hidden {
     display: none;
   }
+}
+
+/* GOV.UK Footer overrides */
+/* Remove the OGL licencing section */
+.app-footer {
+    .govuk-footer__licence-logo,
+    .govuk-footer__licence-description {
+        display: none;
+    }
+    .govuk-footer__meta-custom {
+        margin-bottom: 0;
+    }
 }
