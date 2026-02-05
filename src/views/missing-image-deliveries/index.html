@@ -4,7 +4,7 @@
   {% if basketLimitState == "below-limit" %}
     <p class="govuk-notification-banner__heading">
       This request will be for {{ companyName }} ({{ companyNumber }}).
-      <p>If you want to request a document for a different company, you will need to
+      <p class="govuk-body">If you want to request a document for a different company, you will need to
       <a class="govuk-notification-banner__link" href="https://find-and-update.company-information.service.gov.uk/">search for the company on the register.</a>
       In the company's filing history, select 'Request document' for the document you require.</p>
     </p>
@@ -12,7 +12,7 @@
     <p class="govuk-notification-banner__heading">
       Your basket is full
     </p>
-    <p>
+    <p class="govuk-body">
       You cannot add more than {{ basketLimit }} items to your order.
       To add more, you'll need to remove some items first.
     </p>

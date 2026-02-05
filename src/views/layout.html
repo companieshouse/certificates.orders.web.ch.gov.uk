@@ -57,6 +57,7 @@
 {% block header %}
   {% include "includes/cookie-banner.html" %}
   {{ govukHeader({
+    classes: "govuk-header--full-width-border",
     homepageUrl: "http://gov.uk/"
   }) }}
   {{ govukServiceNavigation({
@@ -73,7 +74,7 @@
     <a href="https://www.smartsurvey.co.uk/s/getcompanyinformation/" target="_blank" rel="noopener" class="govuk-link">Tell us what you think of this service<span class="hidden">(link opens a new window)</span></a>
     <a id="feedback-link" href="../help/feedback?sourceurl={{ FEEDBACK_SOURCE }}" class="secondary-customer-insights govuk-link" target="_blank">Is there anything wrong with this page?<span class="hidden">(link opens a new window)</span></a>
   </div>
-      {{ govukFooter({
+  {{ govukFooter({
       classes: "app-footer",
       meta: {
         items: [
@@ -106,7 +107,7 @@
 
 {% block bodyEnd %}
   {# Run JavaScript at end of the <body>, to avoid blocking the initial render. #}
-    {{ super() }}
+  {{ super() }}
   <script>var global = global || {}; global.CDN_ROOT = '//{{CDN_URL}}'</script>
   <script src="//{{CDN_URL}}/javascripts/vendor/require.js"></script>
   <script type="text/javascript">
@@ -114,7 +115,7 @@
         console.log('Loaded require-global-config.js');
   });
   </script>
-    <script src="//{{CDN_URL}}/javascripts/app/piwik-enable.js"></script>
-    <script src="//{{CDN_URL}}/javascripts/app/cookie-consent/cookie-consent-1.0.0.js"></script>
-    <script src="//{{CDN_URL}}/javascripts/app/cookie-consent/piwik-only-cookie-consent.js"></script>
+  <script src="//{{CDN_URL}}/javascripts/app/piwik-enable.js"></script>
+  <script src="//{{CDN_URL}}/javascripts/app/cookie-consent/cookie-consent-1.0.0.js"></script>
+  <script src="//{{CDN_URL}}/javascripts/app/cookie-consent/piwik-only-cookie-consent.js"></script>
 {% endblock %}
