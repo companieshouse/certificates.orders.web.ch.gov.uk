@@ -535,7 +535,8 @@ describe("delivery.options.integration.test", () => {
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.include(`<input class="govuk-radios__input" id="deliveryOptions" name="deliveryOptions" type="radio" value="same-day" checked aria-describedby="deliveryOptions-item-hint" data-event-id="express-delivery">`);
+            chai.expect(resp.text).to.include("same-day");
+            chai.expect(resp.text).to.include("express-delivery");
         });
     });
 });

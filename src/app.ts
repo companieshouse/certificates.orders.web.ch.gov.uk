@@ -55,6 +55,7 @@ import {
     CONFIGURABLE_BANNER_ENABLED
 } from "./config/config";
 import { FEATURE_FLAGS } from "./config/FeatureFlags";
+import { getGOVUKFrontendVersion } from "@companieshouse/ch-node-utils";
 
 const app = express();
 
@@ -79,7 +80,7 @@ const viewPath = path.join(__dirname, "views");
 // set up the template engine
 const env = nunjucks.configure([
     viewPath,
-    "node_modules/govuk-frontend/",
+    "node_modules/govuk-frontend/dist/",
     "node_modules/govuk-frontend/components",
     "node_modules/@companieshouse"
 ], {
@@ -220,6 +221,11 @@ app.use("/orderable/certificates-assets/static", express.static("static"));
 env.addGlobal("CSS_URL", "/orderable/certificates-assets/static/app.css");
 env.addGlobal("FOOTER", "/orderable/certificates-assets/static/footer.css");
 env.addGlobal("MOBILE_MENU", "/orderable/certificates-assets/static/js/mobile-menu.js");
+
+// Variables needed for ch-node-utils/template
+env.addGlobal("cdnHost", "//" + process.env.CDN_HOST);
+env.addGlobal("govukFrontendVersion", getGOVUKFrontendVersion());
+env.addGlobal("govukRebrand", true);
 
 // apply our default router to /
 app.use("/", certRouter);
