@@ -26,9 +26,6 @@
 <link rel="stylesheet" type="text/css" media="all" href="{{ CSS_URL }}" />
 <link rel="stylesheet" type="text/css" media="all" href="{{ FOOTER }}" />
 <!--<![endif]-->
-<link rel="SHORTCUT ICON" href="{{CDN_HOST}}/images/govuk-frontend/v4.10.1/rebrand/favicon.ico" />
-<link rel="icon" href="{{CDN_HOST}}/images/govuk-frontend/v4.10.1/rebrand/favicon.ico" type="image/x-icon" />
-
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"
           integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
           crossorigin="anonymous">
@@ -57,7 +54,6 @@
 {% block header %}
   {% include "includes/cookie-banner.html" %}
   {{ govukHeader({
-    classes: "govuk-header--full-width-border",
     homepageUrl: "http://gov.uk/"
   }) }}
   {{ govukServiceNavigation({
@@ -75,7 +71,7 @@
     <a id="feedback-link" href="../../../help/feedback?sourceurl={{ FEEDBACK_SOURCE }}" class="secondary-customer-insights govuk-link" target="_blank">Is there anything wrong with this page?<span class="hidden">(link opens a new window)</span></a>
   </div>
   {{ govukFooter({
-      classes: "app-footer",
+      contentLicence: null,
       meta: {
         items: [
           {
@@ -112,13 +108,6 @@
 {% block bodyEnd %}
   {# Run JavaScript at end of the <body>, to avoid blocking the initial render. #}
   {{ super() }}
-  <script>var global = global || {}; global.CDN_ROOT = '//{{CDN_URL}}'</script>
-  <script src="//{{CDN_URL}}/javascripts/vendor/require.js"></script>
-  <script type="text/javascript">
-    require(['//{{CDN_URL}}/javascripts/require-global-config.js'], function () {
-        console.log('Loaded require-global-config.js');
-  });
-  </script>
   <script src="//{{CDN_URL}}/javascripts/app/piwik-enable.js"></script>
   <script src="//{{CDN_URL}}/javascripts/app/cookie-consent/cookie-consent-1.0.0.js"></script>
   <script src="//{{CDN_URL}}/javascripts/app/cookie-consent/piwik-only-cookie-consent.js"></script>
