@@ -9,7 +9,7 @@ import {
 } from "../../__mocks__/redis.mocks";
 import { getDummyBasket } from "../../utils/basket.utils.test";
 import { BASKET_ITEM_LIMIT } from "../../../src/config/config";
-import cheerio from "cheerio";
+import * as cheerio from "cheerio";
 import { getAppWithMockedCsrf } from "../../__mocks__/csrf.mocks";
 
 import * as chai from "chai";

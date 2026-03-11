@@ -1,7 +1,7 @@
 import chai from "chai";
 import sinon from "sinon";
 import ioredis from "ioredis";
-import cheerio from "cheerio";
+import * as cheerio from "cheerio";
 import { MidItem } from "@companieshouse/api-sdk-node/dist/services/order/mid/types";
 import { Item as BasketItem } from "@companieshouse/api-sdk-node/dist/services/order/order/types";
 

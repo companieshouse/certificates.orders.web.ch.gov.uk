@@ -1,7 +1,7 @@
 import chai from "chai";
 import sinon from "sinon";
 import ioredis from "ioredis";
-import cheerio from "cheerio";
+import * as cheerio from "cheerio";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 
 import * as apiClient from "../../../../src/client/api.client";

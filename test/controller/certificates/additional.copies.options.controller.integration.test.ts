@@ -1,7 +1,7 @@
 import chai from "chai";
 import sinon from "sinon";
 import ioredis from "ioredis";
-import cheerio from "cheerio";
+import * as cheerio from 'cheerio';
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
 import { getAppWithMockedCsrf } from "../../__mocks__/csrf.mocks";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
@@ -47,6 +47,7 @@ describe("additional.copies.options.integration.test", () => {
 
     describe("Check the page renders", () => {
         it("renders the additional copies options page", async () => {
+            console.log('cheerio:', cheerio);
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItem));
             getBasket = sandbox.stub(apiClient, "getBasket")

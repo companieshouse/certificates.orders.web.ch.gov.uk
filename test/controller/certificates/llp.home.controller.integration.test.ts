@@ -9,7 +9,7 @@ import {
 } from "../../../src/model/page.urls";
 import CompanyProfileService from "@companieshouse/api-sdk-node/dist/services/company-profile/service";
 import { getAppWithMockedCsrf } from "../../__mocks__/csrf.mocks";
-import cheerio from "cheerio";
+import * as cheerio from "cheerio";
 import { BASKET_ITEM_LIMIT } from "../../../src/config/config";
 import { getDummyBasket } from "../../utils/basket.utils.test";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
