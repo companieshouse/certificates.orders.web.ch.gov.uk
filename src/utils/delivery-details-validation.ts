@@ -126,33 +126,33 @@ export const validate = (validationErrors) => {
     const validationErrorList = validationErrors.array({ onlyFirstError: true }).map((error) => {
         const govUkErrorData: GovUkErrorData = createGovUkErrorData(error.msg, "#" + error.param, true, "");
         switch (error.param) {
-        case COMPANY_NAME_FIELD:
-            companyNameError = govUkErrorData;
-            break;
-        case FIRST_NAME_FIELD:
-            firstNameError = govUkErrorData;
-            break;
-        case LAST_NAME_FIELD:
-            lastNameError = govUkErrorData;
-            break;
-        case ADDRESS_LINE_ONE_FIELD:
-            addressLineOneError = govUkErrorData;
-            break;
-        case ADDRESS_LINE_TWO_FIELD:
-            addressLineTwoError = govUkErrorData;
-            break;
-        case ADDRESS_TOWN_FIELD:
-            addressTownError = govUkErrorData;
-            break;
-        case ADDRESS_COUNTY_FIELD:
-            addressCountyError = govUkErrorData;
-            break;
-        case ADDRESS_POSTCODE_FIELD:
-            addressPostcodeError = govUkErrorData;
-            break;
-        case ADDRESS_COUNTRY_FIELD:
-            addressCountryError = govUkErrorData;
-            break;
+                case COMPANY_NAME_FIELD:
+                    companyNameError = govUkErrorData;
+                    break;
+                case FIRST_NAME_FIELD:
+                    firstNameError = govUkErrorData;
+                    break;
+                case LAST_NAME_FIELD:
+                    lastNameError = govUkErrorData;
+                    break;
+                case ADDRESS_LINE_ONE_FIELD:
+                    addressLineOneError = govUkErrorData;
+                    break;
+                case ADDRESS_LINE_TWO_FIELD:
+                    addressLineTwoError = govUkErrorData;
+                    break;
+                case ADDRESS_TOWN_FIELD:
+                    addressTownError = govUkErrorData;
+                    break;
+                case ADDRESS_COUNTY_FIELD:
+                    addressCountyError = govUkErrorData;
+                    break;
+                case ADDRESS_POSTCODE_FIELD:
+                    addressPostcodeError = govUkErrorData;
+                    break;
+                case ADDRESS_COUNTRY_FIELD:
+                    addressCountryError = govUkErrorData;
+                    break;
         }
         if (error.msg === errorMessages.ADDRESS_COUNTY_AND_POSTCODE_EMPTY) {
             addressCountyError = createGovUkErrorData(errorMessages.ADDRESS_COUNTY_EMPTY, "#" + error.param, true, "");

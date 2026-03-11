@@ -231,9 +231,9 @@ export default async (req: Request, res: Response, next: NextFunction) => {
  * @return whether this has redirected to the next page (<code>true</code>), or not (<code>false</code>)
  */
 const redirectToNextPage = (req: Request,
-                                 res: Response,
-                                 basketLimit: BasketLimit,
-                                 landingPage: LandingPage) : boolean => {
+                            res: Response,
+                            basketLimit: BasketLimit,
+                            landingPage: LandingPage): boolean => {
     if (req.url.endsWith(START_BUTTON_PATH_SUFFIX)) {
         logger.debug(`Start now button clicked, req.url = ${req.url}`);
         if (basketLimit.basketLimitState == BasketLimitState.BELOW_LIMIT) {
@@ -248,4 +248,4 @@ const redirectToNextPage = (req: Request,
         }
     }
     return false;
-}
+};

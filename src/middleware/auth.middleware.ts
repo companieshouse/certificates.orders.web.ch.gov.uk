@@ -22,7 +22,7 @@ const logger = createLogger(APPLICATION_NAME);
 
 type CompanyDetails = { companyNumber: string, companyType: string }
 
-const featureFlagsOnStrategy = ({ companyNumber, companyType } : CompanyDetails): string => {
+const featureFlagsOnStrategy = ({ companyNumber, companyType }: CompanyDetails): string => {
     let returnToUrl: string;
     if (CompanyType.LIMITED_PARTNERSHIP === companyType) {
         returnToUrl = getStartNowUrl(LP_ROOT_CERTIFICATE, companyNumber);
@@ -34,11 +34,11 @@ const featureFlagsOnStrategy = ({ companyNumber, companyType } : CompanyDetails)
     return returnToUrl;
 };
 
-const featureFlagsOffStrategy = ({ companyNumber } : CompanyDetails): string => {
+const featureFlagsOffStrategy = ({ companyNumber }: CompanyDetails): string => {
     return getStartNowUrl(ROOT_CERTIFICATE, companyNumber);
 };
 
-const lpFeatureFlagOnStrategy = ({ companyNumber, companyType } : CompanyDetails): string => {
+const lpFeatureFlagOnStrategy = ({ companyNumber, companyType }: CompanyDetails): string => {
     let returnToUrl: string;
     if (CompanyType.LIMITED_PARTNERSHIP === companyType) {
         returnToUrl = getStartNowUrl(LP_ROOT_CERTIFICATE, companyNumber);
@@ -48,7 +48,7 @@ const lpFeatureFlagOnStrategy = ({ companyNumber, companyType } : CompanyDetails
     return returnToUrl;
 };
 
-const llpFeatureFlagOnStrategy = ({ companyNumber, companyType } : CompanyDetails): string => {
+const llpFeatureFlagOnStrategy = ({ companyNumber, companyType }: CompanyDetails): string => {
     let returnToUrl: string;
     if (CompanyType.LIMITED_LIABILITY_PARTNERSHIP === companyType) {
         returnToUrl = getStartNowUrl(LLP_ROOT_CERTIFICATE, companyNumber);
@@ -58,7 +58,7 @@ const llpFeatureFlagOnStrategy = ({ companyNumber, companyType } : CompanyDetail
     return returnToUrl;
 };
 
-let strategy: (companyDetail:CompanyDetails) => string;
+let strategy: (companyDetail: CompanyDetails) => string;
 
 if (FEATURE_FLAGS.lpCertificateOrdersEnabled && FEATURE_FLAGS.llpCertificateOrdersEnabled) {
     strategy = featureFlagsOnStrategy;

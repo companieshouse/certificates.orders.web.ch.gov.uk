@@ -16,7 +16,7 @@ export class CertificateTextMapper implements DefaultCompanyMappable, LLPCompany
         this.dispatchDays = dispatchDays;
     }
 
-    public isOptionSelected (itemOption: Boolean | undefined): string {
+    public isOptionSelected (itemOption: boolean | undefined): string {
         if (itemOption === undefined) {
             return "No";
         } else {
@@ -43,16 +43,16 @@ export class CertificateTextMapper implements DefaultCompanyMappable, LLPCompany
 
     public mapAddressOption (addressOption: string | undefined): string {
         switch (addressOption) {
-        case AddressRecordsType.CURRENT:
-            return "Current address";
-        case AddressRecordsType.CURRENT_AND_PREVIOUS:
-            return "Current address and the one previous";
-        case AddressRecordsType.CURRENT_PREVIOUS_AND_PRIOR:
-            return "Current address and the two previous";
-        case AddressRecordsType.ALL:
-            return "All current and previous addresses";
-        default:
-            return "No";
+                case AddressRecordsType.CURRENT:
+                    return "Current address";
+                case AddressRecordsType.CURRENT_AND_PREVIOUS:
+                    return "Current address and the one previous";
+                case AddressRecordsType.CURRENT_PREVIOUS_AND_PRIOR:
+                    return "Current address and the two previous";
+                case AddressRecordsType.ALL:
+                    return "All current and previous addresses";
+                default:
+                    return "No";
         }
     }
 
@@ -195,24 +195,24 @@ export class CertificateTextMapper implements DefaultCompanyMappable, LLPCompany
         return this.mapToHtml(mappings);
     }
 
-    public mapDeliveryMethod (itemOptions: Record<string, any>, multiBasketEnabled:Boolean): string | null {
+    public mapDeliveryMethod (itemOptions: Record<string, any>, multiBasketEnabled: boolean): string | null {
         if (multiBasketEnabled) {
             if (itemOptions?.deliveryTimescale === "standard") {
                 return "Standard";
             } else if (itemOptions?.deliveryTimescale === "same-day") {
                 return "Express";
-            } 
+            }
             return null;
         } else {
             if (itemOptions?.deliveryTimescale === "standard") {
                 return "Standard (aim to send out within " + this.dispatchDays + " working days)";
-            } 
+            }
             if (itemOptions?.deliveryTimescale === "same-day") {
                 return "Express (Orders received before 11am will be sent out the same day. Orders received after 11am will be sent out the next working day)";
-            } 
+            }
         }
-            return null;
-        }
+        return null;
+    }
 
     private mapToHtml (mappings: string[]): string {
         let htmlString: string = "";

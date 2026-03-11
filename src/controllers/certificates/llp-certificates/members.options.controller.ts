@@ -80,24 +80,24 @@ export const setMembersOption = (options: string[]): OrdinaryMemberDetailsReques
     return options === undefined ? initialMembersOptions
         : options.reduce((memberOptionAccum: OrdinaryMemberDetailsRequest, option: string) => {
             switch (option) {
-            case MembersOptionName.INCLUDE_ADDRESS: {
-                memberOptionAccum.includeAddress = true;
-                break;
-            }
-            case MembersOptionName.INCLUDE_APPOINTMENT_DATE: {
-                memberOptionAccum.includeAppointmentDate = true;
-                break;
-            }
-            case MembersOptionName.INCLUDE_COUNTRY_OF_RESIDENCE: {
-                memberOptionAccum.includeCountryOfResidence = true;
-                break;
-            }
-            case MembersOptionName.INCLUDE_DOB_TYPE: {
-                memberOptionAccum.includeDobType = "partial";
-                break;
-            }
-            default:
-                break;
+                    case MembersOptionName.INCLUDE_ADDRESS: {
+                        memberOptionAccum.includeAddress = true;
+                        break;
+                    }
+                    case MembersOptionName.INCLUDE_APPOINTMENT_DATE: {
+                        memberOptionAccum.includeAppointmentDate = true;
+                        break;
+                    }
+                    case MembersOptionName.INCLUDE_COUNTRY_OF_RESIDENCE: {
+                        memberOptionAccum.includeCountryOfResidence = true;
+                        break;
+                    }
+                    case MembersOptionName.INCLUDE_DOB_TYPE: {
+                        memberOptionAccum.includeDobType = "partial";
+                        break;
+                    }
+                    default:
+                        break;
             }
             return memberOptionAccum;
         }, initialMembersOptions);

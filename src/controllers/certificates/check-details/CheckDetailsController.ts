@@ -27,14 +27,14 @@ export class CheckDetailsController {
             const pageHeader = mapPageHeader(req);
             const viewModel = this.viewModelCreatable.createViewModel(certificateItem, basket);
             res.render(this.viewModelCreatable.getTemplate(),
-                {
-                    ...viewModel,
-                    optionFilter: (options: { id: string }[], filter: { [key: string]: boolean }): { id: string }[] => {
-                        return options.filter(option => !(option.id in filter) || filter[option.id]);
-                    },
-                    ...basketLink,
-                    ...pageHeader
-                });
+                       {
+                           ...viewModel,
+                           optionFilter: (options: { id: string }[], filter: { [key: string]: boolean }): { id: string }[] => {
+                               return options.filter(option => !(option.id in filter) || filter[option.id]);
+                           },
+                           ...basketLink,
+                           ...pageHeader
+                       });
         } catch (err) {
             this.logger.error(`${err}`);
             next(err);

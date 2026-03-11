@@ -3,11 +3,11 @@ import { MISSING_IMAGE_DELIVERY_INDEX } from "../../model/template.paths";
 import { MISSING_IMAGE_DELIVERY_CREATE, replaceCompanyNumberAndFilingHistoryId } from "../../model/page.urls";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
 import { getCompanyProfile } from "../../client/api.client";
-import {API_KEY, APPLICATION_NAME} from "../../config/config";
+import { API_KEY, APPLICATION_NAME } from "../../config/config";
 import { getBasketLimit, getBasketLink } from "../../utils/basket.utils";
 import { BasketLink } from "../../model/BasketLink";
 import { BasketLimit, BasketLimitState } from "../../model/BasketLimit";
-import {createLogger} from "@companieshouse/structured-logging-node";
+import { createLogger } from "@companieshouse/structured-logging-node";
 import { SessionKey } from "@companieshouse/node-session-handler/lib/session/keys/SessionKey";
 import { SignInInfoKeys } from "@companieshouse/node-session-handler/lib/session/keys/SignInInfoKeys";
 import { mapPageHeader } from "../../utils/page.header.utils";
@@ -37,15 +37,15 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         }
 
         res.render(MISSING_IMAGE_DELIVERY_INDEX,
-            {
-                companyNumber,
-                startNowUrl,
-                SERVICE_URL,
-                companyName,
-                ...basketLink,
-                ...basketLimit,
-                ...pageHeader
-            });
+                   {
+                       companyNumber,
+                       startNowUrl,
+                       SERVICE_URL,
+                       companyName,
+                       ...basketLink,
+                       ...basketLimit,
+                       ...pageHeader
+                   });
     } catch (err) {
         logger.error(`${err}`);
         next(err);

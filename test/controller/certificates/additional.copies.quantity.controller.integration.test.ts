@@ -6,7 +6,7 @@ import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import * as apiClient from "../../../src/client/api.client";
 import { mockDeliveryDetails as deliveryDetails } from "../../__mocks__/certificates.mocks";
-import { getAppWithMockedCsrf } from '../../__mocks__/csrf.mocks';
+import { getAppWithMockedCsrf } from "../../__mocks__/csrf.mocks";
 import {
     CERTIFICATE_ADDITIONAL_COPIES_QUANTITY_OPTIONS,
     replaceCertificateId
@@ -28,7 +28,7 @@ describe("additional.copies.quantity.integration.test", () => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
         sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
 
-        testApp = getAppWithMockedCsrf(sandbox)
+        testApp = getAppWithMockedCsrf(sandbox);
         done ();
     });
 
@@ -93,7 +93,7 @@ describe("additional.copies.quantity.integration.test", () => {
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateItem));
             patchCertificateItemStub = sandbox.stub(apiClient, "patchCertificateItem")
-            .returns(Promise.resolve(certificateDetails));
+                .returns(Promise.resolve(certificateDetails));
             getBasket = sandbox.stub(apiClient, "getBasket")
                 .returns(Promise.resolve({ enrolled: false }));
 
@@ -107,35 +107,35 @@ describe("additional.copies.quantity.integration.test", () => {
         });
 
     });
-        it("adds item to basket and redirects the user to the basket page if enrolled", async () => {
-            const certificateDetails = {
-                itemOptions: {
-                    includeEmailCopy: false
-                },
-                links: {
-                    self: "/path/to/certificate"
-                }
-            } as CertificateItem;
+    it("adds item to basket and redirects the user to the basket page if enrolled", async () => {
+        const certificateDetails = {
+            itemOptions: {
+                includeEmailCopy: false
+            },
+            links: {
+                self: "/path/to/certificate"
+            }
+        } as CertificateItem;
 
-            getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
-                .returns(Promise.resolve(certificateDetails));
-            patchCertificateItemStub = sandbox.stub(apiClient, "patchCertificateItem")
-                .returns(Promise.resolve(certificateDetails));
-            getBasket = sandbox.stub(apiClient, "getBasket")
-                .returns(Promise.resolve({ enrolled: true, items: [{ kind: "item#certificate" } as any], deliveryDetails }));
-            sandbox.mock(apiClient).expects("appendItemToBasket")
-                .once()
-                .returns(Promise.resolve());
+        getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
+            .returns(Promise.resolve(certificateDetails));
+        patchCertificateItemStub = sandbox.stub(apiClient, "patchCertificateItem")
+            .returns(Promise.resolve(certificateDetails));
+        getBasket = sandbox.stub(apiClient, "getBasket")
+            .returns(Promise.resolve({ enrolled: true, items: [{ kind: "item#certificate" } as any], deliveryDetails }));
+        sandbox.mock(apiClient).expects("appendItemToBasket")
+            .once()
+            .returns(Promise.resolve());
 
-            const resp = await chai.request(testApp)
-                .post(ADDITIONAL_COPIES_QUANTITY_OPTIONS_URL)
-                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
-                .redirects(0)
-                .send({ additionalCopiesQuantityOptions: 2 });
+        const resp = await chai.request(testApp)
+            .post(ADDITIONAL_COPIES_QUANTITY_OPTIONS_URL)
+            .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`])
+            .redirects(0)
+            .send({ additionalCopiesQuantityOptions: 2 });
 
-            chai.expect(resp.status).to.equal(302);
-            chai.expect(resp.text).to.include("/basket");
-        });
+        chai.expect(resp.status).to.equal(302);
+        chai.expect(resp.text).to.include("/basket");
+    });
 
     describe("Quantity update", () => {
         it("redirects to delivery details page when quantity is selected", async () => {
@@ -151,7 +151,7 @@ describe("additional.copies.quantity.integration.test", () => {
                 },
                 quantity: initialQuantity
             } as CertificateItem;
-    
+
             getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem")
                 .returns(Promise.resolve(certificateDetails));
             patchCertificateItemStub = sandbox.stub(apiClient, "patchCertificateItem")
@@ -161,12 +161,12 @@ describe("additional.copies.quantity.integration.test", () => {
                 });
             getBasket = sandbox.stub(apiClient, "getBasket")
                 .returns(Promise.resolve({ enrolled: false }));
-    
+
             const resp = await chai.request(testApp)
                 .post(ADDITIONAL_COPIES_QUANTITY_OPTIONS_URL)
                 .send({ additionalCopiesQuantityOptions: additionalCopiesQuantity })
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
-    
+
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.include("Delivery details - Order a certificate - GOV.UK");
             chai.expect(patchCertificateItemStub.calledOnce).to.be.true;

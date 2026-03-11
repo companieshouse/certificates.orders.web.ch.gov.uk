@@ -5,7 +5,7 @@ const escape = require("escape-html");
 const dispatchDays: string = DISPATCH_DAYS;
 
 export const mapDeliveryDetails = (deliveryDetails: DeliveryDetails | undefined): string => {
-    const mappings:string[] = [];
+    const mappings: string[] = [];
 
     if (deliveryDetails === undefined) {
         return "";

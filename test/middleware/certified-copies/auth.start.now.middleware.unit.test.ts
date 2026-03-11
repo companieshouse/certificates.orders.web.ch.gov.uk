@@ -4,8 +4,8 @@ import { Request, Response } from "express";
 import SessionHandler from "@companieshouse/node-session-handler";
 import { Session } from "@companieshouse/node-session-handler/lib/session/model/Session";
 import authCertifiedCopyStartNowMiddleware from "../../../src/middleware/certified-copies/auth.start.now.middleware";
-import {CERTIFIED_COPY_START_PAGE} from "../../utils/constants";
-import {START_BUTTON_PATH_SUFFIX} from "../../../src/model/page.urls";
+import { CERTIFIED_COPY_START_PAGE } from "../../utils/constants";
+import { START_BUTTON_PATH_SUFFIX } from "../../../src/model/page.urls";
 
 const sandbox = sinon.createSandbox();
 
@@ -84,7 +84,7 @@ describe("certified-copies.auth.start.now.middleware.unit", () => {
         );
         const res = {
             redirect(_url: string) {
-                throw new Error('Error thrown by test code');
+                throw new Error("Error thrown by test code");
             }
         } as unknown as Response;
 

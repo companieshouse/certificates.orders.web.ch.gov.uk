@@ -5,7 +5,7 @@ import { createLogger } from "@companieshouse/structured-logging-node";
 import * as templatePaths from "../model/template.paths";
 import { PageHeader } from "../model/PageHeader";
 import { mapPageHeader } from "../utils/page.header.utils";
-import { CsrfError } from '@companieshouse/web-security-node';
+import { CsrfError } from "@companieshouse/web-security-node";
 
 const logger = createLogger(APPLICATION_NAME);
 const serviceName = "Find and update company information";
@@ -22,7 +22,7 @@ const errorHandler = (err: unknown, req: Request, res: Response, next: NextFunct
 const csrfErrorHandler = (err: CsrfError | Error, req: Request, res: Response, next: NextFunction) => {
     // Handle non-CSRF Errors immediately
     if (!(err instanceof CsrfError)) {
-      return next(err);
+        return next(err);
     }
 
     const pageHeader: PageHeader = mapPageHeader(req);

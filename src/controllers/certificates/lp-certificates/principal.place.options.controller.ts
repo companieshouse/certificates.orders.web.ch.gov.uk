@@ -92,36 +92,36 @@ export const setPrincipalPlaceOption = (option: string): PrincipalPlaceOfBusines
     };
 
     switch (option) {
-    case PrincipalPlaceOfBusinessOptionName.CURRENT_ADDRESS : {
-        initialPrincipalPlaceOption = {
-            includeAddressRecordsType: AddressRecordsType.CURRENT,
-            includeDates: false
-        };
-        break;
-    }
-    case PrincipalPlaceOfBusinessOptionName.CURRENT_ADDRESS_AND_THE_ONE_PREVIOUS: {
-        initialPrincipalPlaceOption = {
-            includeAddressRecordsType: AddressRecordsType.CURRENT_AND_PREVIOUS,
-            includeDates: false
-        };
-        break;
-    }
-    case PrincipalPlaceOfBusinessOptionName.CURRENT_ADDRESS_AND_THE_TWO_PREVIOUS: {
-        initialPrincipalPlaceOption = {
-            includeAddressRecordsType: AddressRecordsType.CURRENT_PREVIOUS_AND_PRIOR,
-            includeDates: false
-        };
-        break;
-    }
-    case PrincipalPlaceOfBusinessOptionName.ALL_CURRENT_AND_PREVIOUS_ADDRESSES: {
-        initialPrincipalPlaceOption = {
-            includeAddressRecordsType: AddressRecordsType.ALL,
-            includeDates: false
-        };
-        break;
-    }
-    default:
-        break;
+            case PrincipalPlaceOfBusinessOptionName.CURRENT_ADDRESS : {
+                initialPrincipalPlaceOption = {
+                    includeAddressRecordsType: AddressRecordsType.CURRENT,
+                    includeDates: false
+                };
+                break;
+            }
+            case PrincipalPlaceOfBusinessOptionName.CURRENT_ADDRESS_AND_THE_ONE_PREVIOUS: {
+                initialPrincipalPlaceOption = {
+                    includeAddressRecordsType: AddressRecordsType.CURRENT_AND_PREVIOUS,
+                    includeDates: false
+                };
+                break;
+            }
+            case PrincipalPlaceOfBusinessOptionName.CURRENT_ADDRESS_AND_THE_TWO_PREVIOUS: {
+                initialPrincipalPlaceOption = {
+                    includeAddressRecordsType: AddressRecordsType.CURRENT_PREVIOUS_AND_PRIOR,
+                    includeDates: false
+                };
+                break;
+            }
+            case PrincipalPlaceOfBusinessOptionName.ALL_CURRENT_AND_PREVIOUS_ADDRESSES: {
+                initialPrincipalPlaceOption = {
+                    includeAddressRecordsType: AddressRecordsType.ALL,
+                    includeDates: false
+                };
+                break;
+            }
+            default:
+                break;
     }
     return initialPrincipalPlaceOption;
 };

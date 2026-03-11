@@ -8,7 +8,7 @@ import { createLogger } from "@companieshouse/structured-logging-node";
 import { registeredOfficeAddressValidationRules, validate } from "../../validation/certificates/registered.office.options.validation";
 import { APPLICATION_NAME } from "../../config/config";
 import CertificateSessionData from "../../session/CertificateSessionData";
-import { renderRegisteredOfficeOptions, generateBackLink} from "../../service/registered.office.options.service";
+import { renderRegisteredOfficeOptions, generateBackLink } from "../../service/registered.office.options.service";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -21,7 +21,7 @@ const ALL_CURRENT_AND_PREVIOUS_ADDRESSES_FIELD: string = "allCurrentAndPreviousA
 export const optionFilter = (items) => items.filter((item) => item.display);
 
 export const render = async (req: Request, res: Response): Promise<void> => {
-    renderRegisteredOfficeOptions(req, res, false, CERTIFICATE_REGISTERED_OFFICE_OPTIONS, optionFilter)
+    renderRegisteredOfficeOptions(req, res, false, CERTIFICATE_REGISTERED_OFFICE_OPTIONS, optionFilter);
 };
 
 const route = async (req: Request, res: Response, next: NextFunction) => {
@@ -75,36 +75,36 @@ export const setRegOfficeOption = (option: string): RegisteredOfficeAddressDetai
     };
 
     switch (option) {
-    case CURRENT_ADDRESS_FIELD: {
-        initialRegOfficeOption = {
-            includeAddressRecordsType: "current",
-            includeDates: false
-        };
-        break;
-    }
-    case CURRENT_ADDRESS_AND_THE_ONE_PREVIOUS_FIELD: {
-        initialRegOfficeOption = {
-            includeAddressRecordsType: "current-and-previous",
-            includeDates: false
-        };
-        break;
-    }
-    case CURRENT_ADDRESS_AND_THE_TWO_PREVIOUS_FIELD: {
-        initialRegOfficeOption = {
-            includeAddressRecordsType: "current-previous-and-prior",
-            includeDates: false
-        };
-        break;
-    }
-    case ALL_CURRENT_AND_PREVIOUS_ADDRESSES_FIELD: {
-        initialRegOfficeOption = {
-            includeAddressRecordsType: "all",
-            includeDates: false
-        };
-        break;
-    }
-    default:
-        break;
+            case CURRENT_ADDRESS_FIELD: {
+                initialRegOfficeOption = {
+                    includeAddressRecordsType: "current",
+                    includeDates: false
+                };
+                break;
+            }
+            case CURRENT_ADDRESS_AND_THE_ONE_PREVIOUS_FIELD: {
+                initialRegOfficeOption = {
+                    includeAddressRecordsType: "current-and-previous",
+                    includeDates: false
+                };
+                break;
+            }
+            case CURRENT_ADDRESS_AND_THE_TWO_PREVIOUS_FIELD: {
+                initialRegOfficeOption = {
+                    includeAddressRecordsType: "current-previous-and-prior",
+                    includeDates: false
+                };
+                break;
+            }
+            case ALL_CURRENT_AND_PREVIOUS_ADDRESSES_FIELD: {
+                initialRegOfficeOption = {
+                    includeAddressRecordsType: "all",
+                    includeDates: false
+                };
+                break;
+            }
+            default:
+                break;
     }
     return initialRegOfficeOption;
 };

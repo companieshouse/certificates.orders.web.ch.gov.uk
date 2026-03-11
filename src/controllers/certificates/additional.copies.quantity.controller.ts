@@ -64,14 +64,14 @@ const route = async (req: Request, res: Response, next: NextFunction): Promise<v
             const baseQuantity = 1;
             logger.info(`User has selected ${additionalCopiesQuantity} additional copies`);
             const certificateItemPatchRequest: CertificateItemPatchRequest = {
-                quantity : baseQuantity + parseInt(additionalCopiesQuantity)
+                quantity: baseQuantity + parseInt(additionalCopiesQuantity)
             };
             const patchedCertificateItem = await patchCertificateItem(accessToken, req.params.certificateId, certificateItemPatchRequest);
             logger.info(`Patched certificate item with delivery option, id=${req.params.certificateId}, user_id=${userId}, company_number=${patchedCertificateItem.companyNumber}`);
             logger.info(`Quantity has been updated to: ${patchedCertificateItem.quantity} ` );
             const basket = await getBasket(accessToken);
             if (basket.enrolled) {
-                await appendItemToBasket(accessToken,{ itemUri: patchedCertificateItem.links.self});
+                await appendItemToBasket(accessToken, { itemUri: patchedCertificateItem.links.self });
                 return redirectCallback.redirectEnrolled({
                     response: res,
                     items: basket.items,
@@ -80,15 +80,15 @@ const route = async (req: Request, res: Response, next: NextFunction): Promise<v
             }
             return res.redirect(DELIVERY_DETAILS);
 
-            }
-        } catch (err) {
+        }
+    } catch (err) {
         logger.error(`${err}`);
         next(err);
     }
 };
 
-export const setBackLink = (certificateItem: CertificateItem, session: Session | undefined):string => {
-   return ADDITIONAL_COPIES;
+export const setBackLink = (certificateItem: CertificateItem, session: Session | undefined): string => {
+    return ADDITIONAL_COPIES;
 };
 
 export default [...validators, route];

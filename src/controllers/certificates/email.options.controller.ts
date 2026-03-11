@@ -81,7 +81,7 @@ const route = async (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
-export const setBackLink = (_certificateItem: CertificateItem, _session: Session | undefined):string => {
+export const setBackLink = (_certificateItem: CertificateItem, _session: Session | undefined): string => {
     return DELIVERY_OPTIONS;
 };
 

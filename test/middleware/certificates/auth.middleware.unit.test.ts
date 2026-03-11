@@ -47,7 +47,7 @@ describe("certificate.auth.middleware.unit", () => {
             path: "/certificate-options"
         } as Request;
         req.params = { certificateId: "0001" };
-        getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem").returns(Promise.reject("Error")); // eslint-disable-line prefer-promise-reject-errors
+        getCertificateItemStub = sandbox.stub(apiClient, "getCertificateItem").returns(Promise.reject("Error"));
         req.session = new Session(
             {
                 signin_info: {

@@ -141,7 +141,7 @@ describe("certificate.check.details.controller.unit", () => {
 
     describe("mapToHtml", () => {
         it("constructs a html string that spaces each value with a <br> tag", () => {
-            const mappings:string[] = [];
+            const mappings: string[] = [];
             mappings.push("Mapping 1");
             mappings.push("Mapping 2");
             mappings.push("Mapping 3");

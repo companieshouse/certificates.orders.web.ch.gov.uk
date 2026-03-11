@@ -84,28 +84,28 @@ export const setDirectorOption = (options: string[]): DirectorOrSecretaryDetails
     return options === undefined ? initialDirectorOptions
         : options.reduce((directorOptionsAccum: DirectorOrSecretaryDetailsRequest, option: string) => {
             switch (option) {
-            case INCLUDE_ADDRESS_FIELD: {
-                directorOptionsAccum.includeAddress = true;
-                break;
-            }
-            case INCLUDE_APPOINTMENT_DATE_FIELD: {
-                directorOptionsAccum.includeAppointmentDate = true;
-                break;
-            }
-            case INCLUDE_COUNTRY_OF_RESIDENCE_FIELD: {
-                directorOptionsAccum.includeCountryOfResidence = true;
-                break;
-            }
-            case INCLUDE_DOB_TYPE_FIELD: {
-                directorOptionsAccum.includeDobType = "partial";
-                break;
-            }
-            case INCLUDE_NATIONALITY_FIELD: {
-                directorOptionsAccum.includeNationality = true;
-                break;
-            }
-            default:
-                break;
+                    case INCLUDE_ADDRESS_FIELD: {
+                        directorOptionsAccum.includeAddress = true;
+                        break;
+                    }
+                    case INCLUDE_APPOINTMENT_DATE_FIELD: {
+                        directorOptionsAccum.includeAppointmentDate = true;
+                        break;
+                    }
+                    case INCLUDE_COUNTRY_OF_RESIDENCE_FIELD: {
+                        directorOptionsAccum.includeCountryOfResidence = true;
+                        break;
+                    }
+                    case INCLUDE_DOB_TYPE_FIELD: {
+                        directorOptionsAccum.includeDobType = "partial";
+                        break;
+                    }
+                    case INCLUDE_NATIONALITY_FIELD: {
+                        directorOptionsAccum.includeNationality = true;
+                        break;
+                    }
+                    default:
+                        break;
             }
             return directorOptionsAccum;
         }, initialDirectorOptions);
