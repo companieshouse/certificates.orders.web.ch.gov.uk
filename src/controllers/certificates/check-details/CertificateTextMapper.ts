@@ -6,7 +6,7 @@ import { Basket, DeliveryDetails } from "@companieshouse/api-sdk-node/dist/servi
 import { AddressRecordsType } from "../../../model/AddressRecordsType";
 import { DefaultCompanyMappable } from "./DefaultCompanyMappable";
 import { LLPCompanyMappable } from "./LLPCompanyMappable";
-const escape = require("escape-html");
+import escape from "escape-html";
 
 export class CertificateTextMapper implements DefaultCompanyMappable, LLPCompanyMappable {
 

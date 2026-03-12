@@ -9,7 +9,7 @@ import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/orde
 import { ApiErrorResponse, ApiResponse, ApiResult } from "@companieshouse/api-sdk-node/dist/services/resource";
 import { failure, success } from "@companieshouse/api-sdk-node/dist/services/result";
 
-const chai = require("chai");
+import chai from "chai";
 
 const sandbox = sinon.createSandbox();
 let testApp: null = null;

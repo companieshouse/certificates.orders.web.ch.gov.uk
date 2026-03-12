@@ -15,7 +15,7 @@ import { SIGNED_IN_COOKIE, signedInSession } from "../../../__mocks__/redis.mock
 import { getAppWithMockedCsrf } from "../../../__mocks__/csrf.mocks";
 import { mockBasketDetails, mockDissolvedCertificateItem } from "../../../__mocks__/certificates.mocks";
 import { DobType } from "../../../../src/model/DobType";
-const chai = require("chai");
+import chai from "chai";
 
 const CERTIFICATE_ID = "CHS00000000000000001";
 const ITEM_URI = "/orderable/llp-certificates/CHS00000000000000052";

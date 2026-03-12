@@ -123,7 +123,7 @@ describe("request.util.unit",
                  it("errors if asked to look up an unknown page URL", () => {
                      const execution = () => extractValueFromRequestField(UNKNOWN_URL, CERTIFICATE_OPTIONS_RE);
                      expect(execution).to.throw("Unable to extract value sought from requestField /unknown using regular " +
-                    "expression /\\\/orderable\\\/certificates\\\/CRT-\\\d{6}-\\\d{6}\\\/certificate-options/");
+                    "expression /\\/orderable\\/certificates\\/CRT-\\d{6}-\\d{6}\\/certificate-options/");
                  });
              });
 

@@ -12,7 +12,7 @@ import { CertifiedCopyItem } from "@companieshouse/api-sdk-node/dist/services/or
 import { DeliveryDetailsPropertyName } from "../certificates/model/DeliveryDetailsPropertyName";
 import { mapPageHeader } from "../../utils/page.header.utils";
 
-const escape = require("escape-html");
+import escape from "escape-html";
 
 const PAGE_TITLE: string = "Delivery details - Order a certified document - GOV.UK";
 

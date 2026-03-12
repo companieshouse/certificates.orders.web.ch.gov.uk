@@ -9,7 +9,7 @@ import { OtherCompanyOptionsMapper } from "../../../../src/controllers/certifica
 import sessionHandler from "@companieshouse/node-session-handler";
 import { CompanyStatus } from "../../../../src/controllers/certificates/model/CompanyStatus"; // needed for side-effects
 
-const chai = require("chai");
+import chai from "chai";
 
 describe("OtherCompanyOptionMapper", () => {
     let mapper: OtherCompanyOptionsMapper;

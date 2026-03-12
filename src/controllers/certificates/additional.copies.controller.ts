@@ -31,7 +31,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const backLink = setBackLink(certificateItem, req.session);
 
         const basket = await getBasket(accessToken);
-        const inBasket: boolean = basket.items?.find(item => item.id == certificateItem.id) != undefined;
+        const inBasket: boolean = basket.items?.find(item => item.id === certificateItem.id) !== undefined;
         const certSelection = inBasket ? getSelectionFromCertificate(certificateItem) : 0;
 
         await renderPage(req, res, ADDITIONAL_COPIES, PAGE_TITLE, certificateItem, backLink, certSelection);

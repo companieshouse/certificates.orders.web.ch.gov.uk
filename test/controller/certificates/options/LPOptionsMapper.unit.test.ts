@@ -9,7 +9,7 @@ import { LPOptionsMapper } from "../../../../src/controllers/certificates/option
 import sessionHandler from "@companieshouse/node-session-handler";
 import { CompanyStatus } from "../../../../src/controllers/certificates/model/CompanyStatus"; // needed for side-effects
 
-const chai = require("chai");
+import chai from "chai";
 
 describe("LPOptionMapper", () => {
     const mapper = new LPOptionsMapper();
