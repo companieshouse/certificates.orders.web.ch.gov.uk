@@ -21,7 +21,7 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const basketLink: BasketLink = await getBasketLink(req);
         const basketLimit: BasketLimit = getBasketLimit(basketLink);
 
-        if (basketLimit.basketLimitState == BasketLimitState.BELOW_LIMIT) {
+        if (basketLimit.basketLimitState === BasketLimitState.BELOW_LIMIT) {
             const missingImageDeliveryItemRequest: MidItemPostRequest = {
                 companyNumber,
                 itemOptions: {

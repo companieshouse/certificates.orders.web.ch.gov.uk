@@ -236,7 +236,7 @@ const redirectToNextPage = (req: Request,
                             landingPage: LandingPage): boolean => {
     if (req.url.endsWith(START_BUTTON_PATH_SUFFIX)) {
         logger.debug(`Start now button clicked, req.url = ${req.url}`);
-        if (basketLimit.basketLimitState == BasketLimitState.BELOW_LIMIT) {
+        if (basketLimit.basketLimitState === BasketLimitState.BELOW_LIMIT) {
             logger.debug(`Basket is not full, redirecting to  ${landingPage.nextPageUrl}.`);
             res.redirect(getWhitelistedReturnToURL(landingPage.nextPageUrl));
             return true;

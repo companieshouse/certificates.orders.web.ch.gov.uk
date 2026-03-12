@@ -11,7 +11,7 @@ import { deliveryDetailsValidationRules, validate } from "../../utils/delivery-d
 import { setServiceUrl } from "../../utils/service.url.utils";
 import { renderNonBasketJourneyDeliveryDetails, setBackLink } from "../../service/delivery.details.service";
 import { DeliveryDetailsPropertyName } from "./model/DeliveryDetailsPropertyName";
-const escape = require("escape-html");
+import escape from "escape-html";
 
 const PAGE_TITLE: string = "Delivery details - Order a certificate - GOV.UK";
 

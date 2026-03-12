@@ -38,7 +38,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const standard_incorp_fee = STANDARD_INCORP_FEE;
         const express_incorp_fee = EXPRESS_INCORP_FEE;
 
-        if (req.url == startNowPath) {
+        if (req.url === startNowPath) {
             logger.debug(`Start now button clicked, req.url = ${req.url}`);
             if (displayBasketLimitError(req, res, basketLimit, companyNumber)) {
                 logger.debug(`Disable start now button.`);
@@ -82,7 +82,7 @@ const displayBasketLimitError = (req: Request,
                                  res: Response,
                                  basketLimit: BasketLimit,
                                  companyNumber: string): boolean => {
-    if (basketLimit.basketLimitState == BasketLimitState.BELOW_LIMIT) {
+    if (basketLimit.basketLimitState === BasketLimitState.BELOW_LIMIT) {
         const nextPage = `${CHS_URL}${replaceCompanyNumber(CERTIFIED_COPY_FILING_HISTORY, companyNumber)}`;
         logger.debug(`Basket is not full, redirecting to  ${nextPage}.`);
         res.redirect(getWhitelistedReturnToURL(nextPage));
