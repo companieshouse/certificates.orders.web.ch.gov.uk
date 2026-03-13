@@ -69,35 +69,33 @@ const route = async (req: Request, res: Response, next: NextFunction): Promise<v
                 errorList: [additionalCopiesErrorData],
                 radioButtonSelection: additionalCopies
             });
+        } else if (additionalCopies === "true") {
+            req.session?.setExtraData("certificates-orders-web-ch-gov-uk", {
+                includesAdditionalCopies: additionalCopies
+            } as CertificateSessionData);
+            logger.info(`User selected 'Yes' to additional copies, redirecting to Additional Copies Quantity page`);
+            return res.redirect(ADDITIONAL_COPIES_QUANTITY);
         } else {
-            if (additionalCopies === "true") {
-                req.session?.setExtraData("certificates-orders-web-ch-gov-uk", {
-                    includesAdditionalCopies: additionalCopies
-                } as CertificateSessionData);
-                logger.info(`User selected 'Yes' to additional copies, redirecting to Additional Copies Quantity page`);
-                return res.redirect(ADDITIONAL_COPIES_QUANTITY);
-            } else {
-                logger.info(`User selected 'No' to additional copies, updating basket and redirecting to Delivery Details page`);
-                if (certificateItem.quantity > 1){
-                    // If user previously selected additional copies and now chooses no, reset quantity back to 1.
-                    const baseQuantity = 1;
-                    const certificateItemPatchRequest: CertificateItemPatchRequest = {
-                        quantity: baseQuantity
-                    };
-                    certificateItem = await patchCertificateItem(accessToken, req.params.certificateId, certificateItemPatchRequest);
-                    logger.info(`Total quantity has been reset back to: ${certificateItem.quantity} ` );
-                }
-                const basket = await getBasket(accessToken);
-                if (basket.enrolled) {
-                    await appendItemToBasket(accessToken, { itemUri: certificateItem.links.self });
-                    return redirectCallback.redirectEnrolled({
-                        response: res,
-                        items: basket.items,
-                        deliveryDetails: basket.deliveryDetails
-                    });
-                }
-                return res.redirect(DELIVERY_DETAILS);
+            logger.info(`User selected 'No' to additional copies, updating basket and redirecting to Delivery Details page`);
+            if (certificateItem.quantity > 1){
+                // If user previously selected additional copies and now chooses no, reset quantity back to 1.
+                const baseQuantity = 1;
+                const certificateItemPatchRequest: CertificateItemPatchRequest = {
+                    quantity: baseQuantity
+                };
+                certificateItem = await patchCertificateItem(accessToken, req.params.certificateId, certificateItemPatchRequest);
+                logger.info(`Total quantity has been reset back to: ${certificateItem.quantity} ` );
             }
+            const basket = await getBasket(accessToken);
+            if (basket.enrolled) {
+                await appendItemToBasket(accessToken, { itemUri: certificateItem.links.self });
+                return redirectCallback.redirectEnrolled({
+                    response: res,
+                    items: basket.items,
+                    deliveryDetails: basket.deliveryDetails
+                });
+            }
+            return res.redirect(DELIVERY_DETAILS);
         }
     } catch (err) {
         logger.error(`${err}`);

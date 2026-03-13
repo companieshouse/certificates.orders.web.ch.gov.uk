@@ -105,6 +105,7 @@
     "glob-stream": "8.0.0",
     "semver": "7.5.4",
     "simple-update-notifier": "2.0.0",
-    "serialize-javascript": "^7.0.4"
+    "serialize-javascript": "^7.0.4",
+    "minimatch": "^10.2.4"
   }
 }
