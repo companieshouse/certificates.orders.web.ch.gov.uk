@@ -39,28 +39,28 @@ export class LPOptionsMapper extends AbstractOptionsMapper<LPRedirectStateMachin
 
     filterItemOptions (itemOptionsAccum: ItemOptionsRequest, option: string): ItemOptionsRequest {
         switch (option) {
-        case OptionSelection.STATEMENT_OF_GOOD_STANDING: {
-            itemOptionsAccum.includeGoodStandingInformation = true;
-            break;
-        }
-        case OptionSelection.PRINCIPAL_PLACE_OF_BUSINESS: {
-            itemOptionsAccum.principalPlaceOfBusinessDetails = { includeAddressRecordsType: "current" };
-            break;
-        }
-        case OptionSelection.GENERAL_PARTNERS: {
-            itemOptionsAccum.generalPartnerDetails = { includeBasicInformation: true };
-            break;
-        }
-        case OptionSelection.LIMITED_PARTNERS: {
-            itemOptionsAccum.limitedPartnerDetails = { includeBasicInformation: true };
-            break;
-        }
-        case OptionSelection.GENERAL_NATURE_OF_BUSINESS: {
-            itemOptionsAccum.includeGeneralNatureOfBusinessInformation = true;
-            break;
-        }
-        default:
-            break;
+                case OptionSelection.STATEMENT_OF_GOOD_STANDING: {
+                    itemOptionsAccum.includeGoodStandingInformation = true;
+                    break;
+                }
+                case OptionSelection.PRINCIPAL_PLACE_OF_BUSINESS: {
+                    itemOptionsAccum.principalPlaceOfBusinessDetails = { includeAddressRecordsType: "current" };
+                    break;
+                }
+                case OptionSelection.GENERAL_PARTNERS: {
+                    itemOptionsAccum.generalPartnerDetails = { includeBasicInformation: true };
+                    break;
+                }
+                case OptionSelection.LIMITED_PARTNERS: {
+                    itemOptionsAccum.limitedPartnerDetails = { includeBasicInformation: true };
+                    break;
+                }
+                case OptionSelection.GENERAL_NATURE_OF_BUSINESS: {
+                    itemOptionsAccum.includeGeneralNatureOfBusinessInformation = true;
+                    break;
+                }
+                default:
+                    break;
         }
         return itemOptionsAccum;
     }

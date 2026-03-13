@@ -18,7 +18,7 @@ export const MAPPED_MEMBER_OPTIONS = "Member options";
 export const MAPPED_EMAIL_COPY_REQUIRED = "Yes";
 
 export class StubDefaultCompanyMappable implements DefaultCompanyMappable, LLPCompanyMappable {
-    isOptionSelected (itemOption: Boolean | undefined): string {
+    isOptionSelected (itemOption: boolean | undefined): string {
         return MAPPED_OPTION_VALUE;
     }
 

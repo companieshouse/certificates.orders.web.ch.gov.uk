@@ -7,27 +7,27 @@ import { BASKET_ITEM_LIMIT, BASKET_WEB_URL } from "../config/config";
 import { BasketLink } from "../model/BasketLink";
 import { BasketLimit, BasketLimitState } from "../model/BasketLimit";
 
-export const getBasketLink = async (req: Request) : Promise<BasketLink> => {
+export const getBasketLink = async (req: Request): Promise<BasketLink> => {
     const signedIn = req.session?.data?.[SessionKey.SignInInfo]?.[SignInInfoKeys.SignedIn] === 1;
     if (!signedIn) {
         return { showBasketLink: false };
     }
     const signInInfo = req.session?.data[SessionKey.SignInInfo];
-    const accessToken = signInInfo?.[SignInInfoKeys.AccessToken]?.[SignInInfoKeys.AccessToken]!;
+    const accessToken = signInInfo?.[SignInInfoKeys.AccessToken]?.[SignInInfoKeys.AccessToken] ?? "";
 
     const basket: Basket = await getBasket(accessToken);
 
-    return { showBasketLink: basket.enrolled, basketWebUrl: BASKET_WEB_URL, basketItems: basket.items?.length };
+    return { showBasketLink: basket.enrolled, basketWebUrl: BASKET_WEB_URL, basketItems: basket.items?.length ?? 0 };
 };
 
-export const getBasketLimit = (basketLink: BasketLink) : BasketLimit => {
+export const getBasketLimit = (basketLink: BasketLink): BasketLimit => {
     if (!basketLink.showBasketLink) {
         return { basketLimit: BASKET_ITEM_LIMIT, basketLimitState: BasketLimitState.BELOW_LIMIT };
     }
 
     return {
         basketLimit: BASKET_ITEM_LIMIT,
-        basketLimitState: basketLink.basketItems! < BASKET_ITEM_LIMIT ?
+        basketLimitState: (basketLink.basketItems ?? 0) < BASKET_ITEM_LIMIT ?
             BasketLimitState.BELOW_LIMIT : BasketLimitState.DISPLAY_LIMIT_WARNING
     };
-}
+};

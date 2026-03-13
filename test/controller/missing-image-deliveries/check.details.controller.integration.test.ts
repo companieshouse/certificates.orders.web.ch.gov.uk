@@ -1,13 +1,13 @@
 import chai from "chai";
 import sinon from "sinon";
 import ioredis from "ioredis";
-import cheerio from "cheerio";
+import * as cheerio from "cheerio";
 import { MidItem } from "@companieshouse/api-sdk-node/dist/services/order/mid/types";
 import { Item as BasketItem } from "@companieshouse/api-sdk-node/dist/services/order/order/types";
 
 import { MISSING_IMAGE_DELIVERY_CHECK_DETAILS, replaceMissingImageDeliveryId } from "../../../src/model/page.urls";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
-import { getAppWithMockedCsrf } from '../../__mocks__/csrf.mocks';
+import { getAppWithMockedCsrf } from "../../__mocks__/csrf.mocks";
 import * as apiClient from "../../../src/client/api.client";
 import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket";
 
@@ -81,7 +81,7 @@ describe("mid.check.details.controller.integration", () => {
 
             const basket: Basket = {
                 enrolled: false
-            }
+            };
 
             getMissingImageDeliveryItem = sandbox.stub(apiClient, "getMissingImageDeliveryItem")
                 .returns(Promise.resolve(missingImageDeliveryItem));
@@ -111,7 +111,7 @@ describe("mid.check.details.controller.integration", () => {
             const missingImageDeliveryItem = {} as MidItem;
             const basket: Basket = {
                 enrolled: false
-            }
+            };
 
             addItemToBasketStub = sandbox.stub(apiClient, "addItemToBasket")
                 .returns(Promise.resolve(itemUri));
@@ -135,7 +135,7 @@ describe("mid.check.details.controller.integration", () => {
             const missingImageDeliveryItem = {} as MidItem;
             const basket: Basket = {
                 enrolled: true
-            }
+            };
 
             addItemToBasketStub = sandbox.stub(apiClient, "appendItemToBasket")
                 .returns(Promise.resolve(itemUri));

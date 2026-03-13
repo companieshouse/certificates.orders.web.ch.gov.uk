@@ -9,8 +9,8 @@ import {
 } from "../../__mocks__/redis.mocks";
 import { getDummyBasket } from "../../utils/basket.utils.test";
 import { BASKET_ITEM_LIMIT } from "../../../src/config/config";
-import cheerio from "cheerio";
-import { getAppWithMockedCsrf } from '../../__mocks__/csrf.mocks';
+import * as cheerio from "cheerio";
+import { getAppWithMockedCsrf } from "../../__mocks__/csrf.mocks";
 
 import * as chai from "chai";
 import chaiHttp from "chai-http";
@@ -161,9 +161,9 @@ describe("certified-copy.home.controller.integration", () => {
                 });
 
                 beforeEach(() => {
-                     // recreate the app after environment mutation so configuration that reads env vars during startup picks up the changes
-                     testApp = getAppWithMockedCsrf(sandbox);
-                 });
+                    // recreate the app after environment mutation so configuration that reads env vars during startup picks up the changes
+                    testApp = getAppWithMockedCsrf(sandbox);
+                });
 
                 it(`banner shown = ${scenario.expectBannerShown}`, async () => {
                     dummyCompanyProfile.resource.links.filingHistory = "/company/00000000/filing-history";
@@ -292,7 +292,7 @@ describe("certified-copy.home.controller.integration", () => {
             .resolves(dummyCompanyProfile);
         sandbox.stub(apiClient, "getBasket").resolves(getDummyBasket(true, BASKET_ITEM_LIMIT));
 
-        const url : string = replaceCompanyNumber(ROOT_CERTIFIED_COPY, COMPANY_NUMBER) + START_BUTTON_PATH_SUFFIX;
+        const url: string = replaceCompanyNumber(ROOT_CERTIFIED_COPY, COMPANY_NUMBER) + START_BUTTON_PATH_SUFFIX;
 
         const resp = await chai.request(testApp)
             .get(url)
@@ -311,7 +311,7 @@ describe("certified-copy.home.controller.integration", () => {
             .resolves(dummyCompanyProfile);
         sandbox.stub(apiClient, "getBasket").resolves(getDummyBasket(true, BASKET_ITEM_LIMIT + 1));
 
-        const url : string = replaceCompanyNumber(ROOT_CERTIFIED_COPY, COMPANY_NUMBER) + START_BUTTON_PATH_SUFFIX;
+        const url: string = replaceCompanyNumber(ROOT_CERTIFIED_COPY, COMPANY_NUMBER) + START_BUTTON_PATH_SUFFIX;
 
         const resp = await chai.request(testApp)
             .get(url)
@@ -324,19 +324,19 @@ describe("certified-copy.home.controller.integration", () => {
         verifyStartButtonEnabledStateIs(resp.text, false);
     });
 
-const verifyStartButtonEnabledStateIs = (responseText: string, isEnabled: boolean) => {
-    const page = cheerio.load(responseText)
-    const startNowButton = page(".govuk-button--start");
-    chai.expect(startNowButton).to.exist;
-    chai.expect(startNowButton.text()).to.contain("Start now");
+    const verifyStartButtonEnabledStateIs = (responseText: string, isEnabled: boolean) => {
+        const page = cheerio.load(responseText);
+        const startNowButton = page(".govuk-button--start");
+        chai.expect(startNowButton).to.exist;
+        chai.expect(startNowButton.text()).to.contain("Start now");
 
-    // The presence/absence of the href attribute (content) is what really determines whether the button (link)
-    // is enabled or not.
-    if (isEnabled) {
-        chai.expect(startNowButton!.attr("href")).to.exist;
-    } else {
-        chai.expect(startNowButton!.attr("href")).to.not.exist;
-    }
-}
+        // The presence/absence of the href attribute (content) is what really determines whether the button (link)
+        // is enabled or not.
+        if (isEnabled) {
+            chai.expect(startNowButton!.attr("href")).to.exist;
+        } else {
+            chai.expect(startNowButton!.attr("href")).to.not.exist;
+        }
+    };
 
 });

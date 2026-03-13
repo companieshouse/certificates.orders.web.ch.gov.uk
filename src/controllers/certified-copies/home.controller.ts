@@ -24,7 +24,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const startNowPath = `${replaceCompanyNumber(ROOT_CERTIFIED_COPY, companyNumber)}${START_BUTTON_PATH_SUFFIX}`;
         let startNowUrl = `${CHS_URL}${startNowPath}`;
         const companyProfile: CompanyProfile = await getCompanyProfile(API_KEY, companyNumber);
-        const companyName : string = companyProfile.companyName;
+        const companyName: string = companyProfile.companyName;
         const companyType = companyProfile.type;
         const filingHistory = companyProfile.links.filingHistory;
         const SERVICE_URL = `/company/${companyNumber}/orderable/certified-copies`;
@@ -38,7 +38,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const standard_incorp_fee = STANDARD_INCORP_FEE;
         const express_incorp_fee = EXPRESS_INCORP_FEE;
 
-        if (req.url == startNowPath) {
+        if (req.url === startNowPath) {
             logger.debug(`Start now button clicked, req.url = ${req.url}`);
             if (displayBasketLimitError(req, res, basketLimit, companyNumber)) {
                 logger.debug(`Disable start now button.`);
@@ -53,20 +53,20 @@ export default async (req: Request, res: Response, next: NextFunction) => {
             res.render(YOU_CANNOT_USE_THIS_SERVICE, { serviceName });
         } else {
             res.render(CERTIFIED_COPY_INDEX,
-                {
-                    startNowUrl,
-                    companyNumber,
-                    SERVICE_URL,
-                    dispatchDays,
-                    standard_fee, 
-                    express_fee, 
-                    standard_incorp_fee, 
-                    express_incorp_fee,
-                    moreTabUrl,
-                    companyName,
-                    ...basketLink,
-                    ...basketLimit,
-                    ...pageHeader });
+                       {
+                           startNowUrl,
+                           companyNumber,
+                           SERVICE_URL,
+                           dispatchDays,
+                           standard_fee,
+                           express_fee,
+                           standard_incorp_fee,
+                           express_incorp_fee,
+                           moreTabUrl,
+                           companyName,
+                           ...basketLink,
+                           ...basketLimit,
+                           ...pageHeader });
         }
     } catch (err) {
         logger.error(`${err}`);
@@ -81,15 +81,15 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 const displayBasketLimitError = (req: Request,
                                  res: Response,
                                  basketLimit: BasketLimit,
-                                 companyNumber: string) : boolean => {
-    if (basketLimit.basketLimitState == BasketLimitState.BELOW_LIMIT) {
+                                 companyNumber: string): boolean => {
+    if (basketLimit.basketLimitState === BasketLimitState.BELOW_LIMIT) {
         const nextPage = `${CHS_URL}${replaceCompanyNumber(CERTIFIED_COPY_FILING_HISTORY, companyNumber)}`;
-        logger.debug(`Basket is not full, redirecting to  ${nextPage}.`)
-        res.redirect(getWhitelistedReturnToURL(nextPage))
+        logger.debug(`Basket is not full, redirecting to  ${nextPage}.`);
+        res.redirect(getWhitelistedReturnToURL(nextPage));
         return false;
     } else {
-        logger.debug(`Basket is full, display error.`)
+        logger.debug(`Basket is full, display error.`);
         basketLimit.basketLimitState = BasketLimitState.DISPLAY_LIMIT_ERROR; // styles button as disabled
-        return true
+        return true;
     }
-}
+};

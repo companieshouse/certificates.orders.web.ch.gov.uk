@@ -10,7 +10,7 @@ import { APPLICATION_NAME } from "../../../config/config";
 import CertificateSessionData from "../../../session/CertificateSessionData";
 import { RegisteredOfficeAddressOptionName } from "./RegisteredOfficeAddressOptionName";
 import { AddressRecordsType } from "../../../model/AddressRecordsType";
-import { renderRegisteredOfficeOptions, generateBackLink} from "../../../service/registered.office.options.service";
+import { renderRegisteredOfficeOptions, generateBackLink } from "../../../service/registered.office.options.service";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -73,36 +73,36 @@ export const setRegOfficeOption = (option: string): RegisteredOfficeAddressDetai
     };
 
     switch (option) {
-    case RegisteredOfficeAddressOptionName.CURRENT_ADDRESS: {
-        initialRegOfficeOption = {
-            includeAddressRecordsType: AddressRecordsType.CURRENT,
-            includeDates: false
-        };
-        break;
-    }
-    case RegisteredOfficeAddressOptionName.CURRENT_ADDRESS_AND_THE_ONE_PREVIOUS: {
-        initialRegOfficeOption = {
-            includeAddressRecordsType: AddressRecordsType.CURRENT_AND_PREVIOUS,
-            includeDates: false
-        };
-        break;
-    }
-    case RegisteredOfficeAddressOptionName.CURRENT_ADDRESS_AND_THE_TWO_PREVIOUS: {
-        initialRegOfficeOption = {
-            includeAddressRecordsType: AddressRecordsType.CURRENT_PREVIOUS_AND_PRIOR,
-            includeDates: false
-        };
-        break;
-    }
-    case RegisteredOfficeAddressOptionName.ALL_CURRENT_AND_PREVIOUS_ADDRESSES: {
-        initialRegOfficeOption = {
-            includeAddressRecordsType: AddressRecordsType.ALL,
-            includeDates: false
-        };
-        break;
-    }
-    default:
-        break;
+            case RegisteredOfficeAddressOptionName.CURRENT_ADDRESS: {
+                initialRegOfficeOption = {
+                    includeAddressRecordsType: AddressRecordsType.CURRENT,
+                    includeDates: false
+                };
+                break;
+            }
+            case RegisteredOfficeAddressOptionName.CURRENT_ADDRESS_AND_THE_ONE_PREVIOUS: {
+                initialRegOfficeOption = {
+                    includeAddressRecordsType: AddressRecordsType.CURRENT_AND_PREVIOUS,
+                    includeDates: false
+                };
+                break;
+            }
+            case RegisteredOfficeAddressOptionName.CURRENT_ADDRESS_AND_THE_TWO_PREVIOUS: {
+                initialRegOfficeOption = {
+                    includeAddressRecordsType: AddressRecordsType.CURRENT_PREVIOUS_AND_PRIOR,
+                    includeDates: false
+                };
+                break;
+            }
+            case RegisteredOfficeAddressOptionName.ALL_CURRENT_AND_PREVIOUS_ADDRESSES: {
+                initialRegOfficeOption = {
+                    includeAddressRecordsType: AddressRecordsType.ALL,
+                    includeDates: false
+                };
+                break;
+            }
+            default:
+                break;
     }
     return initialRegOfficeOption;
 };

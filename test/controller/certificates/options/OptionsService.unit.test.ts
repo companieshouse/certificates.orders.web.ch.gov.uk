@@ -10,18 +10,17 @@ import {
     CertificateItemPatchRequest
 } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { OtherCompanyOptionsMapper } from "../../../../src/controllers/certificates/options/OtherCompanyOptionsMapper";
-import { SinonStubbedInstance } from "sinon";
 import { OptionsPageRedirect } from "../../../../src/controllers/certificates/options/OptionsPageRedirect";
 import sessionHandler from "@companieshouse/node-session-handler"; // needed for side-effects
 
-const chai = require("chai");
-const sinon = require("sinon");
+import chai from "chai";
+import sinon from "sinon";
 const sandbox = sinon.createSandbox();
 
 describe("OptionsService", () => {
     let service: OptionsService;
-    let mapperHandled: SinonStubbedInstance<OtherCompanyOptionsMapper>;
-    let mapperUnhandled: SinonStubbedInstance<OtherCompanyOptionsMapper>;
+    let mapperHandled: sinon.SinonStubbedInstance<OtherCompanyOptionsMapper>;
+    let mapperUnhandled: sinon.SinonStubbedInstance<OtherCompanyOptionsMapper>;
 
     beforeEach(() => {
         mapperHandled = sandbox.createStubInstance(OtherCompanyOptionsMapper);

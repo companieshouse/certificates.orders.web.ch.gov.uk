@@ -1,11 +1,11 @@
 import { DeliveryDetails } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 import { DISPATCH_DAYS } from "../config/config";
-const escape = require("escape-html");
+import escape from "escape-html";
 
 const dispatchDays: string = DISPATCH_DAYS;
 
 export const mapDeliveryDetails = (deliveryDetails: DeliveryDetails | undefined): string => {
-    const mappings:string[] = [];
+    const mappings: string[] = [];
 
     if (deliveryDetails === undefined) {
         return "";

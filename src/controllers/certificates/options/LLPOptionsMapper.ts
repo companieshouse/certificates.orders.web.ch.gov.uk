@@ -63,32 +63,32 @@ export class LLPOptionsMapper extends AbstractOptionsMapper<LLPRedirectStateMach
 
     filterItemOptions (itemOptionsAccum: ItemOptionsRequest, option: string): ItemOptionsRequest {
         switch (option) {
-        case OptionSelection.STATEMENT_OF_GOOD_STANDING: {
-            itemOptionsAccum.includeGoodStandingInformation = true;
-            break;
-        }
-        case OptionSelection.REGISTERED_OFFICE_ADDRESS: {
-            itemOptionsAccum.registeredOfficeAddressDetails = { includeAddressRecordsType: "current" };
-            break;
-        }
-        case OptionSelection.DESIGNATED_MEMBERS: {
-            itemOptionsAccum.designatedMemberDetails = { includeBasicInformation: true };
-            break;
-        }
-        case OptionSelection.MEMBERS: {
-            itemOptionsAccum.memberDetails = { includeBasicInformation: true };
-            break;
-        }
-        case OptionSelection.LIQUIDATORS_DETAILS: {
-            itemOptionsAccum.liquidatorsDetails = { includeBasicInformation: true };
-            break;
-        }
-        case OptionSelection.ADMINISTRATORS_DETAILS: {
-            itemOptionsAccum.administratorsDetails = { includeBasicInformation: true };
-            break;
-        }
-        default:
-            break;
+                case OptionSelection.STATEMENT_OF_GOOD_STANDING: {
+                    itemOptionsAccum.includeGoodStandingInformation = true;
+                    break;
+                }
+                case OptionSelection.REGISTERED_OFFICE_ADDRESS: {
+                    itemOptionsAccum.registeredOfficeAddressDetails = { includeAddressRecordsType: "current" };
+                    break;
+                }
+                case OptionSelection.DESIGNATED_MEMBERS: {
+                    itemOptionsAccum.designatedMemberDetails = { includeBasicInformation: true };
+                    break;
+                }
+                case OptionSelection.MEMBERS: {
+                    itemOptionsAccum.memberDetails = { includeBasicInformation: true };
+                    break;
+                }
+                case OptionSelection.LIQUIDATORS_DETAILS: {
+                    itemOptionsAccum.liquidatorsDetails = { includeBasicInformation: true };
+                    break;
+                }
+                case OptionSelection.ADMINISTRATORS_DETAILS: {
+                    itemOptionsAccum.administratorsDetails = { includeBasicInformation: true };
+                    break;
+                }
+                default:
+                    break;
         }
         return itemOptionsAccum;
     }

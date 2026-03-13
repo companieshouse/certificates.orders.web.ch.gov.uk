@@ -8,8 +8,8 @@ import {
     START_BUTTON_PATH_SUFFIX
 } from "../../../src/model/page.urls";
 import CompanyProfileService from "@companieshouse/api-sdk-node/dist/services/company-profile/service";
-import { getAppWithMockedCsrf } from '../../__mocks__/csrf.mocks';
-import cheerio from "cheerio";
+import { getAppWithMockedCsrf } from "../../__mocks__/csrf.mocks";
+import * as cheerio from "cheerio";
 import { BASKET_ITEM_LIMIT } from "../../../src/config/config";
 import { getDummyBasket } from "../../utils/basket.utils.test";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
@@ -70,7 +70,7 @@ describe("llp-certificates.home.controller.integration (configurable banner)", (
                 _oldConfigurableBannerTitle = process.env.CONFIGURABLE_BANNER_TITLE;
                 _oldConfigurableBannerText = process.env.CONFIGURABLE_BANNER_TEXT;
 
-                if (typeof scenario.env.CONFIGURABLE_BANNER_ENABLED === 'undefined') {
+                if (typeof scenario.env.CONFIGURABLE_BANNER_ENABLED === "undefined") {
                     delete process.env.CONFIGURABLE_BANNER_ENABLED;
                 } else {
                     process.env.CONFIGURABLE_BANNER_ENABLED = scenario.env.CONFIGURABLE_BANNER_ENABLED as string;
@@ -138,7 +138,7 @@ describe("llp-certificates.home.controller.integration (configurable banner)", (
             chai.expect(resp.text).to.contain(`Your basket is full. To add more to your order, you&#39;ll need to remove some items first.`);
             const $ = cheerio.load(resp.text);
             const startNow = $(".govuk-button--start");
-            chai.expect(startNow.attr('href')).to.not.exist;
+            chai.expect(startNow.attr("href")).to.not.exist;
         } finally {
             process.env.CONFIGURABLE_BANNER_ENABLED = oldEnabled;
             process.env.CONFIGURABLE_BANNER_TITLE = oldTitle;

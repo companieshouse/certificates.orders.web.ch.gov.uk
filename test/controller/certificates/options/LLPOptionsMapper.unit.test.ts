@@ -8,7 +8,7 @@ import { OptionsPageRedirect } from "../../../../src/controllers/certificates/op
 import { OptionSelection } from "../../../../src/controllers/certificates/options/OptionSelection";
 import { CompanyStatus } from "../../../../src/controllers/certificates/model/CompanyStatus"; // needed for side-effects
 
-const chai = require("chai");
+import chai from "chai";
 
 describe("LLPOptionMapper", () => {
     const mapper = new LLPOptionsMapper();

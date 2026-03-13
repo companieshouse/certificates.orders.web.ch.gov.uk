@@ -1,7 +1,7 @@
 import chai from "chai";
 import sinon from "sinon";
 import ioredis from "ioredis";
-import cheerio from "cheerio";
+import * as cheerio from "cheerio";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import * as apiClient from "../../../src/client/api.client";
@@ -14,7 +14,7 @@ import { setBackLink } from "../../../src/controllers/certificates/email.options
 import { dataEmpty } from "../../__mocks__/session.mocks";
 import { mockDissolvedCertificateItem, mockDeliveryDetails as deliveryDetails } from "../../__mocks__/certificates.mocks";
 import { DeliveryDetails } from "@companieshouse/api-sdk-node/dist/services/order/basket";
-import { getAppWithMockedCsrf } from '../../__mocks__/csrf.mocks';
+import { getAppWithMockedCsrf } from "../../__mocks__/csrf.mocks";
 
 const CERTIFICATE_ID = "CRT-000000-000000";
 const EMAIL_OPTION_NOT_SELECTED = "Select ‘yes’ if you would like an email copy of the certificate";

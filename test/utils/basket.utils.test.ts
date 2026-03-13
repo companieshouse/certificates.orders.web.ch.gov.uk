@@ -3,7 +3,7 @@ import chai from "chai";
 import sinon from "sinon";
 import { Request } from "express";
 import * as apiClient from "../../src/client/api.client";
-import { getBasketLimit, getBasketLink } from "../../src/utils/basket.utils"
+import { getBasketLimit, getBasketLink } from "../../src/utils/basket.utils";
 import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket";
 import { signedInSessionData, signedOutSessionData } from "../__mocks__/redis.mocks";
 const sandbox = sinon.createSandbox();
@@ -117,7 +117,7 @@ describe("getBasketLimit", () => {
     });
 
     it("should report items as below limit (and report configured limit) where no basket link is to be shown", () => {
-        chai.expect(getBasketLimit({showBasketLink: false})).to.deep.equal(
+        chai.expect(getBasketLimit({ showBasketLink: false })).to.deep.equal(
             { basketLimit: BASKET_ITEM_LIMIT, basketLimitState: BasketLimitState.BELOW_LIMIT }
         );
     });

@@ -78,24 +78,24 @@ export const setDesignatedMemberOption = (options: string[]): DesignatedMemberDe
     return options === undefined ? initialDesignatedMemberOptions
         : options.reduce((designMemberOptionAccum: DesignatedMemberDetailsRequest, option: string) => {
             switch (option) {
-            case DesignatedMemberOptionName.INCLUDE_ADDRESS: {
-                designMemberOptionAccum.includeAddress = true;
-                break;
-            }
-            case DesignatedMemberOptionName.INCLUDE_APPOINTMENT_DATE: {
-                designMemberOptionAccum.includeAppointmentDate = true;
-                break;
-            }
-            case DesignatedMemberOptionName.INCLUDE_COUNTRY_OF_RESIDENCE: {
-                designMemberOptionAccum.includeCountryOfResidence = true;
-                break;
-            }
-            case DesignatedMemberOptionName.INCLUDE_DOB_TYPE: {
-                designMemberOptionAccum.includeDobType = "partial";
-                break;
-            }
-            default:
-                break;
+                    case DesignatedMemberOptionName.INCLUDE_ADDRESS: {
+                        designMemberOptionAccum.includeAddress = true;
+                        break;
+                    }
+                    case DesignatedMemberOptionName.INCLUDE_APPOINTMENT_DATE: {
+                        designMemberOptionAccum.includeAppointmentDate = true;
+                        break;
+                    }
+                    case DesignatedMemberOptionName.INCLUDE_COUNTRY_OF_RESIDENCE: {
+                        designMemberOptionAccum.includeCountryOfResidence = true;
+                        break;
+                    }
+                    case DesignatedMemberOptionName.INCLUDE_DOB_TYPE: {
+                        designMemberOptionAccum.includeDobType = "partial";
+                        break;
+                    }
+                    default:
+                        break;
             }
             return designMemberOptionAccum;
         }, initialDesignatedMemberOptions);

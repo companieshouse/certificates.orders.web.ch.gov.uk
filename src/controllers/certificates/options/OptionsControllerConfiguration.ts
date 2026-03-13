@@ -7,10 +7,10 @@ import { LPOptionsMapper } from "./LPOptionsMapper";
 import { OtherCompanyOptionsMapper } from "./OtherCompanyOptionsMapper";
 
 export class OptionsControllerConfiguration {
-    private static INSTANCE: OptionsController;
+    private static INSTANCE: OptionsController | null = null;
 
     public static optionsControllerInstance () {
-        if (OptionsControllerConfiguration.INSTANCE == null) {
+        if (OptionsControllerConfiguration.INSTANCE === null) {
             OptionsControllerConfiguration.INSTANCE = new OptionsController(
                 new OptionsService(new Map<string, AbstractOptionsMapper<any>>([
                     [CompanyType.LIMITED_LIABILITY_PARTNERSHIP, new LLPOptionsMapper()],

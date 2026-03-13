@@ -26,7 +26,7 @@ import { mapPageHeader } from "../../utils/page.header.utils";
 import { BasketLimit, BasketLimitState } from "../../model/BasketLimit";
 import { getWhitelistedReturnToURL } from "../../utils/request.util";
 
-type LandingPage = { landingPage: string, startNowUrl: string, nextPageUrl: string, serviceUrl: string }
+type LandingPage = { landingPage: string, startNowUrl: string, nextPageUrl: string, serviceUrl: string };
 type CompanyDetail = { companyNumber: string, type: string };
 
 const logger = createLogger(APPLICATION_NAME);
@@ -231,12 +231,12 @@ export default async (req: Request, res: Response, next: NextFunction) => {
  * @return whether this has redirected to the next page (<code>true</code>), or not (<code>false</code>)
  */
 const redirectToNextPage = (req: Request,
-                                 res: Response,
-                                 basketLimit: BasketLimit,
-                                 landingPage: LandingPage) : boolean => {
+                            res: Response,
+                            basketLimit: BasketLimit,
+                            landingPage: LandingPage): boolean => {
     if (req.url.endsWith(START_BUTTON_PATH_SUFFIX)) {
         logger.debug(`Start now button clicked, req.url = ${req.url}`);
-        if (basketLimit.basketLimitState == BasketLimitState.BELOW_LIMIT) {
+        if (basketLimit.basketLimitState === BasketLimitState.BELOW_LIMIT) {
             logger.debug(`Basket is not full, redirecting to  ${landingPage.nextPageUrl}.`);
             res.redirect(getWhitelistedReturnToURL(landingPage.nextPageUrl));
             return true;
@@ -248,4 +248,4 @@ const redirectToNextPage = (req: Request,
         }
     }
     return false;
-}
+};

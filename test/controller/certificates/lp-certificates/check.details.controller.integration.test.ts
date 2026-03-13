@@ -1,6 +1,6 @@
 import sinon from "sinon";
 import ioredis from "ioredis";
-import cheerio from "cheerio";
+import * as cheerio from "cheerio";
 import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
 import { Item as BasketItem } from "@companieshouse/api-sdk-node/dist/services/order/order/types";
@@ -12,9 +12,9 @@ import {
     replaceCertificateId
 } from "../../../../src/model/page.urls";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../../__mocks__/redis.mocks";
-import { getAppWithMockedCsrf } from '../../../__mocks__/csrf.mocks';
+import { getAppWithMockedCsrf } from "../../../__mocks__/csrf.mocks";
 import { mockBasketDetails, mockDissolvedCertificateItem } from "../../../__mocks__/certificates.mocks";
-const chai = require("chai");
+import chai from "chai";
 
 const CERTIFICATE_ID = "CHS00000000000000001";
 const ITEM_URI = "/orderable/llp-certificates/CHS00000000000000052";

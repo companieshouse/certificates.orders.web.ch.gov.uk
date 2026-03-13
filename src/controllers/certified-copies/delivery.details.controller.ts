@@ -12,8 +12,6 @@ import { CertifiedCopyItem } from "@companieshouse/api-sdk-node/dist/services/or
 import { DeliveryDetailsPropertyName } from "../certificates/model/DeliveryDetailsPropertyName";
 import { mapPageHeader } from "../../utils/page.header.utils";
 
-const escape = require("escape-html");
-
 const PAGE_TITLE: string = "Delivery details - Order a certified document - GOV.UK";
 
 const logger = createLogger(APPLICATION_NAME);
@@ -24,9 +22,9 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         const accessToken: string = getAccessToken(req.session);
         const basket: Basket = await getBasket(accessToken);
         logger.info(`Get basket, user_id=${userId}`);
-        const certifiedCopyItemId:string = req.params.certifiedCopyId;
-        const certifiedCopyItem:CertifiedCopyItem = await getCertifiedCopyItem(accessToken, certifiedCopyItemId);
-        const companyNumber:string = certifiedCopyItem.companyNumber;
+        const certifiedCopyItemId: string = req.params.certifiedCopyId;
+        const certifiedCopyItem: CertifiedCopyItem = await getCertifiedCopyItem(accessToken, certifiedCopyItemId);
+        const companyNumber: string = certifiedCopyItem.companyNumber;
         const backLink: string = `/orderable/certified-copies/${certifiedCopyItemId}/delivery-options`;
         const SERVICE_URL = `/company/${companyNumber}/orderable/certified-copies`;
         const pageHeader = mapPageHeader(req);

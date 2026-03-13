@@ -5,7 +5,7 @@ import { UserProfileKeys } from "@companieshouse/node-session-handler/lib/sessio
 export const getAccessToken = (session): string => {
     const signInInfo = session?.data[SessionKey.SignInInfo];
 
-    const accessToken = signInInfo?.[SignInInfoKeys.AccessToken]?.[SignInInfoKeys.AccessToken]!;
+    const accessToken = signInInfo?.[SignInInfoKeys.AccessToken]?.[SignInInfoKeys.AccessToken] ?? "";
 
     return accessToken;
 };
@@ -13,7 +13,7 @@ export const getAccessToken = (session): string => {
 export const getUserId = (session): string => {
     const signInInfo = session?.data[SessionKey.SignInInfo];
 
-    const userId = signInInfo?.[SignInInfoKeys.UserProfile]?.[UserProfileKeys.UserId];
+    const userId = signInInfo?.[SignInInfoKeys.UserProfile]?.[UserProfileKeys.UserId] ?? "";
 
     return userId;
 };

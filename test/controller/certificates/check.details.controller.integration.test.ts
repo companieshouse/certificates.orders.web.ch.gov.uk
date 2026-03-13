@@ -1,6 +1,6 @@
 import sinon from "sinon";
 import ioredis from "ioredis";
-import cheerio from "cheerio";
+import * as cheerio from "cheerio";
 import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket/types";
 import { Item as BasketItem } from "@companieshouse/api-sdk-node/dist/services/order/order/types";
 import { CertificateItem } from "@companieshouse/api-sdk-node/dist/services/order/certificates/types";
@@ -13,8 +13,8 @@ import {
 } from "../../../src/model/page.urls";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
 import { mockBasketDetails, mockDissolvedCertificateItem } from "../../__mocks__/certificates.mocks";
-import { getAppWithMockedCsrf } from '../../__mocks__/csrf.mocks';
-const chai = require("chai");
+import { getAppWithMockedCsrf } from "../../__mocks__/csrf.mocks";
+import chai from "chai";
 
 const CERTIFICATE_ID = "CHS00000000000000001";
 const ITEM_URI = "/orderable/certificates/CHS00000000000000052";

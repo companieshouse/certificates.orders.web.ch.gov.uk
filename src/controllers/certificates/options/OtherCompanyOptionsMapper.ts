@@ -58,36 +58,36 @@ export class OtherCompanyOptionsMapper extends AbstractOptionsMapper<OtherCompan
 
     filterItemOptions (itemOptionsAccum: ItemOptionsRequest, option: string): ItemOptionsRequest {
         switch (option) {
-        case OptionSelection.STATEMENT_OF_GOOD_STANDING: {
-            itemOptionsAccum.includeGoodStandingInformation = true;
-            break;
-        }
-        case OptionSelection.REGISTERED_OFFICE_ADDRESS: {
-            itemOptionsAccum.registeredOfficeAddressDetails = { includeAddressRecordsType: "current" };
-            break;
-        }
-        case OptionSelection.DIRECTORS: {
-            itemOptionsAccum.directorDetails = { includeBasicInformation: true };
-            break;
-        }
-        case OptionSelection.SECRETARIES: {
-            itemOptionsAccum.secretaryDetails = { includeBasicInformation: true };
-            break;
-        }
-        case OptionSelection.COMPANY_OBJECTS: {
-            itemOptionsAccum.includeCompanyObjectsInformation = true;
-            break;
-        }
-        case OptionSelection.LIQUIDATORS_DETAILS: {
-            itemOptionsAccum.liquidatorsDetails = { includeBasicInformation: true };
-            break;
-        }
-        case OptionSelection.ADMINISTRATORS_DETAILS: {
-            itemOptionsAccum.administratorsDetails = { includeBasicInformation: true };
-            break;
-        }
-        default:
-            break;
+                case OptionSelection.STATEMENT_OF_GOOD_STANDING: {
+                    itemOptionsAccum.includeGoodStandingInformation = true;
+                    break;
+                }
+                case OptionSelection.REGISTERED_OFFICE_ADDRESS: {
+                    itemOptionsAccum.registeredOfficeAddressDetails = { includeAddressRecordsType: "current" };
+                    break;
+                }
+                case OptionSelection.DIRECTORS: {
+                    itemOptionsAccum.directorDetails = { includeBasicInformation: true };
+                    break;
+                }
+                case OptionSelection.SECRETARIES: {
+                    itemOptionsAccum.secretaryDetails = { includeBasicInformation: true };
+                    break;
+                }
+                case OptionSelection.COMPANY_OBJECTS: {
+                    itemOptionsAccum.includeCompanyObjectsInformation = true;
+                    break;
+                }
+                case OptionSelection.LIQUIDATORS_DETAILS: {
+                    itemOptionsAccum.liquidatorsDetails = { includeBasicInformation: true };
+                    break;
+                }
+                case OptionSelection.ADMINISTRATORS_DETAILS: {
+                    itemOptionsAccum.administratorsDetails = { includeBasicInformation: true };
+                    break;
+                }
+                default:
+                    break;
         }
         return itemOptionsAccum;
     }

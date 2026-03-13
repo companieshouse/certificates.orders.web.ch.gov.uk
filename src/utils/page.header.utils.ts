@@ -34,4 +34,4 @@ export const mapPageHeader = (req: Request): PageHeader => {
         isSignedIn: isSignedIn,
         serviceName: serviceName
     };
-}
+};

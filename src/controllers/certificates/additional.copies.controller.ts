@@ -28,17 +28,24 @@ export const render = async (req: Request, res: Response, next: NextFunction): P
         logger.info(`Render additional copies options page`);
         const accessToken: string = getAccessToken(req.session);
         const certificateItem: CertificateItem = await getCertificateItem(accessToken, req.params.certificateId);
-        const backLink = setBackLink(certificateItem, req.session)
+        const backLink = setBackLink(certificateItem, req.session);
 
         const basket = await getBasket(accessToken);
-        const inBasket: boolean = basket.items?.find(item => item.id == certificateItem.id) != undefined;
-        const certSelection = inBasket ? getSelectionFromCertificate(certificateItem): 0
+        const inBasket: boolean = basket.items?.find(item => item.id === certificateItem.id) !== undefined;
+        const certSelection = inBasket ? getSelectionFromCertificate(certificateItem) : 0;
 
         await renderPage(req, res, ADDITIONAL_COPIES, PAGE_TITLE, certificateItem, backLink, certSelection);
     } catch (err) {
         logger.error(`${err}`);
         next(err);
     }
+};
+
+export const getSelectionFromCertificate = (certificateItem: CertificateItem): number => {
+    if (certificateItem.quantity === undefined || certificateItem.quantity < 1) {
+        return 0;
+    }
+    return certificateItem.quantity > 1 ? 1 : 2;
 };
 
 const route = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -62,54 +69,45 @@ const route = async (req: Request, res: Response, next: NextFunction): Promise<v
                 errorList: [additionalCopiesErrorData],
                 radioButtonSelection: additionalCopies
             });
+        } else if (additionalCopies === "true") {
+            req.session?.setExtraData("certificates-orders-web-ch-gov-uk", {
+                includesAdditionalCopies: additionalCopies
+            } as CertificateSessionData);
+            logger.info(`User selected 'Yes' to additional copies, redirecting to Additional Copies Quantity page`);
+            return res.redirect(ADDITIONAL_COPIES_QUANTITY);
         } else {
-            if (additionalCopies === 'true') {
-                req.session?.setExtraData("certificates-orders-web-ch-gov-uk", {
-                    includesAdditionalCopies: additionalCopies
-                } as CertificateSessionData);
-                logger.info(`User selected 'Yes' to additional copies, redirecting to Additional Copies Quantity page`);
-                return res.redirect(ADDITIONAL_COPIES_QUANTITY);
-            } else {
-                logger.info(`User selected 'No' to additional copies, updating basket and redirecting to Delivery Details page`);
-                if (certificateItem.quantity > 1){
-                    // If user previously selected additional copies and now chooses no, reset quantity back to 1.
-                    const baseQuantity = 1;
-                    const certificateItemPatchRequest: CertificateItemPatchRequest = {
-                        quantity : baseQuantity
+            logger.info(`User selected 'No' to additional copies, updating basket and redirecting to Delivery Details page`);
+            if (certificateItem.quantity > 1){
+                // If user previously selected additional copies and now chooses no, reset quantity back to 1.
+                const baseQuantity = 1;
+                const certificateItemPatchRequest: CertificateItemPatchRequest = {
+                    quantity: baseQuantity
                 };
                 certificateItem = await patchCertificateItem(accessToken, req.params.certificateId, certificateItemPatchRequest);
                 logger.info(`Total quantity has been reset back to: ${certificateItem.quantity} ` );
             }
-                const basket = await getBasket(accessToken);
-                if (basket.enrolled) {
-                    await appendItemToBasket(accessToken, { itemUri: certificateItem.links.self });
-                    return redirectCallback.redirectEnrolled({
-                        response: res,
-                        items: basket.items,
-                        deliveryDetails: basket.deliveryDetails
-                    });
-                }
-                return res.redirect(DELIVERY_DETAILS);
+            const basket = await getBasket(accessToken);
+            if (basket.enrolled) {
+                await appendItemToBasket(accessToken, { itemUri: certificateItem.links.self });
+                return redirectCallback.redirectEnrolled({
+                    response: res,
+                    items: basket.items,
+                    deliveryDetails: basket.deliveryDetails
+                });
             }
+            return res.redirect(DELIVERY_DETAILS);
         }
-        } catch (err) {
+    } catch (err) {
         logger.error(`${err}`);
         next(err);
     }
 };
 
-export const setBackLink = (certificateItem: CertificateItem, session: Session | undefined):string => {
+export const setBackLink = (certificateItem: CertificateItem, session: Session | undefined): string => {
     if (certificateItem.itemOptions?.deliveryTimescale === "same-day") {
         return EMAIL_OPTIONS;
     }
     return DELIVERY_OPTIONS;
 };
-
-export const getSelectionFromCertificate = (certificateItem: CertificateItem): number => {
-    if (certificateItem.quantity == undefined || certificateItem.quantity < 1) {
-        return 0;
-    }
-    return certificateItem.quantity > 1? 1: 2;
-}
 
 export default [...validators, route];

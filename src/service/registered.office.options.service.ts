@@ -18,15 +18,15 @@ export const renderRegisteredOfficeOptions = async (req: Request, res: Response,
     const isFullPage = req.query.layout === "full";
     const pageHeader = mapPageHeader(req);
 
-    let SERVICE_URL = "";
+    let SERVICE_URL: string;
     if (isLLPCertificate) {
         SERVICE_URL = `/company/${certificateItem.companyNumber}/orderable/llp-certificates`;
     } else {
-        SERVICE_URL = `/company/${certificateItem.companyNumber}/orderable/certificates`
+        SERVICE_URL = `/company/${certificateItem.companyNumber}/orderable/certificates`;
     }
     logger.info(`Certificate item retrieved, id=${certificateItem.id}, user_id=${userId}, company_number=${certificateItem.companyNumber}`);
 
-        return res.render(route, {
+    return res.render(route, {
         companyNumber: certificateItem.companyNumber,
         SERVICE_URL,
         optionFilter: optionFilter,

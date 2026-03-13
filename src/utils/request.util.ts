@@ -42,7 +42,7 @@ export const getWhitelistedReturnToURL = (returnToUrl: string) => {
     let value: string | null;
     for (const expression of REDIRECTS_WHITELIST) {
         value = extractValueIfPresentFromRequestField(returnToUrl, expression);
-        if (value) return value;
+        if (value) {return value;}
     }
     const error = `Return to URL ${returnToUrl} not found in trusted URLs whitelist ${REDIRECTS_WHITELIST}.`;
     logger.error(error);

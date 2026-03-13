@@ -43,7 +43,7 @@ export const renderNonBasketJourneyDeliveryDetails = async (req: Request, res: R
     }
 };
 
-export const setBackLink = (certificateItem: CertificateItem):string => {
+export const setBackLink = (certificateItem: CertificateItem): string => {
     if (certificateItem.itemOptions?.deliveryTimescale === "same-day") {
         return ADDITIONAL_COPIES;
     }

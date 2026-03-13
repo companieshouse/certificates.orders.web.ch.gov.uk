@@ -370,7 +370,7 @@ describe("api.client", () => {
             sandbox.stub(CertificateItemService.prototype, "patchCertificate")
                 .returns(Promise.resolve(result));
             chai.expect(patchCertificateItem("oauth", "CRT-123123-123123",
-                { itemOptions: { includeGoodStandingInformation: true } })).to.be.rejectedWith("401");
+                                             { itemOptions: { includeGoodStandingInformation: true } })).to.be.rejectedWith("401");
         });
         it("patches a certificate item", async () => {
             const result: ApiResult<ApiResponse<CertificateItem>> = success({
@@ -380,7 +380,7 @@ describe("api.client", () => {
             sandbox.stub(CertificateItemService.prototype, "patchCertificate")
                 .returns(Promise.resolve(result));
             const certificateItem = await patchCertificateItem("oauth", "CRT-123123-123123",
-                { itemOptions: { includeGoodStandingInformation: true } });
+                                                               { itemOptions: { includeGoodStandingInformation: true } });
             chai.expect(certificateItem).to.equal(dummyCertificateItemSDKResponse.resource);
         });
     });
@@ -396,7 +396,7 @@ describe("api.client", () => {
             sandbox.stub(CertifiedCopyItemService.prototype, "patchCertifiedCopy")
                 .returns(Promise.resolve(result));
             chai.expect(patchCertifiedCopyItem("oauth", "CRT-123123-123123",
-                { itemOptions: { collectionLocation: "Location" } })).to.be.rejectedWith("401");
+                                               { itemOptions: { collectionLocation: "Location" } })).to.be.rejectedWith("401");
         });
         it("patches a certified copy item", async () => {
             const result: ApiResult<ApiResponse<CertifiedCopyItem>> = success({
@@ -406,7 +406,7 @@ describe("api.client", () => {
             sandbox.stub(CertifiedCopyItemService.prototype, "patchCertifiedCopy")
                 .returns(Promise.resolve(result));
             const certifiedCopyItem = await patchCertifiedCopyItem("oauth", "CRT-123123-123123",
-                { itemOptions: { collectionLocation: "Location" } });
+                                                                   { itemOptions: { collectionLocation: "Location" } });
             chai.expect(certifiedCopyItem).to.equal(dummyCertifiedCopyItemSDKResponse.resource);
         });
     });
@@ -565,7 +565,7 @@ describe("api.client", () => {
             sandbox.stub(CertifiedCopyItemService.prototype, "patchCertifiedCopy")
                 .returns(Promise.resolve(result));
             const certifiedCopyItem = await patchCertifiedCopyItem("oauth", "CCD-123456-123456",
-                { itemOptions: { deliveryTimescale: "standard" } });
+                                                                   { itemOptions: { deliveryTimescale: "standard" } });
             chai.expect(certifiedCopyItem).to.equal(dummyCertifiedCopyItemSDKResponse.resource);
         }),
         it("Fails to patch a certified copy item", async () => {
@@ -578,7 +578,7 @@ describe("api.client", () => {
             sandbox.stub(CertifiedCopyItemService.prototype, "patchCertifiedCopy")
                 .returns(Promise.resolve(result));
             chai.expect(patchCertifiedCopyItem("oauth", "CCD-123456-123456",
-                { itemOptions: { deliveryTimescale: "standard" } })).to.be.rejectedWith("401");
+                                               { itemOptions: { deliveryTimescale: "standard" } })).to.be.rejectedWith("401");
         })
     ]);
 });

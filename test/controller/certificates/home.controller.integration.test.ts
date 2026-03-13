@@ -1,7 +1,7 @@
 import chai from "chai";
 import sinon from "sinon";
 import ioredis from "ioredis";
-import proxyquire from 'proxyquire';
+import proxyquire from "proxyquire";
 
 import {
     replaceCompanyNumber,
@@ -18,9 +18,9 @@ import {
     mockAcceptableDissolvedCompanyProfile,
     mockCompanyProfileConfiguration
 } from "../../__mocks__/certificates.mocks";
-import { getAppWithMockedCsrf } from '../../__mocks__/csrf.mocks';
+import { getAppWithMockedCsrf } from "../../__mocks__/csrf.mocks";
 import { FEATURE_FLAGS } from "../../../src/config/FeatureFlags";
-import cheerio from "cheerio";
+import * as cheerio from "cheerio";
 import { BASKET_ITEM_LIMIT } from "../../../src/config/config";
 import { getDummyBasket } from "../../utils/basket.utils.test";
 import { SIGNED_IN_COOKIE, signedInSession } from "../../__mocks__/redis.mocks";
@@ -41,7 +41,7 @@ describe("certificate.home.controller.integration", () => {
         sandbox.stub(ioredis.prototype, "connect").resolves();
         sandbox.stub(ioredis.prototype, "get").resolves(signedInSession);
 
-        testApp = getAppWithMockedCsrf(sandbox)
+        testApp = getAppWithMockedCsrf(sandbox);
         done ();
     });
 
@@ -394,9 +394,9 @@ describe("certificate.home.controller.integration", () => {
                 });
 
                 beforeEach(() => {
-                     // recreate the app after environment mutation so configuration that reads env vars during startup picks up the changes
-                     testApp = getAppWithMockedCsrf(sandbox);
-                 });
+                    // recreate the app after environment mutation so configuration that reads env vars during startup picks up the changes
+                    testApp = getAppWithMockedCsrf(sandbox);
+                });
 
                 it(`banner shown = ${scenario.expectBannerShown}`, async () => {
                     getCompanyProfileStub = sandbox.stub(CompanyProfileService.prototype, "getCompanyProfile")
@@ -432,7 +432,7 @@ describe("certificate.home.controller.integration", () => {
             .resolves(mockAcceptableDissolvedCompanyProfile);
         sandbox.stub(apiClient, "getBasket").resolves(getDummyBasket(true, BASKET_ITEM_LIMIT));
 
-        const url : string = replaceCompanyNumber(ROOT_DISSOLVED_CERTIFICATE, COMPANY_NUMBER) + START_BUTTON_PATH_SUFFIX;
+        const url: string = replaceCompanyNumber(ROOT_DISSOLVED_CERTIFICATE, COMPANY_NUMBER) + START_BUTTON_PATH_SUFFIX;
 
         const resp = await chai.request(testApp)
             .get(url)
@@ -450,7 +450,7 @@ describe("certificate.home.controller.integration", () => {
             .resolves(mockAcceptableDissolvedCompanyProfile);
         sandbox.stub(apiClient, "getBasket").resolves(getDummyBasket(true, BASKET_ITEM_LIMIT + 1));
 
-        const url : string = replaceCompanyNumber(ROOT_DISSOLVED_CERTIFICATE, COMPANY_NUMBER) + START_BUTTON_PATH_SUFFIX;
+        const url: string = replaceCompanyNumber(ROOT_DISSOLVED_CERTIFICATE, COMPANY_NUMBER) + START_BUTTON_PATH_SUFFIX;
 
         const resp = await chai.request(testApp)
             .get(url)
@@ -476,7 +476,7 @@ describe("certificate.home.controller.integration", () => {
             .resolves(mockAcceptableDissolvedCompanyProfile);
         sandbox.stub(apiClient, "getBasket").resolves(getDummyBasket(true, BASKET_ITEM_LIMIT));
 
-        const url : string = replaceCompanyNumber(ROOT_DISSOLVED_CERTIFICATE, COMPANY_NUMBER) + START_BUTTON_PATH_SUFFIX;
+        const url: string = replaceCompanyNumber(ROOT_DISSOLVED_CERTIFICATE, COMPANY_NUMBER) + START_BUTTON_PATH_SUFFIX;
 
         const resp = await chai.request(testApp)
             .get(url)
@@ -509,7 +509,7 @@ describe("certificate.home.controller.integration", () => {
         sandbox.stub(apiClient, "postInitialCertificateItem").resolves(itemCreatedResponse);
         sandbox.stub(apiClient, "getCertificateItem").resolves(certificateDetails);
 
-        const url : string = replaceCompanyNumber(ROOT_DISSOLVED_CERTIFICATE, COMPANY_NUMBER) + START_BUTTON_PATH_SUFFIX;
+        const url: string = replaceCompanyNumber(ROOT_DISSOLVED_CERTIFICATE, COMPANY_NUMBER) + START_BUTTON_PATH_SUFFIX;
 
         const resp = await chai.request(testApp)
             .get(url)
@@ -535,7 +535,7 @@ describe("certificate.home.controller.integration", () => {
     });
 
     const verifyStartButtonEnabledStateIs = (responseText: string, isEnabled: boolean) => {
-        const page = cheerio.load(responseText)
+        const page = cheerio.load(responseText);
         const startNowButton = page(".govuk-button--start");
         chai.expect(startNowButton).to.exist;
         chai.expect(startNowButton.text()).to.contain("Start now");
@@ -547,7 +547,7 @@ describe("certificate.home.controller.integration", () => {
         } else {
             chai.expect(startNowButton!.attr("href")).to.not.exist;
         }
-    }
+    };
 
     const verifyUserNavBarRenderedWithoutBasketLink = (responseText: string) => {
         chai.expect(responseText).to.not.contain(`Basket (`);
@@ -556,6 +556,6 @@ describe("certificate.home.controller.integration", () => {
         chai.expect(responseText).to.contain(`Your filings`);
         chai.expect(responseText).to.contain(`Companies you follow`);
         chai.expect(responseText).to.contain(`Sign out`);
-    }
+    };
 
 });
