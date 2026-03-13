@@ -20,7 +20,7 @@ import { FEATURE_FLAGS } from "../config/FeatureFlags";
 
 const logger = createLogger(APPLICATION_NAME);
 
-type CompanyDetails = { companyNumber: string, companyType: string }
+type CompanyDetails = { companyNumber: string, companyType: string };
 
 const featureFlagsOnStrategy = ({ companyNumber, companyType }: CompanyDetails): string => {
     let returnToUrl: string;

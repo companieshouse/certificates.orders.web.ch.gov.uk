@@ -26,7 +26,7 @@ import { mapPageHeader } from "../../utils/page.header.utils";
 import { BasketLimit, BasketLimitState } from "../../model/BasketLimit";
 import { getWhitelistedReturnToURL } from "../../utils/request.util";
 
-type LandingPage = { landingPage: string, startNowUrl: string, nextPageUrl: string, serviceUrl: string }
+type LandingPage = { landingPage: string, startNowUrl: string, nextPageUrl: string, serviceUrl: string };
 type CompanyDetail = { companyNumber: string, type: string };
 
 const logger = createLogger(APPLICATION_NAME);

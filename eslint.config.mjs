@@ -41,7 +41,8 @@ const configArray = [
             "@typescript-eslint/no-unused-vars": "off",
             "no-underscore-dangle": "off",
 
-            semi: ["error", "always"],
+            semi: "off",
+            "@stylistic/ts/semi": ["error", "always"],
             "@stylistic/ts/type-annotation-spacing": "error",
             "arrow-spacing": "error",
 

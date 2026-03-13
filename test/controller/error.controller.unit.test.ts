@@ -5,7 +5,7 @@ import * as egg from "../../src/utils/page.header.utils";
 import { CHS_URL } from "../../src/config/config";
 import * as templatePaths from "../../src/model/template.paths";
 
-const errorHandlers = require("../../src/controllers/error.controller").default; // Import your handler
+import errorHandlers from "../../src/controllers/error.controller";
 // Extract csrfErrorHandler from the array of error handlers
 const csrfErrorHandler = errorHandlers[1];
 

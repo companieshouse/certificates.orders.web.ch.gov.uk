@@ -12,15 +12,15 @@ const INFO_ENDPOINT = "/info";
 const METRICS_ENDPOINT = "/metrics";
 
 const sandbox = sinon.createSandbox();
-let testApp: null = null;
+let testApp: any = null;
 
 describe("actuator.endpoints.integration", () => {
-    beforeEach((done) => {
+    beforeEach(async () => {
         sandbox.stub(ioredis.prototype, "connect").resolves();
         sandbox.stub(ioredis.prototype, "get").resolves(signedInSession);
 
-        testApp = require("../../../src/app").default;
-        done();
+        const mod = await import("../../../src/app");
+        testApp = mod.default;
     });
 
     afterEach(() => {
