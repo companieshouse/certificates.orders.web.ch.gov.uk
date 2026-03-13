@@ -18,7 +18,7 @@ export const renderRegisteredOfficeOptions = async (req: Request, res: Response,
     const isFullPage = req.query.layout === "full";
     const pageHeader = mapPageHeader(req);
 
-    let SERVICE_URL = "";
+    let SERVICE_URL: string;
     if (isLLPCertificate) {
         SERVICE_URL = `/company/${certificateItem.companyNumber}/orderable/llp-certificates`;
     } else {

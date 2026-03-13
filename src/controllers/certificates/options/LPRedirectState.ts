@@ -1,8 +1,7 @@
 import { RedirectState } from "./RedirectState";
 import { LPRedirectStateMachine } from "./LPRedirectStateMachine";
 
-export interface LPRedirectState extends RedirectState {
-}
+export type LPRedirectState = RedirectState;
 
 export class NoOptionsPresentState implements LPRedirectState {
     private stateMachine: LPRedirectStateMachine;
