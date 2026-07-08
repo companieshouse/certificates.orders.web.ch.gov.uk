@@ -92,7 +92,7 @@ export class CertificateTextMapper implements DefaultCompanyMappable, LLPCompany
         }
 
         if (directorOptions.includeCountryOfResidence) {
-            mappings.push("Country of residence");
+            mappings.push("Place of residence");
         }
 
         return this.mapToHtml(mappings);
@@ -150,7 +150,7 @@ export class CertificateTextMapper implements DefaultCompanyMappable, LLPCompany
         }
 
         if (memberOptions.includeCountryOfResidence) {
-            membersMappings.push("Country of residence");
+            membersMappings.push("Place of residence");
         }
 
         if (memberOptions.includeDobType === "partial" ||

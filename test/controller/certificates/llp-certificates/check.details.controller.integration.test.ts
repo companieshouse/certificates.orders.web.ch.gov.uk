@@ -308,7 +308,7 @@ describe("LLP certificate.check.details.controller.integration", () => {
             const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect($(".currentDesignatedMembersNames").text().trim()).to.equal("Including designated members':Correspondence addressAppointment dateCountry of residenceDate of birth (month and year)");
+            chai.expect($(".currentDesignatedMembersNames").text().trim()).to.equal("Including designated members':Correspondence addressAppointment datePlace of residenceDate of birth (month and year)");
         });
     });
 
@@ -346,7 +346,7 @@ describe("LLP certificate.check.details.controller.integration", () => {
             const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect($(".currentMembersNames").text().trim()).to.equal("Including members':Correspondence addressAppointment dateCountry of residenceDate of birth (month and year)");
+            chai.expect($(".currentMembersNames").text().trim()).to.equal("Including members':Correspondence addressAppointment datePlace of residenceDate of birth (month and year)");
         });
     });
 
