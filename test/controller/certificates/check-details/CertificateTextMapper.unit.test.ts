@@ -64,7 +64,7 @@ describe("CertificateTextMapper", () => {
             };
 
             chai.expect(textMapper.mapDirectorOptions(directorOptions))
-                .to.equal("Including directors&#39;:<br><br>Correspondence address<br>Date of birth (month and year)<br>Appointment date<br>Nationality<br>Country of residence<br>");
+                .to.equal("Including directors&#39;:<br><br>Correspondence address<br>Date of birth (month and year)<br>Appointment date<br>Nationality<br>Place of residence<br>");
         });
 
         it("maps correctly when only one additional option selected", () => {
@@ -150,7 +150,7 @@ describe("CertificateTextMapper", () => {
             };
 
             chai.expect(textMapper.mapMembersOptions("Header:", memberOptions))
-                .to.equal("Header:<br><br>Correspondence address<br>Appointment date<br>Country of residence<br>Date of birth (month and year)<br>");
+                .to.equal("Header:<br><br>Correspondence address<br>Appointment date<br>Place of residence<br>Date of birth (month and year)<br>");
         });
 
         it("maps correctly when only one additional option selected", () => {
@@ -160,7 +160,7 @@ describe("CertificateTextMapper", () => {
             };
 
             chai.expect(textMapper.mapMembersOptions("Header:", memberOptions))
-                .to.equal("Header:<br><br>Country of residence<br>");
+                .to.equal("Header:<br><br>Place of residence<br>");
         });
 
         it("maps correctly when only basic information present", () => {
