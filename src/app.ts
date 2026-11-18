@@ -25,6 +25,8 @@ import authCertifiedCopyStartNowMiddleware from "./middleware/certified-copies/a
 import authMissingImageDeliveryCreateMiddleware, {
     authMissingImageDeliveryCheckDetailsMiddleware
 } from "./middleware/missing-image-deliveries/auth.middleware";
+import { LocalesMiddleware } from "@companieshouse/ch-node-utils";
+import translationsMiddleware from "./middleware/translations.middleware";
 
 import {
     PIWIK_SITE_ID,
@@ -137,6 +139,11 @@ const PROTECTED_PATHS = [
 ];
 
 app.use(SessionMiddleware(cookieConfig, sessionStore));
+
+// Locales middleware handles setting the language parameters
+app.use(LocalesMiddleware());
+// Translations middleware handles providing the translations to nunjucks templates
+app.use(translationsMiddleware);
 
 const csrfProtectionMiddleware = CsrfProtectionMiddleware({
     sessionStore,

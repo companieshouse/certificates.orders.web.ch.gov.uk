@@ -101,3 +101,7 @@ export const CONFIGURABLE_BANNER_TITLE = getEnvironmentValue("CONFIGURABLE_BANNE
 export const CONFIGURABLE_BANNER_TEXT = getEnvironmentValue("CONFIGURABLE_BANNER_TEXT", "");
 
 export const CONFIGURABLE_BANNER_ENABLED = getEnvironmentValue("CONFIGURABLE_BANNER_ENABLED", "false") === "true";
+
+export const LOCALES_ENABLED = getEnvironmentValue("LOCALES_ENABLED", 'true') === 'true';
+
+export const LOCALES_PATH = getEnvironmentValue("LOCALES_PATH", "locales");
